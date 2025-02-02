@@ -1,11 +1,6 @@
 # Chapter 1: Understanding Large Language Models
 
 
-[![Link to the video](https://youtube.com/@Gamelevel5)]
-
-&nbsp;
-## Detailed Steps
-
 ### 1. Thu thập dữ liệu
 Thu thập dữ liệu là bước đầu tiên và quan trọng nhất trong việc phát triển mô hình ngôn ngữ lớn. Dữ liệu có thể đến từ nhiều nguồn khác nhau như văn bản, hình ảnh, âm thanh, và video. Đảm bảo rằng dữ liệu được thu thập là đa dạng và đại diện cho các ngữ cảnh sử dụng khác nhau của mô hình.
 
