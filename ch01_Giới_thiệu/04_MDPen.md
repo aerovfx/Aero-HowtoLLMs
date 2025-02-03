@@ -1,5 +1,3 @@
-Here's the rewritten text in English:
-
 **Markov Decision Process (MDP)**
 
 In reinforcement learning, a Markov Decision Process (MDP) is a formal representation of decision-making problems. It is widely used in various fields such as economics, computer science, and natural sciences.
