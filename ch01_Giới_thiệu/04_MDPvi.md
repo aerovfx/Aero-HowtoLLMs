@@ -27,7 +27,7 @@ Có hai loại MDP:
 1. **MDP không hoàn toàn tính toán**: Trong trường hợp này, xác suất chuyển đổi từ một trạng thái đến một trạng thái khác phụ thuộc vào các trạng thái trước đó.
 2. **MDP hoàn toàn tính toán**: Trong trường hợp này, xác suất chuyển đổi từ một trạng thái đến một trạng thái khác phụ thuộc chỉ vào hành động thực hiện.
 
-   ### **Các công thức và khái niệm quan trọng:**
+**Các công thức và khái niệm quan trọng:**
 
 - **Thưởng tích lũy:**
   \[
