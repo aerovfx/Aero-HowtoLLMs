@@ -27,6 +27,39 @@ Có hai loại MDP:
 1. **MDP không hoàn toàn tính toán**: Trong trường hợp này, xác suất chuyển đổi từ một trạng thái đến một trạng thái khác phụ thuộc vào các trạng thái trước đó.
 2. **MDP hoàn toàn tính toán**: Trong trường hợp này, xác suất chuyển đổi từ một trạng thái đến một trạng thái khác phụ thuộc chỉ vào hành động thực hiện.
 
+   ### **Các công thức và khái niệm quan trọng:**
+
+- **Thưởng tích lũy:**
+  \[
+  G = R_1 + γR_2 + γ^2R_3 + ...
+  \]
+  
+- **Giá trị trạng thái (Value Function - V(s)):** Hy vọng thưởng tích lũy bắt đầu từ trạng thái s dưới chính sách π:
+  \[
+  V_π(s) = E[R_t | s_0 = s, π]
+  \]
+
+- **Công thức Bellman:**
+  \[
+  V_π(s) = R(s,a) + γE[V_π(s') | s, a, π]
+  \]
+
+- **Cập nhật giá trị iterarion (Value Iteration):**
+  \[
+  V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s'|s,a) V_k(s') ]
+  \]
+
+- **Giá trị Q-learning (Q-value Function - Q(s,a)):** Biểu diễn hy vọng thưởng tích lũy bắt đầu từ trạng thái s, thực hiện hành vi a, và tuân thủ chính sách π:
+  \[
+  Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s'|s,a) V_π(s')
+  \]
+
+- **Cập nhật Q-learning:**
+  \[
+  Q(s,a) = Q(s,a) + α [ r + γ max_{a'} Q(s',a') - Q(s,a) ]
+  \]
+  Trong đó, α là tốc độ học tập.
+
 **Các phương pháp giải quyết MDP**
 
 Có nhiều phương pháp để giải quyết MDP, bao gồm:
@@ -44,3 +77,4 @@ Một ví dụ về MDP là một hệ thống kiểm soát giao thông. Trong t
 MDP là một công cụ quan trọng trong lĩnh vực Reinforcement Learning. Nó được sử dụng rộng rãi để mô tả các vấn đề quyết định và giải quyết chúng thông qua các phương pháp như sự tương tác và sự quan sát, phương pháp động học, hoặc phương pháp phân tích.
 
 Tóm lại, MDP là một formal hóa để mô tả các vấn đề quyết định trong Reinforcement Learning. Nó có thể được mô tả bởi các tính chất như khối lượng, động lực, và tính bất định. Có nhiều phương pháp giải quyết MDP, bao gồm sự tương tác và sự quan sát, phương pháp động học, hoặc phương pháp phân tích.
+
