@@ -1,0 +1,10 @@
+[
+    {
+        "extracted_prompts": "How can I reset my password?",
+        "simple_prompt": "Error: RetryError[<Future at 0x129129590 state=finished raised RateLimitError>]"
+    },
+    {
+        "extracted_prompts": "What are your refund policies?",
+        "simple_prompt": "Error: RetryError[<Future at 0x11fc28b50 state=finished raised RateLimitError>]"
+    }
+]
