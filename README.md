@@ -26,20 +26,21 @@ Việc xây dựng một mô hình ngôn ngữ lớn là một quá trình phứ
 # LLMs in production
 Overview of LLMs in Production
 
-AI Application + Data Products
-Q&A Webapp
-Chatbot
-Model as an API
-LLM Pipeline
-Corpus Creation
-Text Pre Processing
-Prompt Engineering
-LLM Inference
-Generated Text
-LLM Model(s)
-GPT 3.5
-GPT 4.0
-LLaMA
-Hugging Face
-MPT
-and more...
+### AI Application + Data Products
+- Q&A Webapp
+- Chatbot
+- Model as an API
+
+### LLM Pipeline
+- Corpus Creation
+- Text Pre Processing
+- Prompt Engineering
+- LLM Inference
+- Generated Text
+### LLM Model(s)
+- GPT 3.5
+- GPT 4.0
+- LLaMA
+- Hugging Face
+- MPT
+
