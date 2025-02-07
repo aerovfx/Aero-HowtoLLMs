@@ -1,10 +1,18 @@
 [
     {
         "extracted_prompts": "How can I reset my password?",
-        "simple_prompt": "Error: RetryError[<Future at 0x129129590 state=finished raised RateLimitError>]"
+        "simple_prompt": "Error: RetryError[<Future at 0x129bcb150 state=finished raised RateLimitError>]"
     },
     {
         "extracted_prompts": "What are your refund policies?",
-        "simple_prompt": "Error: RetryError[<Future at 0x11fc28b50 state=finished raised RateLimitError>]"
+        "simple_prompt": "Error: RetryError[<Future at 0x129b4f790 state=finished raised RateLimitError>]"
+    },
+    {
+        "extracted_prompts": "How do I update my account details?",
+        "simple_prompt": "Error: RetryError[<Future at 0x129be2510 state=finished raised RateLimitError>]"
+    },
+    {
+        "extracted_prompts": "Where can I find my order history?",
+        "simple_prompt": "Error: RetryError[<Future at 0x129bbd490 state=finished raised RateLimitError>]"
     }
 ]
