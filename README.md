@@ -22,3 +22,24 @@ LLMs cần được giám sát liên tục để tránh tạo ra nội dung đ�
 
 Kết luận
 Việc xây dựng một mô hình ngôn ngữ lớn là một quá trình phức tạp, đòi hỏi sự kết hợp của nhiều công nghệ tiên tiến và nguồn lực tính toán lớn. Sự phát triển của LLMs mở ra nhiều cơ hội trong các lĩnh vực như trợ lý ảo, sáng tạo nội dung, dịch thuật, và nghiên cứu khoa học, nhưng cũng đặt ra nhiều thách thức về kiểm soát và đạo đức trong AI.
+
+# LLMs in production
+Overview of LLMs in Production
+
+AI Application + Data Products
+Q&A Webapp
+Chatbot
+Model as an API
+LLM Pipeline
+Corpus Creation
+Text Pre Processing
+Prompt Engineering
+LLM Inference
+Generated Text
+LLM Model(s)
+GPT 3.5
+GPT 4.0
+LLaMA
+Hugging Face
+MPT
+and more...
