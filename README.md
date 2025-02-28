@@ -11,6 +11,7 @@ Trong [*Quy trình phát triển mô hình ngôn ngữ lớn LLMs*], bạn sẽ 
 
 Phương pháp được mô tả trong cuốn sách này để huấn luyện và phát triển mô hình nhỏ nhưng chức năng cho mục đích giáo dục phản ánh cách tiếp cận được sử dụng trong việc tạo ra các mô hình nền tảng quy mô lớn như những mô hình đằng sau ChatGPT. Ngoài ra, cuốn sách này còn bao gồm mã để tải trọng số của các mô hình đã được tiền huấn luyện lớn hơn để tinh chỉnh.
 
+<<<<<<< HEAD
 - Liên kết đến [kho mã nguồn chính thức](https://github.com/aerovfx/Aero-HowtoLLMs)
 
 <br>
@@ -118,3 +119,29 @@ Một số thư mục chứa tài liệu tùy chọn như một phần thưởng
 
 <br>
 &nbsp;
+=======
+Kết luận
+Việc xây dựng một mô hình ngôn ngữ lớn là một quá trình phức tạp, đòi hỏi sự kết hợp của nhiều công nghệ tiên tiến và nguồn lực tính toán lớn. Sự phát triển của LLMs mở ra nhiều cơ hội trong các lĩnh vực như trợ lý ảo, sáng tạo nội dung, dịch thuật, và nghiên cứu khoa học, nhưng cũng đặt ra nhiều thách thức về kiểm soát và đạo đức trong AI.
+
+# LLMs in production
+Overview of LLMs in Production
+
+### AI Application + Data Products
+- Q&A Webapp
+- Chatbot
+- Model as an API
+
+### LLM Pipeline
+- Corpus Creation
+- Text Pre Processing
+- Prompt Engineering
+- LLM Inference
+- Generated Text
+### LLM Model(s)
+- GPT 3.5
+- GPT 4.0
+- LLaMA
+- Hugging Face
+- MPT
+
+>>>>>>> ab450f3d2e36437ab263df67da2a0772d02798e2
