@@ -1,34 +1,20 @@
 # 📂 Aero-HowtoLLMs Documentation
 
-Kho lưu trữ tài liệu hướng dẫn về AI, bao gồm các khóa học chuyên sâu về LLM và Reinforcement Learning.
+Kho lưu trữ tài liệu hướng dẫn chuyên sâu về **Large Language Models (LLM)** và các công nghệ AI liên quan.
 
-## 🎓 Các Khóa Học
+## 🎓 Khóa Học Chính
 
-### 1. [Transformers & Large Language Models (LLM)](LLM_Course/README.md) 🤖
-> **Trạng thái:** Hoàn thành ✅
-> **Nguồn:** Stanford CME 295
+### [Transformers & Large Language Models (LLM)](LLM_Course/README.md) 🤖
+> **Nguồn:** Stanford CME 295 & Tài liệu bổ trợ Reinforcement Learning.
 
-Khóa học toàn diện từ A-Z về mô hình ngôn ngữ lớn:
-- Kiến trúc Transformer & BERT/GPT/T5.
-- Quy trình Pre-training & Fine-tuning (PEFT/LoRA).
-- Prompt Engineering & Reasoning.
-- Xây dựng AI Agents & RAG.
-- Đánh giá (Evaluation) và Xu hướng công nghệ.
+Khóa học toàn diện từ A-Z giúp bạn làm chủ công nghệ LLM:
 
-👉 **[Xem chi tiết khóa học LLM](LLM_Course/README.md)**
+*   **Nền tảng:** Transformer, BERT, GPT, T5.
+*   **Huấn luyện:** Pre-training, Fine-tuning (PEFT/LoRA), RLHF.
+*   **Ứng dụng:** Prompt Engineering, RAG, AI Agents.
+*   **Bổ trợ:** Kiến thức nền tảng về Reinforcement Learning (MDP, Bellman).
 
----
-
-### 2. [Reinforcement Learning (Học Tăng Cường)](Reinforcement_Learning/README.md) 🎮
-> **Trạng thái:** Đang cập nhật 🚧
-> **Ngôn ngữ:** Song ngữ (Việt - Anh)
-
-Các khái niệm nền tảng của RL:
-- Định nghĩa RL & Bellman Equation.
-- Markov Decision Process (MDP).
-- Policy vs Plan.
-
-👉 **[Xem chi tiết khóa học RL](Reinforcement_Learning/README.md)**
+👉 **[BẮT ĐẦU HỌC NGAY](LLM_Course/README.md)**
 
 ---
 *Biên soạn bởi Pixiboss.*

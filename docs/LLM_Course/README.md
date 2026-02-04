@@ -17,6 +17,9 @@ Chào mừng bạn đến với bộ tài liệu hướng dẫn chuyên sâu v�
 *   [**Bài 04: Training & Pre-training**](aero_LLM_04_Training_Pretraining.md) - Quy trình huấn luyện mô hình từ con số 0. Scaling Laws và dữ liệu.
 *   [**Bài 05: Fine-tuning & PEFT**](aero_LLM_05_Tuning_PEFT.md) - Tinh chỉnh mô hình hiệu quả với chi phí thấp bằng LoRA, QLoRA, Prompt Tuning.
 
+> **💡 Góc kiến thức bổ trợ:** Để hiểu sâu về **RLHF** (Reinforcement Learning from Human Feedback) trong bài 5, bạn nên nắm vững các khái niệm cơ bản về RL:
+> *   [**Reinforcement Learning Basics**](Reinforcement_Learning_Basics/README.md) (Bellman Equation, MDP, Policy vs Plan).
+
 ### Phần 3: Khả Năng Nâng Cao (Advanced Capabilities)
 *   [**Bài 06: Reasoning & Prompt Engineering**](aero_LLM_06_Reasoning.md) - Kích hoạt khả năng suy luận của mô hình (Chain-of-Thought, Tree-of-Thought).
 *   [**Bài 07: Agentic LLMs & Tool Use**](aero_LLM_07_Agentic_LLMs.md) - Biến LLM thành tác nhân tự chủ (Agent) biết sử dụng công cụ và RAG.
