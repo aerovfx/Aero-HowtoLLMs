@@ -24,9 +24,10 @@ Chào mừng bạn đến với bộ tài liệu hướng dẫn chuyên sâu v�
 *   [**Bài 06: Reasoning & Prompt Engineering**](aero_LLM_06_Reasoning.md) - Kích hoạt khả năng suy luận của mô hình (Chain-of-Thought, Tree-of-Thought).
 *   [**Bài 07: Agentic LLMs & Tool Use**](aero_LLM_07_Agentic_LLMs.md) - Biến LLM thành tác nhân tự chủ (Agent) biết sử dụng công cụ và RAG.
 
-### Phần 4: Đánh Giá & Tương Lai (Evaluation & Future)
+### Phần 4: Đánh Giá & Công Cụ (Evaluation & Tools)
 *   [**Bài 08: Evaluation**](aero_LLM_08_Evaluation.md) - Làm sao để đo lường độ thông minh của AI? (Benchmarks, LLM-as-a-Judge).
 *   [**Bài 09: Recap & Trends**](aero_LLM_09_Trends.md) - Tổng kết và nhìn về tương lai (Multimodal, Efficient AI).
+*   [**Bài 10: Essential Tools for AI Engineers**](aero_LLM_10_Essential_Tools.md) 🆕 - Top 12 Repo quan trọng để tối ưu, chạy và tinh chỉnh LLM (vLLM, llama.cpp, Unsloth...).
 
 ---
 *Tài liệu được lưu trữ tại `docs/LLM_Course` của repository Aero-HowtoLLMs.*
