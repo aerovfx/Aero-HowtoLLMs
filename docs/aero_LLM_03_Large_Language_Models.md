@@ -78,4 +78,4 @@ Chạy LLM tốn kém chủ yếu do băng thông bộ nhớ (Memory Bound).
 *   Tận dụng việc mô hình lớn tính toán song song tốt hơn là chạy tuần tự từng từ.
 
 ---
-*Biên soạn bởi Pixibot - Dựa trên Stanford CME 295.*
+*Biên soạn bởi Pixiboss - Dựa trên Stanford CME 295.*

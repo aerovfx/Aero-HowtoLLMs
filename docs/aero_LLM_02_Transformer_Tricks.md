@@ -84,4 +84,4 @@ Sau khi Pre-training, BERT tạo ra các vector embedding rất tốt. Ta chỉ 
 *   **RoBERTa:** Tối ưu hóa BERT (bỏ NSP, train lâu hơn, dữ liệu nhiều hơn) -> Hiệu năng tốt hơn.
 
 ---
-*Biên soạn bởi Pixibot - Dựa trên Stanford CME 295.*
+*Biên soạn bởi Pixiboss - Dựa trên Stanford CME 295.*

@@ -90,4 +90,4 @@ Mô hình **Transformer** (trong bài báo "Attention Is All You Need") bao gồ
 *   **Add & Norm:** Cộng phần dư (Residual connection) và chuẩn hóa lớp (LayerNorm) để huấn luyện ổn định hơn.
 
 ---
-*Biên soạn bởi Pixibot - Dựa trên Stanford CME 295.*
+*Biên soạn bởi Pixiboss - Dựa trên Stanford CME 295.*
