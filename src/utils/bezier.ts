@@ -52,16 +52,10 @@ export function bezierCurveBuild(p0: Vec3, p1: Vec3, p2: Vec3, p3: Vec3, thresho
     p3.writeToBuf(res, resOff);
     resOff += 3;
     let iter = 0;
+    let maxIter = 1024; // Prevent infinite loop
 
-    while (queue.length > 0) {
+    while (queue.length > 0 && iter < maxIter) {
         let { p0, p1, p2, p3 } = queue.pop()!;
-        // let mid = bezierCubicMid(p0, p1, p2, p3);
-        // // dist from midpoint to the line between p0 and p3 (using projection)
-        // let v = p3.sub(p0);
-        // let w = mid.sub(p0);
-        // let a = v.dot(w) / v.dot(v);
-        // let dist = w.mulAdd(v, -a).len();
-        // let ratio = dist / v.len();
 
         let q0 = p0.mid(p1);
         let q1 = p1.mid(p2);
@@ -76,14 +70,17 @@ export function bezierCurveBuild(p0: Vec3, p1: Vec3, p2: Vec3, p3: Vec3, thresho
         let d2a = Math.abs(d31.y * d03.z - d31.z * d03.y);
         let d2b = Math.abs(d32.y * d03.z - d32.z * d03.y);
 
-        let needsSubdivion = ((d2a + d2b) * (d2a + d2b) > threshold * d03.lenSq());
+        let lenSq = d03.lenSq();
+        let needsSubdivion = lenSq > 1e-6 && ((d2a + d2b) * (d2a + d2b) > threshold * lenSq);
 
-        // let len = p1.distSq(mid);
         if (needsSubdivion) {
             push(p0, q0, r0, s0);
             push(s0, r1, q2, p3);
         } else {
             if (resOff + 6 > res.length) {
+                if (res.length > 1024 * 1024) { // 1M points is plenty
+                    break;
+                }
                 let newRes = new Float32Array(res.length * 2);
                 newRes.set(res);
                 res = newRes;
