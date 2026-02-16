@@ -1,66 +1,97 @@
-# 🚀 Aero-HowtoLLMs
 
-> **Hành trình từ A-Z làm chủ công nghệ Large Language Models (LLM) và Reinforcement Learning.**
-> *Kho lưu trữ tài liệu học tập, mã nguồn thực hành và hướng dẫn chuyên sâu.*
+# 🚀 Aero-HowtoLLMs: Lộ Trình Toàn Diện Master LLM & Visualization
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+> **Dự án học tập chuyên sâu từ A-Z về Large Language Models (LLM), tích hợp Interactive 3D Visualization và Hệ thống Tài liệu tiếng Việt.**
+
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
+[![Tech: Next.js 13](https://img.shields.io/badge/Tech-Next.js%2013-blue.svg)]()
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese%20Localized-red.svg)]()
 
 ---
 
-## 📖 Giới Thiệu
+## 🌟 ĐIỂM NHẤN DỰ ÁN
 
-**Aero-HowtoLLMs** là nơi tổng hợp các kiến thức nền tảng và nâng cao về trí tuệ nhân tạo, tập trung vào mô hình ngôn ngữ lớn (LLM). Mục tiêu của dự án là cung cấp một lộ trình học tập bài bản, đi từ lý thuyết cốt lõi đến ứng dụng thực tế (Agent, RAG, Fine-tuning).
+### 1. Interactive 3D LLM Visualizer (GPT-4 ↔ MoE) 👁️
+Mô tản trực quan sống động kiến trúc Transformer với các tính năng:
+- **100% Tiếng Việt:** Toàn bộ Walkthrough và Commentary đã được Việt hóa.
+- **Kiến trúc MoE (Mixture of Experts):** Trực quan hóa Router và Grid Expert (2x4).
+- **Deep Dive Components:** Tương tác với Token Embeddings, Multi-Head Attention, MLP, Residual Connections, và Softmax.
+- **Hiệu ứng Animation:** Luồng dữ liệu, kích hoạt Expert top-K, và quá trình sinh token.
 
-Nội dung được biên soạn dựa trên các giáo trình uy tín (như Stanford CME 295) và kinh nghiệm thực chiến.
+👉 **Chạy Visualizer:** `npm run dev` (truy cập `localhost:3002`)
 
----
+### 2. Hệ Thống Tài Liệu Chuyên Sâu (Docs Suite) 📚
+Hơn 100 file Markdown được biên soạn khoa học, bao gồm các chủ đề:
 
-## 🎓 Cấu Trúc Khóa Học
-
-Hiện tại, kho lưu trữ bao gồm 2 module học tập chính:
-
-### 1. [Transformers & Large Language Models (Stanford CME 295)](docs/LLM_Course/README.md) 🤖
-Khóa học toàn diện gồm 10 bài giảng chuyên sâu:
-- **Kiến trúc:** Giải mã Transformer, Attention, BERT, GPT.
-- **Training:** Pre-training từ đầu, Scaling Laws.
-- **Tuning:** Các kỹ thuật tinh chỉnh hiệu quả (PEFT, LoRA, QLoRA).
-- **Ứng dụng:** Prompt Engineering, Chain-of-Thought Reasoning.
-- **Hệ thống:** Xây dựng AI Agents, Tool Use, RAG (Retrieval Augmented Generation).
-- **Đánh giá:** Các phương pháp Evaluation và xu hướng tương lai.
-
-👉 **[Bắt đầu học ngay](docs/LLM_Course/README.md)**
-
-### 2. [Reinforcement Learning Basics](docs/LLM_Course/Reinforcement_Learning_Basics/README.md) 🎮
-Module bổ trợ kiến thức về Học Tăng Cường (nền tảng cho RLHF):
-- Bellman Equation & Markov Decision Process (MDP).
-- Policy vs Plan.
-- Q-Learning basics.
-
-👉 **[Xem tài liệu RL](docs/LLM_Course/Reinforcement_Learning_Basics/README.md)**
+| Module | Nội Dung |
+|--------|----------|
+| **[Stanford Course](docs/LLM_Course/README.md)** | Chuyển ngữ và bổ sung từ Stanford CME 295 (5 Chương cốt lõi). |
+| **[Pre-training & Arch](docs/pretraining/)** | Xây dựng GPT từ con số 0, xử lý dữ liệu và Scaling Laws. |
+| **[Fine-tuning Series](docs/Fine-tune%20pretrained%20models/README.md)** | 23 chương thực chiến: LoRA, PEFT, và series Alice vs Edgar. |
+| **[RAG & Applications](docs/rag/)** | Triển khai RAG với FastAPI, Qdrant và Ollama. |
+| **[AI Safety & Interpretability](docs/AI%20safety%20and%20mechanistic%20interpretability/)** | Phân tích cơ chế và an toàn AI. |
 
 ---
 
-## 🛠️ Nội Dung Thực Hành (In Progress)
+## 🗺️ LỘ TRÌNH HỌC TẬP (ROADMAP)
 
-Ngoài lý thuyết, repo này cũng sẽ chứa các mã nguồn mẫu (Notebooks) để bạn thực hành:
-- [x] Cài đặt Transformer từ con số 0.
-- [ ] Fine-tune Llama 3 với LoRA/QLoRA.
-- [ ] Xây dựng RAG Chatbot với LangChain/LlamaIndex.
-- [ ] Tạo Agent tự động hóa tác vụ.
+### 🟢 Giai đoạn 1: Nền Tảng (Fundamentals)
+- Tìm hiểu kiến trúc Transformer gốc qua **[Sơ đồ trực quan](docs/COMPLETION_VISUALIZATION_AND_CHAPTERS.md)**.
+- Học 5 trụ cột của LLM: Architecture, Data, Loss, Evaluation, Systems.
+- **[Xem tài liệu Overview](docs/LLM_Course/LectureStanford/aero_LLM_00_Overview.md)**.
 
-*(Các bài thực hành đang được cập nhật trong thư mục `src/` và `notebooks/`)*
+### 🟡 Giai đoạn 2: Huấn Luyện & Cấu Trúc (Pre-training)
+- **[BuildGPT](docs/buildGPT/)**: Từng bước xây dựng mô hình trong code.
+- Xử lý các vấn đề số học (Numerical stability), Normalization, và Optimization.
+
+### 🟠 Giai đoạn 3: Tinh Chỉnh & Thích Nghi (Fine-tuning)
+- Thực hiện các **CodeChallenge** thực tế:
+    - Tinh chỉnh phong cách văn học (Alice in Wonderland vs Edgar Allan Poe).
+    - Định lượng hiệu quả bằng mô hình phân loại (BERT integration).
+    - Các kỹ thuật tối ưu: Freezing Attention, PEFT, LoRA.
+- **[Xem danh mục Fine-tuning](docs/Fine-tune%20pretrained%20models/README.md)**.
+
+### 🔴 Giai đoạn 4: Ứng Dụng Nâng Cao (Advanced)
+- Triển khai **RAG (Retrieval Augmented Generation)** cho dữ liệu nội bộ.
+- Xây dựng AI Agents và thực hiện Instruction Tuning.
+- **[Xem lộ trình Hybrid AI](docs/roadmapHybridAI.md)**.
 
 ---
 
-## 🤝 Đóng Góp
+## 🛠️ CÀI ĐẶT & SỬ DỤNG
 
-Mọi đóng góp (sửa lỗi, bổ sung tài liệu, mã nguồn) đều được hoan nghênh! Hãy tạo Pull Request hoặc mở Issue để thảo luận.
+### Yêu cầu hệ thống
+- Node.js 18+
+- RAM: Tối thiểu 8GB (để chạy Visualizer mượt mà)
+
+### Các bước cài đặt
+1. Clone repository:
+   ```bash
+   git clone https://github.com/aerovfx/Aero-HowtoLLMs.git
+   ```
+2. Cài đặt dependency:
+   ```bash
+   npm install
+   ```
+3. Khởi chạy môi trường phát triển (Visualizer):
+   ```bash
+   npm run dev
+   ```
+   *Mở trình duyệt tại: http://localhost:3002*
 
 ---
 
-## ✍️ Tác Giả
+## 📊 THỐNG KÊ DỰ ÁN
+- **Số lượng tài liệu:** ~1,800 dòng nội dung chuyên sâu được cập nhật gần nhất.
+- **Ngôn ngữ:** 100% hỗ trợ tiếng Việt (Localized).
+- **Tính năng Visual:** GPT-4 ↔ MoE (Mixture of Experts).
 
-Dự án được biên soạn và duy trì bởi **Pixiboss**.
+---
+
+## 🤝 ĐÓNG GÓP & LIÊN HỆ
+Dự án được biên soạn và duy trì bởi **Pixibox** phục vụ cộng đồng AI Việt Nam.
 
 > *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+---
+*Cập nhật lần cuối: 16/02/2026*
