@@ -1,0 +1,77 @@
+.tocDiagram {
+    display: flex;
+    padding: 10px;
+
+    svg {
+        filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.2));
+    }
+}
+
+.toc {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.tocTitle {
+    font-size: 1rem;
+    text-align: center;
+    margin: 10px 0 8px;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tocGroupTitle {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    padding: 8px 0 2px;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+    margin-bottom: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+}
+
+.menuEntry {
+    cursor: pointer;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    color: rgba(255, 255, 255, 0.8);
+
+    &.active {
+        background-color: rgba(255, 0, 128, 0.15);
+        color: white !important;
+        border-left: 2px solid var(--magenta);
+    }
+
+    &:hover {
+        background-color: rgba(0, 240, 255, 0.1);
+        color: var(--cyan);
+    }
+}
+
+.dataPath {
+    stroke-width: 1.5;
+    stroke: rgba(255, 255, 255, 0.6);
+    fill: none;
+}
+
+.gap {
+    @extend .dataPath;
+}
+
+.cell {
+    transition: all 0.3s ease;
+
+    &:hover {
+        filter: brightness(1.2) drop-shadow(0 0 5px currentColor);
+    }
+}
+
+.block {
+    stroke: rgba(255, 255, 255, 0.1);
+}

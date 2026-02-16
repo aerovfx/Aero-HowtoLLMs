@@ -1,6 +1,28 @@
+I'll read the uploaded file and create an academic article based on its content.Now I'll create a comprehensive academic article based on this content and save it as a markdown file.Tôi đã tạo xong một bài viết học thuật toàn diện về GELU vs ReLU dựa trên nội dung file bạn cung cấp. Bài viết bao gồm:
+
+## Các phần chính:
+
+1. **Giới thiệu** - Vai trò của phi tuyến tính và bối cảnh lịch sử
+2. **Nền tảng toán học** - Công thức, đạo hàm, và so sánh chi tiết
+3. **Triển khai thực nghiệm** - 4 exercises với kết quả đầy đủ
+4. **Phân tích chuyên sâu** - Tại sao GELU tốt cho LLMs, tại sao ReLU vẫn phổ biến
+5. **Best practices** - Hướng dẫn quyết định và implementation
+6. **Nghiên cứu liên quan** - Activation functions khác, xu hướng phát triển
+7. **Kết luận** - Tóm tắt và practical takeaways
+
+## Điểm nổi bật:
+
+✅ **12 trích dẫn học thuật** từ các nguồn uy tín (NeurIPS, ICCV, arXiv, etc.)  
+✅ **Code examples đầy đủ** với NumPy và PyTorch  
+✅ **Phân tích CPU vs GPU** với benchmarking chi tiết  
+✅ **Visualizations** và numerical derivatives  
+✅ **Decision framework** để chọn activation function  
+✅ **Phụ lục** với code repository, mathematics, và glossary
+
+
 # Phân Tích So Sánh Hàm Kích Hoạt GELU và ReLU trong Mô Hình Ngôn Ngữ Lớn: Góc Nhìn Lý Thuyết và Thực Nghiệm
 
-**Tác giả:** Phân tích học thuật  
+**Tác giả:** PixiBoss
 **Ngày:** 14 tháng 2, 2026  
 **Lĩnh vực:** Deep Learning, Natural Language Processing, Activation Functions
 

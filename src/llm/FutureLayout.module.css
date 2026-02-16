@@ -1,0 +1,322 @@
+.futureContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-dark);
+    color: #fff;
+    font-family: var(--font-mono);
+    display: grid;
+    grid-template-areas:
+        "top top top"
+        "left center right"
+        "bottom bottom bottom";
+    grid-template-columns: 320px 1fr 320px;
+    grid-template-rows: 60px 1fr 0px;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* Animated Grid Background */
+.futureBgGrid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(to right, rgba(220, 215, 201, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(220, 215, 201, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    animation: gridMove 20s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes gridMove {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 1000px;
+    }
+}
+
+/* Floating Orbs */
+.futureOrb {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.orbCyan {
+    top: 10%;
+    left: 5%;
+    background: var(--cyan);
+    animation: float 15s infinite alternate;
+}
+
+.orbMagenta {
+    bottom: 10%;
+    right: 5%;
+    background: var(--magenta);
+    animation: float 18s infinite alternate-reverse;
+}
+
+@keyframes float {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(50px, 30px);
+    }
+}
+
+/* Glassmorphism Panels */
+.glassPanel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+.topNav {
+    grid-area: top;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border-glow);
+}
+
+.leftSidebar {
+    grid-area: left;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    border-right: 1px solid var(--border-glow);
+    overflow-y: auto;
+}
+
+.rightSidebar {
+    grid-area: right;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    border-left: 1px solid var(--border-glow);
+}
+
+.bottomPanel {
+    grid-area: bottom;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid var(--border-glow);
+}
+
+.centerCanvasArea {
+    grid-area: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.techTitle {
+    font-family: var(--font-orbitron);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(220, 215, 201, 0.5);
+}
+
+.chapterToCPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glow);
+    padding: 15px;
+    border-radius: 8px;
+    pointer-events: all;
+    flex: 1;
+    height: 100%;
+}
+
+.tocBackgroundHUD {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.metricLabel {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 4px;
+}
+
+.metricValue {
+    font-family: var(--font-orbitron);
+    font-size: 1.2rem;
+    color: var(--amber);
+}
+
+/* Metric Bars */
+.progressContainer {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progressBar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--amber));
+    box-shadow: 0 0 10px var(--cyan);
+    transition: width 0.5s ease-out;
+}
+
+.progressShine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    filter: blur(5px);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-50px) skewX(-20deg);
+    }
+
+    100% {
+        transform: translateX(100% + 50px) skewX(-20deg);
+    }
+}
+
+/* Animations */
+
+/* Animations */
+.pulse {
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 5px var(--cyan);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--cyan);
+    }
+
+    100% {
+        box-shadow: 0 0 5px var(--cyan);
+    }
+}
+
+.staggeredItem {
+    animation: slideIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.modelCard {
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modelCard:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: var(--cyan);
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+}
+
+.modelCard.active {
+    background: rgba(255, 0, 128, 0.1);
+    border-color: var(--magenta);
+    box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
+}
+
+.modelButtonHUD {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 4px 12px;
+    font-family: var(--font-orbitron);
+    font-size: 0.7rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modelButtonHUD:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.modelButtonHUD.active {
+    background: rgba(255, 0, 128, 0.1);
+    border-color: var(--magenta);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 0, 128, 0.4);
+}
+
+.iconButtonHUD {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.iconButtonHUD:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: var(--cyan);
+}

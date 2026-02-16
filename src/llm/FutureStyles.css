@@ -1,0 +1,30 @@
+:root {
+    --cyan: #DCD7C9;
+    /* Au Lait */
+    --magenta: #A27B5B;
+    /* Creme Brulee */
+    --amber: #A27B5B;
+    /* Creme Brulee */
+    --bg-dark: #2C3639;
+    /* Inkwell */
+    --panel-bg: rgba(63, 78, 79, 0.8);
+    /* Lunar Eclipse */
+    --border-glow: rgba(162, 123, 107, 0.4);
+    /* Creme Brulee glow */
+    --font-orbitron: 'Orbitron', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--cyan);
+    border-radius: 2px;
+}

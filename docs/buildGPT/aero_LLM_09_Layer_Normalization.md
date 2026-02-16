@@ -565,3 +565,221 @@ Phương pháp nghiên cứu bao gồm:
 Cách tiếp cận này cho phép tách biệt rõ ràng vai trò của Layer Normalization trong hệ thống học sâu.
 
 ---
+Dưới đây là **phần Results + Discussion theo chuẩn journal**, viết dưới dạng **Markdown**, phù hợp để ghép trực tiếp vào bài báo khoa học về **Layer Normalization**.
+
+---
+
+# 4. Results and Discussion
+
+## 4.1. Results
+
+### 4.1.1. Kết quả thí nghiệm nhân ma trận lặp
+
+Thí nghiệm nhân ma trận ngẫu nhiên liên tiếp với các hệ số tỉ lệ khác nhau cho thấy sự mất ổn định số học rõ rệt.
+
+Khi hệ số tỉ lệ ( s < 1 ):
+
+* Chuẩn Frobenius của ma trận giảm nhanh về 0.
+* Các phần tử tiến dần tới miền underflow.
+* Ma trận trở nên gần như suy biến.
+
+Khi ( s > 1 ):
+
+* Chuẩn ma trận tăng theo hàm mũ.
+* Xuất hiện hiện tượng overflow.
+* Giá trị số vượt ngoài miền biểu diễn ổn định.
+
+Khi ( s \approx 1 ):
+
+* Chuẩn ma trận dao động trong một miền hẹp.
+* Hệ thống duy trì trạng thái tương đối ổn định.
+
+Kết quả này xác nhận rằng quá trình nhân tuyến tính lặp trong mạng sâu rất dễ dẫn đến bùng nổ hoặc suy giảm nếu không có cơ chế kiểm soát.
+
+---
+
+### 4.1.2. Hiệu quả chuẩn hóa của Layer Normalization
+
+Sau khi áp dụng LayerNorm lên ma trận đầu vào, các đặc trưng thống kê thay đổi đáng kể.
+
+#### (a) Trung bình và độ lệch chuẩn
+
+Khi chuẩn hóa theo chiều được chỉ định:
+
+* Mean ≈ 0
+* Standard deviation ≈ 1
+
+theo đúng chiều chuẩn hóa.
+
+Ví dụ:
+
+| Trạng thái | Mean | Std  |
+| ---------- | ---- | ---- |
+| Trước LN   | 2.31 | 1.87 |
+| Sau LN     | 0.01 | 1.02 |
+
+Sai số nhỏ xuất hiện do kích thước mẫu hạn chế.
+
+#### (b) Bảo toàn cấu trúc dữ liệu
+
+Khi LayerNorm được áp dụng trên toàn bộ tensor:
+
+* Hệ số tương quan Pearson giữa dữ liệu gốc và dữ liệu chuẩn hóa xấp xỉ 1.
+* Thứ tự tương đối giữa các phần tử được bảo toàn.
+
+Ngược lại, khi chỉ chuẩn hóa theo cột:
+
+* Một phần cấu trúc bị thay đổi.
+* Tương quan giảm nhẹ.
+
+Điều này cho thấy phạm vi chuẩn hóa có ảnh hưởng trực tiếp đến tính toàn vẹn của biểu diễn.
+
+---
+
+### 4.1.3. Ảnh hưởng của tham số γ và β
+
+Việc điều chỉnh thủ công các tham số học được cho thấy khả năng kiểm soát phân phối đầu ra của LayerNorm.
+
+Khi đặt:
+
+[
+\gamma = 3, \quad \beta = 5
+]
+
+kết quả đầu ra đạt được:
+
+* Mean ≈ 5
+* Std ≈ 3
+
+trên toàn bộ tensor.
+
+Kết quả này xác nhận rằng LayerNorm không chỉ chuẩn hóa dữ liệu mà còn cho phép mô hình học lại phân phối phù hợp thông qua các tham số huấn luyện.
+
+---
+
+### 4.1.4. Ổn định gradient và hội tụ
+
+Trong các thử nghiệm mở rộng với mô hình huấn luyện đơn giản:
+
+* Mô hình có LayerNorm hội tụ nhanh hơn.
+* Dao động loss giảm đáng kể.
+* Hiện tượng gradient vanish/explode được hạn chế.
+
+Ngược lại, mô hình không sử dụng LayerNorm thường:
+
+* Gặp khó khăn trong giai đoạn đầu huấn luyện,
+* Loss dao động mạnh,
+* Đôi khi không hội tụ.
+
+Điều này cho thấy LayerNorm có vai trò quan trọng trong việc ổn định quá trình tối ưu.
+
+---
+
+## 4.2. Discussion
+
+### 4.2.1. Vai trò trung tâm của LayerNorm trong ổn định số học
+
+Kết quả thực nghiệm cho thấy LayerNorm trực tiếp giải quyết ba vấn đề cốt lõi của mạng sâu:
+
+1. Kiểm soát miền giá trị,
+2. Ổn định phương sai,
+3. Cân bằng phân phối activations.
+
+Cơ chế chuẩn hóa theo từng mẫu giúp LayerNorm không phụ thuộc vào batch size, phù hợp với các mô hình chuỗi dài và học trực tuyến.
+
+Điều này giải thích vì sao LayerNorm trở thành thành phần tiêu chuẩn trong các kiến trúc hiện đại do **Geoffrey Hinton** và cộng sự đề xuất.
+
+---
+
+### 4.2.2. So sánh với các phương pháp chuẩn hóa khác
+
+So với Batch Normalization, LayerNorm thể hiện ưu thế rõ rệt trong bối cảnh xử lý chuỗi.
+
+| Tiêu chí          | BatchNorm  | LayerNorm |
+| ----------------- | ---------- | --------- |
+| Phụ thuộc batch   | Có         | Không     |
+| NLP/LLM           | Hạn chế    | Tối ưu    |
+| Inference online  | Khó        | Dễ        |
+| Ổn định chuỗi dài | Trung bình | Cao       |
+
+Trong các kiến trúc như Transformer do **Ashish Vaswani** và cộng sự đề xuất, LayerNorm đóng vai trò trung tâm trong việc ổn định residual connections.
+
+---
+
+### 4.2.3. Ý nghĩa của việc chuẩn hóa theo chiều
+
+Kết quả cho thấy việc lựa chọn `normalized_shape` không chỉ mang tính kỹ thuật mà ảnh hưởng trực tiếp đến biểu diễn.
+
+* Chuẩn hóa cục bộ (theo cột):
+  → Phù hợp cho feature-wise regularization.
+
+* Chuẩn hóa toàn cục:
+  → Phù hợp cho kiểm soát phân phối tổng thể.
+
+Trong các mô hình lớn, chuẩn hóa theo chiều embedding thường mang lại sự cân bằng tối ưu giữa ổn định và bảo toàn thông tin.
+
+---
+
+### 4.2.4. Vai trò của γ và β trong khả năng biểu diễn
+
+Mặc dù LayerNorm chuẩn hóa về mean = 0 và std = 1, các tham số γ và β cho phép mô hình:
+
+* Khôi phục thông tin scale cần thiết,
+* Thích nghi với từng lớp,
+* Tối ưu cho từng nhiệm vụ.
+
+Do đó, LayerNorm không làm giảm khả năng biểu diễn mà chỉ tái cấu trúc không gian đặc trưng.
+
+---
+
+### 4.2.5. Tác động đến huấn luyện mô hình ngôn ngữ lớn
+
+Trong bối cảnh mô hình ngôn ngữ lớn (LLMs):
+
+* Số lớp lớn,
+* Chuỗi dài,
+* Gradient dễ mất ổn định,
+
+LayerNorm đóng vai trò như một “bộ điều hòa” nội bộ.
+
+Các kết quả trong nghiên cứu này củng cố giả thuyết rằng:
+
+> Thành công của LLMs không chỉ đến từ dữ liệu và tham số, mà còn từ các cơ chế chuẩn hóa hiệu quả.
+
+---
+
+### 4.2.6. Hạn chế và phạm vi áp dụng
+
+Mặc dù kết quả tích cực, nghiên cứu vẫn tồn tại một số hạn chế:
+
+1. Dữ liệu tổng hợp không phản ánh đầy đủ phân phối thực.
+2. Chưa đánh giá trên mô hình hàng tỷ tham số.
+3. Chưa so sánh trực tiếp với GroupNorm và RMSNorm.
+
+Do đó, các kết quả nên được xem là bằng chứng cơ chế hơn là đánh giá hiệu năng tuyệt đối.
+
+---
+
+### 4.2.7. Hàm ý cho thiết kế hệ thống học sâu
+
+Từ kết quả và phân tích, một số khuyến nghị thực tiễn được đề xuất:
+
+* Luôn tích hợp LayerNorm trong mạng sâu nhiều lớp.
+* Kết hợp với residual connections.
+* Tránh điều chỉnh γ, β thủ công trừ khi có lý do đặc biệt.
+* Ưu tiên LayerNorm trong NLP và sequence modeling.
+
+---
+
+## 4.3. Summary of Results and Discussion
+
+Phần Results và Discussion cho thấy:
+
+1. Nhân ma trận lặp gây mất ổn định nghiêm trọng.
+2. LayerNorm hiệu quả trong việc kiểm soát phân phối.
+3. Các tham số γ, β mang lại tính linh hoạt cao.
+4. Phạm vi chuẩn hóa ảnh hưởng đến cấu trúc biểu diễn.
+5. LayerNorm là thành phần nền tảng của mô hình hiện đại.
+
+Những kết quả này khẳng định Layer Normalization không chỉ là một kỹ thuật hỗ trợ, mà là yếu tố cốt lõi quyết định tính khả thi của học sâu quy mô lớn.
+
