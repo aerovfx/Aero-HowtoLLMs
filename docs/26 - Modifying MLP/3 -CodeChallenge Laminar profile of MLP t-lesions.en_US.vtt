@@ -1,0 +1,1039 @@
+WEBVTT
+
+00:02.160 --> 00:06.640
+This code challenge is a follow up to the previous video.
+
+00:07.160 --> 00:14.080
+You will reimplement the experiment we ran and also make it a little bit more flexible and a little
+
+00:14.120 --> 00:15.840
+bit more sophisticated.
+
+00:16.360 --> 00:23.640
+You will learn more about working with hook functions, and also how to measure both global and targeted
+
+00:23.640 --> 00:26.040
+impacts of the manipulations.
+
+00:26.560 --> 00:27.480
+Let's begin.
+
+00:27.880 --> 00:35.960
+The main goal of exercise one is to write a hook function that calculates t tests, just like what you
+
+00:35.960 --> 00:43.400
+saw in the previous video, except that the T tests here are going to be run inside the hook function.
+
+00:43.880 --> 00:47.720
+So some details import the Bert large model.
+
+00:47.960 --> 00:54.160
+The small model that we worked with in the previous video has 12 transformer blocks, and the large
+
+00:54.160 --> 00:56.920
+version has 24 blocks.
+
+00:57.480 --> 00:59.560
+The MLP expansion layer.
+
+00:59.560 --> 01:00.240
+Where is that.
+
+01:00.280 --> 01:07.020
+That is here that has a little over 4000 neurons, instead of a little over 3000.
+
+01:07.060 --> 01:08.460
+For the smaller version.
+
+01:09.100 --> 01:12.340
+So I recommend putting this model on the GPU.
+
+01:13.100 --> 01:19.980
+Then you can copy the him.her dataset from the previous video, tokenize it, and then put the tokens
+
+01:19.980 --> 01:21.660
+on the GPU as well.
+
+01:22.460 --> 01:28.580
+One thing I would like you to do that's slightly different from how we normally work with this dataset,
+
+01:28.820 --> 01:34.660
+is to pre-compute a vector of target indices that looks like this.
+
+01:35.220 --> 01:44.060
+So this vector contains 108 integers, and each integer indicates the position of the target word in
+
+01:44.060 --> 01:45.220
+each sentence.
+
+01:46.060 --> 01:54.540
+So that means that in the first sentence, the word him appears at token index three, and also in the
+
+01:54.540 --> 01:56.260
+second sentence, and so on.
+
+01:56.740 --> 02:03.520
+So the main part of this exercise is to write a hook function that looks something like this.
+
+02:03.880 --> 02:13.120
+So inside this hook function, grab all of the MLP activation values from the expansion layer but before
+
+02:13.520 --> 02:15.680
+the non-linearity is applied.
+
+02:15.680 --> 02:24.800
+So before the Jlu is applied then you want to calculate a t test on the him versus her activation values
+
+02:24.920 --> 02:26.840
+only in the target words of course.
+
+02:27.320 --> 02:29.600
+And for this exercise.
+
+02:29.600 --> 02:34.400
+For this code challenge, you don't actually need to store the t values themselves.
+
+02:34.840 --> 02:42.360
+You can just store a boolean vector that indicates whether each neuron is statistically significant
+
+02:42.360 --> 02:44.880
+for him or significant for her.
+
+02:44.920 --> 02:46.960
+That's what you would store down here.
+
+02:47.360 --> 02:51.800
+So basically this would just be vectors of trues and falses.
+
+02:52.000 --> 02:58.000
+They would have a value of true when the t test is significant and a value of false when the t test
+
+02:58.000 --> 02:59.320
+is not significant.
+
+03:00.440 --> 03:07.340
+So make sure that those results are stored in a dictionary so that you can access them later in the
+
+03:07.340 --> 03:08.420
+code challenge.
+
+03:09.100 --> 03:15.500
+Also, implant this hook into all of the layers in the model and not just one layer like what we did
+
+03:15.500 --> 03:17.060
+in the previous video.
+
+03:17.900 --> 03:20.180
+So that's for exercise one.
+
+03:20.180 --> 03:24.060
+You don't need to run any data yet, you can just set everything up.
+
+03:24.420 --> 03:27.540
+So now you should pause the video and work through the code.
+
+03:27.540 --> 03:30.900
+And now I will switch to Python and discuss my solution.
+
+03:32.380 --> 03:33.340
+Some libraries.
+
+03:33.380 --> 03:34.300
+Okay, here we are.
+
+03:34.340 --> 03:39.940
+Here I'm importing the Bert Large model and pushing it to the GPU.
+
+03:40.580 --> 03:42.100
+And let's see.
+
+03:42.140 --> 03:49.020
+Okay, so then I'm defining some convenience variables the number of MLP neurons and the number of layers
+
+03:49.020 --> 03:49.820
+in the model.
+
+03:50.340 --> 03:53.660
+Here is the data set yet again.
+
+03:54.580 --> 03:55.660
+Seen this many times here.
+
+03:55.700 --> 03:58.020
+Okay let's see I can just run all of that.
+
+03:58.300 --> 04:03.480
+And here you see I'm preparing a vector of target indices as a torch tensor.
+
+04:03.760 --> 04:11.080
+This is basically just allowing us to avoid having this for loop run redundantly inside the forward
+
+04:11.080 --> 04:14.400
+pass in the hook function every time we need to call it.
+
+04:14.400 --> 04:19.840
+So this code you have seen multiple times before, including in the previous video.
+
+04:20.040 --> 04:28.320
+The only difference is that previously when I had this code to identify the location of the target words
+
+04:28.320 --> 04:33.800
+in each sentence, I wasn't actually storing these data, these integers.
+
+04:33.800 --> 04:39.120
+I was just immediately using them and then overwriting the variable on the next iteration.
+
+04:39.480 --> 04:44.240
+And here I'm just putting them all into a vector so that I can use them multiple times.
+
+04:44.800 --> 04:45.840
+Okay, so run that.
+
+04:46.120 --> 04:47.680
+Here is the hook function.
+
+04:47.680 --> 04:50.000
+This is really the main part of exercise.
+
+04:50.000 --> 04:51.800
+One is writing this hook function.
+
+04:52.280 --> 04:59.120
+You can see I'm implanting it into all of the layers, not just one layer into intermediate dense.
+
+04:59.400 --> 05:01.960
+For reasons that I explained in the previous video.
+
+05:02.060 --> 05:09.940
+we want to have the pre jlu activation values so that they are roughly normally distributed, which
+
+05:09.940 --> 05:13.900
+makes them more amenable to doing t tests.
+
+05:15.180 --> 05:15.500
+Okay.
+
+05:15.580 --> 05:17.020
+So then uh yeah.
+
+05:17.580 --> 05:20.220
+Grab all of the activations here.
+
+05:20.380 --> 05:26.500
+Uh, so these are all the activations here are just the activations for the target indices.
+
+05:26.740 --> 05:30.420
+So this uses the vector that I created up here.
+
+05:31.180 --> 05:35.900
+And then once we have all of those data we can do a one sample t test.
+
+05:35.900 --> 05:43.380
+Exactly like what I showed in the previous video testing against a difference value of zero.
+
+05:43.740 --> 05:45.940
+And then here I'm using FDR correction.
+
+05:45.940 --> 05:51.060
+As I discussed in the previous video, you can use FDR, you can use Bonferroni.
+
+05:51.300 --> 05:53.300
+Doesn't really make much of a difference.
+
+05:53.300 --> 06:00.460
+Also for reasons that I didn't discuss in the previous video, but I am going to discuss later on in
+
+06:00.500 --> 06:01.380
+this video.
+
+06:01.740 --> 06:02.020
+Okay.
+
+06:02.060 --> 06:03.720
+And then I'm storing those results.
+
+06:03.720 --> 06:07.040
+So this is a boolean vector here.
+
+06:07.040 --> 06:15.840
+If the t test is significant and if the t value is positive then there's more activation in that neuron
+
+06:15.840 --> 06:20.360
+for him target versus the her target in those sentences.
+
+06:20.680 --> 06:21.840
+And same thing for here.
+
+06:21.840 --> 06:23.760
+If it's negative then that's more for her.
+
+06:24.080 --> 06:26.720
+And why is it positive and negative for him and her.
+
+06:26.760 --> 06:29.200
+That's literally that's totally arbitrary.
+
+06:29.440 --> 06:31.480
+That's just the way I set this up.
+
+06:31.560 --> 06:39.160
+You could, uh, you know, you could run it like this and then like this, and then the results would
+
+06:39.160 --> 06:40.280
+be exactly the same.
+
+06:40.280 --> 06:42.160
+But now the signs would be flipped.
+
+06:42.160 --> 06:43.880
+So we would need to flip these.
+
+06:44.040 --> 06:50.040
+So it's good to be cautious about that and make sure you're doing everything consistently.
+
+06:50.040 --> 06:55.080
+But otherwise the order of the numerator in the t test is pretty arbitrary.
+
+06:55.520 --> 06:55.800
+Okay.
+
+06:55.840 --> 06:57.320
+So I'll run that code.
+
+06:57.320 --> 06:59.600
+And that completes exercise one.
+
+07:01.000 --> 07:08.870
+The goal of exercise two is to run a forward pass of the Him.her dataset, so you can calculate all
+
+07:08.870 --> 07:13.630
+of the t tests that you wrote in the previous exercise.
+
+07:14.230 --> 07:20.950
+So after you run the forward pass, make sure you remove the hooks because we do not need it anymore
+
+07:20.950 --> 07:25.230
+and we're going to use a different hook function in a later exercise.
+
+07:25.950 --> 07:30.590
+You can check the keys of the dictionary and the sizes of one of the items.
+
+07:30.830 --> 07:33.710
+This screenshot doesn't actually show all of the layers.
+
+07:33.710 --> 07:35.950
+I just cut it off the screenshot over here.
+
+07:36.110 --> 07:44.750
+But the point is that each layer in the model should have two associated keys, one for him and one
+
+07:44.750 --> 07:53.950
+for her, and each one of those should contain a vector of 4096, corresponding to a Boolean vector
+
+07:53.950 --> 07:55.430
+of trues and falses.
+
+07:55.630 --> 08:03.050
+Whether each neuron in each layer shows a significant T value for him versus her pronoun tokens.
+
+08:03.770 --> 08:11.610
+You can visualize the data by calculating the percentage of neurons in each layer that had a significant
+
+08:11.650 --> 08:12.450
+T value.
+
+08:13.130 --> 08:15.610
+So each layer will have two results.
+
+08:15.610 --> 08:17.090
+And you can see that here.
+
+08:17.530 --> 08:26.530
+So this result tells us that almost 50% of the neurons in layer zero had a significant T value for him,
+
+08:26.530 --> 08:27.490
+greater than her.
+
+08:27.730 --> 08:34.210
+And around 46 or whatever this number is, percent had a significant T value for her versus him.
+
+08:34.330 --> 08:37.850
+And then you want to check whether there are any patterns here.
+
+08:37.850 --> 08:44.850
+For example, if the these two values, the proportion of significant neurons generally goes down as
+
+08:44.850 --> 08:46.530
+we get deeper into the model.
+
+08:46.570 --> 08:49.930
+Maybe it shows a non-linear pattern or maybe no pattern at all.
+
+08:50.850 --> 08:52.970
+So that's the goal for exercise two.
+
+08:53.250 --> 08:59.610
+This is an important step in the entire code challenge, because now we know which neurons we want to
+
+08:59.650 --> 09:02.730
+set to zero in the experiment later on.
+
+09:03.310 --> 09:07.870
+Anyway, pause the video now and get to work and now I will switch to code.
+
+09:10.070 --> 09:14.550
+Run the forward model and then remove all of the handles.
+
+09:14.550 --> 09:20.430
+And yeah, this is just confirming the, uh, keys in the dictionary.
+
+09:20.430 --> 09:22.430
+So we should have two for each layer.
+
+09:22.550 --> 09:28.470
+And then the size of of one of these corresponds to the number of neurons in the expansion layer.
+
+09:28.910 --> 09:29.150
+Okay.
+
+09:29.190 --> 09:35.390
+And then to generate the plot so we can see whether there's any pattern in the statistical significances
+
+09:35.630 --> 09:38.150
+over the course of the model.
+
+09:38.310 --> 09:42.150
+All I'm doing here is summing up the vector.
+
+09:42.150 --> 09:44.870
+So actually let me show you this to make sure that's clear.
+
+09:45.710 --> 09:48.750
+So the vector itself is booleans.
+
+09:48.750 --> 09:52.550
+Let's just set that to be uh actually yeah I'll just do it like this.
+
+09:52.950 --> 09:55.670
+Uh, booleans is just a bunch of falses and trues.
+
+09:55.670 --> 09:58.190
+And we can use a method called sum.
+
+09:58.190 --> 10:07.130
+And that tells us that there are 1648 48 values of true in this vector.
+
+10:07.370 --> 10:12.370
+And then if we want to know the proportion, we could divide by the number of neurons.
+
+10:12.370 --> 10:16.970
+And then to convert that to percent I multiply by 100 okay.
+
+10:17.210 --> 10:19.130
+So that is that.
+
+10:19.170 --> 10:26.210
+And then uh because I'm running this in a for loop, I actually don't want to have a label in here.
+
+10:26.210 --> 10:32.210
+If I have a label like this, then it's actually going to give me a label item, a legend item for every
+
+10:32.250 --> 10:33.810
+individual data point.
+
+10:33.970 --> 10:35.130
+But I don't want that.
+
+10:35.130 --> 10:36.730
+I just want two points.
+
+10:36.890 --> 10:42.370
+So yeah, I use this kind of hacky solution where basically actually I can show you what that does.
+
+10:42.490 --> 10:46.410
+So I'm just kind of faking two data points all the way out here.
+
+10:46.730 --> 10:52.410
+And those two data points actually have the labels that I want.
+
+10:52.450 --> 10:58.610
+And then I'm just adjusting the y axis to ignore those from the visualization.
+
+10:58.610 --> 11:01.850
+So they're way outside of the visualization range.
+
+11:02.930 --> 11:03.210
+Okay.
+
+11:03.310 --> 11:05.750
+so a couple of remarks to make about this plot.
+
+11:05.790 --> 11:10.750
+First of all, it doesn't really seem like there's any really consistent patterns.
+
+11:10.750 --> 11:13.870
+Maybe for the hidden neurons it goes down and then up.
+
+11:14.230 --> 11:18.470
+Uh, and for the neurons, it doesn't really seem like there's anything consistent.
+
+11:18.790 --> 11:24.030
+Of course, you could run some statistical tests to see if there are significant trends, but I'm not
+
+11:24.030 --> 11:25.470
+going to worry about that here.
+
+11:25.870 --> 11:30.590
+What I do want to point out is that we see a pretty large proportion.
+
+11:30.590 --> 11:36.350
+So basically almost all of the neurons, you know, when you sum these two together, it's going to
+
+11:36.350 --> 11:43.790
+be like well over, I don't know, 80%, uh, maybe even over 90% for all of the different layers show
+
+11:43.790 --> 11:48.750
+a significant t value when using, uh, FDR correction.
+
+11:49.150 --> 11:54.990
+Uh, if you use Bonferroni correction, these numbers will be smaller, but that's fine.
+
+11:55.030 --> 12:02.870
+So the question is are we really going to zero out basically, you know, almost every single neuron
+
+12:02.870 --> 12:04.730
+in the MLP layers.
+
+12:04.770 --> 12:06.850
+The answer is no, we are not.
+
+12:06.970 --> 12:15.050
+And the reason why we are not going to is that these data are shifted towards a negative distribution,
+
+12:16.610 --> 12:25.690
+such that most of the pre jlu activation values that we are running the t test on have a negative value.
+
+12:25.890 --> 12:31.210
+But when they are used in the model to calculate the adjustments to the embeddings vectors.
+
+12:31.210 --> 12:38.810
+So at the end of the MLP sub block at the end of the transformer block, the Jlu non-linear activation
+
+12:38.810 --> 12:45.170
+function gets applied and a lot of these negative values are zeroed out, or at least strongly reduced.
+
+12:45.170 --> 12:47.410
+They're not necessarily set to zero.
+
+12:47.450 --> 12:49.610
+That would be like the ReLU function.
+
+12:49.770 --> 12:56.890
+But with the Gaussian function, then the negative values can pass through a little bit, but they're
+
+12:56.890 --> 12:57.970
+strongly suppressed.
+
+12:58.330 --> 13:03.770
+So that means that even though a lot of these neurons might get zeroed out by the manipulation that
+
+13:03.910 --> 13:08.070
+we are going to do in the experiment in later on in this code challenge.
+
+13:08.470 --> 13:12.550
+A lot of those neurons are going to have their values suppressed anyway.
+
+13:12.710 --> 13:18.950
+So the actual number of neurons that we will really manipulate is relatively small.
+
+13:19.150 --> 13:25.870
+Because we're only going to zero out the activations that are significant in the t test that we just
+
+13:25.870 --> 13:26.310
+ran.
+
+13:26.430 --> 13:30.870
+And also that have strong activation values above zero.
+
+13:31.430 --> 13:34.230
+That is something that I want to make sure you are aware of.
+
+13:34.350 --> 13:40.190
+It's not something I am explicitly calculating or quantifying in this code challenge, but of course
+
+13:40.190 --> 13:43.150
+it's something you could quantify if you wanted to.
+
+13:44.390 --> 13:52.510
+For example, you could count how many of these significant neurons also have average activation values
+
+13:52.510 --> 13:54.110
+that are greater than zero.
+
+13:54.270 --> 13:57.150
+So just a suggestion in case you are interested.
+
+13:58.830 --> 14:02.790
+Exercise three is simple and straightforward.
+
+14:03.110 --> 14:10.250
+You can literally copy the code from part two of the previous video into the code file for this video.
+
+14:10.850 --> 14:17.970
+The model that we're using here is larger than in the previous video, but the sentences are the same
+
+14:17.970 --> 14:20.170
+and the analysis is the same.
+
+14:20.770 --> 14:28.570
+So what you certainly should do in this exercise is make sure that the visualization that you saw in
+
+14:28.570 --> 14:32.410
+the previous video, that's what you see here in this screenshot.
+
+14:33.170 --> 14:38.690
+Make sure that you can reproduce that figure in the new dataset with the larger model.
+
+14:38.890 --> 14:44.650
+You can check to make sure that the pattern of results is the same as in the previous video.
+
+14:44.770 --> 14:51.330
+But basically you just need this code here, because in the experiment, in the next exercise, we are
+
+14:51.330 --> 14:59.010
+going to compare the results of manipulating the MLP neurons in each layer against what we observed
+
+14:59.050 --> 14:59.570
+here.
+
+14:59.970 --> 15:06.430
+I will now switch to code, but only briefly just to show you what I copied over and run the code to
+
+15:06.470 --> 15:07.750
+create the variables.
+
+15:09.710 --> 15:11.390
+So yeah, this code is the same.
+
+15:11.390 --> 15:12.670
+This code is the same.
+
+15:12.830 --> 15:13.990
+This code is the same.
+
+15:13.990 --> 15:20.710
+I believe every I think everything is literally exactly the same as in the previous video.
+
+15:20.750 --> 15:28.070
+You can see the pattern of results is also exactly the same as what we observed in the previous video.
+
+15:29.350 --> 15:36.550
+And now for exercise four, which is the main experiment here you see the for loop that you are going
+
+15:36.550 --> 15:37.830
+to flesh out.
+
+15:38.070 --> 15:42.190
+So loop over all of the layers in the model.
+
+15:42.390 --> 15:49.190
+Create a function that you will implant into this layer and then remove immediately after the forward
+
+15:49.190 --> 15:49.710
+pass.
+
+15:50.310 --> 15:57.710
+And inside this hook function, you find the significant neurons from that layer from the t test that
+
+15:57.710 --> 16:02.310
+you ran in exercise two and zero out only those neurons.
+
+16:02.470 --> 16:09.810
+So this is going to be a targeted manipulation, so you only want to zero out the significant her neurons
+
+16:09.810 --> 16:12.770
+for the her mass tokens in the her sentence.
+
+16:12.930 --> 16:15.090
+And same thing for him.
+
+16:15.810 --> 16:23.210
+After you do the forward pass then you get the results exactly as you did for exercise three and of
+
+16:23.210 --> 16:25.570
+course also from the previous video.
+
+16:25.570 --> 16:27.250
+So that's this code over here.
+
+16:27.690 --> 16:31.970
+Now there are three sets of results that you want to gather from each layer.
+
+16:31.970 --> 16:35.570
+And that's new for this exercise for this video.
+
+16:36.050 --> 16:39.010
+The first is the total magnitude change.
+
+16:39.130 --> 16:46.530
+That's just a measure of the overall impact of this ablation on the final output logits.
+
+16:47.010 --> 16:52.330
+So to quantify this, this is the absolute value of all the changes.
+
+16:52.330 --> 16:55.610
+And then take the average of the absolute values.
+
+16:55.770 --> 17:04.010
+So for this analysis it does not matter if zeroing out these neurons had a negative or a positive impact.
+
+17:04.210 --> 17:11.270
+We just want to know what is the overall change that was caused by this manipulation on the output logits.
+
+17:11.790 --> 17:16.150
+And then we want the specific targeted results down here.
+
+17:16.590 --> 17:23.310
+Now I'm not going to tell you exactly what data to pluck out, but it is the key analysis that I discussed
+
+17:23.310 --> 17:25.270
+in the previous video.
+
+17:25.910 --> 17:31.990
+Once you get these results for all of the layers, you can visualize them in two scatter plots.
+
+17:32.510 --> 17:40.270
+Here on the left is the average of the absolute values of the change in logits with the manipulations.
+
+17:40.630 --> 17:44.510
+So that's going to be one value per transform or block.
+
+17:44.910 --> 17:47.190
+And here you see the first layer result.
+
+17:47.190 --> 17:51.310
+And of course you want to see what it looks like at all the other layers.
+
+17:52.350 --> 17:58.910
+And then here on the right plot is the two specific results that you calculated down here in this part
+
+17:58.910 --> 17:59.830
+of the code.
+
+18:00.310 --> 18:05.610
+So one result for the Him manipulation and one result for the her manipulation.
+
+18:06.090 --> 18:12.050
+And of course, this exercise isn't just about creating the plot, but also interpreting it and thinking
+
+18:12.050 --> 18:13.250
+about what it means.
+
+18:14.050 --> 18:18.770
+So now is the time to pause the video and wrap up this code challenge.
+
+18:18.970 --> 18:20.610
+And now I will switch to code.
+
+18:21.770 --> 18:29.250
+The results matrix will be layers by three, and three corresponds to the three pieces of information.
+
+18:29.250 --> 18:36.730
+So overall magnitude of the impact of this manipulation, the specific impact for her and the specific
+
+18:36.730 --> 18:37.970
+impact for him.
+
+18:38.450 --> 18:46.290
+Here I loop over layers and here I ablate or zero out just the neurons for the hearse.
+
+18:46.330 --> 18:53.210
+The sentence with the word her masked out only for the token position where that mask is, and then
+
+18:53.210 --> 19:00.730
+only the neurons from this specific layer that had a significant t test for her versus him.
+
+19:00.970 --> 19:05.630
+And when we pass all of those conditions, then we set those neurons to zero.
+
+19:05.870 --> 19:07.390
+And here is exactly the same.
+
+19:07.390 --> 19:16.390
+But for the sentence with the Him token masked out for the location of the mask, and only for the neurons
+
+19:16.390 --> 19:21.110
+that had a significant T value for him, and then those get zeroed out.
+
+19:21.550 --> 19:21.830
+Okay.
+
+19:21.870 --> 19:27.950
+And those go into yeah, that hook gets implanted into the intermediate layer.
+
+19:27.950 --> 19:33.590
+And as you know from the previous video, it's also fine if you put it into the dense layer, it actually
+
+19:33.590 --> 19:41.270
+does not matter, because the difference between dense and the output of intermediate is just whether
+
+19:41.270 --> 19:47.790
+the activations pass through the jailer nonlinearity, which is applied to each neuron individually
+
+19:47.790 --> 19:49.350
+regardless of its value.
+
+19:49.910 --> 19:50.270
+Okay.
+
+19:50.310 --> 19:52.310
+So here I run the forward pass.
+
+19:52.790 --> 19:59.430
+Here I get the output logits bring them back to the CPU and transform them into numpy.
+
+19:59.870 --> 20:05.900
+Remove the hook so I can implant a fresh hook on the next layer in the next iteration of this loop.
+
+20:07.060 --> 20:10.340
+This code you have seen before in the previous video.
+
+20:10.340 --> 20:17.220
+And yeah, here I am extracting the basically just the output logits for the two tokens.
+
+20:17.500 --> 20:24.300
+Uh, then this is the difference between the clean version of the model and with no manipulation.
+
+20:24.300 --> 20:26.540
+And uh, after the manipulations.
+
+20:27.180 --> 20:27.580
+Okay.
+
+20:27.620 --> 20:30.220
+And then now we get to the results.
+
+20:30.220 --> 20:34.300
+So here I'm taking all of these delta logits.
+
+20:34.540 --> 20:39.740
+And I'm literally just averaging them together after taking the absolute value.
+
+20:40.140 --> 20:43.580
+Now I'm ignoring the first sentence here.
+
+20:43.700 --> 20:45.860
+And why am I ignoring the first sentence?
+
+20:45.860 --> 20:49.180
+Because I don't actually manipulate the first sentence.
+
+20:49.180 --> 20:50.420
+So I already know.
+
+20:50.420 --> 20:56.460
+We've discovered in the previous video, when we did a manipulation check that the first sentence was
+
+20:56.460 --> 20:59.940
+all zeros, the difference values were all zeros.
+
+21:00.420 --> 21:04.180
+Now, in theory, yeah, you could actually just set this up twice.
+
+21:04.180 --> 21:05.840
+You could do something like this.
+
+21:06.160 --> 21:10.840
+And then like, plus one plus one, that would also be fine.
+
+21:10.880 --> 21:17.000
+Just basically completely ignore the first sentence in the code, but just I don't know.
+
+21:17.040 --> 21:25.120
+In the interest of consistency, I decided to keep the data in for the first sentence and then just
+
+21:25.160 --> 21:26.160
+ignore them here.
+
+21:26.680 --> 21:32.840
+Okay, so that's just a global measure of the impact of this manipulation on the final output logits
+
+21:32.840 --> 21:39.400
+for the him and her tokens, regardless of which sentence and which math position they're in.
+
+21:39.840 --> 21:40.200
+Okay.
+
+21:40.240 --> 21:43.160
+So then here is the specific modulations.
+
+21:43.160 --> 21:50.280
+These correspond to the heights of the two bars that I made hypotheses about, as I discussed in the
+
+21:50.280 --> 21:51.560
+previous video.
+
+21:51.560 --> 21:53.440
+So let me scroll back up here.
+
+21:53.600 --> 21:56.800
+So that is this pink bar over here.
+
+21:57.040 --> 22:06.460
+It's the logit for the her token or her vocab item in the her mass token position in the her mask sentence.
+
+22:06.460 --> 22:14.780
+And then this blue bar over here for the him logits for the him token position in the him mask sentence.
+
+22:14.780 --> 22:22.100
+So this pink bar and the impact of the manipulation on this bar and the impact of the manipulation on
+
+22:22.100 --> 22:22.780
+this bar.
+
+22:23.300 --> 22:29.340
+That also means that I am ignoring all of these in the results that I store down here.
+
+22:29.620 --> 22:31.980
+That does mean that I'm losing some richness.
+
+22:31.980 --> 22:37.740
+There could be some interesting manipulations that are having an interesting impact.
+
+22:37.900 --> 22:45.100
+And just in the interest of simplicity, I am just focusing on these key results over here.
+
+22:45.660 --> 22:45.900
+Okay.
+
+22:45.940 --> 22:48.540
+And then here I'm generating that plot.
+
+22:48.860 --> 22:55.140
+So the overall impact, uh, I'm not sure if it if there's a real pattern here that it goes up and down
+
+22:55.140 --> 22:56.220
+and back up again.
+
+22:56.580 --> 23:03.540
+As you know, there's always some interesting unique dynamics happening at the very final transformer
+
+23:03.540 --> 23:10.920
+block, even without Explicitly incorporating the final layer norm, which is what the hugging face
+
+23:10.920 --> 23:13.640
+Hidden States does for this last transformer block.
+
+23:13.640 --> 23:15.640
+So that's actually not included here.
+
+23:15.840 --> 23:17.800
+This is just the MLP layer.
+
+23:18.120 --> 23:20.840
+There's no layer norm associated with this.
+
+23:21.240 --> 23:21.800
+Anyway.
+
+23:22.000 --> 23:22.560
+Uh yeah.
+
+23:22.600 --> 23:25.800
+And then here you see these specific manipulations.
+
+23:26.680 --> 23:30.880
+Uh, what I would expect to see is positive values here.
+
+23:31.040 --> 23:33.800
+Remember positive values in this delta.
+
+23:33.840 --> 23:41.320
+The way that I set up the subtraction would indicate that the, uh, that zeroing out these MLP neurons
+
+23:41.480 --> 23:42.960
+has a negative impact.
+
+23:42.960 --> 23:47.200
+So it decreases the logit for the correct token.
+
+23:47.640 --> 23:53.720
+And that certainly is the case at some layers, but it's also certainly not the case at other layers.
+
+23:54.200 --> 24:00.520
+And how much this is, uh, really something special about what's happening at layer 18.
+
+24:00.760 --> 24:01.560
+I'm not sure.
+
+24:01.840 --> 24:09.060
+Uh, this is the sort of thing that you would have to repeat this Exercise over lots of different sentences
+
+24:09.220 --> 24:14.380
+to gather more data, to know whether there's just something, you know, the model's doing something
+
+24:14.380 --> 24:21.100
+quirky over here, or whether this is really something unique and special happening here that would
+
+24:21.100 --> 24:24.380
+be reproducible over a larger data set.
+
+24:25.820 --> 24:33.380
+You know, one of the things that makes interpretability research on challenging is that there are a
+
+24:33.380 --> 24:36.500
+lot of details and nuances to keep in mind.
+
+24:36.980 --> 24:44.540
+For example, in the previous video, I explained why I was hooking into the pre activations for running
+
+24:44.540 --> 24:49.100
+the t test, but then zeroing out the post activations.
+
+24:49.660 --> 24:55.180
+That's the kind of nuance that makes sense when you come across it, but it's not necessarily the sort
+
+24:55.180 --> 25:01.180
+of thing you would think about when you are first learning about LL, and that's why it's good to have
+
+25:01.180 --> 25:03.940
+solid hypotheses and a good experiment.
+
+25:04.700 --> 25:08.080
+And of course, you know, by this time in the course.
+
+25:08.080 --> 25:14.920
+And if you've taken any other courses from me, I am a huge fan of data visualization, and I think
+
+25:14.920 --> 25:21.880
+that visualizing data, especially histograms and scatterplots, can really go a long way to helping
+
+25:21.880 --> 25:28.960
+you understand the characteristics of a complex system, like a language model, and whether you are
+
+25:28.960 --> 25:32.400
+analyzing and manipulating the right parts of a model.
+
+25:33.520 --> 25:34.000
+Okay.
+
+25:34.040 --> 25:40.240
+All of that said, there's no guarantee of getting really interesting results just because you have
+
+25:40.240 --> 25:41.800
+an interesting experiment.
+
+25:42.560 --> 25:44.760
+That's just part of the business of science.
+
+25:45.160 --> 25:51.720
+On the other hand, you do need to have a sufficient amount of data and statistical power to interpret
+
+25:51.760 --> 25:52.760
+null results.
+
+25:52.920 --> 25:58.240
+And that certainly wasn't the case here with only one sentence to test the manipulation.
+
+25:58.880 --> 26:06.520
+Anyway, that's it for this inferential statistical approach to identifying subsets of neurons to manipulate.

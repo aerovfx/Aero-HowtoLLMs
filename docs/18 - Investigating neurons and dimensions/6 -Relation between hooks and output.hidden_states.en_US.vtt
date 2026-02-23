@@ -1,0 +1,619 @@
+WEBVTT
+
+00:02.240 --> 00:11.960
+You now know how to extract data from inside a model using output hidden states and also using hooks.
+
+00:12.320 --> 00:19.320
+The purpose of this video is to show you the relationship between them, and it's also going to be a
+
+00:19.320 --> 00:26.240
+great reminder that the function of a transformer block is to take an existing embeddings vector that
+
+00:26.240 --> 00:33.000
+comes into that block, calculate, and then add on some adjustment factor, and then pass along that
+
+00:33.040 --> 00:36.920
+transformer or that embeddings vector onto the next layer.
+
+00:37.760 --> 00:47.240
+So after creating and implanting hooks into the attention and MLP subparts of a transformer block,
+
+00:47.480 --> 00:54.960
+I will spend most of the time in the Python demo showing how you can perfectly reconstruct the output
+
+00:54.960 --> 01:02.940
+from layer 11 using the output from layer ten plus the transformer modulations.
+
+01:02.940 --> 01:08.260
+So from the modulation from attention and from the MLP layer.
+
+01:08.820 --> 01:16.260
+So for example in this top left scatter plot over here you can see the activations that are the output
+
+01:16.260 --> 01:17.300
+of layer ten.
+
+01:17.540 --> 01:20.900
+So that are that's the inputs into layer 11.
+
+01:21.140 --> 01:26.220
+And here you can see on the y axis the outputs of layer 11.
+
+01:26.220 --> 01:33.420
+So this is basically the transformation that the embeddings go through from the 10th transformer block
+
+01:33.420 --> 01:36.180
+to the 11th transformer block.
+
+01:36.500 --> 01:41.420
+You can see that these are strongly correlated because it's actually the same token.
+
+01:41.420 --> 01:44.300
+It's just going through one transformer layer.
+
+01:44.780 --> 01:45.060
+Okay.
+
+01:45.100 --> 01:52.020
+And over here with the green dots here you see the adjustment from the attention subblock and the adjustment
+
+01:52.020 --> 01:54.220
+from the MLP Subblock.
+
+01:54.580 --> 01:58.380
+So this is the output of the attention layer.
+
+01:58.500 --> 02:02.950
+And this is the output of the MLP layer inside the transformer.
+
+02:03.430 --> 02:09.870
+They are sort of kind of weakly correlated, but they're not really that strongly correlated.
+
+02:10.270 --> 02:17.110
+Now remember that with these internal calculations inside the transformer block, the goal here is not
+
+02:17.110 --> 02:19.350
+to generate completely new vectors.
+
+02:19.390 --> 02:27.350
+Instead, what these transformer subblocks do is calculate an adjustment to make for each token embedding
+
+02:27.350 --> 02:34.190
+vector that is based on the preceding context of the other tokens that came before each token, and
+
+02:34.230 --> 02:39.870
+on like world knowledge that the model has developed based on pre-training and fine tuning.
+
+02:40.870 --> 02:50.470
+Now when you add the change in attention, plus the change in MLP onto the output of layer ten, that's
+
+02:50.470 --> 02:52.630
+what you see on the x axis here.
+
+02:53.030 --> 02:57.350
+Then you get exactly the output of layer 11.
+
+02:57.930 --> 03:04.770
+And then finally over here you can see the difference of the activations between layers ten and 11.
+
+03:04.930 --> 03:07.250
+And here is the sum of the two.
+
+03:08.130 --> 03:12.130
+I call these attention deltas, but it's the attention plus the MLP.
+
+03:12.370 --> 03:16.050
+So the two parts inside the transformer block.
+
+03:16.050 --> 03:19.650
+And those are also perfectly reconstructing each other.
+
+03:20.970 --> 03:27.650
+Now on the one hand, these results are not really that surprising considering what you know about how
+
+03:27.650 --> 03:29.450
+the transformer block works.
+
+03:29.930 --> 03:35.930
+But I think these results are nice to see and still quite insightful and thought provoking.
+
+03:36.130 --> 03:42.170
+And looking through the code, I think, will help you really understand how to create and work with
+
+03:42.210 --> 03:48.410
+hooks, and also how to interpret and work with the hidden states that you get from the models.
+
+03:48.930 --> 03:50.690
+All right, let's switch to code.
+
+03:51.570 --> 03:54.050
+Here I am importing some libraries.
+
+03:54.050 --> 03:57.550
+Here I'm importing the GPT two To model.
+
+03:57.750 --> 04:04.190
+Now notice what I am not doing here, which is switching the model into eval mode.
+
+04:04.470 --> 04:11.070
+So I'm leaving the model in the regular training mode, which means that all of the gradient information
+
+04:11.070 --> 04:12.390
+will be calculated.
+
+04:12.510 --> 04:18.630
+All the gradient related computational graphs are going to be active, and that's fine.
+
+04:18.790 --> 04:19.870
+Uh, typically.
+
+04:19.910 --> 04:23.270
+So of course we're not doing any training in this video.
+
+04:23.630 --> 04:27.510
+Typically you would want to switch the model into eval mode.
+
+04:27.630 --> 04:33.630
+However I'm intentionally leaving it out of eval mode because that will allow me to show you a couple
+
+04:33.630 --> 04:36.870
+of additional details about implanting hooks.
+
+04:37.110 --> 04:41.070
+Uh, depending on whether the model is in eval mode or not.
+
+04:41.550 --> 04:41.830
+Okay.
+
+04:41.870 --> 04:42.990
+So now it's loading.
+
+04:42.990 --> 04:50.070
+Here I'm printing out the model architecture as a little reminder, just so we can see where these hooks
+
+04:50.070 --> 04:51.430
+are actually going into.
+
+04:51.950 --> 04:58.120
+So this is uh, this looks very similar to the hooks you saw in the previous video.
+
+04:58.600 --> 05:05.200
+When we needed to extract really just the cue activations, we needed a little bit of additional code
+
+05:05.400 --> 05:13.440
+to process the data and push the data through the cue weights before running through all of the attention
+
+05:13.440 --> 05:14.400
+mechanisms.
+
+05:14.840 --> 05:21.400
+In this video for this demo, I don't actually want to get the pre attention cue values.
+
+05:21.400 --> 05:25.920
+I want to get the final output of the attention Subblock.
+
+05:26.080 --> 05:27.720
+And so that's what I do here.
+
+05:27.720 --> 05:29.960
+So we can just get the output.
+
+05:30.360 --> 05:32.320
+Uh here this is for attention.
+
+05:32.440 --> 05:35.400
+And this is the output from the MLP layer.
+
+05:35.440 --> 05:38.480
+And I'm doing this from layer uh ten.
+
+05:38.680 --> 05:38.920
+Okay.
+
+05:38.960 --> 05:42.160
+And then here I have the here's where I'm actually implanting the hook.
+
+05:42.160 --> 05:44.920
+So I have this function register forward hook.
+
+05:44.960 --> 05:51.600
+And we can see that I'm implanting this in one of the attention blocks in attention or MLP.
+
+05:51.800 --> 05:57.780
+And both cases it is the matrix or the part c underscore proj.
+
+05:57.780 --> 06:03.460
+So let's see where in the matrix where in the uh the model C proj is.
+
+06:03.660 --> 06:04.580
+So that is here.
+
+06:04.620 --> 06:05.660
+Let me zoom in a little bit.
+
+06:05.700 --> 06:05.980
+Okay.
+
+06:06.020 --> 06:11.420
+So here for each of the transformer blocks we have the attention part.
+
+06:11.420 --> 06:15.460
+And then we have the MLP part and the C proj.
+
+06:15.620 --> 06:17.460
+That's the output projection.
+
+06:17.460 --> 06:22.580
+So this is the final part of the attention sub block.
+
+06:22.620 --> 06:29.940
+And the output of C proj is the input into the MLP layer where we would start with layernorm and so
+
+06:29.940 --> 06:30.260
+on.
+
+06:30.620 --> 06:38.660
+And furthermore the C proj here this is the output of the MLP layer and that becomes the input into
+
+06:38.660 --> 06:40.780
+the next transformer block.
+
+06:41.340 --> 06:41.660
+Okay.
+
+06:41.700 --> 06:44.500
+So with that in mind uh let's see.
+
+06:44.500 --> 06:52.220
+So now uh, so yeah, so here we are implanting the two hooks for attention and MLP in one transformer
+
+06:52.220 --> 06:52.660
+block.
+
+06:53.640 --> 06:57.480
+What I wanted to show you was this, uh, method here.
+
+06:57.480 --> 06:59.080
+So detach.
+
+06:59.280 --> 07:00.760
+Uh, you know what this does?
+
+07:00.760 --> 07:10.240
+This removes all of the numbers inside this matrix, this PyTorch tensor from any of the gradient information
+
+07:10.240 --> 07:12.120
+and computational graph.
+
+07:12.320 --> 07:20.680
+Now, when the model is in training mode, then attached to every tensor is some gradient information
+
+07:20.680 --> 07:27.240
+about the gradients, its norms, all sorts of links to different items in the computational graph.
+
+07:27.360 --> 07:34.840
+And so when we want to analyze the data, for example, in mech interp analyses, we want to decouple
+
+07:34.840 --> 07:35.000
+that.
+
+07:35.000 --> 07:36.240
+We just want the numbers.
+
+07:36.240 --> 07:38.440
+We don't want the gradient information.
+
+07:38.440 --> 07:40.760
+So that's why we use detach.
+
+07:41.040 --> 07:48.720
+Now when the model is switched into eval mode, which I've not done here, I typically do it, uh,
+
+07:48.720 --> 07:51.360
+it's generally a good idea if you're not training the model.
+
+07:51.360 --> 07:53.050
+I did it in the previous video.
+
+07:53.090 --> 07:54.370
+I'm not doing it here.
+
+07:54.690 --> 08:00.810
+Then when the model is eval in eval mode, you do not need this detach method here.
+
+08:01.170 --> 08:01.410
+Okay.
+
+08:01.450 --> 08:04.610
+So that was one thing I wanted to demonstrate there.
+
+08:05.050 --> 08:05.370
+Okay.
+
+08:05.410 --> 08:09.570
+So let's see uh, run that cell and now I can, uh.
+
+08:09.570 --> 08:09.770
+Yeah.
+
+08:09.770 --> 08:11.370
+So this implants the hooks.
+
+08:11.610 --> 08:11.930
+Uh oh.
+
+08:11.970 --> 08:20.050
+Another thing I wanted to mention is that here I am not requesting any output from this method here.
+
+08:20.050 --> 08:21.330
+And what does that mean?
+
+08:21.570 --> 08:26.530
+That means that without an output, I don't have a handle to this hook.
+
+08:26.730 --> 08:34.130
+And that means that I cannot actually remove that hook from the model because I have no residual variable
+
+08:34.130 --> 08:38.290
+pointer to, uh, to tell Python where that hook actually is.
+
+08:38.890 --> 08:40.970
+Now, in this case, that's completely fine.
+
+08:40.970 --> 08:43.570
+You can see this is not a very long code file.
+
+08:43.810 --> 08:46.250
+I do not need to remove this hook.
+
+08:46.650 --> 08:52.870
+Uh, but if you want to remove the hook, then you need to have, you know, some kind of a handle out
+
+08:52.870 --> 08:54.670
+here to be able to remove it.
+
+08:55.630 --> 08:56.070
+Okay.
+
+08:56.270 --> 08:56.510
+Uh.
+
+08:56.510 --> 08:57.030
+Let's see.
+
+08:57.030 --> 09:04.830
+So now I'm going to, uh, just push a bit of text through this model here, and I want to request the
+
+09:04.830 --> 09:06.350
+hidden states, and.
+
+09:06.390 --> 09:08.590
+Yeah, this gives me a forward pass.
+
+09:08.990 --> 09:16.790
+Now, you know that inside this outputs variable, there is an attribute here called hidden states from
+
+09:16.910 --> 09:18.510
+this being set to true.
+
+09:18.870 --> 09:22.790
+So that means now we have the hidden states from the model.
+
+09:22.950 --> 09:25.790
+And we have the activations from the hook.
+
+09:26.070 --> 09:28.510
+So we can look at the sizes of those.
+
+09:28.550 --> 09:31.070
+And we see that they are both the same size.
+
+09:31.430 --> 09:35.310
+And they're both one by 17 by 768.
+
+09:35.830 --> 09:38.270
+First dimension is always the batch dimension.
+
+09:38.470 --> 09:42.830
+Uh, it turns out that there are 17 tokens in this text.
+
+09:42.950 --> 09:46.030
+And of course this is the embedding dimension.
+
+09:46.350 --> 09:48.670
+Now, these two are not the same thing, right?
+
+09:48.710 --> 09:53.890
+This is the final outputs from this entire transformer block.
+
+09:54.290 --> 09:58.970
+And this one is just the output of the MLP Subblock.
+
+09:59.010 --> 10:03.610
+That is not everything that goes into the next layer.
+
+10:03.650 --> 10:12.450
+This is just the adjustments to the residual stream that are calculated in the MLP layer.
+
+10:13.050 --> 10:18.770
+Okay, so here what I'm doing is extracting two hidden states from the this layer.
+
+10:18.810 --> 10:21.330
+This was layer ten and the next layer.
+
+10:21.330 --> 10:25.650
+So I call this hidden state and hidden state next.
+
+10:25.650 --> 10:29.650
+And now I'm also going to extract the attention delta.
+
+10:29.650 --> 10:37.170
+So that adjustment to the embeddings vectors from this layer and also the MLP adjustments.
+
+10:37.450 --> 10:43.810
+The second point that I wanted to mention about switching the model into eval mode or not, is that
+
+10:43.810 --> 10:52.020
+if the model is not in eval mode, if it's in train mode, then that means that all of the regularization
+
+10:52.020 --> 10:55.940
+techniques, including dropout, are still activated.
+
+10:56.220 --> 11:02.340
+Therefore, if you are not switching the model into eval mode, then you would also want to include
+
+11:02.580 --> 11:07.380
+the dropout when it is appropriate for whatever analysis you're running.
+
+11:07.380 --> 11:13.580
+So if you really want to match all of the results of a forward pass, then you should also include The
+
+11:13.580 --> 11:18.300
+dropout, uh, with the activations like this line.
+
+11:18.700 --> 11:22.060
+Now, that said, as I have mentioned several times already.
+
+11:22.220 --> 11:27.700
+In general, if you are not training the model, you should always switch it into eval mode.
+
+11:27.700 --> 11:34.060
+But now you have some explanation of what else would need to be included if you want to keep it in train
+
+11:34.060 --> 11:34.460
+mode.
+
+11:34.500 --> 11:39.340
+This code here creates a little mask to just remove some outlier values.
+
+11:39.340 --> 11:40.740
+That helps with the plotting.
+
+11:40.900 --> 11:43.340
+I will actually discuss this more later.
+
+11:43.700 --> 11:45.260
+Okay, so let me just run this.
+
+11:45.380 --> 11:51.880
+And now the idea is that, uh, I can reconstruct the the next layer.
+
+11:52.120 --> 11:55.240
+So layer N plus one or L plus one.
+
+11:55.280 --> 12:02.360
+Using the output of the current layer plus the attention adjustment plus the MLP adjustment.
+
+12:02.680 --> 12:07.080
+So this is like the theory of how language models work.
+
+12:07.120 --> 12:13.000
+And if this theory is true then the left hand side should equal the right hand side.
+
+12:13.120 --> 12:17.600
+And that's basically what we show over here in this plot.
+
+12:17.640 --> 12:20.040
+This is what I showed in the slides.
+
+12:21.480 --> 12:21.760
+Okay.
+
+12:21.800 --> 12:29.200
+So here is the correlation between all the token embeddings for layer one and layer 11.
+
+12:29.400 --> 12:31.400
+This comes from the hidden states.
+
+12:31.440 --> 12:34.560
+So this is the output of layer ten.
+
+12:34.560 --> 12:37.080
+And this is the output of layer 11.
+
+12:37.360 --> 12:41.640
+They're pretty strongly correlated with each other because it's all the same tokens.
+
+12:41.760 --> 12:43.440
+It's just getting passed through.
+
+12:43.640 --> 12:47.300
+And inside this one transformer block.
+
+12:47.580 --> 12:52.460
+We are calculating a little bit of an adjustment in the attention sub block, and then a little bit
+
+12:52.460 --> 12:57.540
+of an adjustment in the MLP sub block, and those get added back together.
+
+12:57.980 --> 13:03.780
+And then yeah giving us a slightly different set of token embeddings.
+
+13:04.100 --> 13:04.620
+Okay.
+
+13:04.660 --> 13:06.060
+Here we see the adjustments.
+
+13:06.060 --> 13:08.060
+Yeah they are weakly correlated.
+
+13:08.060 --> 13:16.300
+And then the main thing is to see this plot over here that when we add these layers the the output of
+
+13:16.300 --> 13:22.860
+the layer from hidden states with the adjustments from the attention and MLP sub blocks, then we exactly
+
+13:22.860 --> 13:25.540
+reconstruct correlation of one.
+
+13:26.060 --> 13:33.140
+We exactly reconstruct the output of layer 11 based on the input into layer 11, which is the output
+
+13:33.140 --> 13:34.140
+of layer ten.
+
+13:35.380 --> 13:35.820
+Okay.
+
+13:36.220 --> 13:40.300
+Uh, the last thing I want to show is basically just about this mask.
+
+13:40.300 --> 13:47.670
+So it turns out that when I ran this, uh, this text through the model, there was a small number of
+
+13:47.670 --> 13:52.590
+dimensions for a couple of tokens, probably the first token, although I didn't really look into it
+
+13:52.590 --> 13:58.510
+that much where the we get some just extreme outlier values.
+
+13:58.510 --> 13:59.350
+So like this.
+
+13:59.350 --> 14:04.070
+Again, this is probably coming from the first token in this sequence.
+
+14:04.230 --> 14:09.030
+But I just thought this makes the plot look kind of ugly and sort of hard to see.
+
+14:09.150 --> 14:15.750
+So therefore I, you know, arbitrarily came up with this threshold where basically any value greater
+
+14:15.750 --> 14:17.510
+than zero I remove.
+
+14:17.550 --> 14:21.390
+That's purely for visual demonstration purposes.
+
+14:21.390 --> 14:27.110
+This is not the sort of thing you would really need to worry about in a real analysis.
+
+14:27.990 --> 14:30.230
+I hope you found this video useful.
+
+14:30.470 --> 14:37.750
+You will continue using both hooks and hidden states throughout the rest of this course, and probably
+
+14:37.750 --> 14:43.870
+anything else you do with analyses of Llms or other PyTorch models.

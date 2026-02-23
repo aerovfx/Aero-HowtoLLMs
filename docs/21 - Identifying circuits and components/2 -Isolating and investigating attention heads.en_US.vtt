@@ -1,0 +1,1780 @@
+WEBVTT
+
+00:02.160 --> 00:10.520
+The goal of this video is to learn how to isolate and investigate the individual attention heads in
+
+00:10.520 --> 00:11.600
+a transformer.
+
+00:12.320 --> 00:18.480
+It's actually not so difficult to do, but it does require a bit of thinking and careful coding.
+
+00:19.160 --> 00:27.680
+And the other good news is that learning how to isolate attention heads is a great reminder of the attention
+
+00:27.720 --> 00:33.760
+mechanism, and the idea of splitting up the attention equation into heads.
+
+00:34.640 --> 00:41.880
+I will also, in this video, introduce you to a procedure called kernel density estimation or KDE.
+
+00:42.600 --> 00:50.320
+This is a non-linear method to estimate smooth frequency spectra from limited or sparse data.
+
+00:50.760 --> 00:57.680
+It's a great data science method to know about both in and outside the context of law.
+
+00:58.960 --> 01:05.810
+Now, before I give an overview of the code demo, I'm going to give you a brief reminder of the attention
+
+01:05.810 --> 01:06.770
+algorithm.
+
+01:06.890 --> 01:13.610
+Just to make sure that you load back in all of the relevant memories from earlier in the course.
+
+01:14.370 --> 01:17.770
+So I hope that this equation looks familiar.
+
+01:18.090 --> 01:23.770
+This is the equation that describes the attention subblock of the transformer.
+
+01:24.290 --> 01:31.810
+The goal of the attention subblock is to calculate the adjustments to the token embeddings vectors,
+
+01:32.330 --> 01:39.610
+and the general idea of the attention Subblock is to integrate information across the tokens that come
+
+01:39.610 --> 01:42.690
+before the currently processed token.
+
+01:43.490 --> 01:50.610
+So the idea is to calculate dot products between the query vectors and the keys vectors.
+
+01:50.970 --> 01:59.380
+And this denominator term here is just a scaling factor because these dot products here grow arbitrarily
+
+01:59.380 --> 02:00.460
+with size.
+
+02:00.460 --> 02:03.700
+So it's kind of like an averaging term if you will.
+
+02:04.540 --> 02:12.500
+M here is a causal mask matrix that blanks out all of the future tokens, so that the model will only
+
+02:12.500 --> 02:15.180
+pay attention to tokens in the past.
+
+02:15.780 --> 02:24.140
+And the interpretation of this operation here is that the query vectors encode what the current token
+
+02:24.140 --> 02:32.180
+is looking for, and the keys vectors encode what the previous tokens have to offer in terms of relevant
+
+02:32.180 --> 02:34.380
+context and information.
+
+02:35.180 --> 02:39.340
+Now these dot products these are not cosine similarities.
+
+02:39.340 --> 02:40.700
+They're not probabilities.
+
+02:40.700 --> 02:47.420
+They have an arbitrary scale that is related to the magnitude of the weights and the activations.
+
+02:47.900 --> 02:52.660
+But then all of these results are pushed through this softmax function.
+
+02:53.100 --> 03:01.270
+And that transforms these dot products into probability distributions, and that in turn determines
+
+03:01.270 --> 03:09.150
+which of the columns in the values matrix get highlighted and which get suppressed, and then the w0
+
+03:09.150 --> 03:09.950
+term at the end.
+
+03:09.950 --> 03:17.830
+Here is a linear mixing matrix, and that basically takes all the outputs of the different attention
+
+03:17.830 --> 03:22.670
+vectors and heads and mixes all of their information together.
+
+03:23.310 --> 03:29.790
+So in this and the next couple of videos, we are only going to be focusing on the first part of this
+
+03:29.830 --> 03:38.310
+algorithm, which is just the qk transpose operation, and then the masking and the softmax probabilities.
+
+03:38.990 --> 03:45.670
+In the code demo I'm going to call this stuff inside the softmax the raw attention scores.
+
+03:46.190 --> 03:50.390
+And then we will have the softmax ified version.
+
+03:50.390 --> 03:53.070
+And those I will call the attention weights.
+
+03:53.230 --> 04:02.480
+Because those values, Those numbers determine how the columns in V are weighted to calculate the adjustments
+
+04:02.480 --> 04:04.600
+to the embedding vectors.
+
+04:05.680 --> 04:12.200
+So next I would like to remind you of what this mask matrix looks like and what it means.
+
+04:12.640 --> 04:14.000
+And that's what you see here.
+
+04:14.240 --> 04:19.840
+So the mask starts off as a lower diagonal matrix of all ones.
+
+04:19.840 --> 04:26.160
+So it's all ones on the diagonal and below the diagonal and all zeros above the diagonal.
+
+04:26.800 --> 04:35.800
+So this provides the temporal causality because each row in this matrix maps onto a token in the sequence.
+
+04:36.280 --> 04:43.640
+So when we are, for example, processing the fifth token, then all the tokens thereafter are ignored
+
+04:43.640 --> 04:45.120
+in the attention algorithm.
+
+04:45.520 --> 04:48.640
+And how is that implemented in practice?
+
+04:49.200 --> 04:57.730
+Well, this matrix gets transformed into this one where all the zeros turn into minus infinities, and
+
+04:57.730 --> 05:05.650
+then this matrix gets added onto that qk transpose matrix that I showed in the equation in the previous
+
+05:05.650 --> 05:06.130
+slide.
+
+05:07.170 --> 05:10.570
+And why do we want to add minus infinity.
+
+05:11.250 --> 05:19.210
+Remember that softmax involves exponentiating and e to the minus infinity is zero.
+
+05:19.770 --> 05:26.170
+So the weighting function that this matrix creates could look like this, where the weights across the
+
+05:26.170 --> 05:32.090
+rows all sum to one, and all of the future tokens are zero.
+
+05:32.890 --> 05:39.570
+So you can also see that the diagonal elements still have non-zero values, which means that the attention
+
+05:39.570 --> 05:43.450
+algorithm can pay attention to the current token.
+
+05:43.690 --> 05:46.010
+That's called self-attention.
+
+05:46.210 --> 05:50.290
+And you will see what that looks like in the model when I switch to code.
+
+05:50.930 --> 05:57.340
+Last thing I would like to point out here is that the very first token in the sequence has no context,
+
+05:57.340 --> 05:59.460
+so there's no past to look at.
+
+05:59.940 --> 06:02.220
+It can only implement self-attention.
+
+06:02.220 --> 06:04.580
+There's no past context to load in.
+
+06:05.620 --> 06:13.420
+You have already seen several times in the course that this first token in a sequence gives weird results.
+
+06:13.660 --> 06:18.940
+And in this video, you're going to learn a little bit about why that is the case.
+
+06:19.660 --> 06:26.860
+Okay, so now I've reminded you about the main attention algorithm and also about the temporal causality
+
+06:26.900 --> 06:27.620
+mask.
+
+06:27.940 --> 06:31.060
+Now I'm going to remind you about the attention heads.
+
+06:31.700 --> 06:38.740
+Again nothing new in this slide I hope this is a screenshot of what you learned in section two.
+
+06:39.420 --> 06:49.740
+So the idea is that these three attention matrices Q, k, and V are split up into like slices or chunks.
+
+06:50.110 --> 06:59.430
+Now each of those slices processes all of the tokens in the sequence, and they all see all of the embeddings
+
+06:59.430 --> 07:06.190
+dimensions, but they can learn to process the text in different ways, for example, focusing on different
+
+07:06.190 --> 07:07.470
+time scales.
+
+07:07.510 --> 07:12.230
+So different lengths, different context windows, or different features of the text.
+
+07:12.710 --> 07:15.990
+Now in this case I am drawing four attention heads.
+
+07:16.190 --> 07:19.470
+And in practice there's usually a couple dozen.
+
+07:19.830 --> 07:27.390
+For example, Gpt2 small has 12 heads, and in the code challenge in the next video you will see that
+
+07:27.390 --> 07:31.030
+the Pythia model has 32 heads.
+
+07:31.750 --> 07:36.990
+Anyway, all of the heads are grouped into equal sizes like this.
+
+07:37.470 --> 07:46.510
+So to extract the individual heads, all we need to do is split the matrices into equal sized sliced
+
+07:46.510 --> 07:47.470
+matrices.
+
+07:48.150 --> 07:53.520
+Now the Now, the orientation of these heads geometrically can be a little tricky to interpret.
+
+07:53.840 --> 08:00.760
+Here I am depicting them as columns so as tall matrices, but they're actually two dimensional slabs
+
+08:00.760 --> 08:06.440
+of data in practice because of the batch dimension in the Python video.
+
+08:06.440 --> 08:10.240
+In this demo, I'm actually going to squeeze out the batch dimension.
+
+08:10.360 --> 08:16.760
+And so then these will actually appear to be wide matrices and not tall matrices.
+
+08:17.200 --> 08:20.320
+Anyway, don't take this visual depiction too literally.
+
+08:20.560 --> 08:29.280
+The important thing to look at is the matrix sizes and slice along the dimensions, not along the tokens.
+
+08:29.760 --> 08:35.720
+In other words, every attention head needs to see every token in a sequence.
+
+08:36.240 --> 08:42.760
+And when you look at the sizes of the matrices, then I think it will be clear which dimension to split
+
+08:42.760 --> 08:44.320
+the matrices along.
+
+08:45.440 --> 08:49.170
+Anyway, I'll get back to that discussion in the code demo.
+
+08:49.490 --> 08:55.610
+The last thing I will remind you about here, although it's not actually directly relevant for the code
+
+08:55.610 --> 09:04.530
+demo, is that after all of the attention heads separately processed the tokens, they all get recombined
+
+09:04.650 --> 09:09.290
+and then they get multiplied by this w0 matrix.
+
+09:09.410 --> 09:11.890
+And that's the function of this matrix here.
+
+09:12.130 --> 09:15.810
+All of these attention heads have learned different things.
+
+09:15.810 --> 09:20.930
+They've been looking at the same text, but they've been learning different things about the context
+
+09:21.090 --> 09:23.250
+and how the tokens relate to each other.
+
+09:24.170 --> 09:29.370
+That said, there is a lot of overlap in what these different heads calculate.
+
+09:29.730 --> 09:36.050
+So it's not that these attention heads are all orthogonal to each other, but they do focus on slightly
+
+09:36.050 --> 09:37.850
+different features of the text.
+
+09:38.130 --> 09:42.890
+And the W0 matrix mixes all of that information together.
+
+09:43.570 --> 09:43.890
+Okay.
+
+09:43.930 --> 09:51.500
+And that's the final attention adjustment that's get that gets added back onto the embeddings vectors.
+
+09:51.700 --> 09:55.940
+Now let me tell you about what we'll do in the Python demo.
+
+09:56.460 --> 10:05.580
+I will start by importing Gpt2 and hooking the qkv matrices before they are multiplied.
+
+10:06.060 --> 10:08.140
+Now that stuff you've all seen before.
+
+10:08.540 --> 10:14.260
+Then we have a sentence about Fiji that we will use for the code demo.
+
+10:14.660 --> 10:21.460
+And after pushing this little bit of text through the model, I will grab the queue activations and
+
+10:21.460 --> 10:25.260
+show you how we can split those into the different heads.
+
+10:25.820 --> 10:33.940
+Now we have to know some variables that we get from the models config structure, including the dimensionality
+
+10:33.940 --> 10:37.260
+of the heads and the number of heads.
+
+10:37.740 --> 10:45.390
+When we have that information, we can confirm that splitting up the q matrix gives us 12 heads, and
+
+10:45.390 --> 10:49.790
+each of those heads is of size 38 by 64.
+
+10:50.430 --> 10:53.550
+38 is the token sequence dimension.
+
+10:53.550 --> 10:57.190
+So there are 38 tokens in this sentence.
+
+10:57.590 --> 11:07.030
+And then the 64 corresponds to the dimensionality of the heads, 64 times 12 is 768.
+
+11:07.230 --> 11:13.430
+And of course, you know that that is the embeddings dimension of the small version of this GPT two
+
+11:13.470 --> 11:14.150
+model.
+
+11:14.470 --> 11:21.870
+And this size is what I was referring to in the previous slide about whether these heads matrices appear
+
+11:21.870 --> 11:23.310
+to be wide or tall.
+
+11:23.750 --> 11:27.830
+Again, don't worry so much about the matrix orientation.
+
+11:27.870 --> 11:29.950
+Pay attention to the sizes.
+
+11:30.510 --> 11:34.310
+Now we don't want to split up the matrices according to tokens.
+
+11:34.310 --> 11:36.790
+We split according to dimensions.
+
+11:37.270 --> 11:44.560
+Anyway, I will then calculate the means and standard deviations of the activations to the 38 tokens
+
+11:44.560 --> 11:45.440
+in each head.
+
+11:45.640 --> 11:47.400
+And then I'll make some plots like this.
+
+11:47.840 --> 11:53.640
+Now I have to say, these plots are not terribly insightful or really that interesting.
+
+11:53.920 --> 12:01.000
+We do not expect a lot of meaningful differences between the different heads at this aggregated scale
+
+12:01.000 --> 12:06.360
+of averaging activations over all of the tokens in a sequence.
+
+12:06.760 --> 12:14.120
+But the purpose of these analyses in this visualization is really just to show you some code for working
+
+12:14.120 --> 12:20.360
+with the different heads that will increase your familiarity with how to split up and work with the
+
+12:20.360 --> 12:21.360
+different heads.
+
+12:22.080 --> 12:29.400
+By the way, all of the analyses in this code demo are actually just with one layer of the model.
+
+12:29.640 --> 12:34.200
+Remember that all of the transformer blocks are split into heads.
+
+12:34.400 --> 12:36.800
+So this is just one of the layers.
+
+12:36.800 --> 12:39.360
+I think this was layer six or something.
+
+12:39.360 --> 12:42.770
+But of course that's a parameter in the code you can play around with.
+
+12:43.130 --> 12:49.890
+In the next video, you're going to look at some of the patterns for the different heads and then over
+
+12:49.930 --> 12:51.370
+the different layers.
+
+12:51.970 --> 12:59.370
+Anyway, uh, in this video, this demo, I will next calculate the raw attention scores within each
+
+12:59.370 --> 13:00.530
+of these heads.
+
+13:01.010 --> 13:07.770
+And that is the qk transpose dot products before they get softmax ified.
+
+13:08.250 --> 13:09.490
+And that looks like this.
+
+13:09.490 --> 13:14.010
+So interestingly all of these dot products are negative.
+
+13:14.490 --> 13:18.090
+Now they're not trivially always 100% negative.
+
+13:18.130 --> 13:21.530
+That's just how it happened to be for this layer and this text.
+
+13:21.930 --> 13:30.250
+However, it is the case that the raw attention scores tend to be shifted towards negative values for
+
+13:30.250 --> 13:37.450
+reasons that I will let you ponder for a little while, and then I'll discuss later in the code, and
+
+13:37.450 --> 13:39.210
+also again in the next video.
+
+13:39.740 --> 13:40.060
+Okay.
+
+13:40.100 --> 13:42.500
+Now each dot in this plot here.
+
+13:42.500 --> 13:50.700
+So each of these little green circles, that corresponds to one token pair and one of the 12, uh,
+
+13:50.700 --> 13:51.340
+heads.
+
+13:51.940 --> 14:00.340
+I also did a comparison analysis where I calculated the Q transpose dot products between the different
+
+14:00.380 --> 14:00.900
+heads.
+
+14:00.900 --> 14:02.740
+So this is all within the same heads.
+
+14:02.740 --> 14:04.500
+And these are across different heads.
+
+14:05.180 --> 14:13.140
+Now this is not a super realistic analysis because the different heads do not directly dot product each
+
+14:13.180 --> 14:16.260
+other in practice in a working language model.
+
+14:16.660 --> 14:23.580
+But it is an interesting distribution to look at because it shows that these dot products here are really
+
+14:23.580 --> 14:24.700
+non-trivial.
+
+14:25.260 --> 14:29.980
+And it also shows that there's a lot of similar processing across the different heads.
+
+14:30.580 --> 14:36.940
+Now, these scores are not cosine similarities or correlations, but it would actually be really easy
+
+14:36.940 --> 14:40.230
+to transform these into cosine similarities.
+
+14:40.230 --> 14:46.310
+So in fact, you could actually see how much shared information there is across the different heads.
+
+14:47.430 --> 14:54.030
+Anyway, these lines that you see here show the histograms of the raw attention scores, and you can
+
+14:54.030 --> 14:58.910
+see that the scores within the same head are shifted towards negative numbers.
+
+14:59.350 --> 15:06.470
+Again, I want you to start thinking about what that means and what implications this has for the attention
+
+15:06.470 --> 15:07.270
+algorithm.
+
+15:08.150 --> 15:08.590
+Okay.
+
+15:08.630 --> 15:13.870
+Then uh, next I'm just going to focus in on these data points here.
+
+15:13.870 --> 15:22.590
+So just the QK transpose from the same heads calculations and then separate the attention scores for
+
+15:22.590 --> 15:25.710
+the final token to all the previous tokens.
+
+15:26.350 --> 15:31.510
+The self-attention tokens which are the diagonals of the qk transpose matrix.
+
+15:31.950 --> 15:39.320
+And then also I will separate the very first token in the sequence and that is what you see here.
+
+15:40.080 --> 15:42.640
+So again this is only within each head.
+
+15:42.640 --> 15:48.360
+So this is just a different way of organizing these results that you see in here.
+
+15:48.720 --> 15:57.600
+Now here this is after adding the causal mask and also pushing the data through the softmax function.
+
+15:57.760 --> 16:03.160
+And that's why the y axis values here range from 0 to 1.
+
+16:03.160 --> 16:06.200
+And it's labeled softmax attention weights.
+
+16:06.720 --> 16:13.640
+The green dots here show the softmax attention weights from the last token in the sequence to each of
+
+16:13.640 --> 16:17.240
+the earlier tokens, but excluding itself.
+
+16:17.760 --> 16:24.360
+And these become the probability values that will select a particular column or weight the different
+
+16:24.360 --> 16:25.760
+columns in V.
+
+16:26.160 --> 16:32.760
+And you can see that most of them are pretty close to zero, and very few have larger values.
+
+16:33.200 --> 16:40.370
+And that highlights that attention the attention mechanism is pretty sparse, so most of the information
+
+16:40.370 --> 16:48.690
+from previous tokens is suppressed and only a small number of tokens are activated and their information
+
+16:48.690 --> 16:51.330
+is copied into the attention adjustment.
+
+16:52.090 --> 16:54.730
+Now the self-attention ones over here in the middle.
+
+16:54.730 --> 17:03.090
+These are the diagonals of the QQ transpose matrix that corresponds to the attention of each token to
+
+17:03.130 --> 17:03.890
+itself.
+
+17:04.170 --> 17:11.610
+So this one on the left is the token to all the previous tokens, and in the middle we have all the
+
+17:11.730 --> 17:13.250
+tokens to themselves.
+
+17:13.690 --> 17:20.210
+And then over here on the right, this is just the first token from the from each attention head.
+
+17:20.210 --> 17:22.090
+So the first token in the sequence.
+
+17:22.730 --> 17:25.650
+So the very first token onto itself.
+
+17:25.650 --> 17:29.530
+And there is no previous context to integrate here.
+
+17:29.810 --> 17:32.330
+And that's why you get all ones.
+
+17:32.330 --> 17:36.660
+This is the only non infinity value in each row.
+
+17:36.820 --> 17:43.140
+So of course it has an attention weight of one regardless of what the actual activation value is.
+
+17:43.260 --> 17:43.580
+Okay.
+
+17:43.620 --> 17:46.420
+Now this plot here shows the raw data.
+
+17:46.460 --> 17:48.300
+These are the actual numbers.
+
+17:48.660 --> 17:55.020
+And when we are pooling over all of the heads and just looking at one layer, that's what we're doing
+
+17:55.020 --> 17:55.260
+here.
+
+17:55.300 --> 17:57.740
+This is just one transformer block.
+
+17:57.940 --> 18:00.260
+Then this is a great visualization.
+
+18:00.260 --> 18:08.100
+But having scatter plots like this is not really scalable to separating the distributions for all of
+
+18:08.100 --> 18:15.460
+the different layers, or looking at the different layers over time and seeing how these kinds of distributions
+
+18:15.900 --> 18:19.020
+might change as we go deeper into the model.
+
+18:19.580 --> 18:23.860
+So therefore I will introduce you to the KDE method.
+
+18:24.220 --> 18:32.180
+The idea of a kernel density estimator is to consider that each of these individual points is like a
+
+18:32.390 --> 18:35.550
+noisy estimate of a probability distribution.
+
+18:35.950 --> 18:42.150
+So we take each of these numbers, plot it on a graph where the x axis of that graph corresponds to
+
+18:42.190 --> 18:44.790
+the y axis of this plot.
+
+18:45.150 --> 18:50.390
+And then we blur each of these data points with a Gaussian a Gaussian.
+
+18:50.390 --> 18:52.350
+So we smooth it out a little bit.
+
+18:52.910 --> 18:55.430
+And when we do that for all the dots.
+
+18:55.430 --> 18:58.590
+So convolve all the dots with little Gaussians.
+
+18:58.590 --> 18:59.910
+Then we sum them all up.
+
+18:59.910 --> 19:04.830
+And we consider that to be the estimate of the probability distribution.
+
+19:05.190 --> 19:08.030
+And that's what you see in this little demo here.
+
+19:08.070 --> 19:13.830
+Now to be super clear this figure here is not coming from the real data.
+
+19:14.110 --> 19:17.750
+This is a very simple toy example that I came up with.
+
+19:17.750 --> 19:20.230
+So I just came up with these numbers.
+
+19:20.230 --> 19:26.910
+It's only a couple of numbers just to show you the idea of the KDE procedure and the output and the
+
+19:26.910 --> 19:27.910
+interpretation.
+
+19:28.830 --> 19:34.360
+So let's say we have five actual data points, and I drew them here as red spikes.
+
+19:34.840 --> 19:39.360
+Now each of those spikes gets convolved with a Gaussian.
+
+19:39.720 --> 19:46.200
+And then you sum up over all of the Gaussians and that blue line that is our KDE.
+
+19:46.520 --> 19:53.120
+And that's our estimate of the probability density of the sparse red spiky data.
+
+19:53.720 --> 20:01.480
+Now, when I show you this demo in the code, that will help you understand what the KDE analysis is,
+
+20:01.680 --> 20:04.440
+and also you'll see the code for how to implement it.
+
+20:05.160 --> 20:12.280
+Then after showing you this little toy demo, I'm going to apply this method to the actual data that
+
+20:12.280 --> 20:13.800
+I showed in this plot.
+
+20:14.240 --> 20:20.560
+And that will give us this result here, where you can see that for this particular layer, for this
+
+20:20.560 --> 20:26.920
+particular transformer layer, the the probability distributions are really strongly clustered towards
+
+20:26.920 --> 20:27.400
+zero.
+
+20:27.440 --> 20:32.970
+In fact, I cut off the y axis here, just so we can see these more subtle features down here.
+
+20:33.490 --> 20:40.490
+And then, uh, yeah, the attention softmax weights for the final to the previous token has some bumps
+
+20:40.490 --> 20:42.730
+at these higher values over here.
+
+20:43.370 --> 20:50.570
+Now the code that generates these lines you will have to adapt in the next video, the next code challenge
+
+20:50.690 --> 20:58.450
+to explore how these attention scores change over the different layers in a language model.
+
+20:59.530 --> 20:59.930
+Okay.
+
+21:00.090 --> 21:02.690
+That is the summary of the code demo.
+
+21:02.730 --> 21:04.810
+There's a lot to do, a lot to unpack.
+
+21:04.970 --> 21:10.290
+So I will now switch to Python and show you how all this stuff looks in code.
+
+21:11.610 --> 21:14.810
+Here are all the typical libraries that we will use here.
+
+21:14.810 --> 21:17.130
+I'm importing GPT two small.
+
+21:17.250 --> 21:22.490
+We will use a larger model in the code challenge in the next video.
+
+21:23.250 --> 21:23.770
+Let's see here.
+
+21:23.770 --> 21:29.900
+We're going to need a couple of variables that are just convenience, because it's a bit easier to write
+
+21:29.900 --> 21:35.780
+out n heads than to keep writing model dot config dot n head multiple times.
+
+21:36.020 --> 21:37.340
+So here let's see.
+
+21:37.340 --> 21:43.420
+Here I'm just printing out the config information for this model, just as a reminder of what these
+
+21:43.420 --> 21:44.660
+variable names are.
+
+21:44.900 --> 21:49.060
+So we have the number of heads that's in this variable.
+
+21:49.060 --> 21:51.580
+Here we have the head dimension.
+
+21:51.580 --> 21:58.980
+So that is the number of heads divided sorry the embeddings dimension divided by the number of heads.
+
+21:59.460 --> 22:02.500
+And then I have this term square root of d.
+
+22:02.540 --> 22:04.660
+That is the denominator.
+
+22:04.900 --> 22:09.140
+That's what we normalize the qk transpose vectors by.
+
+22:09.540 --> 22:15.140
+So again it's just a little more compact a little nicer to have this variable than to keep writing this
+
+22:15.140 --> 22:16.420
+out multiple times.
+
+22:16.940 --> 22:23.580
+So then we have discovered that there are 12 heads, each of which has 64 dimensions.
+
+22:23.580 --> 22:31.430
+And when you multiply 12 times 64, you will not be surprised to see that the result is 768, which
+
+22:31.430 --> 22:35.470
+is the number of embeddings dimensions in this model.
+
+22:36.110 --> 22:44.150
+Okay, so now we need to hook implant a hook to get the activations from the attention layer.
+
+22:44.270 --> 22:46.510
+So that is let me go back up here.
+
+22:46.750 --> 22:48.550
+So what we want is H.
+
+22:48.590 --> 22:54.510
+So a hidden layer we want attention and we want this one here C attention.
+
+22:54.710 --> 22:56.070
+So that is the layer.
+
+22:56.070 --> 22:58.230
+That's the information that we want to hook.
+
+22:58.470 --> 23:07.990
+You will remember from earlier in the course that this matrix is of size 768 by 2304.
+
+23:08.430 --> 23:12.750
+And this number corresponds to 768 times three.
+
+23:13.310 --> 23:20.550
+And the three is for the, the q, the k and the V matrices that are augmented, they're just stacked
+
+23:20.590 --> 23:21.630
+next to each other.
+
+23:21.870 --> 23:31.320
+So we will grab these activations and then split them up according to Q, K and V, and then for each
+
+23:31.320 --> 23:35.640
+of those, we need to split them again to get the separate heads.
+
+23:36.000 --> 23:36.320
+Okay.
+
+23:36.360 --> 23:38.280
+So bit of a reminder there.
+
+23:38.480 --> 23:41.520
+And here you see I'm doing this for layer six.
+
+23:41.840 --> 23:43.760
+Uh and why layer six I don't know.
+
+23:43.800 --> 23:45.920
+It's sort of halfway through the model.
+
+23:45.960 --> 23:47.960
+Get some interesting stuff happening there.
+
+23:48.320 --> 23:51.160
+Uh, of course, I encourage you to play around with this.
+
+23:51.160 --> 23:54.880
+You can see how it looks for different layers in the next video.
+
+23:54.920 --> 23:56.720
+You're going to do this systematically.
+
+23:56.720 --> 24:00.640
+You're going to explore, uh, over all of the layers.
+
+24:01.000 --> 24:01.400
+Okay.
+
+24:01.440 --> 24:05.160
+So, uh, hidden uh, and then we want attention.
+
+24:05.320 --> 24:06.360
+C attention.
+
+24:06.360 --> 24:11.880
+And then we just grab the output into this activations dictionary here.
+
+24:12.360 --> 24:12.640
+Okay.
+
+24:12.680 --> 24:14.240
+So run that code.
+
+24:14.440 --> 24:17.200
+And then here is the text that I have copied.
+
+24:17.240 --> 24:17.440
+Yeah.
+
+24:17.440 --> 24:20.120
+It's one sentence about uh, the island of Fiji.
+
+24:20.160 --> 24:21.200
+Here's the website.
+
+24:21.440 --> 24:21.760
+Okay.
+
+24:21.800 --> 24:23.570
+Tokenize push through the model.
+
+24:23.850 --> 24:25.650
+Nothing super fancy here.
+
+24:25.970 --> 24:29.690
+Uh, this is the only time that I'm running data through the model here.
+
+24:30.050 --> 24:33.650
+Uh, in this code demo, we definitely do not need the GPU here.
+
+24:34.130 --> 24:34.330
+Okay.
+
+24:34.370 --> 24:40.410
+And then, as always, the first time you are testing, first time you're pushing through, uh, pushing
+
+24:40.410 --> 24:44.290
+some data through a model, developing code, working on code and so on.
+
+24:44.330 --> 24:50.530
+It's always a good idea to print out what these, uh, sizes are throughout the model.
+
+24:50.650 --> 24:55.570
+So 38 tokens and 2304 dimensions.
+
+24:55.570 --> 24:55.930
+And.
+
+24:55.970 --> 24:58.650
+Yeah, I just explained where that number comes from.
+
+24:59.010 --> 24:59.410
+Okay.
+
+24:59.450 --> 25:05.570
+So now what we are going to do is split the data into these separate qkv matrices.
+
+25:06.090 --> 25:10.530
+Uh, I'm hard coding this to be zero because this is the batch dimension.
+
+25:10.530 --> 25:12.970
+Over here we only have one sequence.
+
+25:13.090 --> 25:20.770
+So of course if you are pushing through batches of data multi sequence data, then you would need to
+
+25:20.970 --> 25:27.140
+either have a for loop here, or reshape or do something to deal with this rather than just using the
+
+25:27.140 --> 25:29.140
+first element in here.
+
+25:29.180 --> 25:30.500
+Okay, now this is.
+
+25:30.540 --> 25:35.900
+So I've shown you this torch dot split function before you input the matrix.
+
+25:35.900 --> 25:43.420
+And then you input the number of embeddings, dimensions or whatever should be the size of the matrices
+
+25:43.420 --> 25:44.580
+that you want to split.
+
+25:44.820 --> 25:47.340
+And then you have to indicate the dimensionality.
+
+25:47.500 --> 25:55.060
+Now this might look a little bit confusing here because dimension one actually corresponds to the token
+
+25:55.060 --> 25:56.380
+dimension over here.
+
+25:56.780 --> 26:04.700
+However, when I extract the first sequence over here, this now becomes a two dimensional matrix.
+
+26:04.780 --> 26:07.980
+So if we would do it like this.
+
+26:08.260 --> 26:10.340
+Now this code is incorrect.
+
+26:10.340 --> 26:13.260
+We can try to run it and we're going to get an error.
+
+26:13.420 --> 26:19.900
+And that's because yeah we cannot cut up 38 into 768.
+
+26:19.900 --> 26:20.030
+68.
+
+26:20.390 --> 26:25.070
+So what we could do is cut along the second dimension.
+
+26:25.070 --> 26:30.350
+But now we still have this singleton dimension in here, which is just not very interesting.
+
+26:30.550 --> 26:39.830
+So therefore when we run it like this, we get the first output of this function to be 38 by 768.
+
+26:39.870 --> 26:45.190
+And of course, if you would look at the shapes of k and v you would see the same sizes.
+
+26:46.350 --> 26:52.830
+I suppose the more general point that I would like to make here is always check sizes of matrices.
+
+26:52.830 --> 26:56.350
+That is really going to help you understand what's going on.
+
+26:56.350 --> 27:01.910
+It will help you avoid making mistakes and help you debug when you do have mistakes.
+
+27:02.430 --> 27:05.870
+Okay, so this is not yet splitting into different heads.
+
+27:05.870 --> 27:09.750
+This is the entire queue activations matrix.
+
+27:10.110 --> 27:11.990
+So then I'm splitting again.
+
+27:12.190 --> 27:18.440
+And now here I'm just splitting according to Q I'm no longer splitting the activations Invasions.
+
+27:18.720 --> 27:21.000
+And now I'm splitting by head dimension.
+
+27:21.160 --> 27:25.200
+And that gives us that there are length of this.
+
+27:25.200 --> 27:26.720
+So there are 12 heads.
+
+27:26.720 --> 27:27.840
+And each one of those.
+
+27:27.840 --> 27:28.800
+This is a list.
+
+27:29.240 --> 27:32.160
+Each one of those actually let me I can show you this.
+
+27:32.720 --> 27:35.720
+So here you see it's a lot to print out.
+
+27:35.720 --> 27:38.480
+But basically this is a tuple.
+
+27:38.520 --> 27:40.560
+I'm sorry I said a second ago that it's a list.
+
+27:40.560 --> 27:41.480
+It's a tuple.
+
+27:41.640 --> 27:47.080
+And each element in the tuple is a is one of the heads.
+
+27:47.200 --> 27:56.440
+So when we look at the length of that output we get 12 as we expect and the size is 38 by 64 also as
+
+27:56.440 --> 27:57.440
+we expect.
+
+27:58.600 --> 27:58.880
+Okay.
+
+27:58.920 --> 27:59.920
+And now yeah.
+
+27:59.920 --> 28:02.400
+So that's for q and now for k.
+
+28:02.800 --> 28:09.280
+Now in this code I'm actually not dealing with the vs the values matrix.
+
+28:09.280 --> 28:12.120
+So I'm just going to ignore those okay.
+
+28:12.160 --> 28:18.970
+So now here I am calculating the means and standard deviations of the different heads over all of the
+
+28:19.050 --> 28:19.890
+tokens.
+
+28:20.050 --> 28:23.850
+So I'm looping over all of the elements in this tuple.
+
+28:23.890 --> 28:25.050
+Q underscore h.
+
+28:25.050 --> 28:26.410
+So all the different heads.
+
+28:26.450 --> 28:30.130
+And then I'm just calculating the average of all the data.
+
+28:30.170 --> 28:31.970
+Ignoring the first token.
+
+28:32.010 --> 28:34.090
+So I'm just leaving out the first token.
+
+28:34.090 --> 28:36.530
+So I'm getting the mean and the standard deviations.
+
+28:36.530 --> 28:40.330
+So we can see how much variability there is in the different heads.
+
+28:40.810 --> 28:43.130
+This is for Q and this is for k.
+
+28:43.530 --> 28:46.250
+And then here I am just plotting that.
+
+28:46.250 --> 28:50.210
+So here you see all of the average activations.
+
+28:50.210 --> 28:53.570
+So this are the means in the the boxes.
+
+28:53.570 --> 28:57.810
+And the bars indicate one standard deviation above and below the means.
+
+28:57.930 --> 29:00.370
+And the green boxes are for the q heads.
+
+29:00.530 --> 29:05.850
+The k circles are for sorry the red circles are for the k heads.
+
+29:06.090 --> 29:11.730
+And yeah, as I mentioned in the slides, we don't really expect that much here.
+
+29:11.770 --> 29:15.610
+Mostly I just want you to see a little bit of code to.
+
+29:16.060 --> 29:16.460
+uh, yeah.
+
+29:16.500 --> 29:22.620
+Just to give you a little bit more kind of visual and coding, uh, familiarity with working with the
+
+29:22.620 --> 29:23.500
+different heads.
+
+29:24.100 --> 29:24.380
+Okay.
+
+29:24.420 --> 29:26.940
+So now we're going to start doing some more interesting things.
+
+29:26.940 --> 29:32.260
+We can calculate the raw attention scores over all of the different tokens.
+
+29:32.580 --> 29:36.860
+So here I am having a double for loop over all the heads.
+
+29:36.900 --> 29:44.620
+And that's because for this particular analysis I'm calculating dot products between uh q and k matrices
+
+29:44.620 --> 29:46.540
+from different heads.
+
+29:47.060 --> 29:49.820
+So here you see these are dot products.
+
+29:49.820 --> 29:51.940
+These are q and these are k.
+
+29:52.260 --> 29:57.780
+And here I'm taking the transpose of k matrix multiplying by q.
+
+29:58.020 --> 30:03.260
+Now I'm not doing in this particular analysis I'm not looking at all of the dot products.
+
+30:03.260 --> 30:04.700
+We can worry about that later.
+
+30:05.060 --> 30:09.260
+Here I'm just looking at the dot product between the final token.
+
+30:09.460 --> 30:12.860
+So all of the dimensions and the head all the head dimensions.
+
+30:13.020 --> 30:18.830
+Just the final token in queue with all of the previous tokens in Kay.
+
+30:19.350 --> 30:24.750
+But I'm excluding the first token again because it's weird and I don't like it.
+
+30:25.310 --> 30:26.110
+So there you go.
+
+30:26.310 --> 30:26.870
+Uh, yeah.
+
+30:26.870 --> 30:28.830
+So that's uh, QQ transpose.
+
+30:29.270 --> 30:32.990
+Also, as I mentioned in the slides, it is.
+
+30:33.190 --> 30:35.190
+So it's not completely wrong.
+
+30:35.230 --> 30:44.670
+The thing is, uh, this dot product of the, uh, raw attention, raw activation values between the
+
+30:44.670 --> 30:50.230
+different heads in Q and K, this is not something that models naturally do.
+
+30:50.470 --> 30:56.910
+They naturally just, uh, calculate the dot products within each head, not across the different heads.
+
+30:57.990 --> 31:02.470
+But I am also showing you the calculations across the different heads here.
+
+31:02.910 --> 31:08.390
+Uh, partly as a reference, partly to show you that the results that we get within the same head are
+
+31:08.430 --> 31:09.430
+not trivial.
+
+31:09.430 --> 31:16.440
+They are meaningfully shifted negative, and also partly because it's interesting to see that the different
+
+31:16.480 --> 31:23.600
+heads actually do have some overlap in the kinds of information that they calculate, as indicated by
+
+31:23.600 --> 31:28.840
+the lack of zero valued dot products between different heads.
+
+31:29.440 --> 31:29.760
+Okay.
+
+31:29.800 --> 31:32.360
+So all that said, here I calculate the dot products.
+
+31:32.360 --> 31:35.400
+If we are actually working in the same head.
+
+31:35.720 --> 31:39.280
+Then I concatenate those data onto this variable.
+
+31:39.320 --> 31:41.160
+Same head dot products.
+
+31:41.160 --> 31:44.840
+And if they are different heads then I put them in this variable.
+
+31:45.040 --> 31:52.120
+And then I'm just visualizing the data as a scatter plots and also as histograms.
+
+31:52.160 --> 31:54.000
+And this is the plot that you have seen before.
+
+31:54.960 --> 31:55.280
+Okay.
+
+31:55.320 --> 31:56.760
+Now here's the question.
+
+31:56.760 --> 32:01.560
+Why are these values shifted negative within the same head.
+
+32:02.000 --> 32:03.640
+That is not trivial.
+
+32:03.680 --> 32:08.360
+The fact that it's not trivial is clearly demonstrated by this distribution.
+
+32:08.400 --> 32:11.930
+You know, if these numbers were also all zero, all negative.
+
+32:11.970 --> 32:17.290
+Then we would say there's just something about, you know, these embeddings, vectors that they all
+
+32:17.290 --> 32:20.210
+happen to be negatively dot product with each other.
+
+32:20.370 --> 32:21.370
+That's not the case.
+
+32:21.650 --> 32:26.290
+This distribution is like perfectly symmetric around zero visually.
+
+32:26.850 --> 32:28.850
+So why are these values all zero.
+
+32:29.250 --> 32:37.010
+Remember that these QQ values, these QQ dot products these get pushed through softmax.
+
+32:37.130 --> 32:42.050
+And what happens when you push negative numbers through a softmax function.
+
+32:42.450 --> 32:43.690
+They get suppressed.
+
+32:43.730 --> 32:45.810
+They get pushed down to zero.
+
+32:46.290 --> 32:54.490
+So all of these values here these go the probability values after softmax these get really really tiny.
+
+32:54.490 --> 32:57.410
+They get pushed all the way down to zero.
+
+32:57.770 --> 33:05.330
+Now in this case you see that there's not a single QQ transpose dot product that ends up being positive.
+
+33:05.370 --> 33:12.780
+But you'll see later on in a moment and also in the next video that you do tend to find lots of clustering
+
+33:13.020 --> 33:16.740
+negative, and then a small number of values that are further up here.
+
+33:16.740 --> 33:25.220
+So there's going to be a small number of token pairs that really get highlighted in the softmax probability
+
+33:25.220 --> 33:26.020
+calculation.
+
+33:26.020 --> 33:29.380
+And most of the token pairs get suppressed.
+
+33:29.380 --> 33:30.500
+That's what you want.
+
+33:30.540 --> 33:33.860
+That's what these models learn to do okay.
+
+33:33.900 --> 33:38.460
+So now let's focus on the softmax transformed activation values.
+
+33:38.780 --> 33:42.180
+Here I just have one for loop over the heads.
+
+33:42.180 --> 33:47.380
+And that's because I'm only calculating things inside each attention head.
+
+33:47.380 --> 33:51.660
+So I'm not calculating dot products across the different heads in this case.
+
+33:51.940 --> 33:58.820
+So q times k transpose divided by the square root of d.
+
+33:58.860 --> 34:03.780
+This is what goes inside the softmax function.
+
+34:03.780 --> 34:05.820
+And then of course we have the attention mask.
+
+34:05.860 --> 34:08.790
+This you have all seen before Okay.
+
+34:08.830 --> 34:10.950
+And then here we apply the softmax.
+
+34:11.070 --> 34:19.790
+And then here I'm grabbing the softmax probability values of all of the tokens with the final token.
+
+34:19.790 --> 34:23.590
+So I'm just isolating the final token in the sequence.
+
+34:23.710 --> 34:26.270
+So the last word in the sentence.
+
+34:26.270 --> 34:30.270
+And then looking at it with all of the previous tokens.
+
+34:30.310 --> 34:30.510
+Okay.
+
+34:30.550 --> 34:31.910
+And why just the last one.
+
+34:31.950 --> 34:34.150
+I don't know because I felt like it.
+
+34:34.190 --> 34:35.630
+We don't need so much data.
+
+34:35.670 --> 34:37.590
+This is for demonstration purposes.
+
+34:37.830 --> 34:43.630
+The last token in the sequence is often interesting to look at, because it has all the information
+
+34:43.630 --> 34:48.070
+from the preceding context loaded onto it, modulating it.
+
+34:48.510 --> 34:48.830
+Okay.
+
+34:48.870 --> 34:52.270
+So then here I'm looking at self-attention.
+
+34:52.270 --> 34:57.150
+So I'm just grabbing the diagonal of this softmax matrix.
+
+34:57.270 --> 35:02.070
+So that is the self-attention of all the tokens with themselves.
+
+35:02.510 --> 35:04.430
+And yeah that's what I do here.
+
+35:04.430 --> 35:10.640
+And then here is Just isolating the very first token for each of the heads.
+
+35:10.760 --> 35:16.880
+So this is all of the self tokens without the first token in the sequence.
+
+35:16.880 --> 35:21.680
+And this is the self-attention for just the first token in the sequence.
+
+35:22.000 --> 35:22.440
+All right.
+
+35:22.440 --> 35:27.160
+Concatenating all of those so that we are pooling the information over all the heads.
+
+35:27.320 --> 35:31.200
+And that's what produces this plot that I showed in the slides.
+
+35:31.360 --> 35:31.640
+Okay.
+
+35:31.680 --> 35:37.840
+So here you see that actually from these data we you know, there's a couple of little points here that
+
+35:37.840 --> 35:38.960
+are pretty large.
+
+35:39.080 --> 35:43.960
+So all of these negative values got suppressed down to zero again.
+
+35:44.000 --> 35:51.760
+This means that after the first part of attention with the softmax thing, when these numbers will multiply
+
+35:51.800 --> 36:00.760
+the columns in V, then most of V gets suppressed, most of V is ignored, and just a small number of
+
+36:00.760 --> 36:03.760
+columns in V are really getting highlighted here.
+
+36:04.120 --> 36:09.570
+And yeah of course here with the self-attention on the first token, there's no context.
+
+36:09.570 --> 36:11.130
+There's no prior tokens.
+
+36:11.130 --> 36:18.370
+The attention algorithm has no choice but to take all of the information from V that is related to that
+
+36:18.370 --> 36:19.330
+first token.
+
+36:19.330 --> 36:21.730
+So it's always going to act a little weird like this.
+
+36:22.210 --> 36:28.650
+Coming up to the final part of this code demo is the kernel density estimator.
+
+36:28.770 --> 36:29.090
+Okay.
+
+36:29.130 --> 36:36.570
+So this first little bit of code here, this actually doesn't this is not using any of the LM data.
+
+36:36.690 --> 36:38.490
+This is just a simple demo.
+
+36:38.490 --> 36:40.130
+So you can see how it works.
+
+36:40.490 --> 36:43.770
+So here is what I do I come up with some sparse data.
+
+36:43.810 --> 36:48.810
+These are numbers that I just popped out of thin air because I thought they would look good for this
+
+36:48.810 --> 36:49.890
+particular demo.
+
+36:50.290 --> 36:51.370
+And then what?
+
+36:51.410 --> 36:52.050
+But yeah.
+
+36:52.090 --> 36:56.330
+Anyway, when you run the analysis, this actually comes from your real data.
+
+36:56.330 --> 37:02.530
+So this vector here is going to be these numbers over here okay.
+
+37:02.570 --> 37:08.220
+Then you need to define a high resolution grid to estimate the distribution.
+
+37:08.220 --> 37:11.060
+So here I'm going from minus two to plus two.
+
+37:11.220 --> 37:14.420
+You can see that's a little bit outside of this range.
+
+37:14.420 --> 37:17.700
+That turns out to be the x axis range over here.
+
+37:18.220 --> 37:27.300
+So that here this is the x axis grid for the frequency estimation that corresponds to the softmax values
+
+37:27.300 --> 37:28.140
+for softmax.
+
+37:28.140 --> 37:30.860
+That is always going to range from 0 to 1.
+
+37:31.980 --> 37:32.300
+Okay.
+
+37:32.340 --> 37:42.180
+Then from the scipy.stats library we take stats Gaussian KDE, input the data and define a bandwidth
+
+37:42.940 --> 37:43.820
+parameter.
+
+37:44.100 --> 37:46.940
+And that is basically a smoothing parameter.
+
+37:46.940 --> 37:49.180
+I will talk more about that in a moment.
+
+37:49.580 --> 37:56.460
+And then once you have this object, this instance, you simply input the grid values that you want
+
+37:56.740 --> 37:57.940
+and then you get the heights.
+
+37:57.940 --> 37:58.980
+And that is why.
+
+37:59.020 --> 38:02.310
+So then I'm just plotting the x grid by Y.
+
+38:02.350 --> 38:03.670
+And that's how we get this.
+
+38:03.990 --> 38:07.790
+Now, how do you know how wide this Gaussian should be?
+
+38:07.990 --> 38:10.430
+That is this bandwidth parameter here.
+
+38:10.550 --> 38:11.430
+So I can set it.
+
+38:11.430 --> 38:13.230
+Let's set it to like 0.02.
+
+38:13.550 --> 38:17.390
+That's a bit extreme but it is illustrative.
+
+38:17.950 --> 38:19.990
+So you can see the Gaussians are tighter.
+
+38:19.990 --> 38:25.750
+They're also taller because yeah we are preserving density here.
+
+38:26.030 --> 38:31.910
+And you can also see here the three individual peaks corresponding to the sum of the three Gaussians
+
+38:31.910 --> 38:32.350
+here.
+
+38:32.750 --> 38:33.030
+Okay.
+
+38:33.070 --> 38:34.550
+So that's a little bit too much.
+
+38:34.550 --> 38:36.470
+Maybe we can set this to 0.8.
+
+38:36.630 --> 38:38.270
+Then you can see what this looks like.
+
+38:38.430 --> 38:39.790
+That's probably too much.
+
+38:39.790 --> 38:45.430
+You can just go completely bonkers and set this to 1.8 totally uninformative.
+
+38:45.470 --> 38:47.630
+This is a ridiculously large value.
+
+38:48.230 --> 38:55.990
+That said, so when you have a small amount of data, like in this toy example, it's probably yeah,
+
+38:56.030 --> 39:02.000
+you will need to either play around and explore different parameters or define this parameter based
+
+39:02.000 --> 39:05.320
+on some a priori theoretical consideration.
+
+39:06.480 --> 39:12.400
+That said, if you do not have a tiny amount of data, if you have a lot of data.
+
+39:12.440 --> 39:16.680
+A sufficient amount of data, it's often best just to leave this parameter to.
+
+39:16.720 --> 39:18.400
+Be at its default value.
+
+39:18.600 --> 39:22.640
+You can see for this that's actually a little bit too much smoothing.
+
+39:22.760 --> 39:25.880
+So that's why I set this to be 0.2.
+
+39:26.240 --> 39:29.960
+And yeah I just set that because I think this looks nice for the plot.
+
+39:30.640 --> 39:31.000
+Okay.
+
+39:31.040 --> 39:33.160
+So that was the toy demo.
+
+39:33.160 --> 39:34.880
+Now we're going to do this for reals.
+
+39:35.040 --> 39:37.760
+So now I'm defining softmax x.
+
+39:38.200 --> 39:45.840
+This is a high resolution grid to estimate the distribution of all of the individual softmax attention
+
+39:45.840 --> 39:49.760
+data values goes from 0 to 1 in 300 steps.
+
+39:49.760 --> 39:56.200
+So basically I'm taking this y axis here and cutting this up into 300 bins.
+
+39:56.560 --> 40:02.330
+And then we will count the number of these data points that goes into each individual bin.
+
+40:02.810 --> 40:05.050
+And then we will convolve those counts.
+
+40:05.050 --> 40:08.090
+That bar plot with a histogram.
+
+40:08.450 --> 40:09.650
+And uh, yeah.
+
+40:09.650 --> 40:13.970
+So all of this code is the same as the code to create this plot.
+
+40:14.970 --> 40:18.970
+Now here I'm actually going to run this twice.
+
+40:18.970 --> 40:27.250
+So I create this for the final to final token to the previous tokens and also for the self-attention.
+
+40:27.490 --> 40:34.330
+Now because the sample size is differ here, uh, the, the density estimates are going to have different
+
+40:34.330 --> 40:36.170
+y axis values.
+
+40:36.170 --> 40:38.770
+So that's why I'm dividing it by the max.
+
+40:38.930 --> 40:40.770
+That's just a normalization.
+
+40:40.770 --> 40:43.530
+So that the maximum value is one.
+
+40:43.530 --> 40:46.050
+And you can see that uh here.
+
+40:46.690 --> 40:51.530
+So if I don't set the y axis limit you can see this is what the distribution looks like.
+
+40:51.570 --> 40:57.250
+Again these are smoothed estimates of this distribution here.
+
+40:57.250 --> 41:01.620
+So all of these distributions and this distribution for the self-attention.
+
+41:02.100 --> 41:02.500
+Okay.
+
+41:02.780 --> 41:05.460
+But these values are so large.
+
+41:05.460 --> 41:11.900
+And these values are so small that I thought it would be nice just to cut off the y axis here, just
+
+41:11.900 --> 41:15.780
+so we can see a little bit of the subtleties down here.
+
+41:16.060 --> 41:21.100
+In the next video we're going to be calculating these lines for all of the layers.
+
+41:21.100 --> 41:24.460
+Remember this is just one layer one transformer block.
+
+41:24.460 --> 41:26.580
+So we'll get these lines for all the layers.
+
+41:26.580 --> 41:32.100
+And we'll do some different visualizations where we won't actually need to do this kind of, uh, this
+
+41:32.100 --> 41:34.380
+business of cutting off the plot early.
+
+41:35.420 --> 41:35.860
+Okay.
+
+41:35.900 --> 41:42.420
+I realized that this was a long video, but I hope you feel that it was worth your attention and your
+
+41:42.420 --> 41:44.220
+time in general.
+
+41:44.260 --> 41:51.580
+The raw attention scores are going to be shifted to negative, because when the model is processing
+
+41:51.580 --> 41:56.550
+a given token and trying to determine what the next token should be.
+
+41:56.910 --> 42:04.110
+You really want it to suppress most of the tokens, and that's because most of the individual tokens
+
+42:04.110 --> 42:07.830
+should not be weighted so strongly they're not that relevant.
+
+42:08.230 --> 42:15.030
+Of course, there are exceptions like pronouns need to tag a particular noun so the model knows what
+
+42:15.030 --> 42:16.510
+word it refers to.
+
+42:17.110 --> 42:18.590
+Same thing for adjectives.
+
+42:18.590 --> 42:24.390
+Those need to have a very strong weight to one particular other word or other token.
+
+42:25.350 --> 42:32.670
+In general, there are lots of exquisitely detailed analyses that you can start to run once you are
+
+42:32.670 --> 42:38.190
+comfortable with isolating the different heads and working with the attention algorithm.
+
+42:39.190 --> 42:45.390
+The code challenge in the next video will continue along these lines, not getting into really granular
+
+42:45.390 --> 42:52.790
+amount of detail, but expanding what you learned here to visualizing the attention distributions over
+
+42:52.790 --> 42:54.230
+different layers.

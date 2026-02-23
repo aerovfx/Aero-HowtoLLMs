@@ -1,0 +1,718 @@
+WEBVTT
+
+00:02.120 --> 00:07.680
+Welcome to this section on adjusting the attention activations.
+
+00:08.080 --> 00:15.680
+Remember that the attention block comprises individual heads, like a few dozen heads, and their goal
+
+00:15.680 --> 00:23.440
+is to incorporate the context of the preceding tokens into the currently processed tokens, so that
+
+00:23.440 --> 00:31.040
+the token embeddings vector can be tugged in a way that facilitates an appropriate and relevant prediction
+
+00:31.160 --> 00:32.920
+about the next token.
+
+00:33.640 --> 00:40.440
+For that reason, experiments involving causal interventions with attention heads are generally focused
+
+00:40.440 --> 00:48.720
+on understanding how those interventions impact the ways that the model incorporates context into token
+
+00:48.720 --> 00:52.440
+embeddings, vectors, and ultimately next token predictions.
+
+00:53.480 --> 01:00.280
+For example, in this, in the following videos you will learn how to isolate and manipulate individual
+
+01:00.320 --> 01:02.520
+heads in a transformer block.
+
+01:03.160 --> 01:11.160
+We will replace each head at a time with either zeros or the average of the within head activations.
+
+01:11.720 --> 01:19.000
+And to access each individual head, I will show you a different hook implanting function so that we
+
+01:19.000 --> 01:27.560
+can get the individual attention heads before they are mixed together by the zero linear mixing matrix.
+
+01:27.800 --> 01:31.560
+And then we will measure the impact in a few different ways.
+
+01:32.120 --> 01:38.840
+So this video here is a code demo in which I will set up the basic design of the experiment.
+
+01:39.120 --> 01:46.040
+And then the next video will be a code challenge, where you will expand on this code and do more detailed
+
+01:46.040 --> 01:47.280
+investigations.
+
+01:47.840 --> 01:52.080
+Anyway, I will start with an overview of the demo and then I'll switch to code.
+
+01:52.320 --> 01:56.400
+I will work with GPT two small in this demo.
+
+01:56.440 --> 02:01.680
+I do not actually want to change the individual q or k vectors.
+
+02:01.960 --> 02:08.360
+Instead, I want to change the attention heads after their adjustments have been calculated.
+
+02:08.840 --> 02:12.760
+Therefore, I'm going to hook into this C proj layer.
+
+02:13.360 --> 02:20.600
+Now the problem with hooking into this layer is that this is the projection from the attention algorithm,
+
+02:20.600 --> 02:28.440
+which means that all of the 12 attention heads have been linearly mixed at the output of c proj.
+
+02:28.920 --> 02:31.000
+Remember that you have 12 heads.
+
+02:31.080 --> 02:37.400
+They all do their own thing on their own, and then they get concatenated and then multiplied by the
+
+02:37.440 --> 02:39.400
+w0 mixing matrix.
+
+02:39.920 --> 02:48.080
+So what we want to do here is access the concatenated attention heads before they get linearly mixed.
+
+02:48.400 --> 02:52.600
+So we do not want to hook into the output of this layer here.
+
+02:53.040 --> 03:01.390
+Instead we want to intercept the input and change the values of the input into C proj before it gets
+
+03:01.390 --> 03:05.870
+linearly mixed through multiplication with the w0 matrix.
+
+03:06.510 --> 03:11.310
+And to do that, I'm going to use a slightly different register function.
+
+03:11.630 --> 03:14.550
+This one is called a forward pre-hook.
+
+03:14.590 --> 03:15.830
+You can see that here.
+
+03:16.270 --> 03:21.070
+So far we've just been using forward hooks and now I have forward pre-hook.
+
+03:21.430 --> 03:29.310
+And so inside this function, which by the way only has an input input and no output as an input, I
+
+03:29.310 --> 03:35.750
+can access the input to this layer and then pass on the input into the rest of the layer.
+
+03:36.150 --> 03:40.190
+So yeah, this is the input into the C proj layer.
+
+03:40.590 --> 03:46.790
+And what I've returned from this function is the input that gets processed in this same layer.
+
+03:47.230 --> 03:55.030
+So inside this function I reshape the matrix so that I have an extra dimension for heads.
+
+03:55.310 --> 04:00.870
+And then from that tensor, I pick out one of those heads to replace with zeros.
+
+04:01.390 --> 04:06.190
+So this is all of the tokens, all the sequences in the batch, all the tokens.
+
+04:06.350 --> 04:08.190
+Just one head over here.
+
+04:08.190 --> 04:13.030
+And then this final dimension here corresponds to the dimensionality of the heads.
+
+04:13.270 --> 04:17.510
+That's not the same as the dimensionality of the embeddings vectors.
+
+04:18.310 --> 04:20.190
+So that was this dimension.
+
+04:20.190 --> 04:23.910
+Here is 64 for GPT two small.
+
+04:24.350 --> 04:26.190
+And then I reshape it back.
+
+04:26.390 --> 04:33.630
+And then here I send it back out to be processed with the rest of the C proj layer, which basically
+
+04:33.630 --> 04:37.750
+just means multiplying by the w0 mixing matrix.
+
+04:38.270 --> 04:43.590
+Now if this were happening during training, there would also be dropout applied.
+
+04:43.590 --> 04:48.790
+But of course that doesn't happen here because we've switched the model into eval mode.
+
+04:49.270 --> 04:55.510
+Now the last thing that's happening inside this hook function is that I have this if statement in here
+
+04:55.950 --> 05:01.550
+where I will only actually do any of this stuff here if the variable had to.
+
+05:01.590 --> 05:07.190
+Ablate is an integer between one and the number of heads minus one.
+
+05:07.630 --> 05:14.150
+And the reason why I do this is so that I can set this variable here to be, for example, 1000.
+
+05:14.630 --> 05:17.790
+And then this function is still hooked into the model.
+
+05:17.790 --> 05:24.030
+It still gets called, but it doesn't do anything other than take up like a nanosecond of computation
+
+05:24.030 --> 05:27.110
+time to determine that this statement is false.
+
+05:28.270 --> 05:33.550
+Okay, so that's the hook function to test the impact of zeroing out a head.
+
+05:33.590 --> 05:38.830
+I'm going to use some text that is often used for these kinds of investigations.
+
+05:39.470 --> 05:46.430
+The idea is to present a sentence that is missing a final word, which can only be accurately guessed
+
+05:46.430 --> 05:49.550
+with context, and also with world knowledge.
+
+05:50.030 --> 05:53.470
+So here is the sentence Berlin is the capital of.
+
+05:54.150 --> 05:57.670
+That's the end of the text that I tokenized and gave to the model.
+
+05:58.030 --> 06:00.910
+So what is the most appropriate following token?
+
+06:01.270 --> 06:03.830
+Of course you know the answer is Germany.
+
+06:04.390 --> 06:12.550
+So now the idea is I feed those tokens into the model and get the logit outputs for the final token
+
+06:12.590 --> 06:17.870
+of the model, and check the logit outputs for the word Germany.
+
+06:18.430 --> 06:25.030
+And then we can compare those logits after manipulating the heads after zeroing out some of the heads.
+
+06:25.470 --> 06:29.670
+And as a reference, we can also look at the activation for the token France.
+
+06:30.150 --> 06:37.230
+That is an interesting comparison token because it is semantically related to the word Germany, but
+
+06:37.230 --> 06:40.110
+it is incorrect in this sentence.
+
+06:41.350 --> 06:47.310
+So before running any manipulations, any zeroing out of attention heads, I just ran through the forward
+
+06:47.310 --> 06:51.710
+pass on a clean version of the model, so not manipulating anything.
+
+06:52.150 --> 06:57.430
+Here you see the log softmax outputs of the model of the final token.
+
+06:57.950 --> 06:58.190
+The.
+
+06:58.470 --> 07:04.550
+The largest softmax value was for the token Germany, which is the correct answer.
+
+07:04.830 --> 07:10.470
+And the token for France was actually pretty high up on the log softmax scale.
+
+07:10.470 --> 07:16.670
+So that's pretty interesting, because it means that this semantically related word was still pretty
+
+07:16.710 --> 07:20.590
+strongly activated, even though it is the incorrect answer here.
+
+07:21.110 --> 07:26.110
+Okay, so this green square up here, this is our reference value.
+
+07:26.790 --> 07:35.110
+Then I'm going to do a forward pass with exactly the same tokens and extract exactly the same value.
+
+07:35.150 --> 07:41.110
+12 times once zeroing out each attention head from layer five.
+
+07:41.110 --> 07:44.710
+So I'm just manipulating layer five transformer block five here.
+
+07:45.230 --> 07:46.630
+And that's what you see here.
+
+07:46.630 --> 07:49.340
+So the x axis shows the attention.
+
+07:49.340 --> 07:56.620
+Heads from one layer and the y axis shows the difference in the logsoftmax for each of these runs,
+
+07:56.620 --> 08:01.500
+compared to the clean reference value, without any manipulations.
+
+08:01.740 --> 08:07.220
+So some were larger, some were smaller, but the aggregate is a suppression.
+
+08:07.580 --> 08:15.700
+And this means that the model actually produced a lower logsoftmax for the word Germany, after I ablated
+
+08:15.700 --> 08:17.940
+the attention heads in this one layer.
+
+08:18.580 --> 08:26.780
+Also interesting to note that the logits for uh, for the word France seemed to increase relative to
+
+08:26.860 --> 08:28.020
+its clean version.
+
+08:28.420 --> 08:34.820
+Now, this is an interesting set of observations from exactly one sample and one layer, so we shouldn't
+
+08:34.820 --> 08:36.660
+overinterpret this pattern.
+
+08:37.020 --> 08:42.900
+However, it is interesting to see that the correct answer went down, while the incorrect answer,
+
+08:42.900 --> 08:45.340
+but semantically related actually went up.
+
+08:45.900 --> 08:52.660
+So it kind of seems like we've added some noise that just impaired the model's ability to correctly
+
+08:52.660 --> 08:58.460
+use context from previous tokens to generate an appropriate subsequent token.
+
+08:59.620 --> 09:07.740
+That said, the logit output for the word Berlin was still the maximum for each of 12 of these iterations
+
+09:07.740 --> 09:08.820
+in the experiment.
+
+09:09.060 --> 09:16.340
+So the model was still categorically correct, even though the manipulation did have a noticeable impact.
+
+09:17.260 --> 09:22.740
+Well, I have more things to say about this code and this experiment, and I'll do that when I walk
+
+09:22.740 --> 09:24.620
+you through the actual code file.
+
+09:25.900 --> 09:33.580
+Import some libraries, import the model, switch it to eval mode as I always do here I'm just defining
+
+09:33.580 --> 09:35.580
+some useful variables.
+
+09:35.700 --> 09:42.380
+So the number of heads, the number of embeddings dimensions and the dimensionality of the individual
+
+09:42.380 --> 09:42.900
+heads.
+
+09:43.060 --> 09:50.220
+So remember that the dimensionality of the heads corresponds to the token embeddings dimension divided
+
+09:50.220 --> 09:52.500
+by the number of heads.
+
+09:52.500 --> 10:02.460
+So we know that in GPT two small, the embeddings dimensionality is 768 and the number of heads is 12.
+
+10:02.460 --> 10:07.140
+And so this ratio here gives us exactly the number 64.
+
+10:07.780 --> 10:08.020
+Okay.
+
+10:08.060 --> 10:08.460
+Very good.
+
+10:08.500 --> 10:12.220
+So here is the hook function that I showed in the slides.
+
+10:12.220 --> 10:13.580
+But I will walk through it again.
+
+10:13.940 --> 10:19.100
+So the idea is that we will implant this into the C proj layer.
+
+10:19.460 --> 10:21.540
+And again the C proj layer.
+
+10:21.540 --> 10:22.780
+You see that here.
+
+10:22.780 --> 10:27.020
+So h for hidden the each of the transformer blocks.
+
+10:27.140 --> 10:29.020
+Here is the attention sub block.
+
+10:29.180 --> 10:34.540
+And we have c attention where the q and k and v vectors are calculated.
+
+10:34.900 --> 10:43.660
+And then we have c proj and the input into c proj is the output of the softmax attention algorithm with
+
+10:43.660 --> 10:46.980
+the mask and the QQ transpose and all that good stuff.
+
+10:47.260 --> 10:49.020
+That's the input into C proj.
+
+10:49.220 --> 10:57.220
+And then this layer takes that input, which is all of the the 12 attention heads concatenated next
+
+10:57.220 --> 11:04.860
+to each other and then multiplies that pulse multiplies by w0 which mixes all the information from all
+
+11:04.860 --> 11:05.860
+the heads together.
+
+11:06.180 --> 11:13.060
+So that means that coming into C proj, we can separate the matrix into the separate heads.
+
+11:13.300 --> 11:20.540
+But coming out of C proj, we can no longer isolate the individual heads, because the individual heads
+
+11:20.540 --> 11:23.620
+no longer exist at the output of C proj.
+
+11:23.620 --> 11:25.300
+They've all been mixed together.
+
+11:26.340 --> 11:31.060
+Okay, so and that means we do not want to hook the output of C proj.
+
+11:31.060 --> 11:34.460
+We want to hook the input into C proj.
+
+11:34.780 --> 11:37.260
+And that is what I do here.
+
+11:37.260 --> 11:39.300
+So register forward.
+
+11:39.340 --> 11:44.290
+Again this is the code function that you have seen a bajillion times so far.
+
+11:44.650 --> 11:47.450
+And what's new here is this pre-hook.
+
+11:47.490 --> 11:54.490
+This means that instead of being able to return the output and replace the output, instead, we grab
+
+11:54.490 --> 11:57.490
+the input and we replace the input.
+
+11:58.050 --> 11:59.130
+Okay, so.
+
+11:59.170 --> 12:03.690
+And what do we do when we get inside of this C proj layer.
+
+12:04.050 --> 12:07.130
+So I take the input into the C proj layer.
+
+12:07.410 --> 12:13.450
+I reshape it to the number of batches or actually the number of sequences in a batch, the number of
+
+12:13.490 --> 12:18.530
+tokens in the sequence, the number of heads and the head dimensionality.
+
+12:18.690 --> 12:20.730
+And remember the product of these two.
+
+12:20.770 --> 12:22.250
+You don't even need to believe me.
+
+12:22.290 --> 12:23.090
+We can just.
+
+12:23.490 --> 12:23.890
+Let's see.
+
+12:23.930 --> 12:29.010
+Here it is 12 and 64 and we multiply them together to get the embeddings dimensionality.
+
+12:29.650 --> 12:36.010
+So this gives us a matrix where we can easily index individual heads.
+
+12:36.210 --> 12:38.610
+Technically you do not need to reshape.
+
+12:38.650 --> 12:44.130
+You can also do indexing just by adding, you know, a multiple of the number of heads.
+
+12:44.130 --> 12:45.490
+But I think this is easier.
+
+12:46.010 --> 12:46.330
+Okay.
+
+12:46.370 --> 12:51.210
+So now I have this variable here and I'm going to replace with zeros just one head.
+
+12:51.610 --> 12:59.930
+All of the sequences in the batch, all of the tokens uh, just one head and all of the head dimensions.
+
+13:00.050 --> 13:07.130
+Now uh, in this video I'm only going to replace all of the tokens in the code challenge.
+
+13:07.130 --> 13:14.170
+In the next video, you're also going to explore what happens when you just modify only a single token,
+
+13:14.210 --> 13:15.450
+the very last token.
+
+13:15.450 --> 13:18.010
+But we're not going to do that now okay.
+
+13:18.050 --> 13:24.050
+And then yeah just printing out some useful information, reshaping it back and then, uh, providing
+
+13:24.050 --> 13:32.930
+this back as an output of the hook function, which means this is the new overwritten input into C,
+
+13:33.970 --> 13:34.290
+okay.
+
+13:34.330 --> 13:36.650
+And then again I have this if statement here.
+
+13:36.650 --> 13:41.210
+And that's so that if I do not want to manipulate any of the heads.
+
+13:41.210 --> 13:46.170
+I can set this value to be a billion and this statement will be false.
+
+13:46.170 --> 13:47.730
+And then none of this code will run.
+
+13:48.050 --> 13:48.530
+All right.
+
+13:48.570 --> 13:49.810
+I hope that all makes sense.
+
+13:50.050 --> 13:51.890
+Here is the sentence.
+
+13:51.890 --> 13:55.130
+So Berlin is the capital of blank.
+
+13:55.170 --> 13:58.650
+We want to see what the model is going to choose.
+
+13:59.090 --> 13:59.370
+Okay.
+
+13:59.410 --> 14:05.650
+So then this is just confirming that these are single token words, which is just going to make it easier
+
+14:05.650 --> 14:08.250
+for us to analyze the data.
+
+14:08.290 --> 14:12.810
+Also, don't forget that there is this space in front of these words.
+
+14:12.810 --> 14:14.730
+I'm actually going to get back to that later.
+
+14:14.970 --> 14:15.290
+Okay.
+
+14:15.330 --> 14:16.530
+So now, uh, yeah.
+
+14:16.570 --> 14:20.010
+Here I'm setting the head to ablate to be some ludicrously high number.
+
+14:20.250 --> 14:22.890
+The reason why I'm doing that is this run here.
+
+14:22.890 --> 14:27.970
+I want to see what a clean model produces without any manipulations.
+
+14:28.290 --> 14:28.570
+Okay.
+
+14:28.610 --> 14:32.530
+You could also run this through before defining the hook.
+
+14:32.650 --> 14:34.170
+So that's also a possibility.
+
+14:34.730 --> 14:35.010
+Okay.
+
+14:35.010 --> 14:35.170
+Yeah.
+
+14:35.210 --> 14:36.330
+This is what I showed before.
+
+14:36.330 --> 14:39.730
+Basically this tells us that the model really does believe.
+
+14:39.770 --> 14:44.690
+The model understands that Germany is the Berlin is the capital of Germany.
+
+14:44.810 --> 14:51.050
+And so the next token after the word of should be the token for Germany.
+
+14:52.250 --> 14:52.890
+Okay, great.
+
+14:52.890 --> 14:54.850
+So now we are going to do the experiment.
+
+14:54.850 --> 14:59.330
+I'm looping over all of the heads, doing a forward pass.
+
+14:59.330 --> 15:07.130
+And at each iteration of this forward pass, this is the variable that will change in the global workspace.
+
+15:07.130 --> 15:11.730
+And so therefore it also changes inside the function okay.
+
+15:11.890 --> 15:13.610
+And then yeah Logsoftmax.
+
+15:13.610 --> 15:16.570
+And this is exactly the same code as above.
+
+15:16.610 --> 15:20.050
+So I'm just getting the uh target for space Germany.
+
+15:20.210 --> 15:23.290
+This is the logsoftmax value for space France.
+
+15:23.570 --> 15:27.690
+And then here I'm taking the largest, uh index.
+
+15:27.690 --> 15:33.090
+So this is going to tell me which token the model actually predicted would be next.
+
+15:33.410 --> 15:39.370
+And here, you see, is this little friendly message that I've printed out doubt inside the hook function.
+
+15:39.530 --> 15:42.970
+That's just a confirmation that it's really doing what I want it to do.
+
+15:43.450 --> 15:46.810
+This is not the sort of print statement that you would leave in.
+
+15:46.850 --> 15:52.970
+Normally, when you're doing research and running this over like hundreds or thousands of different
+
+15:53.010 --> 15:54.290
+versions of the text.
+
+15:54.690 --> 16:00.610
+Anyway, so here we can create this plot that you saw in the slides.
+
+16:01.010 --> 16:04.690
+Again, the idea is that by manipulating one head.
+
+16:04.690 --> 16:11.290
+So we zeroed out one individual head and now the logsoftmax goes down.
+
+16:11.290 --> 16:16.730
+This is not a huge decrease, but it is consistent across the different heads.
+
+16:16.730 --> 16:17.810
+Mostly consistent.
+
+16:18.130 --> 16:19.450
+So that's pretty interesting.
+
+16:19.450 --> 16:23.770
+And yeah you also see this increase for the non-target words.
+
+16:24.050 --> 16:31.450
+Shouldn't really overinterpret all of this from one analysis with one sentence, but it does suggest
+
+16:31.450 --> 16:36.080
+that, you know, there's kind of shift in the balance that other words are getting relatively more
+
+16:36.080 --> 16:40.080
+active and the target word is getting relatively less active.
+
+16:40.560 --> 16:48.320
+Okay, so all of that said, we can see that the predicted token will still Germany all the way through,
+
+16:48.520 --> 16:50.960
+even though we do get this change.
+
+16:50.960 --> 16:57.800
+So Germany is still the top token for this sentence, even though we did make these minor modifications
+
+16:57.800 --> 17:01.400
+to the attention heads in this one layer.
+
+17:02.480 --> 17:09.520
+Something I'd like to stress here is that the categorical output of a language model, that is the token
+
+17:09.520 --> 17:16.040
+that it actually generates, that is the most relevant outcome for AI safety.
+
+17:16.760 --> 17:24.200
+That is to say, if you are really interested in helping, make sure that AI is safe and fair and minimally
+
+17:24.200 --> 17:31.200
+biased, then a bunch of weird, complicated analyses on the internal activation dynamics might seem
+
+17:31.200 --> 17:33.280
+like they don't really matter that much.
+
+17:33.400 --> 17:37.680
+Which you really care about is the model's actual token outputs.
+
+17:38.400 --> 17:45.600
+That said, only looking at categorical accuracy might be too coarse of a dependent variable.
+
+17:45.960 --> 17:52.760
+More sensitive and continuous numerical measurements might be more insightful, especially considering
+
+17:52.760 --> 18:00.760
+that very small shifts in the model can have a big impact at a large scale, even if they are not necessarily
+
+18:00.760 --> 18:04.440
+easily observable in single token generation.
+
+18:05.400 --> 18:10.640
+The last thing I'll say here is about the discussion of what value to impute.
+
+18:11.040 --> 18:16.560
+If you are replacing the values naturally calculated by the model with some other values.
+
+18:16.920 --> 18:18.720
+What do you actually replace them with?
+
+18:18.840 --> 18:22.680
+Zeros or the mean of the activations or the median?
+
+18:23.240 --> 18:25.480
+That's really not an easy question to answer.
+
+18:25.480 --> 18:31.640
+And that's actually one of the investigations that you will do in the code challenge in the next video.

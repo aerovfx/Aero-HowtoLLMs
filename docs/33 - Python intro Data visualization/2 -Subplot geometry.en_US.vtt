@@ -1,0 +1,451 @@
+WEBVTT
+
+00:01.920 --> 00:07.160
+Now I'm going to introduce you to subplots sub plots.
+
+00:07.160 --> 00:14.560
+The idea of a subplot is to have multiple panels that are next to each other and on top of each other.
+
+00:14.680 --> 00:22.080
+And basically, it's a way to show more information from more variables in the same space, in the same
+
+00:22.080 --> 00:22.760
+figure.
+
+00:23.080 --> 00:28.360
+Okay, so I'll start by writing some code that might look a little strange at first, but you will get
+
+00:28.360 --> 00:29.760
+used to it pretty quickly.
+
+00:29.880 --> 00:32.400
+So Plt.subplots.
+
+00:32.680 --> 00:38.280
+And now I'm going to write one comma three comma fig size equal.
+
+00:38.320 --> 00:40.360
+Actually let me leave out fig size for now.
+
+00:40.600 --> 00:40.880
+Okay.
+
+00:40.920 --> 00:42.880
+So what are these variables that I'm creating.
+
+00:43.520 --> 00:47.840
+So fig is a reference to this entire figure.
+
+00:48.160 --> 00:54.040
+And then inside this figure are three axes that are arranged in a row.
+
+00:54.280 --> 00:57.880
+So here you see axis one, axis two and axis three.
+
+00:58.920 --> 01:00.620
+And why are there three in a row.
+
+01:00.660 --> 01:07.460
+Well, because I specified the inputs to be a single row and three columns.
+
+01:07.620 --> 01:12.980
+So let's say we want six subplots organized in a two by three matrix.
+
+01:12.980 --> 01:14.420
+That would be something like this.
+
+01:14.780 --> 01:20.060
+And yeah, there's there's no limit to how you can how many of these axes you can make.
+
+01:20.300 --> 01:25.700
+But that said, if you have lots and lots of axes, then basically the figure gets harder and harder
+
+01:25.700 --> 01:26.580
+to interpret.
+
+01:26.700 --> 01:29.380
+So let's leave it at one by three.
+
+01:29.740 --> 01:37.380
+And now this additional input parameter that I started to write and then delete was basically controlling
+
+01:37.380 --> 01:38.340
+the figure size.
+
+01:38.340 --> 01:39.380
+So I will write that now.
+
+01:39.380 --> 01:43.260
+So fig size equals 12 by four.
+
+01:43.580 --> 01:51.180
+Now when I run this line of code I want you to notice what happens to the physical size of this figure
+
+01:51.220 --> 01:51.740
+here.
+
+01:52.540 --> 01:52.700
+Okay.
+
+01:52.740 --> 01:54.260
+So now I run the code again.
+
+01:54.260 --> 01:57.500
+And now you see the figure is much wider.
+
+01:57.540 --> 01:57.780
+Okay.
+
+01:57.820 --> 02:01.010
+And now I can set this to be 12 comma two.
+
+02:01.370 --> 02:05.530
+And now it's exactly the same width, but it's shorter.
+
+02:05.690 --> 02:09.570
+And now I can change this to maybe five by two.
+
+02:09.890 --> 02:13.770
+And now it's the same height but it's much shorter in this direction.
+
+02:14.290 --> 02:18.730
+Okay so fig size is always specified as width comma height.
+
+02:19.090 --> 02:22.490
+And then yeah exactly how big you want these to be.
+
+02:22.530 --> 02:24.050
+And the ratio between them.
+
+02:24.170 --> 02:30.810
+That really depends on the graph on your computer on you know how much you're zooming in here and so
+
+02:30.810 --> 02:31.210
+on.
+
+02:31.330 --> 02:36.690
+So you will find that in practice you end up changing around these numbers quite a bit.
+
+02:36.930 --> 02:37.210
+Okay.
+
+02:37.210 --> 02:40.850
+Let's stick with 12 and four okay.
+
+02:40.890 --> 02:44.210
+So this variable axes let's have a look at this thing.
+
+02:44.330 --> 02:45.010
+Axes.
+
+02:45.210 --> 02:47.130
+This you can see it's an array.
+
+02:47.130 --> 02:48.850
+So it's a numpy array.
+
+02:49.250 --> 02:51.610
+And it contains three elements.
+
+02:51.610 --> 02:55.570
+This is axis one, axis two and axis three.
+
+02:55.810 --> 02:59.010
+Actually I should be calling the zero one and two okay.
+
+02:59.050 --> 03:08.070
+So the idea is that if we want to draw information into this axis over here, this subplot, then instead
+
+03:08.070 --> 03:17.870
+of writing plt dot plot, we write axis indexing the first element in this variable axis and and then
+
+03:17.910 --> 03:20.310
+yeah, then we do that dot plot okay.
+
+03:20.350 --> 03:24.070
+So for example let's do x by x squared.
+
+03:24.110 --> 03:27.590
+Let's make this a blue line okay.
+
+03:27.630 --> 03:33.470
+So now you see I drew x by x squared and it went into the first axis.
+
+03:33.510 --> 03:36.630
+And now I can draw it into the second axis and so on.
+
+03:37.310 --> 03:39.990
+So that is x squared.
+
+03:39.990 --> 03:42.110
+And now in the next.
+
+03:42.150 --> 03:45.030
+So the middle subplot let's let's plot the.
+
+03:45.310 --> 03:47.110
+How about the square root of x.
+
+03:47.110 --> 03:48.990
+Let's make that red.
+
+03:49.270 --> 03:51.830
+And here let's plot.
+
+03:51.950 --> 03:55.270
+Uh how about just x by x okay.
+
+03:55.310 --> 03:55.990
+Very nice.
+
+03:55.990 --> 03:56.470
+Let's see.
+
+03:56.470 --> 03:59.060
+Let's do another example here I will.
+
+03:59.060 --> 04:02.020
+Right now I don't actually need this variable fig.
+
+04:02.020 --> 04:04.620
+So I'm going to just write an underscore here.
+
+04:04.620 --> 04:10.740
+This is pretty common in Python when you have a variable that outputs from a function, but you don't
+
+04:10.740 --> 04:13.500
+care about that variable, you don't plan on using it.
+
+04:13.500 --> 04:19.580
+So you just use an underscore as a placeholder for the variables so that you just, you know, you kind
+
+04:19.580 --> 04:23.540
+of it's technically there, but you sweep it out of your memory.
+
+04:23.900 --> 04:24.220
+Okay.
+
+04:24.260 --> 04:30.340
+So plt.subplots, let's make a two by two, uh, axis, uh, or geometry.
+
+04:30.540 --> 04:34.300
+And I'm going to set the figure size to be how about three by three.
+
+04:35.620 --> 04:38.740
+And then I'll draw plt.show all the way at the bottom.
+
+04:38.740 --> 04:47.020
+Now if I just run this code here, you can already see that the default axis labels are overlapping.
+
+04:47.180 --> 04:47.420
+Right.
+
+04:47.460 --> 04:51.540
+So the 0.5 and one are overlapping.
+
+04:51.580 --> 04:56.220
+You know these are actually the x tick marks from this plot over here.
+
+04:56.340 --> 05:00.720
+But they get kind of smushed and smeared on top of this other axis.
+
+05:00.720 --> 05:03.120
+So we're going to have to figure out a way to deal with that.
+
+05:03.480 --> 05:10.520
+Now here I showed you just indexing the axis variable that I created because it's an array.
+
+05:10.520 --> 05:13.000
+So we only needed one number to access it.
+
+05:13.240 --> 05:19.480
+But here we can see that this is actually a two by two matrix.
+
+05:19.480 --> 05:22.160
+So here we have a matrix of subplots.
+
+05:22.200 --> 05:26.560
+So this variable axis is a two by two matrix.
+
+05:26.560 --> 05:28.880
+So how do we index this.
+
+05:28.880 --> 05:34.520
+So we need to use two numbers to index each one of these axes okay.
+
+05:34.720 --> 05:39.040
+And so now we can draw into the zero zero.
+
+05:39.040 --> 05:44.440
+So this is the first row and the first column which is this axis over here.
+
+05:45.560 --> 05:47.440
+And now dot plot.
+
+05:47.680 --> 05:48.680
+What should we plot here.
+
+05:48.720 --> 05:51.400
+How about just some random numbers.
+
+05:51.400 --> 05:54.960
+I'm just going to draw 4x4 random numbers okay.
+
+05:55.120 --> 06:02.540
+So here you see four lines correspond and of length for each, and that just corresponds to for random
+
+06:02.540 --> 06:02.980
+numbers.
+
+06:02.980 --> 06:07.140
+So each time I rerun this code those lines will look different from each other.
+
+06:07.580 --> 06:14.180
+Okay, so then I'm literally going to copy and paste this four times, or paste it three times, and
+
+06:14.180 --> 06:17.340
+then change that to one, these to one, this to one.
+
+06:17.340 --> 06:20.860
+So now I'm just drawing literally random numbers into each plot.
+
+06:21.420 --> 06:21.740
+Okay.
+
+06:21.740 --> 06:28.660
+What I want to show you here is first of all, indexing multi-dimensional axes, but also how to get
+
+06:28.700 --> 06:30.780
+rid of the, you know, the overlap here.
+
+06:30.780 --> 06:34.980
+So I'm going to add another function called tight layout.
+
+06:35.340 --> 06:36.060
+Tight layout.
+
+06:36.060 --> 06:44.180
+And what that does is tighten up all of the displays of the figures and the axes so that they are not
+
+06:44.180 --> 06:46.180
+overlapping with each other.
+
+06:46.180 --> 06:52.260
+So basically, every single time you have more than one axis in a plot, you're going to want to use
+
+06:52.260 --> 06:53.980
+this function tight layout.
+
+06:54.020 --> 06:56.900
+So just get in the habit of writing these out.
+
+06:57.650 --> 07:05.570
+You will see that as you get further in visualization, you'll be using more and more of these additional
+
+07:05.730 --> 07:11.970
+functions with optional inputs to create these figures and make them look nicer.
+
+07:12.330 --> 07:20.810
+One more concept that I want to illustrate in this video is using the enumerate function that you learned
+
+07:20.810 --> 07:29.490
+about in the previous section, to organize a or to draw information into graphs using a for loop.
+
+07:29.810 --> 07:34.130
+Okay, so let's create some axes Plt.subplots.
+
+07:34.130 --> 07:41.410
+And let's just go back to three Figsize equals how about 13.1 and three.
+
+07:41.610 --> 07:46.850
+You know, and I'll even make this pie just to show you that these numbers here corresponding to the
+
+07:46.850 --> 07:52.050
+figure sizes, they need to be numbers but they don't need to be integers okay.
+
+07:52.090 --> 07:57.350
+So 13.1 units wide and pi units high.
+
+07:57.550 --> 08:04.870
+I believe these are technically in inches based on a standard piece of paper, but don't think of these
+
+08:04.870 --> 08:08.470
+as inches because it really depends on your screen size.
+
+08:08.510 --> 08:14.670
+You know, obviously the number of inches that this spans is now very different when I zoom in to ridiculous
+
+08:14.670 --> 08:15.550
+proportions.
+
+08:16.150 --> 08:16.430
+Okay.
+
+08:16.470 --> 08:19.870
+So what I'm going to do now is write a for loop.
+
+08:19.990 --> 08:30.550
+And this is going to be exp which I'm using for exponential and then axis in enumerate axes like this.
+
+08:30.910 --> 08:36.830
+So now I'm going to be looping over all of the elements in this array.
+
+08:37.430 --> 08:42.590
+And I'm also going to create a looping index that starts at zero.
+
+08:42.590 --> 08:44.150
+And then it's going to go one two.
+
+08:44.430 --> 08:47.150
+And that goes into this variable exp.
+
+08:47.670 --> 08:50.550
+So now I can write axis dot plot.
+
+08:50.830 --> 08:54.590
+And then let's do x and x to the power of exp.
+
+08:55.070 --> 08:57.380
+And let's just start like this.
+
+08:59.140 --> 08:59.540
+Okay.
+
+08:59.580 --> 09:01.020
+So what have we done here?
+
+09:02.020 --> 09:07.980
+I have created a figure with three axes of a one by three geometry.
+
+09:08.340 --> 09:16.300
+And then in this for loop I am accessing each individual element in this variable because that's what's
+
+09:16.300 --> 09:17.580
+inside enumerate.
+
+09:17.940 --> 09:22.700
+And at each iteration in this for loop I call that variable axis.
+
+09:23.100 --> 09:27.420
+And then what I'm plotting into axis is x on the x axis.
+
+09:27.820 --> 09:34.220
+And the y axis values are x to the power of the looping index variable, which here is zero.
+
+09:34.220 --> 09:39.660
+So this is x to the power of zero, x to the power of one which is just x.
+
+09:39.660 --> 09:41.500
+And here's x to the power of two.
+
+09:41.540 --> 09:43.140
+Of course that's x squared.
+
+09:43.460 --> 09:43.940
+Okay.
+
+09:44.180 --> 09:50.740
+And then actually these figures are big enough that we don't really need to include PLT dot title layout.
+
+09:50.740 --> 09:54.820
+But it's good to get in the habit of including that piece of code anyway.

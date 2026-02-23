@@ -1,0 +1,505 @@
+WEBVTT
+
+00:01.720 --> 00:06.280
+In this video you will learn about another type of variable.
+
+00:06.320 --> 00:08.760
+This one is called a boolean.
+
+00:08.960 --> 00:13.960
+It's named after a logician and statistician named Boole.
+
+00:14.360 --> 00:17.120
+Okay, so a boolean is very, very simple.
+
+00:17.120 --> 00:22.200
+It's the basis of many fundamental circuits and logic gates.
+
+00:22.200 --> 00:29.800
+And basically a Boolean variable can only take on one of two values true or false, which is sometimes
+
+00:29.800 --> 00:32.680
+numerically coded as 1 or 0.
+
+00:33.200 --> 00:38.600
+There are reserved keywords in Python for Boolean expressions.
+
+00:38.600 --> 00:40.560
+So in particular we have true.
+
+00:40.600 --> 00:43.320
+Now notice that the font here is black.
+
+00:43.480 --> 00:47.960
+And now when I type true it turns into a blue okay.
+
+00:48.000 --> 00:49.400
+So I can run this code.
+
+00:49.440 --> 00:51.680
+And it tells me that true is true.
+
+00:51.880 --> 00:54.400
+And of course there's also another one for false.
+
+00:54.600 --> 00:55.880
+And false is false.
+
+00:56.200 --> 00:58.120
+Now notice the capitalization here.
+
+00:58.120 --> 01:00.000
+So this becomes blue.
+
+01:00.200 --> 01:04.030
+And that was a reserved keyword.
+
+01:04.030 --> 01:07.710
+If I would write out true like this, then it remains black.
+
+01:07.710 --> 01:10.990
+And if I run this, I get an error because true is not defined.
+
+01:11.310 --> 01:16.870
+And if I use all caps, then also we get an error that true is not defined.
+
+01:16.870 --> 01:23.110
+So this is not a variable that Python recognizes because we haven't defined it to be anything.
+
+01:23.550 --> 01:25.190
+So I can create a variable.
+
+01:25.190 --> 01:28.070
+I can say true equals 7.4.
+
+01:28.310 --> 01:30.950
+Now this is fine I have a variable called true.
+
+01:31.310 --> 01:35.310
+But that is different from this true.
+
+01:35.550 --> 01:43.710
+And here we also get an error because as I've mentioned this is a reserved special term in Python.
+
+01:43.710 --> 01:49.790
+So we cannot say we cannot use this as a variable name like any other variable name.
+
+01:50.190 --> 01:50.590
+Okay.
+
+01:50.630 --> 01:54.030
+So we have true and we have false.
+
+01:54.350 --> 01:55.830
+And what do we do with these.
+
+01:55.830 --> 02:00.230
+Well these can also be the result of a comparison.
+
+02:00.430 --> 02:06.260
+So if we want to know if two variables are equal to each other.
+
+02:06.260 --> 02:12.980
+Perhaps this is two outcomes of two different operations, and we want to know if the impact of these
+
+02:12.980 --> 02:14.860
+two operations was the same.
+
+02:15.140 --> 02:18.380
+We can use a double equal sign like this.
+
+02:19.180 --> 02:21.100
+So now we get the answer of true.
+
+02:21.420 --> 02:27.500
+Now notice this is very different from a single equal sign that we use to create assignments.
+
+02:27.500 --> 02:30.900
+That and that's what we were doing previously like here creating a list.
+
+02:30.900 --> 02:34.380
+And we assign this list into this variable.
+
+02:34.380 --> 02:36.020
+That is one equal sign.
+
+02:36.540 --> 02:40.580
+What we are doing here is saying using two equal signs.
+
+02:40.940 --> 02:47.260
+And here you can think of the difference as saying four equals four.
+
+02:47.260 --> 02:48.660
+So this is an assignment.
+
+02:48.660 --> 02:51.340
+This is a statement that we are making.
+
+02:51.700 --> 02:57.140
+And then with a double equal sign like this we're not making a statement.
+
+02:57.140 --> 02:58.980
+We're asking a question.
+
+02:58.980 --> 03:01.660
+So this is a question we are asking Python.
+
+03:01.900 --> 03:04.370
+Are these two things equal to each other?
+
+03:04.770 --> 03:05.130
+Well, okay.
+
+03:05.170 --> 03:08.690
+Without the question mark, that's not going to be valid Python code.
+
+03:08.930 --> 03:13.970
+But essentially here we are asking a question and the answer is yes.
+
+03:13.970 --> 03:15.090
+These two are equal.
+
+03:15.250 --> 03:21.290
+And you know you can differentiate that from uh equals uh double equals 4.1.
+
+03:21.290 --> 03:25.810
+And now we are asking the question does four equal 4.1.
+
+03:25.930 --> 03:27.570
+And the answer is false.
+
+03:27.570 --> 03:31.810
+These are not equal to each other okay.
+
+03:31.850 --> 03:33.890
+Now here is an interesting question.
+
+03:34.090 --> 03:40.610
+I would like you to guess whether the answer to this expression is going to be true or false.
+
+03:40.610 --> 03:41.850
+I haven't run the code yet.
+
+03:41.890 --> 03:43.050
+This ignore this.
+
+03:43.050 --> 03:44.970
+This is from the previous run.
+
+03:45.290 --> 03:48.890
+The question is, uh, are these two expressions equal?
+
+03:48.890 --> 03:54.650
+Now, you already know from a previous video that, uh, they have different data types.
+
+03:54.650 --> 03:57.970
+This is of type int and this is of type float.
+
+03:58.050 --> 04:03.200
+So the question is whether Python will tell us that these two are equal or unequal.
+
+04:03.560 --> 04:07.120
+And if you like to pause the video, make a guess.
+
+04:07.120 --> 04:08.440
+You can try this yourself.
+
+04:08.760 --> 04:10.680
+And now we are going to find that they are true.
+
+04:10.680 --> 04:11.720
+So what does this mean?
+
+04:12.000 --> 04:17.000
+Well, this tells us that Python actually has some flexibility built in.
+
+04:17.000 --> 04:23.240
+So although these are technically distinct from each other because they have different data types,
+
+04:23.600 --> 04:32.160
+Python actually is flexible enough to recognize that they are the same, even though the types are different.
+
+04:32.640 --> 04:33.120
+Okay.
+
+04:33.240 --> 04:37.160
+That said, you know we can try type A are the types the same?
+
+04:38.040 --> 04:41.480
+And here the answer is going to be false because this is type int.
+
+04:41.480 --> 04:43.240
+And this is type float.
+
+04:44.000 --> 04:44.440
+Okay.
+
+04:44.600 --> 04:45.880
+So let me see.
+
+04:45.920 --> 04:46.800
+Now we have.
+
+04:46.800 --> 04:48.320
+So I showed you equals.
+
+04:48.360 --> 04:50.960
+And this gives us a boolean result.
+
+04:51.000 --> 04:56.280
+We can also do comparisons using the less than and greater than signs.
+
+04:56.520 --> 05:00.400
+So here's a question is four greater than five.
+
+05:00.520 --> 05:06.310
+And the answer to that is no or false is for less than five.
+
+05:06.550 --> 05:08.150
+And the answer to that is true.
+
+05:08.430 --> 05:10.110
+Here's another interesting question.
+
+05:10.230 --> 05:13.190
+For less than four is four less than four?
+
+05:13.910 --> 05:18.750
+No it isn't, but is for less than or equal to four.
+
+05:19.030 --> 05:20.630
+Here the answer is yes.
+
+05:20.630 --> 05:24.310
+This it's not less than four, but it is equal to four.
+
+05:24.590 --> 05:31.990
+So when we combine these two symbols less than or equal to, then we get an answer of true.
+
+05:32.790 --> 05:33.150
+Okay.
+
+05:33.190 --> 05:36.270
+Now I'm going to show you conjunctive comparisons.
+
+05:36.270 --> 05:38.310
+So here is one comparison.
+
+05:38.510 --> 05:43.030
+We are comparing what's on the left side to what's on the right side.
+
+05:43.350 --> 05:47.790
+So let's do let's make this be 14 greater than four.
+
+05:48.150 --> 05:50.350
+And here obviously the answer is true.
+
+05:50.870 --> 05:52.630
+And we want to know.
+
+05:52.630 --> 05:55.590
+So let me I'm going to do some spacing here.
+
+05:55.630 --> 06:00.950
+So is 14 greater than four and is seven less than ten.
+
+06:01.470 --> 06:03.110
+So here the answer is true.
+
+06:03.110 --> 06:04.250
+And why is the answer true?
+
+06:04.250 --> 06:08.650
+Because this part is true and this part is also true.
+
+06:08.970 --> 06:12.170
+But how about if I say seven greater than ten?
+
+06:12.570 --> 06:14.050
+Here the answer is false.
+
+06:14.050 --> 06:15.850
+And why is this answer false?
+
+06:16.010 --> 06:21.410
+Well, you know this part is true, but we're looking for an and and this part is false.
+
+06:21.690 --> 06:21.970
+Okay.
+
+06:22.010 --> 06:23.650
+So there's also or.
+
+06:24.530 --> 06:26.210
+So here the answer is true.
+
+06:26.210 --> 06:27.610
+And why is the answer true here.
+
+06:27.610 --> 06:32.850
+Because we want to know whether this part is true or this part is true.
+
+06:32.890 --> 06:38.530
+So if one of them is false and one of them is true, the answer is still going to be true.
+
+06:38.770 --> 06:41.250
+If one of them or both of them are false.
+
+06:41.250 --> 06:42.810
+So let's do this.
+
+06:43.290 --> 06:44.970
+Then we get an answer of false.
+
+06:44.970 --> 06:47.650
+And of course, if both are true, then that's also fine.
+
+06:49.050 --> 06:55.170
+Here I also want to show you the application of parentheses and spacing.
+
+06:55.610 --> 06:56.090
+Okay.
+
+06:56.290 --> 06:57.730
+So we can run this again.
+
+06:57.770 --> 07:03.130
+Now this also worked before I had the parentheses in there.
+
+07:03.250 --> 07:09.960
+So this is a case where the parentheses are not strictly necessary for the code.
+
+07:10.160 --> 07:14.800
+But they do help visually interpret what this line of code means.
+
+07:14.960 --> 07:21.360
+And that is especially true in combination with spacing, because you know you can space like this.
+
+07:21.520 --> 07:25.040
+And to me this looks a little bit confusing.
+
+07:25.040 --> 07:30.280
+This is harder to interpret, even though for the code it's fine for the Python interpreter.
+
+07:30.320 --> 07:31.760
+You know, this is also fine.
+
+07:32.120 --> 07:41.320
+Uh, so this is, you know, um, unnecessary parentheses can often be useful in code, and I recommend
+
+07:41.320 --> 07:48.680
+adding parentheses to visually group different pieces of code, even if it's not strictly necessary
+
+07:48.680 --> 07:50.720
+for the Python code to run.
+
+07:51.320 --> 07:58.680
+One more concept I would like to cover in this video is assigning variables to be booleans, so I can
+
+07:58.680 --> 07:59.720
+have a variable.
+
+07:59.720 --> 08:02.840
+Let's call this outcome and that equals true.
+
+08:03.680 --> 08:04.440
+So here we go.
+
+08:04.440 --> 08:10.030
+All I'm doing is assigning this value of true to this variable outcome.
+
+08:10.030 --> 08:13.270
+And we can see what is the type of this variable.
+
+08:13.510 --> 08:15.030
+It is of type bool.
+
+08:15.390 --> 08:15.710
+Okay.
+
+08:15.750 --> 08:19.310
+So now you know several different types of variables in Python.
+
+08:19.310 --> 08:21.510
+You know ints for integers.
+
+08:21.510 --> 08:23.830
+You know floats for floating point numbers.
+
+08:23.830 --> 08:30.470
+Basically any number with a decimal point you know about lists and now you know about booleans or type
+
+08:30.510 --> 08:31.030
+bool.
+
+08:31.350 --> 08:33.550
+A string is another one you know about.
+
+08:33.550 --> 08:39.510
+So you can see you're already building up quite a lot of knowledge about different variable types.
+
+08:40.670 --> 08:40.910
+Okay.
+
+08:40.910 --> 08:41.430
+Let's see.
+
+08:41.550 --> 08:48.550
+Um, these can be a little bit confusing when we assign operations to the outcome.
+
+08:48.550 --> 08:54.430
+So for example, if we want to say uh four equal maybe let's do something else.
+
+08:54.430 --> 09:03.870
+How about this I will say um x equals two and y equals two squared.
+
+09:04.310 --> 09:04.550
+Okay.
+
+09:04.590 --> 09:10.260
+So I'll run this code to create these variables or overwrite them actually because I created them earlier.
+
+09:10.620 --> 09:14.940
+So x equals to y equals two squared.
+
+09:15.100 --> 09:19.500
+And now I want to know does x times two equal y.
+
+09:19.940 --> 09:24.540
+So this is a confusing line of code when you first look at it.
+
+09:25.060 --> 09:28.420
+Because you know there's three equal signs floating around here.
+
+09:28.780 --> 09:31.380
+So let's ignore this visually.
+
+09:31.380 --> 09:33.340
+Just get it out of your mind for the moment.
+
+09:33.380 --> 09:37.260
+This is just saying you know we are assigning some value to some variable.
+
+09:37.660 --> 09:44.940
+Here is the key question or the key operation that we are implementing here x squared x times two which
+
+09:44.940 --> 09:45.540
+is four.
+
+09:45.780 --> 09:49.020
+And then does that equal y which was defined as two squared.
+
+09:49.300 --> 09:52.540
+So there the answer is yes or true.
+
+09:52.780 --> 09:57.940
+And that value of true gets assigned to this variable outcome.
+
+09:58.260 --> 09:58.540
+Okay.
+
+09:58.580 --> 10:03.700
+So that is how you create variables in a boolean type.
+
+10:03.700 --> 10:04.460
+Variables.

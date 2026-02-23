@@ -1,0 +1,388 @@
+WEBVTT
+
+00:02.880 --> 00:05.680
+I will begin by writing out a for loop.
+
+00:05.680 --> 00:12.120
+That is perfectly fine syntactically, but then I'm going to show you a better way to write the same
+
+00:12.120 --> 00:12.960
+for loop.
+
+00:13.200 --> 00:14.640
+Okay, so let's write.
+
+00:14.680 --> 00:18.760
+Let's create some numbers equals numpy dot linspace.
+
+00:18.760 --> 00:22.880
+Let's go from minus five to plus 5 in 7 digits.
+
+00:22.880 --> 00:27.560
+So this is just some numbers just an array for us to work with okay.
+
+00:27.760 --> 00:31.800
+So let's say we want to print out these numbers in a for loop.
+
+00:31.920 --> 00:38.480
+We can do something like this I in range length of some numbers.
+
+00:40.000 --> 00:41.480
+And then what do we want to do.
+
+00:41.520 --> 00:43.840
+I'm going to print out index.
+
+00:46.120 --> 00:53.920
+And then string I plus has a value plus string.
+
+00:54.520 --> 01:00.680
+String some numbers I like this okay.
+
+01:01.040 --> 01:06.950
+So here's what we do for I in And then we want a range iterator variable.
+
+01:07.110 --> 01:09.430
+But how long does this need to be.
+
+01:09.510 --> 01:15.630
+Well I'm just setting it to be whatever is the length of this variable here and here I define that to
+
+01:15.670 --> 01:16.430
+be seven.
+
+01:16.830 --> 01:17.070
+Okay.
+
+01:17.110 --> 01:24.790
+And then I'm printing out the index number and the value of the array at that index.
+
+01:24.830 --> 01:25.190
+Okay.
+
+01:25.230 --> 01:25.910
+Very nice.
+
+01:25.910 --> 01:29.950
+So I hope everything in here is understandable to you.
+
+01:30.230 --> 01:38.310
+What I'm going to do now is use a a new iterator type that I haven't yet introduced you to called enumerate.
+
+01:38.390 --> 01:45.190
+So for I comma n in enumerate some numbers.
+
+01:45.830 --> 01:46.150
+Okay.
+
+01:46.190 --> 01:49.430
+So notice a couple of similarities and differences.
+
+01:50.430 --> 01:56.670
+We still have the for the in and the iterator and we still have the colon.
+
+01:56.670 --> 02:02.270
+So at some basic syntactic level it looks similar to setting up this for loop.
+
+02:02.670 --> 02:09.930
+But there is two key differences one This function, this reserved keyword function enumerate which
+
+02:09.930 --> 02:12.050
+comes from to number something.
+
+02:12.410 --> 02:17.090
+And then here I have two variables instead of just one variable okay.
+
+02:17.130 --> 02:20.730
+And now I can write print index.
+
+02:20.730 --> 02:23.090
+And now I'm also going to set this up slightly differently.
+
+02:23.090 --> 02:27.490
+So instead of using plus signs I'm going to just use commas I.
+
+02:29.530 --> 02:32.770
+Has value n okay.
+
+02:32.810 --> 02:36.010
+So here you can see we get exactly the same output.
+
+02:36.210 --> 02:40.330
+In both cases this is a little bit more condensed.
+
+02:40.570 --> 02:44.450
+Partly it's more condensed because I just set up the string printing differently from here.
+
+02:44.450 --> 02:45.930
+But that's not the important part.
+
+02:46.290 --> 02:55.810
+The important part is that this variable n is actually the value of each element in this list over here
+
+02:55.850 --> 02:57.810
+or in this numpy array here.
+
+02:58.050 --> 02:59.330
+So I hope that makes sense.
+
+02:59.330 --> 03:04.370
+So enumerate provides two variables that we can use in a for loop.
+
+03:04.570 --> 03:14.120
+The first variable is an index and the second variable is the value in each of the elements in at that
+
+03:14.120 --> 03:14.800
+index.
+
+03:14.840 --> 03:15.080
+Okay.
+
+03:15.120 --> 03:22.760
+So now instead of writing out some numbers and then index I, I can simply write out n over here.
+
+03:22.880 --> 03:28.080
+I hope you agree that this is more convenient and more compact okay.
+
+03:28.120 --> 03:29.480
+So this is with numbers.
+
+03:29.480 --> 03:33.320
+Now I want to show you an example using letters.
+
+03:33.320 --> 03:35.960
+So let's write a text and I'm going to write.
+
+03:36.000 --> 03:38.720
+Hello my name is Mike.
+
+03:39.160 --> 03:41.560
+Imagine me yelling this in a crowd okay.
+
+03:42.160 --> 03:47.640
+So now what I want to do is just find all of the vowels in this text.
+
+03:47.960 --> 03:54.560
+So I'm going to write for I comma l in enumerate text.
+
+03:54.560 --> 03:57.320
+And let me just first print out I and l.
+
+03:57.320 --> 03:58.720
+So you see what this looks like.
+
+03:59.080 --> 04:01.600
+So here we have all of the indices.
+
+04:01.600 --> 04:04.640
+In the first column it goes zero through 20.
+
+04:04.640 --> 04:08.320
+Because there happened to be 21 elements in this text.
+
+04:08.320 --> 04:18.830
+We can also confirm this here the length of text is 21, and then L is the value of this variable at
+
+04:18.830 --> 04:21.830
+each of the indices corresponding to I.
+
+04:22.070 --> 04:22.790
+So then you see.
+
+04:22.790 --> 04:23.150
+Hello.
+
+04:23.190 --> 04:24.710
+This is a space here.
+
+04:24.830 --> 04:26.470
+My name is Mike.
+
+04:26.510 --> 04:26.830
+Okay.
+
+04:26.870 --> 04:27.590
+Very nice.
+
+04:27.710 --> 04:31.630
+So how can we tell if we have a vowel in here.
+
+04:31.750 --> 04:33.750
+Well we can do something like this.
+
+04:33.750 --> 04:38.030
+So for l in actually, I haven't yet introduced this kind of syntax.
+
+04:38.190 --> 04:43.230
+Let's say uh eh in uh, e like this.
+
+04:43.470 --> 04:52.030
+So what Python is doing with this syntax is asking or searching for whether the value of this variable
+
+04:52.070 --> 04:56.510
+here is anywhere inside of of this string here.
+
+04:56.910 --> 04:59.870
+So is a inside this string.
+
+04:59.870 --> 05:00.910
+And the answer is no.
+
+05:00.910 --> 05:02.910
+So we get an output of false.
+
+05:03.070 --> 05:05.150
+And we can just add an A in here.
+
+05:05.150 --> 05:07.310
+And now we get an answer of true.
+
+05:07.590 --> 05:09.870
+We can do this also with a number.
+
+05:09.870 --> 05:14.290
+So for in let's say A12, three, five.
+
+05:14.330 --> 05:15.770
+Here the answer is false.
+
+05:15.890 --> 05:17.970
+And now I can change this to be three.
+
+05:17.970 --> 05:19.530
+And here the answer is true.
+
+05:20.610 --> 05:20.810
+Okay.
+
+05:20.850 --> 05:29.050
+So with that in mind I'm going to say if l in a e I o u then.
+
+05:29.050 --> 05:36.450
+So if this is true, if this letter is in this vowel then I'm just going to print out l like this.
+
+05:36.930 --> 05:37.250
+Okay.
+
+05:37.290 --> 05:39.370
+So here we see a e.
+
+05:40.090 --> 05:42.530
+So this is hello my name is.
+
+05:42.530 --> 05:45.890
+But then I don't see any I or E in here.
+
+05:45.930 --> 05:46.130
+Right.
+
+05:46.170 --> 05:49.650
+Because this is capital and these are not capital.
+
+05:49.930 --> 05:51.410
+So how can we fix this.
+
+05:51.410 --> 05:58.170
+How can we also get this to recognize that we want capital letters as well as lowercase letters.
+
+05:58.970 --> 06:02.970
+One way you could do this obviously would just be to repeat like this.
+
+06:03.130 --> 06:07.130
+So then we have capitals and lowercase letters.
+
+06:07.130 --> 06:12.290
+But we can also use a method on a string called lower.
+
+06:12.650 --> 06:14.690
+So let me introduce you to this.
+
+06:14.850 --> 06:20.080
+So here I have a Qwerty and then yeah this is just a Qwerty.
+
+06:20.080 --> 06:25.960
+And then if I right lower then we get the lowercase version of these letters.
+
+06:26.360 --> 06:26.720
+Okay.
+
+06:26.760 --> 06:34.840
+So this means we are ignoring the capitalization because every character here, every value of L is
+
+06:34.840 --> 06:36.560
+going to be lowercase.
+
+06:36.800 --> 06:37.080
+Okay.
+
+06:37.120 --> 06:41.040
+So then we can print this again and we get the capital letters coming out here.
+
+06:41.720 --> 06:51.240
+The last thing I want to do in this video is create a numeric vector that is zeros for non vowels and
+
+06:51.240 --> 06:54.160
+ones whenever we have a vowel in this text.
+
+06:54.320 --> 07:02.440
+So I'll call this variable vowels and I will initialize it to be zeros of the length of text.
+
+07:02.880 --> 07:03.280
+Okay.
+
+07:03.320 --> 07:12.200
+And now I'm going to replace this print command with vowels I equals one okay.
+
+07:12.240 --> 07:15.480
+And this is basically why I wanted to use enumerate.
+
+07:15.480 --> 07:18.380
+If you didn't need the index then it would be better.
+
+07:18.420 --> 07:21.540
+Let me do show this.
+
+07:21.660 --> 07:26.980
+So if we didn't need the index, then it would actually be better just to remove this altogether.
+
+07:26.980 --> 07:30.740
+And then we can have print l like this.
+
+07:30.780 --> 07:31.020
+Okay.
+
+07:31.060 --> 07:33.060
+So this accomplishes the same goal.
+
+07:33.300 --> 07:40.340
+The main reason why I wanted to use enumerate in this for this example is because I want to create this
+
+07:40.700 --> 07:47.140
+numpy array here, which is all zeros where there's no vowels and ones where there are vowels.
+
+07:47.580 --> 07:47.980
+Okay.
+
+07:48.020 --> 07:50.740
+So then we can just print this out like this.
+
+07:51.220 --> 07:56.660
+So now we have an array of numbers that is the same size as the text.
+
+07:57.020 --> 07:59.300
+And it has a value of zero.
+
+07:59.500 --> 08:05.140
+Wherever we don't have a vowel and a value of one wherever we do have a vowel and it doesn't matter
+
+08:05.140 --> 08:08.180
+if it's uppercase or lowercase.
+
+08:08.460 --> 08:09.220
+Very nice.
+
+08:09.220 --> 08:12.300
+So that is your introduction to enumerate.
+
+08:12.300 --> 08:19.300
+We are going to continue using enumerate in the next video when I also introduce you to the zip function.

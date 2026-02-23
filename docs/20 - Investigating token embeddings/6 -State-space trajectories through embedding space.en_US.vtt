@@ -1,0 +1,1228 @@
+WEBVTT
+
+00:02.240 --> 00:09.560
+The next analysis procedure that I will introduce you to is called a state space analysis.
+
+00:09.920 --> 00:17.960
+And I think it's a nice integration of path length token embeddings, vectors, and also principal components
+
+00:17.960 --> 00:20.360
+analysis and dimension reduction.
+
+00:21.000 --> 00:29.040
+If you are already comfortable with PCA, then state space trajectories are actually really straightforward.
+
+00:29.440 --> 00:37.520
+It's literally just projecting the vectors down onto two or maybe three principal components, and then
+
+00:37.520 --> 00:42.640
+quantifying the progression of the data through the PCA space.
+
+00:43.440 --> 00:49.800
+So this is a screenshot from the video where I introduced principal components analysis.
+
+00:50.240 --> 01:00.160
+And remember that the idea of a PCA is to find an orthogonal set of basis vectors such that each vector
+
+01:00.290 --> 01:08.050
+explains as much variability in the data as possible, while being orthogonal to all of the previous
+
+01:08.050 --> 01:08.890
+vectors.
+
+01:09.570 --> 01:16.650
+Now, we have previously used this analysis to look at the effective dimensionality of the embeddings,
+
+01:16.650 --> 01:21.530
+vectors, and spaces, and that was all based on the singular values.
+
+01:21.770 --> 01:28.090
+What we are going to do here, and also in the code challenge coming up after the next video, is to
+
+01:28.130 --> 01:37.170
+use these basis vectors to compress the data down from the 1000 dimensional embedding space down to
+
+01:37.210 --> 01:41.770
+two dimensions, corresponding to the first two principal components.
+
+01:42.410 --> 01:46.450
+So here's what I will show you in the Python demo in a moment.
+
+01:47.050 --> 01:55.450
+I'll start by importing the GPT two medium model and then tokenizing a bunch of texts, a bunch of sentences.
+
+01:56.010 --> 02:04.870
+Now, you have seen this data set of 54 sentences that contain all the words her once in each sentence.
+
+02:05.070 --> 02:11.750
+And what you're looking at here is a variant of that data set where I replaced the word her with the
+
+02:11.750 --> 02:12.670
+word him.
+
+02:13.230 --> 02:22.230
+So now I have 54 sentences with him, 54 of the exact same sentences with the target word her.
+
+02:22.830 --> 02:29.710
+And then for an interesting comparison, I've also replaced the word him with the word round.
+
+02:30.070 --> 02:37.910
+Now, this is an interesting comparison case because her and him are pronouns, they are grammatically
+
+02:37.910 --> 02:41.190
+correct in those sentences that I just showed.
+
+02:41.350 --> 02:44.270
+They are also sensible in these sentences.
+
+02:44.830 --> 02:47.550
+However, round is not a pronoun.
+
+02:47.550 --> 02:49.590
+It's not even a noun, it's an adjective.
+
+02:49.830 --> 02:54.510
+And so it's grammatically incorrect in all of these sentences.
+
+02:54.950 --> 02:57.830
+For example, we invited round to dinner.
+
+02:57.870 --> 02:59.520
+That just doesn't make any sense.
+
+02:59.880 --> 03:06.040
+So now we have three groups of sentences, all of which are identical.
+
+03:06.040 --> 03:11.560
+So the three data sets are identical except for this one target word.
+
+03:11.840 --> 03:14.080
+And two of those data sets.
+
+03:14.080 --> 03:17.200
+Two of those groups have the same part of speech.
+
+03:17.200 --> 03:18.200
+So a pronoun.
+
+03:18.200 --> 03:21.800
+And then here we have something that just doesn't make any sense grammatically.
+
+03:22.320 --> 03:30.840
+Anyway, I am going to push all of these sentences through the GPT model and then get the hidden states.
+
+03:31.240 --> 03:33.000
+Here you see the sizes.
+
+03:33.000 --> 03:35.000
+It's 162.
+
+03:35.280 --> 03:42.520
+That corresponds to 54 sentences times three groups, eight tokens per sentence, including padding
+
+03:42.560 --> 03:43.320
+tokens.
+
+03:43.480 --> 03:51.360
+And the medium version of GPT two has 1024 embeddings dimensions.
+
+03:51.800 --> 03:54.760
+So that's the raw embeddings dimensionality.
+
+03:54.960 --> 04:03.170
+And what we are going to do next is create a data set of just the target tokens and then apply a PCA
+
+04:03.170 --> 04:04.210
+to those data.
+
+04:05.090 --> 04:12.730
+Now I'm going to do the state space trajectories in one common projected space for all of the vectors
+
+04:12.730 --> 04:15.290
+that all of the layers in this model.
+
+04:15.850 --> 04:23.370
+And that means that I'm going to need to run a PCA on all of the data from all of the layers to define
+
+04:23.370 --> 04:27.210
+one common principal components space.
+
+04:27.650 --> 04:36.210
+And so to do that, I need to extract the token embeddings vectors for all of the target tokens and
+
+04:36.210 --> 04:40.810
+all of the sentences and across all of the layers.
+
+04:40.810 --> 04:43.250
+So this is just for one of the layers.
+
+04:44.290 --> 04:47.530
+And that's what you see happening in this piece of code.
+
+04:47.970 --> 04:52.610
+This screenshot here is actually inside of a double for loop.
+
+04:52.650 --> 04:59.020
+Of course you will see the full code in a moment when I switch to Python, but basically I'm looping
+
+04:59.020 --> 05:06.020
+over the sentences, identifying the index of the target word in each sentence, and then looping over
+
+05:06.020 --> 05:10.380
+all of the transformer block or the hidden layer block layers.
+
+05:10.540 --> 05:14.380
+So here I'm creating two matrices of data.
+
+05:14.780 --> 05:18.820
+This matrix here called all x all activations.
+
+05:19.340 --> 05:24.940
+And you can see the size of this is 4050 by 1024.
+
+05:25.380 --> 05:32.340
+Now the 4050 corresponds to all of the sentences over all of the layers.
+
+05:32.860 --> 05:41.140
+But for the subsequent analyses, we need to know which rows come from, which sentences with which
+
+05:41.140 --> 05:41.820
+targets.
+
+05:41.940 --> 05:44.380
+And so, uh, and also which layers.
+
+05:44.540 --> 05:52.500
+So that's why I also created this lookup table over here, which tells me for each of these rows, what
+
+05:52.500 --> 05:54.140
+is the sentence number.
+
+05:54.140 --> 06:02.410
+So the sentence index which layer this row comes from, and the target, which is either zero or 1 or
+
+06:02.410 --> 06:05.920
+2 corresponding to him or her or round.
+
+06:06.400 --> 06:11.360
+And actually, truth be told, I don't actually need this first piece of information.
+
+06:11.640 --> 06:14.720
+I didn't end up using these sentence index.
+
+06:14.720 --> 06:16.800
+I left it in here anyway.
+
+06:17.320 --> 06:23.120
+Initially I thought I would use it, but then I just decided to leave it in the code anyway, the point
+
+06:23.120 --> 06:31.920
+is that we can use this lookup table to find which rows in this all acts matrix correspond to, for
+
+06:31.920 --> 06:35.920
+example, layer six and the target token for her.
+
+06:37.120 --> 06:41.520
+Okay, so then I will perform a PCA on these data.
+
+06:41.520 --> 06:43.480
+So the all x matrix.
+
+06:43.840 --> 06:52.200
+And that will give me a common set of reduced dimensional basis vectors that are based on all the data
+
+06:52.200 --> 06:57.690
+from all of the texts, all the target tokens and all of the layers and so on.
+
+06:58.210 --> 07:06.450
+And here you see a screenshot of the PCA explained variance, uh, converted into percent of the total
+
+07:06.450 --> 07:07.290
+variance.
+
+07:07.810 --> 07:13.570
+Now the first component explains almost two thirds of the variance of the data set.
+
+07:13.850 --> 07:18.730
+And then the next couple of components accounts for looks like around 10%.
+
+07:18.730 --> 07:20.770
+And I don't know, maybe 8 or 9%.
+
+07:21.370 --> 07:28.210
+And actually when I look at these data, when I look at this screenshot, I think that it would be appropriate
+
+07:28.210 --> 07:32.610
+to consider the state space trajectories in three dimensions.
+
+07:32.770 --> 07:36.890
+So projecting the data down to these top three components.
+
+07:37.890 --> 07:44.490
+However, for simplicity and visualize ability I'm actually just going to take the top two components.
+
+07:44.730 --> 07:47.610
+Uh, just for make things a little bit easier.
+
+07:47.810 --> 07:53.650
+But you know, if you were doing this kind of analysis for a real research project, then you would
+
+07:53.650 --> 07:58.140
+want to consider taking the first three dimensions anyway.
+
+07:58.180 --> 08:05.180
+So the last thing that I will show you in this code demo is plotting the state space trajectories and
+
+08:05.180 --> 08:09.460
+calculating distances between the different trajectories.
+
+08:09.980 --> 08:12.060
+So let me first describe this plot.
+
+08:12.060 --> 08:16.380
+Here on the left we have the three target types.
+
+08:16.500 --> 08:20.980
+And so there are three lines with three colors here in this plot.
+
+08:21.540 --> 08:28.740
+Each marker corresponds to a different layer of the hidden states starting from all the way over here.
+
+08:28.740 --> 08:30.540
+Weather basically all the same.
+
+08:30.860 --> 08:38.780
+And you can see as we go deeper into the model, the trajectories get further out, so the spacing between
+
+08:38.780 --> 08:40.300
+layers gets longer.
+
+08:40.580 --> 08:46.780
+And there are also some differences between within the pronouns and between the pronouns and the word
+
+08:46.780 --> 08:47.500
+round.
+
+08:47.860 --> 08:51.380
+I don't know how well you can see this initial plot over here.
+
+08:51.380 --> 08:54.380
+It's right here where my mouse is pointing.
+
+08:54.860 --> 08:59.390
+But this dot here corresponds to the initial embeddings layer.
+
+08:59.670 --> 09:03.670
+And the rest of these points are for the transformer blocks.
+
+09:03.670 --> 09:10.270
+And then this wild, crazy set of points all the way down here is for the final transformer block.
+
+09:11.070 --> 09:13.270
+But what are we even looking at here.
+
+09:13.270 --> 09:14.510
+What is this graph.
+
+09:14.750 --> 09:22.550
+Well, the x axis is the first principal component and the y axis is the second principal component.
+
+09:22.990 --> 09:30.110
+So what I'm plotting here is the projection of the average vector from each layer and each of these
+
+09:30.110 --> 09:34.350
+target types onto the first principal components.
+
+09:34.590 --> 09:35.670
+It's really that simple.
+
+09:35.670 --> 09:42.870
+It's just the projection onto the two axes with each transformer block or depth in the model plotted
+
+09:42.870 --> 09:46.070
+as a line, or this set of points here.
+
+09:47.150 --> 09:54.470
+And by the way, each of these individual points is actually the average of 54 sentences.
+
+09:54.970 --> 10:02.290
+So in theory it would be possible to draw like some error sphere or confidence interval bubble around
+
+10:02.290 --> 10:09.490
+each of these points, corresponding to the variability of these projections across the 54 sentences
+
+10:09.650 --> 10:13.450
+within each layer and each target token type.
+
+10:13.930 --> 10:16.130
+But that's just a general comment.
+
+10:16.130 --> 10:18.130
+I'm not actually going to do that in this video.
+
+10:18.650 --> 10:18.930
+Okay.
+
+10:18.970 --> 10:25.970
+So you can see that the three sets of dots for the three target tokens generally carve out a similar
+
+10:25.970 --> 10:30.530
+trajectory in this space, but certainly not exactly the same.
+
+10:31.050 --> 10:38.290
+So then we can quantify that by calculating the distance between two different points from the same
+
+10:38.290 --> 10:43.530
+layer for the two different or for a pair of target tokens.
+
+10:44.130 --> 10:45.770
+And that you can see here.
+
+10:46.130 --> 10:53.090
+So what you see here is literally just the Euclidean distance for example between these two target tokens.
+
+10:53.090 --> 10:59.780
+So these two coordinates for this particular layer that would correspond to this data point over here.
+
+11:00.460 --> 11:07.220
+So this like red purple line this is the distance between him and her in each layer.
+
+11:07.340 --> 11:13.940
+And the green line is the distance between the vector for round and the average of the two vectors for
+
+11:13.940 --> 11:14.860
+him and her.
+
+11:15.140 --> 11:19.100
+That's why I call it him her in the figure legend here.
+
+11:19.220 --> 11:24.260
+So this is literally just the average of the blue and the red lines over here.
+
+11:24.540 --> 11:27.820
+And their collective distance from the green line.
+
+11:28.620 --> 11:35.340
+So it's interesting to see that the target distances generally increase as we go deeper into the model.
+
+11:35.540 --> 11:39.700
+But there are also some non-monotonic dynamics in here.
+
+11:40.260 --> 11:47.660
+It would be interesting to explore how much of this difference here for the green line, for round versus
+
+11:47.660 --> 11:52.700
+the pronouns is actually due to the fact that this is a grammatical error.
+
+11:52.940 --> 11:59.310
+And maybe that grammatical error is causing the model some confusion, and maybe that requires some
+
+11:59.510 --> 12:04.950
+extra processing, some additional rotations in the token embeddings vector, and so on.
+
+12:05.910 --> 12:11.230
+Anyway, let's now switch to code and see how this analysis is implemented.
+
+12:12.510 --> 12:18.870
+These are all libraries you've seen before, including this PCA function from scikit learn.
+
+12:19.190 --> 12:25.270
+Here I'm importing GPT two medium and switching the model to eval mode.
+
+12:25.430 --> 12:35.670
+So we have same vocab as for all the GPT two variants, and an embeddings dimension of 1024 and 24 layers
+
+12:35.670 --> 12:38.430
+in the 24 transformer blocks.
+
+12:38.950 --> 12:41.110
+Okay, so here is the data.
+
+12:41.350 --> 12:44.270
+Uh, you can see these sentences all contain him.
+
+12:44.550 --> 12:46.350
+These ones all contain her.
+
+12:46.630 --> 12:51.510
+And these ones all contain the word round, because why not?
+
+12:51.990 --> 12:53.440
+Uh, and also, by the way.
+
+12:53.440 --> 12:58.000
+So I have some spaces in between these lines here, but it's actually just one list.
+
+12:58.000 --> 13:04.320
+So, uh, after going through a couple of different variants, I decided that it would be easiest to
+
+13:04.360 --> 13:13.080
+organize all of the data into one list, rather than having three separate lists for the three variable
+
+13:13.440 --> 13:15.240
+types or the three target types.
+
+13:15.680 --> 13:23.440
+And then over here I create this vector called sentence IDs, and I can show you what that looks like.
+
+13:23.440 --> 13:27.520
+It's literally just a bunch of zeros, a bunch of ones and a bunch of twos.
+
+13:27.680 --> 13:33.280
+And this just tells me which sentences contain which target tokens.
+
+13:33.760 --> 13:34.320
+All right.
+
+13:34.800 --> 13:36.080
+So and now here.
+
+13:36.120 --> 13:39.680
+Yeah tokenizing each of the target words.
+
+13:39.680 --> 13:43.360
+So I will be able to identify them later on.
+
+13:43.800 --> 13:47.200
+And then I'm just tokenizing the rest of this text.
+
+13:47.240 --> 13:48.400
+You've seen this before.
+
+13:48.400 --> 13:50.360
+We need padding equals true.
+
+13:50.560 --> 13:53.340
+We need to define a Pad token.
+
+13:53.340 --> 14:01.980
+And then that's how we make sure that we have an equal number of tokens in every row in the batch that
+
+14:01.980 --> 14:03.980
+we feed into the model.
+
+14:03.980 --> 14:10.620
+And that's what I do here also because we need to pad, then we also need this attention mask here.
+
+14:10.620 --> 14:17.660
+So therefore I'm using just the tokenizer and not what I often do is write tokenizer dot encode.
+
+14:17.940 --> 14:21.980
+If you do this it's only going to return the input ids.
+
+14:22.220 --> 14:28.180
+But if you leave out that particular method and you just call the entire object, then you will get
+
+14:28.500 --> 14:29.980
+a lot more information.
+
+14:29.980 --> 14:31.540
+This is all review by the way.
+
+14:31.580 --> 14:33.700
+So just a bit of a repeat.
+
+14:33.700 --> 14:36.740
+So you get the input IDs and the attention mask.
+
+14:36.780 --> 14:39.140
+You can see this goes to zeros here.
+
+14:39.340 --> 14:46.580
+And that yeah the model internally will know to just ignore those uh those tokens okay.
+
+14:46.620 --> 14:50.300
+So here I push the model uh push the data through the model.
+
+14:50.580 --> 14:57.310
+Uh, defining some variable here for the number of layers, and then just confirming the size of the
+
+14:57.550 --> 14:58.310
+outputs.
+
+14:58.350 --> 15:02.990
+So the hidden states for just one randomly selected layer here.
+
+15:03.390 --> 15:12.310
+The next part of this code cell is to create the data set that we will use to define the principal components
+
+15:12.310 --> 15:13.030
+axes.
+
+15:13.550 --> 15:20.070
+Now, the reason why we need all of the data together from all of the layers is that if you would run
+
+15:20.070 --> 15:27.830
+the PCA separately on each layer, then the coordinates, the basis vectors would actually be different
+
+15:27.830 --> 15:29.710
+for every layer.
+
+15:29.870 --> 15:32.390
+Now sometimes that might be appropriate.
+
+15:32.390 --> 15:33.830
+Maybe that's what you want to do.
+
+15:34.230 --> 15:41.150
+But in this case, to get this state space trajectory, we need to project all of the data from all
+
+15:41.190 --> 15:46.470
+of the layers and all the target types onto a common set of axes.
+
+15:46.510 --> 15:51.240
+If every layer has its own axis, then we cannot compare them.
+
+15:51.240 --> 15:55.920
+We can't project them all onto the same lower dimensional space.
+
+15:56.320 --> 16:03.560
+So that's why I need to create this new matrix where I'm basically just concatenating all of the target
+
+16:03.600 --> 16:07.440
+token vectors from all of the hidden states layers.
+
+16:07.920 --> 16:11.160
+So what is the size of that matrix?
+
+16:11.240 --> 16:14.560
+Well, it's going to be layers by sentences.
+
+16:14.680 --> 16:19.520
+And of course the second dimension is going to be the embeddings dimensionality.
+
+16:19.720 --> 16:25.720
+And then the idea is that we want to run the PCA over this dimension over here.
+
+16:25.720 --> 16:29.200
+So we are not going to reduce these data.
+
+16:29.200 --> 16:34.440
+We are going to reduce the data along this axis along this dimension.
+
+16:34.960 --> 16:35.240
+Okay.
+
+16:35.280 --> 16:38.000
+And then yeah here is the lookup table.
+
+16:38.240 --> 16:38.480
+Okay.
+
+16:38.520 --> 16:45.760
+So now I'm looping over all of the sentences here I'm finding which index in the sentence contains a
+
+16:45.760 --> 16:46.440
+target.
+
+16:46.640 --> 16:48.800
+There are three possible targets here.
+
+16:48.800 --> 16:56.250
+So it can be either the token for him or the token for her, or the token for round.
+
+16:56.570 --> 16:56.930
+Okay.
+
+16:56.970 --> 17:04.290
+And yeah, these are constructed so that only one of these conditionals will be true for any sentence.
+
+17:04.450 --> 17:11.890
+So if you do not have a data set that's so cleanly curated and crafted for this purpose, then yeah,
+
+17:11.930 --> 17:15.370
+this might require some additional modifications.
+
+17:15.770 --> 17:23.010
+Furthermore, if you've constructed the data set in such a way that you know exactly where the target
+
+17:23.010 --> 17:31.410
+is, maybe the target token is in exactly the same position in every sequence, then you probably don't
+
+17:31.410 --> 17:32.730
+need this loop at all.
+
+17:32.730 --> 17:38.170
+If you know that it's you know, the target always appears in position six, for example.
+
+17:39.290 --> 17:41.330
+Okay, but you've seen this before.
+
+17:41.490 --> 17:41.690
+Okay.
+
+17:41.730 --> 17:44.050
+And now here I'm looping over all of the layers.
+
+17:44.050 --> 17:49.170
+Here I am grabbing the hidden states, uh, activations from this layer.
+
+17:49.290 --> 17:57.110
+From this sentence, from this target index, and then I'm converting it into numpy and then squishing
+
+17:57.110 --> 17:59.470
+out these singleton dimensions.
+
+17:59.950 --> 18:01.790
+And you've seen this before.
+
+18:02.070 --> 18:04.710
+Sometimes it's a matter of personal preference.
+
+18:04.710 --> 18:12.710
+If you want to do these analyses in numpy format or PyTorch tensor format, it will often save you a
+
+18:12.750 --> 18:20.070
+few headaches if you convert the data into numpy when you no longer need to work with PyTorch.
+
+18:20.910 --> 18:23.670
+Okay, so that is for the activations.
+
+18:23.670 --> 18:25.550
+And then for the lookup table.
+
+18:25.590 --> 18:25.750
+Yeah.
+
+18:25.790 --> 18:33.550
+As I've mentioned, this is really just allowing us to identify the label, the informant like meta
+
+18:33.550 --> 18:38.510
+information about each row in this data matrix.
+
+18:38.710 --> 18:43.790
+And also as I mentioned, this is really yeah, I don't actually use this in the analysis.
+
+18:44.270 --> 18:44.590
+Okay.
+
+18:44.630 --> 18:47.550
+So all of that is very fast to run.
+
+18:48.110 --> 18:50.640
+And here I'm just confirming the sizes.
+
+18:50.640 --> 18:57.760
+So 4050 rows and the data corresponds to the embeddings dimensionality.
+
+18:57.920 --> 18:58.200
+Okay.
+
+18:58.240 --> 19:01.280
+And by the way if you're curious, you know we can just have a look at this.
+
+19:01.440 --> 19:04.000
+You can see this is just a bunch of indices.
+
+19:04.360 --> 19:10.640
+Again this first column we're not going to use this middle column here tells us which layer each of
+
+19:10.640 --> 19:12.280
+these rows corresponds to.
+
+19:12.480 --> 19:16.080
+And this third column here indicates the target type.
+
+19:16.080 --> 19:20.360
+Whether it's him or her corresponds to number one or round.
+
+19:20.840 --> 19:21.320
+Okay.
+
+19:21.440 --> 19:21.920
+Very good.
+
+19:21.920 --> 19:24.160
+So now we are ready for a PCA.
+
+19:24.560 --> 19:32.640
+Now the thing is, for the analysis, I already know a priori I have decided that I only want two components.
+
+19:32.640 --> 19:36.440
+I just want to fit the data down to two components.
+
+19:36.440 --> 19:40.640
+But I also want to examine the scree plot.
+
+19:40.680 --> 19:45.360
+And so a scree plot with only two data points is not so interesting.
+
+19:45.600 --> 19:52.450
+So here I'm actually running the PCA, and I'm not going to use these data for any of the subsequent
+
+19:52.450 --> 19:53.490
+analyses.
+
+19:53.490 --> 20:00.650
+I'm just running this here to get the scree plot so I can get the explained variance ratio.
+
+20:00.850 --> 20:04.130
+That is the, uh, that's actually the proportion of variance.
+
+20:04.130 --> 20:07.090
+I multiply it by 100 to get percent.
+
+20:07.570 --> 20:07.850
+Okay.
+
+20:07.890 --> 20:12.890
+And then actually I'm curious what these actual numbers are.
+
+20:12.930 --> 20:13.690
+So let's see.
+
+20:14.850 --> 20:16.130
+Just going to print this out here.
+
+20:16.130 --> 20:20.170
+So this top component accounts for 62% of the variance.
+
+20:20.330 --> 20:26.290
+And then we have a little over 10% of the variance and 7.5% of the variance.
+
+20:26.290 --> 20:32.770
+So that means that these three components together account for around 80% of the variance.
+
+20:33.130 --> 20:37.170
+And that is, you know, I mean, it's more than half of the variance.
+
+20:37.330 --> 20:43.290
+But that also means that 20% of the variance is in these later components.
+
+20:43.450 --> 20:51.020
+Each one of these components individually is relatively Small, they account for 1% or a fraction of
+
+20:51.020 --> 20:52.340
+a percent of variance.
+
+20:53.340 --> 20:56.860
+But there are so many of these, there's 1024 of these.
+
+20:56.980 --> 21:01.580
+And so altogether they account for a lot of variability.
+
+21:01.740 --> 21:09.100
+And this is an important consideration and an important potential limitation of these kinds of analyses,
+
+21:09.100 --> 21:12.540
+where you project down to a small number of dimensions.
+
+21:12.940 --> 21:20.700
+So on the one hand, it is true that we are going to capture around 73% of the variance.
+
+21:20.860 --> 21:27.540
+But on the other hand, that means that there is 27% of the variance that we are completely ignoring.
+
+21:27.660 --> 21:34.380
+And maybe there's really important stuff happening in the other third of the variance in the data anyway.
+
+21:34.420 --> 21:35.540
+Okay, enough of that.
+
+21:35.900 --> 21:36.140
+Uh.
+
+21:36.140 --> 21:36.660
+Let's see.
+
+21:36.700 --> 21:37.100
+All right.
+
+21:37.140 --> 21:42.620
+So the next thing is to rerun the PCA with just two components.
+
+21:42.620 --> 21:44.780
+And now here I'm just projecting down.
+
+21:44.780 --> 21:47.100
+So I'm using PCA dot transform.
+
+21:47.240 --> 21:52.640
+This projects the data down to however many components I have identified here.
+
+21:53.640 --> 22:00.120
+By the way, you can actually still, you know, get this projection from this analysis here.
+
+22:00.320 --> 22:02.600
+PCA is a linear decomposition.
+
+22:02.600 --> 22:09.800
+So you could actually project down to all 20 components from this analysis here, and then just disregard
+
+22:09.800 --> 22:12.360
+the other 18 and only store the top two.
+
+22:12.400 --> 22:14.640
+But I was just a bit lazy.
+
+22:14.640 --> 22:18.520
+So I reran the analysis here because it's quite fast to do anyway.
+
+22:19.080 --> 22:22.440
+Okay, so uh, yeah, let's see here I'm showing the sizes.
+
+22:22.440 --> 22:30.080
+This is the all axis you've seen before, and now I'm just confirming that the projection down to 2D
+
+22:30.120 --> 22:32.960
+is 4050 by two.
+
+22:33.400 --> 22:42.280
+That is an important confirmation to check because for example, let's say uh, you have the data organize
+
+22:42.280 --> 22:43.040
+the other way.
+
+22:43.840 --> 22:48.170
+So now it's kind of arbitrary, you know, you can have the data.
+
+22:48.250 --> 22:49.650
+Let me do it like this.
+
+22:51.530 --> 22:54.330
+So in theory, it's sort of arbitrary.
+
+22:54.330 --> 23:01.090
+It doesn't matter which way you organize the data, but it does matter for the PCA that the data are
+
+23:01.130 --> 23:04.210
+flipped in the correct orientation.
+
+23:04.370 --> 23:05.530
+So this would be wrong.
+
+23:05.530 --> 23:14.330
+What we are doing here is projecting down all of the sentences and layers to two dimensions, and preserving
+
+23:14.330 --> 23:16.290
+all of the embeddings dimensions.
+
+23:16.450 --> 23:17.170
+That's wrong.
+
+23:17.210 --> 23:19.330
+That's the opposite of what we want.
+
+23:19.370 --> 23:25.730
+We want to project down the features, the activations along the dimensions.
+
+23:25.730 --> 23:31.610
+So that should be sentences or data observations by features over here.
+
+23:32.170 --> 23:32.450
+Okay.
+
+23:32.530 --> 23:36.490
+So here is where I do the trajectories analysis.
+
+23:36.610 --> 23:37.850
+So let's go through this.
+
+23:38.130 --> 23:39.410
+So proj 2D.
+
+23:39.410 --> 23:42.290
+So I'll leave this here so you can see the shape.
+
+23:42.290 --> 23:47.300
+And also the actually let me include in here the lookup table.
+
+23:47.500 --> 23:48.580
+Dot shape.
+
+23:49.020 --> 23:49.300
+Okay.
+
+23:49.340 --> 23:54.620
+So you can also see the shapes of all of these matrices that I'm working with here.
+
+23:55.660 --> 24:06.340
+So from this proj 2d what I want to get here is all of the rows that are from layer zero and target
+
+24:06.380 --> 24:07.460
+token zero.
+
+24:07.460 --> 24:10.180
+So the sentences that contain the word him.
+
+24:10.540 --> 24:18.140
+So how do I find all of the rows in here that are from layer zero and that were from the sentence with
+
+24:18.140 --> 24:18.580
+him.
+
+24:19.060 --> 24:24.140
+And then this is the projection onto the first and second principal component.
+
+24:24.420 --> 24:26.820
+So that is what all of this code does here.
+
+24:26.900 --> 24:30.620
+So I have this for loop over all of the layers.
+
+24:30.780 --> 24:35.700
+So the model layers plus one of course plus one is for the initial embeddings.
+
+24:35.900 --> 24:39.300
+So where does a lookup table one.
+
+24:39.540 --> 24:42.820
+So the second column where does that correspond to zero.
+
+24:43.140 --> 24:46.310
+And the third column where does that correspond to?
+
+24:46.350 --> 24:47.310
+Also zero.
+
+24:47.350 --> 24:48.430
+That's for him.
+
+24:48.790 --> 24:49.070
+Okay.
+
+24:49.110 --> 24:51.710
+And once I've identified all of these.
+
+24:51.750 --> 24:54.950
+Now let me extract that.
+
+24:54.950 --> 24:58.870
+And I need I'll just code that to be zero.
+
+24:59.150 --> 25:05.350
+So that is 54 by 254 sentences from layer zero.
+
+25:05.590 --> 25:10.590
+And the projection onto the first and the second principal components.
+
+25:11.110 --> 25:11.430
+Okay.
+
+25:11.470 --> 25:13.990
+So then I have mean x is zero.
+
+25:13.990 --> 25:19.110
+And that is to average over all of the 54 sentences.
+
+25:20.270 --> 25:20.990
+Okay great.
+
+25:20.990 --> 25:22.150
+So I hope that makes sense.
+
+25:22.150 --> 25:27.750
+It's a little bit intimidating when you see this code the first time, but I hope I've explained it
+
+25:27.750 --> 25:28.790
+sufficiently well.
+
+25:29.110 --> 25:30.710
+So three lines of code here.
+
+25:30.710 --> 25:35.790
+They're all nearly identical except for this identifier over here.
+
+25:35.790 --> 25:39.390
+And that allows us to find the three different tokens.
+
+25:39.790 --> 25:40.670
+If you prefer.
+
+25:40.670 --> 25:44.590
+You could also put this in a for loop as well.
+
+25:44.730 --> 25:53.130
+So you could say for, you know, target uh, target I in in range three or something like this, but,
+
+25:53.130 --> 25:54.090
+uh, it doesn't matter.
+
+25:54.450 --> 25:54.890
+Okay.
+
+25:54.930 --> 26:01.170
+So uh, that is for, uh, the average trajectories that's going to give us those curvy plots.
+
+26:01.490 --> 26:05.570
+And now here I am averaging together the pronouns.
+
+26:05.570 --> 26:11.050
+So, uh, yes, averaging together him and her, extracting the data for round.
+
+26:11.050 --> 26:14.650
+And here I'm calculating the Euclidean distance.
+
+26:14.650 --> 26:19.250
+So it's the difference between the vectors and then squared.
+
+26:19.490 --> 26:21.770
+And then I sum over all of those.
+
+26:21.890 --> 26:24.410
+And then I take the square root of that.
+
+26:24.410 --> 26:26.850
+So this is the Euclidean distance.
+
+26:26.970 --> 26:29.610
+This is for uh him versus her.
+
+26:29.850 --> 26:33.570
+And this is for the pronouns versus the uh sorry.
+
+26:33.610 --> 26:34.810
+No, I said that backwards.
+
+26:34.850 --> 26:38.570
+This is for the pronouns versus the adjective.
+
+26:38.730 --> 26:41.450
+And this is the difference between the two pronouns here.
+
+26:41.450 --> 26:49.100
+So I'm just taking numpy dot diff for the first two elements of the last dimension, and that corresponds
+
+26:49.100 --> 26:51.780
+to him versus her over here.
+
+26:52.100 --> 26:55.420
+Okay, so quite a bit going on in this code cell.
+
+26:55.460 --> 26:57.340
+But I hope it all makes sense.
+
+26:57.380 --> 27:03.300
+You're going to use code that looks a lot like this in the code challenge in a couple of videos from
+
+27:03.300 --> 27:03.660
+now.
+
+27:04.820 --> 27:05.100
+Okay.
+
+27:05.140 --> 27:08.580
+So now we are ready for some visualization.
+
+27:08.660 --> 27:11.620
+So for the first plot, actually let me show you this plot here.
+
+27:11.940 --> 27:15.860
+So this is the plot that you have seen in the slides a moment ago.
+
+27:16.100 --> 27:18.660
+So to create this first plot, it's very straightforward.
+
+27:18.660 --> 27:25.620
+We just want to plot over all of the layers, the projection onto the first principal component for
+
+27:25.620 --> 27:33.620
+the x coordinates, and the projection onto the second principal components for the y axis coordinates.
+
+27:33.740 --> 27:35.300
+And that's what you see here.
+
+27:35.540 --> 27:37.940
+So this is for round.
+
+27:38.060 --> 27:40.220
+And we have the average trajectories.
+
+27:40.460 --> 27:44.190
+The the first dimension here is for the layers.
+
+27:44.470 --> 27:47.510
+This is for the first principal component.
+
+27:47.510 --> 27:49.590
+This is for the second principal component.
+
+27:49.750 --> 27:52.950
+And the two corresponds to the target round.
+
+27:52.950 --> 27:54.510
+So the third condition.
+
+27:54.910 --> 27:58.110
+Okay so I have two lines of code here for the plotting.
+
+27:58.270 --> 28:02.990
+And that's basically just because I want it to have a line and a scatter plot.
+
+28:02.990 --> 28:06.110
+So here you see only a scatter plot with no line.
+
+28:06.310 --> 28:11.510
+And yeah, I thought it would look nicer to have both a line and a scatter plot.
+
+28:13.350 --> 28:21.390
+One of the biggest challenges in explaining and understanding how deep learning models work is that
+
+28:21.390 --> 28:29.150
+the high dimensionality prevents us from being able to easily visualize the internal calculations and
+
+28:29.150 --> 28:35.870
+representations, and that is one of the reasons why simple regression models with only a handful of
+
+28:35.870 --> 28:44.400
+parameters are much easier to understand and to explain, and so projecting these thousand dimensional
+
+28:44.400 --> 28:51.200
+vectors down to 2 or 3 dimensions can be pretty useful for visualization and intuition.
+
+28:51.880 --> 28:59.040
+On the other hand, as I explained, we are also ignoring a ton of information, and even though all
+
+28:59.080 --> 29:06.400
+of those other dimensions explain individually very little total variability, they might still contain
+
+29:06.400 --> 29:09.520
+a lot of important and relevant information.
+
+29:10.160 --> 29:16.280
+So there is also a big risk of overinterpreting dimension reduced dynamics.
+
+29:16.800 --> 29:24.400
+In particular, with regards to PCA, the components are defined by variance, which means that PCA
+
+29:24.560 --> 29:27.680
+assumes that variance equals relevance.
+
+29:28.200 --> 29:30.960
+Now that is not necessarily the case.
+
+29:30.960 --> 29:38.840
+It's not necessarily true that dimensions that contain a lot of variability are the most important for
+
+29:38.840 --> 29:41.520
+the model to process a given token.
+
+29:42.180 --> 29:48.700
+So it could also be interesting to explore trajectories with other dimension reduction techniques,
+
+29:48.700 --> 29:56.540
+although really any compression method will suffer from similar limitations as PCA does in terms of
+
+29:56.660 --> 30:01.420
+highlighting only a few dimensions out of a very large number.
+
+30:01.900 --> 30:04.900
+Nonetheless, these kinds of analyses are great.
+
+30:04.900 --> 30:11.580
+They can be insightful starting points to continue with more in-depth investigations.
+
+30:11.940 --> 30:17.860
+For example, like what is causing those little bumps in the distances between the pronouns and the
+
+30:17.860 --> 30:20.740
+adjective in the dataset that I just showed you.
+
+30:21.460 --> 30:29.740
+So in the next video, I will show you how to use a Python library to identify parts of speech of tokens.
+
+30:30.100 --> 30:33.820
+And then in the video after that, that's going to be a code challenge.
+
+30:33.940 --> 30:41.020
+We will come back to creating and quantifying state space trajectories in real text data.

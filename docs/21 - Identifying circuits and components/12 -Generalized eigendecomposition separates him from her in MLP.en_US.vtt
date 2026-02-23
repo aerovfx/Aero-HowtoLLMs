@@ -1,0 +1,1393 @@
+WEBVTT
+
+00:02.040 --> 00:06.160
+I hope you found the demo in the previous video to be enticing.
+
+00:06.800 --> 00:15.800
+In this video, I will show you how to apply a generalized Eigen decomposition analysis to real data.
+
+00:16.400 --> 00:23.320
+You will see that although the basic concepts are the same as in the previous video, it's considerably
+
+00:23.320 --> 00:30.920
+trickier to implement, in part because of some challenges that arise with numerical stability in large
+
+00:30.920 --> 00:31.760
+data sets.
+
+00:32.320 --> 00:40.840
+So here in this video, I will begin by telling you about something called a two stage compression separation
+
+00:40.840 --> 00:41.600
+procedure.
+
+00:42.200 --> 00:45.200
+Then I will give an overview of the code demo.
+
+00:45.200 --> 00:49.600
+And of course then we will have a deeper look in the Python code.
+
+00:50.480 --> 00:59.120
+So the idea of a two stage separation procedure is to first compress the data to a smaller number of
+
+00:59.120 --> 01:04.820
+dimensions Mentions and then run the GED on the reduced dimensional space.
+
+01:05.420 --> 01:12.620
+The reason why you would do this is if the generalized eigendecomposition problem cannot be solved,
+
+01:12.980 --> 01:20.140
+and that often happens with severely reduced ranked data or very large data sets, by which I mean lots
+
+01:20.140 --> 01:22.020
+and lots of variables.
+
+01:22.460 --> 01:30.180
+And for LM activations, the matrix rank generally isn't a problem, although the matrix sizes actually
+
+01:30.180 --> 01:31.660
+do present an issue.
+
+01:32.380 --> 01:36.180
+Overall, this two stage procedure is a pretty useful technique.
+
+01:36.460 --> 01:39.140
+It generally improves the solution.
+
+01:39.500 --> 01:45.580
+The primary risk of compressing the data, which I've discussed earlier in the course when talking about
+
+01:45.580 --> 01:54.060
+effective dimensionality, is that by reducing the dimensionality, you are excluding low variance but
+
+01:54.060 --> 01:57.620
+possibly important variability in the data.
+
+01:57.940 --> 02:00.490
+That's just a general risk of compression.
+
+02:00.490 --> 02:04.330
+It's certainly not unique to this analysis in particular.
+
+02:04.650 --> 02:08.810
+So now let me explain how this two stage procedure works.
+
+02:09.370 --> 02:17.530
+First you do a principal components analysis of the data matrix to get the eigenvectors and the eigenvalues.
+
+02:17.850 --> 02:24.650
+Next you pick a threshold for including principal components in the compressed data.
+
+02:25.090 --> 02:28.010
+There are several ways that you can pick a threshold.
+
+02:28.170 --> 02:35.690
+This indicates one way of choosing the threshold, which is to preserve all of the components that individually
+
+02:35.690 --> 02:39.690
+account for at least 1% of the variance in the data set.
+
+02:39.730 --> 02:42.570
+That's just one option in the code demo.
+
+02:42.570 --> 02:49.450
+In a few moments, I will show you a slightly different threshold, which is to keep all of the components
+
+02:49.450 --> 02:56.090
+that collectively account for 99% of the variance, even if some of them are individually less than
+
+02:56.090 --> 02:56.890
+1%.
+
+02:57.690 --> 02:58.050
+Okay.
+
+02:58.090 --> 03:03.750
+Then you project the data onto the eigenvectors, which gives you a new data set.
+
+03:04.070 --> 03:13.070
+Now this data set has a smaller dimensionality, but it still contains 99% of the variance of the original
+
+03:13.070 --> 03:13.710
+data.
+
+03:14.350 --> 03:20.910
+And then finally you run the generalized eigendecomposition as I explained in the previous video.
+
+03:21.030 --> 03:28.110
+But on matrix Y the compressed data instead of on matrix X, which is the original data.
+
+03:28.790 --> 03:32.950
+So now the source separation is done on the compressed data.
+
+03:33.190 --> 03:36.110
+And you can continue just working with the compressed data.
+
+03:36.630 --> 03:43.950
+It's also possible to project the eigenvectors back onto the original full dimensionality data space.
+
+03:43.950 --> 03:46.950
+If you want to work with the raw activation values.
+
+03:47.190 --> 03:50.790
+I will show you how to do that towards the end of the Python demo.
+
+03:52.070 --> 03:52.310
+Okay.
+
+03:52.350 --> 03:58.510
+And with that out of the way, let me now tell you what I will show you in the Python demo in a moment.
+
+03:58.890 --> 04:06.610
+I'll start by importing GPT two and hooking all of the MLP neurons in the expansion layer before the
+
+04:06.610 --> 04:08.170
+nonlinear activation.
+
+04:08.730 --> 04:16.330
+I'm going to use the pronouns dataset that you've already seen a few times now, and grab all the activations
+
+04:16.330 --> 04:19.570
+to the target words from the MLP neurons.
+
+04:20.130 --> 04:28.170
+Then I will calculate the covariance matrices for the two target words so him and her, and then subtract
+
+04:28.170 --> 04:28.810
+those two.
+
+04:28.850 --> 04:30.410
+And that's what you see here.
+
+04:30.810 --> 04:37.410
+And to reiterate what I introduced in the previous video, if we would do a PCA on, let's say, the
+
+04:37.410 --> 04:44.530
+average of these two matrices, that would tell us the patterns in the data that are common between
+
+04:44.530 --> 04:45.650
+these two matrices.
+
+04:45.650 --> 04:49.130
+And we could use that for compression for dimension reduction.
+
+04:49.610 --> 04:52.850
+But the generalized eigendecomposition is not doing that.
+
+04:52.850 --> 05:00.800
+Instead, the generalized eigendecomposition will reveal the patterns in the data that separate these
+
+05:00.800 --> 05:09.480
+two matrices, which in practice means the linear combinations of the neurons that best separates activations
+
+05:09.480 --> 05:11.920
+for him versus for her.
+
+05:12.640 --> 05:18.840
+Now I'm actually going to try running a generalized eigendecomposition on these full covariance matrices
+
+05:18.840 --> 05:19.880
+from all the neurons.
+
+05:20.440 --> 05:26.560
+It's going to fail, but it will be interesting to see it fail and to see what the error message is.
+
+05:27.600 --> 05:34.440
+And so that will lead me to applying the two stage procedure that I just described in the previous slide.
+
+05:34.920 --> 05:39.200
+Here you see the scree plot for the average of the two covariance matrices.
+
+05:39.600 --> 05:47.920
+And it turns out that in this particular case, 63 components in the data account for 99% of the total
+
+05:47.960 --> 05:48.920
+variance.
+
+05:49.520 --> 05:53.680
+So then I will compress the MLP expansion data set.
+
+05:53.680 --> 05:58.020
+So these data here down to 63 components.
+
+05:58.380 --> 06:04.300
+And here you see the covariance matrices for the two data sets in the compressed space.
+
+06:04.580 --> 06:07.940
+So these matrices are now 63 by 63.
+
+06:08.220 --> 06:14.620
+But 99% of the variance in these matrices is also present in these matrices.
+
+06:15.580 --> 06:21.100
+Now the most obvious feature that you see here is that the colors are much more saturated around the
+
+06:21.100 --> 06:24.580
+top and the left sides of this matrix.
+
+06:24.900 --> 06:31.100
+That is simply because the components are sorted by their eigenvalue, which means the components just
+
+06:31.100 --> 06:33.980
+account for a lot more variance in the data.
+
+06:34.020 --> 06:35.700
+Those are placed early on.
+
+06:35.820 --> 06:41.220
+And these components down here are accounting for less total variance.
+
+06:41.220 --> 06:44.940
+That is not a problem or a concern for this source separation.
+
+06:45.140 --> 06:47.100
+It's just how the dimensions get sorted.
+
+06:48.060 --> 06:53.140
+So it turns out that these covariance matrices are still reduced rank.
+
+06:53.500 --> 06:59.160
+And therefore I will apply shrinkage regularization to get them back to full rank.
+
+06:59.600 --> 07:01.320
+So the covariance matrices.
+
+07:01.360 --> 07:10.240
+Originally had a rank of 52, and after applying 1% shrinkage, they now have a rank of 63.
+
+07:10.280 --> 07:11.280
+Which is full rank.
+
+07:11.720 --> 07:20.200
+That's great, because it means that we have a manageable sized matrix that the SciPy library is capable
+
+07:20.200 --> 07:21.080
+of handling.
+
+07:21.320 --> 07:23.120
+And they're also full rank now.
+
+07:23.160 --> 07:30.680
+Full rank matrices are not necessary for the generalized eigendecomposition in theory, but in practice,
+
+07:30.840 --> 07:37.280
+having full rank matrices does help with the numerical stability, and it helps get a good solution.
+
+07:37.880 --> 07:42.280
+Okay, so now at this point we are ready for the GED analysis.
+
+07:42.480 --> 07:48.440
+The rest of the code in this demo will involve various ways of visualizing and exploring the data.
+
+07:49.000 --> 07:56.710
+Here you see the scree plots and the eigendecomposition for him versus her and also for her versus him.
+
+07:56.710 --> 08:03.950
+So I ran the analysis twice, putting the covariance matrices in different orders to get a filter,
+
+08:04.190 --> 08:10.190
+a pattern that maximally separates him from her, and a different one that maximally separates her from
+
+08:10.190 --> 08:10.590
+him.
+
+08:11.110 --> 08:16.870
+So you can see they both have some pretty nice separability, in the sense that the first component
+
+08:16.870 --> 08:19.510
+is larger than the rest of the components.
+
+08:19.830 --> 08:24.430
+Uh, you know, like noticeably larger, not just numerically a tiny bit larger.
+
+08:24.830 --> 08:30.630
+And it looks like there might even be two components here that cleanly separate him from her.
+
+08:30.790 --> 08:36.110
+But certainly for convenience, I'm only going to be focusing on the top component here.
+
+08:36.750 --> 08:37.030
+Okay.
+
+08:37.070 --> 08:39.350
+So these are the eigenvalues.
+
+08:39.350 --> 08:46.310
+And when we have the eigenvectors we can use those to filter the compressed activation values to get
+
+08:46.310 --> 08:51.190
+a component score for each target word in each sentence.
+
+08:51.310 --> 08:53.390
+And that's what you see here.
+
+08:53.750 --> 08:56.690
+So for the GED of him versus her.
+
+08:57.010 --> 09:00.570
+We can see that this component shows lots of activation.
+
+09:00.570 --> 09:03.090
+So strong activation for him words.
+
+09:03.090 --> 09:13.170
+And also simultaneously a suppression of the activation for the her tokens and the reverse for her versus
+
+09:13.170 --> 09:13.530
+him.
+
+09:13.530 --> 09:15.170
+So nice balance here.
+
+09:15.650 --> 09:23.930
+Now the y axis values are difficult to interpret here because the numerical values depend on the eigenvectors
+
+09:24.090 --> 09:31.850
+which are not constrained to be unit norm the way that the eigenvectors are unit normed in PCA, which
+
+09:31.890 --> 09:34.850
+is an eigendecomposition on one symmetric matrix.
+
+09:35.410 --> 09:39.330
+So don't worry about comparing the two axes numerically.
+
+09:39.330 --> 09:43.170
+You can just focus on the relative values within each plot.
+
+09:43.890 --> 09:50.170
+Okay, so there's a few other plots that I will show, including some randomly random permutation of
+
+09:50.170 --> 09:56.280
+these sentences to demonstrate that these kinds of effects that you see here are not due to overfitting
+
+09:56.280 --> 09:56.800
+noise.
+
+09:57.320 --> 10:03.880
+The final plot that I will show is this pair of plots here, where we see an example sentence with the
+
+10:03.920 --> 10:09.600
+tokens on the x axis and the activations on the y axis.
+
+10:10.040 --> 10:16.920
+Now the pairs of data points for each token corresponds to the data projected onto the Him component
+
+10:17.040 --> 10:20.400
+for the same sentence, but with him versus with her.
+
+10:20.720 --> 10:24.040
+So remember there's pairs of sentences.
+
+10:24.160 --> 10:29.080
+So 54 sentences with him and an equal number of sentences with her.
+
+10:29.400 --> 10:32.080
+So this is the sentence with him on it.
+
+10:32.080 --> 10:36.200
+And then this would be the activation for exactly the same sentence.
+
+10:36.200 --> 10:42.800
+But the 154 sentences later which has all of these same tokens, but this one is replaced with a her.
+
+10:43.440 --> 10:50.840
+So basically what you see here is that this latent component that I identified using generalized eigendecomposition
+
+10:51.080 --> 10:55.340
+is roughly equally active for all the tokens in the sentence.
+
+10:55.340 --> 11:01.900
+But then here, for when the sentence was him, we see large activation, and when the exact same sentence
+
+11:01.900 --> 11:04.660
+had her, we see low activation.
+
+11:04.980 --> 11:07.380
+And this one over here is the complementary plot.
+
+11:07.380 --> 11:10.860
+So exactly the same analysis, exactly the same words.
+
+11:10.860 --> 11:17.260
+But this is now pushing all the data through the generalized eigendecomposition defined as her greater
+
+11:17.260 --> 11:17.940
+than him.
+
+11:18.180 --> 11:19.660
+This was him greater than her.
+
+11:19.980 --> 11:26.140
+And you see, again, the activations for most of the tokens is the same or really, really similar.
+
+11:26.300 --> 11:30.500
+And then we see this really strong difference for him versus her.
+
+11:30.860 --> 11:36.860
+In other words, these components really differentiate between him and her, but they do not really
+
+11:36.860 --> 11:39.420
+differentiate the other tokens so much.
+
+11:39.460 --> 11:42.940
+Although yeah, some exceptions you do see a little bit of differences here.
+
+11:43.180 --> 11:43.500
+Okay.
+
+11:43.500 --> 11:45.940
+Well there's a lot to look at in the code.
+
+11:45.940 --> 11:48.820
+So let's switch to Python and go through it.
+
+11:50.100 --> 11:57.760
+So import some libraries as you know from the previous video, we used scipy linalg instead of numpy
+
+11:57.760 --> 12:02.280
+dot linalg for the generalized eigenvalue decomposition problem.
+
+12:02.440 --> 12:02.600
+Okay.
+
+12:02.640 --> 12:08.160
+And then here I import the GPT two small model and of course its tokenizer.
+
+12:08.640 --> 12:09.360
+Here is the hook.
+
+12:09.360 --> 12:14.800
+I'm just kind of arbitrarily defining this to be the middle layer, whichever one happens to be close
+
+12:14.800 --> 12:15.480
+to the middle.
+
+12:15.760 --> 12:22.800
+And yeah, we can just look in this in a little bit more detail in the code challenge in the next video.
+
+12:23.800 --> 12:25.480
+So here again are these sentences.
+
+12:25.480 --> 12:27.120
+You've now seen these many times.
+
+12:27.120 --> 12:29.920
+I'm not going to discuss those anymore.
+
+12:29.920 --> 12:31.400
+Certainly not in this video.
+
+12:31.640 --> 12:34.520
+Here I'm getting the target tokens.
+
+12:34.560 --> 12:34.920
+Okay.
+
+12:35.080 --> 12:36.360
+You've seen all this stuff before.
+
+12:36.640 --> 12:36.960
+Okay.
+
+12:37.000 --> 12:38.640
+Push all the data through the model.
+
+12:38.760 --> 12:44.040
+Here I'm getting the activations and defining a variable for Nhidden.
+
+12:44.040 --> 12:46.920
+I have previously called this n neurons.
+
+12:46.960 --> 12:48.480
+These are hidden units.
+
+12:48.640 --> 12:49.080
+Okay.
+
+12:49.480 --> 12:51.200
+Here I'm getting activations.
+
+12:51.200 --> 12:52.720
+You've also seen this before.
+
+12:52.870 --> 12:54.710
+just looping over the sentences.
+
+12:54.910 --> 13:02.350
+Finding the index in which the target word appears on this sentence, and grabbing those activations
+
+13:02.710 --> 13:03.430
+that I do.
+
+13:03.430 --> 13:12.310
+Because here for the generalized Eigendecomposition analysis, I only want to use the target word activations.
+
+13:12.310 --> 13:18.310
+I do not want to use any other tokens in this text until later.
+
+13:18.590 --> 13:19.950
+So that comes at the very end.
+
+13:20.510 --> 13:20.870
+Okay.
+
+13:20.910 --> 13:21.150
+Yeah.
+
+13:21.150 --> 13:23.310
+So here is just some visualizations.
+
+13:23.310 --> 13:25.790
+This you've also seen before a lot of this code.
+
+13:25.790 --> 13:30.270
+I just kind of copy paste and keep propagating from one thing to the next.
+
+13:30.470 --> 13:30.830
+Okay.
+
+13:30.870 --> 13:34.350
+So this is new though these are the covariance matrices.
+
+13:34.830 --> 13:39.710
+Now the covariance matrices are actually ten times bigger than what you see here.
+
+13:39.710 --> 13:42.750
+I'm skipping every 10th row and column.
+
+13:42.750 --> 13:45.670
+That is purely for the visualization.
+
+13:46.150 --> 13:53.370
+The neat thing about a generalized eigendecomposition is when you look at these matrices just visually,
+
+13:53.730 --> 13:54.770
+you know, they're interesting.
+
+13:54.770 --> 13:55.850
+They're neat to look at.
+
+13:55.890 --> 13:59.610
+You know, maybe they look like some magic eye painting or something like that.
+
+13:59.610 --> 14:04.970
+But it's not obvious that there are really remarkable differences between these.
+
+14:05.090 --> 14:10.530
+So the goal of the generalized eigendecomposition is to find some pattern.
+
+14:10.770 --> 14:17.770
+It's going to be a subtle, nuanced pattern that is distributed across all of the neurons, all of the
+
+14:17.770 --> 14:18.650
+variables.
+
+14:19.410 --> 14:25.970
+And it is a pattern that maximally differentiates this covariance matrix from this covariance matrix.
+
+14:26.130 --> 14:29.490
+And that pattern is just distributed across all of these pairs.
+
+14:29.490 --> 14:35.370
+So it's not really obvious what that pattern would look like just from looking at these matrices.
+
+14:36.130 --> 14:36.450
+Okay.
+
+14:36.490 --> 14:41.210
+So here I'm going to do something that will not work but it will be fun.
+
+14:41.610 --> 14:41.890
+Okay.
+
+14:41.930 --> 14:44.130
+So basically yeah we just get some errors.
+
+14:44.370 --> 14:47.930
+Uh, in principle there would be ways to address this.
+
+14:47.930 --> 14:55.230
+But the thing is, when you get to really large matrices with lots and lots of variables that generalize.
+
+14:55.270 --> 15:03.950
+Eigendecomposition is just such a difficult mathematical problem to solve in practice, especially with
+
+15:03.950 --> 15:08.430
+reduced rank matrices, that it's just it's just very difficult.
+
+15:08.470 --> 15:13.270
+So let's actually look at this linalg dot matrix rank.
+
+15:13.310 --> 15:18.110
+I'm just curious what the rank of these matrices is.
+
+15:18.910 --> 15:19.230
+Okay.
+
+15:19.270 --> 15:22.670
+So that took 19 seconds to calculate the rank.
+
+15:23.190 --> 15:30.150
+And that's because Timkov it is a 3000 by 3000 matrix.
+
+15:30.150 --> 15:32.990
+And yet it only has a rank of 52.
+
+15:33.830 --> 15:37.470
+There are lots of interesting reasons why that is the case.
+
+15:37.670 --> 15:39.230
+I'm not going to talk about them here.
+
+15:39.230 --> 15:44.830
+I did talk about it a little bit in the, uh, effective dimensionality lectures.
+
+15:44.830 --> 15:48.550
+But yeah, suffice it to say that these are severely reduced rank.
+
+15:48.870 --> 15:55.020
+Now, generalized eigendecomposition Composition in theory can be run on reduced rank matrices even
+
+15:55.020 --> 16:01.540
+when both the matrices are reduced rank, but when the rank is just so much lower than the size, that's
+
+16:01.540 --> 16:05.380
+when you really start running into some numerical issues.
+
+16:05.900 --> 16:06.260
+Okay.
+
+16:06.300 --> 16:09.460
+So therefore we are going to do the two stage procedure.
+
+16:09.580 --> 16:12.220
+So here I'm getting the eigendecomposition.
+
+16:12.220 --> 16:14.060
+This is both covariance matrices.
+
+16:14.060 --> 16:17.660
+But this is not a generalized eigen decomposition.
+
+16:17.700 --> 16:22.300
+I'm actually just inputting one matrix to be eigen decomposed.
+
+16:22.300 --> 16:25.700
+And that is the average of these two covariance matrices.
+
+16:26.300 --> 16:26.620
+Okay.
+
+16:26.660 --> 16:31.580
+So then I get the eigenvalues and the eigenvectors sorting the eigenvalues.
+
+16:31.740 --> 16:34.660
+And uh and then also the eigenvectors.
+
+16:35.180 --> 16:37.700
+And note here that we sort the columns not the rows.
+
+16:37.700 --> 16:42.540
+So we preserve all of the rows and we sort along the columns.
+
+16:43.580 --> 16:43.820
+Okay.
+
+16:43.860 --> 16:49.060
+This gets a little confusing because uh, in the next video we're going to actually run the principal
+
+16:49.060 --> 16:58.640
+components analysis using the SciPy library using a scikit learn, and that actually swaps the eigenvalues.
+
+16:58.640 --> 17:01.680
+It puts the eigenvalues in the rows instead of the columns.
+
+17:01.920 --> 17:06.000
+And why it does that I think just to intentionally confuse people.
+
+17:06.040 --> 17:06.520
+Maybe.
+
+17:07.000 --> 17:15.080
+Anyway, uh, from these eigenvalues, I am transforming them into a percent variance explained.
+
+17:15.480 --> 17:24.840
+So again, the idea is that 100% of the magnitude of the variance in this data set in this 3000 by 3000
+
+17:24.880 --> 17:32.160
+covariance matrix, 100% of the variance is somehow contained in all of the eigenvalues.
+
+17:32.320 --> 17:37.800
+So to transform this into percent variance explained, we just sum them all up.
+
+17:38.040 --> 17:39.760
+Uh, all of the eigenvalues.
+
+17:39.760 --> 17:41.200
+And that's in the denominator.
+
+17:41.200 --> 17:47.120
+And then we multiply by each element of the eigenvectors matrix.
+
+17:47.480 --> 17:47.760
+Okay.
+
+17:47.800 --> 17:56.620
+And then computing the cumulative sum and seeing how many components it takes to explain above 99% of
+
+17:56.620 --> 17:58.780
+the variability in the data.
+
+17:59.660 --> 18:02.620
+And this turns out to be 63, I think.
+
+18:03.020 --> 18:09.540
+By the way, if you are a linear algebra aficionado, you might be wondering how it is possible that
+
+18:09.540 --> 18:14.100
+this number is larger than 52, which was the rank of the data.
+
+18:14.540 --> 18:21.940
+This turns out to be other just issues of difficulties with numerical calculations of such large and
+
+18:21.940 --> 18:29.420
+reduced rank matrices, and basically calculating the rank is an extremely difficult problem.
+
+18:29.540 --> 18:31.940
+So generally people do not calculate rank.
+
+18:31.980 --> 18:37.500
+They estimate rank using a threshold, and depending on the threshold that you use, you're going to
+
+18:37.500 --> 18:39.060
+get a different result.
+
+18:39.180 --> 18:43.300
+If you're in my linear algebra course, I talk about that in a lot more detail.
+
+18:43.340 --> 18:49.020
+Anyway, suffice it to say that here we get an answer of 63 components, which is great.
+
+18:49.090 --> 18:55.210
+So now we will multiply the activations matrix by the eigenvectors.
+
+18:55.210 --> 18:57.530
+And we just want the first 63.
+
+18:57.890 --> 19:05.330
+And that means that now we have 108 by 63 instead of 108 by 3072.
+
+19:05.810 --> 19:06.050
+Okay.
+
+19:06.090 --> 19:07.290
+Now from here.
+
+19:07.330 --> 19:09.650
+So this is our new data matrix here.
+
+19:09.890 --> 19:15.210
+So now we can calculate covariance matrices again and then visualize them again.
+
+19:15.210 --> 19:17.730
+And then this is what I showed in the slides.
+
+19:17.730 --> 19:17.890
+Yeah.
+
+19:17.930 --> 19:28.570
+These are just the covariance matrices of 99% of the data variance oriented into the top 63 principal
+
+19:28.570 --> 19:30.170
+components okay.
+
+19:30.210 --> 19:32.570
+And here I'm applying the shrinkage.
+
+19:32.890 --> 19:37.090
+So I'm setting gamma I'm just fixing this to be 1% 0.01.
+
+19:37.410 --> 19:42.370
+And yeah you should recognize this code from the previous video.
+
+19:42.370 --> 19:45.650
+So basically we take the covariance matrix.
+
+19:45.650 --> 19:46.690
+We knock it down.
+
+19:46.690 --> 19:51.190
+So we scale it down Globally a tiny bit by 1%.
+
+19:52.230 --> 19:54.070
+And then we take gamma.
+
+19:54.070 --> 19:59.390
+So the regularization amount times the average of all of the eigenvalues.
+
+19:59.750 --> 20:02.510
+So this here ends up being a scalar.
+
+20:02.550 --> 20:08.950
+This is just a number times the identity matrix which of course is zeros on the off diagonal and ones
+
+20:08.950 --> 20:10.270
+on the diagonal.
+
+20:10.790 --> 20:10.990
+Okay.
+
+20:11.030 --> 20:14.750
+And by the way you could also use the SciPy library here.
+
+20:14.990 --> 20:19.350
+Uh eigendecomposition in numpy is great for one matrix.
+
+20:19.350 --> 20:26.110
+It's really just for the generalized eigendecomposition that numpy is no longer suitable.
+
+20:26.630 --> 20:26.870
+Okay.
+
+20:26.910 --> 20:28.750
+And then I'm giving these different names.
+
+20:28.750 --> 20:32.190
+So I say I just add an s at the end for shrinkage.
+
+20:32.350 --> 20:41.070
+And that's because uh later on I'm going to use the non shrinkage regularized matrix for the numerator
+
+20:41.190 --> 20:41.870
+matrix.
+
+20:41.870 --> 20:43.990
+And this one for the denominator matrix.
+
+20:43.990 --> 20:45.270
+I'll get to that in a moment.
+
+20:45.750 --> 20:45.990
+Okay.
+
+20:46.030 --> 20:52.610
+Now in theory Everything we've done is with real valued matrices and all the matrices are symmetric.
+
+20:53.010 --> 20:57.770
+So the eigenvalues and the eigenvectors should all be real valued.
+
+20:57.890 --> 21:05.770
+However, just because of some precision errors and limitations in NumPy and SciPy, it does sometimes
+
+21:05.770 --> 21:15.650
+happen that these matrices will have tiny, tiny, tiny imaginary values which are not actually valid.
+
+21:15.650 --> 21:18.890
+So therefore we can just force this to be real valued.
+
+21:19.410 --> 21:20.330
+That's what I do here.
+
+21:20.330 --> 21:22.890
+And that's why you get this error message here.
+
+21:22.930 --> 21:26.210
+Casting complex values to real discards the imaginary part.
+
+21:26.250 --> 21:27.090
+Totally fine.
+
+21:27.090 --> 21:28.970
+This is not an error message.
+
+21:28.970 --> 21:30.410
+It's just a warning message.
+
+21:30.650 --> 21:35.810
+That's just because I'm forcing these to be real valued and not complex valued.
+
+21:36.890 --> 21:41.330
+Okay, so here we see the impact of shrinkage regularization.
+
+21:41.610 --> 21:47.760
+They went for the covariance matrices, went from having a rank of 52 to a rank of 63, which means
+
+21:47.760 --> 21:48.920
+they are full rank.
+
+21:49.520 --> 21:53.480
+Okay, so now we are ready for the generalized eigen decomposition.
+
+21:53.800 --> 22:00.960
+Here I am running the analysis twice, one for him versus her and once for her versus him.
+
+22:00.960 --> 22:06.320
+This is not something that I explicitly demonstrated in the previous video.
+
+22:06.320 --> 22:09.680
+But basically what we want here is to get two filters.
+
+22:09.680 --> 22:11.640
+So two sets of patterns.
+
+22:11.800 --> 22:19.880
+One pattern that maximizes activations for him and one that activates maximizes activations for her.
+
+22:20.160 --> 22:21.920
+And the way to do that is really simple.
+
+22:21.920 --> 22:24.920
+We literally just swap the matrices around.
+
+22:24.920 --> 22:29.720
+So here I put in him and then her, and here I put in her and then him.
+
+22:30.160 --> 22:33.320
+By the way, in theory this is not necessary.
+
+22:33.520 --> 22:41.560
+In theory, we can do both of these in one go by looking at the top eigenvalue for him, and then the
+
+22:41.560 --> 22:47.700
+lowest eigenvalue, the smallest eigenvalue will actually be the one that maximizes her over him.
+
+22:48.340 --> 22:50.260
+That said, that's the theory.
+
+22:50.460 --> 22:57.100
+In practice, it's not quite that simple just because of numerical issues and the way that these eigenvectors
+
+22:57.100 --> 22:58.980
+and eigenvalues are estimated.
+
+22:59.220 --> 23:03.580
+So therefore it's better to just run a second analysis like this.
+
+23:04.020 --> 23:04.460
+Okay.
+
+23:04.940 --> 23:11.460
+So notice also here I'm using for the denominator matrix the shrinkage regularized version.
+
+23:11.460 --> 23:16.260
+And here I'm using the full version without any shrinkage regularization.
+
+23:16.580 --> 23:18.620
+In principle you can also do this.
+
+23:18.660 --> 23:19.700
+That's totally fine.
+
+23:20.540 --> 23:29.980
+But what people often do is say you know we we want to uh adulterate the numerator matrix as little
+
+23:29.980 --> 23:30.660
+as possible.
+
+23:30.660 --> 23:34.580
+We want these data to be, like as pure as we can leave them.
+
+23:34.700 --> 23:40.380
+And we're willing to smooth out the, uh, the reference covariance matrix because, yeah, this is
+
+23:40.380 --> 23:43.860
+just like a reference matrix to compare against.
+
+23:44.140 --> 23:47.080
+So therefore this is a fairly typical approach.
+
+23:47.080 --> 23:52.680
+You would just regularize the denominator matrix and not the numerator matrix.
+
+23:53.160 --> 23:53.400
+Okay.
+
+23:53.480 --> 23:58.520
+Otherwise this code looks very similar to the code for the principal components analysis.
+
+23:59.200 --> 24:02.080
+We get the eigenvalues and the eigenvectors.
+
+24:02.240 --> 24:04.600
+We sort the eigenvalues.
+
+24:05.280 --> 24:09.520
+And then we also sort the columns of the eigenvectors matrix.
+
+24:10.040 --> 24:13.240
+Notice also the variable naming convention I'm using here.
+
+24:13.240 --> 24:17.320
+So evals and him versus her.
+
+24:17.840 --> 24:18.320
+Okay.
+
+24:18.600 --> 24:22.280
+So then yeah we can make a plot of the eigenvalues.
+
+24:22.400 --> 24:25.800
+And this is what I showed in the slides by the way.
+
+24:25.840 --> 24:30.320
+They can have different numerical scaling which is not really that relevant.
+
+24:30.320 --> 24:39.800
+So therefore you can see like the raw eigenvalues are meaningful, but it just indicates something about
+
+24:39.800 --> 24:43.200
+the scale of the data and the separability in the data.
+
+24:43.400 --> 24:51.150
+So therefore if you're comparing multiple spectra in the same plot, it's often easiest just to max
+
+24:51.150 --> 24:52.510
+normalize them like this.
+
+24:52.790 --> 24:59.950
+Okay, so now we see for her versus him, we get this beautiful separation, really nice distance between
+
+24:59.950 --> 25:06.190
+the first and the second eigenvalue compared to the distances between all of the other eigenvalues.
+
+25:06.190 --> 25:12.870
+So they all go down trivially because yeah, we we sorted them for exactly that reason.
+
+25:13.390 --> 25:17.870
+But it's not trivial that this distance is much bigger than this distance.
+
+25:17.870 --> 25:20.070
+And these distances are all fairly small.
+
+25:21.190 --> 25:24.070
+The him versus her separability also looks great.
+
+25:24.070 --> 25:25.870
+As I mentioned in the slides.
+
+25:25.870 --> 25:32.630
+Maybe there's a second independent component for processing him pronouns versus her pronouns.
+
+25:32.630 --> 25:37.750
+But yeah, for convenience we're just going to look at the the top one okay.
+
+25:37.790 --> 25:42.550
+So once we get those eigenvectors we can generate the projection data.
+
+25:42.870 --> 25:47.730
+And that is literally the activations times the eigenvector.
+
+25:47.730 --> 25:50.450
+And here we want the top eigenvector.
+
+25:50.450 --> 25:55.770
+So it's the eigenvector associated with the largest eigenvalue and it's multiplying.
+
+25:55.810 --> 26:01.530
+Of course the data in the lower dimensional space because these were based on the lower dimensional
+
+26:01.530 --> 26:03.330
+space covariance matrices.
+
+26:04.650 --> 26:04.970
+Okay.
+
+26:05.010 --> 26:07.370
+And so that's how I get these plots.
+
+26:07.370 --> 26:08.610
+So it's pretty remarkable.
+
+26:08.610 --> 26:13.890
+You see that the generally generalized eigen decomposition has two impacts.
+
+26:13.890 --> 26:17.530
+One it boosts the category that you're looking for.
+
+26:17.850 --> 26:22.570
+And two it suppresses the category that you use as the reference.
+
+26:22.730 --> 26:30.210
+So we see not only do we get increased activation for him over here and for her over here, we also
+
+26:30.210 --> 26:35.370
+see a suppression of the activation for her over here and him over here.
+
+26:35.410 --> 26:36.130
+Pretty neat.
+
+26:36.330 --> 26:43.610
+So the interpretation of what a generalized eigen decomposition does, which I've already stated now
+
+26:43.650 --> 26:51.040
+a few times is basically look at these covariance matrices and identify patterns that are distributed
+
+26:51.040 --> 26:57.920
+across the different variables that maximally distinguish this covariance matrix from this covariance
+
+26:57.920 --> 26:58.600
+matrix.
+
+26:58.800 --> 27:02.080
+So the question is what do those patterns look like.
+
+27:02.080 --> 27:04.240
+How can we visualize those patterns.
+
+27:04.600 --> 27:07.720
+And that is the next analysis that we do here.
+
+27:07.720 --> 27:14.000
+So the answer without getting into the mathematical details that justify why this is the right approach.
+
+27:14.240 --> 27:21.400
+But basically the idea is you take the covariance matrix and you push that through the eigenvector.
+
+27:21.400 --> 27:26.480
+So it's the eigenvector times the covariance matrix of the s.
+
+27:26.600 --> 27:28.840
+So the numerator covariance matrix.
+
+27:29.240 --> 27:30.680
+And that's what this gives us.
+
+27:30.720 --> 27:36.240
+And then I'm again multiplying through the eigenvectors from the principal components analysis.
+
+27:36.440 --> 27:44.500
+And that's to get me from the reduced dimensional space back to the original data space which is the
+
+27:44.740 --> 27:47.940
+3072 MLP neurons.
+
+27:48.180 --> 27:51.100
+So also just a linear algebra point here.
+
+27:51.100 --> 27:54.660
+When we were compressing down we post multiplied by V.
+
+27:54.820 --> 27:57.780
+And now we are expanding back out the dimensionality.
+
+27:57.900 --> 28:01.820
+And so now we are pre-multiplying by the eigenvectors.
+
+28:02.420 --> 28:02.700
+Okay.
+
+28:02.740 --> 28:08.540
+So now you see that these two eigenvectors or patterns are somewhat correlated with each other.
+
+28:08.660 --> 28:14.260
+So there is some overlap in how these patterns look to differentiate each other.
+
+28:14.700 --> 28:18.420
+Now it will be interesting in the next video in the code challenge.
+
+28:18.420 --> 28:24.380
+In the next video you are going to create these data for each individual layer.
+
+28:24.580 --> 28:26.820
+And you will calculate this correlation.
+
+28:26.820 --> 28:33.060
+And then we will see how this correlation changes as a function of depth into the model.
+
+28:33.060 --> 28:35.380
+That would be a pretty interesting analysis to look at.
+
+28:35.900 --> 28:36.300
+Okay.
+
+28:36.900 --> 28:43.320
+In general there are several ways to perform statistics on these kinds of Analyses.
+
+28:43.400 --> 28:49.680
+One thing that I will do here is just randomize the sentence order and then rerun the analysis.
+
+28:49.720 --> 28:54.800
+So basically I'm just doing the analysis over again but with random ordering.
+
+28:55.080 --> 28:58.080
+So and here you see it just doesn't work that well.
+
+28:58.320 --> 29:05.000
+Uh, it does look like we get some separability, but the projection of the data onto this eigenvector
+
+29:05.000 --> 29:08.120
+is just not clearly separating him from her.
+
+29:08.280 --> 29:11.680
+So yeah, this is only one permutation.
+
+29:12.000 --> 29:20.600
+Uh, but it does certainly indicate that the results that we see, uh, here are not purely due to overfitting
+
+29:20.600 --> 29:21.280
+the data.
+
+29:21.520 --> 29:24.880
+Uh, there's several ways to do statistical analyses.
+
+29:25.960 --> 29:26.960
+Uh, this is one.
+
+29:27.000 --> 29:32.920
+Another thing we're going to do in the next video is have an independent data set.
+
+29:32.920 --> 29:40.120
+So in the next video we will fit the eigenvectors based on these data and then apply the eigenvectors
+
+29:40.120 --> 29:45.710
+to a completely different data set that the model hasn't seen when calculating the generalized eigen
+
+29:45.710 --> 29:46.590
+decomposition.
+
+29:47.230 --> 29:47.590
+Okay.
+
+29:47.630 --> 29:52.830
+So then the final plot that I'm showing here is this one which I showed in the slides.
+
+29:52.830 --> 29:55.270
+So basically we have all of the tokens.
+
+29:55.270 --> 29:57.590
+Now remember the eigen decomposition.
+
+29:57.590 --> 30:01.550
+This analysis was only run on the activations to him and her.
+
+30:02.110 --> 30:05.390
+And now I also applied it to all the other tokens.
+
+30:05.510 --> 30:10.350
+And what you see is that all the other tokens are mainly preserved.
+
+30:10.350 --> 30:14.670
+There's a little bit of residual distinction here, but mostly they are preserved.
+
+30:15.030 --> 30:17.190
+And then you see this really big difference here.
+
+30:17.310 --> 30:21.830
+So this is for the eigen decomposition for him versus her.
+
+30:22.150 --> 30:24.030
+And this is for her versus him.
+
+30:24.430 --> 30:28.230
+And again these two sentences are the same.
+
+30:28.230 --> 30:33.790
+They only differ by this one word which is him uh, for uh for the black dots.
+
+30:33.790 --> 30:36.190
+And it's her for the red squares.
+
+30:36.670 --> 30:44.130
+So now what you can do if you want to continue exploring is basically pick any number here as long as
+
+30:44.130 --> 30:49.890
+it's below 53 because or below 54 because I'm manually coding this here.
+
+30:49.890 --> 30:52.650
+So it just happens to work out okay.
+
+30:52.690 --> 30:54.730
+So here you see another activation.
+
+30:54.850 --> 30:55.170
+Again.
+
+30:55.210 --> 30:57.770
+You know there's some differences for other tokens.
+
+30:57.770 --> 31:06.610
+But the most striking difference is this flip in the activations for processing him for the him eigendecomposition
+
+31:06.610 --> 31:10.050
+and processing her for the her eigendecomposition.
+
+31:10.290 --> 31:12.690
+And yeah, you can keep exploring this.
+
+31:12.690 --> 31:15.650
+You can see here how this analysis works.
+
+31:15.650 --> 31:19.490
+But yeah basically just taking the data, the original data.
+
+31:19.930 --> 31:27.730
+So the activations in the original MLP space, compressing them down and then multiplying them through
+
+31:27.770 --> 31:31.290
+the each of the two top eigenvectors.
+
+31:32.650 --> 31:36.250
+I hope you don't feel overwhelmed by this analysis.
+
+31:36.490 --> 31:44.510
+This is some fairly advanced applications of linear algebra to complicated large data sets, and it
+
+31:44.510 --> 31:48.510
+really takes a while to wrap your head around what it means and why it works.
+
+31:49.030 --> 31:55.630
+In fact, I have an entire separate course that is really just focused on this one particular source
+
+31:55.630 --> 31:58.470
+separation method generalized Eigendecomposition.
+
+31:59.150 --> 32:05.430
+This course is focused on neuroscience data, but I do try to make the course general enough that it
+
+32:05.430 --> 32:08.190
+can be used for a wide variety of topics.
+
+32:08.670 --> 32:12.190
+Now, to be totally clear, I'm not telling you to take this course.
+
+32:12.190 --> 32:18.150
+This course is certainly not part of the LLM course that you are right now watching.
+
+32:18.430 --> 32:25.070
+I just want to highlight that this method generalized Eigendecomposition I've now tried to explain in
+
+32:25.070 --> 32:33.310
+only two relatively short videos, is something that I spend 4.5 hours to unpack in more detail, and
+
+32:33.310 --> 32:39.590
+that's not even including all that stuff beforehand, like PCA and covariance matrices and so on.
+
+32:40.260 --> 32:47.420
+Generalized eigen decomposition has been used in lots of different disciplines, and has proven to be
+
+32:47.420 --> 32:54.420
+a really powerful method for identifying patterns in data that separate two different categories.
+
+32:54.980 --> 33:00.220
+Now, when you're working with very small data sets, the method is easier to apply.
+
+33:00.540 --> 33:06.860
+And so llms pose some interesting challenges in this kind of analysis approach.
+
+33:07.500 --> 33:12.420
+In this video, I showed a few ways to see if our results were due to overfitting.
+
+33:12.540 --> 33:18.980
+Although none of them was really that statistically rigorous, I have to admit a more rigorous approach
+
+33:18.980 --> 33:26.660
+would be to validate the findings on a test set that the Eigendecomposition was not exposed to, and
+
+33:26.660 --> 33:31.860
+you're going to have an opportunity to do that in the code challenge in the next video.
+
+33:32.060 --> 33:37.500
+And I can already tell you that it's going to work out really well in the sense that the cross-validation
+
+33:37.500 --> 33:39.380
+performance will be quite good.

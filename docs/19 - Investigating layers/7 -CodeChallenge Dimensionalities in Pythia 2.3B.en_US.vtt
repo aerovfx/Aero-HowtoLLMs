@@ -1,0 +1,712 @@
+WEBVTT
+
+00:02.160 --> 00:11.280
+Now, to follow up on the effective dimensionality analysis here, you will get to explore dimensionality
+
+00:11.280 --> 00:18.360
+in a bigger model, some slightly different calculations compared to what I showed in the previous video,
+
+00:18.920 --> 00:25.680
+somewhat improved visualizations, and most interestingly, I think different texts.
+
+00:26.480 --> 00:35.160
+The model we will use here is one of the Pythia models that was trained and released by the org Eleuther.
+
+00:35.640 --> 00:42.640
+They also produce the GPT neo models that we've used several times earlier in this course.
+
+00:43.240 --> 00:48.560
+So here is the paper that describes this collection of models.
+
+00:48.920 --> 00:54.480
+There are several models that you can access, all of which you can get through hugging face.
+
+00:54.480 --> 01:02.750
+And here you see the 2.8 billion parameter model that you will use in this code challenge.
+
+01:03.070 --> 01:10.030
+The goal of exercise one is basically just to get the activations from this model.
+
+01:10.590 --> 01:16.110
+Import the Pythia 2.8 billion parameter model from hugging face.
+
+01:16.390 --> 01:24.670
+Print out the model architecture and have a look through its sizes and naming conventions for the text.
+
+01:24.710 --> 01:31.990
+You can use the same little slice of Alice tokens that I used in the previous video, along with the
+
+01:32.030 --> 01:34.670
+shuffled versions of those tokens.
+
+01:35.070 --> 01:39.270
+We will switch to other texts later in this code challenge.
+
+01:39.790 --> 01:46.710
+As always, it's a good idea to sanity check your code, for example, by printing out the number of
+
+01:46.710 --> 01:53.110
+hidden layers and the size of the activations from any one of those hidden layers.
+
+01:53.990 --> 01:59.810
+Okay, now you can pause the video and switch to code, and now I will switch to code, but only briefly.
+
+01:59.810 --> 02:04.010
+Considering that most of this exercise is old news.
+
+02:05.170 --> 02:14.170
+Some libraries that we will use here is where I'm importing the Eleuther AI Pythia model 2.8 b.
+
+02:14.330 --> 02:16.770
+Of course the B is for billion.
+
+02:16.810 --> 02:18.250
+Actually this is the tokenizer.
+
+02:18.290 --> 02:19.690
+This is the model itself.
+
+02:20.010 --> 02:21.930
+I'm putting this on the GPU.
+
+02:22.370 --> 02:26.850
+Uh, and then I'm also switching to eval mode here.
+
+02:26.850 --> 02:27.770
+I'm getting the text.
+
+02:27.810 --> 02:28.050
+Yeah.
+
+02:28.050 --> 02:29.330
+This is nothing new here.
+
+02:29.450 --> 02:36.050
+And here I'm going to push the data through the model, push the tokens through the model on the GPU
+
+02:36.250 --> 02:40.010
+and then print out the number of hidden layers.
+
+02:40.010 --> 02:45.890
+So that's the number of transformer blocks plus one for the initial embeddings.
+
+02:46.090 --> 02:47.170
+Uh matrix.
+
+02:47.290 --> 02:52.450
+And then yeah, this variable is just for, uh, making it a little bit more convenient to run the for
+
+02:52.450 --> 02:53.290
+loop later on.
+
+02:53.570 --> 02:55.930
+Here you see the info about the model.
+
+02:55.970 --> 03:01.440
+So it's just over 50,000 tokens, very similar to GPT two.
+
+03:01.840 --> 03:08.280
+And now here in this model, there are 2560 embeddings dimensions.
+
+03:08.280 --> 03:14.880
+So that's already more than three times as much as GPT two small.
+
+03:15.520 --> 03:18.920
+And let's see I do like their naming convention here.
+
+03:18.920 --> 03:23.440
+I find this to be a little bit more intuitive to understand what's going on.
+
+03:23.440 --> 03:27.760
+So we have the post attention layer norm for example the input layer norm.
+
+03:27.760 --> 03:31.280
+This is in the attention blocks or the transformer blocks.
+
+03:31.520 --> 03:32.560
+Here is the attention.
+
+03:32.560 --> 03:35.440
+They call this matrix query key value.
+
+03:35.480 --> 03:37.000
+That's very informative.
+
+03:37.120 --> 03:42.760
+And I also like their naming convention for the MLP layer that they say dense h.
+
+03:42.800 --> 03:44.880
+The h is for hidden to for h.
+
+03:44.880 --> 03:51.120
+So you can see right in the naming convention that we have A4X expansion.
+
+03:51.240 --> 03:58.820
+And then from the four times the dimensionality back down to the h dimensionality, which is this over
+
+03:58.820 --> 03:59.140
+here?
+
+03:59.140 --> 04:00.500
+2560.
+
+04:00.700 --> 04:05.860
+So we get up to 10,000 neurons in the middle of the MLP layers.
+
+04:05.860 --> 04:06.620
+That's a lot.
+
+04:07.620 --> 04:09.740
+Now for the analysis.
+
+04:10.140 --> 04:16.180
+This four loop here shows the analyses that you should run in this exercise.
+
+04:16.340 --> 04:19.740
+Obviously looping over all of the layers.
+
+04:20.180 --> 04:25.100
+Now much of the code here is the same as in the previous video.
+
+04:25.620 --> 04:33.580
+So you get all of the activations and mean center those get the singular values from the SVD, convert
+
+04:33.580 --> 04:39.940
+to percent variance explained and calculate the cumulative variance explained.
+
+04:40.300 --> 04:48.620
+And here you see I have two lines of code for the effective dimensionality component count in the previous
+
+04:48.620 --> 04:49.180
+video.
+
+04:49.220 --> 04:54.220
+I only calculated this for one threshold of 95%.
+
+04:54.580 --> 05:01.890
+Here in this code challenge, you want to get two scores, one for 95% threshold and the other using
+
+05:01.890 --> 05:04.450
+a 99% threshold.
+
+05:05.090 --> 05:12.370
+That will allow you to visualize both sets of results and see if there are any qualitative differences
+
+05:12.370 --> 05:15.930
+between the results when you use different thresholds.
+
+05:16.450 --> 05:21.810
+And of course, you want to repeat all of this code for the shuffled tokens.
+
+05:22.730 --> 05:23.410
+Very nice.
+
+05:23.410 --> 05:25.690
+Now you can pause the video and get to work.
+
+05:25.690 --> 05:32.730
+And now I will switch to code and show my solution compared to the previous video.
+
+05:32.770 --> 05:41.050
+This variable here, this matrix effective dimensionality component count has an extra dimension in
+
+05:41.050 --> 05:41.250
+it.
+
+05:41.250 --> 05:48.810
+So in the previous video it was the number of layers by two where the two corresponded to the real tokens
+
+05:48.810 --> 05:50.490
+versus the shuffled tokens.
+
+05:50.610 --> 05:55.130
+And now I have an additional dimension in this matrix.
+
+05:55.280 --> 05:57.880
+Actually, it's technically a tensor now.
+
+05:58.040 --> 06:03.960
+And that corresponds to the two thresholds for 95% versus 99%.
+
+06:04.360 --> 06:11.080
+Otherwise all of this code you have seen before in the previous video, and in fact this line of code
+
+06:11.080 --> 06:14.320
+which is new, this is also like super duper easy.
+
+06:14.360 --> 06:20.560
+Once you get this line, all you have to do is change the number over here for the new threshold.
+
+06:21.640 --> 06:24.000
+Now for the visualizations.
+
+06:24.320 --> 06:32.360
+Here you can make two sets of plots as I showed in the previous video, but I would like you to make
+
+06:32.360 --> 06:34.160
+a couple of small changes.
+
+06:34.600 --> 06:42.360
+So these two plots here show the cumulative percent variance explained for all of the layers, for the
+
+06:42.400 --> 06:45.800
+real tokens and the shuffled tokens.
+
+06:45.920 --> 06:53.000
+Now that part is exactly the same as in the previous video, but here I think it would be pretty informative
+
+06:53.000 --> 07:00.700
+to have horizontal dashed lines through the plot showing the thresholds so that you see here on the
+
+07:00.700 --> 07:01.300
+left.
+
+07:01.700 --> 07:05.580
+So the dashed lines are at 95 and 99%.
+
+07:05.780 --> 07:12.460
+And basically when you plot this through, it will help visualize what these thresholds mean for the
+
+07:12.460 --> 07:13.740
+different layers.
+
+07:14.740 --> 07:21.220
+And then in these two plots here, these show the scatter plots for the shuffled and the real tokens
+
+07:21.380 --> 07:26.420
+over the different model layers on the x axis.
+
+07:26.900 --> 07:31.380
+Now this part is the same as in the previous video.
+
+07:31.620 --> 07:40.300
+Here I have two plots, one for the threshold of 95% variance, and here for the threshold of 99% variance.
+
+07:40.500 --> 07:50.180
+But what is different here compared to the previous video, is that the y axis here now shows the percent
+
+07:50.380 --> 07:53.060
+of maximum possible dimensionality.
+
+07:53.650 --> 07:58.890
+In the previous video, the y axis was just the number of components.
+
+07:59.290 --> 08:06.850
+But the thing is that the raw number is kind of difficult to interpret, because that number can vary
+
+08:07.090 --> 08:13.770
+depending on the model size and on the data set size, like the token sequence length.
+
+08:14.010 --> 08:21.930
+So the raw number of components for an effective dimensionality analysis is not necessarily so easy
+
+08:21.930 --> 08:28.730
+to interpret, and certainly not easy to compare across different models or different data sets, different
+
+08:28.770 --> 08:30.410
+batch sizes, and so on.
+
+08:31.370 --> 08:39.010
+So therefore you have to figure out what is the theoretical maximum possible number of dimensions for
+
+08:39.010 --> 08:47.530
+this analysis, and then scale the y axis here to show the percent of dimensionality that is occupied
+
+08:47.530 --> 08:50.050
+by the effective dimensionality.
+
+08:50.530 --> 08:55.350
+So to go back to the piece of paper analogy from the previous video.
+
+08:55.830 --> 09:03.270
+If we say that the maximum possible dimensionality of a piece of paper is three because it's an object
+
+09:03.270 --> 09:10.350
+in a three dimensional world, then the scaled proportion effective dimensionality would be two thirds
+
+09:10.350 --> 09:12.190
+or 67%.
+
+09:13.110 --> 09:15.870
+I hope you enjoy working through this exercise.
+
+09:15.990 --> 09:23.430
+You can also qualitatively compare the results that you get here to the results that we got in the previous
+
+09:23.430 --> 09:24.190
+video.
+
+09:24.630 --> 09:31.710
+And that is interesting because it's the same analysis on the same text, but with different models.
+
+09:32.270 --> 09:36.550
+Anyway, now I will switch to code because that's what I always do at this point.
+
+09:37.750 --> 09:39.950
+The code to generate this first plot.
+
+09:39.990 --> 09:43.310
+This is the line plots of cumulative variance explained.
+
+09:43.550 --> 09:47.310
+It's exactly the same code as in the previous video.
+
+09:47.350 --> 09:56.820
+The only thing that I added here is these lines of code to draw horizontal lines at 95 and 99% variance.
+
+09:57.060 --> 09:57.860
+So there you go.
+
+09:58.100 --> 10:03.180
+So now the interpretation is for each of these colored lines here.
+
+10:03.340 --> 10:06.700
+Where do they cross the 95% threshold.
+
+10:06.700 --> 10:15.740
+And that number you would read out as the number of components it takes to get to 95% total variability
+
+10:15.740 --> 10:17.980
+in the data set explained.
+
+10:18.220 --> 10:18.540
+Okay.
+
+10:18.580 --> 10:24.900
+So this is for the real components and for the shuffled or sorry the real tokens and the shuffled tokens.
+
+10:25.260 --> 10:31.420
+This code here is also basically the same as in the previous video code.
+
+10:31.580 --> 10:38.420
+Only the only thing I changed is instead of plotting effective comp count, this variable that we calculated
+
+10:38.420 --> 10:46.100
+in the for loop, I created a new variable uh with p at the end for percent of total, uh, possible
+
+10:46.100 --> 10:47.140
+dimensionality.
+
+10:47.460 --> 10:48.860
+That's what this should actually say.
+
+10:48.860 --> 10:49.980
+Not total variance.
+
+10:50.090 --> 10:53.130
+Total possible dimensionality.
+
+10:53.610 --> 10:53.890
+Okay.
+
+10:53.930 --> 10:55.410
+And how do we calculate that?
+
+10:55.450 --> 11:02.730
+The key insight is to appreciate that the maximum possible dimensionality corresponds to the number
+
+11:02.730 --> 11:04.770
+of singular values.
+
+11:04.770 --> 11:08.050
+So we can simply divide by the length of s.
+
+11:08.050 --> 11:13.450
+Remember s was the singular values vector that we calculated.
+
+11:13.450 --> 11:17.370
+This was the output from the numpy SVD function.
+
+11:17.810 --> 11:24.570
+So you just divide the number of components by the total number of singular values.
+
+11:24.570 --> 11:26.050
+This would give you proportion.
+
+11:26.050 --> 11:30.330
+And then I multiply by 100 just to give me a percentage.
+
+11:30.730 --> 11:32.050
+So this is pretty interesting.
+
+11:32.050 --> 11:40.130
+We see that there are some features of this plot that looks similar to what we saw in the previous video
+
+11:40.130 --> 11:44.130
+with GPT, and some features that are a little bit different.
+
+11:44.410 --> 11:49.190
+So one thing that is similar is that the the shuffled and the in.
+
+11:49.190 --> 11:53.470
+The real tokens overlap in terms of their dimensionality.
+
+11:53.510 --> 11:55.230
+Subspace in the beginning.
+
+11:55.230 --> 11:59.510
+But as we get later in the model, the real tokens take off.
+
+11:59.510 --> 12:07.070
+They expand in dimensionality, whereas the shuffle tokens stay low or get even a little bit lower.
+
+12:07.470 --> 12:14.990
+And then when you compare the 95% to the 99% threshold, you see that they are not exactly the same
+
+12:14.990 --> 12:18.590
+but qualitatively show quite similar patterns.
+
+12:18.590 --> 12:23.150
+And that is generally something you will often see in these kinds of analyses.
+
+12:23.310 --> 12:30.750
+And it's something you always want to find in an analysis that as you vary a parameter within some reasonable
+
+12:30.750 --> 12:36.230
+range, the general pattern of results is going to stay roughly the same.
+
+12:36.630 --> 12:43.750
+If the pattern of results is changing wildly and erratically just by tweaking some tiny little parameter,
+
+12:44.030 --> 12:50.260
+then I mean, maybe if that parameter is like a control some nonlinear gain or something like that.
+
+12:50.260 --> 12:51.420
+That could be explainable.
+
+12:51.420 --> 12:59.660
+But in my humble opinion, if tweaking one parameter a tiny bit really has an enormous qualitative impact
+
+12:59.660 --> 13:07.300
+on the results, then those are probably not very stable, reliable and reproducible results.
+
+13:07.940 --> 13:16.060
+One of the take home messages from these exercises so far, and also from the previous video, is that
+
+13:16.060 --> 13:23.020
+the qualitative pattern of the effective dimensionality seemed fairly consistent when comparing the
+
+13:23.020 --> 13:27.580
+two different models, and also when using the two different thresholds.
+
+13:28.020 --> 13:35.220
+But all of that is using the exact same 1000 tokens from one specific book.
+
+13:35.820 --> 13:42.380
+So what I want you to do now in exercise four is explore some other texts.
+
+13:42.900 --> 13:49.760
+You can try some text from the Heart of Darkness, which you can also download from gutenberg.org and
+
+13:49.760 --> 13:51.160
+you can use the website.
+
+13:51.160 --> 13:52.600
+Pigeons aren't real.
+
+13:54.000 --> 13:59.960
+We use this website earlier in the course about tokenization of HTML.
+
+14:00.600 --> 14:05.560
+So when you download this website, you're not just getting the text that you see here.
+
+14:05.560 --> 14:07.480
+When you look at the rendered page.
+
+14:07.960 --> 14:14.560
+Instead, you're going to get all of the HTML and the CSS code that is on this page.
+
+14:15.120 --> 14:18.560
+Now The Heart of Darkness is a very different book.
+
+14:18.560 --> 14:25.360
+It's written in a very different style from Through the Looking Glass, but they are both English texts.
+
+14:25.760 --> 14:31.480
+And those two texts together are very different from HTML code.
+
+14:31.760 --> 14:39.200
+So it will be pretty interesting to see how these differ in terms of the effective dimensionality analysis.
+
+14:40.440 --> 14:47.910
+I have code to import these URLs, these text data sets in the solutions and helper files.
+
+14:48.110 --> 14:53.710
+So I recommend just copying from that instead of going through the effort to find the URL from these
+
+14:53.710 --> 14:54.910
+websites and so on.
+
+14:55.470 --> 15:00.550
+Importantly, you do not want to change anything else in the code.
+
+15:00.990 --> 15:08.150
+All you want to do is replace the line where you import the data, and then run the rest of the code
+
+15:08.150 --> 15:11.830
+exactly the same without changing anything.
+
+15:12.310 --> 15:19.230
+I also recommend saving some screenshots of the Alice results, so that it's easy to compare them to
+
+15:19.310 --> 15:20.990
+these other two data sets.
+
+15:22.030 --> 15:26.110
+Okay, so now you can pause the video and work through this exercise.
+
+15:26.230 --> 15:29.150
+And now I will show and discuss my results.
+
+15:29.950 --> 15:31.670
+This is the URL.
+
+15:31.710 --> 15:36.310
+This would be the line of code to replace for using the Heart of Darkness.
+
+15:36.430 --> 15:38.950
+I'm actually just going to copy this.
+
+15:39.110 --> 15:41.830
+I will let you take care of this one on your own.
+
+15:42.310 --> 15:43.310
+Okay so let's see.
+
+15:43.350 --> 15:49.500
+Let's scroll up here Year and just in the interest of laziness, I'm even going to keep all.
+
+15:49.540 --> 15:50.660
+Of these tokens here.
+
+15:51.180 --> 15:51.820
+Like this.
+
+15:51.860 --> 15:57.900
+Okay, so now you can see this is the HTML and CSS code and all of that stuff.
+
+15:58.060 --> 15:59.860
+So same number of tokens.
+
+16:00.060 --> 16:03.420
+But it comes from a very very different source.
+
+16:03.460 --> 16:05.860
+And now here's what it looks like when it's shuffled.
+
+16:06.020 --> 16:08.700
+It's just complete utter nonsense.
+
+16:08.940 --> 16:09.260
+Okay.
+
+16:09.300 --> 16:16.300
+So now I am going to just run all of the rest of the code here up through the visualization.
+
+16:17.780 --> 16:24.660
+So these plots overall look quite steep relative to what we saw before with the Alice tokens.
+
+16:24.940 --> 16:29.260
+And it looks like the layers are all a little bit more tightly bound together.
+
+16:29.260 --> 16:34.020
+So there's a lot less differences across the different layers.
+
+16:34.340 --> 16:38.900
+And then when we look down at the scatter plot here, we see something really interesting.
+
+16:38.900 --> 16:42.180
+We do in general see a slight increase.
+
+16:42.180 --> 16:48.080
+So a trend towards an increase in the dimensionality as we get deeper into the model.
+
+16:48.200 --> 16:52.360
+So that was consistent with what we have seen before with other texts.
+
+16:52.840 --> 16:58.520
+But here it looks like the shuffled tokens actually expand the dimensionality.
+
+16:58.520 --> 17:07.160
+So the null hypothesis tokens are actually more high dimensional than the HTML and CSS and Java and
+
+17:07.160 --> 17:10.920
+whatever other languages are inside that website.
+
+17:11.240 --> 17:13.640
+So that is quite interesting and thought provoking.
+
+17:13.640 --> 17:21.160
+This means that the encoding of those HTML tags actually doesn't require a lot of dimensionality.
+
+17:21.200 --> 17:29.200
+You only need a relatively small amount of space inside the model to store all of the processing and
+
+17:29.200 --> 17:37.200
+representations that are needed for the HTML code, for the website code, and at best, that gets up
+
+17:37.200 --> 17:42.400
+to like 20% of the maximum dimensionality of the model processing.
+
+17:42.400 --> 17:49.830
+And that is interesting to think about, because it basically means that 80% of the model is doing nothing,
+
+17:49.870 --> 17:55.470
+or at least it is not really crucial for the generation of the tokens.
+
+17:55.470 --> 18:03.190
+That is part of the reason why these compressed models can still do reasonably well on a lot of tasks.
+
+18:03.310 --> 18:10.070
+It is not necessarily the case that the bigger the model, the better it is, and that is partly for
+
+18:10.070 --> 18:10.830
+this reason.
+
+18:10.830 --> 18:19.790
+There is a lot of like space in the model, in the data space that is not always used by the model.
+
+18:19.790 --> 18:27.230
+And if you have a very narrow task like coding, then that's more so the case for a very complex task,
+
+18:27.390 --> 18:31.670
+like generating some really complex set of texts.
+
+18:32.510 --> 18:38.030
+Effective dimensionality is a really interesting and thought provoking analysis.
+
+18:38.510 --> 18:40.230
+It's also quite versatile.
+
+18:40.390 --> 18:45.450
+So here we applied it to just the Hidden States activations.
+
+18:45.770 --> 18:50.930
+But of course, you could also run this analysis to any collection of data that you want.
+
+18:51.130 --> 18:56.370
+For example, let's say just the query vectors from one particular attention head.
+
+18:57.090 --> 19:02.610
+As with a lot of analyses and complex data, the sky is the limit.
+
+19:02.610 --> 19:07.170
+So the challenging part is figuring out how to set up the analysis.
+
+19:07.210 --> 19:10.810
+Why to run it that way and how to interpret the results.
+
+19:11.530 --> 19:18.690
+Also, in my opinion, a dimensionality analysis like this is not the final analysis.
+
+19:18.890 --> 19:26.050
+Instead, this would be the starting point to begin to dig deeper and try to understand what is actually
+
+19:26.050 --> 19:33.450
+happening in those different dimensions, and why the dimensionalities are squeezing and expanding as
+
+19:33.450 --> 19:40.450
+you go through the transformer, and what is happening in the low variability dimensions that get squeezed
+
+19:40.450 --> 19:41.010
+out.

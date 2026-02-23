@@ -1,0 +1,766 @@
+WEBVTT
+
+00:02.160 --> 00:05.640
+I hope you enjoy working through this code challenge.
+
+00:05.920 --> 00:12.760
+It's going to be fairly involved, but I think you will find that the coding and conceptual knowledge
+
+00:12.760 --> 00:18.080
+that you gain by the end of this code challenge will be worth the challenge.
+
+00:18.760 --> 00:26.600
+So the goal here will be to see if we can identify neurons in the expansion part of the MLP layer of
+
+00:26.600 --> 00:34.600
+one transformer block that are tuned to particular parts of speech, in particular nouns versus verbs.
+
+00:35.360 --> 00:39.680
+What does it mean for a neuron to be tuned to some category?
+
+00:40.240 --> 00:47.800
+That's just a phrasing that's used to indicate that a neuron has significantly stronger activation for
+
+00:47.800 --> 00:49.920
+one category over others.
+
+00:50.240 --> 00:58.360
+For example, if a particular neuron has strong activation to nouns, but not to verbs or adjectives,
+
+00:58.600 --> 01:06.240
+or perhaps if a neuron has high activations to mammals, but not to invertebrates or inanimate objects.
+
+01:06.840 --> 01:13.920
+By the way, as you work through this code challenge, I would like you to think about some of the challenges
+
+01:13.920 --> 01:21.840
+in these exercises and how you might address some of the limitations and difficulties in these exercises
+
+01:22.080 --> 01:24.560
+in potential follow up research.
+
+01:25.000 --> 01:30.760
+I will get back to this at the end of the code, challenge the end of the video and discuss some of
+
+01:30.760 --> 01:33.000
+my observations and comments.
+
+01:33.360 --> 01:36.480
+Anyway, let's begin with exercise one.
+
+01:37.160 --> 01:42.840
+The goal here is to import the Eleuther GPT neo model.
+
+01:43.600 --> 01:46.880
+We have worked with this model previously in this course.
+
+01:47.120 --> 01:54.520
+For example, in this lecture about fine tuning the model to emulate the writing style of Through the
+
+01:54.520 --> 01:57.040
+Looking Glass and Edgar Allan Poe.
+
+01:57.880 --> 02:06.680
+Next, you should import a list of the 100 common nouns and verbs, and I got some nice lists from this
+
+02:06.680 --> 02:08.880
+person's GitHub site.
+
+02:08.880 --> 02:15.600
+I have no idea who this person is, but I am grateful for their efforts to organize these lists of words
+
+02:15.600 --> 02:16.720
+and put them online.
+
+02:17.280 --> 02:23.240
+Anyway, for this part, you can just copy the code from the solutions or the helper files.
+
+02:23.520 --> 02:30.240
+So this is really just about retrieving and formatting some data from a public GitHub repo.
+
+02:31.160 --> 02:33.160
+So this exercise isn't so bad.
+
+02:33.200 --> 02:36.200
+And now you should pause the video and get to work.
+
+02:36.440 --> 02:43.160
+And I will switch to code briefly just to show you what you need to have before moving on to exercise
+
+02:43.160 --> 02:43.640
+two.
+
+02:44.520 --> 02:48.960
+Here are some of the libraries that we will need for this code.
+
+02:48.960 --> 02:54.840
+Challenge some of these libraries I'm not going to use until a little bit later on, like this one we'll
+
+02:54.840 --> 02:56.160
+use towards the end.
+
+02:56.600 --> 02:56.880
+Okay.
+
+02:56.920 --> 02:58.080
+So import those.
+
+02:58.120 --> 03:04.880
+And now here I am importing the Eleuther tokenizer and also the model.
+
+03:04.880 --> 03:08.240
+And here I'm switching it to eval mode.
+
+03:09.200 --> 03:09.520
+Okay.
+
+03:09.560 --> 03:12.800
+And then here is the list of verbs.
+
+03:12.960 --> 03:19.800
+And to get this list basically you just need to have the URL for this text file.
+
+03:20.240 --> 03:28.480
+And then yeah you can split it by new line and just import the first 100 verbs and that you see here.
+
+03:28.480 --> 03:32.680
+So this is the first 100 that are provided in this list.
+
+03:32.680 --> 03:36.400
+So that's for the verbs where the nouns it's exactly the same.
+
+03:36.640 --> 03:41.320
+Uh now you can organize these to uh variables in different ways.
+
+03:41.320 --> 03:44.760
+I chose to have separate variables for the verbs and the nouns.
+
+03:45.000 --> 03:50.920
+If you chose to have all of the words in one list, then that's also fine.
+
+03:50.920 --> 03:56.000
+That would be a list with 200 elements, and you would just need to know that, for example, the first
+
+03:56.000 --> 03:58.760
+hundred are verbs and the next hundred are nouns.
+
+03:58.920 --> 04:05.000
+There's a lot of personal choices that you can make when setting up these code challenges, and that's
+
+04:05.000 --> 04:11.000
+completely fine as long as you are coding in a way that is consistent with the instructions that I'm
+
+04:11.040 --> 04:12.280
+giving in the slides.
+
+04:13.120 --> 04:20.760
+Before telling you about exercise two, I want to remind you of the key conceptual difference between
+
+04:20.760 --> 04:26.520
+the attention and the MLP subblock of a transformer layer.
+
+04:27.120 --> 04:33.520
+So this is a slide that I showed earlier in the course in the section on building a GPT.
+
+04:34.240 --> 04:42.680
+The key idea that I want to remind you of here is that the attention sublayer integrates context from
+
+04:42.680 --> 04:52.240
+surrounding tokens, whereas the MLP sublayer extracts and identifies features and categories from the
+
+04:52.240 --> 04:56.920
+linear and non-linear combinations across the different tokens.
+
+04:57.400 --> 05:03.520
+So therefore, if you want to look for category selectivity Activity inside an LM.
+
+05:04.000 --> 05:08.560
+Based on previous research and on just general speculations.
+
+05:08.680 --> 05:11.520
+It's good to start with the MLP layers.
+
+05:11.960 --> 05:17.680
+Of course, you could also look for category selectivity in the attention layers, and you probably
+
+05:17.680 --> 05:22.240
+will find some neurons here that are tuned to particular categories.
+
+05:22.360 --> 05:28.760
+But at least for the context of this code challenge, we will just focus on the MLP sublayer.
+
+05:29.160 --> 05:37.560
+In particular, we will be extracting the activation from the expansion neurons in the MLP layer.
+
+05:38.080 --> 05:42.080
+So remember that the MLP sublayer has these two parts.
+
+05:42.200 --> 05:45.080
+One part that expands the dimensionality.
+
+05:45.280 --> 05:52.600
+And then after a non-linearity, the dimensionality contracts back to the dimensionality of the embedding
+
+05:52.600 --> 05:57.440
+space, which for GPT two is 768.
+
+05:58.080 --> 06:04.560
+So in this exercise, in this entire code challenge, and actually also in the next code challenge,
+
+06:04.560 --> 06:11.200
+we are going to be specifically focusing on these expansion neurons in this layer.
+
+06:11.760 --> 06:18.400
+Now for the small version of GPT two, this corresponds to 3072 neurons.
+
+06:18.400 --> 06:26.560
+Of course that is a factor of four, an expansion factor of four from the 768 embeddings dimensions.
+
+06:27.480 --> 06:31.200
+Now let me tell you about the goals for exercise two.
+
+06:31.960 --> 06:38.840
+Here you should implant a hook to get the activations from that expansion layer of the MLP from the
+
+06:38.880 --> 06:41.120
+ninth transformer block.
+
+06:41.840 --> 06:49.520
+After you have installed a hook, you can test it just by passing in a bit of text and then you can
+
+06:49.520 --> 06:50.280
+check that.
+
+06:50.480 --> 06:56.040
+Well, first of all, check that you don't get any error messages that could indicate problems or maybe
+
+06:56.080 --> 06:58.360
+typos, for example, with the hook function.
+
+06:59.120 --> 07:06.400
+But then you also just want to make sure that the size of the activations that you get out is batch
+
+07:06.400 --> 07:09.480
+by tokens by 3072.
+
+07:10.120 --> 07:13.000
+You can use any random piece of text that you want.
+
+07:13.040 --> 07:17.000
+Here we're not actually going to use this text in later exercises.
+
+07:17.200 --> 07:20.680
+It's just for a sanity check for this exercise.
+
+07:21.400 --> 07:23.520
+Okay, so that's it for exercise two.
+
+07:23.560 --> 07:25.920
+Please pause the video and code away.
+
+07:26.160 --> 07:29.560
+And now I will switch to code and show my solution.
+
+07:30.640 --> 07:37.720
+I forgot to mention in the slides that I'm only using the CPU because we're not really doing a whole
+
+07:37.720 --> 07:42.200
+lot of really intensive processing through this model.
+
+07:42.360 --> 07:44.440
+So you can use the GPU if you want.
+
+07:44.440 --> 07:46.320
+It will certainly save you some time.
+
+07:46.600 --> 07:53.160
+But yeah, for this code challenge, the time you save from GPU might be on the order of seconds, tens
+
+07:53.160 --> 07:58.520
+of seconds versus the amount of time it takes you to organize all the code to make sure that you're
+
+07:58.520 --> 07:59.320
+using the GPU.
+
+08:00.600 --> 08:06.920
+Anyway, so here I just wanted to print out the model architecture as a reminder in case we need to
+
+08:06.960 --> 08:07.680
+use it.
+
+08:07.680 --> 08:13.560
+So we specifically want the MLP from one of the transformer blocks.
+
+08:13.560 --> 08:16.120
+And I said the transformer block.
+
+08:16.120 --> 08:19.000
+So that corresponds to index eight.
+
+08:19.320 --> 08:19.600
+Right.
+
+08:19.640 --> 08:22.080
+Because it starts counting at zero.
+
+08:22.440 --> 08:24.400
+And then which of these things do we want.
+
+08:24.440 --> 08:34.760
+We want the C underscore FC which stands for Fully Connected, that has uh 768 neurons coming into it
+
+08:34.760 --> 08:37.720
+and 3072 neurons coming out.
+
+08:37.720 --> 08:39.680
+And these are the neurons here.
+
+08:39.840 --> 08:46.680
+Before we get to the activation, the non-linearity, these are the activations that we want to hook
+
+08:47.000 --> 08:48.840
+and extract from the model.
+
+08:49.480 --> 08:49.760
+Okay.
+
+08:49.800 --> 08:52.920
+So this is how you would access all of those.
+
+08:52.920 --> 08:56.800
+And then I'm just defining some variable called n neurons.
+
+08:56.920 --> 09:02.360
+This is just going to be convenient for using later on in the exercises.
+
+09:03.480 --> 09:06.760
+So here is the hook function to grab the activations.
+
+09:07.240 --> 09:14.160
+You can see that I'm creating these activations to be a dictionary, and I'm not going to do any concatenation.
+
+09:14.160 --> 09:21.360
+So every time I run a forward pass it's going to overwrite the activations from the previous forward
+
+09:21.360 --> 09:21.920
+pass.
+
+09:22.160 --> 09:22.840
+That's fine.
+
+09:22.840 --> 09:26.760
+I don't need to store all of them sequentially, although you can do that.
+
+09:26.760 --> 09:28.160
+I'll talk about that more later.
+
+09:28.560 --> 09:34.040
+But anyway, you do, it is fine as long as you are getting all of the activations out of it correctly.
+
+09:34.600 --> 09:40.920
+Okay, so the hook goes into model dot transformer dot h for hidden layer.
+
+09:41.080 --> 09:46.920
+And then this particular layer and I've soft coded this here in case you are curious.
+
+09:47.080 --> 09:52.320
+You know you can also try what happens in the rest of this exercise if you pick a different layer.
+
+09:52.840 --> 09:54.400
+Uh let's see MLP.
+
+09:54.440 --> 09:58.760
+And then here is the register forward hook method.
+
+09:58.920 --> 10:02.720
+And then I'm calling this outer function here implant hook.
+
+10:03.230 --> 10:09.550
+As I mentioned a couple videos ago, the main point of having this outer function is to be able to soft
+
+10:09.550 --> 10:19.510
+code this parameter here, which I then use to define this key for this activations dictionary variable
+
+10:19.550 --> 10:20.070
+here.
+
+10:20.230 --> 10:26.470
+So this is, you know, setting it up this way might be a little bit more complicated than is necessary
+
+10:26.670 --> 10:28.590
+for this particular code challenge.
+
+10:28.590 --> 10:32.430
+So if you chose to do it a simpler way then that's also fine.
+
+10:32.430 --> 10:33.830
+But I wanted to do it this way.
+
+10:33.830 --> 10:39.950
+So it's a little bit more general so that, you know, if you feel like also including the attention
+
+10:39.950 --> 10:47.470
+layers, you could also have some attention activations being outputted into this same variable, this
+
+10:47.470 --> 10:49.230
+same dictionary with a different key.
+
+10:49.670 --> 10:50.030
+Okay.
+
+10:50.070 --> 10:54.750
+Anyway, so then the idea is in the MLP block.
+
+10:54.990 --> 11:03.230
+Then we get the inputs into the MLP block and then run it through the fully connected weights matrix.
+
+11:03.230 --> 11:11.470
+And that is going to give us the results of the activations of all of the expansion neurons from this
+
+11:11.510 --> 11:16.110
+MLP block before they are passed through the non-linearity.
+
+11:16.590 --> 11:16.870
+Okay.
+
+11:16.910 --> 11:20.830
+And then this line of code does the actual surgery to implant the hook.
+
+11:21.390 --> 11:21.830
+Okay.
+
+11:22.070 --> 11:23.110
+Uh, so let's see.
+
+11:23.110 --> 11:23.350
+Yeah.
+
+11:23.350 --> 11:26.110
+Then here I'm just testing a little bit of data.
+
+11:26.150 --> 11:29.950
+You can see that this goes through this forward pass goes through really fast.
+
+11:30.150 --> 11:34.830
+So, uh, for an application like this, we don't really need to use the GPU.
+
+11:35.350 --> 11:35.670
+Again.
+
+11:35.670 --> 11:37.910
+I don't actually care what these numbers are.
+
+11:37.950 --> 11:40.990
+I just want to make sure, first of all, that it works.
+
+11:41.110 --> 11:48.310
+And second of all, that the shape of the output is consistent with what I'm expecting, which is one
+
+11:48.310 --> 11:55.990
+sequence, five tokens, you know, whatever's not so many tokens and 3072 activations corresponding
+
+11:56.030 --> 11:58.790
+to 3072 neurons.
+
+12:00.190 --> 12:04.590
+Now we're starting to get to the important part of the code challenge.
+
+12:05.110 --> 12:14.110
+The goal of exercise three is to get activations from those hooked MLP neurons from all of the 200 words
+
+12:14.110 --> 12:15.790
+that you have imported.
+
+12:16.430 --> 12:24.910
+Now, because those words are in a list and not embedded in text, you have to run a for loop over the
+
+12:24.910 --> 12:28.270
+words to get the activations per word.
+
+12:28.750 --> 12:35.070
+Now, depending on how you defined the hook function, this could mean that the activations variable
+
+12:35.070 --> 12:42.670
+gets overwritten at each iteration in the for loop when you are processing each individual token through
+
+12:42.670 --> 12:43.310
+the model.
+
+12:43.910 --> 12:45.390
+Of course, that's completely fine.
+
+12:45.390 --> 12:51.070
+You just have to be mindful of getting the activations out in a way that is consistent with how you
+
+12:51.070 --> 12:52.910
+defined the hook function.
+
+12:53.630 --> 13:00.070
+When you get all of the activations for all the 200 words, you can visualize them in two plots like
+
+13:00.070 --> 13:00.670
+this.
+
+13:00.830 --> 13:08.550
+So here on the left you see all the activations for all 3000 neurons and all 100 verbs.
+
+13:08.950 --> 13:15.350
+Now it looks like there are just vertical stripes, but there actually is some individual variability
+
+13:15.550 --> 13:17.430
+in here across the different tokens.
+
+13:17.430 --> 13:25.310
+It's just that individual neurons have mean offsets that are preserved for all of the individual words.
+
+13:26.310 --> 13:29.150
+So this is how I visualized the verbs here.
+
+13:29.150 --> 13:32.870
+I visualized the nouns activation in a slightly different way.
+
+13:33.350 --> 13:42.750
+What I did here was calculate the average activation across all of the 100 nouns for each neuron.
+
+13:43.070 --> 13:45.990
+So that's why there's only one dot per neuron.
+
+13:45.990 --> 13:52.550
+This is just visualizing the average across all of the 100 nouns for each neuron.
+
+13:53.190 --> 13:58.190
+And by the way, here you also see the mean offsets for all the different words.
+
+13:58.190 --> 14:02.590
+In fact, it looks like the entire distribution is shifted to the left.
+
+14:02.590 --> 14:07.470
+So the average across the population looks like somewhere around minus one.
+
+14:08.310 --> 14:14.350
+Anyway, for this exercise, you can just extract and visualize the activations.
+
+14:14.630 --> 14:21.750
+In the next exercise, we're going to start performing some statistical analyses to look for category
+
+14:21.790 --> 14:22.790
+selectivity.
+
+14:23.630 --> 14:26.830
+So that's the instructions for exercise three.
+
+14:26.990 --> 14:29.110
+Please pause the video and start working.
+
+14:29.230 --> 14:32.750
+And now I will switch to code and show my solution.
+
+14:34.190 --> 14:39.990
+I am going to store all of the activations in this tensor here.
+
+14:39.990 --> 14:45.990
+So a 3D cube of data of size two corresponding to the two categories.
+
+14:46.110 --> 14:47.670
+So nouns and verbs.
+
+14:47.910 --> 14:51.990
+And then I have the number of words 100 for both categories.
+
+14:52.070 --> 14:54.590
+And then I have the number of neurons.
+
+14:54.590 --> 14:57.070
+So 3072.
+
+14:57.550 --> 14:57.790
+Okay.
+
+14:57.830 --> 15:01.430
+And then I have a for loop here over all of the words.
+
+15:01.630 --> 15:03.790
+So here this part is just for the verbs.
+
+15:03.790 --> 15:05.550
+This part is just for the nouns.
+
+15:05.870 --> 15:07.230
+So here I am.
+
+15:07.950 --> 15:08.470
+Let's see.
+
+15:08.510 --> 15:12.430
+This is this particular verb in the list of verbs.
+
+15:12.550 --> 15:16.350
+And then I encode this to get a token.
+
+15:16.510 --> 15:18.670
+And then I push it through the model.
+
+15:18.990 --> 15:20.670
+Of course I'm using with torch.
+
+15:20.710 --> 15:21.310
+Nograd.
+
+15:21.350 --> 15:26.830
+Because I don't want to calculate any gradients or any anything like that.
+
+15:27.190 --> 15:34.150
+Okay, so this will notice I don't have any output here because I don't actually need the output logits.
+
+15:34.710 --> 15:41.230
+All I need are the activations variables to be created, which happens when I run through the forward
+
+15:41.230 --> 15:41.950
+pass here.
+
+15:42.350 --> 15:47.670
+Okay, so then I get the activations for the hook name that was this MLP layer.
+
+15:48.070 --> 15:50.230
+And then squeeze and detach.
+
+15:50.230 --> 15:57.150
+That basically just detaches everything from the computational graph converts it into numpy because
+
+15:57.630 --> 15:59.990
+I initialize this variable to be numpy.
+
+16:00.030 --> 16:07.270
+So if you would have initialized this to be a torch variable, then you would not want to convert this
+
+16:07.310 --> 16:11.150
+into numpy, but just for convenience for later on.
+
+16:11.350 --> 16:14.230
+It's easier just to have this in numpy format.
+
+16:15.230 --> 16:17.190
+Anyway, here's a question.
+
+16:17.190 --> 16:20.670
+Why do I write mean dim equals one?
+
+16:21.070 --> 16:27.230
+First of all, what is the dimension of index one that I'm averaging over?
+
+16:27.670 --> 16:32.470
+Well, if we go back here, we can see that that first dimension is batches.
+
+16:32.470 --> 16:33.630
+There's only one batch.
+
+16:34.190 --> 16:36.870
+And then the third dimension of course is the neurons.
+
+16:36.910 --> 16:40.070
+The second dimension is the tokens.
+
+16:40.270 --> 16:43.070
+Now the thing is these are all individual words.
+
+16:43.070 --> 16:46.670
+So ideally they would all be just one token.
+
+16:46.670 --> 16:54.430
+But there's no guarantee that every single one of these individual words corresponds to one token.
+
+16:54.830 --> 17:02.030
+So therefore, just in case one of the words happens to be maybe two tokens, then I'm going to average
+
+17:02.030 --> 17:06.550
+over the activation for all of the tokens in each of the words.
+
+17:06.550 --> 17:09.310
+And so that's why I have this bit of code here.
+
+17:10.350 --> 17:10.630
+Okay.
+
+17:10.670 --> 17:15.750
+So that goes into all activations for this word index and for zero.
+
+17:16.150 --> 17:20.030
+So the first dimension that corresponds to the verbs and for all the neurons.
+
+17:20.990 --> 17:25.470
+This code over here is nearly identical to this code.
+
+17:25.470 --> 17:27.790
+Except here I'm using the verbs.
+
+17:27.790 --> 17:36.230
+Here I'm using the nouns here I'm inserting the results into the first index of this dimension, and
+
+17:36.230 --> 17:37.990
+here index one.
+
+17:38.910 --> 17:41.510
+So that took around 13 seconds.
+
+17:41.510 --> 17:46.230
+And if you're using the GPU maybe that would have taken 2 or 3 seconds.
+
+17:46.230 --> 17:48.470
+So either way not so bad.
+
+17:48.830 --> 17:49.070
+Okay.
+
+17:49.110 --> 17:51.950
+And then here we get the plot of all the activations.
+
+17:52.270 --> 17:55.150
+Now there isn't really a whole lot that I want to say about this.
+
+17:55.150 --> 18:01.030
+As I mentioned in the slides, you do see that there are some consistent offsets of the neurons.
+
+18:01.030 --> 18:07.910
+So there are some neurons that just have more negative activations for all of the words that we're processing
+
+18:08.150 --> 18:08.670
+here.
+
+18:09.110 --> 18:14.670
+And yeah, you also see, I don't know if you can see this on your screen, uh, in the video screen,
+
+18:14.670 --> 18:21.350
+but you can probably see it on your screen that there are these, like horizontal bands indicating that
+
+18:21.350 --> 18:27.710
+there are also certain words that just have a relatively, uh, offset, uh, compared to the other
+
+18:27.710 --> 18:27.990
+words.
+
+18:27.990 --> 18:31.910
+That's what you see, like these individual, uh, dots here.
+
+18:31.910 --> 18:34.990
+This would be the average for all of the nouns.
+
+18:34.990 --> 18:37.590
+So this doesn't correspond to any one of these.
+
+18:37.750 --> 18:42.870
+But you know, if you made a plot like this for the nouns, you would probably see that this particular
+
+18:42.870 --> 18:47.110
+neuron looks a little bit different, uh, across the horizontal axis.
+
+18:48.430 --> 18:50.990
+We're about halfway through this code challenge.
+
+18:50.990 --> 18:57.070
+I'm going to break the video here to give you an opportunity to get out of your chair, stretch your
+
+18:57.070 --> 19:00.670
+legs, splash some water on your face when you're feeling refreshed.
+
+19:00.670 --> 19:04.830
+Come back for the next video where we will complete this code challenge.

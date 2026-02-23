@@ -1,0 +1,1366 @@
+WEBVTT
+
+00:02.200 --> 00:07.520
+This is the continuation of the code challenge we started in the previous video.
+
+00:08.320 --> 00:17.360
+The goal of exercise three is to get the MLP activations for all of our target tokens, so that we can
+
+00:17.360 --> 00:20.600
+set up a logistic regression classifier.
+
+00:21.160 --> 00:25.520
+You will implement the actual classifier in the next exercise.
+
+00:25.720 --> 00:34.000
+The goal here in exercise three is to create batches and push the tokens through the model to hook the
+
+00:34.040 --> 00:35.840
+MLP activations.
+
+00:36.360 --> 00:44.200
+So you want to create two batches of data, one for the negation words and one for the affirmation words.
+
+00:44.760 --> 00:47.720
+You can check the sizes of the batches.
+
+00:48.240 --> 00:53.240
+These are, however, many tokens you identified and then 101.
+
+00:53.360 --> 01:01.630
+And the idea here is that the first 90 of these tokens are the 90 tokens before each target word.
+
+01:01.630 --> 01:03.630
+And then we have the target token.
+
+01:03.630 --> 01:07.070
+And then there are ten more target tokens after that.
+
+01:07.470 --> 01:15.950
+And the reason why I set up, set it up this way is so that in every sequence here, the 91st token
+
+01:16.110 --> 01:19.070
+of every sequence will be the target word.
+
+01:19.430 --> 01:27.150
+And that is going to make things easier for grabbing the activations from those target tokens later
+
+01:27.150 --> 01:29.030
+on when we start running analyses.
+
+01:30.230 --> 01:37.110
+Once you have these batches, you can run forward passes through the model for each of the two batches,
+
+01:37.550 --> 01:42.230
+you want to check the sizes of the activations matrix.
+
+01:42.430 --> 01:43.870
+Here you see an example.
+
+01:43.870 --> 01:49.710
+This one is 178 by 101 by 5120.
+
+01:50.070 --> 01:56.830
+Of course, that corresponds to the number of sequences, the number of tokens, and the number of neurons
+
+01:56.830 --> 01:59.540
+in each MLP Expansion layer.
+
+02:00.380 --> 02:07.100
+Now, also remember that the way that I coded the hook, which might also be the way that you coded
+
+02:07.100 --> 02:13.860
+the hook, the activations dictionary, that variable gets overwritten every time there's a forward
+
+02:13.860 --> 02:14.420
+pass.
+
+02:14.700 --> 02:16.380
+So you have two options here.
+
+02:16.500 --> 02:23.740
+You can either recreate the hook so you can define the hook in a different way so that it doesn't overwrite,
+
+02:23.900 --> 02:28.020
+and instead it just appends another set of matrices.
+
+02:28.620 --> 02:33.060
+Or you can copy the activations into a different variable.
+
+02:33.820 --> 02:38.140
+Between running the two forward passes for the two different batches.
+
+02:38.740 --> 02:41.740
+Now in my opinion that was the easier solution.
+
+02:41.860 --> 02:42.980
+So that's what I did.
+
+02:42.980 --> 02:48.780
+Here you can see this variable is the activations for the affirmations word.
+
+02:49.180 --> 02:52.620
+And I have a different variable for the negations word.
+
+02:52.820 --> 02:54.300
+Again that is my solution.
+
+02:54.300 --> 03:00.290
+You can do that if you also like that approach but you can also do it differently if you prefer.
+
+03:01.370 --> 03:08.850
+Anyway, once you have these activations matrices, you will be ready to do some analyses and visualizations.
+
+03:09.010 --> 03:12.210
+But that will come in the next exercise.
+
+03:12.570 --> 03:18.130
+For now, you should pause the video and create those batches and push them through the model.
+
+03:18.530 --> 03:21.850
+And now I will switch to code and show my solution.
+
+03:22.690 --> 03:26.530
+Here I am initializing the two batch variables.
+
+03:26.530 --> 03:29.970
+They are sequences by tokens.
+
+03:30.010 --> 03:36.530
+Now this actually says number of tokens here, but that it will correspond to the number of sequences.
+
+03:36.530 --> 03:44.370
+And the length of each sequence is the 90 tokens before the target token, the target token itself,
+
+03:44.530 --> 03:47.250
+and then the ten tokens afterwards.
+
+03:47.730 --> 03:54.810
+And because we are using these as integers, that we will input into the model that are used to select
+
+03:54.970 --> 04:02.090
+each corresponding row in the embeddings matrix, you need to make sure that these are integers or torched
+
+04:02.090 --> 04:02.450
+long.
+
+04:03.010 --> 04:09.490
+So here for the negation sequences, I'm looping over the number of negation tokens.
+
+04:09.770 --> 04:12.170
+And then I'm just grabbing one index out of here.
+
+04:12.170 --> 04:17.010
+I didn't explain this variable in a lot of detail in the previous exercise.
+
+04:17.010 --> 04:19.090
+So let me just show this to you really quickly.
+
+04:19.490 --> 04:27.090
+So this is the index into the book token sequence where we have all of the negation terms.
+
+04:27.530 --> 04:28.210
+That simple.
+
+04:28.410 --> 04:31.730
+So here I'm grabbing each one of those in the loop.
+
+04:31.970 --> 04:39.650
+And then I'm populating this batch for this row and all of the tokens to be the tokens from this target
+
+04:39.690 --> 04:45.930
+token minus the preceding token context to the post seeding context.
+
+04:46.330 --> 04:50.690
+So for the negation sequences and the affirmation sequences.
+
+04:50.890 --> 04:52.250
+And there we have it.
+
+04:52.650 --> 04:52.930
+Okay.
+
+04:52.970 --> 04:53.610
+Very nice.
+
+04:53.610 --> 04:58.560
+Now I am pushing the tokens through the model of course with torch.
+
+04:58.800 --> 04:59.280
+Nograd.
+
+04:59.320 --> 05:02.400
+We don't want to do any gradient related computations.
+
+05:02.400 --> 05:05.920
+We also want to make sure the model is in eval mode.
+
+05:05.920 --> 05:10.920
+So we switch off all of the regularizations and dropout and so on.
+
+05:12.000 --> 05:12.280
+Okay.
+
+05:12.320 --> 05:16.080
+Now this activations variable, that's what gets replaced.
+
+05:16.080 --> 05:19.520
+It gets overwritten when I run this line of code.
+
+05:19.520 --> 05:26.200
+So that's why I save a copy of the activations into this variable over here.
+
+05:26.880 --> 05:33.520
+So if you're running this on the CPU, this code cell will take, I don't know, a minute, two minutes,
+
+05:33.520 --> 05:34.320
+five minutes.
+
+05:34.360 --> 05:36.760
+It shouldn't be too bad on the GPU.
+
+05:36.800 --> 05:38.320
+It's several seconds.
+
+05:38.760 --> 05:42.160
+And then here I'm just printing out the keys here.
+
+05:42.160 --> 05:50.120
+So we confirm that we get the MLP activations for all of the layers in the model, and then just picking
+
+05:50.120 --> 05:52.480
+one at random just to show the shape.
+
+05:52.520 --> 05:56.190
+Of course, the shape is the same for every layer.
+
+05:57.030 --> 05:59.670
+Now for the logistic regression.
+
+06:00.030 --> 06:06.990
+The goal here is to test for negation word tuning in all of the neurons from one layer.
+
+06:07.590 --> 06:09.510
+I picked layer 13.
+
+06:09.550 --> 06:11.030
+You can pick any other layer.
+
+06:11.070 --> 06:12.030
+It doesn't matter.
+
+06:12.190 --> 06:12.590
+Actually.
+
+06:12.590 --> 06:19.390
+In the next exercise you will expand your analysis to look for neurons in all of the layers.
+
+06:19.590 --> 06:27.310
+So this exercise is really just about developing and inspecting the results for one layer for simplicity.
+
+06:28.070 --> 06:34.550
+Now you can create the same two visualizations as we did in the previous videos.
+
+06:34.950 --> 06:40.950
+And I recommend finding and copying that code and then modifying it as necessary.
+
+06:41.150 --> 06:47.710
+This is a really interesting example neuron where the classification is really, really high.
+
+06:48.270 --> 06:55.940
+So there are these are the probabilities coming from the logistic regression model for all of the affirmation
+
+06:55.940 --> 06:59.700
+words over here, and the negation words up here.
+
+07:00.020 --> 07:07.220
+By the way, this neuron that I'm showing here, this was the neuron that had the maximum positive beta
+
+07:07.220 --> 07:07.780
+value.
+
+07:07.820 --> 07:09.100
+You can actually see it here.
+
+07:09.100 --> 07:10.700
+It's this one over here.
+
+07:10.980 --> 07:18.180
+So that means to create this plot you just need to find the neuron that had the largest beta value and
+
+07:18.180 --> 07:25.780
+then grab its data again and rerun the logistic regression to generate the predictions for each of the
+
+07:25.820 --> 07:27.220
+target tokens.
+
+07:27.900 --> 07:30.020
+Now for this exercise here.
+
+07:30.020 --> 07:36.620
+Exercise four you can just focus on coding the analysis and generating these two plots.
+
+07:36.660 --> 07:43.740
+We're going to do some additional visualizations including text heatmaps in the next exercise.
+
+07:44.340 --> 07:44.700
+Okay.
+
+07:44.740 --> 07:48.500
+So pause the video and enjoy working through this exercise.
+
+07:48.660 --> 07:57.410
+And now I will switch to code for the logistic regression, we need a vector of category labels.
+
+07:57.410 --> 07:59.930
+So a bunch of zeros and a bunch of ones.
+
+07:59.970 --> 08:06.850
+And we're going to use that vector of category labels multiple times throughout the rest of this code
+
+08:06.850 --> 08:07.290
+challenge.
+
+08:07.290 --> 08:08.690
+So I'm creating it here.
+
+08:08.850 --> 08:10.330
+Call it category labels.
+
+08:10.490 --> 08:18.130
+And it is zeros for the number of affirmation tokens and ones for the number of negation tokens.
+
+08:18.770 --> 08:25.210
+As I have discussed in I think it was the previous video, it doesn't really matter which order you
+
+08:25.210 --> 08:32.650
+do it in, so you could have the negation tokens be zeros and the affirmation tokens be ones.
+
+08:32.890 --> 08:35.250
+That doesn't change any of the statistics.
+
+08:35.250 --> 08:37.250
+It doesn't change the significance.
+
+08:37.370 --> 08:44.610
+The only thing it changes is the sign of the beta values, the sign of the of the model parameters.
+
+08:44.970 --> 08:52.720
+So if it's a positive beta, that means more activation for negation tokens if it's a negative beta,
+
+08:52.720 --> 08:56.200
+it means more activation for affirmation tokens.
+
+08:56.840 --> 08:57.280
+Okay.
+
+08:57.320 --> 08:59.120
+So run that.
+
+08:59.120 --> 09:05.600
+And yeah, as I mentioned for this exercise we just want to focus on one layer just to keep things simple.
+
+09:06.680 --> 09:07.080
+Okay.
+
+09:07.240 --> 09:08.520
+Uh, this is uh, yeah.
+
+09:08.520 --> 09:14.280
+It's just some confirmation to make sure that I was really getting the correct token.
+
+09:14.280 --> 09:21.760
+So looking at token index from these batches, token index context pre, uh, that basically just,
+
+09:22.240 --> 09:27.840
+you know, skips past all of the preceding, uh, contextual tokens.
+
+09:28.000 --> 09:37.080
+And this just confirms that I'm getting the word not from the negations and the word uh, from the affirmations.
+
+09:37.680 --> 09:45.040
+So that means when I use this variable context pre as an index into the activations, I can be confident
+
+09:45.040 --> 09:48.080
+that I am getting the correct target tokens.
+
+09:48.640 --> 09:55.590
+Okay, here I am gathering up all of the data and running the logistic model.
+
+09:55.790 --> 09:58.830
+Okay, so I have a loop over all of the neurons.
+
+09:58.830 --> 10:00.310
+All 5000 neurons.
+
+10:00.630 --> 10:03.750
+Here is where I'm gathering up all of the data.
+
+10:03.790 --> 10:09.630
+So you can see it's from I call this variable targets for targets and comps for comparison.
+
+10:10.310 --> 10:15.430
+So this is the negations activations from this particular layer.
+
+10:15.430 --> 10:21.790
+And we have all the batches this token index and this particular neuron index.
+
+10:21.910 --> 10:24.830
+So that's where the negations and the affirmations.
+
+10:25.230 --> 10:27.270
+This code you have seen before.
+
+10:27.310 --> 10:35.030
+I'm running statsmodels logit for the logistic regression I input the dependent variable here which
+
+10:35.030 --> 10:36.630
+is the category labels.
+
+10:36.630 --> 10:42.510
+And then I have the data here which is the comparison and the targets.
+
+10:42.590 --> 10:46.270
+So that would correspond to labels zero and one.
+
+10:46.790 --> 10:50.710
+And this is kind of new here I think I had disp equals zero before.
+
+10:50.750 --> 10:58.030
+This just suppresses the output of the function basically because we're running 5000 of these things.
+
+10:58.030 --> 11:01.670
+So I don't need to just have this printed out multiple times.
+
+11:02.510 --> 11:11.990
+This max iter basically increases the maximum number of iterations for this iterative nonlinear model
+
+11:11.990 --> 11:17.030
+fitting approach to fit the data up to 3000 iterations.
+
+11:17.390 --> 11:20.830
+The default, I believe is 30 or 40, something like that.
+
+11:21.190 --> 11:28.190
+So in case the parameters can be estimated, but the model just needs a couple more iterations.
+
+11:28.190 --> 11:30.070
+And that's what this is for.
+
+11:30.350 --> 11:36.910
+And then I have this whole thing encased in a try except command statement.
+
+11:36.910 --> 11:43.750
+And basically that's because sometimes the model fit just really doesn't work at all because the data
+
+11:43.750 --> 11:46.870
+are just there's outliers or it's perfect separability.
+
+11:47.430 --> 11:48.820
+And this can crash.
+
+11:49.020 --> 11:56.060
+So if this crashes, then I just want to leave the matrices, the values as Nans.
+
+11:56.340 --> 12:01.620
+And if it doesn't crash, which happens nearly all the time, it only crashes every once in a while.
+
+12:02.100 --> 12:06.660
+So if it does crash, then the results will be Nan.
+
+12:06.700 --> 12:07.180
+That's good.
+
+12:07.180 --> 12:10.700
+We can ignore them later if it doesn't crash.
+
+12:10.700 --> 12:18.460
+If everything goes well, then these nans get replaced with the p value here and the beta value over
+
+12:18.460 --> 12:18.940
+here.
+
+12:19.460 --> 12:21.780
+This is a single parameter model.
+
+12:21.780 --> 12:28.580
+It just has a one parameter for the category label and then one parameter for the constant.
+
+12:28.820 --> 12:33.380
+The constant or the intercept is the first variable in the model.
+
+12:33.380 --> 12:37.780
+So that would be with index zero as I mentioned before.
+
+12:37.900 --> 12:39.340
+So just a quick reminder.
+
+12:39.460 --> 12:43.980
+We generally do not care about the constant or the intercept term.
+
+12:44.260 --> 12:50.770
+All that does is tell us whether the average activation is different from zero.
+
+12:51.370 --> 12:58.050
+So really what we want is the slope which is the second term, the second beta term.
+
+12:58.410 --> 12:58.690
+Okay.
+
+12:58.730 --> 13:00.090
+So I can run all that.
+
+13:00.090 --> 13:03.450
+And then here this is all code you have seen.
+
+13:03.930 --> 13:10.130
+So basically we see that there's a lot of statistically significant neurons here.
+
+13:10.410 --> 13:11.730
+Now what does this mean.
+
+13:11.890 --> 13:17.610
+This tells us that the model was statistically significant for all of these neurons.
+
+13:17.610 --> 13:19.090
+All of these neurons up here.
+
+13:19.370 --> 13:24.290
+Remember that we have a comparison between two categories.
+
+13:24.450 --> 13:33.490
+So red or positive beta means that the neuron had more activation for negation tokens compared to affirmation
+
+13:33.490 --> 13:34.290
+tokens.
+
+13:34.450 --> 13:36.570
+And green indicates the opposite.
+
+13:36.570 --> 13:43.930
+So there were more there were stronger activation, more positive activations for negation of affirmation
+
+13:43.930 --> 13:46.560
+tokens compared to negation tokens.
+
+13:46.880 --> 13:51.440
+And I'm not actually counting these, but it looks like it's roughly balanced.
+
+13:51.440 --> 13:58.680
+So it kind of looks like there's approximately as many negation tuned neurons as there are affirmation
+
+13:58.680 --> 13:59.800
+tuned neurons.
+
+14:00.240 --> 14:02.240
+Now this is a direct comparison.
+
+14:02.240 --> 14:04.040
+So what we do not know.
+
+14:04.080 --> 14:11.760
+What we cannot say about these neurons is that they only care about negation or affirmation and nothing
+
+14:11.760 --> 14:12.200
+else.
+
+14:12.360 --> 14:19.760
+For all we know, these neurons respond a lot to like football and bottled water, or like any other
+
+14:19.880 --> 14:21.640
+random categories of tokens.
+
+14:21.640 --> 14:30.400
+The only thing we know for sure is that there is a significant difference in activation values across
+
+14:30.400 --> 14:37.800
+the 400 tokens that we are using here for negation versus affirmation target tokens.
+
+14:38.240 --> 14:38.520
+Okay.
+
+14:38.560 --> 14:44.240
+And then here what I'm doing is just grabbing the the maximum beta.
+
+14:44.240 --> 14:46.790
+So it's index 2022.
+
+14:46.830 --> 14:48.390
+So it's this one up here.
+
+14:48.430 --> 14:51.750
+This one had the largest beta value.
+
+14:51.750 --> 14:53.950
+And that looks like this one over here.
+
+14:54.350 --> 14:59.830
+Interestingly this is not the most significant one in terms of the smallest p value.
+
+14:59.990 --> 15:02.950
+But it is the one with the largest beta coefficient.
+
+15:03.950 --> 15:05.270
+And why is that the case.
+
+15:05.390 --> 15:12.710
+Well you know, the p value is based on a number of factors, including the sample size and the variability
+
+15:12.710 --> 15:13.390
+and so on.
+
+15:13.550 --> 15:20.750
+So simply having a larger parameter does not necessarily mean that the p value will be smaller.
+
+15:21.270 --> 15:23.030
+That is often the case.
+
+15:23.030 --> 15:28.110
+This is a much deeper discussion into inferential statistics.
+
+15:28.110 --> 15:36.790
+But uh, it often can be the case that larger uh magnitude effects have smaller p values, but it is
+
+15:36.790 --> 15:38.590
+not trivially the case.
+
+15:39.070 --> 15:39.350
+Okay.
+
+15:39.390 --> 15:43.950
+Anyway, we are going to continue working with this one, uh, with this neuron later.
+
+15:44.340 --> 15:51.060
+The last thing that I'm going to do is generate the predictions and calculate accuracy.
+
+15:51.580 --> 15:56.980
+So now I've already extracted all of these activations here inside the for loop.
+
+15:57.220 --> 16:02.860
+But at each iteration inside the for loop these variables get replaced.
+
+16:02.860 --> 16:04.140
+They get overwritten.
+
+16:04.140 --> 16:11.300
+So if I want to do a detailed analysis for one particular neuron, I need to go back to this for loop
+
+16:11.300 --> 16:14.220
+basically to this code and rerun this.
+
+16:14.220 --> 16:20.060
+But not for each individual neuron, but only the one that I'm specifically interested in.
+
+16:20.500 --> 16:22.380
+And that is what I do here.
+
+16:22.500 --> 16:29.980
+So here I get the targets, the comparison activations, and I rerun the logistic regression model exactly
+
+16:29.980 --> 16:32.140
+as I did earlier in that for loop.
+
+16:32.140 --> 16:37.300
+But this is just for this one neuron that shows the maximum response.
+
+16:37.820 --> 16:38.260
+Okay.
+
+16:38.620 --> 16:40.340
+And then I use results.
+
+16:40.500 --> 16:44.970
+So result is the output of smart fit.
+
+16:45.330 --> 16:49.770
+And then I get the predictions and remember that this is the.
+
+16:49.810 --> 16:58.730
+Probabilities of each token being an affirmation token if the probability is close to zero, or a negation
+
+16:58.730 --> 17:02.050
+token if the probability is close to one.
+
+17:02.410 --> 17:05.210
+So I use 0.5 as the threshold.
+
+17:05.210 --> 17:12.730
+And I say if those match the actual category label, then that is the accuracy.
+
+17:12.730 --> 17:15.130
+So this would be the per token accuracy.
+
+17:15.250 --> 17:21.570
+And then to get the overall accuracy you would average across all of these elements here.
+
+17:21.970 --> 17:22.210
+Okay.
+
+17:22.250 --> 17:24.290
+And then finally the visualization.
+
+17:24.290 --> 17:29.010
+This is all code you have seen before in the previous video.
+
+17:29.690 --> 17:35.130
+So that's it for this part of the code challenge I'm going to cut the video here.
+
+17:35.130 --> 17:40.010
+I encourage you to get out of your chair, stretch your legs, have some coffee or whatever.
+
+17:40.050 --> 17:46.090
+When you feel refreshed, come back to the next video where we will continue with this code challenge.
+
+22:37.120 --> 22:42.440
+This is the continuation of the code challenge we started in the previous video.
+
+22:43.120 --> 22:51.000
+Exercise five is not so difficult in terms of writing new code, so you can spend your time thinking
+
+22:51.000 --> 22:57.200
+about what the results mean, how we set up the analysis, what might be other ways to implement this
+
+22:57.200 --> 22:58.040
+analysis?
+
+22:58.520 --> 23:00.200
+The goal here is simple.
+
+23:00.200 --> 23:06.960
+Just find that best predicting neuron that you identified in the previous exercise and create a heat
+
+23:07.000 --> 23:09.320
+map with its activations.
+
+23:09.920 --> 23:18.280
+Now for this visualization I used a smaller context window just so we don't have to see all 90 tokens
+
+23:18.280 --> 23:20.400
+preceding each target token.
+
+23:20.960 --> 23:28.440
+So here in each line you see for example, not not not not not there's a lot of not nor here.
+
+23:28.480 --> 23:31.880
+These are all the target tokens wouldn't uh and so on.
+
+23:32.080 --> 23:39.080
+And as you know from other videos, I just arbitrarily set the color here to be 0.1 for all of these
+
+23:39.080 --> 23:45.840
+tokens, so that you can experience the joy of discovering what the actual results look like when you
+
+23:45.880 --> 23:47.240
+code this up yourself.
+
+23:47.720 --> 23:54.640
+And as you are considering the results, I would like you to think about how we set up the analysis,
+
+23:54.800 --> 24:02.080
+what the logistic regression really identifies, and if you have any ideas for how you might change
+
+24:02.080 --> 24:04.840
+the analysis or do something differently.
+
+24:05.000 --> 24:11.360
+If you were doing this code challenge, for example, as like a four month long research project.
+
+24:12.520 --> 24:12.880
+Okay.
+
+24:12.920 --> 24:15.440
+So now you can pause the video and get to work.
+
+24:15.560 --> 24:19.360
+And now I will discuss my solution and my thoughts.
+
+24:20.920 --> 24:27.480
+Here I am grabbing the negation activations from the maximum beta neuron.
+
+24:27.600 --> 24:30.360
+In fact, I already calculated this variable above.
+
+24:30.360 --> 24:31.720
+But here it is again anyway.
+
+24:32.120 --> 24:39.350
+Okay, and here I'm just a min max scaling this neurons activation so that we can use it as an index
+
+24:39.510 --> 24:41.070
+into the colour map.
+
+24:41.470 --> 24:43.110
+This code here you've seen before.
+
+24:43.150 --> 24:48.190
+This is just identifying the width of a letter in Monospace.
+
+24:48.590 --> 24:52.470
+And uh, yeah, there's not much I can show here that's new.
+
+24:52.830 --> 24:58.110
+The main thing that's different that you haven't seen before is just this for loop here.
+
+24:58.110 --> 25:05.510
+So instead of looping over all of the tokens in each batch, I'm just looping over from the preceding
+
+25:05.550 --> 25:06.150
+five.
+
+25:06.150 --> 25:08.950
+So this was 90.
+
+25:08.990 --> 25:11.150
+We have the preceding context of 90.
+
+25:11.190 --> 25:13.190
+And then we have the target token.
+
+25:13.270 --> 25:18.190
+So now I'm just going to show a handful of tokens before instead of showing all of them.
+
+25:18.190 --> 25:20.470
+That would just make a really long line.
+
+25:20.790 --> 25:25.630
+And then I'm also just showing the first 20 batches in the sequence.
+
+25:26.110 --> 25:26.430
+Okay.
+
+25:26.470 --> 25:28.630
+So here we see what this looks like.
+
+25:28.630 --> 25:30.230
+So this looks pretty nice.
+
+25:30.230 --> 25:36.420
+What we are looking for here again is uh the words uh not and contractions.
+
+25:36.420 --> 25:44.380
+So we do see that there are more active or relatively strong activations for not not not not neither
+
+25:44.420 --> 25:52.780
+not this one also shows pretty similar level of activation for enough compared to neither and not pretty
+
+25:52.780 --> 25:53.500
+interesting.
+
+25:53.660 --> 26:00.980
+This one is also interesting because we see strong activations for the apostrophe t compared to the
+
+26:01.020 --> 26:03.900
+couldn't uh without the apostrophe t.
+
+26:05.100 --> 26:05.620
+Uh, yeah.
+
+26:05.620 --> 26:14.380
+So overall, I think this looks fairly compelling, but we do also see very strong activations for tokens
+
+26:14.380 --> 26:20.940
+that are not really related to negation, like rusty and dead at the end of corroded.
+
+26:20.940 --> 26:24.700
+Although I suppose corroded does have kind of a negative connotation.
+
+26:25.260 --> 26:32.970
+Out is not really a negation term, although again, you know, pass out maybe does have some negative
+
+26:32.970 --> 26:33.970
+connotation.
+
+26:34.170 --> 26:42.290
+So it looks like we do get some specificity for the tokens that we are looking for, but we also get
+
+26:42.290 --> 26:45.690
+some activations for other tokens as well.
+
+26:46.050 --> 26:53.690
+One thing to keep in mind is that we did not select for neurons that show strong activations to negation
+
+26:53.690 --> 26:57.410
+words, and low activations to all the other tokens.
+
+26:57.530 --> 27:05.130
+In fact, the analysis has nothing to do with the tokens like evidence and Commissioner, these tokens
+
+27:05.130 --> 27:07.770
+never entered the analysis.
+
+27:07.770 --> 27:09.130
+The logistic regression.
+
+27:09.370 --> 27:17.130
+The logistic regression only had two sets of tokens the negation tokens and the affirmation tokens.
+
+27:17.290 --> 27:21.290
+Now, I'm not plotting here all or any of the affirmation tokens.
+
+27:21.410 --> 27:23.130
+If you would like, you can do that.
+
+27:23.130 --> 27:30.930
+That could be interesting to look through the affirmation tokens for this same neuron, and maybe you
+
+27:30.930 --> 27:36.160
+would want to print those out using blue color map instead of red color map.
+
+27:37.440 --> 27:39.800
+Now for the final exercise.
+
+27:39.800 --> 27:48.280
+In this code challenge, take the code that you wrote for exercise five and embed it in a for loop over
+
+27:48.280 --> 27:49.440
+all the layers.
+
+27:50.040 --> 27:56.840
+As you're going through each layer, there are several statistical quantities that you want to extract.
+
+27:57.240 --> 28:04.680
+First is the percent of neurons that have a statistically significant beta coefficient.
+
+28:05.320 --> 28:11.120
+So you'll need to get and store the p value from each test on each neuron.
+
+28:11.720 --> 28:20.080
+And as I've discussed in previous videos, you should also use a corrected p value threshold by correcting
+
+28:20.080 --> 28:22.840
+for the number of neurons in each layer.
+
+28:23.320 --> 28:29.720
+You can do it simply through Bonferroni correction if you that is, dividing by the number of neurons.
+
+28:29.840 --> 28:31.710
+That's what I do in my solution.
+
+28:31.910 --> 28:37.990
+If you are more comfortable with statistics, you can also do something like FDR correction.
+
+28:39.510 --> 28:46.190
+Next, you also want to calculate the prediction accuracy from all of the neurons.
+
+28:46.630 --> 28:51.910
+And when you're finished your for loop you can generate two scatter plots that will look like this.
+
+28:52.270 --> 28:57.710
+In both cases, the x axis is the layer or the transformer block.
+
+28:58.030 --> 29:06.350
+And remember that zero is the first layer after the embeddings, and 36 is the final transformer block
+
+29:06.510 --> 29:08.510
+before the embeddings.
+
+29:09.030 --> 29:16.550
+And what I'm plotting over here on the left is the percent of significant logistic regressions in each
+
+29:16.550 --> 29:17.110
+layer.
+
+29:17.710 --> 29:24.590
+So this is the number of neurons that had a beta coefficient with a corresponding p value below the
+
+29:24.590 --> 29:26.230
+significance threshold.
+
+29:26.750 --> 29:32.580
+You can see from the y axis that this is going to range from around 25 to 70.
+
+29:33.020 --> 29:39.780
+And the question is whether it's just kind of randomly scattered or whether the significance count goes
+
+29:39.940 --> 29:45.820
+up or down, or maybe some other kind of nonlinear pattern as a function of the layer.
+
+29:46.460 --> 29:53.140
+So this plot on the left is just about how many neurons have any beta coefficient that is statistically
+
+29:53.140 --> 29:54.020
+significant.
+
+29:54.540 --> 30:00.580
+And then over here on the right I have actually two scatter plots in the same axis.
+
+30:01.100 --> 30:04.300
+Both of them show the prediction accuracy.
+
+30:04.740 --> 30:09.140
+And there are red dots to show the results for all of the neurons.
+
+30:09.260 --> 30:14.260
+So the prediction accuracy average over 5000 neurons in each layer.
+
+30:14.580 --> 30:22.100
+And the green squares show only the neurons that had a significant positive beta coefficient.
+
+30:22.340 --> 30:30.180
+So that means that this is averaging over the neurons if the beta coefficient was positive, and also
+
+30:30.700 --> 30:35.260
+if the p value was less than the threshold.
+
+30:35.540 --> 30:42.300
+And again, it will be interesting to see what kinds of patterns there are across the layers, if there
+
+30:42.300 --> 30:43.660
+are any patterns at all.
+
+30:44.100 --> 30:45.380
+Now here's a little tip.
+
+30:45.380 --> 30:53.580
+When averaging the accuracies for only a subset of neurons where the beta values were positive and significant,
+
+30:54.020 --> 31:03.020
+you can use the numpy function numpy dot dot where the ma here is for masked array.
+
+31:03.580 --> 31:09.060
+I'm sure this is not the only way to do this selection, but I found this function pretty useful and
+
+31:09.060 --> 31:10.300
+perhaps you will too.
+
+31:11.300 --> 31:16.780
+Okay, so please now pause the video and enjoy wrapping up this code challenge.
+
+31:16.980 --> 31:20.580
+And now I will show my solution and discuss my results.
+
+31:21.500 --> 31:28.490
+A lot of the code here, at least in this first code cell, is code you've seen before Or in exercise
+
+31:28.490 --> 31:29.050
+five.
+
+31:29.450 --> 31:36.250
+Here I am initializing three matrices of p values, beta values and accuracies.
+
+31:36.290 --> 31:37.570
+Average accuracies.
+
+31:38.050 --> 31:43.650
+These two are initializing to be zeros and the p values I'm initializing to be ones.
+
+31:44.130 --> 31:51.330
+And the reason for this is that if the logistic regression model doesn't work well, if it crashes,
+
+31:51.730 --> 31:57.730
+uh, or yeah, it just doesn't give a good solution, then I actually want the p value to be initialized
+
+31:57.730 --> 32:05.410
+as a one, so that I can ignore it in the selection procedure in the in the visualization after this
+
+32:05.410 --> 32:05.810
+loop.
+
+32:06.730 --> 32:07.050
+Right.
+
+32:07.090 --> 32:10.490
+So here I'm looping over all of the layers in the model.
+
+32:11.330 --> 32:18.250
+And then within each layer I loop over all of the neurons, grab their activations, build the model,
+
+32:18.250 --> 32:21.130
+and all of this code you have seen before.
+
+32:21.530 --> 32:22.850
+This code is new.
+
+32:22.890 --> 32:25.410
+This line of code is kind of new.
+
+32:25.450 --> 32:27.880
+I mean, you've seen this code before.
+
+32:27.920 --> 32:31.040
+This just wasn't inside the loop over neurons.
+
+32:31.040 --> 32:34.360
+So now I'm calculating the accuracy for each neuron.
+
+32:34.360 --> 32:38.160
+This gets the accuracy for each neuron and each token.
+
+32:38.480 --> 32:40.800
+And then I average those together.
+
+32:41.000 --> 32:44.160
+This gives me a proportion with the mean.
+
+32:44.160 --> 32:48.160
+And then I'm multiplying it by 100 just to scale up to percent.
+
+32:48.760 --> 32:50.800
+This code takes several minutes.
+
+32:50.800 --> 32:59.520
+And so I'm printing out just some update information here as it goes through each layer here in this
+
+32:59.520 --> 33:02.400
+cell is where I do the visualization.
+
+33:02.400 --> 33:10.400
+So here I'm creating masks to identify, uh, the beta values that have significant p values.
+
+33:10.400 --> 33:12.280
+So that is here the p value mask.
+
+33:12.280 --> 33:18.360
+Where are the p values less than 0.05 divided by the number of neurons.
+
+33:18.360 --> 33:21.680
+So this is Bonferroni correcting within each layer.
+
+33:22.000 --> 33:28.430
+It's an extremely strict p value threshold by the way because this is 5120.
+
+33:28.470 --> 33:31.190
+So the p value needs to be really, really small.
+
+33:31.230 --> 33:35.590
+The effect needs to be really significant for it to show up here.
+
+33:35.910 --> 33:38.590
+And then here is for the positive betas.
+
+33:38.590 --> 33:39.950
+That one's a little bit simpler.
+
+33:40.350 --> 33:50.190
+Now I find this somewhat confusing that in this numpy function for masked array the mask actually gets
+
+33:50.190 --> 33:50.590
+flipped.
+
+33:50.590 --> 33:56.350
+So it masks out where something is true and it preserves where something is false.
+
+33:56.790 --> 34:02.990
+I don't know what you think, but in my opinion, that is totally opposite of the way that I think about
+
+34:02.990 --> 34:03.670
+masks.
+
+34:03.990 --> 34:10.590
+So if you define the masks to be the thing that you're looking for, the qualities that you are looking
+
+34:10.590 --> 34:18.510
+for in a matrix or vector, then you actually need to invert that mask in order for it to apply in such
+
+34:18.510 --> 34:24.860
+a way that you actually get the values that you are looking for that fit into this mask.
+
+34:25.940 --> 34:26.260
+Okay.
+
+34:26.300 --> 34:28.380
+So that is that's for that.
+
+34:28.380 --> 34:29.900
+And then here I'm plotting.
+
+34:29.900 --> 34:32.620
+Here's the average of the p value.
+
+34:32.660 --> 34:38.340
+Mask over axis one which is the layer axis.
+
+34:38.380 --> 34:38.940
+I don't know sorry.
+
+34:38.980 --> 34:40.820
+This is the neuron axis.
+
+34:40.820 --> 34:45.020
+So we're averaging over all the neurons within each layer.
+
+34:45.020 --> 34:47.700
+And that's how I get the average accuracy.
+
+34:47.980 --> 34:53.220
+And then or the average number of neurons that showed a significant result.
+
+34:53.220 --> 34:55.900
+And then I multiply that by 100.
+
+34:55.940 --> 34:58.660
+Again that's just to scale up to percent.
+
+34:59.060 --> 35:06.340
+And then over here I'm averaging accuracy and masked accuracy, which is just the accuracy where the
+
+35:06.380 --> 35:11.260
+p value was significant and the beta value was positive.
+
+35:12.140 --> 35:15.700
+So here is what that result looks like.
+
+35:16.020 --> 35:23.690
+And we see in all of these cases the number or the percent of significant neurons that showed a significant,
+
+35:23.730 --> 35:31.570
+uh, logistic regression decreased pretty steeply by a factor of two from 70 or even over two from almost
+
+35:31.570 --> 35:32.730
+70%.
+
+35:32.730 --> 35:40.250
+So in the early layers of this transformer, almost 70%, like two thirds of the neurons, showed a
+
+35:40.250 --> 35:47.850
+significant difference in activation between negation and affirmation token words.
+
+35:48.250 --> 35:53.810
+And then by the end, it drops down to less than a third, maybe a little bit over a quarter of the
+
+35:53.850 --> 35:54.610
+neurons.
+
+35:54.650 --> 35:57.290
+Now, that's still a pretty significant percentage.
+
+35:57.290 --> 36:00.770
+That's around 1000 neurons out of 5000.
+
+36:00.970 --> 36:07.810
+That still shows some kind of statistically significant difference in activation between the category
+
+36:07.810 --> 36:13.050
+of negation words and the category of affirmation words, at least in this book.
+
+36:13.530 --> 36:15.930
+But it is certainly quite a bit lower.
+
+36:16.370 --> 36:23.560
+As for the prediction accuracy, we see that on average, so this is not the best performing neuron.
+
+36:23.560 --> 36:25.800
+It's also not the worst performing neuron.
+
+36:26.120 --> 36:31.680
+This is the average of all of the neurons and also all the significant positive neurons.
+
+36:31.960 --> 36:43.120
+The prediction accuracy was fairly high, again going up to almost 80%, close to 75% in the early layers
+
+36:43.120 --> 36:49.520
+and going down to 65% around two thirds prediction accuracy later on.
+
+36:49.640 --> 36:54.560
+Now the chance level performance here would be 50%.
+
+36:54.680 --> 37:03.480
+So numbers above around 50 or maybe a little bit over 50 are indicating some pretty decent predictability.
+
+37:03.760 --> 37:08.320
+Now the reason why the all of the tests here, the red dots is lower.
+
+37:08.360 --> 37:14.680
+That's pretty trivial because here I'm also including into the average these neurons where there was
+
+37:14.680 --> 37:20.920
+significant prediction, and also neurons that were not statistically significant.
+
+37:21.120 --> 37:26.320
+And so their prediction accuracy, we would expect to be somewhere around 50%.
+
+37:26.520 --> 37:32.160
+So in fact, this is not really a terribly useful thing to show, but I think it's nice.
+
+37:32.160 --> 37:40.560
+Anyway, just as a way to practice your coding skills and, uh, working with masked matrices.
+
+37:41.880 --> 37:42.960
+Now, why is this the case?
+
+37:42.960 --> 37:46.720
+I just want to say one quick word about interpreting this effect.
+
+37:47.040 --> 37:54.040
+Remember that as these token embeddings vectors pass through the model, they go from one transformer
+
+37:54.040 --> 37:55.240
+block to the next.
+
+37:55.600 --> 37:58.680
+What's happening inside each transformer block?
+
+37:58.840 --> 38:07.200
+As we get a little bit of a modification to the vector from the attention and from the MLP sublayers,
+
+38:07.600 --> 38:14.680
+is that the model shifts from transforming the current token to making a prediction about the next token.
+
+38:15.080 --> 38:21.510
+So in the beginning of the model, the transformer is really like thinking a lot about this token.
+
+38:21.550 --> 38:25.310
+The token not and can't and isn't and shouldn't.
+
+38:25.710 --> 38:32.990
+And the later you get into the model, the more the model is not processing that token in particular,
+
+38:32.990 --> 38:41.070
+but thinking about what the next token should be based on this token and all the tokens that preceded
+
+38:41.070 --> 38:41.430
+it.
+
+38:42.190 --> 38:50.030
+Just as a meta comment here, we're not even finished the first mech Interp section, and I think you're
+
+38:50.030 --> 38:57.550
+already starting to see that this kind of research is challenging for many reasons, including the complexity
+
+38:57.550 --> 39:02.350
+of the models and the complexity of language human written language.
+
+39:02.630 --> 39:08.750
+On the other hand, I actually enjoy that challenge, that difficulty, and I hope that you are also
+
+39:08.750 --> 39:09.670
+enjoying it.
+
+39:10.070 --> 39:17.830
+This complexity also means that it's difficult to blindly trust the outcome of any random statistical
+
+39:17.830 --> 39:25.060
+analysis In terms of just looking at how many parameter estimates have a small p value, you really
+
+39:25.060 --> 39:32.100
+need to check the results carefully to make sure that any interpretation you make is valid, correct,
+
+39:32.100 --> 39:35.220
+and consistent with what the data are really showing.
+
+39:35.820 --> 39:42.500
+And just to be clear, as long as you don't have any coding bugs, the statistics themselves are never
+
+39:42.500 --> 39:43.020
+wrong.
+
+39:43.460 --> 39:48.180
+Statistics is just math, and the math doesn't do things right or wrong.
+
+39:48.460 --> 39:57.380
+But the way that someone uses a particular statistical analysis may not reveal exactly the results that
+
+39:57.380 --> 39:58.780
+they are looking for.
+
+39:59.220 --> 40:01.060
+And that is the tricky part.
+
+40:01.620 --> 40:08.140
+Anyway, I'm sure that you put in a lot of work and effort into this code challenge, and the good news
+
+40:08.180 --> 40:14.980
+is that all of that work will pay off in the next code challenge, where we will basically just adapt
+
+40:15.020 --> 40:18.100
+this code to look at the attention sublayer.

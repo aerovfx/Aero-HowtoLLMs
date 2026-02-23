@@ -1,0 +1,883 @@
+WEBVTT
+
+00:02.120 --> 00:10.720
+Logistic regression is a statistical analysis used for predicting categorical outcomes in a data set.
+
+00:11.160 --> 00:16.760
+It's used quite often in machine learning and also in mechanistic interpretability.
+
+00:17.400 --> 00:25.240
+In this lecture, I will introduce you to the idea and interpretation of logistic regression, and I'll
+
+00:25.240 --> 00:30.960
+also show you the Python code to visualize and implement the analysis.
+
+00:31.920 --> 00:39.760
+So yeah, you use a logistic regression when the dependent variable, also called the DV, can only
+
+00:39.760 --> 00:43.480
+take on one of two values like true or false.
+
+00:43.760 --> 00:46.960
+Alive or dead, win or lose, and so on.
+
+00:47.520 --> 00:55.120
+Now these have to be mutually exclusive categories, meaning that both categories cannot be simultaneously
+
+00:55.120 --> 00:58.160
+true in the same data measurement.
+
+00:59.160 --> 01:06.450
+The logistic regression framework can be extended to any number of categorical outcomes, in which case
+
+01:06.450 --> 01:10.570
+it's generally called a multinomial logistic regression.
+
+01:11.170 --> 01:16.290
+Now this is actually the basis of the loss function when training LMS.
+
+01:16.890 --> 01:22.890
+But here in this and the next videos we're just going to be working with binary outcomes.
+
+01:23.050 --> 01:26.130
+So that also simplifies the analysis quite a bit.
+
+01:27.730 --> 01:33.850
+Now one thing to keep in mind which I will demonstrate in the code, is that logistic regression on
+
+01:33.850 --> 01:37.770
+its own does not actually classify any data.
+
+01:38.250 --> 01:46.810
+What the logistic regression does is calculate the probability that a data point belongs to a particular
+
+01:46.810 --> 01:47.650
+category.
+
+01:48.290 --> 01:56.170
+You would then take those numerical probability scores and apply some threshold to actually make a category
+
+01:56.170 --> 01:57.050
+prediction.
+
+01:57.690 --> 02:07.090
+So the probability values range from 0 to 1, and you would typically use a value of 0.5 as a threshold
+
+02:07.090 --> 02:08.170
+for prediction.
+
+02:08.930 --> 02:12.530
+Again, I'll show that in the code in a few moments.
+
+02:12.530 --> 02:18.650
+But first, I want to describe a little bit about the math of a logistic regression.
+
+02:19.890 --> 02:27.010
+The logistic regression initially looks a little bit like a regular regression, in that we have predictor
+
+02:27.010 --> 02:31.010
+variables that are the x's in this equation.
+
+02:31.290 --> 02:33.130
+And then we have the coefficients.
+
+02:33.130 --> 02:40.130
+Those are the beta values including a beta zero term which is called the constant or the intercept.
+
+02:40.690 --> 02:44.450
+So this is the model of the data on the right hand side.
+
+02:44.930 --> 02:53.050
+Now in a regular standard regression the left hand side would be the predicted data value, like a test
+
+02:53.050 --> 02:58.850
+score or height, or the price of a house with a logistic regression.
+
+02:58.970 --> 03:06.780
+What you actually want to predict is the log of the probability that a data value is in one of the categories.
+
+03:07.900 --> 03:13.900
+Now, if you're wondering why we use the log of the probabilities and not just the actual probability,
+
+03:14.180 --> 03:17.700
+then that's a great question and I will answer it soon.
+
+03:17.700 --> 03:24.780
+But first I want to show you how this equation gets transformed so that we can actually use the model
+
+03:24.820 --> 03:30.340
+to generate a probability of being in one of the two categories.
+
+03:30.900 --> 03:37.700
+Essentially, this just involves solving for p the probability of being in one of the categories.
+
+03:38.380 --> 03:45.580
+The first step is to get rid of the natural log, and we do that by taking the natural exponent of both
+
+03:45.580 --> 03:47.020
+sides of the equation.
+
+03:47.340 --> 03:51.140
+So then you get e to the all of this stuff up here.
+
+03:51.700 --> 03:57.220
+The next step involves isolating p and solving for p.
+
+03:57.780 --> 04:03.900
+Now there is a little bit of algebra that I'm skipping over here, but essentially you end up with one
+
+04:03.900 --> 04:10.780
+over one plus E to the minus all of the regression expression in here.
+
+04:11.340 --> 04:14.780
+So this is the form of the logistic equation.
+
+04:15.140 --> 04:23.060
+And now we need to solve for the betas so that we can apply this equation to each individual data sample
+
+04:23.180 --> 04:25.700
+and get a probability value.
+
+04:27.140 --> 04:28.820
+And so how do we actually do that.
+
+04:28.860 --> 04:36.100
+How do we find the values of the betas that give us the best probabilities that most closely match the
+
+04:36.100 --> 04:37.660
+predicted categories?
+
+04:38.300 --> 04:45.900
+Well, typically a regression analysis is optimally solved using the left inverse algorithm.
+
+04:46.620 --> 04:50.700
+However, that algorithm only works for linear models.
+
+04:50.700 --> 04:54.340
+And here we have nonlinearities in the coefficients.
+
+04:54.580 --> 04:58.500
+So the left inverse method doesn't work, or at least not directly.
+
+04:59.220 --> 05:06.230
+So instead a A solution is to use iterative approximations until you get a good solution.
+
+05:06.830 --> 05:10.150
+There are several ways to do iterative solutions.
+
+05:10.270 --> 05:16.990
+You can use a local linearization and then apply linear least squares approximations.
+
+05:17.310 --> 05:23.190
+You can use gradient descent to find a solution in PyTorch, for example.
+
+05:23.510 --> 05:30.430
+However, it is quite common to use the iterative linear approximation method using a library called
+
+05:30.470 --> 05:38.590
+Statsmodels, and when you use Statsmodels for logistic regression, it also provides a lot of useful
+
+05:38.590 --> 05:41.470
+statistical and diagnostic information.
+
+05:42.470 --> 05:49.270
+Now, I still haven't told you yet why the logistic regression is based on log probabilities and not
+
+05:49.270 --> 05:51.190
+the probabilities themselves.
+
+05:51.870 --> 05:59.030
+The reason is actually the same reason why we use log probabilities when training models, which I explained
+
+05:59.030 --> 06:00.350
+earlier in the course.
+
+06:00.830 --> 06:03.120
+And the answer is quite simple, actually.
+
+06:03.160 --> 06:12.280
+Probabilities themselves are bound between 0 and 1, whereas log probabilities have a much larger range.
+
+06:13.000 --> 06:20.640
+Furthermore, small probabilities that are close to zero can be numerically unstable and difficult to
+
+06:20.680 --> 06:25.040
+work with, whereas log probabilities are just much easier.
+
+06:25.040 --> 06:29.760
+You end up with larger numbers, so they're easier to represent and calculate.
+
+06:30.120 --> 06:32.880
+And that's basically what this text says over here.
+
+06:33.680 --> 06:39.680
+There actually is a third reason as well, which is that to measure the conjunction of probabilities
+
+06:39.680 --> 06:42.040
+you need to multiply probabilities.
+
+06:42.240 --> 06:46.000
+But you can also equivalently add their logs.
+
+06:46.160 --> 06:50.920
+I explained that in the section about quantitative evaluations.
+
+06:51.400 --> 06:57.360
+Actually that third point is not directly relevant for us here with logistic regression, but it is
+
+06:57.360 --> 07:03.320
+just another general motivation for using log probabilities in machine learning.
+
+07:03.880 --> 07:04.200
+Okay.
+
+07:04.240 --> 07:09.640
+So that is all of the background that I'm going to provide about logistic regression.
+
+07:10.120 --> 07:15.120
+Let me now paint the broad strokes of what I'll show in the Python demo.
+
+07:15.400 --> 07:17.520
+And then we'll actually switch to code.
+
+07:18.080 --> 07:22.000
+I'm going to create fake data for two different categories.
+
+07:22.360 --> 07:30.080
+You can pretend that these are activation magnitudes for neurons in an MLP layer for nouns and verbs.
+
+07:30.560 --> 07:39.000
+In the next video, we will use real data to see if we can identify MLP neurons that are tuned to proper
+
+07:39.000 --> 07:39.560
+nouns.
+
+07:40.120 --> 07:47.440
+But here in this video, to keep things simple and also to allow you to manipulate the data and the
+
+07:47.440 --> 07:51.480
+effect sizes, we're just going to work with some simulated data.
+
+07:52.000 --> 07:58.840
+So anyway, you do see that there is some nice separation such that the verbs get higher activation
+
+07:58.840 --> 08:00.000
+than the nouns.
+
+08:00.200 --> 08:05.850
+It's not a perfect separation because there's some noise in here, but it certainly does seem like this
+
+08:05.850 --> 08:11.290
+neuron has generally stronger activation to verbs compared to nouns.
+
+08:11.690 --> 08:17.490
+Of course, in this case it's a trivial effect because I literally coded this effect size.
+
+08:17.730 --> 08:21.490
+But this is the kind of plot that you can make with real data.
+
+08:22.930 --> 08:31.370
+So then I will create a design matrix of independent variables and a dependent variable where the independent
+
+08:31.370 --> 08:38.930
+variables are the data values and the dependent variable is the category label.
+
+08:39.330 --> 08:43.130
+You can visualize all the data in a plot that looks like this.
+
+08:43.490 --> 08:47.370
+So this plot shows the data sample on the x axis.
+
+08:47.650 --> 08:56.370
+I generated 30 samples in each of the two categories, and the y axis for the blue circles shows the
+
+08:56.370 --> 09:02.810
+activation value from one neuron for the 60 different tokens that it was processing.
+
+09:03.450 --> 09:11.090
+And then the X's correspond to the category label, which is always dummy coded to be zero for one label,
+
+09:11.090 --> 09:15.610
+like the nouns and one for the other label like the verbs in this case.
+
+09:16.250 --> 09:21.050
+So the idea is that all of these blue dots should predict zero.
+
+09:21.450 --> 09:25.010
+And all of these blue dots should predict one.
+
+09:25.810 --> 09:34.770
+So then I will take all of these data, put them into a statsmodel logistic regression, where the goal
+
+09:34.770 --> 09:43.330
+will be to find a set of beta parameters for the logistic regression equation that pushes these values
+
+09:43.330 --> 09:45.490
+as close to zero as possible.
+
+09:45.610 --> 09:52.330
+And these data values, these activation values in the blue circles as close to one as possible.
+
+09:53.250 --> 09:59.170
+Here you see a summary table that the Statsmodel library produces.
+
+09:59.690 --> 10:04.460
+Now there's a lot of detailed statistical information in this table.
+
+10:05.060 --> 10:11.140
+If you've taken a statistics course before, then you should recognize a lot of these parameters.
+
+10:11.140 --> 10:15.980
+But for our purposes here in this course, you don't need to worry about most of these.
+
+10:16.260 --> 10:21.180
+Mainly you want to look for the coefficient and the p value.
+
+10:21.340 --> 10:28.580
+And really just for the, uh, the term other than the constant term, the constant is the intercept.
+
+10:28.580 --> 10:30.380
+And we really don't care about this.
+
+10:30.380 --> 10:35.700
+This just tells us where the whether the activation values are different from zero.
+
+10:36.140 --> 10:39.660
+What we do care about is this X1 term here.
+
+10:39.940 --> 10:42.740
+And you want to see the sign of the coefficient.
+
+10:42.740 --> 10:50.140
+So whether it's positive or negative and the p value whether it is close to zero indicating statistical
+
+10:50.140 --> 10:58.340
+significance or whether it's greater than 0.05, indicating that there is no statistically significant
+
+10:58.340 --> 10:59.180
+prediction.
+
+11:00.540 --> 11:05.390
+Now we can visualize the results using a plot that looks like this.
+
+11:05.790 --> 11:11.990
+This initially looks like the plot of the data that I previously showed, but I'm not actually showing
+
+11:12.030 --> 11:14.110
+the activation values here.
+
+11:14.550 --> 11:22.990
+Instead, I'm showing the probabilities that the output of the logistic regression provides.
+
+11:23.430 --> 11:27.510
+So you can see that the y axis now goes from 0 to 1.
+
+11:27.950 --> 11:37.230
+And the value for each of the data samples is the probability that that data sample belongs to category
+
+11:37.230 --> 11:37.790
+one.
+
+11:38.550 --> 11:46.990
+So what you want to see in this kind of a plot is that, for example, here the first 30 samples, the
+
+11:46.990 --> 11:55.270
+first blue 30 blue circles should all have a probability value less than 0.5, indicating that they
+
+11:55.310 --> 11:58.110
+are predicted to be in category zero.
+
+11:58.430 --> 12:06.190
+And all of these data values above 30 should have a prediction or a probability value close to one,
+
+12:06.230 --> 12:09.470
+indicating that they belong to a condition one.
+
+12:10.110 --> 12:16.310
+You can see visually that the accuracy is overall fairly good, though certainly not perfect.
+
+12:16.510 --> 12:22.630
+There are some data values that were actually nouns, but the model predicts that they are verbs, and
+
+12:22.630 --> 12:27.870
+there are some data values that were verbs, but the model predicts that they are nouns.
+
+12:28.550 --> 12:34.830
+So then the last thing that we will do in the code demo is quantify this verbal description that I just
+
+12:34.830 --> 12:39.390
+gave to come up with a percent accuracy of prediction.
+
+12:40.110 --> 12:42.790
+Okay, let's switch to code and have a look.
+
+12:43.870 --> 12:50.710
+I will use three libraries here numpy for working with the numbers, matplotlib for the plots, and
+
+12:50.710 --> 12:53.430
+here we have the statsmodels library.
+
+12:53.470 --> 12:57.590
+It's often abbreviated as s for statsmodels.
+
+12:58.070 --> 12:59.590
+Here's where I generate the data.
+
+12:59.590 --> 13:02.400
+So 30 samples per category.
+
+13:02.400 --> 13:03.880
+And there's two categories.
+
+13:03.920 --> 13:06.760
+Again, these are all fake generated data.
+
+13:06.760 --> 13:13.800
+But we are imagining that they correspond to the activations of some neurons in a language model.
+
+13:14.160 --> 13:14.360
+Okay.
+
+13:14.400 --> 13:18.360
+And I'm initializing them to be numpy.random normal.
+
+13:18.360 --> 13:26.720
+So normally distributed numbers with a mean of zero for the nouns and a mean of two for the verbs.
+
+13:26.840 --> 13:28.760
+And here you see is the plot.
+
+13:28.800 --> 13:33.880
+Now all of the jitter on the x axis is purely for visualization.
+
+13:33.880 --> 13:36.240
+That just makes it look a little bit nicer.
+
+13:36.360 --> 13:43.160
+For example, if I would get rid of that, or maybe I'll just divide this by some ludicrously large
+
+13:43.160 --> 13:45.200
+number just to make it a little easier to code.
+
+13:45.640 --> 13:49.720
+Uh, in my opinion, this kind of a plot looks a little bit uglier.
+
+13:49.720 --> 13:55.400
+I think it's a little bit less aesthetic, but also a lot of dots are drawn on top of each other, so
+
+13:55.400 --> 13:58.200
+you don't really see the density of the plots.
+
+13:58.440 --> 14:03.210
+And that is why I like to add a little bit of noise jitter.
+
+14:03.250 --> 14:10.810
+Anyway, one thing that I like about using simulated data to explore statistical analysis methods is
+
+14:10.810 --> 14:14.250
+that you can control the effect sizes.
+
+14:14.330 --> 14:20.530
+So for example, if you would change the average for the verbs to be one, then you can see that there's
+
+14:20.530 --> 14:21.450
+more overlap.
+
+14:21.450 --> 14:26.730
+There's still clearly some distributional shift in the data, but there's more overlap.
+
+14:26.890 --> 14:34.610
+And so there's going to be less of a really clear ability of the model to, uh, to classify the data.
+
+14:34.810 --> 14:36.890
+So I will let you play around with that later.
+
+14:36.890 --> 14:40.170
+I'm going to leave it as two just for the demonstration here.
+
+14:40.170 --> 14:40.890
+We have an outlier.
+
+14:40.890 --> 14:42.250
+I think I'll just run this again.
+
+14:42.690 --> 14:43.010
+Okay.
+
+14:43.050 --> 14:43.650
+So there we go.
+
+14:43.690 --> 14:44.490
+Another outlier.
+
+14:44.530 --> 14:45.210
+Well, whatever.
+
+14:45.210 --> 14:46.290
+I'll just leave it in there.
+
+14:46.650 --> 14:47.010
+Okay.
+
+14:47.050 --> 14:50.250
+Here is where I'm building the logistic regression.
+
+14:50.250 --> 14:55.290
+So what we need to do is combine all of the data into one vector.
+
+14:55.530 --> 14:59.290
+So here the data are 30 numbers and 30 numbers.
+
+14:59.290 --> 15:04.050
+But I'm stacking them together to create one vector of 60 numbers.
+
+15:04.370 --> 15:06.410
+Here I'm adding the constant.
+
+15:06.450 --> 15:07.890
+This is the intercept term.
+
+15:08.010 --> 15:10.930
+This is actually just a vector of all ones.
+
+15:11.490 --> 15:18.610
+As I mentioned briefly, the intercept term really just accounts for the fact that the distribution
+
+15:18.610 --> 15:21.970
+of all of the data can be non centered.
+
+15:21.970 --> 15:25.850
+So it can have an average activation value other than zero.
+
+15:26.010 --> 15:28.690
+And that's what the constant uh captures.
+
+15:29.090 --> 15:35.210
+In general in most analyses and most statistics you do not care about the constant.
+
+15:35.210 --> 15:37.330
+You need to include the constant term.
+
+15:37.490 --> 15:40.050
+But you generally don't worry about interpreting it.
+
+15:40.050 --> 15:42.730
+And we are certainly not going to interpret it here.
+
+15:43.890 --> 15:44.970
+So that's the model.
+
+15:45.010 --> 15:46.370
+Here are the labels.
+
+15:46.370 --> 15:48.850
+This is what we are trying to predict.
+
+15:48.850 --> 15:54.970
+We want to predict zeros or ones corresponding to nouns and verbs.
+
+15:55.250 --> 15:55.530
+Okay.
+
+15:55.570 --> 15:57.170
+And then here is uh yeah.
+
+15:57.250 --> 16:00.650
+Just showing the sizes of these two matrices.
+
+16:01.100 --> 16:04.540
+And here is the code to generate the plot that I showed.
+
+16:04.580 --> 16:09.020
+Again the idea is that the category corresponds to the red x's.
+
+16:09.060 --> 16:10.860
+It's all zeros or ones.
+
+16:11.140 --> 16:14.380
+And these are the actual data in the blue circles.
+
+16:14.540 --> 16:22.700
+So what you want is to find a model that will take all of these data values and push that into zero.
+
+16:22.980 --> 16:26.860
+And all of these data values and push those to one.
+
+16:27.140 --> 16:31.660
+And this one here I'm sure is going to be a incorrect prediction.
+
+16:32.900 --> 16:33.220
+Okay.
+
+16:33.260 --> 16:41.660
+So once we have the data, once we have our design matrix, it's really easy to run a logistic regression.
+
+16:41.660 --> 16:49.060
+In Statsmodels you use small logit logit with a capital L, and this creates an object which you can
+
+16:49.100 --> 16:49.860
+then fit.
+
+16:50.020 --> 16:52.980
+And in fact you often don't even need.
+
+16:53.020 --> 17:00.620
+You know, most of the time you can actually do something simpler like this and say result equals like
+
+17:00.620 --> 17:01.020
+this.
+
+17:01.100 --> 17:02.220
+That's even simpler.
+
+17:02.300 --> 17:03.380
+So there you go.
+
+17:03.540 --> 17:05.660
+We have the model and we can fit it.
+
+17:05.700 --> 17:07.420
+Here we see the results.
+
+17:07.460 --> 17:12.020
+Again, you generally don't want to worry about interpreting the constant.
+
+17:12.060 --> 17:16.820
+The only thing this tells us is that the data have a average other than zero.
+
+17:17.260 --> 17:19.340
+Instead, you want to interpret this.
+
+17:19.980 --> 17:25.060
+The sign of the coefficient and the p value of the coefficient.
+
+17:25.180 --> 17:26.900
+So we see that this is positive.
+
+17:26.940 --> 17:33.980
+That means that the values are going to be larger for category one and smaller for category zero.
+
+17:34.580 --> 17:41.860
+Now if you're just running one logistic regression from one neuron in the LM, then you can literally
+
+17:41.860 --> 17:44.620
+just show this table and read it off.
+
+17:44.700 --> 17:47.820
+You know, read off these numbers and write them down somewhere.
+
+17:48.260 --> 17:53.060
+But, you know, Llms have a lot more than one neuron.
+
+17:53.220 --> 17:55.260
+They have billions of neurons.
+
+17:55.420 --> 17:59.620
+And so we want a way to extract this information manually.
+
+17:59.620 --> 18:07.070
+And that's what we do here with the we can extract result dot p values and result dot params for parameters.
+
+18:07.270 --> 18:11.270
+And that gives us the p values and the coefficients.
+
+18:11.270 --> 18:13.310
+So these are the p values or.
+
+18:13.350 --> 18:15.510
+This one is for the constant.
+
+18:15.550 --> 18:16.710
+We don't care about that one.
+
+18:16.710 --> 18:23.270
+We're interested in this one and we're interested in this beta value over here okay.
+
+18:23.310 --> 18:26.070
+So now we can do the classification.
+
+18:26.070 --> 18:27.390
+That's what I showed here.
+
+18:27.550 --> 18:34.190
+Again the ideal result here is that all of these values here go down to zero.
+
+18:34.190 --> 18:38.310
+And all of these values over here go up to one.
+
+18:38.710 --> 18:45.350
+So the y axis here is the probability that each data sample is in category one.
+
+18:45.630 --> 18:52.630
+So for this data point over here the model calculates that the probability that this data sample belongs
+
+18:52.630 --> 18:57.310
+to category one is like zero something very close to zero.
+
+18:57.470 --> 19:00.990
+So therefore it must be in category zero okay.
+
+19:01.120 --> 19:05.200
+And then these are in category one because the probabilities are very high.
+
+19:05.920 --> 19:13.000
+So calculating accuracy is actually really straightforward once you've gotten to this step over here.
+
+19:13.200 --> 19:16.920
+Oh I forgot to show you this is yet result dot predict.
+
+19:17.040 --> 19:20.840
+So remember result is the output of the fitting.
+
+19:20.840 --> 19:22.960
+That's the variable that we get from fitting.
+
+19:23.360 --> 19:32.600
+And dot predict is what applies the logistic regression equation to the data values and returns the
+
+19:32.600 --> 19:34.120
+probability values.
+
+19:34.160 --> 19:34.440
+Okay.
+
+19:34.480 --> 19:35.960
+So result dot predict.
+
+19:36.880 --> 19:39.400
+That's how we get these blue circles over here.
+
+19:39.680 --> 19:42.680
+Anyway we have a threshold of 0.5.
+
+19:42.840 --> 19:47.240
+And we just say are these values greater than or less than 0.5.
+
+19:47.440 --> 19:48.560
+It is that simple.
+
+19:48.880 --> 19:53.240
+So here we have let me walk you through this piece by piece.
+
+19:53.280 --> 19:59.520
+I will say result dot predict.
+
+20:00.520 --> 20:02.680
+And that gives us the predictions.
+
+20:02.680 --> 20:06.280
+These are values that range between 0 and 1.
+
+20:06.800 --> 20:13.880
+We can say if it's greater than 0.5 here we can say or here the result is lots of falses in the beginning
+
+20:14.040 --> 20:15.920
+and lots of trues in the end.
+
+20:15.920 --> 20:23.560
+And this is just telling us that these data values are not greater than 0.5, so they're less than 0.5.
+
+20:23.560 --> 20:24.960
+And some of these values are.
+
+20:25.400 --> 20:32.960
+And then we want to set this equal to y to see which ones actually match the category label.
+
+20:33.240 --> 20:40.680
+And you want to do this because yeah, I set up this analysis so that the first 30 samples are in category
+
+20:40.720 --> 20:42.920
+zero and the next are in category one.
+
+20:42.920 --> 20:45.360
+But in practice this might be mixed.
+
+20:45.360 --> 20:49.360
+You might have category zero and one mixed all over the place.
+
+20:49.360 --> 20:53.560
+So that's why you want to set this equal to the labels.
+
+20:54.640 --> 20:57.440
+So basically everywhere you see this is true.
+
+20:57.720 --> 21:00.040
+That is a correct prediction.
+
+21:00.040 --> 21:01.490
+Everywhere it's false.
+
+21:01.490 --> 21:06.130
+It's an incorrect prediction, including this last outlier here at the very end.
+
+21:06.170 --> 21:07.970
+That is an incorrect prediction.
+
+21:08.210 --> 21:15.650
+So now if we want to know the overall accuracy, then we can just average all of these together, which
+
+21:15.650 --> 21:16.570
+I do here.
+
+21:16.570 --> 21:23.050
+So you can see that the average accuracy was 87% 86%.
+
+21:23.370 --> 21:30.690
+Now once you have all of these data, you can actually use them to go into an incredible amount of detailed
+
+21:30.690 --> 21:33.370
+investigations with a lot of granularity.
+
+21:33.610 --> 21:37.890
+For example, as I've mentioned multiple times, these are fake data.
+
+21:37.890 --> 21:43.690
+So the fact that this is an incorrect prediction is not interpretable.
+
+21:43.690 --> 21:46.530
+But let's imagine that these were real data.
+
+21:46.530 --> 21:49.530
+And these data really came from a model.
+
+21:49.530 --> 21:51.610
+And these were different tokens.
+
+21:51.610 --> 21:58.370
+Let's say these were 60 tokens that the model was processing and these were the nouns and these were
+
+21:58.370 --> 21:59.130
+the verbs.
+
+21:59.410 --> 22:03.410
+So if these were real data, the model really got this one wrong.
+
+22:03.610 --> 22:11.090
+So then it could be interesting to find which of the tokens were incorrectly classified, and then you
+
+22:11.090 --> 22:19.370
+could go back to the text and look and try to characterize or try to understand why this verb was actually
+
+22:19.370 --> 22:21.170
+categorized as a noun.
+
+22:21.290 --> 22:25.290
+And maybe that will be insightful for model functioning.
+
+22:26.570 --> 22:32.690
+Logistic regression is a great analysis to be familiar with and to know how to code.
+
+22:33.130 --> 22:40.170
+We will use it quite a bit in the next video, and the video after that, and the next several sections.
+
+22:40.770 --> 22:48.330
+As I mentioned before, there are multiple Python libraries that can implement logistic regression using
+
+22:48.370 --> 22:51.130
+slightly different algorithms and so on.
+
+22:51.290 --> 22:58.410
+Statsmodels is great because it's easy to set up, it's fast, it gives a lot of detailed information,
+
+22:58.410 --> 23:00.170
+and it's convenient to work with.

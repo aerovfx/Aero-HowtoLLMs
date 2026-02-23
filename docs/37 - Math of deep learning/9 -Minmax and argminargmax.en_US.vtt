@@ -1,0 +1,589 @@
+WEBVTT
+
+00:02.080 --> 00:10.240
+The goal of this video is to show you how to find the minimum and maximum points of a set of numbers,
+
+00:10.240 --> 00:12.640
+so vectors or matrices.
+
+00:13.080 --> 00:18.480
+After a brief discussion in the slides, we will switch to Python and I'll show you how to implement
+
+00:18.480 --> 00:23.960
+this and how to interpret the resulting functions in NumPy and in PyTorch.
+
+00:24.640 --> 00:27.000
+Okay, so let's start with minimum and maximum.
+
+00:27.000 --> 00:28.160
+It's pretty straightforward.
+
+00:28.280 --> 00:31.520
+We have a set of numbers a collection of numbers here.
+
+00:31.640 --> 00:33.680
+And minus one is the minimum.
+
+00:33.680 --> 00:36.160
+It's the smallest value and four is the maximum.
+
+00:36.400 --> 00:37.360
+Easy peasy.
+
+00:37.800 --> 00:40.480
+Let's get to Argmin and argmax.
+
+00:40.480 --> 00:43.080
+These might be unfamiliar to you.
+
+00:43.240 --> 00:47.800
+The ARG here is for the argument of the minimum and the answer here.
+
+00:47.800 --> 00:53.360
+The result is two, and here the result is five for Argmin and argmax.
+
+00:53.560 --> 00:58.120
+Now that might initially seem a little strange, but actually what's going on is that min.
+
+00:58.200 --> 01:06.530
+The min function finds the value, the smallest value, and Argmin finds the location at which the smallest
+
+01:06.530 --> 01:07.810
+value occurs.
+
+01:08.370 --> 01:16.370
+So here this answer is two because the minimum value is is located at the second position.
+
+01:16.650 --> 01:19.690
+So this is the first second third fourth fifth.
+
+01:19.690 --> 01:24.850
+So the fifth position in this list of numbers is the maximum.
+
+01:24.970 --> 01:28.050
+So that's the difference between the minimum and the maximum.
+
+01:28.370 --> 01:34.650
+Of course you have to be mindful here of the distinction between starting to count at one, which is
+
+01:34.650 --> 01:41.650
+what we do in human language and also in math and in some other programming languages, versus indexing
+
+01:41.650 --> 01:43.130
+where we start at zero.
+
+01:43.410 --> 01:44.210
+In Python.
+
+01:44.210 --> 01:47.770
+So if you're writing this in math, then the argument is two.
+
+01:47.810 --> 01:53.970
+If you're writing this in Python, the argmax would actually be one because this would be index zero.
+
+01:54.210 --> 01:55.330
+This would be index one.
+
+01:55.330 --> 01:57.010
+And likewise this would also be four.
+
+01:57.450 --> 01:58.380
+Mathematically, Manically.
+
+01:58.420 --> 02:03.740
+argMax is often written something like this, where you have the argmax statement here, and then you
+
+02:03.740 --> 02:06.380
+have F of X, or, you know, whatever the function is.
+
+02:06.540 --> 02:13.300
+And then sometimes there's a variable underneath argmax, and this means that we are maximising over
+
+02:13.540 --> 02:13.860
+x.
+
+02:13.860 --> 02:19.860
+We are finding the positions in x at which this function is maximum.
+
+02:19.980 --> 02:26.540
+So before switching to Python, I just want to give you a quick explanation of why we need to use argmax
+
+02:26.540 --> 02:27.780
+in deep learning.
+
+02:28.100 --> 02:33.660
+So let's say we have a convolutional neural network that we train to recognize stop signs.
+
+02:34.060 --> 02:40.020
+So we train the model and then we give the model a particular image of this.
+
+02:40.020 --> 02:43.540
+We give the model this picture and we record with the outputs.
+
+02:43.540 --> 02:49.940
+And these are the outputs that we would get from pushing through the actual raw model numerical output
+
+02:49.980 --> 02:51.660
+through the softmax function.
+
+02:51.700 --> 02:53.660
+So this would be the result of the softmax.
+
+02:53.980 --> 02:57.910
+So the model says probability of zero that it's a squirrel.
+
+02:58.350 --> 02:59.830
+Uh, you know, all this stuff.
+
+02:59.830 --> 03:01.990
+So then we say, uh, the stop sign it.
+
+03:02.030 --> 03:07.270
+The model says, I think, you know, the probability of 0.8 that this is a stop sign.
+
+03:07.670 --> 03:13.670
+So then we want to apply the argmax function to this vector of outputs.
+
+03:13.670 --> 03:19.510
+Because this vector of outputs from the softmax from the model is going to be a vector that contains
+
+03:19.510 --> 03:20.670
+these numbers.
+
+03:20.670 --> 03:25.710
+But we want to know which label which category comes from these numbers.
+
+03:25.710 --> 03:31.950
+So therefore we would use argmax of the model output given the input y is three.
+
+03:32.070 --> 03:35.110
+And then we can look that up on our lookup table here.
+
+03:35.110 --> 03:41.870
+And that tells us that the model gave the highest probability the maximum output for label three which
+
+03:41.870 --> 03:43.030
+is a stop sign.
+
+03:43.550 --> 03:49.590
+And this is just a little reminder that if we were actually doing this in Python, the the the real
+
+03:49.590 --> 03:55.150
+output would be two, because this is index zero, index one and index two.
+
+03:55.430 --> 03:55.790
+All right.
+
+03:55.790 --> 03:57.320
+So that's a brief explanation.
+
+03:57.320 --> 04:01.840
+Let's now switch to Python and I'll show you how to implement these functions.
+
+04:02.400 --> 04:06.720
+As I mentioned I will show you in numpy and also in PyTorch.
+
+04:07.000 --> 04:10.720
+So let's load in these libraries and first using numpy.
+
+04:10.760 --> 04:12.320
+So I'm going to create a vector.
+
+04:12.320 --> 04:16.040
+This is just a yeah it's just an array with a couple of numbers.
+
+04:16.040 --> 04:18.800
+You can see this is the maximum value.
+
+04:18.840 --> 04:20.200
+This is the minimum value.
+
+04:20.480 --> 04:25.800
+So here I'm using the functions numpy dot min and numpy dot max.
+
+04:26.000 --> 04:33.680
+So these two functions are going to find the the minimum value which is minus three and the maximum
+
+04:33.680 --> 04:35.280
+value which is -40.
+
+04:35.440 --> 04:40.520
+So just from these in fact I think I will comment out these lines of code here.
+
+04:40.720 --> 04:46.120
+So this is just telling us that the minimum and maximum value are minus three and plus 40.
+
+04:46.160 --> 04:53.440
+Now here just from these results from these functions here, we don't actually know where the minus
+
+04:53.440 --> 04:54.600
+three is located.
+
+04:54.600 --> 04:57.370
+Nor do we know where the 40 is located.
+
+04:57.490 --> 05:01.010
+And that is what we do with Argmin and argmax.
+
+05:01.210 --> 05:06.850
+So notice the functions look basically the same, but we have the arg for argument in front.
+
+05:07.290 --> 05:07.690
+So let's see.
+
+05:07.730 --> 05:08.770
+Let's print those out.
+
+05:08.850 --> 05:12.770
+And now we see the min max indices are three and zero.
+
+05:12.890 --> 05:20.890
+So the minimum is located at index 0123 and the maximum is at index zero one.
+
+05:21.290 --> 05:21.530
+Okay.
+
+05:21.570 --> 05:25.690
+And then yeah it's just printing out a little bit more confirmation.
+
+05:25.730 --> 05:27.570
+The minimum value is three.
+
+05:27.570 --> 05:34.330
+So here I'm indexing I'm not printing out the minimum value that I got from the numpy dot min function.
+
+05:34.330 --> 05:40.850
+Instead I'm using min to index the element in vector v.
+
+05:41.290 --> 05:47.930
+And yeah we also see that that is minus three for the minimum and plus 40 for the maximum.
+
+05:48.610 --> 05:48.890
+Okay.
+
+05:48.930 --> 05:51.010
+So that is for vectors.
+
+05:51.170 --> 05:56.660
+Things start getting a little bit more complicated when we get to matrices, because when we get to
+
+05:56.860 --> 06:05.100
+matrices, we can actually think about computing the minimum and maximum values over the entire matrix
+
+06:05.100 --> 06:09.540
+as one collection of numbers, or as by the rows.
+
+06:09.540 --> 06:14.660
+So the minimum value in this row, the minimum value in this row or column wise.
+
+06:14.660 --> 06:20.620
+So we can talk about the minimum value in this column, the minimum value in this column and so on okay.
+
+06:20.620 --> 06:26.580
+And so the way we distinguish that is with an optional second input into the min function.
+
+06:26.980 --> 06:29.100
+So we write the input which is a matrix.
+
+06:29.100 --> 06:35.540
+Now if we don't provide any additional inputs this is going to give us the minimum of the entire matrix
+
+06:35.540 --> 06:37.260
+which of course is zero.
+
+06:37.820 --> 06:43.820
+Here we are looking at the minimum over the first axis which corresponds to the rows.
+
+06:44.060 --> 06:49.980
+So we find the minimum over the rows which corresponds to the minimum of each column individually.
+
+06:49.980 --> 06:51.100
+I know that's a little.
+
+06:51.300 --> 06:57.200
+It can be a little confusing at first, but you'll see in the output down here when I run this code,
+
+06:57.240 --> 06:58.080
+we're going to.
+
+06:58.360 --> 07:01.520
+This will make sense when when we look at the output okay.
+
+07:01.560 --> 07:03.480
+So here we are printing out.
+
+07:03.480 --> 07:05.600
+So here I'm printing out the matrix first.
+
+07:05.600 --> 07:06.600
+That's that's here.
+
+07:07.040 --> 07:09.200
+Then I'm printing out Minval one.
+
+07:09.320 --> 07:12.960
+This is the minimum value of the entire matrix here.
+
+07:13.000 --> 07:13.480
+Oops.
+
+07:13.520 --> 07:15.920
+The minimum value of the entire matrix.
+
+07:16.480 --> 07:22.360
+And here we have the minimum value across axis zero which means across the rows.
+
+07:22.640 --> 07:26.760
+So there's three numbers because there are three columns.
+
+07:26.760 --> 07:32.400
+So zero is the minimum value in the first column, one is the minimum value in the second column and
+
+07:32.400 --> 07:32.880
+so on.
+
+07:33.160 --> 07:40.680
+And here when we write min axis equals one then this gives us the minimum value across the columns which
+
+07:40.680 --> 07:42.920
+means we get one value per row.
+
+07:42.920 --> 07:49.960
+So zero is the minimum in the first row row and five is the minimum of the second row okay.
+
+07:50.000 --> 07:54.410
+And obviously you know this is min but it would work exactly the same for Max.
+
+07:54.610 --> 07:57.450
+Okay, and now we are applying the same procedure.
+
+07:57.450 --> 08:01.410
+But this is arg min instead of just finding the minimum.
+
+08:01.730 --> 08:03.210
+So here I run that code again.
+
+08:03.410 --> 08:04.330
+Again this.
+
+08:04.570 --> 08:10.050
+These numbers might look a little bit confusing at first, but this is telling us that the minimum value
+
+08:10.050 --> 08:13.530
+of the entire matrix was at linear index zero.
+
+08:13.530 --> 08:19.970
+So the first element in the matrix which is here, here we have the minimum value of each column.
+
+08:20.170 --> 08:23.810
+So the minimum value of the first column is in position zero.
+
+08:23.970 --> 08:25.850
+The minimum here is also zero.
+
+08:25.850 --> 08:31.490
+And here we have one because the minimum value is in row index one okay.
+
+08:31.530 --> 08:33.810
+And then this is for the other way around.
+
+08:33.810 --> 08:39.210
+So that here we find that the minimum value in the first row is in position zero.
+
+08:39.250 --> 08:41.810
+The minimum of the second row is in position two.
+
+08:41.850 --> 08:42.050
+Okay.
+
+08:42.090 --> 08:42.570
+Very nice.
+
+08:42.570 --> 08:44.370
+So I hope that's pretty straightforward.
+
+08:44.410 --> 08:46.970
+Again it gets a little bit tricky with matrices.
+
+08:46.970 --> 08:52.220
+But whenever there's any doubt you can just create a really small matrix like what I've done here,
+
+08:52.460 --> 08:58.660
+and work through the various inputs, and then you can just eyeball it and see which of these input
+
+08:58.660 --> 09:00.220
+parameters you actually want.
+
+09:00.620 --> 09:05.540
+Okay, now we get to PyTorch and things are going to start well initially with vectors.
+
+09:05.580 --> 09:13.380
+Actually it's pretty much identical to numpy, except that we write torch dot the name of the function
+
+09:13.380 --> 09:14.380
+instead of numpy.
+
+09:14.540 --> 09:16.660
+So I'm not even going to take time to go through this.
+
+09:16.660 --> 09:19.900
+This is really identical to to numpy.
+
+09:19.940 --> 09:25.900
+This is when we're using a one dimensional tensor here or just a vector like this.
+
+09:26.340 --> 09:30.020
+Now let's get to repeating this with matrices.
+
+09:30.020 --> 09:34.380
+So again this is exactly the same matrix that I had earlier with numpy.
+
+09:34.740 --> 09:39.140
+And now actually I'm going to start by just printing out min one.
+
+09:39.140 --> 09:41.460
+So this is the minimum over the entire matrix.
+
+09:41.460 --> 09:43.620
+We'll go through each of these lines in turn.
+
+09:44.500 --> 09:44.740
+Okay.
+
+09:44.780 --> 09:49.100
+So here we find that yeah this is just printing out the matrix again.
+
+09:49.140 --> 09:55.590
+Again notice that because we've created this in PyTorch, this is not considered a numpy array.
+
+09:55.590 --> 09:58.710
+Instead it is a two dimensional tensor.
+
+09:58.750 --> 10:00.150
+A PyTorch tensor.
+
+10:00.310 --> 10:00.950
+It doesn't matter.
+
+10:00.950 --> 10:02.230
+The numbers are the same.
+
+10:02.790 --> 10:09.750
+Okay, so here we see that the minimum is still when we take the minimum of with no second input.
+
+10:09.750 --> 10:12.510
+So just the one input of the matrix or the tensor.
+
+10:12.710 --> 10:17.550
+Then we get the same result as with numpy which is just the number zero.
+
+10:18.030 --> 10:21.070
+Now let's check out what happens with min two.
+
+10:21.110 --> 10:25.790
+So min two is the minimum over the or across the rows.
+
+10:25.790 --> 10:27.110
+So for each column.
+
+10:27.150 --> 10:29.230
+Now this is starting to look a little bit different.
+
+10:29.270 --> 10:34.390
+Let's even go um let's let's check out the type of this data variable.
+
+10:34.390 --> 10:36.390
+So type of min one.
+
+10:36.950 --> 10:38.670
+Uh sorry I meant min two.
+
+10:39.590 --> 10:41.550
+So here we see this is not a tensor.
+
+10:41.550 --> 10:47.150
+This is a different kind of object that is specific to the min function.
+
+10:47.590 --> 10:50.280
+And here you see as well it looks a little bit like a tuple, doesn't it?
+
+10:50.320 --> 10:52.200
+It has the parentheses here.
+
+10:52.200 --> 10:53.960
+And then there's two things.
+
+10:53.960 --> 10:57.280
+There's two attributes inside this tuple.
+
+10:57.400 --> 11:00.160
+One is called values and one is called indices.
+
+11:00.360 --> 11:04.280
+So we can write out min two or we can access these.
+
+11:04.280 --> 11:11.520
+You can see them here but we can access them by typing min two dot values and min two dot indices.
+
+11:12.000 --> 11:13.760
+So now we can run all of this code.
+
+11:13.880 --> 11:17.680
+So here we see these are the values that corresponds to this.
+
+11:17.680 --> 11:20.560
+And here are the indices corresponding to this.
+
+11:20.600 --> 11:25.280
+Now these numerical results are the same as what we got with numpy.
+
+11:25.480 --> 11:29.160
+But the organization of the output is a little bit different.
+
+11:29.200 --> 11:31.520
+It's just something you have to be mindful of.
+
+11:31.560 --> 11:38.320
+As I mentioned before that PyTorch and numpy sometimes work really, really similar to each other and
+
+11:38.320 --> 11:40.960
+sometimes they are a little bit different from each other.
+
+11:41.360 --> 11:43.840
+So I just want to show you one more thing here.
+
+11:44.000 --> 11:51.050
+We can access all of the methods and attributes of an of an object by typing the name of the variable
+
+11:51.050 --> 11:54.050
+and then a period, and then on the keyboard you type tab.
+
+11:54.610 --> 11:59.050
+So now we can see there's actually multiple properties that we can access here.
+
+11:59.170 --> 12:01.450
+And here I showed you values and indices.
+
+12:01.450 --> 12:03.490
+There's other things we can access as well.
+
+12:03.570 --> 12:07.770
+I'm not going to really discuss any any of these other properties.
+
+12:07.770 --> 12:12.770
+Mainly I just wanted to introduce you to using torch min.
+
+12:13.010 --> 12:19.370
+And the important distinction here between PyTorch and NumPy is that when you use torch dot min with
+
+12:19.370 --> 12:27.770
+an optional second input, it's also giving us the argument in indices as well as the values in this
+
+12:27.810 --> 12:30.570
+object, which is the output of torch dot min.
+
+12:32.090 --> 12:39.290
+So in this video I explained min max and the corresponding arg min max or the argument of the min max
+
+12:39.290 --> 12:45.170
+functions, and importantly, how to compute them in NumPy and in PyTorch.

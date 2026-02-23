@@ -1,0 +1,907 @@
+WEBVTT
+
+00:02.000 --> 00:08.680
+Welcome back to the second part of this code challenge that we started from the previous video.
+
+00:08.920 --> 00:11.200
+There's five exercises in total.
+
+00:11.200 --> 00:12.560
+You've already done two.
+
+00:12.800 --> 00:14.840
+And so now we do three, four and five.
+
+00:14.880 --> 00:16.560
+But five is actually really short.
+
+00:16.960 --> 00:17.320
+Okay.
+
+00:17.360 --> 00:19.680
+Anyway, uh, now an exercise three.
+
+00:19.720 --> 00:23.120
+We will begin with the path length analysis.
+
+00:23.520 --> 00:31.320
+You are going to calculate the path length between each token embeddings vector from the current relative
+
+00:31.320 --> 00:32.640
+to the previous layer.
+
+00:32.960 --> 00:40.200
+And you're going to do this three times for each token, once for the attention adjustment, once for
+
+00:40.200 --> 00:44.200
+the MLP adjustment, and once for the hidden states.
+
+00:44.640 --> 00:52.480
+Now the hidden states vectors is what we calculated in the previous video or two videos ago when I introduced
+
+00:52.480 --> 00:53.360
+this method.
+
+00:53.840 --> 00:57.360
+So you can make a visualization that looks like this.
+
+00:57.640 --> 01:01.940
+So there are three images here showing three matrices.
+
+01:02.300 --> 01:09.420
+The rows of this matrix correspond to the transformer layers, and the columns on the x axis are the
+
+01:09.460 --> 01:11.020
+token indices.
+
+01:11.020 --> 01:19.420
+Remember, there's 342 tokens here in this text sequence, and the color corresponds to the path length.
+
+01:19.700 --> 01:28.780
+So the way to interpret these plots is that larger values corresponding to more yellow colors depict
+
+01:28.820 --> 01:30.820
+larger path lengths.
+
+01:30.980 --> 01:35.740
+And that means that the vectors from the current layers are more distinct.
+
+01:35.740 --> 01:42.700
+They're more different compared to the corresponding vectors for the same tokens from the previous layer.
+
+01:43.380 --> 01:50.620
+So yeah, just to be clear, this means that the y axis here is not really each transformer layer on
+
+01:50.620 --> 01:51.380
+its own.
+
+01:51.380 --> 01:55.260
+It's actually a pair of sequential transformer layers.
+
+01:55.500 --> 02:04.520
+So the data in row 15 is actually the change in the vector from layer 14 to layer 15.
+
+02:04.920 --> 02:05.320
+Okay.
+
+02:05.360 --> 02:10.520
+So here I'm showing what this matrix looks like for the attention adjustment.
+
+02:10.640 --> 02:17.080
+And you will have to discover what this looks like for the MLP adjustment and for the hidden state.
+
+02:17.880 --> 02:21.680
+Now is the time to pause the video and get to work.
+
+02:21.840 --> 02:26.120
+We will continue working with these data in the next couple of exercises.
+
+02:26.560 --> 02:29.800
+And now I will switch to code and discuss the solution.
+
+02:30.600 --> 02:34.520
+Here I am looping over all of the tokens in the text.
+
+02:34.880 --> 02:39.280
+And here I'm looping over all of the layers in the model.
+
+02:39.520 --> 02:45.360
+And then you can see I'm extracting three pairs of vectors.
+
+02:45.480 --> 02:51.200
+These are the attention vectors, the MLP vectors and the hidden states vectors.
+
+02:51.680 --> 02:57.200
+In these two cases I have layer I versus layer I minus one.
+
+02:57.360 --> 03:01.300
+Of course, for the same token and also for MLP.
+
+03:01.460 --> 03:03.820
+Now here the code looks a little bit different.
+
+03:03.820 --> 03:05.260
+And what is going on here.
+
+03:05.260 --> 03:07.940
+Why do I have layer I plus one.
+
+03:08.140 --> 03:13.060
+And here layer I instead of layer I and layer I minus one.
+
+03:13.460 --> 03:18.540
+If you would like to take a moment to think about why that might be the case, feel free to pause the
+
+03:18.540 --> 03:19.100
+video.
+
+03:19.980 --> 03:28.940
+The answer is that remember that the hidden states actually starts with the embeddings the initial token
+
+03:28.940 --> 03:31.100
+plus position embeddings matrix.
+
+03:31.300 --> 03:38.540
+So that means that if we want to access the data from the first transformer block, we actually need
+
+03:38.540 --> 03:41.180
+the second hidden states, right?
+
+03:41.220 --> 03:49.100
+Because hidden states zero corresponds to the index, zero corresponds to the embeddings, and index
+
+03:49.100 --> 03:52.340
+one corresponds to the first transformer block.
+
+03:52.700 --> 04:00.560
+On the other hand, when I created these hooks, I did not implant any hooks into the embeddings vectors.
+
+04:00.560 --> 04:07.320
+So therefore, for these hooks index zero actually does correspond to the first transformer block.
+
+04:07.560 --> 04:07.760
+Okay.
+
+04:07.800 --> 04:08.920
+I hope that makes sense.
+
+04:09.200 --> 04:09.560
+Okay.
+
+04:09.600 --> 04:12.080
+So yeah getting all of the vectors.
+
+04:12.080 --> 04:16.440
+And here I'm calculating the norms of the difference vectors.
+
+04:16.440 --> 04:23.000
+And I'm storing them in this big data tensor called path Len for path lengths.
+
+04:23.200 --> 04:26.640
+So we have this layer this token.
+
+04:26.760 --> 04:36.360
+And then this third dimension 012 corresponds to the attention the MLP and the hidden states okay.
+
+04:36.400 --> 04:39.320
+So that's very fast to run this code.
+
+04:39.680 --> 04:43.600
+And now here I'm just generating the three images.
+
+04:43.920 --> 04:44.240
+Okay.
+
+04:44.280 --> 04:46.400
+So you already saw what this looks like here.
+
+04:46.400 --> 04:49.560
+You see for the MLP and the hidden states.
+
+04:49.680 --> 04:57.120
+And what we see is that in general across the board the path lengths are getting longer as we get deeper
+
+04:57.120 --> 05:00.380
+into the model as we go up the x.
+
+05:00.500 --> 05:05.820
+Sorry, up the y axis and they get really steep all the way at the end.
+
+05:05.980 --> 05:12.940
+So the embeddings vectors are changing a little bit from transformer layer to transformer layer.
+
+05:12.940 --> 05:17.940
+But as we get to the end of the model in particular right before the end.
+
+05:17.940 --> 05:25.300
+So the last couple of transformer blocks right before we get to the final embeddings matrix, then that's
+
+05:25.300 --> 05:29.620
+where, yeah, we uh, you know, there's like a big step change happening there.
+
+05:29.620 --> 05:32.140
+So there's a big adjustment that's happening.
+
+05:32.300 --> 05:37.780
+Uh, when the model is about to select the next token in the sequence.
+
+05:39.140 --> 05:40.940
+Here is a question.
+
+05:41.340 --> 05:49.620
+Which of these two adjustments, attention or MLP contributes more to the hidden state vectors the output
+
+05:49.620 --> 05:51.100
+of the transformer block.
+
+05:51.780 --> 05:58.380
+Now, that's not really a question that we can ask definitively or answer definitively and generally,
+
+05:58.380 --> 06:04.480
+because it will certainly depend on the text, the token, the transformer layer and so on.
+
+06:04.840 --> 06:11.600
+But we are going to run an analysis that addresses this question, at least for this model and the text
+
+06:11.600 --> 06:13.000
+that we are using here.
+
+06:13.760 --> 06:20.200
+So to run this analysis, have a for loop over all of the transformer layers.
+
+06:20.320 --> 06:28.640
+And inside that for loop you want to run two correlations one correlation between the attention adjustments
+
+06:28.640 --> 06:30.280
+and the hidden states vectors.
+
+06:30.760 --> 06:37.000
+And then a second correlation between the MLP adjustments and the same hidden states vectors.
+
+06:37.640 --> 06:42.280
+Here you can see what this plot will look like after you run the analysis.
+
+06:42.720 --> 06:43.200
+Again.
+
+06:43.200 --> 06:46.200
+Transformer layer is on the x axis.
+
+06:46.240 --> 06:49.640
+Correlation is now on the y axis.
+
+06:49.960 --> 06:51.280
+Now there's no data.
+
+06:51.320 --> 06:59.400
+There's no results for transformer layer zero because all of these adjustments are relative to the previous
+
+06:59.540 --> 07:06.740
+layer, so we can only start having data at the second layer, which is index one.
+
+07:07.540 --> 07:15.260
+So at this first layer, the MLP adjustments are more strongly correlated, at least numerically compared
+
+07:15.260 --> 07:17.340
+to the attention adjustments.
+
+07:17.740 --> 07:21.740
+And the question is what does this look like for the rest of the model?
+
+07:22.740 --> 07:30.260
+When you run this calculation, you want to get the correlation coefficients and also the p values for
+
+07:30.260 --> 07:32.260
+statistical significance.
+
+07:33.100 --> 07:39.620
+Annoyingly, the numpy correlation function does not actually calculate a p value.
+
+07:40.180 --> 07:47.220
+So therefore you can use the Pearson R function which is in the Scipy.stats library.
+
+07:47.260 --> 07:51.580
+You already saw in exercise one that I imported this function.
+
+07:52.220 --> 07:59.920
+Now when you make this plot, you can also use different markers for the statistically significant Correlations
+
+07:59.920 --> 08:07.680
+versus the non-significant correlations, and to know which correlations are statistically significant,
+
+08:07.960 --> 08:15.240
+you will need to correct for multiple comparisons because we are calculating lots of correlations using
+
+08:15.240 --> 08:16.600
+related data.
+
+08:17.680 --> 08:25.280
+So for this you can use the correction method for multiple comparisons corrections.
+
+08:25.280 --> 08:27.240
+That's what MCC stands for.
+
+08:27.640 --> 08:32.440
+Again you saw an exercise one that I imported the F function.
+
+08:32.680 --> 08:40.240
+And I've shown you earlier in this course how to use that function to get adjusted p values for addressing
+
+08:40.240 --> 08:42.520
+multiple comparisons issues.
+
+08:43.480 --> 08:50.000
+And then the final part of this exercise is to show some scatter plots over some of the layers.
+
+08:50.560 --> 08:54.000
+So here you see one example from layer one.
+
+08:54.600 --> 09:02.180
+So the x axis shows path length from the attention and the MLP adjustments on the same axis, and the
+
+09:02.180 --> 09:04.820
+Y axis is for the hidden states.
+
+09:05.300 --> 09:10.740
+And I'm plotting both of these scatter plots on top of each other in the same axis.
+
+09:12.020 --> 09:14.980
+Now there are 36 layers in the model.
+
+09:15.220 --> 09:19.820
+The first layer, which would be layer index zero, has no data.
+
+09:19.820 --> 09:22.300
+So that means that there's 35 layers.
+
+09:22.820 --> 09:27.180
+If you want, you can show all the scatter plots from all the layers.
+
+09:27.180 --> 09:30.740
+For example in like a five by seven grid.
+
+09:31.100 --> 09:38.380
+But I decided to skip every third layer just to reduce the total number of things to look at in this
+
+09:38.380 --> 09:38.900
+figure.
+
+09:39.740 --> 09:47.100
+Okay, the last thing I want to mention for this exercise is that I want you to ignore the first token
+
+09:47.100 --> 09:47.940
+when you run.
+
+09:47.940 --> 09:51.740
+All of these analyses do not include the first token.
+
+09:52.020 --> 09:58.660
+I know I included it in a previous exercise, but for exercise four exclude the first token.
+
+09:58.660 --> 09:58.800
+Okay.
+
+09:59.400 --> 10:06.400
+And the reason why I'm stressing that is that literally the entire purpose of the next exercise is to
+
+10:06.440 --> 10:09.240
+include that first token and see what happens.
+
+10:09.440 --> 10:15.120
+So for this exercise, make sure you ignore the first token from the text sequence.
+
+10:16.360 --> 10:16.640
+Okay.
+
+10:16.680 --> 10:22.880
+There's a lot to do in this exercise, but I hope you find it enjoyable and a rewarding educational
+
+10:22.880 --> 10:23.920
+experience.
+
+10:24.200 --> 10:25.920
+I will now switch to Python.
+
+10:26.040 --> 10:29.160
+Show my results and discuss what they might mean.
+
+10:30.200 --> 10:33.160
+Here is the for loop over all the layers.
+
+10:33.160 --> 10:37.880
+You can see that I'm actually not starting this for loop at one.
+
+10:37.920 --> 10:43.760
+I'm starting it at index zero and I will explain why I'm doing that in a moment.
+
+10:44.160 --> 10:51.760
+So inside this for loop we want to run two correlations for attention and the hidden states and MLP
+
+10:51.760 --> 10:52.920
+and the hidden states.
+
+10:53.360 --> 10:57.080
+I'm using the Pearson R correlation between.
+
+10:57.080 --> 11:03.620
+You can see it's both the The path length from one to the end, which means I'm skipping the first token
+
+11:03.620 --> 11:05.500
+here, skipping the first token here.
+
+11:05.860 --> 11:10.260
+And remember I explained at the end of the previous exercise.
+
+11:10.300 --> 11:11.820
+Actually, I can just scroll up here.
+
+11:12.060 --> 11:15.820
+So I have this path length matrix.
+
+11:15.820 --> 11:24.100
+This tensor of data has three elements on the third dimension zero is for attention, one is for MLP
+
+11:24.300 --> 11:27.220
+and two is for the hidden states.
+
+11:27.500 --> 11:31.660
+So therefore here I'm correlating attention with hidden states.
+
+11:31.660 --> 11:34.260
+And here MLP with hidden states.
+
+11:34.500 --> 11:34.740
+Okay.
+
+11:34.780 --> 11:39.340
+And then I'm storing the uh r dot statistic from here.
+
+11:39.500 --> 11:42.780
+That is the actual correlation coefficient.
+
+11:42.940 --> 11:47.060
+And then r dot p value I'm putting into this matrix for the p's.
+
+11:47.300 --> 11:49.140
+So I have the R's and the p's.
+
+11:49.380 --> 11:51.780
+They are layers by two.
+
+11:51.900 --> 11:55.980
+And of course the two is for attention versus MLP.
+
+11:57.180 --> 12:04.130
+After this for loop is run, then we have all the p values, and then we can apply the FDR correction
+
+12:04.130 --> 12:05.570
+to those p values.
+
+12:05.570 --> 12:11.010
+So this is the significant actually let me run this and I'll show you what these variables look like
+
+12:11.490 --> 12:11.890
+okay.
+
+12:11.930 --> 12:14.490
+So here we get a warning message.
+
+12:14.690 --> 12:21.290
+And the warning message happens because there's no valid data in the first layer.
+
+12:21.290 --> 12:25.570
+So when layer I equals zero there's no valid data.
+
+12:25.570 --> 12:29.570
+And that means that this value here is Nan.
+
+12:29.810 --> 12:36.890
+And that's actually a good thing because when I visualize these data, matplotlib will simply ignore
+
+12:37.050 --> 12:37.890
+the Nan.
+
+12:37.890 --> 12:39.450
+And it's not going to appear.
+
+12:39.810 --> 12:46.890
+If I had started this here like this, then because I initialized this with zeros, the first element
+
+12:46.890 --> 12:48.290
+will be zero.
+
+12:48.290 --> 12:55.810
+But that is an unfortunate value because a correlation coefficient of zero is a valid coefficient.
+
+12:55.810 --> 13:00.470
+So we might get a confusing or misleading interpretations.
+
+13:00.870 --> 13:05.470
+Okay, there are many other ways you could solve this, but that's the way that I chose to do it.
+
+13:06.470 --> 13:06.830
+Okay.
+
+13:06.870 --> 13:09.670
+I wanted to show you what this vector looks like.
+
+13:09.670 --> 13:11.910
+It's just a bunch of trues and falses.
+
+13:12.110 --> 13:19.470
+It is true where the p values are statistically significant when comparing or controlling for multiple
+
+13:19.470 --> 13:20.470
+comparisons.
+
+13:20.670 --> 13:26.150
+And it's false when the correlation coefficient is non-significant okay.
+
+13:26.190 --> 13:32.430
+So that is one of several methods for correcting for multiple tests okay.
+
+13:32.470 --> 13:34.110
+So here I'm generating the plot.
+
+13:34.150 --> 13:41.390
+You can see I have three lines of plot for three plot lines for the attention and for the MLP.
+
+13:41.830 --> 13:47.110
+So here I'm just plotting a line and then I'm plotting circles.
+
+13:47.230 --> 13:54.310
+And it's going to be large circles where it's significant and smaller red circles where it's non-significant.
+
+13:54.310 --> 13:56.750
+So here you see the non-significant values here.
+
+13:56.790 --> 14:03.610
+Actually most of these correlations are highly statistically significant, even when correcting for
+
+14:03.610 --> 14:04.930
+multiple comparisons.
+
+14:06.090 --> 14:07.130
+Okay, so what do we see?
+
+14:07.170 --> 14:08.570
+What do the results show.
+
+14:08.770 --> 14:10.770
+Here we have the transformer layer.
+
+14:10.770 --> 14:17.930
+So going deeper into the model and what you see is that the path length from one layer to the next for
+
+14:17.930 --> 14:18.810
+the attention.
+
+14:18.810 --> 14:27.050
+And MLP adjustments are strongly and significantly correlated with the adjustments in the hidden states.
+
+14:27.210 --> 14:29.490
+Now that should not be surprising.
+
+14:29.610 --> 14:31.770
+How do the hidden states vectors change?
+
+14:31.770 --> 14:39.650
+They literally change by adding onto it the calculations, the adjustments from attention and MLP.
+
+14:39.930 --> 14:45.210
+So if these correlations were all zero or negative, then that would be weird.
+
+14:45.210 --> 14:47.330
+So it's not at all surprising.
+
+14:47.330 --> 14:52.570
+It's kind of trivial that these correlations are significant and positive.
+
+14:53.090 --> 15:01.790
+That said, what is not trivial is that the correlations for MLP are much higher than the adjustments.
+
+15:01.990 --> 15:04.590
+The correlations for the attention adjustments.
+
+15:04.870 --> 15:11.390
+Now, I'm not actually statistically comparing directly whether these coefficients are higher than these.
+
+15:11.630 --> 15:17.470
+If you would like to do that I showed the method to do that, the formula and the implementation.
+
+15:17.590 --> 15:24.630
+Several videos ago for that was a z test for comparing correlation coefficients.
+
+15:25.190 --> 15:30.710
+So overall these correlations are significant robust and positive.
+
+15:30.750 --> 15:32.750
+There's some weird stuff happening in here.
+
+15:32.750 --> 15:39.030
+I think this might just be a little bit of noise and sampling variability, because the sample size
+
+15:39.230 --> 15:48.030
+is relatively small for language model 340 tokens, all from the same text, just from one paragraph.
+
+15:48.150 --> 15:52.790
+So I think this is not something that should be really overinterpreted.
+
+15:53.470 --> 15:59.450
+Anyway, now for the next analysis or actually the visualization.
+
+15:59.450 --> 16:01.970
+So here I created the scatter plots.
+
+16:01.970 --> 16:08.050
+And here you really see that the MLP in the blue squares are really strongly correlated.
+
+16:08.050 --> 16:15.130
+So the path lengths, the adjustments from one layer to the next in MLP is really tightly correlated
+
+16:15.130 --> 16:18.210
+with the adjustments from the hidden states.
+
+16:18.250 --> 16:22.330
+The attention is also correlated but not really.
+
+16:22.370 --> 16:24.850
+Yeah, just not quite as robust.
+
+16:25.410 --> 16:33.970
+Interestingly, you also see that the path lengths in general are larger for the MLP than for the attention.
+
+16:33.970 --> 16:37.970
+So that that yeah, you see that there's a general rightward shift.
+
+16:38.130 --> 16:40.930
+So the MLP path lengths.
+
+16:40.930 --> 16:48.370
+So the change in the MLP adjustment vectors from one layer to the next are just in general larger compared
+
+16:48.370 --> 16:51.730
+to the corresponding adjustments in attention.
+
+16:52.010 --> 16:59.550
+And you also see that this really strong correlation remains positive up until the very, very end.
+
+16:59.590 --> 17:01.670
+But it's a little bit weaker.
+
+17:01.670 --> 17:04.310
+There's a little bit more kind of cloudiness here.
+
+17:05.790 --> 17:08.350
+Now for exercise five.
+
+17:08.870 --> 17:14.790
+This is an easy one because I thought you might enjoy something that's slightly less challenging after
+
+17:14.790 --> 17:16.670
+the previous exercise.
+
+17:17.190 --> 17:21.630
+In fact, you do not even need to write code for this exercise.
+
+17:21.670 --> 17:27.230
+Just go back to the code for exercise four and include the first token.
+
+17:27.710 --> 17:34.630
+So whatever you did in the code to exclude the first token in the text sequence from all the analyses
+
+17:34.630 --> 17:36.990
+on the plots, now change that.
+
+17:36.990 --> 17:43.590
+So now you have all of the tokens, and then you just have to rerun the code, look at the figures and
+
+17:43.590 --> 17:44.670
+see what you make of it.
+
+17:45.350 --> 17:48.430
+And now I will switch to code and show those results.
+
+17:49.470 --> 17:50.750
+So this is pretty easy.
+
+17:50.750 --> 17:54.590
+I'm just going to delete all of the ones over here.
+
+17:54.910 --> 17:55.990
+Delete those ones.
+
+17:55.990 --> 17:57.430
+Delete those ones.
+
+17:57.490 --> 17:58.610
+and let's see.
+
+17:59.050 --> 17:59.810
+That's fine.
+
+17:59.810 --> 18:00.090
+Actually.
+
+18:00.090 --> 18:02.010
+Wait, let me run that code there.
+
+18:02.690 --> 18:07.570
+So here this already looks quite different for the attention.
+
+18:07.570 --> 18:16.690
+So you do still see that the MLP correlations are strong and positive but considerably weaker at least
+
+18:16.730 --> 18:20.330
+you know, visually noticeably weaker compared to before.
+
+18:20.330 --> 18:23.650
+But the really striking impact is for the attention.
+
+18:23.930 --> 18:27.970
+So here you get correlations that are hugging zero or around zero.
+
+18:28.010 --> 18:30.650
+This one becomes significantly negative.
+
+18:30.890 --> 18:37.170
+That is crazy considering that before it was like all the way up here it was around 0.6 or something.
+
+18:37.650 --> 18:38.730
+So what is going on?
+
+18:38.730 --> 18:49.210
+How can it be that literally one single data point out of 340 has such a huge outsized impact.
+
+18:49.970 --> 18:55.570
+Well, I think you know the answer, which is that that first token is an extreme outlier.
+
+18:55.810 --> 18:58.630
+And we can see that in the visualizations.
+
+18:58.630 --> 19:02.030
+So again I'm just deleting the one here.
+
+19:02.030 --> 19:04.710
+So now here's what these plots look like before.
+
+19:05.110 --> 19:08.630
+And now here's what they look like with including the first token.
+
+19:08.910 --> 19:11.430
+Look at this outlier way, way up here.
+
+19:11.430 --> 19:18.430
+This is like a bajillion standard deviations away from the rest of the distribution.
+
+19:18.630 --> 19:22.190
+That's entirely due to that very first token.
+
+19:22.190 --> 19:24.270
+It is completely screwing up.
+
+19:24.630 --> 19:30.590
+Uh, interestingly, not all of the layers, but certainly a lot of the analyses.
+
+19:31.670 --> 19:34.190
+So what can you do about results like this?
+
+19:34.670 --> 19:43.710
+Obviously, one solution is just to identify and ignore or remove from the analyses these extreme outliers.
+
+19:44.190 --> 19:49.190
+Another solution is to use a Spearman correlation instead of Pearson.
+
+19:49.710 --> 19:57.230
+Spearman correlation is based on rank, so it is robust to outliers like this.
+
+19:57.730 --> 20:04.730
+I'm not going to show that analysis here, but if you are comfortable with different types of correlation
+
+20:05.210 --> 20:08.730
+methods, you can actually just use Spearman.
+
+20:08.770 --> 20:13.450
+Now this is going to if I would run this now create an error because I haven't imported this.
+
+20:13.850 --> 20:16.010
+But actually, you know, I will show this.
+
+20:16.010 --> 20:17.450
+This will only take a moment.
+
+20:17.650 --> 20:18.090
+All right.
+
+20:18.130 --> 20:20.650
+So let's see Pearson.
+
+20:20.650 --> 20:26.410
+And I'm also going to import Spearman R rerun this cell to import this function.
+
+20:26.810 --> 20:29.410
+And now I can go all the way down.
+
+20:30.050 --> 20:35.450
+So now here I'm using Spearman instead of Pearson R.
+
+20:35.810 --> 20:38.850
+And otherwise I'm not changing anything else.
+
+20:38.850 --> 20:42.290
+So now I'm including the first token.
+
+20:42.730 --> 20:44.730
+And then I go back to this plot.
+
+20:44.850 --> 20:46.730
+And now it looks a lot more.
+
+20:46.770 --> 20:53.930
+Not exactly the same as with Pearson, but it certainly looks more like the Pearson correlation compared
+
+20:53.930 --> 21:01.230
+to what it looked like when we used the Pearson correlation, but included that extreme outlier resulting
+
+21:01.230 --> 21:02.430
+from the first token.
+
+21:02.630 --> 21:07.070
+Anyway, I didn't really intend to get too much into that, so don't worry about it.
+
+21:07.110 --> 21:14.150
+The better solution in general is to ignore the first token and start from the second token in your
+
+21:14.150 --> 21:15.350
+text sequence.
+
+21:16.990 --> 21:23.270
+I really enjoyed creating this code challenge for you, and I hope that you enjoyed working your way
+
+21:23.270 --> 21:23.910
+through it.
+
+21:24.510 --> 21:32.070
+The attention and MLP subblock adjustments are not really strongly correlated with each other, with
+
+21:32.070 --> 21:34.070
+a few noteworthy exceptions.
+
+21:34.670 --> 21:37.150
+Now, that's not really so surprising.
+
+21:37.390 --> 21:45.750
+The goal of the attention Subblock is to identify and gather appropriate contextual information and
+
+21:45.750 --> 21:53.510
+load it onto the current token, whereas the purpose of the MLP subblock is to expand the dimensionality
+
+21:53.510 --> 22:02.050
+of each token so that it can be transformed into a space that facilitates linear separation, grouping,
+
+22:02.050 --> 22:03.450
+and classification.
+
+22:04.330 --> 22:12.050
+And it's also kind of trivial that the attention and MLP sub blocks are uncorrelated with each other,
+
+22:12.050 --> 22:14.010
+or at best weakly correlated.
+
+22:14.650 --> 22:22.370
+If attention and MLP sub blocks did exactly the same thing, then they would just be one block.
+
+22:22.850 --> 22:31.610
+Secondly, it is not very surprising to me that overall the MLP adjustment correlated with the hidden
+
+22:31.610 --> 22:36.770
+states vectors a little bit more strongly than did the attention adjustments.
+
+22:37.250 --> 22:42.490
+The MLP calculations already include the attention adjustments.
+
+22:42.770 --> 22:48.690
+So by the time you get to the end of the transformer block, the attention adjustments have already
+
+22:48.690 --> 22:56.250
+been like watered down a little bit by being incorporated into whatever the MLP layer is calculating.

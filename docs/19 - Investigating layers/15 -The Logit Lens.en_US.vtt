@@ -1,0 +1,811 @@
+WEBVTT
+
+00:02.120 --> 00:09.520
+The last method that I will introduce you to in this section is called the logit lens.
+
+00:09.720 --> 00:17.320
+It's a very simple, yet clever insight to peer into the transformations of the embeddings vectors,
+
+00:17.520 --> 00:25.680
+and in particular, how each token or token embedding vector gets slowly transformed into a prediction
+
+00:25.680 --> 00:27.360
+for the subsequent token.
+
+00:27.920 --> 00:34.320
+It's also like lots of other analyses you learn about in this course, quite versatile in the sense
+
+00:34.320 --> 00:40.800
+that there's a lot you can do once you understand the basic framework of how this analysis works.
+
+00:41.400 --> 00:48.640
+So in this video, I will explain the concept and show one application in code, and in the next video
+
+00:48.680 --> 00:55.120
+you will extend the analyses using missing token predictions in a Bert model.
+
+00:55.640 --> 01:02.560
+And if you like this approach in general, then I will also give you the link for the post that described
+
+01:02.560 --> 01:09.120
+this method initially, where you can also find several other applications and inspirations for what
+
+01:09.160 --> 01:11.320
+to do with the logit lens.
+
+01:12.120 --> 01:16.440
+So here again is an overview of an LM.
+
+01:16.880 --> 01:25.760
+And what I want to stress in this slide is that the results of the final transformer block is transformed
+
+01:25.760 --> 01:30.480
+into an embeddings matrix, from which tokens are selected.
+
+01:31.120 --> 01:36.320
+But why is the embeddings matrix attached to the final transformer block?
+
+01:37.080 --> 01:39.720
+Well, okay, that's probably a stupid question.
+
+01:39.760 --> 01:45.520
+It wouldn't make any sense to attach the embeddings matrix to the first transformer block, because
+
+01:45.560 --> 01:48.680
+then what is the point of all the other transformer blocks?
+
+01:49.720 --> 01:52.360
+Or maybe it's not such a stupid question.
+
+01:53.160 --> 02:02.440
+Maybe if we took the output of the transformer block one And put that output right into the embeddings
+
+02:02.440 --> 02:03.360
+matrix.
+
+02:03.720 --> 02:10.680
+Maybe that would tell us what kinds of tokens the model would predict for the next token, if it couldn't
+
+02:10.680 --> 02:14.720
+fully finish processing the token embeddings.
+
+02:15.400 --> 02:21.800
+Well, that is exactly the idea of the logit lens, and that's what I'm depicting here.
+
+02:22.320 --> 02:29.800
+So remember that the output dimensionality of each transformer block matches the dimensionality of the
+
+02:30.080 --> 02:31.560
+embeddings matrix.
+
+02:32.120 --> 02:39.960
+And so the only reason why the embeddings are attached to the final transformer block is that that's
+
+02:39.960 --> 02:41.520
+where we've finished processing.
+
+02:41.520 --> 02:48.760
+And that's what the model has been trained to have as the final transformer, the final set of transformations.
+
+02:49.760 --> 02:57.920
+So the idea of the logit lens is to decode the output of an earlier transformer block, and hopefully
+
+02:57.920 --> 03:04.190
+that can yield some insights into the calculations performed at each transformer layer.
+
+03:04.470 --> 03:11.630
+By the way, in popular descriptions, this approach has sometimes been inappropriately called mind
+
+03:11.670 --> 03:14.470
+reading or reading the thoughts of an LLM.
+
+03:15.070 --> 03:21.070
+I get why journalists would write things like that, because they're looking for attention grabbing
+
+03:21.310 --> 03:23.750
+headlines to get clicks online.
+
+03:23.750 --> 03:30.190
+But please do not use that kind of loose end, inappropriate and unscientific language in a formal or
+
+03:30.230 --> 03:32.030
+scientific context.
+
+03:32.550 --> 03:39.550
+Anyway, you can actually decode at any layer you want, not just the first or the final transformer
+
+03:39.590 --> 03:40.430
+transformer.
+
+03:41.430 --> 03:48.790
+And so the idea of the logit lens is to process some text, grab all of the hidden state activations,
+
+03:48.910 --> 03:56.630
+and then push those activations through the embeddings and get the predicted tokens even before we fully
+
+03:56.790 --> 04:00.790
+finished processing those embeddings vectors.
+
+04:01.710 --> 04:08.270
+Here is the post on the website lesswrong that initially described this procedure.
+
+04:08.710 --> 04:14.590
+You can find this page by googling the title or by looking in the code file.
+
+04:14.590 --> 04:20.830
+The Python code demo file for this video, and I've pasted the direct link into that notebook file.
+
+04:21.270 --> 04:26.910
+It doesn't take too long to read, and it comes with some Python code that you can use to get started.
+
+04:27.430 --> 04:32.710
+They also propose several additional analyses that you can perform with this approach.
+
+04:32.950 --> 04:40.070
+And what I'm going to do in the Python demo here is just introduce you to one of the analyses.
+
+04:40.630 --> 04:44.950
+So in particular here is what you will see in the Python demo.
+
+04:45.510 --> 04:52.430
+I'll start by importing GPT two, writing a little bit of text and then pushing that through the model.
+
+04:52.990 --> 04:59.630
+We need the hidden states here, but we don't need any of the intermediate activations within a transformer
+
+04:59.630 --> 05:00.110
+block.
+
+05:00.390 --> 05:03.070
+So we don't need any hooks or anything.
+
+05:03.630 --> 05:12.270
+So then what I will do is just focus on transformer block three and calculate the log softmax probabilities
+
+05:12.270 --> 05:15.550
+for when the model processes the token do.
+
+05:15.750 --> 05:22.470
+So the way you do anything and that is the fourth word in this text.
+
+05:22.470 --> 05:29.710
+So we're going to basically see how the model internally processes this token and generates a prediction
+
+05:29.710 --> 05:31.790
+for what the next word should be.
+
+05:31.830 --> 05:35.910
+Now we already know that the next token is the word anything.
+
+05:35.910 --> 05:40.110
+And the question is already at transformer block three.
+
+05:40.150 --> 05:45.590
+Do we get some sensible prediction for the next token after the word do?
+
+05:46.430 --> 05:51.630
+Now you have seen plots that look like this before, but previously in the course.
+
+05:51.630 --> 05:55.710
+This kind of plot always showed the final output logits.
+
+05:55.710 --> 06:02.710
+So at the very end of the model and this here, these data are actually coming from one of the earlier
+
+06:02.710 --> 06:04.110
+transformer blocks.
+
+06:04.590 --> 06:12.390
+So the question that we are asking here is if we cut the model at exactly layer three, what would be
+
+06:12.390 --> 06:13.990
+the next token prediction.
+
+06:14.590 --> 06:20.470
+Well, the maximum softmax value in this case corresponds to the token.
+
+06:20.470 --> 06:20.910
+It.
+
+06:21.630 --> 06:24.670
+Now on the one hand, that is categorically incorrect.
+
+06:24.670 --> 06:30.190
+When we look at the text, we see that the word anything comes after the word do.
+
+06:30.750 --> 06:35.430
+But on the other hand, this word is certainly context appropriate.
+
+06:35.430 --> 06:36.870
+So the way you do it.
+
+06:37.350 --> 06:44.590
+So the model is clearly already making some kind of context appropriate prediction for the subsequent
+
+06:44.630 --> 06:45.310
+token.
+
+06:45.710 --> 06:50.030
+And this is only at transformer block three out of 12.
+
+06:50.630 --> 06:57.150
+So we can repeat this kind of analysis over all the words and over all the layers, and we can get a
+
+06:57.150 --> 06:59.750
+visualization that looks like this.
+
+06:59.910 --> 07:06.830
+So what you see here are the tokens with the largest softmax for each word in the text, and the bottom
+
+07:06.830 --> 07:09.950
+row shows the target token in each position.
+
+07:10.350 --> 07:17.550
+So the model sees the word the and it's supposed to predict that the subsequent token is the word way.
+
+07:18.150 --> 07:24.070
+Now ideally the output of layer 12 would be more or less the correct token sequence.
+
+07:24.230 --> 07:27.310
+And that would match the target sequence.
+
+07:27.670 --> 07:32.670
+In this case, it doesn't really work that well because it's a fairly short piece of text.
+
+07:32.670 --> 07:36.030
+So there isn't a whole lot of context to leverage.
+
+07:36.270 --> 07:42.030
+And this is only GPT two small, but it does write some interesting text.
+
+07:42.030 --> 07:49.110
+And it's interesting to see how the tokens transform over the course of internal processing.
+
+07:49.710 --> 07:57.500
+Now, the color behind each little piece of text each token corresponds to the scaled Logsoftmax values.
+
+07:57.940 --> 08:04.100
+I will have more to say about all of this in the code, so let's switch to Python and see how this analysis
+
+08:04.140 --> 08:04.700
+works.
+
+08:05.620 --> 08:08.140
+Here are the libraries that we need.
+
+08:08.140 --> 08:14.140
+Here I'm importing GPT two small and switching it to eval mode.
+
+08:14.620 --> 08:15.700
+And let's see.
+
+08:15.740 --> 08:20.100
+Here is the text we will use to work with in this demo.
+
+08:20.340 --> 08:23.620
+The way you do anything is the way you do everything.
+
+08:23.620 --> 08:25.060
+I like that quote a lot.
+
+08:25.420 --> 08:32.100
+Uh, here I am tokenizing the text, and here I'm pushing the text through the model or pushing the
+
+08:32.140 --> 08:33.340
+tokens through the model.
+
+08:33.500 --> 08:35.420
+Now, this is a small model.
+
+08:35.420 --> 08:37.140
+It's a small piece of text.
+
+08:37.140 --> 08:39.660
+It takes a very little time to go through.
+
+08:39.700 --> 08:46.620
+We absolutely do not need the GPU for this code file or really this analysis.
+
+08:46.660 --> 08:50.300
+It's generally pretty fast unless you're running a ton of text through.
+
+08:50.780 --> 08:58.260
+Okay, so this code here is just serving to confirm that we have gotten a sensible result.
+
+08:58.380 --> 09:01.860
+So the number of hidden states that we have is 13.
+
+09:02.260 --> 09:08.660
+Of course, you know, that corresponds to the output of the embeddings matrix, the initial token plus
+
+09:08.660 --> 09:09.860
+position embeddings.
+
+09:09.980 --> 09:12.980
+And then we have the 12 transformer blocks.
+
+09:12.980 --> 09:16.620
+And then here within any one of these blocks I'm just picking this one.
+
+09:17.100 --> 09:23.460
+We have one sequence of 11 tokens and 768 dimensions.
+
+09:23.940 --> 09:33.140
+Here is the URL to the report that, as far as I am aware, first proposed and described this method
+
+09:33.140 --> 09:34.740
+of the logit lens.
+
+09:35.380 --> 09:35.700
+Okay.
+
+09:35.740 --> 09:37.900
+So here is the basic analysis.
+
+09:37.900 --> 09:39.980
+This is just for one layer.
+
+09:39.980 --> 09:43.860
+And I'll extend it to all the layers in a little bit.
+
+09:44.620 --> 09:52.300
+So I'm grabbing the activations the outputs from one transformer block here I'm just using three.
+
+09:52.500 --> 09:54.660
+This zero here is for.
+
+09:55.140 --> 09:56.700
+That's for this here.
+
+09:56.700 --> 09:59.860
+This is the first sequence in this batch.
+
+09:59.860 --> 10:01.380
+But the batch is only one.
+
+10:01.380 --> 10:06.700
+So this just helps reduce the matrix size a little bit okay.
+
+10:06.740 --> 10:09.500
+And here I'm getting the embeddings matrix.
+
+10:09.500 --> 10:19.700
+So model for language model underscore weight I'm going to have a few things to say about this in a
+
+10:19.700 --> 10:20.380
+moment.
+
+10:20.380 --> 10:28.300
+But first I want to show you how easy it is to calculate the logits at any of the layers.
+
+10:28.300 --> 10:34.980
+So we get out the final activations, and then we simply multiply by the transpose of the embeddings
+
+10:34.980 --> 10:39.100
+matrix and the size of this matrix.
+
+10:39.100 --> 10:43.420
+Here this variable logits is 11 by 50,000.
+
+10:43.580 --> 10:48.820
+And basically that corresponds to the 11 tokens in this text.
+
+10:48.820 --> 10:55.940
+And each of those tokens has a logit projecting to each of the elements in the vocab.
+
+10:55.940 --> 11:01.220
+So all the tokens in the vocab, that's 50,257 tokens.
+
+11:02.340 --> 11:10.180
+So then basically what we want to do is see for each of these tokens, what is the largest value of
+
+11:10.220 --> 11:12.500
+or which token has the largest logit.
+
+11:12.540 --> 11:14.660
+The largest projection okay.
+
+11:14.700 --> 11:18.660
+Now one quick note about this here.
+
+11:18.660 --> 11:20.420
+So where do we get that from.
+
+11:20.780 --> 11:23.740
+That comes from here is the entire model.
+
+11:23.740 --> 11:31.060
+You can see most of this is the transformer here at the end of the transformer is the final layer norm
+
+11:31.060 --> 11:34.220
+after the last transformer block.
+
+11:34.620 --> 11:38.380
+And then we get to this part of the model LM underscore head.
+
+11:38.380 --> 11:40.540
+This is an non-linear.
+
+11:40.780 --> 11:44.780
+It is literally nothing more than one matrix.
+
+11:44.780 --> 11:47.620
+It's just one matrix of numbers.
+
+11:47.860 --> 11:54.380
+And when we transpose this matrix, that's what we multiply with the final output logits.
+
+11:54.380 --> 11:58.940
+And this is what we are multiplying by all of the other logits.
+
+11:58.940 --> 12:02.420
+So the output of all these other 12 transformer blocks.
+
+12:03.460 --> 12:09.660
+Now I'm going into detail about this because you will see in the next video in the code challenge.
+
+12:09.660 --> 12:17.100
+In the next video, we are going to be using the Bert model instead of the OpenAI GPT model.
+
+12:17.380 --> 12:20.340
+And this is going to look a little bit different.
+
+12:20.340 --> 12:30.580
+So these two lines of code here, this works for GPT like OpenAI's GPT style embeddings matrix.
+
+12:30.580 --> 12:34.820
+And in the next video you will see it's conceptually the same with Birch.
+
+12:34.820 --> 12:37.820
+But the implementation is a little bit different.
+
+12:38.260 --> 12:40.500
+Okay, so pin that in the back of your brain.
+
+12:40.500 --> 12:43.140
+We'll get back to that in the next video.
+
+12:43.740 --> 12:44.020
+Okay.
+
+12:44.060 --> 12:49.540
+So now what I'm going to do is create the figure that I showed in the slides.
+
+12:49.540 --> 12:58.860
+So from these logits, from this output of the one of the transformer blocks, I am log softmax to get
+
+12:58.900 --> 13:01.500
+log softmax outputs.
+
+13:01.700 --> 13:08.420
+And then I find the maximum of these logsoftmax outputs for the fourth token.
+
+13:08.420 --> 13:13.060
+So the token of index three and all of the vocab elements.
+
+13:13.540 --> 13:15.700
+Now uh, just something to remember.
+
+13:15.700 --> 13:20.940
+Logsoftmax is a non-linear transformation, but it is a monotonic transformation.
+
+13:21.180 --> 13:28.420
+So the maximum here is the maximum here which is the maximum of this before the logsoftmax.
+
+13:28.700 --> 13:35.940
+So technically you do not need to transform these logits in order to make a prediction for the next
+
+13:35.940 --> 13:36.700
+token.
+
+13:37.020 --> 13:41.540
+But I'm transforming it here mainly for visualization.
+
+13:41.580 --> 13:46.060
+And that's also the reason why I will do it the way I set it up in the next slide.
+
+13:46.660 --> 13:46.980
+Okay.
+
+13:47.020 --> 13:54.570
+So here we see, for the token following do, which is the fourth token in this text.
+
+13:54.730 --> 14:01.930
+The predicted next token is the word not, which is not the same as the word it, which is what I showed
+
+14:01.930 --> 14:03.610
+in the slides a moment ago.
+
+14:03.970 --> 14:08.730
+Uh, I don't, uh, I think I just did something different when I created the slides.
+
+14:08.730 --> 14:10.410
+But anyway, uh, it's fine.
+
+14:10.610 --> 14:17.690
+You can certainly imagine that when the model sees the token do, it's reasonable to think that the
+
+14:17.690 --> 14:19.690
+next token could be not.
+
+14:19.970 --> 14:24.690
+So although this is not correct, this is not categorically the correct answer.
+
+14:24.810 --> 14:27.010
+Again, it's not complete nonsense, right?
+
+14:27.050 --> 14:30.490
+Because this word does often follow this word.
+
+14:31.410 --> 14:31.650
+Okay.
+
+14:31.690 --> 14:32.370
+Very nice.
+
+14:32.370 --> 14:37.890
+So this, uh, analysis that I've shown you so far is for one token.
+
+14:37.890 --> 14:39.530
+For one layer.
+
+14:39.730 --> 14:45.490
+So now to expand this to the full logit lens analysis is super straightforward.
+
+14:45.490 --> 14:52.250
+All we need to do is run this again over all of the tokens and then over all the layers.
+
+14:52.290 --> 14:53.330
+Pretty straightforward.
+
+14:53.610 --> 14:57.290
+So that's what I do in this code cell over here.
+
+14:58.250 --> 15:00.010
+So, uh, let's see.
+
+15:00.010 --> 15:03.410
+This is a loop over all of the layers.
+
+15:03.450 --> 15:05.170
+Actually it's not all of the layers.
+
+15:05.170 --> 15:06.730
+We skip the first layer.
+
+15:07.010 --> 15:10.130
+And why do we skip the first layer of the hidden states?
+
+15:10.810 --> 15:11.930
+I'm sure you guessed it.
+
+15:12.010 --> 15:14.730
+The reason is that the first layer.
+
+15:14.810 --> 15:16.610
+So hidden states zero.
+
+15:17.130 --> 15:21.570
+That is the output of the embeddings, the token plus position embeddings.
+
+15:21.730 --> 15:28.210
+It really doesn't make any sense to take those initial embeddings vectors and then immediately plug
+
+15:28.210 --> 15:31.130
+them into the embeddings matrix.
+
+15:31.450 --> 15:38.570
+There hasn't been any transformations at that point, so that's not going to be terribly useful or insightful.
+
+15:38.890 --> 15:41.570
+So therefore we just skip the first one.
+
+15:41.570 --> 15:48.170
+And we are only interested in the analysis starting from the first transformer block.
+
+15:49.450 --> 15:53.530
+Okay, then here I calculate the logits exactly as I showed above.
+
+15:53.930 --> 15:56.450
+Here I'm finding the maximum.
+
+15:56.450 --> 16:00.250
+So argmax for each of these logits.
+
+16:00.250 --> 16:03.730
+So this variable here predicted next talks.
+
+16:04.090 --> 16:13.930
+This is going to tell me for each of the 11 tokens what is the model's maximum projection onto the vocab.
+
+16:14.250 --> 16:18.050
+So in other words what is the prediction for the next token.
+
+16:18.450 --> 16:18.850
+Okay.
+
+16:18.890 --> 16:19.890
+And then yeah.
+
+16:19.890 --> 16:27.010
+So you can see here I'm not calculating logsoftmax because I really only need the maximum over here.
+
+16:27.010 --> 16:29.570
+I actually am calculating softmax.
+
+16:29.770 --> 16:32.130
+But that's not for the analysis.
+
+16:32.130 --> 16:35.650
+That's for a visualization that I will show you later on.
+
+16:35.650 --> 16:38.610
+That's for the text heatmap okay.
+
+16:38.650 --> 16:42.410
+So here I'm getting all of the softmaxes from the logits.
+
+16:42.490 --> 16:49.610
+And here I am storing for this layer and for all of the tokens in the sequence.
+
+16:49.970 --> 16:56.650
+You can see I'm looping through all of the predicted next tokens and then getting the softmax from the
+
+16:56.650 --> 16:58.410
+predicted token.
+
+16:58.410 --> 17:05.690
+So yeah, this is just for visualizing the color behind the selected text or the predicted text in the
+
+17:05.690 --> 17:07.970
+next that I'll show a little bit below.
+
+17:08.370 --> 17:08.570
+Okay.
+
+17:08.610 --> 17:11.370
+And then here I'm actually decoding the text.
+
+17:11.610 --> 17:14.330
+So getting the predicted next tokens.
+
+17:14.330 --> 17:15.530
+These are indices.
+
+17:15.690 --> 17:18.810
+And now here I'm transforming those into text.
+
+17:18.810 --> 17:22.930
+And then appending that onto this list over here.
+
+17:23.370 --> 17:25.170
+And what does that list look like.
+
+17:25.490 --> 17:33.530
+Uh it is actually a list of lists where each list in this list of lists contains a bunch of words.
+
+17:33.530 --> 17:37.810
+And these are all of the predictions for the subsequent token.
+
+17:38.130 --> 17:41.210
+So this is for, uh, transformer block one.
+
+17:41.370 --> 17:44.290
+This is transformer block two and so on.
+
+17:44.570 --> 17:49.970
+This is not a very useful way to visualize the results of this analysis.
+
+17:50.810 --> 17:53.530
+So therefore we'll do some other visualizations.
+
+17:53.850 --> 17:55.410
+Here I'm actually just printing it out.
+
+17:55.850 --> 17:57.690
+This is the original text.
+
+17:57.730 --> 18:00.810
+The way you do anything is the way you do everything.
+
+18:01.210 --> 18:05.050
+Here are the predictions at the first transformer block.
+
+18:05.410 --> 18:08.250
+The way the the else the the way the the the.
+
+18:08.650 --> 18:12.250
+It has a nice rhythm to it, but it is not very sensible.
+
+18:12.450 --> 18:17.010
+And then at the final transformer block we have to do it is to same.
+
+18:17.010 --> 18:17.690
+You do it.
+
+18:18.210 --> 18:23.450
+It's a little bit more sensible than this, but it's not really that sensible.
+
+18:23.890 --> 18:31.810
+You will see in the code challenge in the next video that Bert does a much better job at this than GPT
+
+18:31.850 --> 18:32.890
+two small.
+
+18:33.450 --> 18:41.250
+I think you could also try this with GPT two large or XL, and probably this would work better.
+
+18:42.490 --> 18:48.760
+Okay, so now the last thing I'm going to do is the visualization with a heat map.
+
+18:48.880 --> 18:49.600
+So let's see.
+
+18:49.640 --> 18:51.800
+Let me actually first create this.
+
+18:51.800 --> 18:57.800
+Now this code here looks a little bit different from some of the other heat maps that I have created
+
+18:57.800 --> 18:58.960
+in this course.
+
+18:59.080 --> 19:07.840
+In particular, I do not have this initial cell code cell where I am doing some stuff to identify the
+
+19:07.840 --> 19:10.160
+width of a letter.
+
+19:10.560 --> 19:18.800
+And the reason why this approach is simpler here is that I'm actually just creating a grid of of words
+
+19:18.800 --> 19:19.680
+of tokens.
+
+19:19.800 --> 19:22.800
+So we don't actually need to have all of the spacing.
+
+19:22.800 --> 19:27.800
+We don't need to deal with different letters and different sizes of words and so on.
+
+19:27.920 --> 19:30.440
+So this is just a little bit simpler okay.
+
+19:30.480 --> 19:37.200
+Anyway, the point is that here you see the output of each layer for the maximum prediction.
+
+19:37.360 --> 19:45.240
+And the color behind each of these words or each of these tokens corresponds to the softmax probability
+
+19:45.240 --> 19:50.760
+that I extracted from that for loop over all of the different layers.
+
+19:51.080 --> 19:58.440
+So if we would slice the model at transformer block six, then and then just decode its outputs, we
+
+19:58.440 --> 20:06.040
+would get the the can not else not same you can a else again a little clunky.
+
+20:06.360 --> 20:11.640
+Uh maybe you can make a song out of that, but it's not really very insightful as text.
+
+20:12.400 --> 20:12.800
+Okay.
+
+20:13.040 --> 20:13.240
+Yeah.
+
+20:13.240 --> 20:18.440
+In general, GPT two small does not do super well on tasks like this.
+
+20:18.640 --> 20:23.000
+You will see that, uh, Bert, uh, does, uh, quite a bit better.
+
+20:23.040 --> 20:28.560
+And pretty interesting how Bert performs in the logit lens.
+
+20:29.320 --> 20:34.760
+So that's the basics of the logit lens analysis in the code challenge.
+
+20:34.760 --> 20:40.920
+In the next video, you will continue exploring this analysis method in the Bert model.

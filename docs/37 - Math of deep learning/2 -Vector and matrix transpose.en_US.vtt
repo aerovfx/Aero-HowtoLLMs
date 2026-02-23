@@ -1,0 +1,364 @@
+WEBVTT
+
+00:02.000 --> 00:06.240
+In this video, I will introduce you to the transpose operation.
+
+00:06.520 --> 00:13.560
+This is a very simple, very straightforward, easy to understand operation in linear algebra, but
+
+00:13.560 --> 00:14.800
+it's super important.
+
+00:14.800 --> 00:18.120
+And so I will show you first the math in the slides.
+
+00:18.120 --> 00:19.600
+And then we'll switch to Python.
+
+00:19.600 --> 00:26.120
+And I'll show you how to transpose vectors and matrices in NumPy and in PyTorch.
+
+00:26.440 --> 00:27.560
+So let's get started.
+
+00:27.760 --> 00:29.880
+Here we have a column vector.
+
+00:30.280 --> 00:37.360
+And then we are going to transpose this column vector transpose operation is often indicated using a
+
+00:37.400 --> 00:40.200
+capital T in the superscript.
+
+00:40.560 --> 00:45.120
+So transposing means converting rows into columns and columns into rows.
+
+00:45.320 --> 00:46.880
+So here we have a column vector.
+
+00:47.000 --> 00:50.680
+Here we have a row vector resulting from the transpose operation.
+
+00:50.880 --> 00:54.160
+Notice that all of the elements are the same.
+
+00:54.160 --> 00:56.320
+The order of the numbers is the same.
+
+00:56.320 --> 01:03.130
+So we're not really changing the information that's contained Inside of this vector, we are only changing
+
+01:03.130 --> 01:04.210
+the orientation.
+
+01:04.210 --> 01:05.530
+So column to row.
+
+01:05.930 --> 01:08.410
+Now you can transpose a row vector.
+
+01:08.690 --> 01:12.530
+And that's going to bring us back to our original column vector.
+
+01:12.690 --> 01:14.850
+So transposing a transpose.
+
+01:14.850 --> 01:18.690
+In other words double transposing undoes the original transpose.
+
+01:18.690 --> 01:22.130
+So double transpose you get back to the original vector.
+
+01:22.450 --> 01:26.570
+Now transposing a matrix is the same concept.
+
+01:26.570 --> 01:33.690
+You just have to be a little bit more mindful of which of preserving the column order into the rows.
+
+01:33.970 --> 01:38.530
+So when we transpose this matrix, it becomes this other matrix.
+
+01:38.530 --> 01:42.050
+This is now a matrix with two long columns.
+
+01:42.050 --> 01:43.530
+Here we have two long rows.
+
+01:43.930 --> 01:49.570
+Now the tricky thing is just to remember that the first column turns into the first row.
+
+01:49.850 --> 01:55.130
+So, you know, if you would visualize this as you know, the T here being a pivot, and then you swivel
+
+01:55.170 --> 01:59.570
+the matrix up like this, if you would rotate this matrix, that's actually incorrect.
+
+01:59.820 --> 02:02.660
+because then the second column would be the first row.
+
+02:02.860 --> 02:06.420
+So make sure that the first column becomes the first row.
+
+02:06.460 --> 02:08.540
+The second column becomes the second row.
+
+02:08.740 --> 02:13.900
+Of course, this would continue for however many columns you have in this matrix would be rows in this
+
+02:13.900 --> 02:14.500
+matrix.
+
+02:14.740 --> 02:22.460
+Now, you will not be surprised to learn that the transpose of a transpose matrix is gives us back the
+
+02:22.460 --> 02:23.620
+original matrix.
+
+02:23.620 --> 02:26.980
+So again, double transposing gives us back the same thing.
+
+02:27.380 --> 02:32.700
+Now I will switch to Python and show you how to implement the transpose operation.
+
+02:33.860 --> 02:39.740
+I'm going to show you the transpose operation in numpy and in PyTorch.
+
+02:40.100 --> 02:43.940
+So I run this cell to well it has to connect to the server.
+
+02:44.260 --> 02:45.700
+Um, and uh yeah.
+
+02:45.740 --> 02:50.620
+Then have all of the libraries being imported at the top of the code here.
+
+02:51.060 --> 02:53.220
+And here I'm going to show you first using numpy.
+
+02:53.420 --> 02:55.740
+So let's create a vector.
+
+02:55.780 --> 02:59.420
+Now remember this is called an array in numpy.
+
+02:59.550 --> 03:02.590
+but in linear algebra we would call this a vector.
+
+03:02.870 --> 03:05.270
+So you can see this is a row vector right.
+
+03:05.270 --> 03:07.190
+We have the parentheses here.
+
+03:07.390 --> 03:10.110
+That's for the function numpy array.
+
+03:10.550 --> 03:12.870
+And then we have one set of square brackets.
+
+03:12.870 --> 03:15.590
+And that indicates that we want to input an array.
+
+03:15.910 --> 03:19.270
+And then we have another square set of square brackets.
+
+03:19.270 --> 03:21.750
+And this is used to indicate the first row.
+
+03:22.150 --> 03:24.790
+So this is the first row of the matrix.
+
+03:24.790 --> 03:28.670
+And then this is indicating that we are inputting a matrix.
+
+03:28.670 --> 03:31.430
+And then we have the function call over here.
+
+03:31.710 --> 03:32.070
+All right.
+
+03:32.070 --> 03:36.990
+So print out this variable NP for numpy vector.
+
+03:37.230 --> 03:38.710
+And then I'm going to transpose it.
+
+03:38.710 --> 03:42.390
+So in numpy there's actually a couple of ways you can transpose a vector.
+
+03:42.590 --> 03:48.150
+You can write numpy transpose NV like this so that you can use that to transpose.
+
+03:48.150 --> 03:51.030
+But it's more common to just write dot t.
+
+03:51.070 --> 03:55.230
+So this is a method on numpy array objects.
+
+03:55.230 --> 03:57.910
+So dot t will transpose the vector.
+
+03:58.230 --> 04:03.990
+Now here I'm not actually transposing the vector permanently, I'm only printing it out.
+
+04:04.030 --> 04:04.710
+Transpose.
+
+04:04.710 --> 04:10.950
+So this code here doesn't actually change the original orientation of variable NV.
+
+04:11.510 --> 04:17.070
+So here I'm creating a new vector NV which is equal to the transpose.
+
+04:17.110 --> 04:18.270
+And then I transpose that again.
+
+04:18.270 --> 04:25.430
+That's just to show you that the original row vector becomes a column vector when it's transposed.
+
+04:25.550 --> 04:31.230
+And then we set that to be a, we set that transpose vector to be its own variable.
+
+04:31.390 --> 04:33.110
+And then we transpose that back.
+
+04:33.150 --> 04:36.470
+And that gives us back our original row vector.
+
+04:37.230 --> 04:37.470
+Okay.
+
+04:37.510 --> 04:38.950
+So that was for a vector.
+
+04:39.070 --> 04:41.670
+Now I'm going to repeat exactly the same thing.
+
+04:41.670 --> 04:44.950
+All this code is exactly the same except for here.
+
+04:44.990 --> 04:46.630
+Now this is a matrix.
+
+04:46.870 --> 04:49.190
+So this is a two row matrix.
+
+04:49.230 --> 04:51.070
+It's a two by four matrix.
+
+04:51.110 --> 04:56.230
+It might be easier to visualize if you use multiple lines here like this.
+
+04:56.230 --> 05:04.000
+So now you see that this is a matrix that comprises two rows, and each row has two, uh, sorry, four
+
+05:04.000 --> 05:04.680
+columns.
+
+05:05.160 --> 05:05.360
+Okay.
+
+05:05.400 --> 05:09.960
+So we run this code and then you see here's our original matrix here.
+
+05:09.960 --> 05:11.280
+We transposed it again.
+
+05:11.280 --> 05:16.000
+Like I mentioned in the video, the first row becomes the first column.
+
+05:16.160 --> 05:20.480
+And then when we transpose it back, the first column becomes the first row.
+
+05:20.720 --> 05:23.480
+And of course same for the second column and the second row.
+
+05:24.000 --> 05:24.240
+Okay.
+
+05:24.280 --> 05:25.800
+So that's using PyTorch.
+
+05:25.840 --> 05:27.880
+Now I started using numpy.
+
+05:27.920 --> 05:33.400
+Now I'm going to show you the same operation, the same mathematical operation, but using PyTorch.
+
+05:33.640 --> 05:36.440
+Fortunately this one is the same.
+
+05:36.480 --> 05:37.120
+Almost the same.
+
+05:37.120 --> 05:39.160
+We specify the data type differently.
+
+05:39.440 --> 05:42.480
+This is fortunate because there are other cases.
+
+05:42.480 --> 05:50.120
+There are other situations where the syntax or the notation is different between NumPy and PyTorch.
+
+05:50.120 --> 05:54.000
+So sometimes numpy and PyTorch work basically the same.
+
+05:54.080 --> 05:56.040
+Sometimes they work a little bit differently.
+
+05:56.040 --> 05:58.650
+This is a case where they are more or less the same.
+
+05:58.650 --> 06:04.290
+We just define this as a torch tensor instead of numpy dot array.
+
+06:04.890 --> 06:08.050
+Otherwise it's the code is exactly the same.
+
+06:08.250 --> 06:08.970
+You can see also.
+
+06:08.970 --> 06:11.490
+This is showing us that we have a tensor here.
+
+06:11.490 --> 06:13.090
+So this is a PyTorch tensor.
+
+06:13.210 --> 06:15.090
+But yeah otherwise it's the same.
+
+06:15.130 --> 06:17.370
+Okay then repeat for a matrix.
+
+06:17.370 --> 06:20.930
+And again this is the same code as with numpy.
+
+06:21.290 --> 06:23.050
+We just have PyTorch tensors.
+
+06:23.050 --> 06:25.290
+So these are a different data type.
+
+06:25.730 --> 06:30.850
+And just to show you that this is a different data type, here I'm printing out the names of the different
+
+06:30.850 --> 06:35.090
+variables and the types of each of those variables.
+
+06:35.770 --> 06:39.370
+So then you see this is a numpy ndarray.
+
+06:39.370 --> 06:44.090
+Remember I said before that the ND is for n dimensional.
+
+06:44.090 --> 06:48.570
+So this is stored internally as a multi-dimensional array.
+
+06:48.970 --> 06:51.490
+And here these other variables starting with T.
+
+06:51.530 --> 06:53.410
+These are the ones I created with PyTorch.
+
+06:53.570 --> 06:56.010
+And these are of type torch tensor.

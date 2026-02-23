@@ -1,0 +1,1066 @@
+WEBVTT
+
+00:02.360 --> 00:10.160
+Now I will show you how to put into practice the concept I introduce you to in the previous video.
+
+00:10.800 --> 00:19.000
+Again, the basic idea is to start with a pre-trained model which we do not modify or further fine tune.
+
+00:19.000 --> 00:26.440
+Instead, we are going to start with a random matrix that we will train to maximize the activation of
+
+00:26.440 --> 00:34.440
+one specific unit in the model, and that random matrix will correspond to a short sequence of tokens.
+
+00:35.000 --> 00:39.160
+And just to give you a spoiler alert, it's not really going to work.
+
+00:39.720 --> 00:45.840
+Well, that is to say, the code works and the analysis works, but it does not produce results that
+
+00:45.840 --> 00:52.280
+are easily interpretable or sensible, at least not to us humans, or at least not to me.
+
+00:53.000 --> 00:54.240
+So here's what we'll do.
+
+00:54.280 --> 01:01.230
+In the demo, we will start by creating a set of random token embeddings vectors.
+
+01:01.830 --> 01:08.710
+Because these are fake embeddings vectors, we want them to have the same distributional characteristics
+
+01:08.710 --> 01:12.510
+as those of the actual trained embeddings matrix.
+
+01:12.630 --> 01:13.910
+And that's what you see here.
+
+01:14.150 --> 01:19.470
+So the blue line shows the histogram of the actual trained embeddings matrix.
+
+01:19.710 --> 01:23.270
+And the orange line is our random embeddings.
+
+01:23.870 --> 01:26.830
+Then we will go through gradient descent.
+
+01:26.830 --> 01:34.110
+And I'll show you how to create the loss function to maximize one particular feature of the model.
+
+01:35.150 --> 01:41.190
+And I'm just going to pick one feature basically at random, because we don't really have a theoretical
+
+01:41.190 --> 01:46.990
+motivation to focus on any one specific component of the model, at least not yet.
+
+01:47.630 --> 01:51.030
+So here you see the results of the optimization.
+
+01:51.270 --> 01:58.750
+This line plot here shows the activation of these specific dimension in the model that I chose to maximize.
+
+01:59.430 --> 02:06.110
+The gradient descent procedure was clearly successful in the sense that the random embeddings matrix
+
+02:06.110 --> 02:15.310
+was transformed into a matrix that drives the activation of this unit up by like three orders of magnitude
+
+02:15.470 --> 02:19.150
+above what it was by default in the beginning of training.
+
+02:19.910 --> 02:27.230
+In fact, the gradient descent was so effective that I added an L2 regularization term to prevent the
+
+02:27.230 --> 02:30.870
+activation from growing too much too fast.
+
+02:31.590 --> 02:37.870
+By the way, you normally see plots like this showing the loss going down with training.
+
+02:38.470 --> 02:45.750
+Remember that with activation maximization, we're actually implementing gradient ascent because we
+
+02:45.750 --> 02:47.630
+want the function to climb.
+
+02:48.150 --> 02:51.750
+So you can think of this as like a inverse loss.
+
+02:52.350 --> 02:59.500
+And over here you see the norm of the gradient of the random embeddings vectors that are being trained,
+
+03:00.580 --> 03:07.260
+the gradients continue to grow again, indicating that this procedure is working in the sense that the
+
+03:07.260 --> 03:15.580
+matrix continues to learn how to become optimized to maximize the activation of this particular component
+
+03:15.580 --> 03:16.460
+of the model.
+
+03:17.180 --> 03:23.420
+And here you see further evidence that the optimization was successful, or at least that it did something.
+
+03:23.900 --> 03:30.220
+So the orange line here shows the distribution of the random embeddings that I showed in the beginning
+
+03:30.220 --> 03:30.620
+here.
+
+03:30.980 --> 03:35.140
+And the green line is the exact same embeddings matrix.
+
+03:35.140 --> 03:37.900
+But after the optimization.
+
+03:38.620 --> 03:44.940
+And what do we do with those optimized embeddings vectors now that they are trained to activate this
+
+03:44.940 --> 03:47.060
+one unit of the model?
+
+03:47.660 --> 03:55.690
+Well, the final step is to transform these embeddings vectors back into tokens and then into text that
+
+03:55.690 --> 03:56.490
+we can read.
+
+03:57.090 --> 04:04.770
+The way we do that is to take each of the optimized vectors, calculate cosine similarity with all of
+
+04:04.770 --> 04:11.330
+the real embeddings vectors that were trained into the model originally, and then find the token with
+
+04:11.330 --> 04:13.330
+the highest cosine similarity.
+
+04:13.890 --> 04:15.130
+And that's what you see here.
+
+04:15.130 --> 04:22.810
+So here on the x axis we have our 50,000 tokens from the full vocab in GPT two.
+
+04:23.410 --> 04:31.330
+And this plot shows the cosine similarity between one of the optimized embeddings vectors and all of
+
+04:31.330 --> 04:35.050
+the actual trained GPT embeddings vectors.
+
+04:35.570 --> 04:41.970
+Now, the most similar vector in this case was, I don't know, I guess this one, and that corresponds
+
+04:41.970 --> 04:42.930
+to the token.
+
+04:42.930 --> 04:50.530
+If so, when we repeat this procedure for however many of the random initialized but then optimized
+
+04:50.530 --> 04:52.330
+embeddings Headings vectors.
+
+04:52.330 --> 04:54.850
+We can get some text and then we can read it.
+
+04:54.850 --> 05:02.010
+And then that is the text sequence that optimizes or maximizes the activation of this one particular
+
+05:02.010 --> 05:03.530
+component of the model.
+
+05:04.290 --> 05:10.690
+I'm sure you are super curious to know what that text looks like, so let's switch to code and work
+
+05:10.690 --> 05:11.690
+our way through it.
+
+05:12.290 --> 05:14.530
+Here are the libraries we will use.
+
+05:14.610 --> 05:15.330
+Nothing new.
+
+05:15.330 --> 05:16.290
+Nothing fancy.
+
+05:16.330 --> 05:18.250
+Nothing you have not seen before.
+
+05:18.930 --> 05:22.610
+Here I'm loading in the model GPT two small.
+
+05:23.210 --> 05:30.650
+Also the tokenizer we will need for translating or decoding the embeddings vectors back into text.
+
+05:31.170 --> 05:40.250
+Now technically this and a lot of other analyses could be run on the CPU, but that's more time consuming.
+
+05:40.250 --> 05:42.290
+And we have the GPU available.
+
+05:42.290 --> 05:44.370
+So let's use it here.
+
+05:44.850 --> 05:48.450
+Here I'm switching the model into eval mode.
+
+05:48.490 --> 05:53.400
+This is an important thing to remember about activation maximization.
+
+05:53.400 --> 05:54.520
+We are training.
+
+05:54.520 --> 05:56.440
+We are running gradient descent.
+
+05:56.440 --> 06:01.680
+We're optimizing matrices, but we are not training the model.
+
+06:01.680 --> 06:04.040
+We are training the embeddings.
+
+06:04.440 --> 06:08.640
+So so we actually do switch the model into eval mode.
+
+06:09.240 --> 06:15.640
+And then the last thing I do in this code cell is get a copy of the embeddings matrix.
+
+06:15.960 --> 06:19.080
+This is the pre-trained embeddings matrix.
+
+06:19.080 --> 06:23.000
+Now I am not going to further train or fine tune these.
+
+06:23.000 --> 06:24.760
+I'm not going to change these at all.
+
+06:25.080 --> 06:29.040
+Uh but we will need to access the embeddings multiple times.
+
+06:29.040 --> 06:32.280
+And so writing all of this out is just kind of a pain.
+
+06:32.280 --> 06:34.040
+So this is just for convenience.
+
+06:34.600 --> 06:35.000
+Okay.
+
+06:35.040 --> 06:37.080
+So here is the way this works.
+
+06:37.080 --> 06:43.760
+We are going to create a sequence of five tokens and create the embeddings.
+
+06:43.760 --> 06:52.830
+So starting off with fake randomized embeddings for five tokens, and then we will use gradient descent
+
+06:52.830 --> 07:00.190
+to optimize those embeddings to activate maximally activate one particular component in the model.
+
+07:00.470 --> 07:00.750
+Okay.
+
+07:00.790 --> 07:03.910
+So I call that matrix optimize embeddings.
+
+07:03.910 --> 07:07.070
+I initialize it as purely random numbers.
+
+07:07.070 --> 07:10.390
+So normally distributed Gaussian random numbers.
+
+07:10.590 --> 07:14.550
+And here importantly I set requiresgrad equals true.
+
+07:14.870 --> 07:21.830
+And that will allow PyTorch to create a computational graph around this variable.
+
+07:21.830 --> 07:24.670
+Or it's really just including that one variable.
+
+07:25.110 --> 07:29.590
+And then that is what we will use to train that matrix.
+
+07:29.990 --> 07:30.390
+Okay.
+
+07:30.430 --> 07:39.590
+So then I'm going to use init normal to normalize this random embeddings matrix such that it has the
+
+07:39.590 --> 07:44.470
+same standard deviation as the real embeddings matrix.
+
+07:44.790 --> 07:45.030
+Okay.
+
+07:45.110 --> 07:46.430
+So now we can check the size.
+
+07:46.550 --> 07:50.350
+This is one by five by 768.
+
+07:50.510 --> 07:52.790
+One corresponds to the batch dimension.
+
+07:52.790 --> 07:56.350
+We just have one sequence that we are going to optimize.
+
+07:56.830 --> 08:01.950
+Five corresponds to the number of tokens in our embeddings vectors.
+
+08:01.950 --> 08:10.670
+And then of course the 768 corresponds to the embeddings dimensions for GPT two small.
+
+08:11.590 --> 08:20.550
+So again the idea is what we want to do is find five tokens that as a sequence collectively maximally
+
+08:20.550 --> 08:26.710
+activates one particular neuron or one particular dimension inside the model somewhere.
+
+08:26.990 --> 08:28.550
+So this is what we start with.
+
+08:28.590 --> 08:31.990
+This is what we are going to optimize okay.
+
+08:32.030 --> 08:37.670
+And then here this is just code to show the histograms that I showed in the slides a moment ago.
+
+08:38.110 --> 08:43.550
+Now it looks like the uh the embeddings matrix is basically flat.
+
+08:43.550 --> 08:47.900
+It looks like it's basically zeros for all of these values out here.
+
+08:48.100 --> 08:55.500
+And if you transform this into a logarithmic scale on the y axis, you can see that there actually is
+
+08:55.500 --> 09:01.460
+a lot of information in the tails here and also some asymmetry in the tails.
+
+09:01.460 --> 09:06.460
+But that really gets suppressed down when you show linear plots.
+
+09:06.900 --> 09:14.700
+I often find it interesting and sometimes quite insightful to look at the same plots with linear and
+
+09:14.700 --> 09:16.100
+logarithmic scaling.
+
+09:17.180 --> 09:22.020
+Another thing I wanted to mention here is the scale of the y axis.
+
+09:22.180 --> 09:24.180
+So this is maxnorm.
+
+09:24.180 --> 09:25.780
+It goes up to one.
+
+09:25.940 --> 09:35.580
+And the reason why I max scale each of these is because the number of numbers in each of these matrices
+
+09:35.620 --> 09:37.220
+is very, very different.
+
+09:37.380 --> 09:47.970
+So here this embeddings matrix that is 50,000 by 800, corresponding to the 50,000 tokens in GPT two
+
+09:48.010 --> 09:52.690
+small and the 768 embeddings.
+
+09:52.690 --> 09:53.530
+Dimensions.
+
+09:53.530 --> 09:56.010
+On the other hand, the optimized embeddings.
+
+09:56.050 --> 09:58.770
+This is not the full vocab of embeddings.
+
+09:58.770 --> 10:02.370
+This is just for five tokens that we want to optimize.
+
+10:02.530 --> 10:09.010
+So this has multiple orders of magnitude more numbers than this matrix.
+
+10:09.010 --> 10:15.730
+So if we do not normalize then we still get results that are technically correct.
+
+10:15.730 --> 10:22.410
+But there's just so many more numbers in the embeddings matrix that the random matrix looks like a flat
+
+10:22.410 --> 10:22.770
+line.
+
+10:22.770 --> 10:31.490
+Again, this is not a flat line, but it just appears to be flat because this numerical scale is dominated
+
+10:31.490 --> 10:33.810
+by the larger matrix.
+
+10:34.010 --> 10:43.050
+So max normalization is just a convenient way to allow us to focus on the shape and general characteristics
+
+10:43.250 --> 10:48.130
+without having to worry about exact interpretation of the y axis.
+
+10:48.370 --> 10:48.650
+Yeah.
+
+10:48.650 --> 10:51.770
+So now you know, the thing is, we don't actually have tokens.
+
+10:51.770 --> 10:55.610
+We have token embeddings, but we don't have tokens.
+
+10:55.770 --> 10:56.970
+So how do we do that?
+
+10:57.010 --> 11:02.730
+You know, normally when we work with these models, when we do a forward pass with models, we have
+
+11:02.730 --> 11:07.850
+a tensor of tokens that we input into the model like this.
+
+11:07.850 --> 11:09.410
+But where are these tokens.
+
+11:09.410 --> 11:10.370
+We don't have tokens.
+
+11:10.370 --> 11:13.530
+We just have the embeddings vectors directly.
+
+11:13.810 --> 11:14.050
+Okay.
+
+11:14.090 --> 11:17.210
+And that's what I'm going to show you here how to do this.
+
+11:17.250 --> 11:17.570
+Okay.
+
+11:17.610 --> 11:18.930
+So model again.
+
+11:18.930 --> 11:21.770
+What you were used to seeing is some tensor like this.
+
+11:22.130 --> 11:27.490
+Here I'm using the optional input inputs underscore embeds.
+
+11:27.490 --> 11:34.970
+And that means that we can input into the model not the tokens but the actual embeddings that we want
+
+11:34.970 --> 11:36.970
+to push into the model.
+
+11:37.410 --> 11:40.760
+So when the model sees this optional input.
+
+11:40.760 --> 11:48.680
+It basically just bypasses the token and position embeddings layer altogether, and takes this input
+
+11:48.680 --> 11:54.120
+and pushes that directly into the first of the transformer blocks.
+
+11:54.240 --> 11:54.720
+Okay.
+
+11:54.880 --> 11:58.400
+So now you learn something new about working with these models.
+
+11:59.360 --> 12:01.640
+And we also want to output the hidden states.
+
+12:01.640 --> 12:08.760
+That's how we get access to the internal calculations of the model, or at least the internal activations
+
+12:08.880 --> 12:09.760
+of the model.
+
+12:09.800 --> 12:12.880
+This you've seen before, although it was quite a while ago.
+
+12:12.880 --> 12:18.480
+Remember that we get however many transformer blocks there are.
+
+12:18.720 --> 12:24.240
+That's however many tensors we get in the output plus one.
+
+12:24.240 --> 12:28.400
+So the plus one is we get the output of the embeddings layer.
+
+12:28.840 --> 12:34.760
+And then we also get the first transformer block, output the output of the second transformer block,
+
+12:34.760 --> 12:35.560
+and so on.
+
+12:35.760 --> 12:38.470
+For however many transformer blocks we have.
+
+12:39.070 --> 12:42.910
+If you've forgotten about this, then don't worry.
+
+12:42.950 --> 12:50.430
+In a couple videos from now, I'm going to have actually two videos discussing this output Hidden States
+
+12:50.590 --> 12:54.190
+option and how to interpret the output, and so on.
+
+12:55.070 --> 13:03.710
+So what we need to do is pick one particular dimension or neuron or some feature in the model that we
+
+13:03.710 --> 13:05.470
+want to maximize.
+
+13:06.030 --> 13:09.630
+In this case I chose to maximize layer eight.
+
+13:09.790 --> 13:13.870
+And so this corresponds to the eighth transformer block.
+
+13:14.430 --> 13:17.590
+But it's the transformer block with index seven.
+
+13:17.790 --> 13:23.990
+Because the first hidden state is going to be the embeddings matrix okay.
+
+13:24.230 --> 13:27.270
+So this is just yeah, just one of the transformer blocks.
+
+13:27.990 --> 13:39.910
+And out of the 768 dimensions in each transformer I'm choosing to optimize for maximizing the output
+
+13:39.950 --> 13:41.430
+of dimension 91.
+
+13:41.470 --> 13:43.430
+Now, why did I pick these numbers?
+
+13:43.430 --> 13:48.430
+There's really no theoretical motivation for these numbers and not these numbers.
+
+13:48.470 --> 13:51.390
+You know, I it's a bit arbitrary.
+
+13:51.390 --> 13:56.470
+So this is more just about demonstrating, uh, the code and the mechanism.
+
+13:56.470 --> 14:05.070
+But I think you will also see that, uh, you'll start to appreciate how difficult it is to scale this
+
+14:05.070 --> 14:11.390
+kind of research, because, yeah, there's just so many channels that we could focus on here.
+
+14:11.470 --> 14:13.750
+I think I'll even leave it as these numbers for now.
+
+14:14.310 --> 14:14.630
+Okay.
+
+14:14.670 --> 14:16.830
+So now I run this code cell.
+
+14:16.830 --> 14:23.510
+So that pushes the, uh, embeddings through the model and all the way to the end and we get the output.
+
+14:23.710 --> 14:29.590
+So here we see that there are 13 tensors in the hidden states variable.
+
+14:29.590 --> 14:32.550
+So that's in outputs hidden states.
+
+14:32.950 --> 14:34.300
+And then uh, yeah.
+
+14:34.340 --> 14:39.780
+The size from one particular layer is one by five by 768.
+
+14:40.180 --> 14:48.300
+Again, this corresponds to the output of the fourth transformer layer for this embeddings matrix.
+
+14:48.300 --> 14:52.500
+And this embeddings matrix is randomly initialized.
+
+14:52.580 --> 15:00.260
+And now we are going to optimize it such that this gets transformed through gradient descent into a
+
+15:00.300 --> 15:09.060
+matrix into a set of c sequence of token embeddings that maximizes the activation in this particular
+
+15:09.060 --> 15:13.420
+dimension of the output of the fourth transformer block.
+
+15:13.900 --> 15:14.380
+Okay.
+
+15:14.460 --> 15:15.540
+I hope that makes sense.
+
+15:15.700 --> 15:17.700
+Uh, now let's go through training.
+
+15:18.660 --> 15:23.900
+We are going to train 500 steps using a learning rate of 0.001.
+
+15:23.980 --> 15:32.290
+You can see I'm using the Adam optimizer where I put in the tensor that we want to, uh, to optimize
+
+15:32.290 --> 15:37.850
+using this learning rate and this lambda for the L2 regularization.
+
+15:37.850 --> 15:39.130
+This actually comes in later.
+
+15:39.130 --> 15:44.850
+I'm going to calculate the regularization manually instead of using it in here.
+
+15:44.850 --> 15:47.050
+So in like weight decay in here.
+
+15:47.330 --> 15:52.450
+In which case, you know, if we were doing it in here then we would probably want to use the Adam optimizer.
+
+15:52.450 --> 15:53.890
+But it doesn't matter for here.
+
+15:54.370 --> 15:54.690
+Okay.
+
+15:54.730 --> 15:57.650
+So here is the loop where we do the training.
+
+15:57.730 --> 16:04.170
+Here I'm just initializing some vectors that I can use to track the progress of training.
+
+16:04.370 --> 16:07.650
+This is the activation value and the gradient norm.
+
+16:08.090 --> 16:09.330
+So we loop over.
+
+16:09.650 --> 16:12.050
+Oh I already forgot 500 steps.
+
+16:12.250 --> 16:18.490
+And in each of those steps this is mostly pretty standard training stuff that you have seen before.
+
+16:18.810 --> 16:25.890
+So clear out the gradients from the optimizer from the model so that we're not doing any gradient accumulation.
+
+16:27.090 --> 16:29.850
+Uh, patch the embeddings directly into the model.
+
+16:29.850 --> 16:31.400
+This is code I showed above.
+
+16:31.440 --> 16:34.000
+Make sure we get the hidden states coming out.
+
+16:34.200 --> 16:40.080
+And then here I get the hidden states just for this one particular layer that we are interested in.
+
+16:40.360 --> 16:49.080
+And then within that one layer I'm getting out the specific activation for all of the batches or the
+
+16:49.080 --> 16:49.640
+first batch.
+
+16:49.640 --> 16:56.200
+There's only one sequence here, all of the tokens, all five of the tokens in this sequence.
+
+16:56.640 --> 17:01.120
+And then just this one dimension, which is before was 91.
+
+17:01.120 --> 17:04.080
+I forget what I changed it to 90.
+
+17:04.120 --> 17:04.880
+Okay, there you go.
+
+17:04.880 --> 17:05.960
+Close to 91.
+
+17:06.360 --> 17:09.600
+And then yeah, now I'm averaging over okay.
+
+17:09.640 --> 17:13.240
+So I'm averaging over all of the tokens.
+
+17:13.240 --> 17:19.520
+So that means that this dim activation this is the dimensionality of the activation.
+
+17:19.840 --> 17:25.880
+This is the average over all five tokens in this little random sequence.
+
+17:25.880 --> 17:34.680
+And what we want to do is find a matrix, an optimized embeddings matrix that maximizes this number.
+
+17:35.440 --> 17:35.880
+Okay.
+
+17:36.080 --> 17:39.840
+So that is the that's the thing that we want to optimize for.
+
+17:40.240 --> 17:46.600
+This is you could if we're trying to optimize for increasing this, you would normally think of this
+
+17:46.600 --> 17:50.240
+as gradient ascent instead of gradient descent.
+
+17:50.480 --> 17:57.120
+But I'm actually going to do gradient descent by just making this a minus sign here.
+
+17:57.880 --> 18:02.680
+And that's just easier for all the rest of the PyTorch mechanics.
+
+18:02.680 --> 18:08.880
+So we want to maximize this thing which we means we want to minimize it's negative.
+
+18:09.440 --> 18:12.560
+And then here is the L2 L2 term.
+
+18:12.680 --> 18:18.640
+And that is just all of the the sum of the squared elements of the optimized embeddings.
+
+18:18.680 --> 18:25.480
+Basically this will just prevent the matrix from getting really, really huge because we have this constraint
+
+18:25.680 --> 18:32.510
+here, this regularization term that will try to keep the weights as small as possible, while also
+
+18:32.710 --> 18:37.230
+minimizing the negative of the activation of this dimension.
+
+18:37.870 --> 18:38.110
+Okay.
+
+18:38.150 --> 18:41.990
+And then here I'm just grabbing out the actual dimension value.
+
+18:42.470 --> 18:42.870
+Okay.
+
+18:43.030 --> 18:47.550
+Uh, calculate all of the gradients on the optimized embeddings.
+
+18:47.630 --> 18:54.830
+Here I'm extracting the norm of the gradient and then finishing the backprop by actually applying the
+
+18:54.830 --> 18:57.430
+gradient calculations to the matrix.
+
+18:57.550 --> 19:00.430
+And then here I'm printing out some results.
+
+19:00.790 --> 19:06.990
+What I'm also doing here is showing the activation of the nearest neighbor dimension.
+
+19:07.110 --> 19:13.950
+So this is for the dimension that we are trying to maximize the activation of.
+
+19:14.430 --> 19:18.710
+And now, you know, if I didn't show any of this, if I didn't show the neighbor, you could say,
+
+19:19.070 --> 19:23.950
+maybe this matrix is just activating everything in the network.
+
+19:23.950 --> 19:26.660
+It's not unique to this one dimension.
+
+19:27.420 --> 19:29.900
+So that's why I print out the neighbor as well.
+
+19:29.940 --> 19:33.220
+And here what we see is actually the neighbors tend to get suppressed.
+
+19:33.220 --> 19:39.620
+So we're not only activating this one activation, we are suppressing a lot of the other activation
+
+19:39.620 --> 19:40.460
+dimensions.
+
+19:41.060 --> 19:42.780
+Uh, arguably that's a good thing.
+
+19:42.780 --> 19:51.020
+It makes it even more unique, even more targeted to this one specific dimension of this transformer
+
+19:51.060 --> 19:51.780
+block.
+
+19:52.140 --> 19:57.460
+Okay, so here I am generating the two graphs that I showed you before.
+
+19:57.460 --> 20:04.780
+You see, the activation of this particular dimension increases over time over training.
+
+20:04.980 --> 20:07.100
+It's clearly not done activating.
+
+20:07.100 --> 20:09.260
+So we could run more training.
+
+20:09.260 --> 20:15.700
+And I don't know if this keeps growing or if it kind of looks like it's going to taper off somewhere
+
+20:15.700 --> 20:18.340
+to asymptote to some dimension value.
+
+20:18.340 --> 20:20.660
+But and here you see the norm of the gradient.
+
+20:20.660 --> 20:26.300
+This looks qualitatively a bit different from what I showed in the slides, but each time you rerun
+
+20:26.300 --> 20:29.100
+this, you're likely to see some different patterns.
+
+20:29.140 --> 20:36.660
+Basically, we just want to see that this norm is nonzero and that indicates that it's actually changing
+
+20:36.660 --> 20:37.700
+the embeddings.
+
+20:38.020 --> 20:42.820
+Optimization is really changing the matrix every step in training.
+
+20:43.540 --> 20:43.820
+Okay.
+
+20:43.900 --> 20:48.260
+Here I'm just redrawing the same histograms plot from above.
+
+20:48.300 --> 20:55.580
+So the blue line and the orange line are identical to what you saw a few moments ago before training.
+
+20:55.580 --> 21:01.260
+And here all I do is add the the optimized matrix distribution.
+
+21:01.580 --> 21:08.740
+So what happened is that the actual weights values, the embeddings values grew a bit wider.
+
+21:08.740 --> 21:15.900
+So they got a little bit more extreme in the tails compared to in the near the peak.
+
+21:15.940 --> 21:21.020
+Now we can actually let me see this one I'm going to comment out.
+
+21:21.060 --> 21:29.290
+I want to show you that now, because the pre-trained and post trained matrices are the same size,
+
+21:29.690 --> 21:34.170
+then we actually can plot them using the actual frequency of counts.
+
+21:34.210 --> 21:34.850
+But anyway.
+
+21:35.210 --> 21:40.890
+Uh, okay, so now what I want to do is, uh, this is just an image of the embeddings.
+
+21:40.890 --> 21:46.010
+So here we have the, uh, 768 embeddings dimensions.
+
+21:46.130 --> 21:48.890
+And here we have the five token positions.
+
+21:48.890 --> 21:53.370
+This is just another way of visualizing the actual matrix.
+
+21:53.370 --> 21:55.650
+Remember it starts off as random.
+
+21:55.850 --> 21:58.970
+And this is what it looks like after the optimization.
+
+21:59.290 --> 22:06.210
+And it's pretty interesting to see that most of the changes in this matrix happen at the very beginning.
+
+22:06.450 --> 22:10.610
+So the matrix was really, uh, different in the beginning.
+
+22:10.610 --> 22:16.890
+And after, you know, like tokens two, three and four are basically they look really, really similar.
+
+22:16.890 --> 22:21.320
+I'm sure there are some differences in here, but they look overall quite similar.
+
+22:22.400 --> 22:30.360
+Okay, so now what we want to do is transform these optimized embeddings back into tokens.
+
+22:30.360 --> 22:35.600
+So we can actually look at the text and see if we can make any sense of them.
+
+22:36.120 --> 22:40.240
+So the idea is that these are embeddings vectors.
+
+22:40.360 --> 22:50.080
+And we want the token that corresponds to the closest match between these optimized embeddings and the
+
+22:50.080 --> 22:54.240
+embeddings from the trained GPT two model.
+
+22:54.720 --> 22:55.840
+So that's what I do here.
+
+22:55.840 --> 23:00.880
+I calculate the cosine similarity between one embedding.
+
+23:00.920 --> 23:04.040
+It just happened to pick the first one just for demonstration.
+
+23:04.480 --> 23:08.240
+And all of the other embeddings from GPT two.
+
+23:08.480 --> 23:10.280
+And then we find the maximum.
+
+23:10.400 --> 23:12.920
+So the maximum cosine similarity.
+
+23:13.120 --> 23:18.040
+And then we pick that to be the optimized token Spoken for.
+
+23:18.120 --> 23:19.120
+Position one.
+
+23:19.120 --> 23:22.480
+So for the first token in this optimized sequence.
+
+23:23.000 --> 23:26.280
+Now I couldn't even tell you which token that is.
+
+23:26.280 --> 23:29.600
+It might be this one or this one or this one, or maybe it's this one.
+
+23:29.640 --> 23:37.760
+Actually, the fact that, you know, it's so hard to see which one really is the best matching embeddings
+
+23:37.760 --> 23:42.360
+vector, and the fact that the cosine similarities are all fairly small.
+
+23:42.640 --> 23:42.840
+Right.
+
+23:42.840 --> 23:45.400
+Like they go up to 0.17.
+
+23:45.400 --> 23:53.640
+Maybe this already indicates that something weird is happening, that this method is probably not producing
+
+23:53.640 --> 24:01.480
+results that are really human interpretable, because this, uh, optimized embeddings vector doesn't
+
+24:01.480 --> 24:09.880
+really look like any of the 50,000 embeddings vectors that are learned from actual human written text.
+
+24:10.480 --> 24:14.760
+Okay, so this gives me the token for one vector.
+
+24:15.000 --> 24:19.550
+And now here I just put that code into a for loop.
+
+24:19.550 --> 24:22.790
+And then here we can look at the optimized token sequence.
+
+24:22.950 --> 24:27.070
+So ad pc uh brisk brisk breast.
+
+24:27.110 --> 24:36.750
+This is the token sequence that maximizes the activation of dimension 90 output dimension 90 in transformer
+
+24:36.750 --> 24:37.630
+block four.
+
+24:38.070 --> 24:40.190
+Now, what in the world does this mean?
+
+24:40.950 --> 24:42.030
+Kind of tough to say.
+
+24:42.030 --> 24:44.390
+This is not very human interpretable.
+
+24:44.390 --> 24:49.350
+Although the training, the optimization actually worked really, really well.
+
+24:49.670 --> 24:49.950
+Right.
+
+24:49.950 --> 24:56.390
+We still got like three orders of magnitude increase in the activation of this dimension.
+
+24:56.510 --> 25:04.950
+And yet we have a hard time making any human interpretable sense of this sequence, even though this
+
+25:04.950 --> 25:08.990
+really does maximize the output of that one dimension.
+
+25:09.910 --> 25:15.780
+So out of curiosity, I just ran the entire code script from scratch just to run it all new.
+
+25:15.820 --> 25:18.100
+Remember, the model is exactly the same.
+
+25:18.460 --> 25:20.460
+All the code is exactly the same.
+
+25:20.460 --> 25:27.940
+The only thing that differs every time you rerun this code is the initial random optimization of the
+
+25:28.380 --> 25:29.980
+embeddings vectors.
+
+25:30.260 --> 25:36.740
+And then here I got a completely different result that has nothing to do with the, uh, the previous
+
+25:36.740 --> 25:39.220
+version that I ran through a moment ago.
+
+25:39.460 --> 25:43.500
+That's going to be a good segue to the code challenge in the next video.
+
+25:44.820 --> 25:47.820
+There are three points I'd like to stress here.
+
+25:48.300 --> 25:55.180
+One is that gradient descent is a really incredible and versatile optimization technique.
+
+25:55.620 --> 26:02.260
+Basically, if you can define some kind of loss function, you can optimize it using gradient descent.
+
+26:02.420 --> 26:05.860
+And gradient ascent is exactly the same.
+
+26:05.860 --> 26:08.460
+You just have to stick in a minus sign somewhere.
+
+26:09.180 --> 26:15.980
+Now, you may have been wondering why I'm taking the time to introduce you to a method that has already
+
+26:15.980 --> 26:23.660
+been proven not to be very successful, or at least not very insightful for interpretability.
+
+26:24.420 --> 26:32.180
+First of all, I think that the fact that it has proven not to be very insightful is itself very insightful.
+
+26:32.500 --> 26:36.380
+That is a core part of reverse engineering, a complex system.
+
+26:36.540 --> 26:40.620
+You need to know what works and you really need to know what doesn't work.
+
+26:41.100 --> 26:48.140
+That is especially true for methods that work for some types of deep learning models, but not others.
+
+26:48.780 --> 26:56.580
+There is a kind of forensic skill to doing Mac interp research, and that is the combination of attention
+
+26:56.580 --> 27:03.940
+to detail, creative thinking, analytical and critical thinking, and also technical proficiency.
+
+27:04.260 --> 27:09.980
+And helping you develop all of those skills is really my main goal in this course.

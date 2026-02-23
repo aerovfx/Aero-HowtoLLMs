@@ -1,0 +1,871 @@
+WEBVTT
+
+00:02.080 --> 00:09.560
+The goal of this section of the course is to introduce you to deep learning architectures, and we begin
+
+00:09.560 --> 00:16.440
+with the study of a, which is an abbreviation for artificial neural networks.
+
+00:16.640 --> 00:23.880
+So in this video I will introduce you to the basic architecture of an Ann, starting with something
+
+00:23.880 --> 00:25.440
+called a perceptron.
+
+00:25.720 --> 00:31.600
+And as we've progressed through the videos in this section, we will get more and more sophisticated
+
+00:31.600 --> 00:35.520
+and we'll learn more and more about these Anns.
+
+00:36.000 --> 00:37.280
+So let's begin.
+
+00:37.640 --> 00:40.840
+This is a diagram of a formula.
+
+00:41.080 --> 00:48.720
+And this is the basic diagram of the perceptron, which is kind of the older name for the precursor
+
+00:48.720 --> 00:50.520
+of deep learning networks.
+
+00:50.880 --> 00:57.520
+So these bubbles here these circles represent numbers that are inputs into our network.
+
+00:57.720 --> 01:04.370
+And this bubble here refers to a mathematical operation that gets applied to these numbers.
+
+01:04.370 --> 01:10.370
+So what we see here is that there are three inputs three numbers that we input to the model.
+
+01:10.770 --> 01:16.690
+The model implements one computation and it provides a single output.
+
+01:16.690 --> 01:20.290
+So three inputs one computation one output.
+
+01:20.330 --> 01:25.330
+Now let's make this a little more concrete by attaching some numbers and symbols here.
+
+01:25.530 --> 01:29.050
+Okay so here we have three numbers eight five minus four.
+
+01:29.210 --> 01:31.970
+These are the numeric inputs into the model.
+
+01:32.450 --> 01:38.970
+Here is the computation the mathematical operation that we perform on these three numbers.
+
+01:38.970 --> 01:39.650
+So what are we doing.
+
+01:39.650 --> 01:43.730
+We are summing the three numbers and then dividing by three.
+
+01:44.170 --> 01:46.090
+And that gives some result.
+
+01:46.090 --> 01:47.570
+So what is this machine.
+
+01:47.570 --> 01:49.530
+What would you call this device here.
+
+01:50.010 --> 01:52.850
+Well you know you would call this an averaging machine.
+
+01:53.370 --> 01:55.250
+So it takes three numbers.
+
+01:55.250 --> 01:57.050
+It adds them together divides by three.
+
+01:57.050 --> 02:01.190
+And that's really just literally the definition of averaging.
+
+02:01.190 --> 02:02.470
+So this is a graph.
+
+02:02.470 --> 02:08.430
+This is a diagram that illustrates how an averaging computation would look like.
+
+02:09.150 --> 02:15.630
+Okay let's take this a little bit further and say now this is not doing the averaging on its own.
+
+02:15.630 --> 02:17.430
+This is only doing summing.
+
+02:17.750 --> 02:26.230
+But we are going to add weights to each of these lines here that connects the input nodes to the computation
+
+02:26.230 --> 02:26.910
+node here.
+
+02:27.350 --> 02:31.710
+So the weight for each of these lines for each of the inputs is one third.
+
+02:32.150 --> 02:37.270
+Now we can write out this graph here using mathematical notation.
+
+02:37.270 --> 02:45.430
+So we have eight times one third or eight weighted by one third plus because we're summing here plus
+
+02:45.750 --> 02:53.270
+five times or weighted by one third plus minus four weighted by one third okay.
+
+02:53.310 --> 02:55.190
+And so then the answer is still three.
+
+02:55.230 --> 02:57.190
+We can still call this an averaging machine.
+
+02:57.190 --> 03:02.120
+I'm basically just writing it out in a slightly different way compared to the previous slide.
+
+03:02.680 --> 03:03.160
+By the way.
+
+03:03.200 --> 03:06.240
+Notice what we're doing here with this mathematical operation.
+
+03:06.360 --> 03:09.280
+We are saying element wise multiplication.
+
+03:09.280 --> 03:13.360
+And then summing up all of the element wise multiplications together.
+
+03:13.800 --> 03:16.600
+Okay we're going to I'm going to come back to that point in a moment.
+
+03:16.720 --> 03:22.560
+First I want to explore the idea of taking weighted sums of the inputs.
+
+03:23.000 --> 03:27.440
+So now what I'm doing is just changing the the weight values.
+
+03:27.440 --> 03:28.280
+So this is the same.
+
+03:28.320 --> 03:31.120
+This is still just a summation here.
+
+03:31.120 --> 03:34.040
+We still have weights one weight per input number.
+
+03:34.040 --> 03:36.200
+But I've just changed the numbers now.
+
+03:36.400 --> 03:36.720
+Okay.
+
+03:36.760 --> 03:41.520
+So this would we can express this mathematically like this.
+
+03:41.520 --> 03:46.920
+So it's still the input number times the weight plus the input number times weight plus the input number
+
+03:46.920 --> 03:47.720
+times weight.
+
+03:47.880 --> 03:52.280
+So and well in this case this is not an averaging machine.
+
+03:52.280 --> 03:58.600
+We can call this a weighted averaging machine because we are still computing some kind of an average.
+
+03:58.690 --> 04:03.930
+but we are weighting the different inputs according to these little W's over here.
+
+04:04.210 --> 04:09.450
+Maybe it would be better to call this a weighted sum compared to weighted average, because the word
+
+04:09.450 --> 04:13.050
+average already implies a particular, um, operation.
+
+04:13.050 --> 04:15.770
+So let's call let's start calling this a weighted sum.
+
+04:15.770 --> 04:20.530
+We are summing up all of these numbers, but we're not summing them directly.
+
+04:20.530 --> 04:25.610
+We are waiting them first by some additional numbers here, which I call w.
+
+04:26.370 --> 04:30.530
+So now let's get back to this concept of what this operation really means.
+
+04:30.530 --> 04:37.650
+So we're taking these three numbers and these three weights and element wise multiplying them and then
+
+04:37.650 --> 04:38.770
+summing them together.
+
+04:38.770 --> 04:40.770
+And that gives us a single number.
+
+04:40.970 --> 04:47.410
+Now I hope that sounds familiar from the uh, a couple sections ago about the math prerequisites, in
+
+04:47.410 --> 04:50.530
+particular the lecture for the dot product.
+
+04:50.530 --> 04:57.450
+In fact, what we are doing here is computing the dot product between a vector x that is the inputs
+
+04:57.820 --> 05:00.940
+And a vector w that contains the weights.
+
+05:01.140 --> 05:02.900
+So we can write this out as.
+
+05:02.900 --> 05:07.860
+The output of the model is a value y.
+
+05:07.900 --> 05:14.660
+We call this variable y and it just equals the dot product between x the vector of inputs, and w the
+
+05:14.660 --> 05:15.740
+vector of weights.
+
+05:15.860 --> 05:19.140
+So x transpose w that is the dot product.
+
+05:19.140 --> 05:22.980
+And that is literally what this machine is doing.
+
+05:23.700 --> 05:29.860
+Now this is a linear operation with animation because it's a pretty important concept.
+
+05:30.020 --> 05:33.380
+This is a linear operation that we are implementing here.
+
+05:34.220 --> 05:38.300
+So let me talk for a moment about linear and nonlinear operations.
+
+05:38.660 --> 05:43.980
+A linear operation just means that you are doing addition and scalar multiplication.
+
+05:44.260 --> 05:51.220
+So if your mathematical operation simply involves addition and scalar multiplication, then it's a linear
+
+05:51.220 --> 05:52.100
+operation.
+
+05:52.300 --> 05:54.860
+And anything else is basically nonlinear.
+
+05:54.860 --> 05:57.880
+So linear means addition and multiplication.
+
+05:57.880 --> 06:04.000
+You could draw straight lines through the output, and non-linear is anything else where you don't have
+
+06:04.000 --> 06:07.920
+straight lines, you don't have just addition and multiplication.
+
+06:08.520 --> 06:15.600
+This issue of linear versus non-linear is going to come up fairly often in the next couple sections,
+
+06:15.600 --> 06:17.160
+in particular later videos.
+
+06:17.160 --> 06:23.680
+In this section, I'm going to show you examples of linear problems and non-linear problems, linear
+
+06:23.680 --> 06:27.680
+solutions or I should say linear models and non-linear models.
+
+06:27.680 --> 06:32.080
+And I'll discuss why we need linear models for linear problems.
+
+06:32.080 --> 06:34.000
+You'll see examples of this and so on.
+
+06:34.320 --> 06:41.000
+But for now, suffice it to say that linear models can only solve linearly separable problems.
+
+06:41.200 --> 06:47.640
+Linearly separable problems are problems where you can achieve the result by drawing a straight line
+
+06:47.840 --> 06:49.120
+through the two different groups.
+
+06:49.120 --> 06:51.880
+I'll show an example of this on the next slide.
+
+06:52.440 --> 06:59.890
+So linear models are actually not very good at solving Non-linearly separable problems, so non-linear
+
+06:59.890 --> 07:02.530
+models can solve more complex problems.
+
+07:02.530 --> 07:06.010
+Linear models can only solve linearly separable problems.
+
+07:06.890 --> 07:13.450
+This also means that you shouldn't use a linear model for a nonlinear problem, and you also, as it
+
+07:13.450 --> 07:16.930
+turns out, shouldn't use a non-linear model for a linear problem.
+
+07:17.930 --> 07:24.770
+Now, linear models are what you come across in a standards course on statistics and machine learning.
+
+07:24.970 --> 07:29.010
+Things like regression, general linear models, Anova.
+
+07:29.330 --> 07:31.250
+These are all factor analysis.
+
+07:31.250 --> 07:34.290
+These are all examples of linear models.
+
+07:34.290 --> 07:36.130
+Now linear models are really great.
+
+07:36.130 --> 07:40.810
+And there are lots and lots of linearly separable problems in the universe.
+
+07:40.810 --> 07:42.810
+And we use linear models for them.
+
+07:43.050 --> 07:46.050
+Any kind of general variant of a general linear model.
+
+07:46.610 --> 07:51.570
+But there are also many problems that cannot be solved through linear models.
+
+07:51.570 --> 07:56.580
+And that's why we need nonlinear operations in our deep learning models.
+
+07:57.500 --> 07:59.740
+And then also the second part of the statement.
+
+07:59.780 --> 08:02.780
+Not to use a nonlinear model for a linear problem.
+
+08:02.780 --> 08:08.580
+I will also show an example of this in in a video later on in this section.
+
+08:08.620 --> 08:15.220
+Essentially, the idea is that if you use a nonlinear model, the added complexity generally just makes
+
+08:15.220 --> 08:16.660
+things more complicated.
+
+08:16.780 --> 08:22.020
+A linear solution is going to be a better fit for a linear problem.
+
+08:22.860 --> 08:23.180
+Okay.
+
+08:23.220 --> 08:25.740
+So now I'm going to change this model slightly.
+
+08:25.740 --> 08:27.900
+This part is still exactly the same.
+
+08:28.180 --> 08:32.700
+We take the inputs scalar multiplied by weights sum them together.
+
+08:32.700 --> 08:34.540
+This is the dot product operation.
+
+08:34.540 --> 08:35.380
+This is linear.
+
+08:35.820 --> 08:41.540
+But then instead of directly going to the output I'm going to pass this operation.
+
+08:41.540 --> 08:48.820
+The output of this summation into another function which is the sine function or the signum function.
+
+08:48.820 --> 08:50.860
+So it's often abbreviated as SN.
+
+08:51.300 --> 08:58.630
+And this outputs the signum function outputs one for any positive numbers and minus one for any negative
+
+08:58.630 --> 08:59.230
+numbers.
+
+08:59.510 --> 09:06.110
+Now the signum function is a non-linear function, so it doesn't actually it doesn't really matter for
+
+09:06.110 --> 09:06.950
+the signum function.
+
+09:06.950 --> 09:09.990
+It doesn't really matter what these different values are.
+
+09:10.270 --> 09:16.150
+All that matters is whether they are all of them together are greater than zero or less than zero.
+
+09:16.510 --> 09:21.390
+So here is an example where I changed the plus eight to a minus eight.
+
+09:21.390 --> 09:23.070
+So all of these weights are the same.
+
+09:23.230 --> 09:24.430
+These two numbers are the same.
+
+09:24.430 --> 09:28.630
+I just changed the sign of the input here eight.
+
+09:28.670 --> 09:30.710
+Now that changes this function here.
+
+09:30.710 --> 09:35.150
+Again it doesn't actually matter what this arithmetic ends up being.
+
+09:35.150 --> 09:41.630
+All that matters for this signum function is whether this number here is positive or negative.
+
+09:41.630 --> 09:43.390
+Now in this case it's negative.
+
+09:43.390 --> 09:45.670
+So that ends up being a minus one.
+
+09:45.710 --> 09:48.110
+This arithmetic here does not work out to minus one.
+
+09:48.110 --> 09:52.110
+But the output of the signum function is minus one.
+
+09:52.470 --> 09:57.560
+So here you can see a graph of what this sine function looks like.
+
+09:57.840 --> 10:04.680
+So the output is either minus one or plus one depending on the sine of the input.
+
+10:04.720 --> 10:12.320
+Now this is a nonlinear function because we cannot draw a single line that passes through this entire
+
+10:12.320 --> 10:12.880
+function.
+
+10:12.880 --> 10:14.680
+It is non linear.
+
+10:15.320 --> 10:18.240
+Now this is a very simple nonlinear function.
+
+10:18.240 --> 10:25.840
+It turns out that this simple function is actually not terribly useful for applications in deep learning.
+
+10:26.440 --> 10:32.360
+And that's really just because it has such a limited bandwidth that only allows for two unique values
+
+10:32.360 --> 10:33.560
+of the output.
+
+10:33.600 --> 10:40.200
+Nonetheless, this is a really simple nonlinear function to illustrate for our purposes here, of introducing
+
+10:40.200 --> 10:49.080
+you to the idea of computing a linear weighted sum of inputs and passing that value through some nonlinear
+
+10:49.080 --> 10:49.880
+function.
+
+10:50.720 --> 10:58.060
+So the perceptron has a linear operation and then that gets passed through a non-linear operation.
+
+10:58.940 --> 11:00.540
+We can write that again like this.
+
+11:00.540 --> 11:06.380
+So we take the dot product between the input numbers and the weight vector that is this part in here
+
+11:06.380 --> 11:08.060
+this is a linear operation.
+
+11:08.260 --> 11:13.580
+And then I pass that linear operation through an a non-linear function.
+
+11:13.580 --> 11:18.140
+And that gives us the output of the model which here I'm referring to as y hat.
+
+11:19.100 --> 11:21.580
+Now I wanted to use this signum function.
+
+11:21.580 --> 11:23.580
+Just to give you a concrete example.
+
+11:24.540 --> 11:30.220
+Generally we just call this sigma to indicate that it is some kind of nonlinear function.
+
+11:30.540 --> 11:37.740
+There are in deep learning, there are maybe dozens of uh, of, of these kinds of non-linear functions,
+
+11:37.740 --> 11:44.700
+although most of the time people just use a relatively small number like let's say 2 or 3 of these functions.
+
+11:44.700 --> 11:48.260
+Later on, we're going to start calling this an activation function.
+
+11:48.500 --> 11:51.020
+But for now, don't worry about the terminology.
+
+11:51.060 --> 11:56.630
+Suffice it to say that we have a linear part and a nonlinear part.
+
+11:57.030 --> 12:00.390
+And in fact, this equation is so beautiful.
+
+12:00.390 --> 12:01.350
+It's so simple.
+
+12:01.550 --> 12:05.950
+I'm going to make it like huge on this screen because this is really important.
+
+12:05.950 --> 12:12.990
+This is much of the math of deep learning is literally just this one equation, not all of it.
+
+12:13.030 --> 12:17.350
+Of course there is error functions and loss functions.
+
+12:17.350 --> 12:18.470
+Backpropagation.
+
+12:18.470 --> 12:24.790
+The math gets a little bit hairy, but a lot of the math of deep learning is literally just this.
+
+12:24.790 --> 12:26.070
+So let's walk through this.
+
+12:26.230 --> 12:32.150
+This is the output of a node of a network of a deep learning network.
+
+12:32.550 --> 12:33.950
+Here we have the dot product.
+
+12:33.950 --> 12:36.110
+This is a linear weighted sum.
+
+12:36.470 --> 12:42.590
+So again it's just the multiplication of the input values times their corresponding weights.
+
+12:42.590 --> 12:44.510
+And then we sum all of those together.
+
+12:44.710 --> 12:46.310
+This is a linear operation.
+
+12:46.630 --> 12:52.920
+And this result gets passed through this uh this other function here which is a nonlinear Non-linear
+
+12:52.920 --> 12:53.560
+function.
+
+12:53.600 --> 12:58.760
+It's commonly called an activation function, but it just has some non-linearity built into it.
+
+12:59.400 --> 13:07.280
+Now there's one extra piece to the perceptron, to the basic unit of the Ann that I haven't yet told
+
+13:07.280 --> 13:07.920
+you about.
+
+13:07.960 --> 13:10.760
+And that little piece is called the bias term.
+
+13:10.960 --> 13:17.440
+If you have a statistics background, if you've taken a statistics course, the bias term is also called
+
+13:17.440 --> 13:18.200
+an intercept.
+
+13:18.200 --> 13:23.440
+It's exactly the same thing as an intercept in a general linear model or a regression.
+
+13:24.000 --> 13:24.320
+Okay.
+
+13:24.360 --> 13:31.200
+So to introduce you to the to or to motivate why we need a bias term, I want you to draw a line.
+
+13:31.240 --> 13:35.560
+Draw a straight line that separates the green dots from the blue dots.
+
+13:36.080 --> 13:38.360
+Now obviously this is a really simple problem.
+
+13:38.360 --> 13:42.520
+In fact, this is an example of a linearly separable problem.
+
+13:42.720 --> 13:50.840
+This is a linearly separable problem because we can draw a straight line that perfectly separates the
+
+13:50.840 --> 13:53.170
+two populations of colors here.
+
+13:53.730 --> 13:54.930
+Okay, how about here?
+
+13:54.970 --> 13:59.850
+Is it still possible to draw a line that separates these two colors?
+
+14:00.010 --> 14:04.410
+Now, I know you're thinking that this is really trivial because the answer is yeah, of course.
+
+14:04.410 --> 14:05.930
+You just draw a line through here.
+
+14:06.170 --> 14:12.210
+But what if I said that that line must pass through the origin of the graph.
+
+14:12.210 --> 14:13.490
+So here's the origin.
+
+14:13.770 --> 14:14.850
+This dot here.
+
+14:14.850 --> 14:21.770
+So the line that best separates these two groups of dots must pass through the origin.
+
+14:21.930 --> 14:24.810
+Well you know that line is going to go like this.
+
+14:24.810 --> 14:27.010
+And this is the best we can possibly do.
+
+14:27.050 --> 14:28.250
+It's actually not so bad.
+
+14:28.250 --> 14:32.490
+We're still getting, you know, the majority of the blue dots on this side, the majority of the green
+
+14:32.490 --> 14:33.610
+dots on this side.
+
+14:33.890 --> 14:36.690
+But obviously this is not the optimal solution.
+
+14:36.970 --> 14:41.970
+Now why do we have to confine this line to go through the origin.
+
+14:42.090 --> 14:47.530
+Well this is what the model looks like if we do not include a bias term.
+
+14:48.170 --> 14:54.990
+So instead we want to include a bias term in the model and the bias term, or the intercept basically
+
+14:54.990 --> 15:00.390
+allows the line to go off the origin, not to pass through the origin.
+
+15:00.390 --> 15:08.790
+And then having a bias term gives us the opportunity to draw separating hyperplanes or lines that can
+
+15:08.790 --> 15:11.110
+pass through the y axis anywhere.
+
+15:11.110 --> 15:13.270
+They don't need to pass through the origin.
+
+15:13.630 --> 15:16.270
+Okay, so this model has no bias term.
+
+15:16.390 --> 15:19.510
+This model has a bias term or an intercept.
+
+15:20.270 --> 15:22.950
+Now do you always need to have a bias term.
+
+15:23.390 --> 15:26.870
+Well you don't necessarily always need a bias term.
+
+15:26.870 --> 15:31.110
+You can actually transform the data to be mean centered.
+
+15:31.110 --> 15:37.310
+So you can mean center the data, subtract the mean from the data along all dimensions, and then you're
+
+15:37.310 --> 15:38.390
+still going to be okay.
+
+15:38.430 --> 15:43.070
+You're still going to have the the separating line pass through the origin.
+
+15:43.630 --> 15:47.150
+However this is not really something we want to rely on.
+
+15:47.150 --> 15:50.270
+So instead we just always add a bias term.
+
+15:50.510 --> 15:52.760
+Now why is this the case mathematically?
+
+15:53.600 --> 15:56.280
+Where does the bias term come up mathematically?
+
+15:56.640 --> 16:01.160
+Well this line here can be represented as y equals mx.
+
+16:01.720 --> 16:08.160
+So m is the slope of the line and x is the x axis and y is the y axis.
+
+16:08.280 --> 16:14.920
+So if this is our formula then when x equals zero y must also equal zero.
+
+16:14.920 --> 16:19.400
+It doesn't matter what m is m can be any possible value.
+
+16:19.800 --> 16:24.520
+And as long as x equals zero y must also equal zero.
+
+16:24.840 --> 16:32.040
+So this equation must or any line that's define any model that's characterized by this equation must
+
+16:32.040 --> 16:34.920
+go through the origin the 00..
+
+16:35.720 --> 16:36.000
+Okay.
+
+16:36.040 --> 16:40.520
+So then we can what we do is we add this B term here.
+
+16:40.720 --> 16:46.280
+So this is the bias also called the intercept term in statistics.
+
+16:46.440 --> 16:48.560
+So now this is a very familiar looking equation.
+
+16:48.600 --> 16:50.960
+Of course you know this from middle school.
+
+16:51.170 --> 16:53.010
+y equals mx plus b.
+
+16:53.010 --> 16:56.090
+So now we can set x to be zero.
+
+16:56.570 --> 16:59.730
+And and then y equals b when x is zero.
+
+16:59.730 --> 17:04.330
+So now you know in this plot let's say b equals you know I don't know numbers on here.
+
+17:04.330 --> 17:06.250
+But let's just say this is five.
+
+17:06.490 --> 17:10.090
+So now when x equals zero y equals b.
+
+17:10.130 --> 17:11.730
+And we set that to be five.
+
+17:12.090 --> 17:20.490
+So we need the bias term in the model in order to avoid having this kind of an awkward situation where
+
+17:20.490 --> 17:27.450
+we are going to get a suboptimal result simply because the line is constrained to pass through the origin.
+
+17:27.650 --> 17:31.090
+So this is why we need a bias term.
+
+17:31.370 --> 17:36.370
+Now, I mentioned here, you know, if you mean center everything, you can get away without a bias
+
+17:36.370 --> 17:36.570
+term.
+
+17:36.570 --> 17:41.130
+But this is this is more for like academic elucidation.
+
+17:41.130 --> 17:43.690
+In practice you always include a bias term.
+
+17:43.730 --> 17:49.370
+Fortunately, when we start working with PyTorch, you will see that including the bias term is the
+
+17:49.370 --> 17:55.180
+default procedure in PyTorch, so you don't really have to worry about adding it explicitly.
+
+17:55.380 --> 17:59.380
+It is important, however, to know that it exists and why we need it.
+
+17:59.980 --> 18:03.980
+Okay, so that means that the graph our graph actually looks something like this.
+
+18:04.020 --> 18:07.980
+We have our input numbers and the bias term here.
+
+18:07.980 --> 18:13.380
+And these all feed into the operation or the computation node over here.
+
+18:14.060 --> 18:17.580
+So then mathematically it's you know this is what I drew before.
+
+18:17.620 --> 18:18.940
+This is what I wrote out before.
+
+18:19.380 --> 18:21.700
+In fact it looks more like this.
+
+18:21.700 --> 18:24.260
+So we have all of the input values.
+
+18:24.260 --> 18:27.020
+These are the numbers the inputs to the model.
+
+18:27.140 --> 18:29.180
+And we have their corresponding weights.
+
+18:29.180 --> 18:35.420
+And then we have one extra set here we have an extra term for the bias and then for the weight of the
+
+18:35.420 --> 18:36.020
+bias.
+
+18:36.660 --> 18:40.940
+Now the thing is we can set this bias to be any value we want.
+
+18:40.980 --> 18:47.060
+And this w zero is going to be a parameter that the model optimizes.
+
+18:47.220 --> 18:51.040
+So because these are just two constants that are multiplying each other.
+
+18:51.440 --> 18:58.120
+Then in practice, what we do is we just set the bias term to be one, which means implicitly we drop
+
+18:58.120 --> 18:59.520
+it out of the equation.
+
+18:59.920 --> 19:05.880
+So implicitly we we the bias gets removed and we just have this w0.
+
+19:06.120 --> 19:08.160
+Again we need this w0.
+
+19:08.200 --> 19:16.040
+This is a bias or intercept term that allows us to fit any arbitrary data positioned anywhere in the
+
+19:16.040 --> 19:16.560
+plane.
+
+19:17.520 --> 19:24.320
+So in this video, I introduced you to the basic architecture of an artificial neural network and something
+
+19:24.320 --> 19:25.720
+called the perceptron.
+
+19:26.520 --> 19:33.360
+In the next video, I'm going to provide another perspective on exactly this same model architecture,
+
+19:33.360 --> 19:35.000
+this basic architecture.
+
+19:35.040 --> 19:36.880
+That'll be a geometric perspective.
+
+19:37.000 --> 19:42.240
+And from there we will start learning about the math of artificial neural networks.
+
+19:42.240 --> 19:47.840
+And then the rest of this section is going to be lots and lots of examples in PyTorch.

@@ -1,0 +1,577 @@
+WEBVTT
+
+00:01.960 --> 00:10.360
+I will begin this video with an example to show you the problem that initialization will solve.
+
+00:10.680 --> 00:12.920
+So for I in range ten.
+
+00:12.920 --> 00:14.360
+So I'm just going to create a for loop.
+
+00:14.360 --> 00:16.160
+Here are of.
+
+00:16.320 --> 00:19.520
+So the ith element in R is I squared.
+
+00:19.520 --> 00:21.000
+And then let's print out r.
+
+00:21.400 --> 00:23.200
+So what are we doing in this for loop.
+
+00:23.200 --> 00:28.480
+So we are looping over the numbers the integers from zero through nine.
+
+00:28.840 --> 00:36.120
+And I want to create a new list where each element in this list is defined by I squared.
+
+00:36.440 --> 00:37.720
+Really straightforward.
+
+00:37.840 --> 00:40.320
+But when I run this we get a problem.
+
+00:40.360 --> 00:44.240
+And the problem is that R is not defined.
+
+00:44.240 --> 00:47.560
+So I haven't yet defined this variable for R.
+
+00:47.600 --> 00:55.200
+So essentially what's going on here is we are trying to access an element of a list that does not exist.
+
+00:55.440 --> 01:02.590
+So I'm saying you know, please give me access to the zeroth element or the first element in this list
+
+01:02.590 --> 01:05.510
+R and Python says what list are?
+
+01:05.550 --> 01:06.630
+There is no list R.
+
+01:07.070 --> 01:13.270
+Okay, so what we need to do here is initialize this variable R okay.
+
+01:13.310 --> 01:20.790
+Now I'm going to do this in numpy because uh well you often need to initialize in numpy.
+
+01:20.790 --> 01:25.670
+And numpy also provides a bunch of useful ways to initialize variables.
+
+01:25.670 --> 01:28.470
+So import numpy as NP.
+
+01:28.910 --> 01:34.150
+And as I mentioned in a previous video, when you're coding for real, it's actually good to have all
+
+01:34.190 --> 01:40.110
+of these library imports be all the way at the top of the script, and not just whenever you need them
+
+01:40.110 --> 01:41.310
+as you're going along.
+
+01:41.310 --> 01:43.230
+But this is just a little tutorial.
+
+01:43.230 --> 01:45.590
+You can see I haven't even named this file yet.
+
+01:46.070 --> 01:48.990
+Okay, so, uh, let me do this.
+
+01:48.990 --> 01:53.790
+So r equals numpy dot zeros ten.
+
+01:54.230 --> 01:54.430
+Okay.
+
+01:54.470 --> 01:56.070
+And then I'm going to print out r.
+
+01:56.110 --> 01:58.030
+So r is an array.
+
+01:58.030 --> 01:59.350
+It's a numpy array.
+
+01:59.350 --> 02:01.470
+And it's just ten zeros in a row.
+
+02:01.870 --> 02:06.770
+Now I will Copy and paste this code again.
+
+02:07.570 --> 02:09.650
+And now let's try running this code again.
+
+02:09.690 --> 02:10.010
+Okay.
+
+02:10.050 --> 02:15.930
+And now we get no errors, no warnings, and we get exactly the desired outcome here.
+
+02:16.410 --> 02:16.730
+All right.
+
+02:16.730 --> 02:18.810
+So what would happen if we do.
+
+02:18.850 --> 02:22.690
+Let's say I'll initialize this to be 13 zeros.
+
+02:22.730 --> 02:25.090
+And now here I have a range up to ten.
+
+02:25.410 --> 02:28.050
+What do you think is going to be the value of R.
+
+02:28.090 --> 02:29.290
+Or what do you think is going to happen.
+
+02:29.290 --> 02:31.450
+Maybe we're going to get an error message.
+
+02:31.450 --> 02:32.570
+Let's see what happens.
+
+02:33.930 --> 02:34.170
+Okay.
+
+02:34.210 --> 02:39.530
+So what happens is this for loop only went up to ten numbers.
+
+02:39.530 --> 02:42.730
+So the up to a value of nine.
+
+02:42.730 --> 02:48.450
+And then afterwards we have zeros because that's how I initialize the variable r okay.
+
+02:48.490 --> 02:52.570
+Now let's try the other way I'm going to initialize this to ten.
+
+02:52.890 --> 02:55.330
+And here this is going to go up to 13.
+
+02:55.610 --> 02:57.570
+Now what do you think is going to happen here.
+
+02:57.890 --> 03:00.290
+Feel free to pause the video and make a guess.
+
+03:00.530 --> 03:02.850
+Let's run it and find out okay.
+
+03:02.890 --> 03:04.290
+We get an error message.
+
+03:04.450 --> 03:05.960
+And what is the error message?
+
+03:05.960 --> 03:11.640
+The error message is index ten is out of bounds for x is zero.
+
+03:11.640 --> 03:12.480
+Don't worry about this.
+
+03:12.480 --> 03:13.680
+But size ten.
+
+03:13.880 --> 03:19.240
+So basically here we have a kind of similar problem to what we encountered in the beginning of this
+
+03:19.240 --> 03:19.840
+video.
+
+03:20.240 --> 03:23.440
+But here the variable r actually does exist.
+
+03:23.440 --> 03:31.120
+But we are trying to access an element that is longer than the list itself, or then the numpy array.
+
+03:31.480 --> 03:34.200
+So we can still look at what r is equal to.
+
+03:34.520 --> 03:35.960
+And this part is all correct.
+
+03:36.000 --> 03:37.400
+You know this is I squared.
+
+03:37.920 --> 03:42.640
+But now we are trying to access the 11th element.
+
+03:42.640 --> 03:44.800
+But there's only ten elements in there.
+
+03:44.800 --> 03:47.680
+So we get an error message okay.
+
+03:47.720 --> 03:49.480
+So I think this looks ugly.
+
+03:49.520 --> 03:50.040
+Let me see.
+
+03:50.040 --> 03:51.600
+Oh we can soft code this.
+
+03:52.040 --> 03:56.480
+Let's do a array size equals 12.
+
+03:56.880 --> 03:59.280
+And now I can use this as a variable.
+
+03:59.280 --> 04:01.880
+I'm going to copy and paste this into here.
+
+04:02.240 --> 04:09.340
+And this is a good example of soft coding because now I only need to change this variable, this number
+
+04:09.340 --> 04:14.460
+here, and that will automatically update all of the other relevant variables here.
+
+04:14.460 --> 04:15.900
+So I can change this to 12.
+
+04:15.900 --> 04:17.540
+I can change this to 15.
+
+04:17.820 --> 04:23.740
+And I don't need to worry about changing this number 15 multiple times.
+
+04:24.180 --> 04:28.100
+So here we initialize this variable using zeros.
+
+04:28.340 --> 04:34.420
+And now I'm going to show you another option for initializing variables in Python.
+
+04:34.420 --> 04:36.500
+So we can use the function full.
+
+04:36.820 --> 04:38.100
+And here I will write ten.
+
+04:38.140 --> 04:39.780
+Actually let me write array size.
+
+04:39.780 --> 04:41.100
+So this is still soft coded.
+
+04:41.220 --> 04:43.420
+And now I'll write zero okay.
+
+04:43.460 --> 04:46.380
+So here we get zeros and you can count them.
+
+04:46.500 --> 04:48.740
+There's going to be 15 of them okay.
+
+04:48.780 --> 04:51.460
+And now let's say we want to initialize this to one.
+
+04:51.460 --> 04:53.500
+So we can initialize it to tens.
+
+04:53.780 --> 04:57.340
+We can initialize it to I don't know -99.
+
+04:57.580 --> 05:05.180
+We can initialize it to n a numpy dot n a n nan stands for not a number.
+
+05:05.500 --> 05:11.930
+This is a mathematical value that is used in place of dividing by zero.
+
+05:11.930 --> 05:19.570
+So having an expression like zero divided by zero that produces Nan Nans are sometimes used in applied
+
+05:19.570 --> 05:25.330
+mathematics when coding math in Python when you want to ignore particular values.
+
+05:25.370 --> 05:32.690
+Let's say you need to filter out certain values because they are particularly noisy, or because they
+
+05:32.730 --> 05:39.450
+are irrelevant, or they're related to processing some other condition, and so you want to remove them
+
+05:39.450 --> 05:42.650
+from the data set or the data array.
+
+05:42.890 --> 05:46.530
+And replacing the numbers with Nans is one way to do that.
+
+05:46.730 --> 05:47.050
+Okay.
+
+05:47.090 --> 05:54.370
+So here are two common ways to initialize a variable before you start populating a variable using a
+
+05:54.370 --> 05:54.930
+for loop.
+
+05:54.930 --> 05:58.730
+So numpy dot zeros and numpy dot full.
+
+05:58.930 --> 06:01.890
+These are all vectors that I've shown you so far.
+
+06:01.890 --> 06:04.450
+We can also initialize matrices.
+
+06:04.770 --> 06:06.930
+So here I have.
+
+06:07.130 --> 06:08.130
+This is going to give me.
+
+06:08.170 --> 06:09.570
+Oops it's zeros.
+
+06:10.190 --> 06:14.430
+This is going to give me an array of four zeros.
+
+06:14.430 --> 06:18.630
+But let's say we want a 4x4 matrix of zeros.
+
+06:18.990 --> 06:20.870
+You might think of doing something like this.
+
+06:20.870 --> 06:22.110
+That seems sensible.
+
+06:22.310 --> 06:29.510
+Unfortunately that's not quite the correct syntax because here numpy is expecting the second input to
+
+06:29.510 --> 06:30.750
+be the data type.
+
+06:30.750 --> 06:34.990
+So for example if these would be integers or floating point numbers.
+
+06:35.550 --> 06:43.550
+So what we need to do is actually provide a tuple as the first input into numpy dot zeros.
+
+06:43.750 --> 06:45.910
+So here I still have 4x4.
+
+06:45.950 --> 06:50.550
+This is the size of the matrix that we are initializing as zeros.
+
+06:50.710 --> 06:53.870
+But I'm just surrounding these in parentheses.
+
+06:54.430 --> 06:54.710
+Okay.
+
+06:54.750 --> 06:57.830
+So this is actually just the first input in here.
+
+06:58.230 --> 07:03.070
+And then yeah if we wanted these to be integers I could write dtype equals int.
+
+07:03.350 --> 07:04.350
+And now we get ints.
+
+07:04.390 --> 07:08.270
+Now these are still zeros just like these are zeros.
+
+07:08.270 --> 07:11.780
+But notice that these zeros all have decimal points on them.
+
+07:11.780 --> 07:16.540
+So these are floating point numbers and these are just integers.
+
+07:17.020 --> 07:18.620
+So here is a question.
+
+07:18.620 --> 07:22.140
+Do we always need to initialize variables.
+
+07:22.380 --> 07:23.340
+The answer is no.
+
+07:23.340 --> 07:24.740
+You don't always need to.
+
+07:25.500 --> 07:33.900
+And I've shown you several examples of appending lists so that they continue growing inside of a for
+
+07:33.940 --> 07:34.340
+loop.
+
+07:34.580 --> 07:36.140
+So here's a simple example.
+
+07:36.220 --> 07:43.260
+So here I'm initializing this list are actually let me copy this from here.
+
+07:45.180 --> 07:46.300
+So let's go back here.
+
+07:46.300 --> 07:49.580
+So now I'm initializing R to be an empty list.
+
+07:49.580 --> 07:54.580
+And now I will write r dot append like this.
+
+07:54.580 --> 07:55.980
+And so now this works.
+
+07:55.980 --> 08:00.220
+So now this variable R starts off as an empty list.
+
+08:00.420 --> 08:03.620
+And then here we just get the length of the list as one.
+
+08:03.620 --> 08:05.220
+And then the length of the list is two.
+
+08:05.420 --> 08:09.700
+And in fact we can write this out print the length of r.
+
+08:11.220 --> 08:13.760
+So now we see that at every iteration.
+
+08:13.760 --> 08:18.040
+In this for loop R is actually growing in size.
+
+08:18.040 --> 08:19.520
+I can show you that as well.
+
+08:19.720 --> 08:21.320
+So this looks nice.
+
+08:21.360 --> 08:23.280
+It's like a ski slope or something.
+
+08:23.960 --> 08:30.960
+So you can see that the length of R is increasing as we go throughout this for loop versus.
+
+08:31.000 --> 08:38.600
+If I would initialize this to be zeros then we can say oh wait then this needs to be different.
+
+08:38.600 --> 08:42.600
+So now this goes back to indexing equals I squared.
+
+08:43.000 --> 08:45.840
+And now you can see here it's all zeros.
+
+08:45.840 --> 08:47.400
+Here it's zero one.
+
+08:47.400 --> 08:51.400
+And then zeros 014 and then all zeros and so on.
+
+08:51.560 --> 08:53.400
+And so the zeros are decreasing.
+
+08:53.400 --> 08:57.680
+But the size of the array is the same at each iteration.
+
+08:58.800 --> 09:00.880
+So this is a method for.
+
+09:00.920 --> 09:04.400
+Let me just go back like this here.
+
+09:04.400 --> 09:08.160
+This is a method for appending uh lists.
+
+09:08.320 --> 09:12.840
+And we can also do something similar with numpy arrays.
+
+09:13.000 --> 09:16.910
+So we have to initialize this to be a numpy array.
+
+09:17.430 --> 09:18.710
+So now this is.
+
+09:19.430 --> 09:20.750
+This is a list in here.
+
+09:20.750 --> 09:22.110
+This is an empty list.
+
+09:22.110 --> 09:26.950
+And then I'm converting this into a data type numpy array.
+
+09:27.470 --> 09:27.790
+Okay.
+
+09:27.830 --> 09:31.110
+And now the formulation is slightly different in numpy.
+
+09:31.150 --> 09:34.750
+So r equals numpy dot append.
+
+09:35.070 --> 09:36.870
+And here we provide two inputs.
+
+09:36.870 --> 09:41.350
+The first input is the variable that we want to append.
+
+09:41.350 --> 09:49.750
+And then the second input is the information that we want to put at the end of the of this list or this
+
+09:49.750 --> 09:50.110
+array.
+
+09:50.550 --> 09:50.830
+Okay.
+
+09:50.870 --> 09:55.710
+So now we see that this array starts off as being empty here.
+
+09:55.990 --> 09:59.150
+And then what's printed out is actually when I equals zero.
+
+09:59.150 --> 10:01.230
+So the first iteration of this for loop.
+
+10:01.390 --> 10:03.630
+Now this loop is getting longer and longer.
+
+10:04.110 --> 10:04.430
+Okay.
+
+10:04.470 --> 10:06.990
+So conclusions from this video.
+
+10:07.270 --> 10:12.070
+Uh, you can initialize variables, especially in numpy.
+
+10:12.670 --> 10:19.810
+Uh, you do not always need to initialize variables because you can allow variables to grow in size
+
+10:19.810 --> 10:21.210
+inside a for loop.
+
+10:21.490 --> 10:29.330
+Nonetheless, initialization using this kind of approach either with numpy or numpy dot zeros.
+
+10:30.530 --> 10:35.530
+This is much better than letting your arrays grow inside for loops.
+
+10:35.530 --> 10:37.290
+It's better for memory reasons.
+
+10:37.290 --> 10:40.770
+This is more memory intensive than this approach.
+
+10:41.450 --> 10:49.770
+It's better for computation time reason because this is faster than growing an array.
+
+10:49.810 --> 10:55.330
+So especially if you have large arrays, this is going to take really long time.
+
+10:55.570 --> 10:58.850
+And it's also better just for you to think about your code.
+
+10:59.010 --> 11:07.210
+Because if you can already plan in advance how big your arrays and matrices need to be, that means
+
+11:07.210 --> 11:12.490
+that you are thinking critically about what's going on in your code, and that is always a good idea.
+
+11:12.770 --> 11:16.370
+Nonetheless, appending is also sometimes useful.

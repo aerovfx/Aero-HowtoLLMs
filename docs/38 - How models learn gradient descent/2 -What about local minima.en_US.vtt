@@ -1,0 +1,502 @@
+WEBVTT
+
+00:02.000 --> 00:09.040
+Towards the end of the previous video, I mentioned a few situations in which gradient descent might
+
+00:09.040 --> 00:13.000
+not give us the correct solution or even a good solution.
+
+00:13.520 --> 00:21.240
+In this video, I'm going to talk specifically about local minima and what local minima are, why they
+
+00:21.240 --> 00:28.400
+are a problem for gradient descent algorithm in general, and why it's actually difficult to know whether
+
+00:28.400 --> 00:31.760
+this is a really serious issue in deep learning.
+
+00:31.760 --> 00:37.600
+Not a serious issue for the gradient descent algorithm, but whether this local minimum issue is really
+
+00:37.600 --> 00:41.480
+a problem specifically in the context of deep learning.
+
+00:42.040 --> 00:47.680
+So just to review a little bit of what I said in the previous video, gradient descent is guaranteed
+
+00:47.720 --> 00:51.520
+to go downhill, meaning down the error landscape.
+
+00:51.680 --> 00:59.800
+However, simply going downhill does not guarantee that we will find the correct or even a good solution.
+
+01:00.120 --> 01:07.040
+Gradient descent can get stuck in local minima if the parameters are not set right, or if we happen
+
+01:07.040 --> 01:10.600
+to start off at unfortunate starting point.
+
+01:11.000 --> 01:16.400
+And you know when you're working in one dimension or two dimensions, it's not really an issue because
+
+01:16.400 --> 01:23.000
+you can just look, you can graph the error landscape and you can see whether we've gotten the right
+
+01:23.000 --> 01:24.720
+solution or a wrong solution.
+
+01:24.760 --> 01:32.200
+However, when you get to larger dimensions, more than two dimensions and you will start seeing when
+
+01:32.200 --> 01:37.920
+we get to deep learning, you know, in the next section, these models get to be really high parameter
+
+01:38.080 --> 01:38.720
+dimensional.
+
+01:38.720 --> 01:43.960
+So these error landscapes can be in like a 10 million dimensional space.
+
+01:44.160 --> 01:49.280
+It is absolutely impossible to visualize them accurately and fully.
+
+01:49.560 --> 01:54.760
+So that suggests that local minimum is going to be a serious problem.
+
+01:55.160 --> 01:57.000
+So what are local minimum?
+
+01:57.080 --> 01:59.200
+Well here we have a function.
+
+01:59.200 --> 02:00.840
+This is our error function.
+
+02:01.040 --> 02:06.360
+And again the idea is that the deep learning model will be most accurate.
+
+02:06.360 --> 02:11.000
+It will perform at its best when the errors are minimized.
+
+02:11.000 --> 02:18.880
+So so we want to find the parameters that give us that get us all the way down here in the error landscape.
+
+02:19.240 --> 02:22.520
+So this would be called a global minimum.
+
+02:22.520 --> 02:26.000
+But you can also see we have some other minima here.
+
+02:26.120 --> 02:28.280
+These are called local minima.
+
+02:28.880 --> 02:31.320
+Now we can kind of distinguish between these two.
+
+02:31.360 --> 02:34.040
+We might I might call this a bad local minimum.
+
+02:34.040 --> 02:36.320
+And this one is kind of a good local minimum.
+
+02:36.560 --> 02:38.840
+These are not formal technical terms.
+
+02:39.200 --> 02:46.000
+But I think you can see that this is not the best solution, but it's still relatively good because
+
+02:46.000 --> 02:50.080
+we still are getting a small error, even though it's not the best solution.
+
+02:50.120 --> 02:51.880
+This solution is much worse.
+
+02:51.920 --> 02:53.360
+Now why do we even get stuck?
+
+02:53.360 --> 02:56.480
+Why does gradient descent get stuck in these minima?
+
+02:57.040 --> 03:02.960
+Well, remember, the gradient descent algorithm is always going to move in the direction of the negative
+
+03:03.120 --> 03:03.920
+derivative.
+
+03:04.080 --> 03:05.880
+So let's say we start here.
+
+03:06.160 --> 03:08.360
+Now the derivative is negative.
+
+03:08.360 --> 03:12.320
+So that means we move positive on the x axis here.
+
+03:12.480 --> 03:14.640
+So the derivative is negative we're moving positive.
+
+03:14.680 --> 03:20.160
+The derivative is negative we're moving positive here the derivative is positive.
+
+03:20.360 --> 03:25.600
+So that means if we end up here the derivative is positive we're actually going to go to the left.
+
+03:25.960 --> 03:31.720
+So we're going to get into this point here where as the model goes over here the derivative is negative.
+
+03:31.720 --> 03:32.920
+So we move to the right.
+
+03:32.920 --> 03:34.560
+Here the derivative is positive.
+
+03:34.560 --> 03:38.640
+So we move to the left and we get stuck in this local minimum.
+
+03:38.640 --> 03:44.560
+It's hard to break out of this local minimum because we are just you know, as soon as it gets to this
+
+03:44.560 --> 03:50.800
+side of this local minimum, it starts going back to the left according to the gradient descent algorithm.
+
+03:51.360 --> 03:51.560
+Okay.
+
+03:51.600 --> 03:53.200
+And this is the global minimum.
+
+03:53.200 --> 03:55.320
+This is the point we actually want to reach.
+
+03:55.920 --> 04:00.160
+now again, this is a one dimensional function, so we can simply visualize it.
+
+04:00.200 --> 04:01.400
+We can look at it.
+
+04:01.400 --> 04:07.280
+And if the model ends up here we can say, okay, you know the model didn't do didn't get the right
+
+04:07.280 --> 04:08.080
+solution.
+
+04:08.280 --> 04:14.560
+But in high dimensional space, we cannot visualize this error landscape in its full high dimensional
+
+04:14.560 --> 04:15.640
+representation.
+
+04:16.080 --> 04:21.480
+So you might think it's natural to think that this is like fatal for deep learning.
+
+04:21.480 --> 04:27.080
+How can deep learning possibly work when we have no idea if we're getting trapped in a local minimum?
+
+04:27.440 --> 04:35.720
+Well, you know, the enormous, incredible success of deep learning actually suggests that this isn't
+
+04:35.720 --> 04:37.160
+really a huge problem.
+
+04:37.600 --> 04:44.080
+And I will this is going to be a running theme of this course that the incredible success of deep learning
+
+04:44.080 --> 04:48.080
+and how exactly deep learning works remains a mystery.
+
+04:48.080 --> 04:49.480
+It's still a bit mysterious.
+
+04:49.480 --> 04:53.840
+Nobody really understands why deep learning works so well.
+
+04:54.360 --> 04:56.280
+People can tell you all sorts of things.
+
+04:56.280 --> 05:03.400
+We can come up with intuitive explanations, but the true underlying success of deep learning is a little
+
+05:03.440 --> 05:04.560
+bit mysterious.
+
+05:04.800 --> 05:10.720
+So that already suggests that local minima are not such a huge problem.
+
+05:11.800 --> 05:14.440
+Um, two possible solutions here, which I will.
+
+05:14.440 --> 05:19.480
+I'm going to graph both of these on the next couple slides to give them some visual context.
+
+05:19.600 --> 05:23.240
+So it is possible that there are many good solutions.
+
+05:23.400 --> 05:26.600
+That means many equally good local minima.
+
+05:27.120 --> 05:30.400
+And this interpretation, this is a possibility I don't know.
+
+05:30.400 --> 05:32.080
+Nobody knows if this is really true.
+
+05:32.520 --> 05:40.120
+This interpretation is consistent with the fact that you can get models with very, very different weights,
+
+05:40.160 --> 05:47.120
+performing equally well on solving problems and getting high accuracy with very, very different weights.
+
+05:47.240 --> 05:52.520
+So that is to say, models that deep learning models that look very different from each other have very
+
+05:52.640 --> 05:56.400
+different weights from each other, still perform equally well.
+
+05:56.760 --> 06:01.120
+That suggests that there may be many good solutions that are distinct from each other.
+
+06:01.320 --> 06:08.240
+Another possibility is that there are actually extremely few local minima in the high dimensional space.
+
+06:08.400 --> 06:15.360
+So what we think is a problem from looking at these error functions in one dimension or two dimensions,
+
+06:15.360 --> 06:21.600
+maybe you get to these very high dimensional spaces and there's actually very, very, very few real
+
+06:21.600 --> 06:22.680
+local minima.
+
+06:23.000 --> 06:26.680
+And this interpretation is consistent with the complexity.
+
+06:26.680 --> 06:30.520
+And I call this the absurd dimensionality of deep learning models.
+
+06:30.520 --> 06:37.080
+In fact, you know, modern deep learning models will have billions and billions of parameters, which
+
+06:37.080 --> 06:41.320
+means these the dimensionality of the error space is in the billions.
+
+06:41.920 --> 06:42.240
+Okay.
+
+06:42.280 --> 06:47.440
+So to make these two possibilities more clear, I'm going to visualize these.
+
+06:47.480 --> 06:47.720
+Okay.
+
+06:47.760 --> 06:53.590
+So this is the first possibility that the error landscape might look something like this where there
+
+06:53.590 --> 06:54.830
+is a global minimum.
+
+06:54.830 --> 06:57.750
+I think I drew it so that this one is the global minimum.
+
+06:57.990 --> 07:03.110
+But you can see these are all local minima that are all distinct but really, really good.
+
+07:03.110 --> 07:07.150
+They all minimize the error pretty much equally well.
+
+07:07.550 --> 07:11.470
+And here you know here we have a problematic case with a bad local minimum.
+
+07:11.470 --> 07:13.950
+These are equally good but distinct minima.
+
+07:14.710 --> 07:16.430
+So this is a possibility.
+
+07:17.150 --> 07:22.470
+Or it's possible that there actually aren't so many local minima in high dimensions.
+
+07:22.470 --> 07:24.950
+So here we have a two dimensional function.
+
+07:24.950 --> 07:27.190
+This is graphed as a surface.
+
+07:27.310 --> 07:32.870
+And I graphed it as a surface to make it clear that there is a something called a saddle point here
+
+07:32.870 --> 07:33.590
+in the middle.
+
+07:33.990 --> 07:38.710
+Now for a local minimum in one dimension, it just has to dip down like this.
+
+07:38.710 --> 07:39.750
+This is a local minimum.
+
+07:39.750 --> 07:40.910
+This is a local minimum.
+
+07:41.270 --> 07:47.790
+In higher dimensional space, a local minimum has to be a minimum in every single direction.
+
+07:48.390 --> 07:54.910
+So in fact when we look at this graph, there are no real local minima in this function that we can
+
+07:54.910 --> 07:58.190
+see with these x with this axis range here.
+
+07:58.510 --> 08:02.630
+So for example here we look across this dimension.
+
+08:02.630 --> 08:04.430
+Maybe this is x and this is y.
+
+08:04.550 --> 08:06.790
+So we look along the x dimension.
+
+08:06.790 --> 08:11.390
+And here at this slice here this slice shows a local minimum.
+
+08:11.390 --> 08:12.910
+Here's the local minimum.
+
+08:12.910 --> 08:15.270
+But what's the model going to do when it gets here.
+
+08:15.270 --> 08:17.070
+What is gradient descent going to do.
+
+08:17.830 --> 08:21.470
+Well gradient descent doesn't see that this is a local minimum.
+
+08:21.470 --> 08:25.110
+This is only a local minimum in one direction.
+
+08:25.510 --> 08:29.310
+The other direction here maybe this is the Y direction.
+
+08:29.830 --> 08:32.630
+This direction is actually not a local minima.
+
+08:32.630 --> 08:34.150
+In fact it's a local maximum.
+
+08:34.550 --> 08:38.070
+So in fact this is not a local minimum here.
+
+08:38.430 --> 08:43.990
+And we actually don't even see any local minima anywhere on this surface, anywhere in this function,
+
+08:44.030 --> 08:45.990
+at least not within this range.
+
+08:46.750 --> 08:49.030
+So this is referred to as a saddle point.
+
+08:49.070 --> 08:56.510
+A saddle point is where a function has a minimum in one direction and a maximum in another direction.
+
+08:57.150 --> 09:02.190
+So again, this is two dimensional, but in deep learning we deal with much higher dimensions.
+
+09:02.310 --> 09:03.470
+So what does this mean.
+
+09:03.790 --> 09:06.710
+Well this means that gradient descent gets trapped.
+
+09:06.710 --> 09:14.590
+It gets stuck in a local minimum only if that minimum if that point is a minimum in all dimensions.
+
+09:14.590 --> 09:21.830
+So if we have a model with 400,000 parameters then we are working with an error landscape.
+
+09:21.830 --> 09:28.750
+An error function in a 4000 dimensional space and a local minimum has to be the minimum.
+
+09:28.870 --> 09:34.510
+The derivative has to be zero in all 400,000 of those dimensions.
+
+09:34.550 --> 09:36.990
+And you know how many of those actually are there?
+
+09:36.990 --> 09:41.910
+How many local minima are there in a 400,000 dimensional space?
+
+09:42.310 --> 09:50.390
+Well, it's hard to know for sure, but it's pretty unlikely that every single direction, all 400,000
+
+09:50.430 --> 09:55.030
+directions have a minimum, all at the same exact point.
+
+09:55.030 --> 10:01.590
+So therefore it's possible that in extremely high dimensional space there are actually very few local
+
+10:01.590 --> 10:02.350
+minima.
+
+10:02.470 --> 10:08.150
+So therefore, maybe local minima aren't such a problem for the gradient descent algorithm.
+
+10:08.630 --> 10:13.430
+In the context of deep learning where we have very rich dimensional spaces.
+
+10:13.990 --> 10:19.950
+Okay, but as I mentioned before, we don't really know whether we are getting stuck in a local minimum.
+
+10:19.950 --> 10:21.390
+It's hard to know for sure.
+
+10:21.390 --> 10:22.710
+So what to do about it?
+
+10:22.750 --> 10:27.230
+Well, for one thing, when the model performance is good, you just don't worry about it, you know?
+
+10:27.230 --> 10:32.950
+And when things are going well, you don't have to worry about these potential problems like local minima.
+
+10:33.190 --> 10:37.910
+Otherwise, there are a few possible solutions for local minima.
+
+10:38.190 --> 10:43.350
+One is to retrain the model many times using different random starting weights.
+
+10:43.510 --> 10:46.750
+So different starting locations on the Lost Landscape.
+
+10:47.030 --> 10:48.910
+And then you go through all of the different.
+
+10:49.230 --> 10:54.630
+Maybe you run the model 20 times and you look through the performance from all 20 models, and you pick
+
+10:54.630 --> 10:56.310
+the model that does best.
+
+10:56.550 --> 11:03.550
+Another possible solution is to increase the dimensionality of the error landscape, which in the context
+
+11:03.550 --> 11:07.750
+of deep learning, means to have a model with more parameters.
+
+11:07.750 --> 11:14.190
+So you make the model a little bit more complex with the idea that it's going to have fewer local minima.
+
+11:14.390 --> 11:22.470
+So in this video, I told you about local minima and why local minimum can be problematic for the gradient
+
+11:22.470 --> 11:23.750
+descent algorithm.
+
+11:24.110 --> 11:29.710
+And then we also discussed that it's kind of hard to know whether the local weather, local minima is
+
+11:29.710 --> 11:32.590
+really a serious issue for deep learning.
+
+11:32.790 --> 11:39.150
+And I talked about possible ways that it might not be a serious issue, and what to do when you think
+
+11:39.150 --> 11:42.830
+you have some when you're getting stuck in local minima.

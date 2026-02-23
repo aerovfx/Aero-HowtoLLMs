@@ -1,0 +1,961 @@
+WEBVTT
+
+00:02.480 --> 00:09.960
+In this code challenge, you will integrate identifying parts of speech using the Spacy library.
+
+00:09.960 --> 00:17.400
+As you learned in the previous video, and calculating properties of state space trajectories.
+
+00:17.680 --> 00:26.000
+As you learned a few videos before that in particular, you will import some text, identify lots of
+
+00:26.040 --> 00:34.000
+nouns and adjectives, project the hidden states activations into their state space trajectories, and
+
+00:34.000 --> 00:39.520
+then determine whether nouns or adjectives have longer trajectories.
+
+00:40.040 --> 00:47.240
+That is a pretty interesting analysis to run, because both nouns and adjectives are not necessarily
+
+00:47.240 --> 00:49.720
+very interpretable on their own.
+
+00:49.720 --> 00:52.920
+You really need a context to make sense of them.
+
+00:53.440 --> 01:01.420
+For example, adjectives modify nouns or pronouns, typically nouns that are close by, but at least
+
+01:01.420 --> 01:02.660
+in the same sentence.
+
+01:03.180 --> 01:11.060
+Now nouns, on the other hand, generally tie together information about subjects and objects and verbs,
+
+01:11.220 --> 01:14.340
+and they're just important words in the sentence.
+
+01:14.980 --> 01:22.620
+And as you are going through this these exercises, I would like you to make a prediction about whether
+
+01:22.620 --> 01:29.260
+you think the state space trajectories will be longer for nouns or for adjectives.
+
+01:29.700 --> 01:32.820
+Anyway, let's begin with exercise one.
+
+01:34.220 --> 01:41.860
+It has often been the case that the first exercise in the code challenge is simple, and just involves
+
+01:41.900 --> 01:43.220
+setting some things up.
+
+01:43.780 --> 01:50.380
+However, this exercise here is actually pretty challenging and pretty involved to begin with.
+
+01:50.540 --> 01:56.540
+Import the full text for the book Frankenstein from Gutenberg.org.
+
+01:57.060 --> 02:04.310
+As usual, you can just copy the URL and import code from the solution or helper files.
+
+02:05.030 --> 02:14.070
+Then you should tokenize this book using the GPT two tokenizer and also using the spacey tokenizer.
+
+02:14.630 --> 02:19.470
+When you print out the number of tokens, you will get quite different results.
+
+02:19.670 --> 02:27.510
+In fact, there's about a 20% inflation of GPT tokens compared to Spacey tokens.
+
+02:27.950 --> 02:36.590
+And this is basically just because the Spacey library is tokenizing for words, whereas GPT will grab
+
+02:36.590 --> 02:37.470
+subwords.
+
+02:38.430 --> 02:44.270
+Now, on the one hand, this is not very surprising, and it's also just not terribly interesting.
+
+02:44.710 --> 02:51.470
+You learned in the very beginning of this course that different tokenizers give different numbers of
+
+02:51.470 --> 02:53.350
+tokens for the same text.
+
+02:54.630 --> 03:01.170
+On the other hand, what we want to do here in this code challenge is identify nouns and adjectives
+
+03:01.170 --> 03:03.810
+that we can trace through the model.
+
+03:04.250 --> 03:13.540
+So if we are using the Spacy library to identify parts of speech, we cannot just map the tokens 1 to
+
+03:13.540 --> 03:16.090
+1 onto the GPT model.
+
+03:16.650 --> 03:25.290
+So what you will do here in exercise one is a similar approach to what I showed in the previous video.
+
+03:25.810 --> 03:35.210
+In particular, use the GPT two tokenizer and then feed each of those individual tokens into the NLP
+
+03:35.250 --> 03:40.170
+class instance in the Spacy library to extract the part of speech.
+
+03:40.890 --> 03:47.610
+Now, you already know from the previous video that there will be some inconsistencies, maybe some
+
+03:47.610 --> 03:48.650
+errors in here.
+
+03:49.090 --> 03:58.630
+So to reduce the probability of errors, you should only use GPT tokens that are at least five characters
+
+03:58.630 --> 04:02.190
+long and that are a complete word.
+
+04:02.670 --> 04:07.910
+So how can you tell if a token is a complete word and not just a subword?
+
+04:08.390 --> 04:11.950
+I will let you ponder that and come up with a solution.
+
+04:11.950 --> 04:19.470
+But a hint is to think about how the tokenizer deals with spaces and whole words versus subwords.
+
+04:20.030 --> 04:26.310
+Oh, and also you should ignore the first 1000 tokens in this text in the book.
+
+04:26.830 --> 04:33.470
+The reason for that is that there's this whole Gutenberg preamble before the book actually starts,
+
+04:33.670 --> 04:40.190
+and that includes sentences, but also like bibliographic information, table of contents, and so on.
+
+04:40.630 --> 04:46.630
+So starting just after 1000 tokens basically just guarantees that you're going to grab text from the
+
+04:46.630 --> 04:48.030
+book itself.
+
+04:48.750 --> 04:55.240
+Anyway, while looping through the text and identifying tokens for parts of speech.
+
+04:55.440 --> 05:05.720
+Create two batches, each of 150 sequences and 51 tokens long, corresponding to 40 tokens before each
+
+05:05.720 --> 05:08.840
+target token and ten tokens thereafter.
+
+05:09.960 --> 05:14.440
+And yet you'll create two batches, one for nouns and one for adjectives.
+
+05:14.880 --> 05:21.560
+Now, this entire exercise is a little bit tricky, so I want to give you a bit of a hint for this part
+
+05:21.600 --> 05:22.880
+here these two parts.
+
+05:23.440 --> 05:26.680
+So my solution looks something like this.
+
+05:26.920 --> 05:33.080
+So here I am looping over all of the tokens in the book starting from 1000.
+
+05:33.400 --> 05:36.560
+And here I'm grabbing the text for each token.
+
+05:36.920 --> 05:40.920
+And then here I have a filter with two criteria.
+
+05:41.280 --> 05:47.600
+If the token is fewer than five characters, or if it's a subword and not a whole word, then we just
+
+05:47.600 --> 05:52.900
+skip to the next token and we don't worry about any of the code that comes thereafter.
+
+05:53.420 --> 05:56.820
+But if this token survives the filter.
+
+05:57.140 --> 06:05.100
+Then I test whether this token corresponds to a noun, and if it is, then I insert that token plus
+
+06:05.100 --> 06:08.900
+its neighboring context into this batch for nouns.
+
+06:09.180 --> 06:12.580
+Or if it's an adjective, then same thing here.
+
+06:12.940 --> 06:19.700
+Now obviously there is a lot more code in here that you have to fill in, but I hope this at least gives
+
+06:19.700 --> 06:22.980
+you a feeling for how to organize the code.
+
+06:23.940 --> 06:31.380
+Because we only want batches of 150 sequences, you can have a little bit of extra code at the bottom
+
+06:31.380 --> 06:34.820
+here to break out of this for loop.
+
+06:35.020 --> 06:39.860
+If there are enough sequences in both of these batches.
+
+06:40.900 --> 06:47.580
+And finally, the last thing to do for exercise one is to show some of the examples of the nouns and
+
+06:47.580 --> 06:54.600
+adjectives that your code It identifies, not printing out all 150 of them, but you can see some examples
+
+06:54.600 --> 06:55.000
+here.
+
+06:56.040 --> 07:01.120
+Overall, they look quite good, although there are some risks of mislabeling.
+
+07:01.560 --> 07:04.240
+So for example the word dream.
+
+07:04.600 --> 07:07.240
+Dream can be a noun or a verb.
+
+07:07.360 --> 07:12.440
+And just from this isolated word here with no context, we actually don't know.
+
+07:12.640 --> 07:20.040
+So you would have to see the word in context to accurately get the to label the part of speech.
+
+07:20.560 --> 07:27.680
+So yeah, we can consider this to be a risk of adding non-systematic noise to the analyses.
+
+07:28.240 --> 07:32.760
+Now, in principle, there are other and more accurate ways to deal with this.
+
+07:32.840 --> 07:39.160
+For example, you could decode the entire context surrounding each of these tokens and then putting
+
+07:39.160 --> 07:44.880
+that context as a full text into the Spacy function to confirm.
+
+07:45.280 --> 07:51.500
+And, you know, that's the sort of thing you would want to do for a real research project or application.
+
+07:51.500 --> 07:58.380
+But in the interest of not spending a ginormous amount of time on this one exercise, I'm going to say
+
+07:58.380 --> 08:02.140
+that this approach is good enough, even if it's not perfect.
+
+08:03.100 --> 08:07.580
+Okay, so that is quite some work to do for this exercise.
+
+08:07.860 --> 08:11.060
+Now please pause the video and switch to code.
+
+08:11.260 --> 08:14.860
+And now I will switch to Python and discuss my solution.
+
+08:16.540 --> 08:19.740
+The libraries that we will use here I am.
+
+08:20.020 --> 08:23.940
+Let's see here I'm importing the GPT two tokenizer.
+
+08:23.980 --> 08:25.540
+I'm not actually importing the model.
+
+08:25.540 --> 08:26.980
+We can do that later.
+
+08:27.220 --> 08:32.180
+Here I'm getting the text and using GPT to tokenize it.
+
+08:32.180 --> 08:39.540
+And then here I'm tokenizing it with the spacey tokenizer with this tokenizer, this trained model here.
+
+08:39.900 --> 08:41.540
+Now this takes a while.
+
+08:41.540 --> 08:45.180
+This is actually pretty fast, even though it generates more tokens.
+
+08:45.340 --> 08:49.270
+This one takes I don't know, don't know, it's not too long, but it's many seconds.
+
+08:49.750 --> 08:51.710
+Okay, so here I'm defining okay.
+
+08:51.710 --> 08:51.870
+Yeah.
+
+08:51.870 --> 08:53.870
+So that took 16 seconds.
+
+08:53.910 --> 08:56.110
+Not so bad in the grand scheme of things.
+
+08:56.670 --> 08:57.390
+Uh let's see.
+
+08:57.390 --> 08:57.990
+So yeah.
+
+08:58.030 --> 09:00.550
+And just to be clear, we're not actually using this.
+
+09:00.550 --> 09:06.870
+I just wanted you to tokenize and print out the length, partly just to give you a little bit more experience
+
+09:06.870 --> 09:09.110
+with working with this library.
+
+09:09.310 --> 09:16.790
+Uh, and also, just so you can see one of the challenges of trying to integrate a parts of speech labeler
+
+09:16.790 --> 09:20.070
+or categorizer with a language model.
+
+09:21.230 --> 09:23.670
+Okay, here are the batch parameters.
+
+09:23.670 --> 09:27.070
+Here I'm initializing these matrices.
+
+09:27.070 --> 09:33.190
+So batch size by the two context uh window sizes plus one.
+
+09:33.230 --> 09:39.950
+Of course the plus one is because the target token, either a verb or a noun or an adjective is going
+
+09:39.950 --> 09:41.550
+to be in the middle of this.
+
+09:41.830 --> 09:42.150
+Okay.
+
+09:42.190 --> 09:44.950
+And of course, uh, we want these to be integers.
+
+09:45.530 --> 09:45.930
+Okay.
+
+09:45.970 --> 09:49.370
+So these are counters that I'm initializing to zero.
+
+09:49.490 --> 09:52.130
+So now let me walk you through this for loop here.
+
+09:52.410 --> 09:56.530
+So this you've seen before this you saw in the screenshot a moment ago.
+
+09:56.890 --> 10:00.450
+So here I am getting this little piece of text.
+
+10:00.490 --> 10:04.970
+This is the characters that correspond to this particular token.
+
+10:05.570 --> 10:13.290
+Uh, stripping it of the preceding spaces and then testing whether the number of characters is less
+
+10:13.290 --> 10:14.250
+than five.
+
+10:14.370 --> 10:18.130
+So if it's less than five, I use this Python keyword.
+
+10:18.130 --> 10:18.930
+Continue.
+
+10:19.210 --> 10:26.850
+When Python sees this word, continue after an if statement, for example, it ignores all of this text
+
+10:26.850 --> 10:32.770
+here for the rest of the for loop, and then goes back to the next iteration of the for loop.
+
+10:33.210 --> 10:39.330
+It is kind of confusingly, uh, named because, uh, it doesn't actually mean continue.
+
+10:39.370 --> 10:42.490
+It means do not continue with the rest of the code.
+
+10:42.530 --> 10:44.190
+But anyway, it doesn't matter.
+
+10:45.230 --> 10:45.590
+Okay.
+
+10:45.630 --> 10:45.910
+Yeah.
+
+10:45.910 --> 10:47.790
+So, uh, remove that and, uh.
+
+10:47.790 --> 10:52.270
+Yeah, just filter out any of these, uh, relatively short, uh, tokens.
+
+10:52.590 --> 10:55.710
+And then here is where I look for sub words.
+
+10:55.710 --> 11:06.670
+So the idea is that if this text if this token text does not start with a space, and if the next token
+
+11:06.870 --> 11:12.670
+also does not start with a space, then this is most likely a subword.
+
+11:12.830 --> 11:18.910
+If this were a real word, this token here, if this is a complete word on its own, it's not a subword
+
+11:19.150 --> 11:23.270
+then it will start with a space likely not guaranteed.
+
+11:23.630 --> 11:29.750
+And also the next token will start with a space again, likely, but not guaranteed.
+
+11:30.230 --> 11:31.350
+So what does that mean?
+
+11:31.590 --> 11:40.310
+That means that this condition here is going to exclude lots of perfectly valid nouns and adjectives.
+
+11:40.310 --> 11:45.720
+For example, uh, I don't know if they're at the end of the sentence like the last word of the sentence.
+
+11:45.920 --> 11:50.880
+If it's a complete word and the next token is a punctuation mark.
+
+11:51.360 --> 11:52.440
+So but that's fine.
+
+11:52.440 --> 11:59.440
+We can afford to filter out otherwise useful tokens because we are starting with so many.
+
+11:59.480 --> 12:05.480
+You know, I want to get 300 tokens in total out of 100,000 tokens.
+
+12:05.480 --> 12:07.240
+So it's really not going to be a problem.
+
+12:08.200 --> 12:08.440
+Okay.
+
+12:08.480 --> 12:09.720
+So that's the filter here.
+
+12:09.720 --> 12:11.160
+I get the part of speech.
+
+12:11.440 --> 12:16.880
+Again, it would kind of be a little bit more ideal to have a broader context.
+
+12:16.880 --> 12:23.520
+But then you would have to make sure that you're aligning this particular token with this token.
+
+12:23.520 --> 12:25.640
+Not impossible, just more work.
+
+12:25.640 --> 12:28.720
+And I'm going to ignore that nuance here.
+
+12:29.200 --> 12:29.520
+Okay.
+
+12:29.560 --> 12:35.480
+So if this part of speech is a noun, then we go into this little bit of code here.
+
+12:35.600 --> 12:42.060
+And basically I'm getting that token from that index in this context window and then increasing this
+
+12:42.060 --> 12:46.180
+counter of sequences for nouns.
+
+12:46.180 --> 12:48.620
+And same thing for if it's an adjective.
+
+12:48.660 --> 12:48.900
+Yeah.
+
+12:48.940 --> 12:50.980
+Same code here with different variable names.
+
+12:51.500 --> 12:54.940
+So then I have this second embedded if statement here.
+
+12:54.940 --> 13:03.020
+And the idea here is that as we are looping through all of these tokens, I do not want to continue
+
+13:03.060 --> 13:09.340
+populating this matrix, this batch if I already have enough data.
+
+13:09.500 --> 13:17.220
+So basically this is saying if we do not yet have enough data, then if it's a noun and it survives
+
+13:17.220 --> 13:20.500
+these filters, then we can grab those data.
+
+13:20.740 --> 13:27.700
+Otherwise if sequence I n is greater than batch size then this code never gets run.
+
+13:28.140 --> 13:28.420
+Okay.
+
+13:28.460 --> 13:38.220
+And then here I say if we have both batch size number of nouns and adjectives, then you can break out
+
+13:38.220 --> 13:39.600
+of this for loop.
+
+13:40.000 --> 13:44.040
+And that means we can see, uh, what is this index?
+
+13:44.280 --> 13:51.480
+So in the end, we only went through, uh, 9000 out of 115,000 tokens.
+
+13:51.680 --> 13:58.640
+So basically we searched through, uh, 9000 tokens or technically 8000 tokens, because we started
+
+13:58.640 --> 13:59.600
+at 1000.
+
+13:59.880 --> 14:08.400
+So we searched through 8000 tokens, and we found 150 tokens that were, uh, long enough, that were
+
+14:08.400 --> 14:12.400
+full words and that were either a noun or an adjective.
+
+14:12.840 --> 14:13.320
+Okay.
+
+14:15.040 --> 14:15.560
+Uh, let's see.
+
+14:15.560 --> 14:18.560
+So here I am, uh, just printing out some examples.
+
+14:18.720 --> 14:23.440
+This is exactly the same as, uh, what you saw in the screenshot.
+
+14:23.600 --> 14:25.360
+Uh, in the, uh, in the slides.
+
+14:25.360 --> 14:29.080
+So again, you know, point, we would have to know from context.
+
+14:29.120 --> 14:32.920
+We would have to see the context to know whether this is a verb.
+
+14:32.920 --> 14:38.730
+Like I am pointing at someone, uh, or if this is a noun like the end of a pencil.
+
+14:39.890 --> 14:43.450
+Well, that exercise was pretty intense.
+
+14:43.770 --> 14:49.090
+But don't worry, this exercise now is going to be easy and straightforward.
+
+14:49.610 --> 14:54.370
+Import GPT two large and move it to the GPU.
+
+14:54.850 --> 15:00.050
+Then push the two batches of data that you created in the previous exercise.
+
+15:00.530 --> 15:05.010
+Push those batches through the model and get all of the hidden states.
+
+15:05.050 --> 15:11.050
+Of course, you're going to want to give the outputs of the model different variable names, and then
+
+15:11.050 --> 15:16.610
+you can check the sizes of those hidden states tensors to make sure that they are the right size.
+
+15:16.810 --> 15:27.290
+So in particular you should get 150 sequences, 51 tokens per sequence, and 1280 embeddings dimensions.
+
+15:27.850 --> 15:29.570
+So that's it for exercise two.
+
+15:29.610 --> 15:36.790
+I hope you find that this is a breath of fresh air and quite doable after the previous exercise.
+
+15:37.110 --> 15:42.550
+On the other hand, if you really enjoyed the challenge of the previous exercise, then don't worry,
+
+15:42.830 --> 15:48.470
+the next couple of exercises are going to become more difficult again anyway.
+
+15:48.510 --> 15:56.670
+Now I will switch to code, import the model, push it to the GPU here, switch it to eval mode, and
+
+15:56.670 --> 16:03.710
+then uh, yeah, run these two batches where we uh, here, uh, creating this variable number of layers
+
+16:03.870 --> 16:08.270
+and then, yeah, checking the size of one of the hidden states here.
+
+16:10.150 --> 16:12.750
+Now for exercise three.
+
+16:13.230 --> 16:20.590
+This is another one of these cases where you can decide how challenging you want this to be for yourself.
+
+16:21.110 --> 16:29.270
+The goal here is to create a data set that contains all of the target activation vectors for all the
+
+16:29.270 --> 16:36.330
+layers, and then run a PCA, show a scree plot, and then project down to two dimensions.
+
+16:36.770 --> 16:37.250
+It's.
+
+16:37.250 --> 16:43.690
+The code here is not exactly the same as two videos ago, but it is fairly close, so you can certainly
+
+16:43.730 --> 16:45.810
+copy and paste and modify.
+
+16:46.090 --> 16:48.730
+Or you can start writing this code from scratch.
+
+16:49.090 --> 16:54.690
+Now notice that this is a data set of size e by E.
+
+16:55.330 --> 16:58.530
+E of course is the embeddings dimension.
+
+16:58.530 --> 17:02.250
+And you already know that that is 1280.
+
+17:02.690 --> 17:05.610
+The question is what is n going to be?
+
+17:05.770 --> 17:12.050
+Now I want you to think about how big this matrix should be, based on what you know about the number
+
+17:12.050 --> 17:14.290
+of layers and the batches.
+
+17:14.570 --> 17:21.450
+So you should calculate n as a variable in the code to make sure that you have a good understanding
+
+17:21.450 --> 17:24.850
+of the organization of the data matrix.
+
+17:26.010 --> 17:26.290
+Okay.
+
+17:26.330 --> 17:33.820
+You can then print out the sizes of the resulting lookup table and activations matrix that you see here.
+
+17:34.460 --> 17:42.380
+Also remember from a couple of videos ago when I introduced the PCA trajectories, that analysis that
+
+17:42.380 --> 17:47.780
+I included the sentence index in the lookup table.
+
+17:48.300 --> 17:54.620
+And after filming that video, I decided to remove that indexing from this code challenge.
+
+17:54.620 --> 18:01.220
+So that's why this lookup table only has two elements in the second dimension instead of three, like
+
+18:01.220 --> 18:02.340
+what you saw before.
+
+18:03.220 --> 18:06.860
+Okay, here you see the scree plot of these data.
+
+18:07.060 --> 18:11.940
+I will make some interpretations about this result when I discuss my code.
+
+18:11.940 --> 18:17.820
+But of course you should also generate this figure and think about what it means, and in particular
+
+18:18.420 --> 18:27.900
+some implications it might have for the PCA trajectory plots, and also a bit different from two videos
+
+18:27.900 --> 18:29.340
+ago where I ran.
+
+18:29.580 --> 18:32.200
+So you remember I ran the PCA twice.
+
+18:32.560 --> 18:38.680
+Once to extract 20 components and once with extracting only two components.
+
+18:39.000 --> 18:45.040
+And then I mentioned that running the second time was redundant and I was just lazy.
+
+18:45.720 --> 18:51.840
+Well, uh, also after recording that video, I decided that I felt a little bit embarrassed about being
+
+18:51.840 --> 18:53.360
+that lazy of a coder.
+
+18:53.840 --> 19:02.480
+So now in this exercise, what I did and what you should do is run the PCA only once and extract 20
+
+19:02.520 --> 19:10.280
+dimensions so you can make the scree plot, but then you just want to store the first two dimensions.
+
+19:10.560 --> 19:15.840
+So in the end, we're still only going to have the top two dimensions.
+
+19:15.880 --> 19:21.040
+Even though you run the PCA, setting the number of components to be 20.
+
+19:22.640 --> 19:26.680
+And then finally you can confirm the sizes of those matrices.
+
+19:26.800 --> 19:33.100
+This is the same activations matrix as is up here, but you can confirm the size of this matrix as you
+
+19:33.100 --> 19:33.580
+see here.
+
+19:33.580 --> 19:39.580
+So it's going to be something this something will correspond to your variable n over here by two.
+
+19:39.620 --> 19:43.500
+Because these are the top two principal components.
+
+19:44.700 --> 19:46.980
+I hope you enjoy this exercise.
+
+19:47.100 --> 19:54.220
+And I trust that you will find the right balance between copying and code, versus writing new code
+
+19:54.380 --> 19:57.940
+to suit your level of experience and difficulty.
+
+19:58.300 --> 20:01.740
+And now I will discuss some of the results before moving on.
+
+20:02.860 --> 20:05.100
+This variable here num rows.
+
+20:05.100 --> 20:09.060
+That is what I called n in the slides.
+
+20:09.300 --> 20:11.700
+So how big is this matrix?
+
+20:11.820 --> 20:15.820
+Well we have the number of sequences in each batch.
+
+20:16.020 --> 20:17.660
+And then we have two batches.
+
+20:17.820 --> 20:21.980
+And then we have all of that times each of the layers.
+
+20:22.100 --> 20:22.780
+So there you go.
+
+20:22.820 --> 20:27.340
+That's the formula for the number of rows in this data set.
+
+20:27.500 --> 20:31.520
+And then I put in here and also initialize this lookup table.
+
+20:32.000 --> 20:40.080
+Now we have this double for loop over here, which is basically the same as what you saw a couple of
+
+20:40.200 --> 20:41.200
+videos ago.
+
+20:41.400 --> 20:50.160
+So here I'm extracting this particular layer, this particular sequence and this particular token and
+
+20:50.160 --> 20:53.160
+all of the vectors for that token.
+
+20:53.720 --> 21:01.720
+And then of course I bring it back to the CPU, convert it to numpy and then squeeze out the extra dimensionalities.
+
+21:02.080 --> 21:02.360
+Okay.
+
+21:02.400 --> 21:03.640
+So that's for the nouns.
+
+21:03.840 --> 21:05.160
+That's for the adjectives.
+
+21:05.160 --> 21:08.880
+And then of course I have the information in the lookup table.
+
+21:08.920 --> 21:15.000
+This tells me for each row which layer does it come from and which target does it correspond to.
+
+21:15.040 --> 21:18.920
+So I'm using one for nouns and two for adjectives.
+
+21:19.240 --> 21:27.330
+And of course, what I removed here was the initial line where I also stored the sequence index or in
+
+21:27.370 --> 21:30.970
+the a couple of videos ago that was the sentence index.
+
+21:31.690 --> 21:33.890
+Okay, so run that code.
+
+21:33.930 --> 21:35.850
+Confirm the sizes.
+
+21:35.850 --> 21:41.770
+And we see that it's 1100 and 11,001 hundred.
+
+21:41.770 --> 21:43.650
+So that's the number of rows.
+
+21:44.210 --> 21:46.250
+Okay so here I'm doing the PCA.
+
+21:47.130 --> 21:51.490
+Here I run the PCA selecting for 20 components.
+
+21:51.490 --> 21:52.890
+Fit it to the data.
+
+21:53.090 --> 21:55.690
+Here I'm calculating a variable called scree.
+
+21:55.730 --> 21:56.930
+This is the scree plot.
+
+21:57.130 --> 22:00.530
+It is the percent explained variance.
+
+22:01.010 --> 22:08.690
+And as I mentioned before this variable here is the proportion of variance explained, which is also
+
+22:08.690 --> 22:08.970
+fine.
+
+22:08.970 --> 22:11.410
+You can plot that, but I don't know.
+
+22:11.450 --> 22:14.450
+It's often common to do it in percentage.
+
+22:14.450 --> 22:16.770
+So I just multiply it by 100.
+
+22:17.370 --> 22:20.290
+Now what do we make of these results here.
+
+22:20.530 --> 22:29.390
+So remember two videos ago we saw that the top component explained about 62% of the variance, and then
+
+22:29.390 --> 22:30.590
+the next one was ten.
+
+22:30.630 --> 22:33.350
+And then I think it was around 8% after that.
+
+22:33.790 --> 22:41.030
+Here the top two components are only explaining 40%, somewhere around even less than 40%.
+
+22:41.030 --> 22:42.710
+But let's be judicious.
+
+22:42.750 --> 22:46.150
+Let's let's be kind and round up to 40%.
+
+22:46.430 --> 22:52.310
+So the top two components are accounting for only 40% of the variance of the data.
+
+22:52.750 --> 22:55.150
+That's a pretty small amount of data.
+
+22:55.350 --> 23:03.110
+And that does not it certainly does not invalidate the the rest of the method and the state space trajectories
+
+23:03.110 --> 23:06.350
+and any calculations we made based on them.
+
+23:07.350 --> 23:15.310
+But it is a pretty clear signal that we are missing most of the important variants in this data set,
+
+23:15.830 --> 23:17.990
+and perhaps that is not surprising.
+
+23:18.110 --> 23:23.970
+The last time we ran this a couple of videos ago, you know, we had these like really short, kind
+
+23:23.970 --> 23:32.170
+of weird, overly simplistic sentences that were, yeah, there's only eight tokens in the entire sentence.
+
+23:32.370 --> 23:36.090
+And we know that the first token always gives weird results.
+
+23:36.090 --> 23:38.770
+So really like seven tokens.
+
+23:38.770 --> 23:44.370
+So there just wasn't a whole lot of information that the model really needed to process.
+
+23:44.370 --> 23:48.810
+Those sentences were also they were all just grammatically very simple.
+
+23:49.090 --> 23:53.290
+They didn't talk about any like deep, meaningful context or anything like that.
+
+23:53.650 --> 23:57.610
+On the other hand, here we are dealing with an actual text.
+
+23:57.610 --> 24:01.690
+So the words that we get here have a much broader context.
+
+24:01.730 --> 24:07.610
+We have bigger context windows and there's just a lot more complexity in the data.
+
+24:07.610 --> 24:14.290
+So it's no surprise that the top two components explain a lot less variability.
+
+24:14.690 --> 24:14.970
+Okay.
+
+24:15.010 --> 24:20.530
+So this is just you know, these are issues that you will need to think about as a data scientist,
+
+24:20.530 --> 24:23.340
+as an LM investigator.
+
+24:23.780 --> 24:29.900
+So yeah, we will continue with this analysis, but I want you to be thinking about these kinds of issues
+
+24:29.900 --> 24:31.540
+as you're working with real data.
+
+24:32.740 --> 24:33.060
+Okay.
+
+24:33.100 --> 24:40.340
+So then projecting down to 2D, this is literally the code that I was too lazy to write two videos ago.
+
+24:40.540 --> 24:48.740
+So actually, let me, uh, let me just remove this and show you that here I'm getting 20 components
+
+24:48.860 --> 24:53.980
+because I specified this input parameter here to be 20 components.
+
+24:54.140 --> 24:58.140
+But all we want is the top two components.
+
+24:58.300 --> 25:04.620
+So yeah, we take all of the activations, all the projections and just the top two components over
+
+25:04.620 --> 25:05.060
+here.
+
+25:06.060 --> 25:09.900
+We are now about halfway through the code challenge.
+
+25:10.100 --> 25:16.500
+So I'm going to break the video here to encourage you to do all the things that you normally do.
+
+25:16.500 --> 25:18.580
+When I split these videos in half.

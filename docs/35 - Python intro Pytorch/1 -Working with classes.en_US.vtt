@@ -1,0 +1,229 @@
+WEBVTT
+
+00:02.160 --> 00:10.000
+In this and the next video, I will introduce you to objects to classes and object oriented programming.
+
+00:10.560 --> 00:17.200
+Now, object oriented programming and classes are not unique or specific to the PyTorch library.
+
+00:17.560 --> 00:22.240
+But if you work in PyTorch, you are going to be using classes quite a lot.
+
+00:22.400 --> 00:27.560
+So therefore, I decided to include these two videos in this PyTorch section.
+
+00:27.800 --> 00:35.720
+Anyway, what I want to do before coding is introduce you to two terms that will come up very often
+
+00:35.720 --> 00:39.880
+in when working with classes and instances of classes.
+
+00:40.240 --> 00:44.080
+So one is attribute and the other is method.
+
+00:44.200 --> 00:48.400
+Now an attribute is basically like a variable.
+
+00:48.560 --> 00:51.680
+And a method is basically like a function.
+
+00:51.840 --> 00:53.720
+These are not formal definitions.
+
+00:53.720 --> 00:56.600
+It's not exactly this equivalence.
+
+00:56.760 --> 01:03.640
+But this is what I would like you to keep in mind when you are working with and creating classes and
+
+01:03.640 --> 01:04.480
+instances.
+
+01:04.480 --> 01:07.960
+So instances of classes have attributes.
+
+01:07.960 --> 01:09.560
+Those are kind of like variables.
+
+01:09.560 --> 01:11.160
+And they also have methods.
+
+01:11.160 --> 01:13.200
+And those are kind of like functions.
+
+01:13.520 --> 01:13.960
+Okay.
+
+01:14.040 --> 01:21.280
+So it turns out that you have been working with classes and instances objects all throughout this Python
+
+01:21.280 --> 01:21.880
+tutorial.
+
+01:21.880 --> 01:24.680
+So far I just haven't been using those terms.
+
+01:24.880 --> 01:28.240
+So one example is a list.
+
+01:28.240 --> 01:32.040
+So you are already familiar with a list.
+
+01:32.040 --> 01:35.880
+We have created and worked with many lists so far.
+
+01:36.600 --> 01:41.760
+And so it turns out that a list is actually a class in Python.
+
+01:41.760 --> 01:47.240
+So when I type L equals list and in this case I'm just inputting also list.
+
+01:47.240 --> 01:49.080
+So it's actually a little bit redundant.
+
+01:49.080 --> 01:55.920
+But it just highlights the idea that I will illustrate later about creating classes.
+
+01:56.520 --> 02:03.680
+So when we create an instance of this list this is giving us an object that has a lot of properties.
+
+02:03.680 --> 02:09.240
+So attributes and methods from this particular class called list.
+
+02:09.720 --> 02:10.040
+Okay.
+
+02:10.080 --> 02:12.280
+So now we can write dir.
+
+02:12.320 --> 02:17.720
+Dir for directory comes from directory from Linux terminology L.
+
+02:17.720 --> 02:25.240
+And this is going to give us a list of all of the properties of this instance.
+
+02:25.240 --> 02:33.960
+So all of the attributes and methods of this instance and some of these I already introduced you to
+
+02:34.000 --> 02:36.880
+like append and uh, count.
+
+02:36.880 --> 02:41.920
+I think I'd also used and some of these other ones I haven't yet uh, introduced you to.
+
+02:42.280 --> 02:42.640
+Okay.
+
+02:42.680 --> 02:50.960
+So how to access these properties of objects that you have also already seen before and use the dot
+
+02:50.960 --> 02:55.680
+symbol, uh, the, the period after the variable name.
+
+02:55.800 --> 02:58.520
+So l dot let's do reverse.
+
+02:58.520 --> 02:59.200
+Let me do this.
+
+02:59.200 --> 03:05.830
+So print L and then L dot reverse and then I will print out L again.
+
+03:06.390 --> 03:06.750
+Okay.
+
+03:06.790 --> 03:11.470
+So now we have from this line here it prints out the list 123.
+
+03:11.750 --> 03:13.670
+And now I use a method.
+
+03:13.950 --> 03:20.430
+And you know that this is a method on an object, partly because of the period and also partly because
+
+03:20.430 --> 03:21.990
+of the parentheses.
+
+03:21.990 --> 03:23.950
+So it's a lot like a function.
+
+03:24.270 --> 03:24.550
+Okay.
+
+03:24.590 --> 03:25.750
+And what does this do.
+
+03:25.790 --> 03:29.110
+Obviously it reverses the order of the list.
+
+03:29.110 --> 03:32.510
+So then I print it out again and we get 321.
+
+03:32.670 --> 03:35.030
+And now I could reverse it again.
+
+03:35.350 --> 03:36.550
+And let me see.
+
+03:36.630 --> 03:37.950
+Uh this is what I wanted to do.
+
+03:37.990 --> 03:43.990
+Print L so now I reverse it again and it gets reversed.
+
+03:43.990 --> 03:44.230
+Okay.
+
+03:44.270 --> 03:53.630
+So I keep reversing it back and forth, but let's, uh, let me redefine it up here, and then we can
+
+03:53.630 --> 03:59.830
+see it goes forwards, and then I reverse it and then I reverse it again, which means it goes forward
+
+03:59.830 --> 04:01.070
+again from the beginning.
+
+04:01.750 --> 04:02.150
+Okay.
+
+04:02.190 --> 04:04.790
+There's another method called append.
+
+04:05.590 --> 04:09.950
+And let's append a 99 and that adds a 99 on it okay.
+
+04:09.990 --> 04:14.230
+So the idea is that we have an instance of a class.
+
+04:14.470 --> 04:19.750
+And then we can access properties of this instance using the period.
+
+04:20.750 --> 04:21.950
+And then we can apply.
+
+04:21.950 --> 04:24.830
+In this case I've shown you a few different methods.
+
+04:24.830 --> 04:30.150
+And methods are like functions that act upon the variable over here.
+
+04:30.390 --> 04:32.550
+And this particular one is called append.
+
+04:32.550 --> 04:35.350
+And I give it the input of 99.
+
+04:35.350 --> 04:39.670
+And then it appends the the element 99.
+
+04:39.950 --> 04:40.310
+Okay.
+
+04:40.350 --> 04:47.110
+So that is a very brief introduction to classes and methods and attributes.
+
+04:47.470 --> 04:52.230
+In the next video we are going to create our very own class.
+
+04:52.390 --> 04:58.110
+And I think that will really hit the point home about what classes are and how to work with them.

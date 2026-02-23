@@ -1,0 +1,775 @@
+WEBVTT
+
+00:01.960 --> 00:08.680
+You don't need to know a lot of calculus to understand deep learning, but you do need to know a little
+
+00:08.720 --> 00:10.040
+bit of calculus.
+
+00:10.080 --> 00:12.080
+In particular derivatives.
+
+00:12.640 --> 00:20.200
+So the goal of this video and the next video is to introduce you to the key topics in derivatives that
+
+00:20.200 --> 00:26.760
+you will need to know to understand the mechanisms of deep learning and in particular gradient descent.
+
+00:27.080 --> 00:33.760
+Now a really full, complete, rigorous understanding of derivatives and how to compute and interpret
+
+00:33.760 --> 00:39.040
+derivatives, and how to take derivatives of lots of different kinds of functions, that is way beyond
+
+00:39.040 --> 00:40.120
+the scope of this course.
+
+00:40.120 --> 00:47.000
+In fact, taking derivatives is basically the entire purpose of your first semester of calculus.
+
+00:47.000 --> 00:52.440
+University level calculus starts off with three months just on the derivative.
+
+00:52.880 --> 00:58.760
+And so yeah, we're not obviously not going to learn everything about the derivative in the next two
+
+00:58.760 --> 01:06.930
+videos, but by the end of this video, you will understand the intuition and interpretation of the
+
+01:06.930 --> 01:12.010
+derivative, and you will also know how to compute the derivatives of polynomials.
+
+01:12.250 --> 01:17.370
+We'll go through a little bit of theory in the slides, and then we will switch to Python.
+
+01:17.370 --> 01:24.370
+And I'll give you code that will allow you to continue exploring the derivatives of various functions.
+
+01:25.090 --> 01:28.370
+So let's begin with a couple of functions.
+
+01:28.370 --> 01:30.450
+So here you see two functions.
+
+01:31.210 --> 01:33.570
+This one is flat and then it goes up.
+
+01:33.690 --> 01:38.690
+This one is like smoothly going up from zero up to one.
+
+01:39.170 --> 01:45.890
+This particular function is called a ReLU that stands for rectified linear unit.
+
+01:45.930 --> 01:47.050
+Don't worry about the term.
+
+01:47.050 --> 01:48.690
+I'm going to define this later.
+
+01:48.850 --> 01:50.370
+This is a sigmoid function.
+
+01:50.370 --> 01:52.330
+You can see it looks a little bit like an S.
+
+01:53.010 --> 01:58.130
+These are actually two really important functions that are used in deep learning.
+
+01:58.410 --> 02:00.410
+These are called activation functions.
+
+02:00.410 --> 02:05.970
+You'll learn all about activation functions, the formulas for these and how they are useful, and so
+
+02:05.970 --> 02:06.290
+on.
+
+02:06.770 --> 02:08.170
+Later on in the course.
+
+02:08.170 --> 02:13.610
+For now, the main point is just to have a graphical example of two functions.
+
+02:13.850 --> 02:16.810
+Now these are not derivatives, these are the functions.
+
+02:17.170 --> 02:24.490
+The derivative of a function tells us how the function is changing over the x variable.
+
+02:24.490 --> 02:26.850
+Maybe this is time, or maybe this is space.
+
+02:26.850 --> 02:33.330
+Or maybe this is some abstracted variable, like an error landscape or a loss landscape.
+
+02:33.770 --> 02:35.290
+So let's start with this one.
+
+02:35.290 --> 02:38.410
+So this is the function the ReLU function.
+
+02:38.410 --> 02:41.170
+This is the derivative of the ReLU function.
+
+02:41.170 --> 02:42.450
+Now what does this mean.
+
+02:42.650 --> 02:48.370
+Well if we look at this function we can see it's not changing in the on the y axis.
+
+02:48.410 --> 02:51.530
+It doesn't change over the x axis.
+
+02:51.650 --> 02:54.170
+So that means the slope of this line.
+
+02:54.170 --> 03:00.580
+The change in this line the slope is zero and that we see here the derivative is zero.
+
+03:01.020 --> 03:06.060
+Now something happens over here at x equals zero and the slope is no longer zero.
+
+03:06.100 --> 03:10.820
+Now the function is changing but it's changing in a constant way.
+
+03:10.820 --> 03:12.740
+So the slope is in fact one.
+
+03:13.060 --> 03:15.860
+It's not totally obvious from this graph here.
+
+03:15.860 --> 03:20.060
+But you know this goes through the .11223344 and so on.
+
+03:20.060 --> 03:22.780
+So this is just the unity function here.
+
+03:23.220 --> 03:26.820
+So the slope is one everywhere above zero.
+
+03:26.980 --> 03:33.740
+And then when we look here in the derivative plot we see that the slope is one above zero.
+
+03:34.060 --> 03:34.420
+Okay.
+
+03:34.460 --> 03:40.260
+So the derivative is nothing more than the slope of the function at each point.
+
+03:40.900 --> 03:41.180
+Okay.
+
+03:41.220 --> 03:43.260
+So now we have this sigmoid function.
+
+03:43.380 --> 03:45.580
+And here is its derivative.
+
+03:45.580 --> 03:47.580
+It looks a little bit like a Gaussian actually.
+
+03:47.900 --> 03:53.940
+So let's make sure that we can make this derivative make sense in the context of what we see here.
+
+03:54.260 --> 03:58.140
+So first of all notice that the function is always increasing.
+
+03:58.140 --> 03:59.340
+It's always going up.
+
+03:59.380 --> 04:00.820
+It never goes down.
+
+04:00.820 --> 04:03.980
+So the slope is always going to be positive.
+
+04:04.340 --> 04:06.620
+And that's what we see here in the derivative plot.
+
+04:06.780 --> 04:11.020
+The derivative which is the slope is always above zero.
+
+04:11.500 --> 04:17.700
+But now unlike with the ReLU function, the derivative of the sigmoid is curvy and it's always changing.
+
+04:17.980 --> 04:19.740
+So how do we make sense of this?
+
+04:19.780 --> 04:25.900
+Well, if we look at the sigmoid function over here, we see that it's increasing but it's increasing
+
+04:25.900 --> 04:27.500
+very very slowly.
+
+04:27.500 --> 04:30.060
+So it's only rising very slowly here.
+
+04:30.060 --> 04:33.860
+As we get closer to zero it's starting to rise faster.
+
+04:34.300 --> 04:36.620
+So the slope is larger.
+
+04:36.620 --> 04:37.580
+And that's what we see here.
+
+04:37.580 --> 04:38.980
+The slope is larger.
+
+04:39.780 --> 04:46.740
+Now we get this funny reversal here around zero where the function is still increasing, but it's now
+
+04:46.740 --> 04:48.980
+increasing more and more slowly.
+
+04:48.980 --> 04:54.060
+So the rate at which this function increases is decreasing.
+
+04:54.060 --> 04:54.870
+It's and slowing down.
+
+04:54.870 --> 05:01.710
+So the derivative is always positive because the function is is increasing, but the rate at which it's
+
+05:01.710 --> 05:06.870
+increasing is getting smaller as we get to larger values of x.
+
+05:07.190 --> 05:09.990
+So this is the derivative here by the way.
+
+05:09.990 --> 05:11.310
+Notice also the scale here.
+
+05:11.310 --> 05:14.390
+This goes up to like point a little over point two.
+
+05:14.430 --> 05:19.150
+So in fact if you would put these on the same plot the derivative would only go up to here.
+
+05:19.190 --> 05:23.510
+You know somewhere around here that's going to be relevant for later in the course.
+
+05:23.510 --> 05:30.270
+When we talk about the advantages and limitations of using different activation functions, the magnitude
+
+05:30.270 --> 05:31.710
+of these derivatives here, okay.
+
+05:31.750 --> 05:32.590
+But that's not the point.
+
+05:32.630 --> 05:38.430
+Now here I just wanted to give you a geometric and visual intuition of the derivative.
+
+05:38.430 --> 05:43.470
+So again the derivative is just the slope of the line as it's changing okay.
+
+05:43.510 --> 05:44.710
+So that's for geometry.
+
+05:44.710 --> 05:48.150
+Now we get to the algebra of a derivative.
+
+05:48.150 --> 05:50.990
+So how do you actually compute a derivative.
+
+05:51.350 --> 05:56.430
+Well there's many different kinds of functions, and the way that you compute the derivative changes
+
+05:56.430 --> 05:58.510
+depending on the different functions.
+
+05:58.510 --> 05:59.830
+This is in calculus.
+
+05:59.830 --> 06:05.150
+You would memorize lots and lots of rules for derivatives here in this video, just to give you a sense,
+
+06:05.230 --> 06:07.950
+give you a bit of a flavor of computing derivatives.
+
+06:07.950 --> 06:14.070
+We're going to focus on computing the derivatives of polynomials, because those are kind of the easiest
+
+06:14.070 --> 06:15.990
+to do in calculus.
+
+06:16.510 --> 06:23.630
+So a polynomial is a function that has a an unknown a coefficient and a some power.
+
+06:23.750 --> 06:27.030
+So here's an example of a polynomial x squared.
+
+06:27.030 --> 06:32.510
+So we have our variable x and it's raised to a power which in this case is two.
+
+06:32.950 --> 06:39.270
+The coefficient would be a number that multiplies the x which in this case is well it's implicitly the
+
+06:39.270 --> 06:40.790
+number one okay.
+
+06:40.830 --> 06:45.910
+So the derivative there's several different ways of notating the derivative.
+
+06:46.390 --> 06:50.950
+So it's one way that it's shown is by dy divided by dx.
+
+06:51.110 --> 06:55.400
+So the d is indicating the derivative, or a tiny tiny little change in x.
+
+06:55.640 --> 06:55.840
+Okay.
+
+06:55.880 --> 07:00.440
+So the derivative of x squared is two times x to the power of one.
+
+07:01.080 --> 07:02.120
+Here's another example.
+
+07:02.120 --> 07:07.160
+The derivative of x cubed is three times x squared.
+
+07:07.720 --> 07:08.720
+One more example.
+
+07:08.840 --> 07:16.520
+The derivative of three times x to the power of three is nine times x to the power of two.
+
+07:17.040 --> 07:18.760
+Can you start to see the pattern here?
+
+07:19.160 --> 07:20.680
+Here is the formula.
+
+07:20.760 --> 07:24.840
+The formula for computing the derivative of a polynomial is.
+
+07:25.880 --> 07:30.160
+You take the power and bring it down and multiply that as a coefficient.
+
+07:30.160 --> 07:33.280
+And then you change the power to n minus one.
+
+07:33.440 --> 07:38.440
+So the derivative of a times x to the power of n is n.
+
+07:38.440 --> 07:40.640
+So we bring down the exponent times a.
+
+07:40.680 --> 07:45.600
+We don't change the coefficient times x to the power of n minus one.
+
+07:45.960 --> 07:51.320
+So if you like, you can pause the video for a moment and just take a few seconds to go through each
+
+07:51.320 --> 07:55.120
+of these examples and confirm that they all follow this pattern.
+
+07:55.480 --> 08:00.720
+Now, of course, you know, deriving this formula, this is not just something that appears out of
+
+08:00.720 --> 08:01.040
+the blue.
+
+08:01.040 --> 08:03.120
+This is something you can derive.
+
+08:03.800 --> 08:06.920
+But you know, that's something for a course on calculus.
+
+08:06.960 --> 08:09.840
+Not not this course on deep learning.
+
+08:10.400 --> 08:10.680
+Okay.
+
+08:10.720 --> 08:18.440
+So let's see a graphical example again to match the geometry the visual intuition with the algebra.
+
+08:18.840 --> 08:20.520
+So here's our function x squared.
+
+08:20.520 --> 08:22.520
+So what is the derivative of x squared.
+
+08:23.040 --> 08:24.360
+You guessed it it is.
+
+08:24.400 --> 08:25.320
+Oh well here's the plot.
+
+08:25.320 --> 08:27.400
+So you know what the plot of x squared looks like.
+
+08:27.560 --> 08:29.840
+And the derivative is two x.
+
+08:29.840 --> 08:35.160
+So we bring down the two and we knock down the exponent by subtracting off one.
+
+08:35.200 --> 08:38.880
+So this is two times x to the power of one which is just two x.
+
+08:39.200 --> 08:42.200
+Here's another notation for indicating the derivative.
+
+08:42.320 --> 08:43.840
+Instead of writing dy by dx.
+
+08:44.040 --> 08:48.200
+You can also write a little apostrophe here after the function symbol.
+
+08:48.890 --> 08:50.490
+Okay, so here's the function.
+
+08:50.490 --> 08:54.770
+And before even plotting this, let's let's think about what the derivative should be.
+
+08:55.050 --> 08:57.810
+Well here the function is going down.
+
+08:57.850 --> 08:59.170
+The slope is negative.
+
+08:59.170 --> 09:02.250
+So the derivative must be below zero here.
+
+09:02.730 --> 09:04.370
+Here the function is going up.
+
+09:04.530 --> 09:06.410
+So the derivative is positive.
+
+09:06.450 --> 09:09.210
+The derivative has to be above zero here.
+
+09:09.850 --> 09:14.130
+And we can also see that the slope is changing very quickly.
+
+09:14.170 --> 09:16.490
+The decline is very fast over here.
+
+09:16.850 --> 09:20.210
+And then it goes it gets more shallow here.
+
+09:20.210 --> 09:24.610
+So the slope is still negative here close to zero.
+
+09:24.770 --> 09:27.330
+But it's relatively shallow.
+
+09:27.330 --> 09:29.250
+It's not decreasing that fast.
+
+09:29.450 --> 09:31.610
+Likewise here the function is increasing.
+
+09:31.610 --> 09:35.330
+So the slope is positive but it's not really increasing that fast.
+
+09:35.330 --> 09:37.530
+And it increases much faster over here.
+
+09:37.930 --> 09:38.210
+Okay.
+
+09:38.250 --> 09:40.530
+Well you know what the plot of two x looks like.
+
+09:40.530 --> 09:43.690
+It's just a straight line with a slope of two.
+
+09:44.050 --> 09:51.290
+So we see, you know, at before zero We have a negative slope or negative derivative after zero.
+
+09:51.330 --> 09:57.210
+We have a positive derivative and as you get closer to zero, the derivative is also getting closer
+
+09:57.210 --> 09:57.890
+to zero.
+
+09:58.370 --> 10:00.850
+Now why do we care about derivatives?
+
+10:00.850 --> 10:04.690
+After all, this is a course on deep learning, not on calculus.
+
+10:04.850 --> 10:06.450
+So who cares about derivatives?
+
+10:06.810 --> 10:12.930
+Well, we know that derivatives point us in the direction of increases and decreases in a mathematical
+
+10:12.930 --> 10:13.410
+function.
+
+10:13.410 --> 10:15.850
+That's really just the definition of a derivative.
+
+10:16.050 --> 10:20.770
+It tells us where and how quickly the function is increasing or decreasing.
+
+10:21.610 --> 10:28.770
+So in deep learning, the goal of our deep learning and our training algorithm, that goal gets represented
+
+10:28.770 --> 10:31.010
+mathematically as an error function.
+
+10:31.410 --> 10:38.090
+So the goal, the way we would explain it in, in English in human terms, is that we are trying to
+
+10:38.090 --> 10:44.850
+get the model to classify certain images or data values or, you know, whatever the goal of the model
+
+10:44.850 --> 10:52.380
+is to classify and have high performance, but we have to translate that goal into a mathematical function,
+
+10:52.780 --> 10:55.420
+and that function is an error function.
+
+10:55.820 --> 11:02.740
+And so therefore, the goal of deep learning, the goal of training in deep learning is to find the
+
+11:04.060 --> 11:09.180
+specific parameters for the model that give us the smallest error.
+
+11:09.380 --> 11:13.740
+And the smallest error is the same thing as the highest accuracy.
+
+11:14.780 --> 11:21.700
+So then we use the derivative to tell us which way to move, quote unquote, which how to change the
+
+11:21.700 --> 11:27.260
+weights of the model, how to change the parameters of the model in that error landscape, or that error
+
+11:27.260 --> 11:29.940
+function in order to find the best solution.
+
+11:30.980 --> 11:36.260
+So, in fact, we wouldn't get very far in deep learning without derivatives.
+
+11:36.260 --> 11:37.540
+We would get nowhere.
+
+11:37.780 --> 11:43.860
+So we need derivatives in order to train the model to be able to classify different inputs.
+
+11:44.820 --> 11:48.860
+Now I realize that there's a lot of statements to unpack.
+
+11:48.860 --> 11:53.140
+There's a lot of claims to explain in this slide.
+
+11:53.140 --> 11:57.740
+That's pretty much the entire goal of the next section called gradient descent.
+
+11:57.740 --> 12:05.140
+So gradient descent is basically the term for the algorithm that tells us how to use derivatives to
+
+12:05.180 --> 12:08.980
+update the model to achieve our goal of classification.
+
+12:09.220 --> 12:14.500
+So if you know, if you're wondering if you're scratching your head, wondering how you know, what
+
+12:14.500 --> 12:18.700
+does this mean and how do I make these claims, don't worry, that's the whole point of the next section.
+
+12:18.860 --> 12:26.300
+For now, I want to switch to Python and show you how to compute and visualize derivatives using the
+
+12:26.300 --> 12:27.500
+SymPy library.
+
+12:29.460 --> 12:32.660
+Okay, so we are going to use a library called SymPy.
+
+12:32.700 --> 12:34.740
+This is for symbolic math.
+
+12:35.180 --> 12:38.620
+Now the SymPy library actually is pretty rich.
+
+12:38.620 --> 12:45.990
+There's a lot of stuff going on in the SymPy library we are not really going to use the SymPy library
+
+12:45.990 --> 12:52.870
+that much in this course, except for the next couple videos and also the next section on gradient descent.
+
+12:52.990 --> 12:59.550
+So don't be too concerned if some of the code that I'm writing in the rest of this notebook is a little
+
+12:59.590 --> 13:01.830
+mysterious and complicated looking.
+
+13:01.990 --> 13:04.750
+We don't actually need SymPy for deep learning.
+
+13:04.750 --> 13:09.590
+It's just for the next, you know, half dozen or ten videos or so.
+
+13:10.230 --> 13:17.270
+Okay, so let's run this code to import SymPy and also the SymPy plotting module.
+
+13:17.750 --> 13:17.910
+Okay.
+
+13:17.910 --> 13:20.830
+Now I'm going to create a symbolic variable x.
+
+13:20.830 --> 13:22.310
+This is like a regular variable.
+
+13:22.310 --> 13:28.590
+But it's some SymPy will allow us to use this symbolic variable to compute derivatives.
+
+13:28.790 --> 13:28.950
+Okay.
+
+13:28.990 --> 13:32.510
+So here's our function two times x squared.
+
+13:32.750 --> 13:37.950
+Now we already can compute even in our heads we can compute the derivative of this function.
+
+13:38.270 --> 13:45.430
+Remember to compute the derivative of a polynomial you take the exponent and you bring it out in front
+
+13:45.430 --> 13:48.430
+and multiply it by the coefficient, so that becomes four.
+
+13:48.790 --> 13:50.910
+And then you subtract off one.
+
+13:50.910 --> 13:56.470
+So we know that the derivative of this function is four times x to the power of one, which is just
+
+13:56.470 --> 13:57.470
+four times x.
+
+13:57.670 --> 13:57.950
+Okay.
+
+13:57.990 --> 14:00.230
+So let's confirm that using SymPy.
+
+14:00.270 --> 14:04.430
+So here we use SymPy diff which is the discrete derivative.
+
+14:04.590 --> 14:09.350
+And indeed the the derivative of this function is four x.
+
+14:09.950 --> 14:14.310
+Here I'm using SymPy to plot the function and its derivative.
+
+14:14.710 --> 14:16.230
+And that's what you see here.
+
+14:16.390 --> 14:19.390
+Here's the function and its derivatives.
+
+14:19.390 --> 14:24.750
+Basically the same as the example that I showed in the slides a moment ago.
+
+14:25.470 --> 14:25.790
+Okay.
+
+14:25.830 --> 14:29.670
+So that was for two x squared for a simple polynomial.
+
+14:29.830 --> 14:34.470
+Now we are going to repeat this with the ReLU and the sigmoid functions.
+
+14:34.470 --> 14:38.910
+These are the two functions that I showed in the beginning of the video.
+
+14:39.470 --> 14:44.120
+So this turns out to be the formula for computing the ReLU function.
+
+14:44.120 --> 14:48.320
+It's just the maximum of zero or the function.
+
+14:48.320 --> 14:49.640
+It's the input itself.
+
+14:49.640 --> 14:51.200
+So that's the ReLU function.
+
+14:51.200 --> 14:52.920
+Here's the formula for sigmoid.
+
+14:53.080 --> 14:56.360
+It's one divided by one plus e to the minus x.
+
+14:56.520 --> 15:02.440
+I'm going to talk a lot more about the sigmoid function and what it means, how to interpret it, how
+
+15:02.440 --> 15:03.560
+to parameterize it.
+
+15:03.560 --> 15:06.000
+But that's coming later on in the course.
+
+15:06.000 --> 15:09.280
+You don't need to worry too much about the origins of this function.
+
+15:09.280 --> 15:15.040
+Now suffice it to say, this is the math formula that gives us that kind of s looking shape.
+
+15:15.680 --> 15:19.240
+Okay, now plotting in SymPy is a little bit different.
+
+15:19.240 --> 15:22.240
+It's a little bit more involved than plotting in matplotlib.
+
+15:22.920 --> 15:28.680
+This is why I mentioned a moment ago that, you know, I don't want you to stress too much about the
+
+15:28.680 --> 15:35.880
+details of plotting in SymPy, because we're only going to be using it for basically this video and
+
+15:35.880 --> 15:38.000
+a couple of videos in the next section.
+
+15:38.400 --> 15:40.000
+The important point is here.
+
+15:40.000 --> 15:45.200
+I'm plotting both of these functions on the same graph, the ReLU and the sigmoid function.
+
+15:45.440 --> 15:49.360
+And then here in a separate graph I'm going to plot their derivatives.
+
+15:49.360 --> 15:54.480
+So this is the derivative of the ReLU and the derivative of the sigmoid.
+
+15:55.280 --> 15:55.600
+Okay.
+
+15:55.640 --> 16:00.320
+So now we can see here you see the the ReLU and the sigmoid on the same graph.
+
+16:00.440 --> 16:03.760
+And here you see the derivatives also on the same graph.
+
+16:05.000 --> 16:09.600
+I hope from this video you now have an intuition of the derivative.
+
+16:09.600 --> 16:13.960
+It's essentially just how things change over the inputs.
+
+16:14.120 --> 16:17.800
+And I also showed you how to compute the derivative of a polynomial.
+
+16:18.000 --> 16:23.960
+I hinted at the application, the importance of the derivative in deep learning, and you will learn
+
+16:23.960 --> 16:27.480
+much more about this in the next section on gradient descent.
+
+16:27.480 --> 16:33.720
+But first I need to tell you a little bit more about derivatives and computing the derivatives of multiple
+
+16:33.720 --> 16:36.520
+functions that's coming up in the next video.

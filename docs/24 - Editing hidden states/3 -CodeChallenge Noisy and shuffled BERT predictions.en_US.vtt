@@ -1,0 +1,1306 @@
+WEBVTT
+
+00:02.080 --> 00:08.520
+In this and the next several videos, we will switch back to working with the Bert model.
+
+00:08.960 --> 00:09.400
+Here.
+
+00:09.400 --> 00:14.960
+In this code challenge you will explore the impact of two manipulations.
+
+00:15.280 --> 00:22.640
+One is to randomly shuffle embeddings dimensions from one layer without actually changing any of the
+
+00:22.640 --> 00:24.040
+activation values.
+
+00:24.440 --> 00:32.320
+And then in a later exercise you will leave the dimensions unshuffled but add a bit of Gaussian noise,
+
+00:32.880 --> 00:40.600
+and that would lead to an investigation and discussion about the distributions of activations versus
+
+00:40.640 --> 00:42.840
+Gaussian added random noise.
+
+00:43.520 --> 00:46.160
+So here we are with exercise one.
+
+00:46.560 --> 00:51.640
+Import the large version of the Bert model and push it to the GPU.
+
+00:52.440 --> 00:56.520
+Then you want to create a hook function that looks like this.
+
+00:56.880 --> 01:01.600
+You can see that this hook function will be implanted into every layer.
+
+01:02.080 --> 01:09.960
+Although the idea is that you will define a global variable called layer to shuffle that will allow
+
+01:09.960 --> 01:16.120
+you to pick exactly one layer to shuffle and leave all the other layers untouched.
+
+01:16.840 --> 01:24.640
+Then the idea of the random shuffling is that you randomly swap all of the orders of the dimensions
+
+01:24.640 --> 01:29.920
+of the output of the transformer, so you're not actually changing any of the values.
+
+01:29.920 --> 01:34.760
+All the numbers are exactly the same, they're just in a different order.
+
+01:34.920 --> 01:40.600
+This is also done for only one token, not for all of the tokens.
+
+01:40.800 --> 01:48.840
+So you will also need a variable in here that tells the code which of the token indices to randomly
+
+01:48.840 --> 01:53.840
+shuffle as you are implanting this hook into all the layers.
+
+01:53.960 --> 02:01.250
+Make sure to save all of the hook handles in a list, because you will need to remove those hooks from
+
+02:01.250 --> 02:03.570
+the model in a later exercise.
+
+02:04.450 --> 02:06.850
+So that's it for exercise one.
+
+02:06.890 --> 02:07.330
+Please.
+
+02:07.330 --> 02:10.570
+Now pause the video and work through this exercise.
+
+02:10.690 --> 02:15.770
+And now I will switch to code import some libraries here.
+
+02:15.770 --> 02:23.810
+I'm importing the Bert large model and its tokenizer and then pushing those to the GPU, or at least
+
+02:23.810 --> 02:25.450
+pushing the model to the GPU.
+
+02:25.930 --> 02:26.130
+Okay.
+
+02:26.170 --> 02:29.450
+And here we see the Bert large version of the model.
+
+02:29.450 --> 02:32.170
+There are 24 transformer blocks.
+
+02:32.290 --> 02:38.610
+And yeah, as you remember from earlier in the course, the naming conventions of these layers and these
+
+02:38.610 --> 02:46.690
+matrices is a little bit different from how OpenAI names them in the GPT two models.
+
+02:47.290 --> 02:47.650
+Okay.
+
+02:47.690 --> 02:51.570
+So now let me explain this hook function.
+
+02:51.850 --> 02:54.050
+So this you've already seen.
+
+02:54.050 --> 03:00.930
+So we are I'm going to implant this hook into every layer of the model that you see here.
+
+03:00.930 --> 03:04.570
+So model dot encoder dot layer.
+
+03:04.810 --> 03:08.730
+So implanting it directly into each transformer block.
+
+03:09.170 --> 03:12.450
+And then uh but there's this if statement here.
+
+03:12.450 --> 03:18.810
+And the conditional states that we will only actually follow the rest of this code here.
+
+03:19.410 --> 03:28.010
+If the current layer that is being processed during the feedforward sweep matches this variable here.
+
+03:28.050 --> 03:29.290
+Layer two shuffle.
+
+03:29.490 --> 03:33.770
+And this variable here is not defined anywhere inside this function.
+
+03:33.890 --> 03:35.330
+It's a global variable.
+
+03:35.330 --> 03:37.570
+It's defined outside the function.
+
+03:37.570 --> 03:41.810
+And that's great because it means that we can define this later on.
+
+03:41.850 --> 03:44.850
+For example in a for loop over different layers.
+
+03:45.490 --> 03:48.610
+By the way here I'm defining this to be something ludicrously large.
+
+03:48.610 --> 03:52.890
+This just makes sure that this never is true.
+
+03:52.930 --> 03:59.180
+This statement is never true until I explicitly change this variable name.
+
+03:59.420 --> 04:06.340
+And we're going to use that in order to get a clean version of the model with no shuffling at all.
+
+04:07.340 --> 04:14.660
+Okay, so if this is true, if we are currently processing the layer that gets shuffled, then I unpack
+
+04:14.700 --> 04:15.500
+the tuple.
+
+04:15.660 --> 04:20.700
+And here I am getting the activations for this particular token index.
+
+04:20.700 --> 04:23.700
+Remember this is the sequence in the batch.
+
+04:23.900 --> 04:27.620
+These are the tokens and these are the embeddings vectors.
+
+04:27.860 --> 04:31.420
+So yeah we're only going to work with one sequence.
+
+04:31.420 --> 04:33.860
+So a batch of just one element here.
+
+04:34.180 --> 04:34.540
+Okay.
+
+04:34.580 --> 04:37.060
+This is also a variable that I define up here.
+
+04:37.060 --> 04:39.700
+But we can redefine it later on.
+
+04:40.140 --> 04:40.380
+Okay.
+
+04:40.420 --> 04:45.140
+And then here I am randomly permuting indices for hidden size.
+
+04:45.140 --> 04:46.940
+This is the embedding dimension.
+
+04:46.940 --> 04:54.340
+And then I'm simply shuffling all of the rows of this activations matrix and inserting it back into
+
+04:54.740 --> 04:56.780
+the hidden variable.
+
+04:56.780 --> 04:57.420
+This tensor.
+
+04:57.420 --> 05:02.940
+Here again only for this token we are not going to change any of the other tokens.
+
+05:03.340 --> 05:04.540
+Repack the tuple.
+
+05:04.540 --> 05:09.260
+So yeah, this is a list here corresponding to this hidden part.
+
+05:09.260 --> 05:12.220
+And then the rest of the input here.
+
+05:13.660 --> 05:15.740
+And then printing that out here okay.
+
+05:15.780 --> 05:19.180
+Now I'm also printing out which layer is actually being shuffled.
+
+05:19.180 --> 05:21.660
+This is just some information for you.
+
+05:21.660 --> 05:26.260
+This is something you can add while you are writing code while you're developing code.
+
+05:26.740 --> 05:31.460
+But in practice, you probably don't want to include print statements like this.
+
+05:31.460 --> 05:36.860
+Because if you're doing a lot of forward passes, uh, this can just get really, really tedious to
+
+05:36.900 --> 05:37.460
+output.
+
+05:37.860 --> 05:45.100
+Okay, so then I'm storing all of the handles and then implanting this hook into every layer.
+
+05:45.980 --> 05:54.060
+Now in this exercise you will tokenize some text and see how well the model can predict the missing
+
+05:54.100 --> 05:54.780
+token.
+
+05:55.380 --> 05:57.500
+Perhaps you recognize this image.
+
+05:57.500 --> 06:02.220
+It's from the Wizard of Oz movie, not the one that came out in 2025.
+
+06:02.260 --> 06:07.740
+The older one, which is actually from 1939 and stars Judy Garland.
+
+06:08.260 --> 06:12.180
+Anyway, this is the quote you want to tokenize.
+
+06:12.380 --> 06:14.380
+Pay no attention to that man.
+
+06:14.580 --> 06:15.980
+Blank the curtain.
+
+06:16.020 --> 06:19.260
+Of course, the missing word here is behind.
+
+06:19.300 --> 06:22.220
+Pay no attention to that man behind the curtain.
+
+06:22.780 --> 06:29.380
+And then we are going to see how well the model can predict that the masked word should be the word
+
+06:29.420 --> 06:30.260
+behind.
+
+06:30.980 --> 06:36.980
+Now, when you tokenize the sentence, you can print out a table like this so that you can confirm the
+
+06:37.020 --> 06:38.220
+tokenization.
+
+06:38.220 --> 06:43.700
+And you also need a variable that tells you which token the mask is in.
+
+06:43.940 --> 06:52.670
+And that is the variable that we will use to hook the model to tell the model which token index to randomly
+
+06:52.670 --> 06:53.270
+shuffle.
+
+06:53.830 --> 07:00.510
+Next, you can push all of these tokens through the intact model, so do not shuffle anything in any
+
+07:00.510 --> 07:01.350
+of the layers.
+
+07:01.350 --> 07:03.390
+Don't manipulate anything in the model.
+
+07:03.590 --> 07:07.670
+This is going to be the baseline comparison model.
+
+07:08.110 --> 07:13.750
+And of course you should give these logits a different variable name so that you don't overwrite them
+
+07:14.070 --> 07:16.190
+in later exercises.
+
+07:16.950 --> 07:22.070
+Also, I want you to extract the hidden states when you're doing the forward pass.
+
+07:22.270 --> 07:28.830
+Now, you won't actually need the hidden states for this exercise or for exercises three and four,
+
+07:28.830 --> 07:32.390
+but you will need them for exercises five.
+
+07:33.030 --> 07:38.630
+Okay, then the final part of this exercise is to go through each of these tokens.
+
+07:39.150 --> 07:46.510
+Grab the token with the maximum final logit and that is the model's prediction for that word.
+
+07:46.950 --> 07:53.510
+Now we're not actually masking out any of the other tokens, so it's a little trivial that the accuracy
+
+07:53.510 --> 07:56.910
+will be pretty high for a lot of these words.
+
+07:56.910 --> 08:02.750
+But the important question is what does the model predict in place of the masked token?
+
+08:04.110 --> 08:04.470
+Okay.
+
+08:04.510 --> 08:06.470
+So that is your goal for this exercise.
+
+08:06.590 --> 08:09.390
+Now you can pause the video and get to work.
+
+08:09.510 --> 08:11.230
+And now I will switch to code.
+
+08:12.430 --> 08:13.710
+Here is our text.
+
+08:13.750 --> 08:15.590
+Pay no attention to that man.
+
+08:15.590 --> 08:17.110
+Blank the curtain.
+
+08:17.550 --> 08:23.230
+Okay, now here I'm actually explicitly calling the Tokenizers mask token.
+
+08:23.270 --> 08:25.550
+This is different from how I've set it up before.
+
+08:25.590 --> 08:29.430
+You know, earlier in the course I was doing this, which is also fine.
+
+08:29.670 --> 08:31.910
+Uh, here, I'm just showing you some alternatives.
+
+08:32.470 --> 08:34.230
+So that is the text here.
+
+08:34.230 --> 08:35.270
+I get the mask.
+
+08:35.310 --> 08:36.870
+Target index.
+
+08:37.030 --> 08:43.190
+And that is where all of these tokens match the mask token ID.
+
+08:43.790 --> 08:44.030
+Okay.
+
+08:44.070 --> 08:52.120
+Now, this variable name is exactly the same, with the same capitalizations as this variable up here,
+
+08:52.120 --> 08:58.480
+which I defined in the hook, so that now overwrites this variable, and it means we are not going to
+
+08:58.480 --> 09:00.840
+be shuffling token index one.
+
+09:00.840 --> 09:05.680
+We are going to be shuffling token index, whatever this is I think it's seven.
+
+09:05.840 --> 09:06.280
+Yeah.
+
+09:06.320 --> 09:08.480
+Token index seven okay.
+
+09:08.520 --> 09:15.600
+So now I'm going to run a forward pass through the model, push all the tokens first to the GPU and
+
+09:15.600 --> 09:18.440
+then through the model which is also on the GPU.
+
+09:18.920 --> 09:23.000
+And here I'm redefining this is already defined to be some large number.
+
+09:23.000 --> 09:30.840
+But I redefined it again, just in case you want to come back to this code after already defining layer
+
+09:30.840 --> 09:33.040
+to shuffle to be for example four.
+
+09:34.520 --> 09:34.880
+Okay.
+
+09:34.920 --> 09:41.760
+So again, what this means is that this statement up here in the hook, where are we here?
+
+09:42.280 --> 09:43.880
+This is never true.
+
+09:43.880 --> 09:50.120
+This is always false when layer number equals or sorry when layer to shuffle equals 40,000.
+
+09:50.440 --> 09:52.680
+So that means that this code never gets run.
+
+09:52.720 --> 09:55.240
+This print statement also never gets run.
+
+09:55.240 --> 09:59.920
+So we are running through a pure unadulterated version of the model.
+
+10:00.040 --> 10:04.560
+You can see here that the print statement of which layer was manipulated.
+
+10:04.600 --> 10:06.320
+That doesn't get printed out here.
+
+10:06.880 --> 10:07.120
+Okay.
+
+10:07.160 --> 10:07.640
+Very good.
+
+10:07.640 --> 10:16.080
+So now what I'm doing is searching through the logits for each of the token in the list of tokens.
+
+10:16.320 --> 10:19.320
+And then I find the maximum logit.
+
+10:19.480 --> 10:24.480
+And then I decode that to get me a predicted text for each word.
+
+10:24.480 --> 10:28.040
+And then printing that out in a table like this.
+
+10:29.040 --> 10:31.920
+As I mentioned, all of this stuff is kind of trivial.
+
+10:31.960 --> 10:33.680
+The model actually sees the word.
+
+10:33.680 --> 10:38.480
+So it's a little bit trivial that its accuracy is pretty high, though it's not perfect.
+
+10:38.480 --> 10:45.400
+But here is the important test we want to know what does the model predict in place of this word?
+
+10:45.400 --> 10:45.880
+Mask.
+
+10:46.040 --> 10:47.440
+And this is not trivial.
+
+10:47.480 --> 10:49.240
+The model guesses it correctly.
+
+10:50.200 --> 10:54.840
+Maybe it is a little bit trivial because this statement here pay no attention to that man behind the
+
+10:54.840 --> 10:55.360
+curtain.
+
+10:55.520 --> 10:58.560
+That's a pretty famous statement from that movie.
+
+10:58.560 --> 11:02.720
+So it's going to be written lots and lots of times throughout the internet.
+
+11:02.720 --> 11:07.560
+So the model is probably trained on exactly this quote many times through.
+
+11:08.760 --> 11:11.360
+Now we are ready for the experiment.
+
+11:11.680 --> 11:19.360
+You are going to randomly shuffle the embeddings dimensions for each layer for one token, and we see
+
+11:19.400 --> 11:23.840
+what is the word that the model predicts for the masked token.
+
+11:24.520 --> 11:31.200
+Now you only want to shuffle one layer at a time, so all of the other layers will be untouched.
+
+11:31.680 --> 11:33.400
+And you can do that in a for loop.
+
+11:33.400 --> 11:38.640
+So inside that for loop, randomly shuffle the dimensions of just that layer.
+
+11:38.960 --> 11:46.770
+And also just for the masked token, not for the other tokens, and then find the top prediction based
+
+11:46.770 --> 11:55.690
+on the model output logits, and also store the logsoftmax logit value corresponding to the token behind
+
+11:55.730 --> 11:56.850
+so the correct word.
+
+11:58.010 --> 12:02.050
+There are two visualizations you can make for this exercise.
+
+12:02.290 --> 12:09.690
+The first one is printing out the results of the token prediction, where for each layer that gets shuffled,
+
+12:09.690 --> 12:16.810
+you print out the text of the maximum predicted token, so corresponding to the largest token value,
+
+12:16.850 --> 12:18.410
+the largest logit value.
+
+12:18.970 --> 12:23.930
+The second visualization is the logsoftmax of the correct token.
+
+12:24.330 --> 12:31.890
+The blue line up here corresponds to the logsoftmax for the Unshuffled model that you tested in the
+
+12:31.890 --> 12:33.650
+previous exercise.
+
+12:34.010 --> 12:39.050
+It looks like it has a value of zero, although it's technically not exactly zero, it just happens
+
+12:39.050 --> 12:40.250
+to be a small number.
+
+12:40.570 --> 12:47.410
+Obviously, these shuffled log softmax values are going to be considerably less than zero.
+
+12:47.770 --> 12:51.650
+But the question is what they look like and whether there's any pattern.
+
+12:51.690 --> 12:57.530
+For example, if they increase or maybe they decrease as we go deeper into the model.
+
+12:58.450 --> 13:00.690
+You see the sign, you know what to do.
+
+13:00.890 --> 13:02.570
+And now I will switch to code.
+
+13:04.650 --> 13:08.890
+Here is the variable that I will use to store the results.
+
+13:08.890 --> 13:16.730
+So it is layers by two because we have two outputs that we want to store the predicted token which is
+
+13:16.730 --> 13:21.130
+actually an integer, although it's going to technically be coded as a floating point here, but that's
+
+13:21.130 --> 13:21.850
+no big deal.
+
+13:22.170 --> 13:30.010
+And the second one is the logit for the or the log softmax of the logit for the correct word, the target
+
+13:30.010 --> 13:31.610
+word which is behind.
+
+13:32.090 --> 13:38.780
+So here I'm looping over all of the layers, setting this variable to be this looping index.
+
+13:38.940 --> 13:42.700
+And by the way, you don't actually need to have this as a separate line.
+
+13:42.700 --> 13:48.180
+You could also actually just put this directly into the for loop statement like this.
+
+13:48.180 --> 13:50.300
+I do that in later videos.
+
+13:50.780 --> 13:51.020
+Okay.
+
+13:51.060 --> 13:57.020
+So this means we are only going to shuffle this one layer, not any of the other layers.
+
+13:57.420 --> 13:58.940
+Do a forward pass here.
+
+13:59.140 --> 14:08.020
+And here I get the output logits for the first sequence in this batch, only for this, uh, masked
+
+14:08.060 --> 14:09.420
+token index.
+
+14:09.620 --> 14:13.140
+And then yeah, calculating logsoftmax.
+
+14:13.260 --> 14:15.260
+And then I get the one for the correct target.
+
+14:15.260 --> 14:17.900
+Again, this is the word behind that.
+
+14:18.020 --> 14:20.620
+Uh, what the model actually should output.
+
+14:20.980 --> 14:22.300
+So that's the prediction.
+
+14:22.300 --> 14:25.700
+And then over here I'm getting the actual prediction.
+
+14:25.700 --> 14:30.340
+So whichever logit had the largest numerical value.
+
+14:30.980 --> 14:31.180
+Okay.
+
+14:31.220 --> 14:32.380
+And then we can print this out.
+
+14:32.420 --> 14:32.700
+Okay.
+
+14:32.740 --> 14:39.020
+So this is printing out from the uh from the hook function, and then we can print out the results here.
+
+14:39.020 --> 14:41.820
+And they are hilariously terrible.
+
+14:41.820 --> 14:42.660
+They're awful.
+
+14:42.660 --> 14:44.740
+It's just a bunch of punctuations.
+
+14:44.740 --> 14:46.260
+Give me this.
+
+14:46.300 --> 14:48.700
+You know, this is just complete gibberish.
+
+14:48.700 --> 14:49.820
+This makes no sense.
+
+14:49.820 --> 14:53.620
+It's not even choosing semantically related words.
+
+14:53.620 --> 14:56.180
+It's not even choosing words in most of these cases.
+
+14:56.580 --> 15:03.900
+So even though we're only shuffling one layer at a time, this has a really, really catastrophic impact
+
+15:04.060 --> 15:07.020
+on the rest of the model processing.
+
+15:07.020 --> 15:16.420
+Certainly for this token, then we can look at the log softmax values and that you see here okay.
+
+15:16.460 --> 15:19.140
+So again this this value is not exactly zero.
+
+15:19.140 --> 15:20.140
+We can see what it is.
+
+15:20.140 --> 15:20.700
+Here.
+
+15:21.500 --> 15:22.340
+It is.
+
+15:24.300 --> 15:26.300
+It is -0.04.
+
+15:26.300 --> 15:27.820
+So it's pretty close to zero.
+
+15:28.060 --> 15:32.580
+Uh but anyway the point is that for every layer it's really a lot smaller.
+
+15:32.580 --> 15:35.710
+Remember these are log transformed, numbers.
+
+15:35.710 --> 15:37.830
+So ten you know, log ten.
+
+15:37.870 --> 15:45.790
+This is like multiple orders of magnitude smaller, more negative than what it is in the unshuffled
+
+15:45.790 --> 15:47.190
+version of this model.
+
+15:47.590 --> 15:48.550
+There's no patterns.
+
+15:48.550 --> 15:49.830
+It doesn't go up or down.
+
+15:49.830 --> 15:51.510
+It's not getting better or worse.
+
+15:51.510 --> 15:53.390
+As we go deeper into the model.
+
+15:53.670 --> 15:56.630
+This manipulation is just catastrophic.
+
+15:56.750 --> 16:05.750
+Anywhere you put it in the model, that is the end of our exploration of completely reshuffling the
+
+16:05.750 --> 16:06.630
+dimensions.
+
+16:06.790 --> 16:13.550
+I hope you found it interesting and insightful, but that manipulation is so catastrophic that it's
+
+16:13.550 --> 16:16.910
+just really not something you'd ever want to do in practice.
+
+16:17.230 --> 16:22.670
+It's a good thing to learn about, and I hope you feel that it increased your coding and LLM knowledge.
+
+16:22.830 --> 16:27.510
+But yeah, not something you would do outside of the context of a class.
+
+16:28.310 --> 16:34.870
+Anyway, what we are going to do now is repeat the experiment, but change the manipulation.
+
+16:35.270 --> 16:42.910
+So the overall goal for exercise four is very similar to the overall goal of exercise three.
+
+16:42.950 --> 16:49.550
+But you're going to do a different manipulation, which means you need a new hook function.
+
+16:50.630 --> 16:58.070
+So you can start the code for exercise four by removing all of the hooks that you created in exercise
+
+16:58.070 --> 17:03.510
+one, then write a new hook function which looks like this.
+
+17:03.790 --> 17:10.830
+So you extract the final result of the transformer block, and then you redefine it to be itself, plus
+
+17:10.830 --> 17:12.070
+some noise.
+
+17:12.310 --> 17:15.390
+So no more shuffling, no more reordering.
+
+17:15.510 --> 17:22.270
+You leave the vectors exactly as they are in the order that they should appear, but you add some noise.
+
+17:22.830 --> 17:28.990
+Now the shape of the noise distribution should be a Gaussian or normal distribution.
+
+17:28.990 --> 17:32.350
+So normal distribution for the noise that you add.
+
+17:32.910 --> 17:37.510
+A question here is what should be the standard deviation of the noise?
+
+17:38.070 --> 17:41.150
+I am not going to tell you what to do here.
+
+17:41.150 --> 17:44.190
+Instead, I will let you experiment around with that.
+
+17:44.710 --> 17:49.350
+Now that's not something I want you to do rigorously, like varying the levels of noise.
+
+17:49.350 --> 17:57.350
+Basically, you can just try hard coding a few different values of the noise standard deviation that
+
+17:57.350 --> 17:59.710
+you add to the embeddings vectors.
+
+17:59.830 --> 18:06.070
+And then you can rerun this exercise a few times just to get a bit of a sense of what happens when you
+
+18:06.070 --> 18:09.110
+use too little noise or too much noise.
+
+18:09.750 --> 18:15.510
+Of course, I will have a longer discussion about this when I switch to code, but then for the experiment
+
+18:15.510 --> 18:22.910
+itself, you can basically copy the loop code over all of the layers that you did from exercise three,
+
+18:23.350 --> 18:28.750
+and also copy all of the visualizations and just modify them as necessary.
+
+18:29.310 --> 18:35.680
+I think you are going to enjoy this exercise and find it to be a refreshing difference compared to the
+
+18:35.680 --> 18:37.720
+results of exercise three.
+
+18:38.440 --> 18:44.960
+And now I will switch to code and discuss the code solution, and also discuss some issues around adding
+
+18:44.960 --> 18:48.480
+noise to internal model activations.
+
+18:50.640 --> 18:56.240
+Here I am removing all of the hooks that I have previously created from exercise one.
+
+18:56.480 --> 19:00.080
+And here I'm defining a new hook function.
+
+19:00.080 --> 19:06.800
+Now most of this function looks really similar to the previous hook function, and this is really the
+
+19:06.800 --> 19:07.680
+only difference.
+
+19:07.920 --> 19:14.600
+Okay, so here I'm extracting the embeddings vectors for this sequence, which is only the only one
+
+19:14.600 --> 19:20.400
+we have here for this target token and for all of the embeddings dimensions.
+
+19:20.400 --> 19:22.920
+And here you can see I'm generating some noise.
+
+19:23.200 --> 19:32.000
+So the size is the same as the size of this matrix or this vector, and then I am scaling it up by a
+
+19:32.200 --> 19:35.120
+multiple of the standard deviation.
+
+19:35.280 --> 19:35.480
+Okay.
+
+19:35.520 --> 19:36.520
+So I hope that makes sense.
+
+19:36.520 --> 19:43.560
+So this here this generates noise with a mean of zero and a standard deviation of one.
+
+19:44.040 --> 19:50.440
+And then what I'm doing here is changing the standard deviation so that instead of the standard deviation
+
+19:50.440 --> 19:56.480
+being one the standard deviation will be whatever the standard deviation of this variable is.
+
+19:57.080 --> 20:03.320
+This is pretty handy code here, because it means that we don't actually need to know what is the standard
+
+20:03.320 --> 20:06.040
+deviation of this variable a priori.
+
+20:06.080 --> 20:13.760
+We can simply define the standard deviation here to be the standard deviation of the actual vectors.
+
+20:14.160 --> 20:22.280
+And then I'm just scaling that up by a factor of two and by a factor of two I don't know I tried several
+
+20:22.280 --> 20:28.290
+different values ranging from larger to uh, or smaller to larger.
+
+20:28.290 --> 20:35.730
+And I just decided that two was a decent amount of noise that had a noticeable impact without completely
+
+20:36.330 --> 20:40.890
+ruining the model's ability to predict the token.
+
+20:41.770 --> 20:43.850
+Okay, but this is rather subjective.
+
+20:43.850 --> 20:45.650
+It's a little bit arbitrary.
+
+20:45.690 --> 20:52.850
+We are not going to do a really rigorous investigation of the impact of various levels of noise in this
+
+20:52.850 --> 20:53.770
+code challenge.
+
+20:54.170 --> 20:58.770
+Okay, anyway, then back to the, uh, hidden, uh, variable vectors.
+
+20:58.770 --> 21:04.170
+I'm adding the activations to the noise and then replacing those with the output.
+
+21:04.610 --> 21:04.850
+Okay.
+
+21:04.890 --> 21:05.370
+Very nice.
+
+21:05.370 --> 21:06.970
+And then, uh, new hooks here.
+
+21:06.970 --> 21:12.130
+Although technically we don't need this, uh, because this is the last time that we will need this
+
+21:12.130 --> 21:12.290
+hook.
+
+21:12.290 --> 21:14.690
+But anyway, uh, it's good practice to do this.
+
+21:15.170 --> 21:18.450
+Okay, so now all of this code I'm not going to go through.
+
+21:18.490 --> 21:24.810
+It's exactly the same as the code for the previous exercise, just using different variables and that
+
+21:24.970 --> 21:25.650
+different hook.
+
+21:26.130 --> 21:34.090
+And now we see that we actually do get the correct word behind in not all of the cases, but certainly
+
+21:34.090 --> 21:36.250
+in early on we get it a lot.
+
+21:36.490 --> 21:42.370
+And then it starts getting a little bit weirder as we get the manipulations deeper into the model.
+
+21:43.530 --> 21:47.090
+But they're also, you know, noticeably, mostly words.
+
+21:47.090 --> 21:49.290
+So we do get some punctuations here.
+
+21:49.450 --> 21:52.810
+But this is also very different from the previous manipulation.
+
+21:52.810 --> 21:56.250
+We were just randomly shuffling all of the dimensions.
+
+21:56.250 --> 22:02.370
+So here we're still getting words even though they might not be the correct target word.
+
+22:02.850 --> 22:03.090
+Okay.
+
+22:03.130 --> 22:05.290
+And then here I'm plotting the results here.
+
+22:05.290 --> 22:08.330
+So we see that where this was correct.
+
+22:08.330 --> 22:12.490
+So where it got the right answer we get a logit that's still very high.
+
+22:13.090 --> 22:16.250
+Uh again these are not exactly zero but pretty close to zero.
+
+22:16.610 --> 22:20.010
+And now here there's a couple of weird things going on here.
+
+22:20.010 --> 22:27.090
+But in general, as we get deeper into the model, the impact of adding noise is worsening.
+
+22:27.330 --> 22:33.650
+And remember, it's exactly the same amount of noise proportionally for each of these layers.
+
+22:33.650 --> 22:40.330
+So this is really something about going deeper into the model, closer to the model's prediction of
+
+22:40.330 --> 22:42.370
+what that missing token should be.
+
+22:42.850 --> 22:43.170
+Okay.
+
+22:43.210 --> 22:44.770
+So those are the results.
+
+22:44.770 --> 22:50.370
+The last thing I want to discuss here is about the nature of the distribution of the noise.
+
+22:50.370 --> 22:51.970
+Where is this hook function up here.
+
+22:52.170 --> 22:57.210
+So I was very clear that I want you to create Gaussian random noise.
+
+22:57.210 --> 23:03.770
+That is a very specific distribution of random numbers given by rand n.
+
+23:04.170 --> 23:06.010
+And why did I tell you to do that?
+
+23:06.010 --> 23:12.610
+Because I wanted you to think about whether it is appropriate to add Gaussian noise, as opposed to
+
+23:12.930 --> 23:16.530
+any other distribution of random numbers.
+
+23:16.650 --> 23:25.100
+Now the question there is what is the impact of the nature of the distribution shape on the calculations
+
+23:25.100 --> 23:26.660
+inside the model.
+
+23:27.020 --> 23:34.060
+We have seen you have seen lots of histograms of activations from all over the model.
+
+23:34.060 --> 23:40.660
+Throughout this course, you have seen that some of the activations look relatively Gaussian.
+
+23:40.660 --> 23:42.860
+Some of them do not look very Gaussian.
+
+23:43.540 --> 23:45.060
+And so that's the question.
+
+23:45.060 --> 23:52.660
+Is it really appropriate to add random noise from a Gaussian distribution to these activations here?
+
+23:53.180 --> 23:59.540
+That is a question that we will address or at least kind of look into in the next exercise.
+
+23:59.540 --> 24:04.940
+So if you would like to think about this on your own first, and feel free to pause the video and give
+
+24:04.940 --> 24:08.940
+it some thought before going to the next exercise.
+
+24:11.660 --> 24:15.500
+This is the last exercise of this code challenge.
+
+24:15.500 --> 24:23.220
+The goal here is just to follow up on the observation from the previous exercise about the noise distribution
+
+24:23.220 --> 24:27.500
+and whether it really is appropriate to use a Gaussian distribution.
+
+24:28.220 --> 24:35.940
+So here you see a histogram of Gaussian noise that was added to the embeddings in the hook from exercise
+
+24:35.980 --> 24:36.500
+four.
+
+24:37.220 --> 24:41.780
+There are 24 other lines in this plot that I have blanked out.
+
+24:41.940 --> 24:50.740
+And those correspond to the histograms of the activation values for each of the 24 transformer blocks.
+
+24:51.340 --> 24:58.060
+If you exported the hidden states in the forward pass from exercise two, then you already have all
+
+24:58.100 --> 24:59.780
+the data that you need here.
+
+24:59.980 --> 25:06.300
+You just need to create histograms of all the activations and then visualize them in this plot.
+
+25:07.020 --> 25:13.260
+If you no longer have that variable or you didn't export the hidden states, no problem, totally fine.
+
+25:13.260 --> 25:15.620
+You do another forward pass here.
+
+25:15.980 --> 25:20.910
+But make sure that you are not adding noise for this exercise.
+
+25:21.430 --> 25:30.030
+So this really should be the pure unshuffled and not noise ified embeddings vectors at the output of
+
+25:30.030 --> 25:31.550
+each transformer block.
+
+25:31.990 --> 25:36.110
+The rest of this exercise just involves some critical thinking.
+
+25:36.670 --> 25:43.310
+What is the shape of the noise distribution look like relative to the shape of the other distributions?
+
+25:43.750 --> 25:44.790
+Are they the same?
+
+25:44.790 --> 25:45.790
+Are they different?
+
+25:45.830 --> 25:53.030
+Do you think it's appropriate to add Gaussian noise the way we did in the hook in exercise four?
+
+25:53.270 --> 25:57.750
+And if not, what do you think would be a suitable alternative?
+
+25:57.990 --> 26:04.110
+Of course I will discuss my opinion of this when I switch to code, but first you should switch to code
+
+26:04.110 --> 26:05.750
+and generate that figure.
+
+26:07.470 --> 26:14.070
+This code I have commented out here because I don't actually need to run it, and that's because earlier
+
+26:14.070 --> 26:17.270
+in the code challenge I already Be exported.
+
+26:17.270 --> 26:18.710
+The hidden states.
+
+26:18.710 --> 26:22.390
+So this here is just in case you need to run it again.
+
+26:22.670 --> 26:23.070
+All right.
+
+26:23.110 --> 26:28.550
+So we I'm just extracting out these hidden states into a variable XX.
+
+26:28.870 --> 26:31.310
+And now here I'm looping over the layers.
+
+26:31.470 --> 26:38.310
+This is just to vectorize or flatten the hidden states from each layer.
+
+26:38.550 --> 26:44.710
+So I detach them, bring them back to the CPU, transform them to numpy and then flatten them.
+
+26:44.710 --> 26:50.030
+And then I create a histogram of those data using these bin boundaries.
+
+26:50.030 --> 26:53.590
+So minus four to plus 4 in 101 steps.
+
+26:53.750 --> 26:57.870
+These are somewhat arbitrary values that I just came up with.
+
+26:57.910 --> 27:02.270
+After looking at the graph and going back and forth and tweaking this a little bit.
+
+27:02.270 --> 27:05.990
+So you can try changing these values if you like.
+
+27:06.390 --> 27:06.670
+Okay.
+
+27:06.710 --> 27:13.510
+So all of this corresponds to the activation, the histograms of the actual activations that the model
+
+27:13.510 --> 27:20.350
+is producing without injecting any noise or any shuffling or any other manipulations.
+
+27:20.710 --> 27:24.590
+And then here what I'm doing is generating random noise.
+
+27:24.830 --> 27:30.710
+This is exactly the same formulation that I used in the hook function.
+
+27:30.830 --> 27:36.150
+Only difference is that up there I used the PyTorch random function.
+
+27:36.150 --> 27:37.390
+And here I'm using numpy.
+
+27:37.390 --> 27:41.310
+But the generation and the distribution are certainly the same.
+
+27:41.350 --> 27:43.390
+The scaling factor is the same.
+
+27:43.590 --> 27:47.910
+And then I'm making that histogram and plotting that as a black line.
+
+27:48.950 --> 27:49.270
+Okay.
+
+27:49.310 --> 27:51.790
+So now we see what that looks like.
+
+27:51.790 --> 27:54.550
+So here we have the Gaussian noise.
+
+27:54.830 --> 27:56.790
+It looks like Gaussian of course.
+
+27:57.350 --> 28:01.870
+And interestingly all of the other distributions are not Gaussian.
+
+28:02.150 --> 28:03.910
+They do have one peak.
+
+28:03.910 --> 28:08.870
+So they are monopolar distributions but they are way too narrow.
+
+28:08.910 --> 28:14.360
+They go down to zero way too quickly to be a Gaussian distribution.
+
+28:14.360 --> 28:18.760
+So the Gaussian is going to have wider tails than this.
+
+28:19.160 --> 28:22.920
+Than any of the distributions in any of these transformer layers.
+
+28:23.480 --> 28:27.000
+It doesn't seem like there's a real difference across the layers.
+
+28:27.000 --> 28:31.800
+They are getting a little bit thinner, but the distribution shape seems to be pretty narrow.
+
+28:32.080 --> 28:33.800
+Uh, all the way throughout.
+
+28:34.000 --> 28:41.920
+So in other words, all of these distributions across all of the transformer blocks, all these embeddings,
+
+28:41.920 --> 28:48.360
+vectors, they are different from each other in terms of their distributions, but those are relatively
+
+28:48.360 --> 28:55.960
+similar compared to the huge difference between the shapes of those distributions together versus the
+
+28:56.000 --> 29:02.440
+Gaussian normal distribution that we see here, which I added onto these vectors.
+
+29:02.800 --> 29:04.240
+So here is the question.
+
+29:04.480 --> 29:13.160
+Is it appropriate and valid to add noise when the noise is sampled from a completely different distribution
+
+29:13.360 --> 29:16.040
+as what the actual data show.
+
+29:16.560 --> 29:21.280
+This is not you know, I'm not asking this as a rhetorical question where the answer is obviously no.
+
+29:21.720 --> 29:22.880
+It's really unclear.
+
+29:23.120 --> 29:30.640
+You see many situations in science, in physics and biology where the noise has a different distribution
+
+29:30.640 --> 29:31.640
+from the signal.
+
+29:31.960 --> 29:37.000
+And so what that means in a large language model, I think is still fairly open.
+
+29:37.000 --> 29:38.960
+It's an unanswered question.
+
+29:40.400 --> 29:43.560
+I think that was a fun code challenge.
+
+29:44.040 --> 29:49.720
+I also have to say that I was really surprised to learn that the original Wizard of Oz movie was from
+
+29:49.960 --> 29:51.760
+1939.
+
+29:52.040 --> 29:56.440
+For some reason, I thought it was like from the 70s until I made this lecture and looked it up.
+
+29:56.720 --> 30:03.600
+Anyway, as I discussed earlier, randomly shuffling dimensions, especially if you are randomly shuffling
+
+30:03.600 --> 30:07.360
+every dimension is absolutely catastrophic.
+
+30:07.880 --> 30:15.130
+Adding noise to existing activations, on the other hand, is basically just injecting some uncertainty
+
+30:15.170 --> 30:23.050
+and stochasticity into the model that will make the model have a wider and flatter probability distribution
+
+30:23.050 --> 30:25.650
+when selecting the next token.
+
+30:26.330 --> 30:32.090
+Now, it's not necessarily a bad thing, but it can be an interesting experimental manipulation.
+
+30:32.650 --> 30:38.930
+To be honest, I'm not sure what is the conclusion about the distribution of noise versus signal.
+
+30:39.530 --> 30:46.890
+As I mentioned at the end of the Python session, there are tons of examples in physics and biology
+
+30:46.890 --> 30:52.930
+and finance and psychology and so on, where signals have different distributions than noise.
+
+30:53.450 --> 30:59.010
+And so the fact that they are differently distributed is certainly something to know about.
+
+30:59.010 --> 31:06.130
+But I wouldn't dismiss it out of hand as saying that it's inappropriate simply because the distribution
+
+31:06.130 --> 31:07.610
+shapes are different.

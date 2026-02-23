@@ -1,0 +1,688 @@
+WEBVTT
+
+00:05.200 --> 00:07.880
+Now you have two sets of results.
+
+00:08.040 --> 00:15.600
+One for ablating the heads to a value of zero, and one for replacing them with the head average.
+
+00:15.920 --> 00:23.600
+The goal of exercise five is to compare those two sets of results, and to try to address the question
+
+00:23.600 --> 00:25.240
+of whether it matters.
+
+00:25.480 --> 00:33.040
+If you replace the value of the head with zero or with an empirically observed characteristic.
+
+00:33.720 --> 00:36.720
+You can make two plots for exercise five.
+
+00:37.040 --> 00:45.400
+This first plot over here is for histograms corresponding to the change in softmax probability relative
+
+00:45.400 --> 00:48.240
+to the clean model that's on the x axis.
+
+00:48.440 --> 00:55.760
+For the targets and the non-targets, when you replaced each head with zeros versus with their mean,
+
+00:56.360 --> 01:03.280
+now you can already see from the x axis that there's a pretty respectable range of Of numerical values.
+
+01:03.280 --> 01:09.600
+So the two things you want to look for in this plot are, first of all, the target versus non-target
+
+01:09.600 --> 01:16.480
+differences, which you already know are visually quite salient from the previous couple of exercises.
+
+01:17.440 --> 01:22.920
+And the second thing to look for is differences between zero and mean replacements.
+
+01:23.440 --> 01:27.720
+Of course, keep in mind we're not doing any statistical analyses here.
+
+01:27.720 --> 01:32.040
+So this is really just about qualitative visual inspection.
+
+01:32.560 --> 01:32.880
+Okay.
+
+01:32.920 --> 01:35.800
+So these are the histograms on the left plot.
+
+01:35.840 --> 01:42.920
+And then on the right you can make an image of the mean versus the zero replacement softmax probabilities
+
+01:43.040 --> 01:44.280
+just for the target.
+
+01:44.280 --> 01:46.600
+So I didn't plot the non-targets here.
+
+01:46.600 --> 01:50.280
+Of course you could also add that image if you like.
+
+01:50.880 --> 01:58.320
+Now, the reason why we are making this figure is to gain some insight into whether it matters whether
+
+01:58.320 --> 02:02.120
+we replace the head values with zeros or the average.
+
+02:02.680 --> 02:05.360
+Keep in mind that this is just one sample.
+
+02:05.360 --> 02:08.240
+So one data sample one piece of text.
+
+02:08.240 --> 02:12.240
+So we don't want to make any like really grand sweeping claims.
+
+02:12.440 --> 02:17.840
+But with that caveat what would be your interpretation based on these results.
+
+02:18.080 --> 02:21.280
+So that is part of your goal for this exercise.
+
+02:22.440 --> 02:26.160
+I hope you enjoy making these plots and thinking about these plots.
+
+02:26.280 --> 02:30.200
+And now you should pause the video and now I will switch to code.
+
+02:32.600 --> 02:34.720
+Here is the grid spec code.
+
+02:34.720 --> 02:41.240
+This is just for me to set up the figure, with the left plot being twice as long as the right plot.
+
+02:41.720 --> 02:48.440
+Okay, so then I take histograms of basically everything that we have measured here and subtracting
+
+02:48.440 --> 02:53.000
+off the clean version for the target and the non-target.
+
+02:53.320 --> 02:53.600
+Okay.
+
+02:53.640 --> 02:59.800
+And then a difference heatmap that is the results for mean minus the results for zero.
+
+03:00.200 --> 03:05.400
+So here we see the histograms the distribution pretty interesting to look at.
+
+03:05.400 --> 03:07.440
+Obviously the most notable.
+
+03:07.440 --> 03:13.680
+The most striking difference here is between the non-targets and the targets.
+
+03:13.880 --> 03:20.000
+So the non-targets change relative to their clean version very very very very little.
+
+03:20.200 --> 03:20.400
+Right.
+
+03:20.440 --> 03:24.640
+These distributions are really tightly clustered around zero.
+
+03:24.800 --> 03:26.160
+And what does that mean.
+
+03:26.520 --> 03:33.400
+That means that in this particular example, in this experiment that we've run, manipulating one head
+
+03:33.400 --> 03:43.120
+at a time had almost no measurable impact on the token for the word France, whereas it had a huge impact
+
+03:43.120 --> 03:46.560
+on the final logit for the word Germany.
+
+03:46.840 --> 03:49.800
+And that is interesting because Germany is the correct answer.
+
+03:49.800 --> 03:56.480
+France is the incorrect answer, but France and Germany are semantically very closely related.
+
+03:56.600 --> 03:58.160
+So that's pretty interesting.
+
+03:58.280 --> 04:04.320
+And then the second interesting thing to note here is that the distributions are not identical, but
+
+04:04.320 --> 04:11.320
+really, really similar for the zero versus mean replacements within the targets.
+
+04:11.440 --> 04:19.720
+You don't actually see this here, but they are also really similar for the mean and for the non-target.
+
+04:19.720 --> 04:24.360
+So the red line and the green line are almost perfectly overlapping.
+
+04:24.760 --> 04:25.000
+Okay.
+
+04:25.040 --> 04:27.200
+Now this should not be that surprising.
+
+04:27.200 --> 04:35.560
+The orange and the blue lines, the distributions for the final token logit probabilities are basically
+
+04:35.560 --> 04:36.840
+equally affected.
+
+04:36.840 --> 04:42.520
+Roughly equally affected whether we zero out the head or replace it with the mean.
+
+04:42.760 --> 04:44.640
+And why is that not very surprising?
+
+04:44.720 --> 04:52.040
+Well, we saw from the previous exercise that the actual means were pretty centered at zero and also
+
+04:52.040 --> 04:53.760
+fairly small 0.05.
+
+04:53.800 --> 04:56.440
+I mean, you know, these are quite small values.
+
+04:56.440 --> 05:02.080
+So that tells us that the average within each head is already quite close to zero.
+
+05:02.240 --> 05:05.650
+And so therefore replacing it with a literal zero.
+
+05:05.650 --> 05:08.530
+It doesn't really have a huge impact here.
+
+05:08.890 --> 05:12.530
+And that's also what you see in this image over here.
+
+05:12.530 --> 05:16.410
+So I've scaled this to go from minus one to plus 1%.
+
+05:16.610 --> 05:20.410
+Again it does have an impact whether we use zero or the mean.
+
+05:20.610 --> 05:27.970
+And so just to be clear this image here is showing all the data points that go into these distributions
+
+05:27.970 --> 05:28.490
+here.
+
+05:28.610 --> 05:35.610
+So the difference between these distributions can be isolated to a particular head and layer.
+
+05:35.610 --> 05:37.170
+And that's what I'm showing here.
+
+05:37.410 --> 05:43.530
+It kind of looks like there's more of an impact in terms of the magnitude of the difference in earlier
+
+05:43.530 --> 05:48.130
+layers and less in later layers, but again, that's a fairly subtle feature.
+
+05:48.130 --> 05:49.650
+I wouldn't overinterpret that.
+
+05:51.770 --> 05:56.730
+Exercises six and seven will take you very little time.
+
+05:57.290 --> 06:03.690
+The idea is to make a very tiny change to the script, and then just run the entire script from the
+
+06:03.690 --> 06:08.610
+beginning to the end to see qualitatively how the results change.
+
+06:09.170 --> 06:12.610
+So the goal here in exercise six is very simple.
+
+06:12.770 --> 06:18.050
+Instead of using France as the non-target token, use Germany.
+
+06:18.490 --> 06:19.450
+Hey, wait a minute.
+
+06:19.490 --> 06:21.570
+Isn't that the same as the target?
+
+06:21.890 --> 06:24.770
+Well, to us humans it might be the same.
+
+06:24.770 --> 06:26.250
+But notice the spacing.
+
+06:26.570 --> 06:32.970
+The target here is actually space Germany and the non-target is no space Germany.
+
+06:33.650 --> 06:38.490
+So just make that tiny change and then rerun the entire script from the top.
+
+06:38.610 --> 06:40.570
+That's the easy part of the exercise.
+
+06:40.970 --> 06:47.730
+The real part of this exercise is to understand why the results are the way they are, and what that
+
+06:47.730 --> 06:49.930
+means about language models.
+
+06:50.490 --> 06:54.570
+Okay, now you should run through this exercise and give it some thought.
+
+06:54.690 --> 06:57.810
+And now I will switch to Python and discuss the results.
+
+06:59.490 --> 07:04.090
+So here I'm just changing France to Germany again.
+
+07:04.130 --> 07:06.290
+The spelling is identical.
+
+07:06.570 --> 07:12.490
+The only difference is this one space in here, which we humans would basically just ignore.
+
+07:13.210 --> 07:14.850
+But let's see what happens.
+
+07:14.890 --> 07:21.210
+Okay, so now I'm going to run the entire code cell or code file again just by pressing this button.
+
+07:21.530 --> 07:23.250
+And let's see.
+
+07:23.250 --> 07:25.850
+The first plot we can look at is this one.
+
+07:26.090 --> 07:30.890
+So again of course the log softmax probability.
+
+07:30.890 --> 07:34.210
+The output logit is highest for space Germany.
+
+07:34.450 --> 07:36.090
+This is incorrectly labeled.
+
+07:36.090 --> 07:37.170
+This is not France.
+
+07:37.170 --> 07:39.410
+This is now no space Germany.
+
+07:39.890 --> 07:46.810
+You can see that the activation is relatively high compared to the distribution of tokens.
+
+07:46.810 --> 07:51.770
+But it's it's not that high certainly not matching that of space Germany.
+
+07:51.770 --> 07:57.450
+So that already gives us some indication that the model makes a really clear distinction between space
+
+07:57.450 --> 07:59.770
+Germany and no space Germany.
+
+08:00.610 --> 08:00.890
+Okay.
+
+08:00.930 --> 08:01.370
+Let's see.
+
+08:01.410 --> 08:03.570
+Now we can go down and look at this plot.
+
+08:03.770 --> 08:09.930
+This looks qualitatively the same as when we used fronts for the non-target word.
+
+08:10.090 --> 08:18.210
+Again, the suggestion here, the finding is that the model, when we manipulate these attention heads,
+
+08:18.210 --> 08:23.050
+that is, changing the model's final logit output of the word space.
+
+08:23.050 --> 08:26.610
+Germany, but not the word no space Germany.
+
+08:27.170 --> 08:27.490
+Okay.
+
+08:27.530 --> 08:32.330
+And then, yeah, the rest of this is basically just going to show us something similar.
+
+08:32.570 --> 08:39.330
+Uh, and then yeah, here we also see the change relative to the clean version is so close to zero.
+
+08:39.610 --> 08:41.410
+This is not technically all zeros.
+
+08:41.410 --> 08:49.290
+There are some non-zero values here, but it just looks like a line at zero because yeah, the the impact
+
+08:49.290 --> 08:53.090
+is so absolutely infinitesimal.
+
+08:53.370 --> 08:54.650
+And why does this happen?
+
+08:54.650 --> 08:55.650
+Why is this the case?
+
+08:55.650 --> 09:00.330
+Well, let's go back and look at the text that we are actually pushing through the model.
+
+09:00.890 --> 09:03.930
+So, uh, where is that text?
+
+09:04.050 --> 09:04.810
+Uh, here it is.
+
+09:04.850 --> 09:05.290
+Okay.
+
+09:05.610 --> 09:11.690
+Berlin is the capital of what should be the next token in this sequence.
+
+09:11.850 --> 09:15.250
+Well, it should be of of Germany like this.
+
+09:15.450 --> 09:21.970
+But if you look at the, the Nontarget index, you're looking at this token over here.
+
+09:22.330 --> 09:29.610
+What you're actually asking is what is the probability that the model is going to produce this token
+
+09:29.610 --> 09:30.730
+as its next one.
+
+09:30.850 --> 09:35.010
+And this has a really low probability of being generated.
+
+09:35.170 --> 09:35.530
+Why?
+
+09:35.570 --> 09:39.450
+Because this model has been trained on so much text data.
+
+09:40.010 --> 09:45.890
+You know, it probably has happened that somewhere on the internet, at some point, someone accidentally
+
+09:45.890 --> 09:51.090
+made a typo and wrote of Germany instead of of Germany.
+
+09:51.090 --> 09:51.770
+Like this.
+
+09:52.010 --> 09:59.410
+But the model basically knows that this is not a real word, and so it's not going to predict that no
+
+09:59.410 --> 10:01.890
+space Germany should come after of.
+
+10:02.410 --> 10:02.690
+Okay.
+
+10:02.730 --> 10:09.010
+Now, if you like, what you can also try doing is running through the model again like this where you
+
+10:09.010 --> 10:13.490
+actually include a space at the end of this text over here.
+
+10:14.610 --> 10:21.810
+So far in this code challenge, and also in the previous video, we have been modifying a given head
+
+10:21.970 --> 10:28.570
+for all of the tokens in a sequence that is advantageous when you're first getting started, because
+
+10:28.570 --> 10:36.570
+it provides a nice and more robust assessment of the importance of that head for integrating information
+
+10:36.570 --> 10:42.970
+from the entire sequence, from all the tokens that are available to each individual token.
+
+10:43.570 --> 10:52.570
+But it is a little bit more precise to manipulate the attention activation vectors only for one particular
+
+10:52.570 --> 10:54.050
+target token.
+
+10:55.170 --> 11:02.930
+So what you should do here for exercise seven is, first of all, undo all the modifications from exercise
+
+11:02.930 --> 11:08.050
+six so that you are at the state of where you are at the end of exercise five.
+
+11:08.490 --> 11:15.890
+But then what you want to do here is modify the hook function so that you are replacing only the final
+
+11:15.930 --> 11:21.650
+token in the sequence, and leave all of the other tokens in the sequence preserved.
+
+11:22.450 --> 11:25.050
+And then you just rerun the entire script.
+
+11:25.090 --> 11:27.890
+You don't need to do quantitative comparisons.
+
+11:27.890 --> 11:31.970
+It's enough just to make sure that the code works in the first place.
+
+11:32.090 --> 11:35.810
+And also if you notice any qualitative differences.
+
+11:36.690 --> 11:39.970
+So now you can pause the video and get to work.
+
+11:39.970 --> 11:44.050
+And now I'll do the thing that I always do after telling you to pause the video.
+
+11:45.490 --> 11:47.850
+This manipulation is very simple.
+
+11:47.850 --> 11:53.250
+You just have to remember the order of the dimensions in this tensor.
+
+11:53.650 --> 11:56.210
+So this is sequences in the batch.
+
+11:56.250 --> 11:57.370
+This is tokens.
+
+11:57.370 --> 12:01.330
+This is heads and this is the head dimensionality.
+
+12:01.730 --> 12:04.890
+So all we need to do is change that to that.
+
+12:04.890 --> 12:08.250
+And then you have to change it to minus one again here.
+
+12:08.250 --> 12:16.170
+So this is now only replacing the value in the very last token, and that means that all of the other
+
+12:16.170 --> 12:19.570
+tokens in the sequence are left unpreserved.
+
+12:20.010 --> 12:23.970
+And then I'm going to run through all of this code and then we can have a look.
+
+12:24.650 --> 12:26.610
+And let's see.
+
+12:26.610 --> 12:28.410
+So here we can look at this plot.
+
+12:28.570 --> 12:31.210
+Uh we haven't done any manipulations here.
+
+12:31.210 --> 12:34.970
+So this is just confirming that everything still works.
+
+12:35.250 --> 12:35.610
+Okay.
+
+12:35.650 --> 12:39.170
+And then uh, we can see this looks basically the same.
+
+12:39.450 --> 12:41.810
+Uh, this result looks basically the same.
+
+12:42.090 --> 12:46.410
+And these distributions look pretty similar.
+
+12:46.450 --> 12:53.130
+The distributions are a little bit tighter here compared to when we used all of the heads, when we
+
+12:53.130 --> 12:54.610
+ablated all of the heads.
+
+12:54.650 --> 13:00.210
+Remember that distribution was a little bit more broad going into the negative values.
+
+13:00.890 --> 13:09.810
+So overall uh zeroing out or replacing uh, the the head for all of the tokens in the sequence had a
+
+13:09.810 --> 13:10.490
+bigger effect.
+
+13:10.490 --> 13:17.140
+It was a more robust effect compared to only manipulating the final token, if you like.
+
+13:17.180 --> 13:21.380
+You can also try rerunning this code again, changing different tokens.
+
+13:21.380 --> 13:27.140
+For example, maybe you just want to modify the token corresponding to the word.
+
+13:27.140 --> 13:29.340
+Where is this, uh, the word Berlin?
+
+13:29.380 --> 13:32.180
+Okay, so that is although actually Berlin is too.
+
+13:32.460 --> 13:39.340
+So if you want to manipulate just the, uh, heads for processing Berlin as the city, then you can
+
+13:39.340 --> 13:40.900
+try changing that.
+
+13:40.900 --> 13:44.420
+You can also try modifying just for the word capital.
+
+13:44.420 --> 13:46.620
+So that would be this token here.
+
+13:47.020 --> 13:53.900
+And maybe, you know, the model would, would get confused and think Berlin is the heart of EU for
+
+13:53.900 --> 13:54.420
+example.
+
+13:54.420 --> 13:56.820
+So that could be also a possibility.
+
+13:58.620 --> 14:04.780
+One thing that you have already seen in this part of the course, which I'm now trying to explicitly
+
+14:04.780 --> 14:10.700
+stress, is that there are several different terms for the same experimental manipulation.
+
+14:11.620 --> 14:14.580
+Perhaps you find that frustrating and confusing.
+
+14:14.740 --> 14:17.980
+In which case I share your frustration and confusion.
+
+14:19.020 --> 14:26.420
+On the other hand, terminological issues are common in new areas of science, and they tend to converge
+
+14:26.620 --> 14:28.660
+as the discipline develops.
+
+14:29.300 --> 14:33.100
+The second point I want to make is more about the models themselves.
+
+14:33.260 --> 14:41.020
+These are highly complex systems, and it's difficult to predict a priori what a tiny manipulation somewhere
+
+14:41.020 --> 14:48.180
+in the model is going to have on all of the downstream calculations, especially considering all of
+
+14:48.180 --> 14:50.300
+the nonlinear transformations.
+
+14:51.260 --> 14:58.420
+So the particular question that we addressed here is whether it's more natural to replace with the average
+
+14:58.420 --> 15:00.500
+value or with zero.
+
+15:01.340 --> 15:08.060
+I'm not really sure that it matters considering how much effort models and the engineers who build them
+
+15:08.060 --> 15:11.780
+expend to normalizing and shifting the data.
+
+15:11.820 --> 15:16.940
+The weights and the activations so that they don't stray too far from zero.
+
+15:17.620 --> 15:24.420
+I think what might be a more impactful aspect of the manipulation, beyond whether you set it to zero
+
+15:24.420 --> 15:31.820
+or the existing average, is that in all of those manipulations that we've done here, we are completely
+
+15:31.860 --> 15:35.100
+obliterating the variance in the head.
+
+15:35.380 --> 15:42.060
+So all of the activation values in the head take exactly the same value after our manipulation.
+
+15:43.300 --> 15:49.700
+So it might be that knocking out the variance is what's really driving the downstream impacts, and
+
+15:49.700 --> 15:57.380
+not the actual value itself within some tolerance, because that constant value might just be shifted
+
+15:57.380 --> 15:58.460
+in the next layer.
+
+15:58.580 --> 16:02.620
+For example, in the layer norm before we get to the MLP subblock.
+
+16:03.220 --> 16:06.620
+So yeah, it's really hard to predict these kinds of impacts.
+
+16:07.300 --> 16:10.860
+Here I'm using the term deterministic chaos.
+
+16:11.140 --> 16:14.220
+This comes from the complexity theory literature.
+
+16:14.780 --> 16:22.220
+Deterministic chaos means that a very small change in a variable somewhere in a complex system can have
+
+16:22.220 --> 16:29.300
+effects that are difficult or impossible to predict, but they can be measured, and if the system is
+
+16:29.300 --> 16:36.660
+deterministic, or at least mostly deterministic, then the ensuing chaos and complexity can be perfectly
+
+16:36.660 --> 16:40.380
+reproducible and therefore amenable to investigation.
+
+16:41.540 --> 16:47.700
+And that is the case with these models, because the same tokens and the same manipulations will produce
+
+16:47.700 --> 16:54.420
+the same internal dynamics within some threshold of machine numerical precision.
+
+16:54.780 --> 16:59.100
+And that is great because that helps us investigate these systems.
+
+16:59.780 --> 17:05.500
+Of course, there is randomness in the token selection at the end of the model, but at least within
+
+17:05.500 --> 17:12.740
+one forward pass, and again within the tolerance of numerical precision, we have a deterministic chaotic
+
+17:12.740 --> 17:13.500
+system.

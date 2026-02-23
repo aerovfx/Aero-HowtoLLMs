@@ -1,0 +1,778 @@
+WEBVTT
+
+00:02.080 --> 00:05.240
+This is going to be a pretty exciting video.
+
+00:05.400 --> 00:13.960
+We are going to see how the gradient descent algorithm is implemented in Python, and we're going to
+
+00:14.000 --> 00:20.720
+focus on gradient descent in one dimension, just because that makes the visualization easy.
+
+00:20.760 --> 00:24.000
+It also makes the math easy, which means the code is easy.
+
+00:24.560 --> 00:31.000
+And I'm also going to introduce you to two important parameters in deep learning.
+
+00:31.000 --> 00:34.960
+This is the learning rate and the number of training epochs.
+
+00:35.280 --> 00:41.400
+Now, I mentioned these two terms before when I told you about the algorithm for gradient descent,
+
+00:41.640 --> 00:43.520
+but I didn't really talk about them.
+
+00:43.520 --> 00:49.000
+And to be honest, I'm not going to talk about them in a huge amount of detail in this video either.
+
+00:49.000 --> 00:54.720
+But you will get to see how important these parameters really are for deep learning.
+
+00:55.040 --> 01:01.970
+And this demonstration of these two parameters, these meta parameters is going to help you appreciate
+
+01:01.970 --> 01:09.050
+why gradient descent is not guaranteed to give the correct answer, or even a really good answer.
+
+01:09.050 --> 01:16.050
+We're going to easily crash the gradient descent algorithm so that it doesn't give us a good answer
+
+01:16.050 --> 01:18.930
+just by playing around with these two parameters here.
+
+01:19.650 --> 01:27.330
+So our goal for gradient descent is going to be to find the minimum of this function.
+
+01:27.730 --> 01:30.890
+So here's this function we can compute its derivative.
+
+01:31.050 --> 01:35.050
+This is something we've seen before a couple videos ago I think it was two videos ago.
+
+01:35.050 --> 01:37.090
+We talked about this here.
+
+01:37.090 --> 01:39.530
+It was that screenshot just to remind you.
+
+01:39.650 --> 01:47.370
+So now our goal is to empirically identify using the gradient descent algorithm, identify point five
+
+01:47.370 --> 01:52.530
+or somewhere near point five as being the local minimum of this function.
+
+01:52.530 --> 01:53.410
+Here I call it y.
+
+01:53.450 --> 01:54.530
+Here I call it f of x.
+
+01:54.530 --> 01:59.290
+Sorry, it's a little confusing, but this is the blue line shows this function.
+
+01:59.290 --> 02:03.460
+The graph of this function and the orange line is its derivative.
+
+02:03.620 --> 02:11.980
+Now we discovered, we computed analytically that the true minimum of this function is at x equals 0.5.
+
+02:12.740 --> 02:15.660
+So we know that that has to be the right answer.
+
+02:16.180 --> 02:21.180
+So now let's switch to Python and we will see how to implement gradient descent.
+
+02:21.420 --> 02:25.980
+And we will explore whether gradient descent always gives us the correct answer.
+
+02:27.580 --> 02:30.980
+We will use numpy and matplotlib.
+
+02:30.980 --> 02:32.700
+Notice we're not using PyTorch.
+
+02:32.860 --> 02:35.100
+That comes in later on in the course.
+
+02:35.100 --> 02:38.380
+For now we're going to do everything manually.
+
+02:38.380 --> 02:43.780
+Or at least you know, just with numpy and not with automatic functions using PyTorch.
+
+02:44.340 --> 02:49.860
+This little bit of code here is basically just changing the figure format to make the figures look a
+
+02:49.860 --> 02:52.460
+little bit nicer, makes them a little bit crisper.
+
+02:52.700 --> 02:57.700
+In particular, it draws the figures in vector format instead of pixel format.
+
+02:58.100 --> 03:05.280
+Okay, so here we have our function I'm creating a Python function for this mathematical function,
+
+03:05.600 --> 03:06.720
+and it's pretty straightforward.
+
+03:06.720 --> 03:09.280
+We just return the function itself.
+
+03:10.000 --> 03:15.640
+And here is the derivative of the function for the derivative of this function.
+
+03:15.640 --> 03:18.960
+So I'm computing these manually which is fine here.
+
+03:19.120 --> 03:25.440
+Let us say I'm hard coding the function and its derivative here, which is fine because this is a relatively
+
+03:25.440 --> 03:26.680
+simple function.
+
+03:27.160 --> 03:27.720
+So let me see.
+
+03:27.720 --> 03:31.600
+I have to run this code and run this cell.
+
+03:31.920 --> 03:33.040
+Here I generate a plot.
+
+03:33.040 --> 03:38.560
+So I'm going to evaluate the function and its derivative from minus two.
+
+03:38.600 --> 03:45.440
+So values of x from minus two to plus 2 in 2001 steps okay.
+
+03:45.480 --> 03:52.440
+So you see we're plotting x by the function and x by the derivative of the function.
+
+03:53.000 --> 03:55.200
+So nothing too spectacular here.
+
+03:55.800 --> 03:58.520
+It's exactly what it looks like in the slides okay.
+
+03:58.560 --> 04:02.000
+So now here is our learning algorithm.
+
+04:02.000 --> 04:07.850
+In fact this is the code that implements the gradient descent algorithm right here.
+
+04:08.130 --> 04:11.570
+So we loop over the number of training epochs.
+
+04:11.570 --> 04:13.730
+Here I specify this to be 100.
+
+04:13.730 --> 04:16.370
+I'll talk more about this number in a few moments.
+
+04:16.650 --> 04:20.210
+So we we loop over 100 training epochs.
+
+04:20.650 --> 04:28.370
+And then we compute the gradient as the derivative of the function at our local minimum point.
+
+04:28.450 --> 04:33.810
+And here is our local minimum point which we initialize as just a random guess.
+
+04:33.810 --> 04:35.450
+And what we're doing with this code here.
+
+04:35.650 --> 04:40.290
+This says numpy dot random.choice I input x comma one.
+
+04:40.290 --> 04:43.610
+So this is from the vector x.
+
+04:43.890 --> 04:50.930
+I'm just going to randomly select randomly choose one value out of the vector x.
+
+04:50.970 --> 04:57.090
+And remember the vector x is just the the set of points that we are evaluating these functions on.
+
+04:57.770 --> 05:04.700
+Okay, so we compute the gradient or the derivative of the function at our guess of the local minimum.
+
+05:05.020 --> 05:09.060
+So we take a guess and then we redefine the local minimum.
+
+05:09.060 --> 05:17.300
+Or we adjust the local minimum to be itself minus the learning rate times this gradient here that we
+
+05:17.300 --> 05:18.180
+just computed.
+
+05:18.900 --> 05:22.740
+And then we keep going through that 100 times the learning rate here.
+
+05:22.740 --> 05:26.220
+As I mentioned previously in a couple a couple videos ago.
+
+05:26.340 --> 05:30.660
+That's just that to be some small value here, I'm setting it to be 0.01.
+
+05:30.700 --> 05:37.220
+We will explore in a little bit the effect of tuning up or tuning down this parameter here.
+
+05:37.660 --> 05:37.860
+Okay.
+
+05:37.900 --> 05:39.980
+So we can run through this code here.
+
+05:40.100 --> 05:44.180
+And we see that we get a local minimum of 0.49.
+
+05:44.220 --> 05:48.980
+Actually let me print out the first estimate of local min.
+
+05:49.460 --> 05:50.900
+So now we're going to get that.
+
+05:50.940 --> 05:57.380
+We're going to see printed out the first estimate and the final estimate after gradient descent after
+
+05:57.380 --> 05:58.780
+our learning algorithm.
+
+05:59.500 --> 06:02.180
+So we started off at -0.7.
+
+06:02.180 --> 06:05.830
+And then we ended up at 0.497 here.
+
+06:05.830 --> 06:07.270
+And this time, all that's unusual.
+
+06:07.270 --> 06:09.870
+We got pretty much the same random starting value.
+
+06:09.910 --> 06:10.870
+Let's try that again.
+
+06:11.390 --> 06:14.950
+Okay, so you can see that the random starting value is all over the place.
+
+06:14.990 --> 06:16.630
+It's minus something.
+
+06:16.630 --> 06:17.510
+It's plus something.
+
+06:17.510 --> 06:18.390
+It's close to zero.
+
+06:18.390 --> 06:19.550
+It's far away from zero.
+
+06:19.750 --> 06:27.150
+But this the estimate of the local minimum after running through this gradient descent algorithm is
+
+06:27.150 --> 06:28.270
+not exactly the same.
+
+06:28.310 --> 06:30.190
+I discussed this a few videos ago.
+
+06:30.190 --> 06:36.910
+It's not giving us an exactly correct result, which we know from because it's a simple function, but
+
+06:36.910 --> 06:43.350
+you can see it's pretty close to 0.5 all the time, sometimes a tiny bit over, tiny bit under whatever.
+
+06:43.870 --> 06:45.670
+Okay, so now let's plot the results.
+
+06:45.670 --> 06:48.950
+We plot the function again and its derivative again.
+
+06:48.950 --> 06:52.190
+So this will produce the same plot as above.
+
+06:52.550 --> 06:56.630
+And then this is going to plot the local minimum of x.
+
+06:56.630 --> 07:03.310
+So the value of x where we have computed the local minimum, the empirical local minimum through gradient
+
+07:03.310 --> 07:07.400
+descent and the derivative and at the function value.
+
+07:07.520 --> 07:11.560
+In fact, this is a plot that you've also seen before in the slides.
+
+07:12.120 --> 07:21.000
+Now, what I want to do next in the code is store the value of the local minimum at every single epoch.
+
+07:21.320 --> 07:25.920
+So this loop here, this code here is gradient descent.
+
+07:25.920 --> 07:30.920
+It's nearly the same as the gradient descent code that we just looked at.
+
+07:30.960 --> 07:37.880
+You can see the main difference is that I'm creating this vector this matrix called model params.
+
+07:37.880 --> 07:39.560
+So this is the model parameters.
+
+07:39.760 --> 07:47.280
+And at each row during training I'm storing the guess of the local minimum and also the gradient or
+
+07:47.280 --> 07:50.520
+the derivative at the local minimum.
+
+07:50.960 --> 07:51.120
+Okay.
+
+07:51.160 --> 07:52.520
+So I'm going to run through this code.
+
+07:52.520 --> 07:55.520
+Otherwise this is the same gradient descent algorithm.
+
+07:55.560 --> 07:57.160
+And now I'm going to make a plot of this.
+
+07:57.160 --> 08:03.440
+So we're going to get two plots two subplots one showing the local minimum and how the local minimum
+
+08:03.440 --> 08:07.130
+changes and the other one showing the derivative.
+
+08:07.890 --> 08:08.090
+Okay.
+
+08:08.130 --> 08:09.490
+So here we see that plot.
+
+08:09.650 --> 08:14.410
+So you see that in this case we started off our gradient descent algorithm.
+
+08:14.410 --> 08:19.770
+Initially guessed that the local minimum was 0.76 or whatever this point is.
+
+08:20.170 --> 08:26.730
+And you can see that as learning progresses through 100 iterations, it's getting closer and closer
+
+08:26.730 --> 08:29.090
+to the true value of 0.5.
+
+08:29.530 --> 08:36.530
+And it's also pretty interesting to see that the steps it's taking is getting smaller on the y axis.
+
+08:36.530 --> 08:41.610
+So the function value is getting closer and closer to the true value.
+
+08:42.090 --> 08:43.570
+Here is the derivative.
+
+08:43.570 --> 08:52.930
+Remember, the goal of the gradient descent algorithm is to move towards a derivative of zero.
+
+08:53.130 --> 08:55.050
+And that's what you see happening here.
+
+08:55.050 --> 08:57.290
+We start off with a large derivative.
+
+08:57.530 --> 09:02.170
+It gets smaller and smaller and smaller and it's moving towards a derivative of zero.
+
+09:02.210 --> 09:06.870
+Now once it gets very very close to zero Learning slows down.
+
+09:07.310 --> 09:12.670
+It's there isn't that much to learn because the function is getting closer and closer to the minimum
+
+09:12.670 --> 09:13.350
+value.
+
+09:14.030 --> 09:15.630
+Now here we started positive.
+
+09:15.910 --> 09:16.830
+It was just by chance.
+
+09:16.830 --> 09:19.190
+So now the the curves are going down.
+
+09:19.190 --> 09:24.390
+You can see they, they asymptotically approach the, the the true value here.
+
+09:24.590 --> 09:25.990
+So I want to run this again.
+
+09:26.550 --> 09:28.990
+And I hope this is going to go the other way.
+
+09:29.470 --> 09:29.910
+Let's see.
+
+09:29.950 --> 09:31.470
+I know it still started up.
+
+09:31.510 --> 09:34.470
+I want to run this again until just randomly okay.
+
+09:34.470 --> 09:34.990
+There you go.
+
+09:35.230 --> 09:39.030
+So this should oh this is a pretty neat example actually.
+
+09:39.270 --> 09:42.870
+The purely by chance the model ended up starting out.
+
+09:42.870 --> 09:49.750
+It picked a value that was already really, really close to the final true minimum value.
+
+09:49.750 --> 09:52.670
+So it started off being really, really accurate.
+
+09:52.870 --> 09:55.830
+And so there actually wasn't all that much to learn.
+
+09:55.830 --> 09:58.310
+But you can see here the derivative is negative.
+
+09:58.470 --> 10:00.350
+So now it becomes positive.
+
+10:00.350 --> 10:02.510
+It grows up towards zero.
+
+10:02.830 --> 10:03.350
+All right.
+
+10:03.390 --> 10:12.200
+Now what I would like to do is explore the effects of the these two parameters learning rate and the
+
+10:12.200 --> 10:13.880
+number of training epochs.
+
+10:14.160 --> 10:22.480
+So the learning rate is the value that scales the gradient as we update the local mean sorry, the local
+
+10:22.480 --> 10:23.200
+minimum.
+
+10:23.400 --> 10:31.080
+So the estimate of the local minimum of the function or the minimum of the function is itself minus
+
+10:31.120 --> 10:35.360
+the derivative, and the derivative is scaled by the learning rate.
+
+10:35.440 --> 10:38.960
+So first of all, let's see what happens if we just set this.
+
+10:39.000 --> 10:43.360
+You know, if we turn the learning rate off which implicitly means just set this to one.
+
+10:43.960 --> 10:45.840
+So let's see what kind of a value we get.
+
+10:45.880 --> 10:46.320
+All right.
+
+10:46.360 --> 10:47.760
+We get this value.
+
+10:47.800 --> 10:50.440
+This initially looks like minus one.
+
+10:50.440 --> 10:53.040
+But notice this scientific notation here.
+
+10:53.440 --> 10:54.680
+This is E 70.
+
+10:54.720 --> 10:58.200
+This is actually minus ten to the power of 70.
+
+10:58.240 --> 11:01.720
+This is a ginormous galactic number.
+
+11:01.760 --> 11:04.240
+Totally totally wrong okay.
+
+11:04.480 --> 11:06.840
+And you know, we can we can run this over and over again.
+
+11:06.970 --> 11:09.850
+It's never going to give a sensible result.
+
+11:09.850 --> 11:13.690
+This is an absolutely huge magnitude negative number.
+
+11:13.730 --> 11:15.010
+Absolutely ginormous.
+
+11:15.410 --> 11:17.650
+Okay, let's try again making it smaller.
+
+11:17.650 --> 11:19.570
+So before it was 0.01.
+
+11:19.610 --> 11:21.970
+Now I'm going to try making it 0.001.
+
+11:22.890 --> 11:24.850
+So let's see what we get there huh.
+
+11:24.890 --> 11:30.730
+So we started off at 1.7 and then we ended up at 1.1.
+
+11:30.970 --> 11:33.530
+Now we know the true answer is 0.5.
+
+11:34.090 --> 11:40.850
+So it did get closer, but it didn't even get nearly there after 100 training epochs.
+
+11:40.890 --> 11:42.610
+Let's try this again okay.
+
+11:42.610 --> 11:44.690
+Here again, it was actually a pretty similar example.
+
+11:45.130 --> 11:45.490
+Let's see.
+
+11:45.530 --> 11:50.850
+Now we start at -0.3 and we get up to 0.06.
+
+11:50.890 --> 11:55.210
+Let's you know to help us visualize what is what the problem is here.
+
+11:55.570 --> 12:03.850
+Let's go down to this code where we can plot the gradient and the estimate of the function minimum over
+
+12:03.850 --> 12:05.450
+the different iterations.
+
+12:05.450 --> 12:09.660
+So now again I'm going to decrease the learning rate by a factor of ten.
+
+12:10.020 --> 12:12.860
+So the learning rate is now 0.001.
+
+12:13.380 --> 12:14.420
+Run this code.
+
+12:14.540 --> 12:16.340
+Run this code.
+
+12:17.060 --> 12:22.260
+And now we can see that the learning that the minimum is going in the right direction.
+
+12:22.300 --> 12:22.540
+Right.
+
+12:22.580 --> 12:24.740
+It's going to where it needs to be.
+
+12:24.860 --> 12:26.220
+It needs to be at 0.5.
+
+12:26.220 --> 12:27.740
+So it's approaching 0.5.
+
+12:28.020 --> 12:30.940
+The derivative is getting larger.
+
+12:30.980 --> 12:32.460
+So it started off being negative.
+
+12:32.460 --> 12:33.980
+It needs to go to zero.
+
+12:34.300 --> 12:38.460
+But it's taking really really really tiny steps.
+
+12:38.580 --> 12:40.780
+So it's moving very very slowly.
+
+12:40.780 --> 12:45.460
+It's not getting to the minimum within 100 epochs.
+
+12:45.540 --> 12:48.940
+So just to you know put that in the context of this picture.
+
+12:48.940 --> 12:49.460
+Let me see.
+
+12:49.460 --> 12:52.340
+We started off at -0.25.
+
+12:52.860 --> 12:54.140
+So we started off.
+
+12:54.140 --> 12:55.980
+Our first random guess was here.
+
+12:56.700 --> 12:59.940
+Now we know we have to go to the right of this function.
+
+12:59.940 --> 13:06.020
+We have to increase x in order to increase the derivative to get the derivative to be zero.
+
+13:06.380 --> 13:09.470
+Now when we set the learning rate to be really, really small.
+
+13:09.830 --> 13:12.310
+We're taking really, really, really tiny steps.
+
+13:12.310 --> 13:18.030
+So after 100 really, really, really tiny steps, we're not actually getting far enough.
+
+13:18.030 --> 13:22.230
+We're only getting to I forget where it ended, but we're only getting to around here.
+
+13:22.710 --> 13:29.150
+So now I want to try this again and see if we can keep the same learning rate but increase.
+
+13:30.030 --> 13:31.030
+Uh, yeah, it was this one.
+
+13:31.070 --> 13:33.150
+Increase the number of training epochs.
+
+13:33.150 --> 13:36.190
+So now let's go for 1000 epochs.
+
+13:36.510 --> 13:41.070
+Run this code again and run this cell again.
+
+13:41.510 --> 13:43.790
+And now let's see okay so this is pretty cool.
+
+13:43.790 --> 13:49.270
+So now we see that we actually do get to the a final reasonable result.
+
+13:49.270 --> 13:51.430
+You can see the derivative goes up to zero.
+
+13:51.710 --> 13:55.030
+And the local minimum is just about at 0.5.
+
+13:55.230 --> 14:00.270
+Now you can see where we were before we stopped too early.
+
+14:00.270 --> 14:07.030
+We stopped it at around 100 or exactly 100 iterations, which was around here in the learning process.
+
+14:07.230 --> 14:15.200
+So what we've just discovered is that when the learning rate is smaller, you need more training epochs,
+
+14:15.200 --> 14:19.200
+more iterations to get to the a good result.
+
+14:19.840 --> 14:21.200
+Now let me be clear.
+
+14:21.640 --> 14:29.720
+A learning rate of 0.001 and 1000 training epochs is not necessarily going to be the optimal set of
+
+14:29.720 --> 14:37.160
+parameters for every single model, and for every single meta parameter and every single data set.
+
+14:37.600 --> 14:45.000
+In fact, the optimal learning rate depends on the the flavor of the gradient descent algorithm and
+
+14:45.000 --> 14:48.480
+also the flavor of back propagation and all sorts of other things.
+
+14:48.480 --> 14:54.600
+How deep the model is many factors, but it certainly is the case that when you have a very, very small
+
+14:54.600 --> 15:01.720
+learning rate, you need to have more iterations because the model is going to learn more slowly.
+
+15:01.720 --> 15:04.440
+It's just going to take longer to get through learning.
+
+15:05.160 --> 15:09.540
+So now that you have this code, I encourage you to play around with this code.
+
+15:09.540 --> 15:11.580
+Spend some time with this code.
+
+15:11.580 --> 15:12.500
+Change some things.
+
+15:12.540 --> 15:15.780
+Explore around these different parameter settings and so on.
+
+15:15.780 --> 15:22.540
+And just, you know, try to gain some intuition for what these dynamics look like after changing the
+
+15:22.540 --> 15:23.380
+parameters.
+
+15:23.540 --> 15:31.620
+Now this is the first code file in this course that has an A section called Additional Explorations.
+
+15:31.860 --> 15:36.580
+So I've already talked about these additional explorations in the beginning of the course.
+
+15:36.580 --> 15:39.580
+But I just want to give you a very quick reminder.
+
+15:39.820 --> 15:47.180
+These are questions and suggestions that I made for you to explore this code more.
+
+15:47.220 --> 15:51.300
+These are not things that I'm going to explicitly discuss here.
+
+15:51.300 --> 15:55.180
+I don't have separate videos just about answering these questions.
+
+15:55.180 --> 15:58.660
+In many cases, there are no right or wrong answers.
+
+15:58.820 --> 16:07.860
+These are just my attempts at inspiring you to continue using this code to continue exploring and experimenting.
+
+16:08.140 --> 16:13.630
+In this case, gradient descent, and deep learning in general to help you understand how deep learning
+
+16:13.630 --> 16:21.630
+works, how you can apply it to new data, and how you can learn to be an experimental deep learning
+
+16:21.630 --> 16:22.870
+data scientist.
+
+16:22.990 --> 16:26.270
+So I definitely encourage you to go through these.
+
+16:26.550 --> 16:31.990
+And if you make some great discoveries or if you find some really interesting results, feel free to
+
+16:32.030 --> 16:35.870
+post your results to the Q&amp;A forum.
+
+16:37.430 --> 16:39.070
+I hope you enjoyed this video.
+
+16:39.110 --> 16:46.590
+You learned how to implement the gradient descent algorithm in code for one dimension, and you also
+
+16:46.590 --> 16:52.550
+got an introduction to some parameters of gradient descent, the learning rate, and the number of training
+
+16:52.590 --> 16:53.150
+epochs.
+
+16:53.150 --> 16:58.710
+And these become really important for, uh, for getting deep learning models to work.
+
+16:58.750 --> 17:06.710
+You also saw that gradient descent can not give the correct results if the parameters of the model are
+
+17:06.710 --> 17:08.390
+poorly specified.

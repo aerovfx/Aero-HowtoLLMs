@@ -1,0 +1,1123 @@
+WEBVTT
+
+00:02.400 --> 00:09.080
+This will be a fairly long and involved code challenge, but I think you are going to enjoy it.
+
+00:09.480 --> 00:17.360
+You will learn more about multi token words as targets to analyze, adapt and extend the code that I
+
+00:17.360 --> 00:19.400
+introduced in the previous video.
+
+00:19.720 --> 00:26.760
+Learn more about data visualizations, do some statistical validation in a separate data set, and lots
+
+00:26.760 --> 00:27.640
+of other things.
+
+00:27.920 --> 00:29.000
+So let's begin.
+
+00:29.400 --> 00:39.040
+The goal of exercise one is to tokenize some text and find the locations of the final token in multi
+
+00:39.080 --> 00:40.680
+token target words.
+
+00:41.440 --> 00:49.200
+So if you look in the helper or the solutions files you will find lots of sentences like these, each
+
+00:49.200 --> 00:52.960
+of which contains one of eight target words.
+
+00:53.040 --> 00:56.200
+So there are four target words in each category.
+
+00:56.360 --> 01:02.300
+One category is about dental hygiene and the other one is about furniture.
+
+01:02.540 --> 01:08.980
+And the idea is that each of these sentences contains exactly one target word.
+
+01:09.260 --> 01:14.660
+But that target word can be in a different location in each of the sentences.
+
+01:15.340 --> 01:22.300
+Therefore, you're going to need to search through each of these sentences and find not only which target
+
+01:22.300 --> 01:30.220
+is in that sentence, but also the index corresponding to the final token in that target word.
+
+01:30.820 --> 01:35.780
+Now I'm going to give you some specific tips about how to do that in a moment.
+
+01:36.100 --> 01:38.780
+But first let me tell you about setting things up.
+
+01:39.140 --> 01:44.580
+So you're also going to need a variable for the number of sentences.
+
+01:44.740 --> 01:48.380
+And you will also need a variable that here I call labels.
+
+01:48.500 --> 01:57.340
+And this is just zeros for all of the dental hygiene category sentences and ones for all of these sentences
+
+01:57.340 --> 02:01.530
+that have the target word coming from the furniture category.
+
+02:01.690 --> 02:09.250
+You will use this for implementing the statistical comparisons of the activations for the two categories
+
+02:09.250 --> 02:10.890
+in a later exercise.
+
+02:11.530 --> 02:19.970
+Next, you can create a list of lists in which each element in the list is a smaller list that contains
+
+02:19.970 --> 02:23.490
+the tokens for each of the target words.
+
+02:24.050 --> 02:31.570
+So here we see all of the target words that we will be looking for split up into their component tokens.
+
+02:31.690 --> 02:37.130
+And here is the list of lists of that target those target tokens.
+
+02:37.610 --> 02:42.090
+Now we're going to use the GPT two model for this code challenge.
+
+02:42.250 --> 02:44.970
+You do not need to import the model yet.
+
+02:45.010 --> 02:47.730
+We import the model in a later exercise.
+
+02:47.890 --> 02:53.130
+But you do need the GPT two tokenizer for this exercise.
+
+02:53.650 --> 02:54.490
+And you can.
+
+02:54.530 --> 03:02.230
+You also need to tokenize all of the sentences into a batch, including using padding because the sentences
+
+03:02.230 --> 03:04.430
+have different numbers of tokens.
+
+03:04.830 --> 03:12.750
+And here I'm just showing an example of the tokenization of the first sentence, including the token
+
+03:12.750 --> 03:15.590
+indices and the attention mask.
+
+03:16.190 --> 03:23.070
+I'm sure you remember from earlier in the course that in the GPT two tokenizer, the final token is
+
+03:23.070 --> 03:28.550
+also the padding token, which corresponds to the end of sequence token.
+
+03:28.950 --> 03:33.270
+And that's this one here it's 50,256.
+
+03:33.310 --> 03:37.550
+Of course that corresponds to zeros in the attention mask.
+
+03:38.270 --> 03:38.550
+Okay.
+
+03:38.590 --> 03:46.310
+And then this screenshot shows code that I set up to identify the index of the final token for each
+
+03:46.310 --> 03:48.550
+target word for each sentence.
+
+03:48.990 --> 03:55.790
+This is really similar to the code that I showed in the Python demo in the previous video.
+
+03:56.310 --> 04:03.340
+So you loop over all of the sentences, then you loop over all of the targets, because we need to search
+
+04:03.340 --> 04:10.540
+for each target word in each sentence, because we don't know a priori which token or sorry, which
+
+04:10.540 --> 04:14.620
+target is in the sentence, and also how long it is.
+
+04:15.620 --> 04:23.180
+Then we loop over all the tokens in this sequence or this little sentence, and if it is a match, then
+
+04:23.180 --> 04:29.060
+we store both the index of the token and also the token number.
+
+04:29.060 --> 04:31.780
+So we can refer back to the token value.
+
+04:31.780 --> 04:39.300
+And by this here token vowels I'm referring to calling toothpaste token zero toothbrush token one floss
+
+04:39.300 --> 04:42.100
+we can call two mouthwash three, and so on.
+
+04:42.220 --> 04:49.500
+So this is a way to identify the individual tokens targets and also their token indices.
+
+04:49.540 --> 04:54.220
+Of course this is for the final token in the target word.
+
+04:54.460 --> 04:56.760
+And then you can see here at the bottom.
+
+04:56.760 --> 05:01.960
+I'm also printing out the target and its index for each sentence.
+
+05:02.440 --> 05:08.760
+So that's just for some confirmations, like some sanity checking that the code here really works correctly.
+
+05:09.200 --> 05:16.120
+I also counted the total number of appearances of each target word, and you should see that there are
+
+05:16.240 --> 05:20.040
+five appearances of each individual target.
+
+05:20.320 --> 05:24.040
+These are numbered zero through seven, as I explained a moment ago.
+
+05:24.080 --> 05:30.320
+These are just arbitrary target labels, so we can refer back to them in later exercises.
+
+05:31.360 --> 05:35.480
+Okay, so this is already quite a bit to do for exercise one.
+
+05:35.480 --> 05:42.640
+But the most challenging parts of this exercise you can copy from the code demo in the previous video.
+
+05:43.120 --> 05:45.960
+And now you can pause the video and get to work.
+
+05:46.080 --> 05:51.360
+And when you're ready, or if you get stuck, then come back to the video and you can watch me show
+
+05:51.360 --> 05:54.160
+my solution and discuss the tokenization.
+
+05:55.240 --> 05:57.940
+Here are the libraries that I will use here.
+
+05:57.940 --> 05:59.980
+Lots of matplotlib stuff here.
+
+06:00.020 --> 06:00.300
+Okay.
+
+06:00.340 --> 06:03.500
+Here I'm importing the GPT two tokenizer.
+
+06:03.540 --> 06:06.260
+I'm not actually importing the model here.
+
+06:06.260 --> 06:09.020
+I'm going to import it in a later exercise.
+
+06:09.020 --> 06:14.940
+We're actually going to use GPT two large for this exercise for the activations.
+
+06:15.340 --> 06:20.700
+So here all the sentences these were also generated by Claude with some interaction for me.
+
+06:20.900 --> 06:26.700
+So yeah basically every sentence here has lots of words in it.
+
+06:26.700 --> 06:35.460
+But also one, exactly one appearance of one of these four words that all appear in this category for
+
+06:35.460 --> 06:36.340
+dental hygiene.
+
+06:36.340 --> 06:38.460
+So these are all the dental hygiene sentences.
+
+06:38.820 --> 06:46.660
+And then over here again, exactly one appearance per sentence of one of the target words which are
+
+06:46.660 --> 06:47.060
+here.
+
+06:47.060 --> 06:51.380
+And yeah, all of these are multi-token targets.
+
+06:51.620 --> 06:54.140
+So it can run that code here.
+
+06:54.260 --> 06:57.050
+And yeah, then defining the labels.
+
+06:57.050 --> 07:02.290
+Basically, I'm just relying on the fact that I know that when I created these sentences, there is
+
+07:02.290 --> 07:10.490
+exactly the same number of dental hygiene category sentences as there are furniture related sentences.
+
+07:10.490 --> 07:17.530
+So I can just define some linearly spaced vector and then say where is that greater than 0.5.
+
+07:17.570 --> 07:19.930
+So that's going to cut it exactly into half.
+
+07:20.050 --> 07:23.250
+And that's how I created this set of labels here.
+
+07:23.650 --> 07:26.730
+If you use a more sophisticated method then that's great.
+
+07:26.730 --> 07:32.010
+That's probably more versatile and usable in broader situations.
+
+07:32.010 --> 07:35.410
+For example, if these sentences were all mixed up together.
+
+07:36.530 --> 07:39.170
+Okay, so here I'm defining the target words.
+
+07:39.170 --> 07:46.810
+Notice that I have a space in front of each word, because that is like the natural tokenization for
+
+07:46.970 --> 07:51.410
+these these language model tokenizers at least the OpenAI ones.
+
+07:51.930 --> 07:52.330
+Okay.
+
+07:52.370 --> 07:58.390
+So yeah here I'm just printing out the tokenization of each of these target words.
+
+07:58.390 --> 08:04.510
+Most of them are formed from two tokens, and a couple of them come from three tokens.
+
+08:04.790 --> 08:11.950
+Again, the idea which I justified in the previous video is that when you do analyses, when you want
+
+08:11.950 --> 08:20.150
+to look at mechanistic interpretation, grab the activations for these multi target words Multi-token
+
+08:20.150 --> 08:21.110
+target words.
+
+08:21.390 --> 08:24.350
+What you do is look for the final token.
+
+08:24.350 --> 08:26.510
+So we want to grab the activations.
+
+08:26.510 --> 08:28.270
+We want to analyze the data.
+
+08:28.390 --> 08:32.190
+Not for dough, not for ORC but for Nob.
+
+08:32.230 --> 08:39.430
+And the reason which I explained in the previous video is that here when the model is processing space,
+
+08:39.470 --> 08:42.670
+space do it doesn't know what's going to come next.
+
+08:42.670 --> 08:45.710
+So it might think that this is supposed to be the verb to do.
+
+08:46.190 --> 08:47.430
+And here we get orc.
+
+08:47.470 --> 08:53.300
+So now the model thinks I don't know, maybe it thinks that this is like a misspelling of the word dork,
+
+08:53.460 --> 08:58.300
+but by the time it gets to here, the model says, ah, I know what's going on here.
+
+08:58.420 --> 09:00.140
+This is a doorknob.
+
+09:00.340 --> 09:06.780
+So it's only when we get to the final token that the model really can incorporate all of this context
+
+09:06.780 --> 09:11.140
+and understand what this entire word really corresponds to.
+
+09:11.780 --> 09:13.700
+Okay, so then some tokenization.
+
+09:13.700 --> 09:15.780
+I'm not going to talk about this stuff too much.
+
+09:16.220 --> 09:24.380
+This note here is just a reminder that all of this code here is based on what I showed in the previous
+
+09:24.380 --> 09:25.740
+video, that was this title.
+
+09:25.780 --> 09:27.700
+I think that actually is plural there.
+
+09:28.100 --> 09:33.020
+Okay, so yeah, looping over sentences over all the target words that makes this general.
+
+09:33.020 --> 09:37.260
+So we can run this for any sentence with any ordering.
+
+09:38.260 --> 09:41.740
+How many tokens is this particular target word.
+
+09:41.940 --> 09:45.020
+And then we loop over starting from that length.
+
+09:45.180 --> 09:47.940
+And then up until the end of the sequence.
+
+09:47.940 --> 09:50.620
+The plus one is just for indexing.
+
+09:50.820 --> 09:53.320
+Also this minus one is for indexing.
+
+09:53.360 --> 09:58.040
+Indexing gets to be quite a headache in Python anyway.
+
+09:58.240 --> 09:58.560
+Yeah.
+
+09:58.560 --> 10:07.800
+So here if there is a match between the previous several tokens in the text with this target, and here
+
+10:07.800 --> 10:12.880
+I just have to convert this into a PyTorch tensor just to use torch dot equal.
+
+10:13.040 --> 10:23.320
+So if this is true, then we are at the final token of a little mini sequence where that sequence is
+
+10:23.320 --> 10:25.280
+the target word that we're looking for.
+
+10:25.640 --> 10:27.960
+So then we store the index.
+
+10:27.960 --> 10:34.840
+So the location in the sequence of the final token for this target word and the target value.
+
+10:34.840 --> 10:39.880
+And again yeah this is just some arbitrary numbers to go to store that.
+
+10:39.880 --> 10:44.960
+You know toothpaste is the first target, toothbrush is the second target word and so on.
+
+10:45.040 --> 10:50.360
+We will need this for a later exercise when we start doing some statistics.
+
+10:50.800 --> 10:52.230
+And then here I'm printing out.
+
+10:52.230 --> 10:59.710
+So we see that for example, sentence 20 has the target word dishwasher and it appears so then dishwasher
+
+10:59.710 --> 11:01.790
+is target index four.
+
+11:02.190 --> 11:06.350
+And this appears at index two of this sentence.
+
+11:06.830 --> 11:07.030
+Okay.
+
+11:07.070 --> 11:12.590
+And then just for a little bit of confirmation and sanity checking, what I'm doing here is printing
+
+11:12.590 --> 11:14.310
+out the first sentence.
+
+11:14.470 --> 11:15.430
+So let me see.
+
+11:15.430 --> 11:18.230
+The first sentence is we have to go all the way back.
+
+11:18.270 --> 11:18.710
+Oh sorry.
+
+11:18.750 --> 11:20.390
+Sentence index one.
+
+11:20.390 --> 11:21.830
+It's actually the second sentence.
+
+11:22.430 --> 11:25.670
+I ran out of toothpaste this morning and I had to borrow some from my roommate.
+
+11:25.670 --> 11:26.830
+What a weird sentence.
+
+11:27.350 --> 11:33.630
+Anyway, so toothpaste is the 123, four fifth word.
+
+11:34.190 --> 11:41.790
+But what we want to know is the index at which paste appears, because that is going to be the activations
+
+11:41.790 --> 11:43.590
+that we want to analyze.
+
+11:44.630 --> 11:47.590
+So what I'm doing is just printing out this.
+
+11:47.590 --> 11:50.850
+So we see let's see toothpaste is here.
+
+11:50.850 --> 11:53.450
+So we want to analyze this token.
+
+11:53.610 --> 12:01.170
+So now for confirmation we can count this token 012345.
+
+12:01.170 --> 12:08.370
+So that means we should see that index five in sentence one is the target index.
+
+12:08.490 --> 12:12.570
+So now we go back up here sentence one index five.
+
+12:12.570 --> 12:13.810
+And so that is correct.
+
+12:13.810 --> 12:21.050
+So all of that was just a little sanity checking that this code works as expected okay.
+
+12:21.090 --> 12:21.290
+Yeah.
+
+12:21.290 --> 12:24.690
+And then here I'm just printing out the total number of appearances.
+
+12:24.850 --> 12:25.970
+We get a nice balance.
+
+12:25.970 --> 12:31.250
+So we have five appearances five sentences with each of the target words.
+
+12:31.370 --> 12:37.930
+And that also means that there's a perfect balance of sample sizes between the dental hygiene words
+
+12:37.930 --> 12:39.570
+and the furniture words.
+
+12:39.930 --> 12:45.690
+Now, I'm happy to admit that the sample size is still fairly small.
+
+12:45.730 --> 12:45.930
+Right?
+
+12:45.970 --> 12:50.750
+So it's only 20 samples of data that we have.
+
+12:50.750 --> 12:56.110
+If you're doing a real analysis for a real research project, you'd want to increase that number by
+
+12:56.270 --> 13:01.870
+like two or maybe three orders of magnitude and also use lots of other categories and so on.
+
+13:01.910 --> 13:04.550
+But yeah, for now this is pretty good.
+
+13:05.590 --> 13:12.990
+Well, that previous exercise was quite involved, so I thought I would make this exercise be a little
+
+13:13.030 --> 13:13.950
+bit easier.
+
+13:14.630 --> 13:22.470
+Basically, the goal here is to have a matrix of activations to the final token for each target word
+
+13:22.470 --> 13:23.950
+for each sentence.
+
+13:24.430 --> 13:31.870
+So import GPT two large and hook all of the MLP projection neurons.
+
+13:31.990 --> 13:33.870
+And that's what I'm highlighting over here.
+
+13:33.870 --> 13:35.710
+You want this layer over here.
+
+13:36.110 --> 13:42.350
+This is called C proj in the OpenAI GPT two format labeling.
+
+13:42.710 --> 13:49.820
+And these are the contraction neurons that have the same dimensionality as the embeddings vectors.
+
+13:50.220 --> 13:54.620
+So this is not the higher dimensional expansion neurons.
+
+13:54.860 --> 13:57.020
+That would be these ones over here.
+
+13:57.020 --> 13:59.620
+So see FC for fully connected.
+
+14:00.260 --> 14:08.420
+So this is the contraction neurons or units that we will be analyzing in this code challenge.
+
+14:08.700 --> 14:14.700
+And in fact the output of these neurons after passing through the non-linear activation function.
+
+14:15.060 --> 14:20.300
+That's what gets added back onto the embeddings vectors in the residual stream.
+
+14:21.300 --> 14:28.780
+But if you just hook into this layer, you'll get the activations before the jlu non-linearity.
+
+14:29.300 --> 14:36.060
+Then you can push the batch of data so the text data through the model and confirm that you get all
+
+14:36.060 --> 14:38.700
+of the activations and check the sizes.
+
+14:39.220 --> 14:46.740
+The 40 here corresponds to 40 sentences, which is 20 sentences per category, and five appearances
+
+14:46.740 --> 14:50.160
+of each of the four target words per category.
+
+14:50.680 --> 14:52.040
+This number 20.
+
+14:52.080 --> 14:59.000
+Here is the number of tokens per sentence, so per sequence including padding.
+
+14:59.360 --> 15:05.520
+And of course the 1280 is the embedding dimension in the large version of this model.
+
+15:06.200 --> 15:13.120
+The last thing to do for this exercise is to organize all of the activations for the final token from
+
+15:13.120 --> 15:19.240
+each target word into a matrix, technically a tensor, because it's multi-dimensional.
+
+15:20.040 --> 15:27.760
+So the idea is that all of these activations here are for all of the tokens in the sequence, but we
+
+15:27.760 --> 15:33.240
+really just want the activations for the final token of each target word.
+
+15:33.680 --> 15:39.840
+So the data matrix that we will use for the next several exercises will look like this.
+
+15:39.840 --> 15:51.110
+Here I called it target x target activations and it is 36 by 40 by 1280 that corresponds to 36 layers
+
+15:51.110 --> 15:51.750
+in the model.
+
+15:51.750 --> 16:00.030
+So 36 transformer blocks that you see over here, 40 sentences and of course 1280 embeddings dimensions.
+
+16:00.350 --> 16:03.870
+And that is the end result of exercise two.
+
+16:04.150 --> 16:10.910
+When you get that data matrix, you will be ready to run some analyses and do some visualizations in
+
+16:10.910 --> 16:12.270
+the next exercise.
+
+16:12.430 --> 16:15.310
+But first, of course you need to create that matrix.
+
+16:15.310 --> 16:16.790
+And that's what you should do now.
+
+16:17.150 --> 16:21.430
+And now I will switch to code and show how I created that data matrix.
+
+16:22.750 --> 16:27.310
+So here I'm importing the large version of GPT two.
+
+16:27.750 --> 16:30.230
+And here I'm hooking the activations.
+
+16:30.230 --> 16:36.150
+So looping over all of the layers I want to get for each of the transformer blocks.
+
+16:36.150 --> 16:41.030
+So hidden layer the MLP and then C proj.
+
+16:41.030 --> 16:44.270
+And then yeah here we can just extract the outputs.
+
+16:44.270 --> 16:51.050
+And as per usual, I'm just detaching the numbers from all the gradient information, all the other
+
+16:51.090 --> 16:55.850
+overhead that PyTorch provides so I can run that.
+
+16:55.850 --> 16:57.450
+I think this is still import.
+
+16:57.450 --> 16:59.890
+This will take another minute or so.
+
+17:00.290 --> 17:00.610
+Okay.
+
+17:00.650 --> 17:04.050
+And then I can run through all of the activations.
+
+17:04.050 --> 17:08.810
+So push all the tokens through the model here I'm just going to print out the sizes.
+
+17:08.970 --> 17:12.650
+And here is where I am creating the matrix of data.
+
+17:12.890 --> 17:15.850
+So loop over all of these sentences.
+
+17:15.970 --> 17:19.850
+Loop over all of the layers in the model that we have hooked.
+
+17:20.090 --> 17:27.010
+And then I'm getting the activations from this layer, this sentence, and then the particular index
+
+17:27.010 --> 17:33.810
+in that sequence that corresponds to the target, the final token in the target word.
+
+17:33.850 --> 17:34.130
+Okay.
+
+17:34.170 --> 17:36.130
+And then there's a lot to say there.
+
+17:36.490 --> 17:39.650
+Uh, and then uh yeah I'm just converting them to numpy.
+
+17:39.690 --> 17:46.950
+It's not strictly necessary, but uh, it will be just handy because it just makes the rest of the analyses
+
+17:46.990 --> 17:47.910
+a little bit easier.
+
+17:47.910 --> 17:50.670
+We can have everything in numpy format.
+
+17:52.110 --> 18:00.270
+And now for some analyses in this exercise, you will run a t test on all the neurons to compare the
+
+18:00.270 --> 18:02.790
+activations for the two categories.
+
+18:03.350 --> 18:10.790
+You can create matrices to store the t values and p values that have a shape like this.
+
+18:10.790 --> 18:15.230
+So 36 layers, 1280 dimensions or neurons.
+
+18:15.550 --> 18:23.990
+And the value at each element in this matrix is the t statistic comparing the dental tokens to the furniture
+
+18:23.990 --> 18:24.670
+tokens.
+
+18:25.190 --> 18:32.670
+Now I recommend naming these variables something with the word data one in it, because later in this
+
+18:32.670 --> 18:39.670
+code challenge, in a later exercise, we are going to confirm our findings using a separate data set
+
+18:39.910 --> 18:46.700
+to see if those results that we get in the other data set are consistent with the results that we get
+
+18:46.700 --> 18:47.900
+in this data set.
+
+18:48.260 --> 18:51.980
+And that's because, yeah, there's always a risk of us overfitting.
+
+18:51.980 --> 18:58.900
+And so we want to know whether the findings we get here really reflect something about category processing
+
+18:58.900 --> 19:02.300
+in these MLP projection units.
+
+19:02.300 --> 19:08.700
+Or if there's just something weird about these particular sentences that the t test latched onto anyway.
+
+19:08.740 --> 19:10.260
+So call these variables data.
+
+19:10.300 --> 19:15.100
+One you're going to have matrix for t values and a matrix for p values.
+
+19:15.260 --> 19:18.980
+And yet later on we'll call the other data matrix data two.
+
+19:19.460 --> 19:24.700
+So the point is you end up with lots of t values a matrix of t values.
+
+19:24.900 --> 19:28.780
+There are many ways that you can visualize these t test results.
+
+19:29.140 --> 19:32.260
+And this is a visualization that I came up with.
+
+19:32.540 --> 19:42.140
+So here in this scatter plot you see layer on the x axis and the t value on the y axis, and all of
+
+19:42.140 --> 19:49.680
+the neurons that have a statistically significant T value, which I defined as p less than 0.05.
+
+19:49.880 --> 19:53.440
+Bonferroni corrected for multiple comparisons within each layer.
+
+19:53.880 --> 20:02.600
+Those significant ones are labeled, they're plotted as circles, and the red X's correspond to non-significant
+
+20:02.600 --> 20:03.480
+T values.
+
+20:04.160 --> 20:12.680
+And over here, I'm plotting the percentage of neurons within each layer that have a significant T value.
+
+20:13.680 --> 20:20.280
+Now the color of the dots and also the color of the bars over here correspond to the transformer layer.
+
+20:20.680 --> 20:28.680
+And you can see that the category tuning is generally somewhere around 5 to 10% of the neurons per layer.
+
+20:28.680 --> 20:32.640
+And it decreases as we get deeper into the model.
+
+20:33.320 --> 20:40.240
+Now, that should not be so surprising considering that the later in the model we get so further into
+
+20:40.240 --> 20:46.750
+the model, the less the activation actually has to do with the current token, and the more it has
+
+20:46.750 --> 20:49.870
+to do with predicting what token should come next.
+
+20:50.670 --> 20:57.630
+As I mentioned several times before, don't stress about reproducing the exact aesthetic features of
+
+20:57.630 --> 20:58.390
+this plot.
+
+20:58.870 --> 21:04.190
+If you get the analysis right and at least some basic visualization, then that's good enough.
+
+21:04.310 --> 21:09.790
+And you can also copy this code from the solutions file and change it as you see fit.
+
+21:10.350 --> 21:15.750
+You don't need to reinvent the wheel here, as long as you feel like you are making effort and learning
+
+21:15.750 --> 21:19.190
+something, then I am happy and you should be as well.
+
+21:20.150 --> 21:26.030
+Okay, so now you should pause the video and switch to code, run the analyses, make some beautiful
+
+21:26.030 --> 21:32.750
+visualizations, and now I will switch to Python and discuss my solution and interpret the results a
+
+21:32.750 --> 21:33.350
+bit more.
+
+21:34.470 --> 21:43.970
+Once we have the data organized in this fashion with layers and sentences, and the first 20 is for
+
+21:43.970 --> 21:50.370
+the dental category, and the second 20 set is for the furniture category.
+
+21:50.370 --> 21:51.930
+And all of the neurons here.
+
+21:52.050 --> 21:55.530
+Then running a T test is actually really straightforward.
+
+21:55.570 --> 22:03.370
+Technically, you can do it in a double for loop over all the layers and over all of the neurons here,
+
+22:03.410 --> 22:05.010
+but that's really not necessary.
+
+22:05.010 --> 22:12.970
+With the Scipy.stats library, you can actually input matrices and the results or the function will
+
+22:12.970 --> 22:16.690
+test all of the individual samples for you.
+
+22:16.690 --> 22:19.130
+So all the individual tests, it will run that for you.
+
+22:19.610 --> 22:22.130
+So therefore I provide two inputs here.
+
+22:22.130 --> 22:27.330
+Let me separate them here by commas just to make sure that it's very clear what I'm doing here.
+
+22:27.690 --> 22:36.010
+So I take from this target x activations matrix all of the layers, all of the neurons and only the
+
+22:36.010 --> 22:39.930
+20 sentences that have label equals zero.
+
+22:39.930 --> 22:42.360
+So these are the dental hygiene sentences.
+
+22:42.360 --> 22:46.040
+And here it's all the same activations exactly the same.
+
+22:46.240 --> 22:54.600
+But for the other set of 20 sentences, this input over here tells the t test function that I want to
+
+22:54.600 --> 22:58.280
+do the comparison along the first dimension here.
+
+22:58.280 --> 23:05.000
+So that's comparing all of the dental terms to all of the furniture category terms.
+
+23:05.320 --> 23:05.520
+Okay.
+
+23:05.560 --> 23:10.640
+If you would do something like this for example, then you're basically comparing the activation across
+
+23:10.640 --> 23:12.280
+the different neurons.
+
+23:12.320 --> 23:13.680
+It just doesn't make sense anyway.
+
+23:13.720 --> 23:15.960
+So this is the right thing to do okay.
+
+23:16.000 --> 23:23.120
+So now I get this variable t res from which I can extract the statistic that is the actual t values
+
+23:23.120 --> 23:25.040
+and the p values themselves.
+
+23:25.040 --> 23:27.680
+Here I'm just printing out the shape okay.
+
+23:27.720 --> 23:30.720
+Here I'm defining a significance threshold.
+
+23:31.080 --> 23:37.200
+So 0.05 I have discussed Bonferroni correction for multiple comparisons earlier in the course.
+
+23:37.200 --> 23:39.320
+But it's basically very straightforward.
+
+23:39.320 --> 23:42.500
+We just divide by the total number of tests.
+
+23:43.620 --> 23:49.900
+And now in these cases it's always there's always some ambiguity about how much you should be correcting
+
+23:49.900 --> 23:53.380
+for because we also have 36 layers.
+
+23:53.380 --> 23:59.140
+But I am considering that within each layer we are doing 1280 tests.
+
+23:59.140 --> 24:01.900
+So I'm just dividing by 1280.
+
+24:02.260 --> 24:09.540
+Although to be honest, once you have a sample size this big or sorry, a number of comparisons this
+
+24:09.540 --> 24:14.780
+big, you know you can make this bigger and bigger and it doesn't really change that much for the p
+
+24:14.820 --> 24:21.260
+value threshold, because the tails of the t distribution get really, really small really fast.
+
+24:21.260 --> 24:28.580
+So there actually isn't a huge difference between a threshold corrected for 1000 comparisons versus
+
+24:28.580 --> 24:30.220
+10,000 comparisons.
+
+24:30.420 --> 24:31.860
+It's not that much difference.
+
+24:32.300 --> 24:32.620
+Okay.
+
+24:32.660 --> 24:34.620
+Anyway, uh, then I am.
+
+24:34.660 --> 24:39.640
+Let me first create this plot and show you what this looks like, and then I'll discuss the code in
+
+24:39.680 --> 24:40.840
+a little bit more detail.
+
+24:41.280 --> 24:45.080
+So yeah, here is the scatter plot over the layers.
+
+24:45.080 --> 24:47.080
+So I loop over the layers.
+
+24:47.080 --> 24:52.880
+And then I'm going to figure out which of these neurons have a significant t value.
+
+24:52.880 --> 24:59.640
+So a t value with a corresponding p value that is smaller than the Bonferroni corrected threshold.
+
+25:00.600 --> 25:03.040
+And then I color those dots here I draw them.
+
+25:03.040 --> 25:09.360
+And if the p values are larger than our significance threshold, then they get drawn as an x.
+
+25:09.360 --> 25:11.200
+And that you see over here.
+
+25:11.600 --> 25:13.680
+So first I find which of.
+
+25:13.920 --> 25:17.080
+So yeah for this layer I'm looping over all of the layers.
+
+25:17.640 --> 25:22.680
+Which of the p values for this layer are less than our significant threshold.
+
+25:23.080 --> 25:25.880
+And then the ones that are significant.
+
+25:25.920 --> 25:31.240
+Then I'm plotting those using circles with the plasma color map.
+
+25:31.360 --> 25:38.150
+And yeah, then in the colormap I'm specifying layer divided by oops sorry about that.
+
+25:38.830 --> 25:39.630
+Layer I.
+
+25:39.670 --> 25:42.910
+So the layer index divided by the total number of layers.
+
+25:42.910 --> 25:49.230
+So this is going to give me numbers between 0 and 1 or at least very close to one.
+
+25:49.230 --> 25:53.790
+And that's what defines the color according to the plasma color map.
+
+25:54.110 --> 25:55.670
+So that's if it is significant.
+
+25:55.670 --> 26:02.910
+If it's not significant, then they all get plotted as red X's with a fairly small marker size.
+
+26:03.950 --> 26:09.830
+And then up here I'm just storing the number of significant or the proportion of significant neurons
+
+26:09.950 --> 26:11.510
+for this layer.
+
+26:11.830 --> 26:12.070
+Okay.
+
+26:12.110 --> 26:14.070
+So that gives me this plot.
+
+26:14.070 --> 26:18.550
+And then here at the end I can make a bar plot over all the layers.
+
+26:18.750 --> 26:25.590
+With the NUM significant, I suppose it would probably be more appropriate to call this the proportion
+
+26:25.590 --> 26:27.470
+of significant results, but that's fine.
+
+26:28.070 --> 26:32.070
+And then, yeah, using this same, uh, color map over here.
+
+26:32.310 --> 26:36.110
+So there are a few interesting results to note about this.
+
+26:36.110 --> 26:42.690
+First of all, it looks by very, you know, first pass visual inspection like there's some symmetry
+
+26:42.730 --> 26:43.250
+here.
+
+26:43.450 --> 26:50.210
+That is to say, it's not the case that the entire language model only prefers dental hygiene words.
+
+26:50.210 --> 26:54.090
+And it doesn't care at all about furniture related words.
+
+26:54.090 --> 26:58.410
+So we get lots of positive t values and negative t values.
+
+26:58.410 --> 27:06.210
+And how do I know whether these positive t values correspond to more activation for dental words versus
+
+27:06.250 --> 27:07.650
+for furniture words?
+
+27:07.850 --> 27:15.370
+It's kind of arbitrary, but it's basically just how I inputted these data into the t test function.
+
+27:15.650 --> 27:22.290
+So whichever variable you put in first that's going to be associated with a positive t value.
+
+27:22.450 --> 27:24.410
+And then this is the comparison.
+
+27:24.410 --> 27:27.290
+This would be associated with a negative t value.
+
+27:27.730 --> 27:33.890
+Essentially the the the sorry the numerator of a t test is something like this.
+
+27:33.930 --> 27:37.640
+It is I'll call it first input dot mean.
+
+27:37.680 --> 27:40.040
+Minus the second input dot mean.
+
+27:40.080 --> 27:47.120
+Obviously these are not real variable names, but it's this minus this that is the numerator of the
+
+27:47.120 --> 27:48.240
+t statistic.
+
+27:48.400 --> 27:56.240
+So therefore if you would swap these conditions inputted into the t test function, all the results
+
+27:56.240 --> 27:57.600
+would be exactly the same.
+
+27:57.600 --> 28:02.720
+The p values would be exactly the same, but the sign of the t test would be flipped.
+
+28:02.920 --> 28:03.240
+Okay.
+
+28:03.280 --> 28:04.480
+So it's a bit arbitrary.
+
+28:04.480 --> 28:10.640
+You can do it either way, but you have to know which way you are putting, which order in which you
+
+28:10.640 --> 28:15.240
+are inputting the labels so that the interpretation is correct.
+
+28:16.200 --> 28:19.120
+I hope you are enjoying this code challenge so far.
+
+28:19.640 --> 28:24.480
+We are now around halfway through and I'm going to break the video here.
+
+28:24.720 --> 28:28.320
+In order to encourage you to take a break and refresh.
+
+28:28.800 --> 28:34.440
+So when you're ready, come back to the video for the next installment of this code challenge.

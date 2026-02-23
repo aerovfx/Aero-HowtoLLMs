@@ -1,0 +1,391 @@
+WEBVTT
+
+00:01.720 --> 00:08.320
+In this video, I will introduce you to another type of variable called a list.
+
+00:08.800 --> 00:16.320
+A list is a way of organizing a collection of information like multiple numbers, multiple strings,
+
+00:16.320 --> 00:19.400
+or even a mix of different variable types.
+
+00:19.800 --> 00:22.040
+Okay, so let me start by creating a list.
+
+00:22.040 --> 00:24.200
+I'm going to call this variable name a list.
+
+00:24.640 --> 00:28.240
+And notice I'm using brackets here.
+
+00:28.360 --> 00:30.040
+So we have square brackets.
+
+00:30.240 --> 00:36.360
+When you see square brackets in the definition of a variable you know that we are going to be working
+
+00:36.360 --> 00:37.440
+with lists.
+
+00:37.760 --> 00:38.080
+Okay.
+
+00:38.120 --> 00:41.080
+So here I have looking at the output of a list.
+
+00:41.080 --> 00:45.120
+You can see it's literally just the things that I specified over here.
+
+00:45.360 --> 00:52.680
+Now what is important about a list is that the commas separate the different elements of the list.
+
+00:52.840 --> 00:59.080
+And we can access individual elements using an operation called indexing.
+
+00:59.200 --> 01:05.600
+So I am now going to index a specific number in this list.
+
+01:05.600 --> 01:08.520
+So let's say we want to access the number five.
+
+01:08.720 --> 01:13.560
+Maybe this is a parameter that we are using for one part of an analysis.
+
+01:13.560 --> 01:20.080
+And so we need to access not the entire list, not all the elements in the list, but only this second
+
+01:20.080 --> 01:21.640
+element in the list.
+
+01:21.760 --> 01:22.080
+Okay.
+
+01:22.120 --> 01:26.120
+So I'm going to write the number one in between the brackets here.
+
+01:26.320 --> 01:28.680
+And that's going to give me huh.
+
+01:28.960 --> 01:30.200
+That gave me a five.
+
+01:30.520 --> 01:31.400
+That's curious right.
+
+01:31.400 --> 01:34.680
+Because this is the first element in the list.
+
+01:34.680 --> 01:37.040
+This is the second element in the list.
+
+01:37.080 --> 01:40.440
+And yet the number one actually gave me this number five.
+
+01:40.440 --> 01:41.520
+So what's going on here?
+
+01:41.960 --> 01:48.200
+What's going on here is that Python is a zero based indexing language.
+
+01:48.320 --> 01:48.520
+Okay.
+
+01:48.560 --> 01:52.880
+I'll write that out because that's an important word zero based indexing.
+
+01:53.160 --> 01:58.920
+And that means that Python actually starts counting at zero, not at one.
+
+01:59.360 --> 02:06.870
+So the zeroth element or the first element, but it's an index position zero actually is four.
+
+02:07.030 --> 02:08.390
+And that's what we see here.
+
+02:09.350 --> 02:13.830
+So that means that this is index zero or position zero.
+
+02:14.030 --> 02:17.350
+This is index one, index two and index three.
+
+02:17.830 --> 02:18.150
+Okay.
+
+02:18.190 --> 02:20.430
+So now we can write index three.
+
+02:20.590 --> 02:22.510
+And that gives us the answer three.
+
+02:22.870 --> 02:24.470
+Now this is a little confusing.
+
+02:24.470 --> 02:27.710
+So do not be confused by this three.
+
+02:27.990 --> 02:29.270
+And this three.
+
+02:29.590 --> 02:33.670
+This three over here is a value in the list.
+
+02:33.670 --> 02:35.870
+It's an entry in the list.
+
+02:35.870 --> 02:40.390
+But it happens to have the index of position three.
+
+02:40.750 --> 02:42.310
+So this is an index.
+
+02:42.310 --> 02:44.070
+It corresponds to a position.
+
+02:44.310 --> 02:46.030
+This is a number.
+
+02:46.030 --> 02:47.070
+It's an element.
+
+02:47.070 --> 02:49.470
+And they just happen to map onto each other.
+
+02:49.750 --> 02:53.070
+And I can show you that here I'm going to say three whatever.
+
+02:53.110 --> 02:56.550
+This is just arbitrary I just want some information here.
+
+02:56.950 --> 03:04.950
+And then you can see that exactly this same code is still going to retrieve the item in position three,
+
+03:05.790 --> 03:07.310
+Starting from zero.
+
+03:07.310 --> 03:09.590
+So it's actually the fourth element.
+
+03:10.030 --> 03:10.350
+Okay.
+
+03:10.390 --> 03:18.550
+And then this, um, demonstration here also, uh, shows that, uh, a list can contain many different
+
+03:18.590 --> 03:20.630
+types of variables.
+
+03:20.790 --> 03:22.790
+So here I have integers.
+
+03:22.790 --> 03:25.110
+We can also create some floating point numbers.
+
+03:25.110 --> 03:27.070
+And here I have a string.
+
+03:27.310 --> 03:30.670
+And they can all be mixed into a list.
+
+03:31.150 --> 03:36.310
+So now what I'm going to do is recreate a list or define a new list.
+
+03:36.630 --> 03:43.350
+Uh, also incorporating some concepts that I told you about a few videos ago with regards to commenting
+
+03:43.350 --> 03:44.630
+and readability.
+
+03:44.950 --> 03:47.030
+Okay, so let's create a new list.
+
+03:47.190 --> 03:53.150
+And now I'm separating out the definition of this list onto multiple lines.
+
+03:53.310 --> 03:55.470
+So one and let's say hello.
+
+03:55.510 --> 03:59.190
+Of course you know these are just kind of arbitrary first second.
+
+04:00.510 --> 04:03.830
+And I need a comma there.
+
+04:03.830 --> 04:09.580
+And I'm going to call this parameter setting like this.
+
+04:09.620 --> 04:14.460
+Okay, so now notice that I'm still defining a list.
+
+04:14.460 --> 04:16.740
+It still contains four elements.
+
+04:17.020 --> 04:24.140
+And each element is separated by a comma and it's spread across multiple lines.
+
+04:24.500 --> 04:27.220
+And here I also want to show you.
+
+04:27.660 --> 04:31.900
+So now I'm going to copy this paste this I'll call this new list two.
+
+04:32.420 --> 04:37.460
+And now I'm just going to put these all on the same line.
+
+04:40.260 --> 04:40.700
+Okay.
+
+04:40.740 --> 04:46.220
+There are several important things going on inside several important Python concepts happening inside
+
+04:46.220 --> 04:47.060
+this code cell.
+
+04:47.340 --> 04:52.140
+One is that I've separated the definition of the list into multiple lines.
+
+04:52.580 --> 04:58.980
+A second important thing is that I've shown you that a list can actually contain another list.
+
+04:59.220 --> 05:00.820
+So here I'm creating a list.
+
+05:00.820 --> 05:04.380
+You can see it's a list because it has the square brackets.
+
+05:04.740 --> 05:10.700
+And this list is itself an element inside this list.
+
+05:10.900 --> 05:11.220
+Okay.
+
+05:11.260 --> 05:20.740
+And then finally, this is also demonstrating that Python doesn't care about the spaces and the returns,
+
+05:20.740 --> 05:27.180
+the new line characters separating these lines because these two lists are identical.
+
+05:27.340 --> 05:35.380
+So I will print out print new list one and I will print new list two.
+
+05:35.740 --> 05:38.100
+And now you can see that these are the same.
+
+05:38.140 --> 05:40.100
+Oh yeah I haven't defined this variable yet.
+
+05:40.420 --> 05:41.220
+Uh let's see.
+
+05:41.700 --> 05:45.940
+Parameter setting equals 48.3.
+
+05:45.940 --> 05:46.500
+Whatever.
+
+05:47.380 --> 05:47.660
+Okay.
+
+05:47.700 --> 05:50.700
+So here I have one variable that I've defined.
+
+05:50.700 --> 05:58.460
+And I'm using that variable to, uh input into this new list or define as a uh, as an element in new
+
+05:58.460 --> 05:59.020
+list.
+
+05:59.980 --> 06:00.500
+Uh, okay.
+
+06:00.540 --> 06:01.060
+Sorry.
+
+06:02.140 --> 06:03.340
+Just a little typo there.
+
+06:03.500 --> 06:03.820
+Okay.
+
+06:03.860 --> 06:11.220
+So you see that these two lists are identical to each other, even though they look different when they
+
+06:11.220 --> 06:12.460
+are defined here.
+
+06:12.620 --> 06:16.340
+Now why is this a useful way to define a list?
+
+06:16.420 --> 06:18.260
+Well, we can do something like this.
+
+06:18.300 --> 06:24.500
+I'm adding some spaces and now I'm putting a hashtag here and some info here.
+
+06:24.540 --> 06:30.260
+You know, these are just arbitrary, meaningless variables that I'm creating for this little toy demo.
+
+06:30.260 --> 06:38.300
+So I don't actually have a lot of information to show, but information here that helps, uh, make
+
+06:38.340 --> 06:42.460
+your code be more readable.
+
+06:42.940 --> 06:51.220
+Okay, so now you know, you can have comments off to the side that can tell you and also people who
+
+06:51.220 --> 06:57.620
+are going to be reading your code and looking at your code, what this variable means, this element
+
+06:57.620 --> 07:01.340
+of the list, what this element of the list means, what this means, and so on.
+
+07:01.660 --> 07:08.820
+And this is much easier for us humans to understand compared to this list over here.
+
+07:09.820 --> 07:18.010
+So the final thing that I want to demonstrate in this video is how to access just this word first in
+
+07:18.010 --> 07:18.450
+here.
+
+07:18.770 --> 07:21.890
+So we have new list that gives us all of this.
+
+07:21.890 --> 07:27.690
+And now if we want to access this list here this is the third element.
+
+07:27.690 --> 07:30.930
+So remember we need to index this as two right.
+
+07:30.970 --> 07:34.290
+Because this is index zero index one.
+
+07:34.290 --> 07:38.890
+And this entire element here which is itself a list is index two.
+
+07:39.290 --> 07:44.850
+And now if we want to access this word first we can index that again.
+
+07:45.130 --> 07:45.450
+Okay.
+
+07:45.490 --> 07:52.850
+So we are indexing into the list and then indexing into the list contained inside a list.
+
+07:53.210 --> 07:55.690
+So I hope you're not overwhelmed by lists.
+
+07:55.850 --> 07:57.330
+You will use lists a lot.
+
+07:57.370 --> 07:59.810
+They use very often in Python coding.
+
+07:59.810 --> 08:06.090
+And also in this course they do take a little bit of practice to get used to and to get comfortable
+
+08:06.090 --> 08:12.370
+with, but I promise you will understand them and be able to work with them with just a little bit more
+
+08:12.370 --> 08:13.130
+practice.

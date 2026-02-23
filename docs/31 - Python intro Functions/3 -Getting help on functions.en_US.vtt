@@ -1,0 +1,340 @@
+WEBVTT
+
+00:02.080 --> 00:10.040
+No one is born knowing exactly how to code and knowing how to use all the functions in Python.
+
+00:10.520 --> 00:14.920
+It's something you learn over time as you keep coding more and more.
+
+00:15.280 --> 00:20.640
+And so that means that very often you will be struggling with a particular function.
+
+00:20.640 --> 00:23.760
+Maybe you're getting errors or warnings and you don't know what to do.
+
+00:24.320 --> 00:30.400
+Or maybe you know the goal that you're trying to achieve, but you don't know exactly what is the function
+
+00:30.400 --> 00:33.960
+to use that that you need for your specific situation.
+
+00:33.960 --> 00:36.360
+So basically you're going to need to get help.
+
+00:36.480 --> 00:41.200
+So how do you get help when you are figuring out how to code or learning how to code?
+
+00:41.600 --> 00:45.560
+There's multiple ways to get help from encoding.
+
+00:45.560 --> 00:49.280
+And in this video I'm going to show you several ways to get help.
+
+00:49.480 --> 00:52.560
+One way is to use the function called help.
+
+00:52.720 --> 00:58.840
+So you type help, and then you input the name of a function that you want to learn about.
+
+00:58.880 --> 01:05.030
+Again, help is a reserved keyword, you can see that it turned from black to this kind of orangish
+
+01:05.030 --> 01:06.390
+dark yellow color.
+
+01:06.670 --> 01:07.030
+Okay.
+
+01:07.070 --> 01:08.270
+So help.
+
+01:08.270 --> 01:11.270
+And then the name of the function you're interested in.
+
+01:11.510 --> 01:14.830
+And the output here is going to be what's called the docstring.
+
+01:14.870 --> 01:15.790
+I'll write this out.
+
+01:15.830 --> 01:18.230
+Docstring as one word.
+
+01:18.430 --> 01:20.830
+I don't know why they call this the docstring.
+
+01:20.830 --> 01:25.150
+In my opinion they should have called it the help text because that's what it's supposed to do.
+
+01:26.190 --> 01:33.030
+But anyway, the docstring is a little piece of text that many but not all, functions have at the beginning
+
+01:33.030 --> 01:35.870
+of the function definition.
+
+01:35.870 --> 01:42.550
+And it just gives you a little bit of guidance about the purpose of the function and how to use it,
+
+01:42.590 --> 01:44.910
+and what are the inputs and what are the outputs.
+
+01:45.830 --> 01:51.030
+Now, I have to say, I have mixed feelings about Python as a coding language.
+
+01:51.150 --> 01:53.030
+There are some things about it that I really like.
+
+01:53.030 --> 01:58.790
+Some things that I find a little bit unfortunate or suboptimal or could be improved.
+
+01:59.350 --> 02:07.770
+Uh, the doc strings in Python are not often written in a way that is very accessible to beginners.
+
+02:08.010 --> 02:16.010
+So if you are trying to read a docstring and you don't understand it, then do not get.
+
+02:16.370 --> 02:21.050
+You know, don't fall into a pit of despair and think that you're stupid and you'll never learn how
+
+02:21.050 --> 02:21.690
+to code.
+
+02:21.890 --> 02:23.730
+And you can't even read the docstrings.
+
+02:24.090 --> 02:29.570
+A much more likely scenario is that the docstrings were not written with you in mind.
+
+02:30.250 --> 02:37.050
+So I also very often struggle to understand the docstrings, and I've been coding for more years than
+
+02:37.050 --> 02:38.170
+I'm willing to admit.
+
+02:39.330 --> 02:39.610
+Okay.
+
+02:39.650 --> 02:46.690
+But nonetheless, getting help on a function using the function, the Python function help is a great
+
+02:46.690 --> 02:53.010
+way to get started, and it certainly is the case that many docstrings will be useful and will be helpful.
+
+02:53.370 --> 02:55.570
+Okay, that is one thing you can do.
+
+02:55.610 --> 03:02.130
+Another way to get help on a function is to write out the name of the function, and then two question
+
+03:02.240 --> 03:03.360
+marks afterwards.
+
+03:03.360 --> 03:04.040
+Like this.
+
+03:04.320 --> 03:10.720
+If you are using Google Colab, that's going to open up a separate little mini window here off to the
+
+03:10.720 --> 03:11.280
+right.
+
+03:11.440 --> 03:18.120
+And if you're using another notebook, you might see all of this text over here printed out in the output
+
+03:18.120 --> 03:18.640
+here.
+
+03:18.760 --> 03:19.000
+Okay.
+
+03:19.040 --> 03:21.160
+But this is a nice feature about Colab.
+
+03:21.440 --> 03:29.480
+Now in this particular case, this help file for this function only basically just repeats what the
+
+03:29.640 --> 03:31.040
+information is here.
+
+03:32.160 --> 03:35.920
+But there that's because this is a compiled function.
+
+03:36.080 --> 03:40.160
+And if it's a compiled function it means you don't actually see the Python code.
+
+03:40.200 --> 03:46.680
+Because this is not implemented in Python, it's implemented in C and it's compiled for speed.
+
+03:47.120 --> 03:50.280
+But there are other functions that you actually can view.
+
+03:50.440 --> 03:53.520
+For example we can look at numpy dot linspace.
+
+03:53.520 --> 03:57.640
+This is a function that I introduced you to in the previous video.
+
+03:57.840 --> 04:00.000
+So numpy dot linspace.
+
+04:00.000 --> 04:01.160
+And then question mark.
+
+04:01.160 --> 04:02.000
+Question mark.
+
+04:02.040 --> 04:04.180
+That's going to open up a new tab over here.
+
+04:04.180 --> 04:05.940
+So actually we get both of these here.
+
+04:06.300 --> 04:09.100
+And now this gives you a nice long docstring.
+
+04:09.100 --> 04:13.900
+It tells you a little bit more about each of the parameters or the inputs.
+
+04:13.900 --> 04:17.940
+So the start parameter the stop parameter the num parameter.
+
+04:17.940 --> 04:19.300
+This you've already seen before.
+
+04:19.300 --> 04:22.740
+There's even more parameters in here like the data type.
+
+04:22.740 --> 04:28.460
+So there's more ways to use the function linspace than the basic implementation that I showed.
+
+04:28.740 --> 04:31.300
+And then yeah here are the outputs and so on.
+
+04:31.300 --> 04:37.140
+This is other related functions that you might find interesting and relevant here.
+
+04:37.140 --> 04:38.620
+It shows you examples.
+
+04:38.620 --> 04:39.660
+This is fantastic.
+
+04:39.660 --> 04:45.620
+I can just copy and paste this in and and reproduce this example here.
+
+04:45.980 --> 04:47.420
+Uh graphical.
+
+04:47.740 --> 04:54.460
+So I haven't yet talked about visualizations, but this is also a way to visualize this is fantastic.
+
+04:54.460 --> 05:01.220
+And then here at the bottom we actually see the source code of numpy dot linspace.
+
+05:01.380 --> 05:07.290
+Now if you are new to Python, which you are, if you're watching this video, then all of this might
+
+05:07.290 --> 05:10.170
+look really intense and intimidating.
+
+05:10.490 --> 05:17.210
+But looking through source code is a fantastic way to understand how functions work, what they are
+
+05:17.210 --> 05:20.210
+doing, and to improve your coding skills.
+
+05:20.530 --> 05:27.690
+Now, maybe at this point you're not good enough in Python to look at source code and understand it,
+
+05:27.690 --> 05:29.770
+but you will very soon.
+
+05:29.810 --> 05:35.570
+You know, if you just code for several hours in Python, you will already be able to start looking
+
+05:35.570 --> 05:41.610
+through source code and really understand how these functions work and what they are implementing.
+
+05:42.090 --> 05:46.530
+Okay, so that is two ways to get help on functions.
+
+05:47.410 --> 05:53.530
+A third way to get help on a particular function is to look for it online.
+
+05:53.770 --> 05:59.410
+So I typed into this search browser how does numpy dot linspace work.
+
+05:59.610 --> 06:03.290
+Now the first result is from numpy website.
+
+06:03.320 --> 06:09.760
+but if we scroll down, we see some other websites and eventually, yeah, you're going to see lots
+
+06:09.760 --> 06:15.080
+of different explanations and tutorials for how this function works.
+
+06:15.640 --> 06:20.680
+So this is great when you have an error message or you're unsure how to use a function, just see what
+
+06:20.720 --> 06:23.520
+other people online have written about this function.
+
+06:25.320 --> 06:33.320
+Of course, another way to get help is to use a large language model like ChatGPT or Claude or Perplexity
+
+06:33.320 --> 06:36.640
+or any other language model.
+
+06:37.080 --> 06:43.080
+Okay, so here I'm writing in the prompt, I'm trying to create a numpy array of numbers that starts
+
+06:43.080 --> 06:46.160
+from -3.4 and ends at 52.
+
+06:46.600 --> 06:51.720
+And I don't know how long that array needs to be, so I need another variable that I can set for the
+
+06:51.720 --> 06:53.280
+number of elements.
+
+06:53.280 --> 06:54.600
+Can you help me with this.
+
+06:55.040 --> 07:00.320
+So notice this is different from how I got help in from searching online.
+
+07:00.480 --> 07:05.180
+When I was searching online, I was just searching for how to use a particular function.
+
+07:05.700 --> 07:09.220
+And here with ChatGPT I'm describing the problem.
+
+07:09.220 --> 07:12.860
+I'm describing the thing that the objective what I want to achieve.
+
+07:13.140 --> 07:16.660
+And I'm asking ChatGPT for help.
+
+07:16.660 --> 07:23.860
+And then let's see, I can even add here, uh, please write some code as a demo.
+
+07:23.860 --> 07:28.140
+Although I think ChatGPT would write code even if I didn't explicitly ask for this.
+
+07:28.140 --> 07:36.380
+But it's always good in ChatGPT to or other language models to provide some context and background that
+
+07:36.380 --> 07:41.940
+will help the language model figure out the best response that's tailored for your needs.
+
+07:42.740 --> 07:49.700
+So ChatGPT said we can accomplish this using Numpy's Linspace function and it provides some code.
+
+07:49.700 --> 07:55.580
+We can just click this button and immediately copy this code to paste it into a notebook.
+
+07:55.780 --> 07:57.140
+And this is fantastic.
+
+07:57.140 --> 08:02.900
+So this gives us the name of the function and also an explanation of how it works.

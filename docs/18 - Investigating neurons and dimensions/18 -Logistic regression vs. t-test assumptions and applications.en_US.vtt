@@ -1,0 +1,796 @@
+WEBVTT
+
+00:02.360 --> 00:09.880
+In the previous video I taught you about logistic regression, and in earlier videos we have used t
+
+00:09.920 --> 00:10.520
+tests.
+
+00:11.120 --> 00:15.560
+So what is the difference between a logistic regression and a t test?
+
+00:15.720 --> 00:18.200
+And when would you use which method?
+
+00:18.760 --> 00:21.200
+That is the goal of this video.
+
+00:21.200 --> 00:28.000
+And I'll start with some discussions and then switch to a code demo where you can see how these two
+
+00:28.040 --> 00:32.480
+analyses relate to each other in simulated data.
+
+00:33.200 --> 00:37.560
+I'll start with showing the equations for these two analyses.
+
+00:38.080 --> 00:44.880
+I hope that both of these equations look familiar to you from the previous video, and from elsewhere
+
+00:44.880 --> 00:49.040
+in this course or another statistics or machine learning course.
+
+00:49.760 --> 00:58.960
+The goal of a logistic regression is to develop a mathematical equation that generates a probability
+
+00:59.120 --> 01:03.870
+that each data sample belongs to one of two categories.
+
+01:04.470 --> 01:12.310
+On the other hand, a T test is a measure of the normalized difference between two means of two data
+
+01:12.310 --> 01:16.110
+samples, and that is normalized by their standard errors.
+
+01:16.790 --> 01:25.350
+So let's imagine a scenario where we are measuring the activations of a neuron somewhere in an LM for
+
+01:25.510 --> 01:30.070
+two different categories of words, let's say nouns and verbs.
+
+01:30.710 --> 01:39.030
+We could use a logistic regression to predict the probability that each token is a noun based on the
+
+01:39.030 --> 01:40.870
+activation of that neuron.
+
+01:41.350 --> 01:48.790
+And we could do a t test to see if there is a significant difference in the activation between nouns
+
+01:48.790 --> 01:49.590
+and verbs.
+
+01:50.190 --> 01:55.950
+So in this example, you can actually use both analyses on exactly the same data.
+
+01:56.190 --> 02:02.330
+Both analyses are perfectly reasonable and valid and appropriate statistical measures.
+
+02:03.370 --> 02:07.130
+So when should you use which one and what's the difference between them?
+
+02:07.730 --> 02:14.690
+So I have organized their differences into this table here where you will see the discussion points
+
+02:14.690 --> 02:19.010
+and how they are related for the two different analyses.
+
+02:19.530 --> 02:22.090
+Let's begin with the key assumptions.
+
+02:22.530 --> 02:29.490
+For a logistic regression, we assume that the data are drawn from one population, that is, all of
+
+02:29.490 --> 02:30.650
+the sampled data.
+
+02:30.770 --> 02:37.930
+For example, all the neurons or all the tokens have the same characteristics, but the rate of belonging
+
+02:37.970 --> 02:39.410
+to one category.
+
+02:39.410 --> 02:45.210
+For example, nouns versus verbs varies according to activation value.
+
+02:45.890 --> 02:53.610
+In contrast, the t test makes the assumption that the two groups are drawn from distinct populations.
+
+02:54.290 --> 03:01.330
+In other words, for a t test, we are evaluating whether nouns and verbs are actually really distinct
+
+03:01.440 --> 03:02.400
+from each other.
+
+03:02.600 --> 03:09.280
+Whereas with logistic regression, we're testing whether the probability of a particular activation
+
+03:09.280 --> 03:13.680
+value is associated with nouns versus verbs.
+
+03:14.920 --> 03:20.880
+So the t test also has an additional assumption that the data are normally distributed.
+
+03:21.000 --> 03:26.000
+And that is not an assumption that we require for logistic regression.
+
+03:26.920 --> 03:34.320
+In terms of the outcome of the analysis, the logistic regression gives us a parameter, or maybe a
+
+03:34.320 --> 03:40.920
+set of parameters that we can use to generate a predictive statistical model of the data.
+
+03:41.440 --> 03:45.960
+In contrast, the t test is actually not give us a parameter.
+
+03:46.080 --> 03:51.640
+Instead, it provides the t statistic, which is a measure of effect size.
+
+03:52.040 --> 03:59.440
+And this relates to the key distinction in application, which is that a logistic regression can be
+
+03:59.440 --> 04:02.180
+used to generate a prediction.
+
+04:02.180 --> 04:08.460
+So generate a probability that each data sample belongs to each category.
+
+04:09.220 --> 04:16.300
+And in contrast, the t test is not used to generate predictions, certainly not at the level of an
+
+04:16.300 --> 04:17.980
+individual data sample.
+
+04:18.660 --> 04:26.380
+So to make this more concrete, if you have activation values from a neuron, then a logistic regression
+
+04:26.380 --> 04:33.900
+can help you generate a prediction about whether that token that elicited the activation was a noun
+
+04:33.900 --> 04:34.740
+or a verb.
+
+04:35.020 --> 04:39.820
+But that kind of predictive model is not what a t test is designed for.
+
+04:41.220 --> 04:48.460
+Another difference is that logistic regression is easy to extend to multiple variables.
+
+04:48.460 --> 04:51.500
+So not just the activation from one neuron.
+
+04:51.500 --> 04:58.820
+But let's say you want to look at the activations of an ensemble of neurons to see whether the relationships
+
+04:58.820 --> 05:04.770
+of the activations across the neurons can predict whether a token is a noun or a verb.
+
+05:05.450 --> 05:11.610
+In contrast, the t test is only designed for one dependent variable and two groups.
+
+05:12.130 --> 05:18.090
+Of course, there are statistical analyses for more than two samples, but that would be, for example,
+
+05:18.130 --> 05:22.130
+an Anova or a linear regression and not a t test.
+
+05:22.930 --> 05:30.210
+So taken together, all this stuff in consideration, you would use a logistic regression when you want
+
+05:30.210 --> 05:37.490
+to make predictions about a category or token label, or when you want to extend the analysis to using
+
+05:37.530 --> 05:40.610
+multiple variables to predict a category label.
+
+05:41.090 --> 05:47.930
+And you would use a t test to determine whether there are significant differences between two token
+
+05:47.930 --> 05:49.770
+types in a neuron.
+
+05:50.970 --> 05:53.970
+Now, of course, the t test is also fairly versatile.
+
+05:54.090 --> 06:01.210
+You can run a t test for different tokens in each neuron in a particular layer, and you can also use
+
+06:01.210 --> 06:08.870
+a t test for comparing the overall activations for different token types between different layers or
+
+06:08.870 --> 06:14.070
+different groups of neurons, for example, different attention heads inside a transformer.
+
+06:14.470 --> 06:18.830
+Now, that is not something you could do with a logistic regression.
+
+06:19.630 --> 06:25.590
+And I would also like to stress that my goal in this slide was to highlight the differences between
+
+06:25.590 --> 06:27.070
+these two analyses.
+
+06:27.310 --> 06:29.670
+They also have a lot in common.
+
+06:29.830 --> 06:33.470
+And that is what I want to focus on in the Python demo.
+
+06:33.830 --> 06:36.070
+So let me now tell you about that.
+
+06:36.550 --> 06:42.350
+My goal in the Python demo is to provide a counterweight to the previous slide.
+
+06:42.350 --> 06:45.350
+That was all about differences between the analyses.
+
+06:45.670 --> 06:52.270
+So in the Python demo, I will be highlighting the similarities of the results of the two analyses.
+
+06:53.070 --> 06:55.350
+So the idea is fairly simple.
+
+06:55.350 --> 07:04.380
+I'm going to simulate data from two categories and then run a logistic regression and a t test on each
+
+07:04.380 --> 07:06.420
+of these simulated data sets.
+
+07:06.940 --> 07:13.340
+It's a very nice experimental approach because the data are exactly the same, but the analyses are
+
+07:13.380 --> 07:14.500
+slightly different.
+
+07:15.580 --> 07:23.300
+So in this plot on the left, you see the logistic regression beta value on the x axis and the t value
+
+07:23.300 --> 07:25.380
+on the y axis.
+
+07:25.780 --> 07:32.620
+Each little green circle here shows a different simulation with a different effect size between the
+
+07:32.620 --> 07:33.940
+nouns and the verbs.
+
+07:34.340 --> 07:40.620
+Now the regression and the t tests do not give identical results for a variety of reasons, but they
+
+07:40.620 --> 07:42.220
+are really, really similar.
+
+07:42.220 --> 07:46.780
+And you see more divergences as you get to extreme values.
+
+07:46.780 --> 07:50.900
+And I'll discuss a little bit more why this happens when we switch to code.
+
+07:51.460 --> 07:59.500
+And here on the right you see the negative log of the p values for the logistic regression and the t
+
+07:59.500 --> 08:00.060
+test.
+
+08:00.540 --> 08:07.320
+The dashed lines here correspond to a statistical significance threshold of 0.05.
+
+08:07.880 --> 08:13.600
+Again, there is some diversity when you get down to really tiny p values, which would be very large
+
+08:14.160 --> 08:15.920
+minus log p values.
+
+08:16.360 --> 08:22.840
+But the key message here is that when the tests are non-significant they're non-significant for both
+
+08:23.040 --> 08:23.760
+analyses.
+
+08:23.760 --> 08:29.040
+So the logistic regression and the t test that's here, these are all non-significant for both tests.
+
+08:29.520 --> 08:35.600
+And when the results are statistically significant they are significant in both tests.
+
+08:36.160 --> 08:37.960
+All right let's switch to code.
+
+08:39.040 --> 08:48.200
+We will use the Statsmodels library to run the logistic regression and the Scipy.stats library to run
+
+08:48.200 --> 08:49.640
+the t test.
+
+08:49.640 --> 08:51.920
+So import those libraries here.
+
+08:52.040 --> 08:57.720
+And now here is where I will create the simulations and run the analysis.
+
+08:57.880 --> 09:00.560
+So let me first let me start down here.
+
+09:00.560 --> 09:03.830
+And then I'll go back up and explain this other code up here.
+
+09:04.230 --> 09:08.950
+So we have a for loop because I'm simulating data multiple times here.
+
+09:08.990 --> 09:12.590
+I'm simulating activations for noun tokens.
+
+09:12.630 --> 09:16.190
+Activations for tokens that correspond to verbs.
+
+09:16.790 --> 09:22.510
+They are normally distributed random numbers with a population mean.
+
+09:22.510 --> 09:24.710
+So that's what this parameter is for.
+
+09:24.990 --> 09:31.470
+With the mean of zero, it's hard coded always to be zero mean for the nouns and for the verbs.
+
+09:31.470 --> 09:34.990
+I am varying the mean, systematically varying the mean.
+
+09:35.150 --> 09:39.350
+And what this does is systematically change the effect size.
+
+09:39.390 --> 09:46.910
+So the relationship between the activations for the nouns and the activations for the verbs and the
+
+09:46.910 --> 09:49.430
+sample size is the same for each of these.
+
+09:49.430 --> 09:53.150
+So we have the same number of nouns as we have verbs.
+
+09:53.630 --> 09:56.910
+Okay, so sample size is a parameter that I state up here.
+
+09:57.110 --> 10:04.540
+Now let me say that a sample size of 30 for doing real work on LMS is really, really small.
+
+10:04.540 --> 10:10.420
+It's a very small sample size because the data are noisy, because language is so complex.
+
+10:10.580 --> 10:15.820
+But in this case, for this video, for this code, we are simulating data.
+
+10:15.820 --> 10:20.540
+So sample size of 30 per group is more than sufficient okay.
+
+10:20.580 --> 10:22.780
+And here is where I define the means.
+
+10:22.780 --> 10:28.220
+So the means are the means for the verbs will range from minus two to plus three.
+
+10:28.220 --> 10:34.140
+So that means that we are going to have negative t values and up to positive t values.
+
+10:34.140 --> 10:41.580
+And in between we expect there's going to be values that are equal to and very very close to zero in
+
+10:41.580 --> 10:48.900
+here, where we do not expect any significant differences between the activations for nouns versus verbs.
+
+10:49.140 --> 10:49.420
+Yeah.
+
+10:49.460 --> 10:52.540
+Simply because the means are so close to each other.
+
+10:53.540 --> 10:53.820
+Okay.
+
+10:53.860 --> 10:56.220
+So that's how I simulate the data here.
+
+10:56.220 --> 10:58.460
+I'm running the logistic regression.
+
+10:58.660 --> 11:04.320
+This code here is all the same code that you saw in the previous video?
+
+11:04.440 --> 11:06.280
+It's a little bit more condensed.
+
+11:06.280 --> 11:13.000
+In the previous video, I was creating the variables x and y outside of the for loop.
+
+11:13.000 --> 11:18.120
+And then here in Smart Logic, I was just writing a y comma x like this.
+
+11:18.120 --> 11:21.000
+So now I'm just making it a little bit more compact.
+
+11:21.200 --> 11:23.560
+So here are the labels.
+
+11:23.560 --> 11:24.720
+They are zeros.
+
+11:24.720 --> 11:28.560
+And then ones of course equal sample sizes for both categories.
+
+11:28.960 --> 11:30.320
+And here are the data.
+
+11:30.320 --> 11:33.480
+So I'm stacking up the verbs and the nouns.
+
+11:33.480 --> 11:36.320
+And then I'm adding a constant to the model.
+
+11:36.480 --> 11:38.320
+And disp equals false.
+
+11:38.320 --> 11:43.560
+Just suppresses some of the information just so it doesn't keep printing out down here.
+
+11:44.120 --> 11:50.960
+And from this output here I am extracting the beta value and the p value.
+
+11:51.080 --> 11:53.920
+And then I'm taking minus the log of the p value.
+
+11:54.120 --> 11:56.920
+And why am I taking minus the log of the p value.
+
+11:57.360 --> 11:59.520
+It's literally just for visualization.
+
+11:59.520 --> 12:05.990
+In fact I think I will turn it off here just so you can see what it looks like when we plot the raw
+
+12:05.990 --> 12:06.790
+p values.
+
+12:07.190 --> 12:09.310
+So that's for the logistic regression.
+
+12:09.310 --> 12:13.670
+Here's for the t test I'm using t test for related samples.
+
+12:13.670 --> 12:20.390
+This is also called a paired samples t test, where I put in the nouns and the verbs.
+
+12:20.390 --> 12:23.190
+So the activations for the nouns and the verbs.
+
+12:23.310 --> 12:29.590
+After this simulation demo at the bottom of this code file, I'm going to show you the difference.
+
+12:29.590 --> 12:33.830
+Difference not really different between a t test and t test.
+
+12:33.870 --> 12:34.710
+One sample.
+
+12:34.910 --> 12:36.150
+So I'll talk about that later.
+
+12:36.150 --> 12:40.030
+And here I'm storing the t value and the p value.
+
+12:40.470 --> 12:42.950
+So let's run all of this code that's very fast.
+
+12:42.950 --> 12:43.870
+Super fast.
+
+12:44.110 --> 12:44.630
+Uh yeah.
+
+12:44.630 --> 12:47.230
+So it's just basically going through all of those means.
+
+12:47.390 --> 12:50.790
+And here I am running the visualization.
+
+12:50.950 --> 12:56.750
+So first I'm going to visualize the regression betas by the t values.
+
+12:56.750 --> 12:58.910
+And then I will show the p values.
+
+12:59.430 --> 13:06.530
+So what you see is that there is a really really strong concordance between the logistic regression
+
+13:06.690 --> 13:09.410
+beta value and the t statistic.
+
+13:09.610 --> 13:11.810
+Now remember that these are not the same thing.
+
+13:11.850 --> 13:17.490
+They come from different analyses, different formulas, different math, different statistical approaches,
+
+13:17.610 --> 13:19.450
+different estimation procedures.
+
+13:19.450 --> 13:24.570
+There's a lot of differences between logistic regression and a t statistic.
+
+13:24.770 --> 13:32.970
+But in this kind of a situation where you have two labels and continuous data like neuron activation
+
+13:32.970 --> 13:35.370
+levels, you can use them in the same way.
+
+13:35.370 --> 13:41.290
+They will basically give not exactly the same results, but really, really strongly comparable results,
+
+13:41.290 --> 13:44.450
+at least until you get out to some extreme values.
+
+13:44.570 --> 13:53.010
+And basically what happens is that the estimation of the logistic regression becomes increasingly difficult
+
+13:53.010 --> 13:59.410
+and numerically unstable when you get perfect separation between the two categories.
+
+13:59.410 --> 14:03.440
+We can actually demonstrate that by setting this out to let's say six.
+
+14:03.440 --> 14:05.520
+How about minus six to plus six?
+
+14:05.680 --> 14:12.160
+So what's happening here is that these means are going to be so far apart from each other.
+
+14:12.280 --> 14:19.320
+The means for the nouns and the verbs at these extremes, that the logistic regression is actually going
+
+14:19.320 --> 14:20.760
+to run into some trouble.
+
+14:20.760 --> 14:24.560
+You will see we in fact got some error messages and a bunch of warnings.
+
+14:24.560 --> 14:25.920
+Perfect separation.
+
+14:26.480 --> 14:31.520
+This seems like it should be a good thing that you have perfect separability, but you end up with just
+
+14:31.520 --> 14:36.000
+numerical issues because of the classification.
+
+14:36.240 --> 14:39.440
+Okay, so we still get some warning messages, but no errors.
+
+14:39.560 --> 14:46.880
+And now you can see that the beta values and the t statistics do correspond to each other very well.
+
+14:46.880 --> 14:54.320
+Until you get to these extreme values where the data are just too good and the nonlinear estimation
+
+14:54.320 --> 14:56.600
+techniques are just not working very well.
+
+14:56.920 --> 15:02.040
+Okay, but let me go back to some more normal ranges here.
+
+15:02.680 --> 15:03.080
+Okay.
+
+15:03.220 --> 15:04.300
+So here again.
+
+15:04.620 --> 15:04.900
+Okay.
+
+15:04.940 --> 15:08.820
+So now you see the statistical significance is these are the p values.
+
+15:08.940 --> 15:11.460
+You can ignore these lines here.
+
+15:11.500 --> 15:13.460
+Actually we can just change those.
+
+15:13.780 --> 15:22.580
+So that is just set that to be plotting lines at 0.05 instead of the minus log of 0.05.
+
+15:23.660 --> 15:24.500
+Now this is fine.
+
+15:24.500 --> 15:29.420
+There's nothing wrong with showing data like this, but all of the p values are kind of scrunched up
+
+15:29.420 --> 15:30.940
+here close to zero.
+
+15:31.140 --> 15:37.900
+And you just don't really get an appreciation of the full range of the distribution of p values.
+
+15:38.060 --> 15:43.460
+So that is why I am using of minus the log.
+
+15:43.460 --> 15:47.580
+So now I'm going to put all of this back and you will see the difference.
+
+15:47.580 --> 15:48.620
+So minus log.
+
+15:49.500 --> 15:50.020
+There you go.
+
+15:50.060 --> 15:51.020
+Rerun that code.
+
+15:51.020 --> 15:52.140
+Rerun that code.
+
+15:52.260 --> 15:52.460
+Yeah.
+
+15:52.460 --> 15:58.020
+And I think now it's just a little bit visually clear what is going on here.
+
+15:58.260 --> 16:04.690
+Again when you get to some extreme values then things start getting a little bit wonky from the regression,
+
+16:04.690 --> 16:06.090
+but that's not really a problem.
+
+16:06.090 --> 16:11.770
+You still see that when one test is non-significant, the other test is non-significant.
+
+16:11.930 --> 16:15.370
+When one test is significant, the other test is significant.
+
+16:15.370 --> 16:20.450
+So there's a lot of consistency between these two measures.
+
+16:20.930 --> 16:27.690
+One thing, just as a reminder, when you're looking at minus the log of p, then you want to look for
+
+16:27.690 --> 16:28.650
+large values.
+
+16:28.650 --> 16:34.890
+This means a small p value corresponds to a large minus the log of the p value.
+
+16:35.970 --> 16:41.690
+There's one more thing I wanted to mention, just FYI here about logistic regression.
+
+16:41.930 --> 16:47.250
+Uh, and that is the order in which you present the labels.
+
+16:47.410 --> 16:52.570
+So let's say, for example, that I would swap the verbs and the nouns.
+
+16:53.090 --> 17:01.370
+So now I'm entering the data into the logistic regression first as the nouns and then as the verbs.
+
+17:01.370 --> 17:09.430
+And basically what that means is that previously I was associating verbs with zero and nouns with one.
+
+17:09.630 --> 17:13.670
+And now I'm associating nouns with zero and verbs with one.
+
+17:13.830 --> 17:14.990
+And what does that do?
+
+17:15.510 --> 17:21.430
+The short answer is that it does nothing except flip the sign of the beta value.
+
+17:21.870 --> 17:28.390
+So now you see the same kind of relationship, the same strength of the relationship between the logistic
+
+17:28.390 --> 17:31.230
+regression beta and the t test t value.
+
+17:31.430 --> 17:33.030
+But now it's negative.
+
+17:33.270 --> 17:35.510
+And what if we want to make that positive.
+
+17:35.670 --> 17:37.510
+No problem whatsoever.
+
+17:37.510 --> 17:41.230
+We can also swap the order of the t test.
+
+17:41.350 --> 17:47.030
+Again when you swap the order in a t test you're not actually changing the statistics.
+
+17:47.030 --> 17:48.190
+You're only changing.
+
+17:48.230 --> 17:48.470
+Okay.
+
+17:48.470 --> 17:51.630
+Let me just run into some numerical issues again.
+
+17:51.830 --> 17:56.670
+You're not changing anything in the statistics or the statistical significance.
+
+17:56.830 --> 18:00.910
+The only thing that you're doing is flipping the sign of the numerator.
+
+18:00.910 --> 18:06.980
+So the t value goes from being negative to positive because you're subtracting the means the other way.
+
+18:07.940 --> 18:09.540
+Okay, that was just a little point.
+
+18:10.020 --> 18:17.740
+The very last thing I want to mention is the relationship between a one sample t test and a paired sample
+
+18:17.780 --> 18:18.580
+t test.
+
+18:18.940 --> 18:20.220
+So the code looks different.
+
+18:20.220 --> 18:21.700
+The functions are different.
+
+18:21.860 --> 18:26.860
+T test one sample for one sample t test rel for related samples.
+
+18:26.860 --> 18:28.940
+Or most people call it paired samples.
+
+18:29.420 --> 18:33.780
+Here I'm providing two inputs for the paired samples t test.
+
+18:33.780 --> 18:37.020
+Here I'm providing one input for the data.
+
+18:37.020 --> 18:42.020
+And that is the difference between these two activation values.
+
+18:42.180 --> 18:49.140
+And then zero is the null hypothesis that we are going to test against and forget about what the numbers
+
+18:49.140 --> 18:49.340
+are.
+
+18:49.380 --> 18:50.300
+That doesn't matter.
+
+18:50.460 --> 18:56.700
+The important thing here is that these numbers are exactly the same as these numbers.
+
+18:56.860 --> 19:05.280
+In other words, a paired samples t test is mathematically equivalent to a one sample t test on the
+
+19:05.280 --> 19:10.520
+differences between the data values for the two different samples.
+
+19:10.800 --> 19:14.480
+That is not the case for a two samples t test.
+
+19:14.560 --> 19:19.840
+It is the case for a one sample t test versus a paired samples t test.
+
+19:20.720 --> 19:28.120
+I hope you found this video elucidating the t test and logistic regression can be used for identical
+
+19:28.120 --> 19:32.080
+evaluation, or they can be used in different ways.
+
+19:32.440 --> 19:38.560
+I will continue to use both of these analyses in many videos throughout the rest of this course.
+
+19:38.880 --> 19:45.080
+So you'll see several example applications for when it's best to use which approach.
+
+19:45.600 --> 19:52.320
+And regarding this final point here, I don't actually do a whole lot of data simulations in this course,
+
+19:52.320 --> 20:01.120
+but I am in general a big fan of simulating data to explore and understand and gain intuition about
+
+20:01.440 --> 20:03.520
+statistics and machine learning.

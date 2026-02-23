@@ -1,0 +1,268 @@
+WEBVTT
+
+00:02.160 --> 00:05.000
+Welcome to this section of the course.
+
+00:05.440 --> 00:13.440
+Here I will teach you some methods for identifying organizing principles in a complex system that are
+
+00:13.440 --> 00:18.280
+based on small collections of dimensions, or neurons.
+
+00:18.880 --> 00:26.280
+This is one level higher than looking at individual neurons or output dimensions, but it's also a bit
+
+00:26.280 --> 00:33.600
+more targeted and focused compared to looking at an entire layer or an entire embeddings.
+
+00:33.600 --> 00:34.280
+Vector.
+
+00:35.160 --> 00:43.080
+Circuit based analyses are really interesting and insightful, but they're also very tricky, both conceptually
+
+00:43.080 --> 00:44.880
+and methodologically.
+
+00:45.480 --> 00:51.200
+Conceptually, it's not even really clear what exactly a circuit is or should look like.
+
+00:51.800 --> 00:59.800
+It's also possible that circuits in complex systems, like language models, are so complex and dynamic
+
+01:00.000 --> 01:08.600
+that the circuit architecture itself changes in different contexts and also methodologically.
+
+01:08.600 --> 01:16.240
+Statistically, it's quite difficult to identify circuits because, again, the activations are so dynamic
+
+01:16.240 --> 01:18.240
+and context dependent.
+
+01:19.120 --> 01:26.800
+Later in this section, I will also introduce you to the idea of latent constructs or components, which
+
+01:26.800 --> 01:31.000
+is both conceptually and methodologically also pretty tricky.
+
+01:31.560 --> 01:35.000
+So basically this section is state of the art.
+
+01:35.160 --> 01:41.560
+It's one of the more difficult areas of mechanistic interpretability, but I'm still going to try to
+
+01:41.560 --> 01:47.560
+make it an enjoyable and insightful learning experience, and I think you're going to enjoy it.
+
+01:48.720 --> 01:55.880
+I will start here by introducing some of the conceptual difficulties of circuit analyses.
+
+01:56.480 --> 02:04.120
+Basically, the problem is that we don't really have a set definition of what a circuit means in systems
+
+02:04.120 --> 02:10.350
+where the circuits emerge on their own, either through biological or through statistical means.
+
+02:10.990 --> 02:16.910
+For example, and this is actually a counter example, this diagram depicts an electronic circuit.
+
+02:17.350 --> 02:24.870
+Now in this case we know exactly what this circuit is and how it works because humans invented this.
+
+02:25.390 --> 02:30.310
+But that is not the kind of circuit that just naturally emerges on its own.
+
+02:30.750 --> 02:35.190
+This is specifically crafted for a specific purpose.
+
+02:35.870 --> 02:42.150
+These other three images here highlight different circuits that we can talk about in another complex
+
+02:42.150 --> 02:43.910
+system, which is the brain.
+
+02:44.390 --> 02:47.550
+So this one here depicts a neuron.
+
+02:47.750 --> 02:50.950
+So the black lines here, all these thin black lines here.
+
+02:51.190 --> 02:55.270
+This depicts a tracing of a single brain cell.
+
+02:55.670 --> 02:58.270
+The soma or the body is down here.
+
+02:58.550 --> 03:06.430
+And all of these little ramifications are lots of dendrites that form connections to other neurons around
+
+03:06.430 --> 03:07.670
+the basal area.
+
+03:07.790 --> 03:14.830
+And then there's this main dendritic branch coming up here, connecting to yet more neurons at the apical
+
+03:14.830 --> 03:15.470
+sites.
+
+03:15.950 --> 03:23.350
+Now, the thing is that even within a single brain cell, there are subcomponents of the cell that form
+
+03:23.350 --> 03:31.390
+their own mini circuits, and they can implement their own individual computations such as logical operations,
+
+03:31.390 --> 03:34.950
+correlation, detection, filtering, and amplification.
+
+03:35.590 --> 03:41.030
+In other words, we can talk about circuits in the brain at a subcellular level.
+
+03:41.630 --> 03:47.830
+And then we have this higher level of anatomical organization here where each of these, like gooey
+
+03:47.870 --> 03:51.910
+little triangles now depicts a neuron.
+
+03:52.430 --> 03:54.110
+So these are the cell bodies.
+
+03:54.310 --> 04:01.790
+And now we can talk about how neural circuits form comprising a few dozen or maybe a few hundred neurons
+
+04:01.790 --> 04:05.950
+that are collectively implementing one kind of computation.
+
+04:06.550 --> 04:13.150
+And there's an even higher level where we can talk about interactions between different brain regions
+
+04:13.230 --> 04:18.230
+as forming a circuit for some high level cognitive or behavioral process.
+
+04:18.350 --> 04:24.070
+And now we are talking about circuits that include millions or billions of neurons.
+
+04:24.790 --> 04:31.150
+Of course, there is a theme that ties all of these levels of description together, which is that the
+
+04:31.190 --> 04:37.830
+individual components of a system work together towards some common computational goal.
+
+04:38.510 --> 04:46.910
+But my point here is that there's no real precise anatomical definition or way of confidently measuring
+
+04:46.910 --> 04:50.350
+the boundaries of an anatomical circuit in the brain.
+
+04:50.830 --> 04:56.470
+That is true for nervous systems, and it's true for really any complex system.
+
+04:57.150 --> 04:59.550
+And how about in deep learning models?
+
+04:59.790 --> 05:07.030
+Now what you see here, this diagram, this is not an LM architecture but just a more general multilayer
+
+05:07.070 --> 05:08.350
+feed forward model.
+
+05:08.830 --> 05:14.190
+So what would a circuit look like that is embedded inside this network?
+
+05:14.870 --> 05:18.780
+Perhaps these four units here are all working together.
+
+05:18.780 --> 05:25.540
+Maybe they're all strongly correlated, and their combined output is crucial for some kind of feature
+
+05:25.540 --> 05:27.060
+detection in the data.
+
+05:28.180 --> 05:32.300
+And maybe this is a little circuit with only two units over here.
+
+05:32.740 --> 05:39.340
+Or maybe all six of these units form a circuit that spans multiple layers.
+
+05:40.180 --> 05:47.260
+And because the weights and the activations are continuous numbers in these deep learning models, it's
+
+05:47.260 --> 05:54.020
+just never going to be the case that we can identify circuits simply by looking at what neurons are
+
+05:54.020 --> 05:56.820
+active at the same time and which ones aren't.
+
+05:57.540 --> 06:05.220
+And that's because unless you have an extremely robust L1 regularizer or you're using dropout during
+
+06:05.220 --> 06:11.900
+learning, then every neuron in the entire network has some non-zero activation.
+
+06:12.500 --> 06:18.900
+And even if it has a negative activation that gets shunted by ReLU non-linearity, there still won't
+
+06:18.900 --> 06:21.460
+be any neurons that have zero input.
+
+06:22.260 --> 06:29.180
+Here you see another diagram of what a circuit in a language model might look like, at least conceptually.
+
+06:29.860 --> 06:34.340
+So this shows that circuits are not necessarily fixed in the model.
+
+06:34.340 --> 06:42.100
+They can evolve over time as new tokens are processed and more information is aggregated.
+
+06:43.380 --> 06:50.540
+Conceptually, this is a beautiful idea that circuits are not fixed but instead are fluid over time.
+
+06:50.940 --> 06:58.660
+But that makes for extremely difficult and nuanced data approaches to actually identify and characterize
+
+06:58.660 --> 07:06.660
+those circuits, and also confirming the statistical robustness of the existence of those circuits in
+
+07:06.660 --> 07:07.740
+large data sets.
+
+07:07.780 --> 07:14.620
+So it just becomes really tricky to make sure that you're not just identifying some weird quirk that
+
+07:14.620 --> 07:18.180
+happens to emerge in one particular text sequence.
+
+07:19.140 --> 07:23.250
+So yeah, all of this stuff is very tricky for multiple reasons.
+
+07:23.450 --> 07:28.650
+Here I have a very loose definition of a circuit in a deep learning network.
+
+07:29.050 --> 07:35.930
+This is an operational definition in the sense that it's like a guiding principle for thinking about
+
+07:35.930 --> 07:40.050
+analysis methods that I will introduce you to in this section.
+
+07:40.690 --> 07:44.130
+Please do not interpret this statement to Restrictively.
+
+07:44.130 --> 07:48.370
+This is not meant to be a formal scientific definition.
+
+07:48.610 --> 07:55.730
+Basically, the analysis that I will introduce you to in this section are focused on using statistical
+
+07:55.730 --> 08:02.490
+techniques to identify neurons or dimensions that behave in similar ways.
+
+08:04.810 --> 08:12.090
+I hope I didn't come across as being too negative or pessimistic about identifying circuits in complex
+
+08:12.090 --> 08:14.130
+systems like LMS.
+
+08:14.730 --> 08:21.410
+This kind of research is very difficult, but I think it's one of the most exciting and promising avenues
+
+08:21.610 --> 08:25.050
+of interpretability in complex systems.

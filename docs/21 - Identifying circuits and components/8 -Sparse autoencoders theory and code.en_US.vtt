@@ -1,0 +1,1354 @@
+WEBVTT
+
+00:02.160 --> 00:11.320
+An autoencoder is a specific type of deep learning model architecture that is being explored in interpretability
+
+00:11.320 --> 00:19.560
+research as a way to identify latent factors that are embedded in the patterns across different neurons.
+
+00:20.240 --> 00:27.440
+In this video, I will describe the architecture of the autoencoder and how it is used for interpretability.
+
+00:27.800 --> 00:34.600
+And then I'll switch to Python and show you how interpret autoencoders are set up, how they are trained,
+
+00:34.600 --> 00:40.040
+and a few different ways of picking components to interpret and analyze.
+
+00:40.440 --> 00:41.480
+In the code demo.
+
+00:41.480 --> 00:47.280
+Here in this video I will use simulated data, not real LM data activations.
+
+00:47.440 --> 00:54.160
+That's going to help us with the evaluating the performance of the autoencoder, and will also facilitate
+
+00:54.200 --> 01:01.340
+a critical discussion about some of the challenges of interpreting autoencoders in real data.
+
+01:01.820 --> 01:07.700
+And in the next video, I'll show another code demo with an autoencoder in real LM data.
+
+01:07.940 --> 01:14.660
+And the video thereafter, you will get to continue exploring autoencoders in a code challenge.
+
+01:15.940 --> 01:24.460
+In this slide, I will give an overview of the big picture idea of using a sparse autoencoder to identify
+
+01:24.500 --> 01:26.140
+latent constructs.
+
+01:26.700 --> 01:31.660
+So imagine we have this representation of a noun in an la.
+
+01:32.700 --> 01:38.500
+Now we don't actually know how llms represent the concept of a noun.
+
+01:39.140 --> 01:43.740
+Language models are not trained to know concepts like parts of speech.
+
+01:44.140 --> 01:47.620
+They do somehow learn it from next token prediction.
+
+01:47.980 --> 01:56.540
+But the question is where is this concept actually stored in the LLM weights and how is it represented?
+
+01:57.580 --> 02:04.240
+Of course, a noun is a relatively simple latent concept in the context of AI safety.
+
+02:04.520 --> 02:12.080
+You could replace this with a concept like deception or a willingness to participate in illegal or harmful
+
+02:12.080 --> 02:13.040
+activities.
+
+02:13.840 --> 02:21.320
+Anyway, the concept of a noun is somehow embedded in the patterns of weights across the different transformer
+
+02:21.320 --> 02:22.000
+blocks.
+
+02:22.440 --> 02:24.560
+So this is a latent variable.
+
+02:24.560 --> 02:26.840
+We cannot measure it directly.
+
+02:27.280 --> 02:35.240
+However, we can design experiments to elicit manifest variables that we actually can measure.
+
+02:35.840 --> 02:43.240
+For example, we can just present some tokens to the model and measure the activations in some embeddings
+
+02:43.240 --> 02:48.040
+dimensions or some MLP neurons to the nouns in the text.
+
+02:48.400 --> 02:51.640
+So these are our manifest variables.
+
+02:52.120 --> 02:56.860
+Next we apply some analysis, in this case a sparse autoencoder.
+
+02:57.980 --> 03:05.060
+The idea is that we take all of our activations from our manifest variables and see if we can figure
+
+03:05.060 --> 03:13.340
+out some clever way of combining all of their activations, so that all the information in these manifest
+
+03:13.340 --> 03:21.140
+variables, such that the combination of these activations using linear and nonlinear methods, leads
+
+03:21.140 --> 03:28.060
+to a set of latent components that are estimated from the manifest variables.
+
+03:29.060 --> 03:35.180
+And actually, this high level overview on this slide basically works for any kind of latent model,
+
+03:35.180 --> 03:41.460
+including generalized eigendecomposition that I'll talk about in a few videos, and also like factor
+
+03:41.460 --> 03:48.060
+analysis, non-negative matrix factorization, etc., etc. lots of analyses could be plugged into this
+
+03:48.220 --> 03:49.420
+orange box here.
+
+03:50.500 --> 03:56.830
+But anyway, the question is that we start from some concept that we want to understand, some latent
+
+03:56.830 --> 03:57.430
+factor.
+
+03:57.830 --> 04:02.550
+And what we get from our analysis is a set of components.
+
+04:02.550 --> 04:08.350
+These are statistical combinations of the activations of the manifest variables.
+
+04:08.790 --> 04:17.710
+Now ideally, one of these statistically reconstructed latent components actually maps onto the source
+
+04:17.750 --> 04:21.350
+latent construct that we are interested in.
+
+04:22.030 --> 04:30.350
+But how do we know which of these latent variables corresponds to a representation of a noun that is
+
+04:30.350 --> 04:33.310
+really not trivial in the code demo.
+
+04:33.310 --> 04:38.190
+In this video I will be simulating ground truth latent concepts.
+
+04:38.310 --> 04:41.990
+So we will know for sure how to get the right answer.
+
+04:42.670 --> 04:44.990
+But in real data it's much more challenging.
+
+04:45.230 --> 04:51.950
+So maybe, for example, you can see which of these latent components has more activation for nouns
+
+04:52.070 --> 04:55.090
+compared to verbs and adjectives and so on.
+
+04:55.410 --> 05:02.050
+That's a good way to go about it, but it is one more layer of statistics that increases the amount
+
+05:02.050 --> 05:06.570
+of uncertainty and also needs to be evaluated carefully.
+
+05:07.370 --> 05:13.290
+My point here is not that these statistically reconstructed components cannot be linked back to the
+
+05:13.290 --> 05:15.610
+latent construct that we're interested in.
+
+05:16.130 --> 05:22.050
+Instead, my point is just that it can be challenging, especially with limited or noisy data.
+
+05:23.330 --> 05:28.330
+Okay, so now let me give you a little more detail about a sparse autoencoder.
+
+05:29.090 --> 05:34.450
+Here you see a general overview of the architecture of an autoencoder.
+
+05:34.970 --> 05:41.890
+Each of these vertical blocks corresponds to or represents a different layer of the model.
+
+05:42.530 --> 05:45.690
+This corresponds to the input data into the model.
+
+05:45.810 --> 05:53.270
+So in our case, the activation of 3000 MLP neurons elicited by a particular token.
+
+05:54.430 --> 05:56.870
+Then we have what's called the encoder layer.
+
+05:57.310 --> 06:05.350
+This is a pretty straightforward linear layer that transforms the input data using a feed forward operation
+
+06:05.350 --> 06:07.590
+with some non-linearity at the end.
+
+06:08.190 --> 06:14.310
+And then in the middle, we have what is variously called the bottleneck or the latent, or the code
+
+06:14.350 --> 06:15.710
+layer of the model.
+
+06:16.270 --> 06:20.590
+This is where the variables get transformed in the innermost layer.
+
+06:21.070 --> 06:28.150
+And then we go to a decoder layer where the dimensionality of the data matches the dimensionality at
+
+06:28.150 --> 06:29.430
+the encoder layer.
+
+06:29.990 --> 06:37.630
+In fact, autoencoder models will sometimes tie the encoder and decoder weights together so that the
+
+06:37.630 --> 06:41.430
+decoder is literally just the transpose of the encoder.
+
+06:42.550 --> 06:47.550
+That's not what I'm going to do in this video, but I will show you what that looks like in the next
+
+06:47.550 --> 06:48.190
+video.
+
+06:48.710 --> 06:52.130
+And then finally we have the output of the autoencoder.
+
+06:52.410 --> 06:59.330
+Now this is always the same, or the size of this output is always the same as the size of the initial
+
+06:59.330 --> 06:59.930
+input.
+
+07:00.370 --> 07:08.530
+In fact, the entire goal of training an autoencoder is to get the output to match the input as closely
+
+07:08.530 --> 07:09.530
+as possible.
+
+07:10.130 --> 07:18.010
+So, for example, if there was just one linear layer in between input and output with no non-linearities,
+
+07:18.250 --> 07:24.810
+then the model would just learn that the identity matrix is the optimal way to get the output to match
+
+07:24.810 --> 07:25.610
+the input.
+
+07:26.690 --> 07:34.650
+But in these autoencoder architectures, the model needs to learn to transform the data with changing
+
+07:34.650 --> 07:38.010
+dimensionalities and also with non-linear transforms.
+
+07:38.410 --> 07:42.170
+So it's really not trivial to learn this input output mapping.
+
+07:43.010 --> 07:50.350
+Now, in a typical autoencoder architecture that is used in, for example, data compression and image
+
+07:50.350 --> 07:51.190
+denoising.
+
+07:51.430 --> 07:58.750
+The latent layer is small, by which I mean it has a lower dimensionality than the input, and then
+
+07:58.750 --> 08:05.790
+the encoder layer that forces the model to learn a low dimensional representation, which is going to
+
+08:05.790 --> 08:09.470
+be more efficient than the full dimensional input.
+
+08:10.230 --> 08:16.710
+On the other hand, for sparse autoencoders, for example, the kinds we use in interpretability, we
+
+08:16.710 --> 08:17.750
+actually do the opposite.
+
+08:17.750 --> 08:24.350
+We expand the dimensionality of the middle layer so that it's larger than the size of the input.
+
+08:25.510 --> 08:31.910
+Now, you might think that that would lead to an overcomplete and redundant set of representations and
+
+08:31.910 --> 08:33.030
+transformations.
+
+08:33.430 --> 08:42.070
+But if you impose sparsity such that a lot of these activations are forced to be zero, then what ends
+
+08:42.070 --> 08:50.010
+up happening is you get a relatively small number of units in this latent layer to be active, and a
+
+08:50.010 --> 08:52.130
+lot of the rest of them are zeros.
+
+08:52.770 --> 09:00.930
+Now, it's not necessarily intuitively obvious that that would de-correlate the variables to identify
+
+09:00.970 --> 09:07.570
+latent factors that are embedded in the patterns distributed across the manifest variables, but that
+
+09:07.570 --> 09:13.850
+is actually what ends up happening, at least under ideal conditions of a sufficient amount of clean
+
+09:13.850 --> 09:16.690
+data and separability in the data.
+
+09:18.050 --> 09:23.490
+The last thing I want to mention before telling you about the Python demo is the loss function.
+
+09:24.210 --> 09:30.730
+As I already mentioned, the goal of training this model is to get the output to match the input as
+
+09:30.730 --> 09:32.250
+closely as possible.
+
+09:32.730 --> 09:39.930
+So the loss function is the difference of the input and the output, and partly because we don't care
+
+09:39.930 --> 09:44.530
+about whether the little discrepancies happen to be positive or negative.
+
+09:44.970 --> 09:52.910
+And also because squaring a loss function makes for a really simple derivative to calculate the input
+
+09:52.950 --> 10:00.230
+output derivative difference is squared and this is called mean squared error or MSE.
+
+10:00.630 --> 10:03.030
+You will see that in the code in a few moments.
+
+10:04.710 --> 10:08.070
+So here is the idea of the Python demo.
+
+10:08.430 --> 10:16.630
+I will start by simulating two latent sources that I will mix together to create the manifest variables.
+
+10:17.110 --> 10:20.550
+And this figure illustrates the idea of the simulations.
+
+10:20.870 --> 10:25.070
+So up here we have the two latent sources that I created.
+
+10:25.190 --> 10:31.910
+One is a sine wave and the other is just an alternating sequence of zeros and twos.
+
+10:32.550 --> 10:36.230
+Here you see the histogram of the two latent variables.
+
+10:36.630 --> 10:42.150
+Here I mix them together to simulate the manifest variables that we can actually measure.
+
+10:42.390 --> 10:48.840
+So these would be like the activations from two different embeddings dimensions in a language model.
+
+10:49.160 --> 10:53.800
+And here you see the histograms of those two manifest variables.
+
+10:54.280 --> 11:03.360
+And now the goal is going to be to see if we can train an autoencoder to transform these mixed manifest
+
+11:03.360 --> 11:11.760
+variables in such a way that the two original latent sources are separated in the autoencoder latent
+
+11:12.280 --> 11:14.720
+layer and identified.
+
+11:15.560 --> 11:22.400
+Now, in this case, using simulated data for this demo is a real advantage because we literally have
+
+11:22.400 --> 11:24.040
+the ground truth right here.
+
+11:24.280 --> 11:31.000
+So if we can get two latent variables from the autoencoder that look just like, or at least really
+
+11:31.000 --> 11:36.800
+close to the blue dots and the green dots here, then we know that the procedure worked.
+
+11:37.640 --> 11:41.240
+So here you see an overview of the model architecture.
+
+11:41.240 --> 11:44.740
+I have an encoder and a decoder part.
+
+11:44.940 --> 11:51.900
+Here in the forward method you can see that I take the input data x, push it through the encoder weights
+
+11:51.900 --> 11:59.940
+matrix, apply a jlu non-linearity, and then push that back through the decoder weights, and that
+
+11:59.940 --> 12:02.820
+gives me the output which I return.
+
+12:03.500 --> 12:10.940
+I'm also going to return the latent variable activations because once the model is trained I want to
+
+12:10.980 --> 12:13.380
+analyze these latent variables.
+
+12:14.140 --> 12:21.220
+Now hopefully two of these latent variables will look like the original sources that I simulated here.
+
+12:21.980 --> 12:26.420
+By the way, in this case I used a hidden dimension of 20.
+
+12:26.700 --> 12:33.660
+So there are 20 latent factors or estimated latent factors that this model will calculate.
+
+12:34.060 --> 12:37.220
+So this is really all there is to an autoencoder.
+
+12:37.260 --> 12:38.980
+It's pretty simple architecture.
+
+12:39.340 --> 12:46.640
+But we want this to be a sparse autoencoder, which means that we need an L1 penalty term.
+
+12:47.200 --> 12:54.120
+Of course, you are now highly familiar with L1 penalties and regularization, so I'm sure that this
+
+12:54.120 --> 12:57.520
+line of code here will look familiar to you.
+
+12:57.760 --> 13:05.640
+I'm just taking the average of the absolute values of the latent activations and multiplying by this
+
+13:05.640 --> 13:08.200
+variable, which here I call sparsity weight.
+
+13:08.400 --> 13:14.080
+But that would correspond to the parameter lambda that I discussed in the logistic regression a few
+
+13:14.080 --> 13:15.040
+videos ago.
+
+13:15.920 --> 13:24.800
+Now, this is not exactly the same thing as a lasso regularization, because that penalty term is based
+
+13:24.800 --> 13:31.240
+on the coefficients, whereas here this is based on the activations which are data dependent.
+
+13:31.240 --> 13:33.200
+But it's a pretty similar idea.
+
+13:33.200 --> 13:40.340
+We are forcing the model to have some sparsity by having lots of zero valued activations.
+
+13:40.980 --> 13:41.300
+Okay.
+
+13:41.340 --> 13:48.740
+And then I also included here another penalty term for the covariance across the different latent factors.
+
+13:49.260 --> 13:53.860
+I will explain this code and the math in a bit more detail when I switch to code.
+
+13:54.180 --> 14:00.980
+I actually ended up not using this loss term here in this demo, but I do use it in the next couple
+
+14:01.020 --> 14:01.780
+of videos.
+
+14:02.740 --> 14:09.620
+But basically the idea is to encourage the latent variables to be weakly or not at all correlated with
+
+14:09.620 --> 14:16.820
+each other, to avoid having too much redundancy in the latent components estimated by the model.
+
+14:17.580 --> 14:24.060
+So then I trained the model on the manifest variables, which are the mixed signals that I showed a
+
+14:24.060 --> 14:26.740
+moment ago in this screenshot over here.
+
+14:27.180 --> 14:29.180
+So here you see the two losses.
+
+14:29.340 --> 14:32.620
+And yeah in general the total loss goes down.
+
+14:32.940 --> 14:34.780
+And that looks quite nice.
+
+14:34.820 --> 14:41.600
+Interestingly the L1 loss kept actually increasing for a bit before it started settling down.
+
+14:42.640 --> 14:51.360
+By the way, note that the L1 and the MSE losses are on very different scales, and so in this graph
+
+14:51.360 --> 14:54.000
+they have their own separate y axes.
+
+14:55.040 --> 15:01.800
+Here you see the correlation matrix of all the latent variables that were estimated in the middle layer
+
+15:01.800 --> 15:03.920
+the latent layer of the autoencoder.
+
+15:04.360 --> 15:10.800
+In general there are some pretty strong correlations among the different pairs of latent variables.
+
+15:11.320 --> 15:16.880
+You can see that a lot of the block elements are either 1 or -1.
+
+15:17.280 --> 15:20.040
+And that means that yeah, there's a lot of redundancy in here.
+
+15:20.040 --> 15:26.200
+And that's actually not so surprising considering that there are only two manifest variables and two
+
+15:26.240 --> 15:27.720
+latent sources.
+
+15:28.200 --> 15:32.640
+But here is the challenging part of doing sparse autoencoder analyses.
+
+15:33.000 --> 15:39.780
+Which of these latent Components do we choose to interpret and analyze?
+
+15:40.940 --> 15:45.980
+Even in the ideal case of a perfect reconstruction of the latent sources?
+
+15:46.300 --> 15:51.140
+It means that two of these are meaningful and the rest are redundant or noise.
+
+15:51.900 --> 15:56.700
+Well, this is where having simulated data really comes in handy.
+
+15:56.860 --> 16:03.420
+So what I did here, what I'll show you in the code in a moment, is to correlate the latent scores
+
+16:03.420 --> 16:10.900
+that I simulated at the beginning with the activations from the estimated latent components inside the
+
+16:11.060 --> 16:12.060
+autoencoder.
+
+16:12.660 --> 16:18.780
+And then I found two components that correlated basically perfectly with the simulated scores.
+
+16:18.940 --> 16:23.180
+Those happen to be in this run component eight and component 19.
+
+16:24.340 --> 16:26.620
+And here you see their activations.
+
+16:27.060 --> 16:34.100
+Now please don't interpret the values on the y axis or the scaling of the y axis that's arbitrarily
+
+16:34.100 --> 16:40.680
+scaled depending on the parameters and so on, but the overall shapes of the reconstructed sources,
+
+16:40.680 --> 16:41.480
+it's really good.
+
+16:41.480 --> 16:44.640
+It's really, you know, it's a close match to what I simulated.
+
+16:44.680 --> 16:47.600
+Not exactly perfect, but quite good.
+
+16:48.080 --> 16:54.040
+Of course, in real data we do not actually have the ground truth to compare against.
+
+16:54.040 --> 16:56.760
+So that presents some challenges.
+
+16:56.760 --> 17:04.400
+I will discuss that in a bit more detail in the next video when I show another demo with real LM data.
+
+17:04.760 --> 17:07.960
+But for now, let's switch to code and have a deeper look.
+
+17:09.560 --> 17:12.320
+Import the typical libraries that we always import.
+
+17:12.360 --> 17:14.720
+Okay, so here I'm creating some data.
+
+17:14.720 --> 17:17.080
+There's going to be 3000 samples.
+
+17:17.200 --> 17:23.320
+And here is how I define the ground truth latent source for component one.
+
+17:23.320 --> 17:27.800
+So source one that is a sine wave I just shift it up on the y axis.
+
+17:27.800 --> 17:29.440
+So it has positive values.
+
+17:29.440 --> 17:36.140
+And here I take the sine of a faster sine wave and also shift it up on the y axis.
+
+17:36.500 --> 17:36.860
+Okay.
+
+17:36.900 --> 17:41.380
+And then what I do here is develop a mixing matrix.
+
+17:41.540 --> 17:43.460
+This is a two by two matrix.
+
+17:43.460 --> 17:51.780
+And the idea is that I will create a data set comprising the two original latent sources the ground
+
+17:51.820 --> 17:55.420
+truth sources and then matrix multiply them.
+
+17:55.420 --> 18:00.580
+So I'm going to rotate them by this rotation matrix here.
+
+18:00.580 --> 18:02.620
+And this is an impure rotation matrix.
+
+18:02.620 --> 18:08.020
+So it will stretch and also rotate not only pure rotation.
+
+18:08.380 --> 18:17.140
+Anyway so the idea is that once we multiply the ground truth sources by the linear mixing matrix, this
+
+18:17.140 --> 18:20.140
+gives us our manifest variables.
+
+18:20.140 --> 18:26.740
+So you can imagine, you know, at a very abstract level these would correspond to a language models
+
+18:26.740 --> 18:32.230
+internal representation of a noun, what a noun means and what a verb means.
+
+18:32.710 --> 18:41.830
+And what we have here in data are the activations of two MLP neurons to, uh, token to processing tokens
+
+18:41.830 --> 18:44.070
+that are either nouns or verbs.
+
+18:44.790 --> 18:45.150
+Okay.
+
+18:45.190 --> 18:45.830
+So yeah.
+
+18:45.830 --> 18:49.630
+So that's creating the manifest variables from simulated data.
+
+18:49.790 --> 18:53.990
+Here I'm just visualizing visualizing them exactly as you saw.
+
+18:54.190 --> 19:01.110
+What I would like to point out here is that the latent sources are completely uncorrelated with each
+
+19:01.110 --> 19:01.590
+other.
+
+19:01.670 --> 19:10.510
+So the blue dots and the green dots that corresponds to latent uh one and latent two, those are correlated
+
+19:10.510 --> 19:11.470
+with each other.
+
+19:11.510 --> 19:13.070
+Exactly zero.
+
+19:13.830 --> 19:20.030
+But uh, the mixed signals, the manifest variables are strongly correlated with each other.
+
+19:20.150 --> 19:25.870
+This is the sort of thing that happens when you have latent components that are projecting to manifest
+
+19:25.870 --> 19:29.990
+variables, and their dynamics get mixed together.
+
+19:30.170 --> 19:36.970
+So now the question is based on these data which we actually can measure, uh, how do we get back?
+
+19:36.970 --> 19:43.010
+How can we, uh, somehow combine and pool and, you know, linear and non-linear ways?
+
+19:43.010 --> 19:50.970
+How can we combine these channels, these, uh, manifest variables in a way that can reconstruct these
+
+19:50.970 --> 19:51.730
+sources?
+
+19:51.930 --> 19:54.450
+That's the goal of the autoencoder.
+
+19:55.650 --> 19:56.130
+Okay.
+
+19:56.170 --> 19:56.410
+Yeah.
+
+19:56.410 --> 19:59.050
+So here I create the sparse autoencoder.
+
+19:59.090 --> 20:04.410
+The encoder and the decoder are two separate sets of parameters.
+
+20:04.810 --> 20:08.850
+Uh, and then we have the sparsity weights which by default is one.
+
+20:09.010 --> 20:11.850
+And uh yeah we can play around with what that mean.
+
+20:11.850 --> 20:16.970
+Or I will encourage you to play around with that impact of that parameter.
+
+20:16.970 --> 20:22.970
+But this kind of corresponds to the lambda parameter from the L1 regularization term.
+
+20:23.210 --> 20:26.330
+Not literally exactly, but certainly conceptually.
+
+20:26.330 --> 20:28.790
+That's what this parameter means here.
+
+20:29.310 --> 20:37.430
+Okay, now in this video, I'm going to train the model to have separate encoder and decoder weights.
+
+20:37.870 --> 20:44.150
+In the next couple of videos, the models are going to get bigger, considerably bigger.
+
+20:44.150 --> 20:49.870
+And so therefore I'm actually not going to have a separate weights matrix for the decoder, but just
+
+20:49.870 --> 20:52.670
+tied together the encoder and the decoder.
+
+20:52.710 --> 20:55.470
+Anyway, more on that in the next video.
+
+20:56.430 --> 20:57.590
+Here's the forward pass.
+
+20:57.590 --> 20:58.390
+Very simple.
+
+20:58.430 --> 21:02.470
+The data goes to the encoder non-linearity and then the decoder.
+
+21:02.630 --> 21:09.630
+And the only reason why I'm separating this into two lines is that I want to get the activations from
+
+21:09.630 --> 21:13.950
+the innermost layer, which are the estimated latent components.
+
+21:14.590 --> 21:14.870
+Okay.
+
+21:14.910 --> 21:19.470
+So then here is the L1 penalty term as I explained in the slides.
+
+21:19.830 --> 21:26.750
+I'm just taking the absolute value of all of the activations and averaging those together, and then
+
+21:26.970 --> 21:32.090
+multiplying that by the same sparsity weight that I defined up here.
+
+21:32.450 --> 21:40.090
+So basically this is going to discourage the model from having lots of activations in the different
+
+21:40.370 --> 21:44.250
+uh estimated components for the different tokens.
+
+21:44.850 --> 21:48.130
+And then finally I have this decorrelation loss.
+
+21:48.130 --> 21:53.450
+So a separate loss function, as I mentioned in the slides I don't actually use this here.
+
+21:53.450 --> 21:58.770
+I started using it, but when I was testing this code, it turned out that this was actually not really
+
+21:58.770 --> 21:59.850
+helping that much.
+
+21:59.850 --> 22:07.770
+But I do think it helps in, uh, in real models to help the components be decorrelated from each other
+
+22:07.890 --> 22:10.970
+so you get less redundancy in the components.
+
+22:10.970 --> 22:15.410
+It also helps promote sparsity and interpretability.
+
+22:15.890 --> 22:16.810
+So how does this work.
+
+22:16.810 --> 22:23.050
+So I take all of the data the latent activations calculate their covariance matrix.
+
+22:23.450 --> 22:30.750
+And then I subtract diag diag of the covariance matrix from the covariance matrix, so this looks a
+
+22:30.750 --> 22:31.750
+little confusing.
+
+22:31.990 --> 22:34.990
+Let me just very quickly walk you through what that does.
+
+22:35.430 --> 22:39.430
+So let's imagine let's see I've torch dot diag.
+
+22:39.630 --> 22:42.790
+And let's say I have I think this doesn't work with a list.
+
+22:42.830 --> 22:43.550
+Let me just try this.
+
+22:43.870 --> 22:44.270
+Okay.
+
+22:44.510 --> 22:47.470
+Uh this won't work with actually maybe I'll just do this with I think.
+
+22:47.710 --> 22:47.950
+Yeah.
+
+22:48.070 --> 22:49.550
+NumPy it does work with a list.
+
+22:49.990 --> 22:52.030
+Okay so numpy dot diag.
+
+22:52.070 --> 22:55.470
+Same functionality as PyTorch diag function.
+
+22:56.510 --> 22:58.230
+So I input a list.
+
+22:58.230 --> 23:00.390
+Or it can also be a numpy array.
+
+23:00.550 --> 23:08.150
+And what I get out is a diagonal matrix with zeros on the off diagonal, and these numbers on the diagonal.
+
+23:08.470 --> 23:12.510
+But what I want here is just the diagonal.
+
+23:12.510 --> 23:18.790
+So given that I already have a dense matrix, how can I just get out the diagonal elements?
+
+23:18.950 --> 23:26.650
+Well, to do that I can use diag again and then that is going to return just the diagonal elements.
+
+23:26.810 --> 23:27.130
+Okay.
+
+23:27.170 --> 23:28.850
+So that is the idea here.
+
+23:28.890 --> 23:30.930
+Torch is identical.
+
+23:30.930 --> 23:35.370
+You would just need to make this thing be a PyTorch tensor.
+
+23:35.610 --> 23:38.850
+And I was just too lazy to do all that extra typing.
+
+23:39.130 --> 23:39.610
+Okay.
+
+23:39.650 --> 23:42.770
+Anyway, uh, let's see, where are we here?
+
+23:42.810 --> 23:48.170
+Okay, so then I subtract off this from the covariance matrix.
+
+23:48.170 --> 23:51.690
+And basically what this does is take the covariance matrix.
+
+23:51.690 --> 23:59.610
+It leaves all of the off diagonal terms preserved and it obliterates it, zeros out all of the diagonal
+
+23:59.650 --> 24:02.130
+terms which are the variances.
+
+24:02.330 --> 24:07.570
+And then basically I just square all of those and sum that matrix.
+
+24:07.690 --> 24:16.090
+So what this does is give me, uh, larger values when the covariance is across the different, uh,
+
+24:16.210 --> 24:17.450
+estimated components.
+
+24:17.450 --> 24:25.550
+The latent components inside the autoencoder model are really large, and when we use that as a penalty
+
+24:25.590 --> 24:33.870
+term, then it encourages the model to reduce the off diagonal covariances, which means it encourages
+
+24:34.110 --> 24:40.510
+the model to generate components that are weakly correlated with each other instead of being strongly
+
+24:40.510 --> 24:44.030
+correlated with each other and therefore redundant.
+
+24:44.550 --> 24:51.550
+Okay, so I realize I took a long time to explain this, but you are going to see essentially this same
+
+24:51.630 --> 24:57.590
+model in the next two videos, including the code challenge, where you will need to be working with
+
+24:57.750 --> 24:59.230
+a model that looks like this.
+
+24:59.830 --> 25:05.070
+Okay, so here I'm going to create an instance of this class of this model.
+
+25:05.190 --> 25:07.910
+We have two inputs two manifest variables.
+
+25:08.070 --> 25:11.150
+And I'm specifying 20 hidden dimensions.
+
+25:11.150 --> 25:13.910
+So here you see what this looks like okay.
+
+25:13.950 --> 25:17.350
+And here I'm just pushing through a bit of junk data.
+
+25:17.630 --> 25:23.600
+You will remember from earlier in the course when we were building models that I.
+
+25:23.720 --> 25:29.480
+I really like the idea of pushing a little bit of noise through the data.
+
+25:29.520 --> 25:32.160
+You don't have to worry about what the outputs mean.
+
+25:32.160 --> 25:33.360
+You cannot interpret these.
+
+25:33.400 --> 25:34.600
+It's literally just noise.
+
+25:34.960 --> 25:40.480
+But, uh, this just basically checks for for bugs in the code.
+
+25:40.840 --> 25:41.120
+Okay.
+
+25:41.160 --> 25:43.760
+So the fact that we get some output is great.
+
+25:43.800 --> 25:47.600
+These correspond to the final outputs of the model.
+
+25:47.600 --> 25:52.080
+And these correspond to the internal latent activations.
+
+25:52.240 --> 25:57.520
+So the goal of the model training is to get this to look like the input.
+
+25:57.720 --> 26:04.480
+And once that is the case then we want to analyze these components these data here.
+
+26:04.960 --> 26:05.200
+Okay.
+
+26:05.240 --> 26:10.360
+So here I'm training the model 600 epochs a learning rate of 0.007.
+
+26:10.840 --> 26:16.080
+Uh using the Adam optimizer here you can see I'm using a mean squared error loss.
+
+26:16.320 --> 26:21.260
+And that is going to help us match the output to the input of the model.
+
+26:21.380 --> 26:23.180
+That's the main loss function.
+
+26:23.620 --> 26:23.860
+Yeah.
+
+26:23.900 --> 26:30.060
+And then here earlier in the beginning of the code, I created the data to be a numpy array.
+
+26:30.180 --> 26:33.660
+So here I'm just transforming it into a PyTorch tensor.
+
+26:33.980 --> 26:41.140
+And why a learning rate of 0.0007 and not like 0.0004, or, you know, any other possible number?
+
+26:41.900 --> 26:43.980
+Autoencoders can be a bit finicky.
+
+26:44.020 --> 26:51.700
+They can be a little bit tricky and pretty sensitive to the exact parameters of the model architecture
+
+26:51.700 --> 26:53.940
+and the the hyperparameters.
+
+26:54.020 --> 27:01.020
+So you often need to just experiment and explore and use some intuition and play around with these parameters
+
+27:01.060 --> 27:01.660
+a little bit.
+
+27:02.300 --> 27:04.580
+Okay, so now we are ready to train the model.
+
+27:04.580 --> 27:10.620
+I hope a lot of this stuff is nicely familiar to you from earlier in the course.
+
+27:10.900 --> 27:13.380
+So we loop over 600 epochs.
+
+27:14.460 --> 27:19.000
+And yeah we do a forward pass here and we calculate the loss.
+
+27:19.080 --> 27:22.280
+Now you can see there are two losses actually three.
+
+27:22.280 --> 27:23.800
+But this is commented out.
+
+27:23.800 --> 27:30.080
+So I have the sparsity loss I have the decorrelation loss which I'm not using here.
+
+27:30.400 --> 27:33.120
+And I have the mean squared error loss.
+
+27:33.120 --> 27:35.200
+This is the main measure of loss.
+
+27:35.600 --> 27:38.760
+And then I'm storing the L1 loss and the MSE loss.
+
+27:39.080 --> 27:43.240
+If you would like you can also uncomment this.
+
+27:43.480 --> 27:45.200
+And I guess you'd have to rename this.
+
+27:45.200 --> 27:49.560
+I think that's just a little mistake that this is also named L1 loss.
+
+27:49.560 --> 27:56.000
+But you can do this and you can add you know, you can also track that loss and so on.
+
+27:56.000 --> 27:58.400
+But I'm going to leave this commented for now.
+
+27:58.760 --> 27:59.080
+Okay.
+
+27:59.120 --> 28:04.920
+So then the actual loss that we use to train the model is MSE plus L1.
+
+28:05.440 --> 28:10.200
+And embedded in here is already the lambda term okay.
+
+28:10.480 --> 28:11.920
+I'm also using three L's.
+
+28:11.920 --> 28:16.620
+It's just a little bit of a joke to myself because you know we we use this loss function.
+
+28:16.620 --> 28:20.540
+It's like net loss for negative log likelihood loss.
+
+28:20.580 --> 28:23.260
+Anyway, it's probably not even that funny to me.
+
+28:23.900 --> 28:28.060
+I should probably just edit that part out of the video because that's such a terrible joke.
+
+28:28.220 --> 28:30.180
+Okay, let's run this code.
+
+28:30.420 --> 28:31.820
+This runs quite fast.
+
+28:31.860 --> 28:37.860
+You will see in the next video that when we start working with real data, these models can take a pretty
+
+28:37.860 --> 28:39.780
+long time to run.
+
+28:39.900 --> 28:43.700
+So in fact, 600 epochs is a really long.
+
+28:43.980 --> 28:49.620
+It's a lot of epochs to run for a model that we want to use for teaching purposes.
+
+28:50.140 --> 28:54.780
+Nonetheless, you can see that the losses are going down, in particular the MSE loss.
+
+28:54.780 --> 28:57.900
+It drops two orders of magnitude, which is great.
+
+28:58.740 --> 29:04.300
+So let's plot this and see how it looks basically the same as what I showed in the slides.
+
+29:04.340 --> 29:06.300
+Of course it's going to look slightly different.
+
+29:06.300 --> 29:12.700
+Run to run because yeah, there's so much randomness in here, but it is pretty consistent that the
+
+29:12.700 --> 29:16.240
+L1 loss starts to pick up and then it decreases.
+
+29:16.720 --> 29:17.840
+Uh, maybe.
+
+29:18.000 --> 29:18.280
+Yeah.
+
+29:18.320 --> 29:24.400
+It's not clear to me whether there would be any real benefit of doing more than 600 epochs.
+
+29:24.400 --> 29:25.400
+But anyway.
+
+29:25.960 --> 29:28.520
+Okay, so now let's have a look at the model.
+
+29:28.520 --> 29:30.240
+So now the model is trained.
+
+29:30.240 --> 29:31.400
+We're done with training.
+
+29:31.680 --> 29:36.160
+So I'm going to do one more forward pass I don't really care about this.
+
+29:36.160 --> 29:42.200
+What I care about is this the estimated latent component activations.
+
+29:42.400 --> 29:49.960
+And here I'm just detaching them from the computational graph in PyTorch and transforming them into
+
+29:50.160 --> 29:54.040
+numpy, just to make it easier for some of the subsequent analyses.
+
+29:55.160 --> 29:55.440
+Okay.
+
+29:55.480 --> 30:00.880
+So here you see those are the correlations across the latent variables.
+
+30:01.040 --> 30:07.960
+And it actually looks like there's less correlations here than the run that I took the screenshot for
+
+30:08.360 --> 30:09.240
+in the slides.
+
+30:09.680 --> 30:11.840
+Now these are the variables here.
+
+30:11.840 --> 30:18.740
+These are the numbers on the off diagonals that you would expect to be lower, so less extreme closer
+
+30:18.740 --> 30:27.140
+to zero if you would include the decorrelation loss penalty that I commented out.
+
+30:28.380 --> 30:37.180
+Okay, so now what I'm going to do is find which of these 20 components best matches the original ground
+
+30:37.180 --> 30:39.500
+truth source data, right?
+
+30:39.540 --> 30:43.540
+So that is the data that I showed here.
+
+30:43.620 --> 30:48.140
+Remember, the idea is that we trained the autoencoder on these data.
+
+30:48.340 --> 30:55.220
+And we want that middle layer some component in those in the middle layer to to separate out these two
+
+30:55.260 --> 30:57.380
+sources and reconstruct them.
+
+30:58.500 --> 30:58.780
+Okay.
+
+30:58.820 --> 31:03.460
+So how can we find which of these 20 are the two best ones?
+
+31:03.860 --> 31:10.500
+Now, because I have access to the ground truth, what I can do is literally just correlate them with
+
+31:10.500 --> 31:13.840
+the latent variable and see which one is best.
+
+31:14.040 --> 31:22.040
+So what I do here is create a new matrix where I take the estimated latent components, and then I concatenate
+
+31:22.080 --> 31:25.560
+onto the end of that matrix the ground truth data.
+
+31:25.720 --> 31:27.600
+And then I correlate all of them.
+
+31:28.560 --> 31:34.640
+And then I look for the correlation in the final row which is this ground truth data.
+
+31:34.920 --> 31:38.600
+And I correlate up to the final column.
+
+31:38.600 --> 31:43.040
+And the reason why we don't want the final column is because that's the autocorrelation.
+
+31:43.040 --> 31:45.640
+It's trivially going to be the best.
+
+31:46.080 --> 31:46.360
+Okay.
+
+31:46.400 --> 31:48.000
+So that's for component one.
+
+31:48.040 --> 31:50.200
+And then I repeat it for component two.
+
+31:50.560 --> 31:58.960
+And now I see that component six and component ten were the best components in the estimated model in
+
+31:58.960 --> 31:59.840
+the middle layer.
+
+31:59.840 --> 32:03.840
+So they correlated at not exactly one but really really close.
+
+32:03.840 --> 32:05.600
+That's a really strong correlation.
+
+32:06.960 --> 32:07.240
+Okay.
+
+32:07.320 --> 32:14.290
+So then I can generate this plot here and we see what the components actually look like.
+
+32:14.290 --> 32:21.970
+Now, in this case, the the estimated components are uncorrelated, but they don't really seem to match
+
+32:22.010 --> 32:31.690
+onto the original source, the ground truth source, as well as what the version that I showed in the
+
+32:31.690 --> 32:32.250
+slides.
+
+32:32.610 --> 32:33.770
+Again, that happens.
+
+32:33.770 --> 32:35.810
+Autoencoders are finicky.
+
+32:36.050 --> 32:43.290
+They don't always work perfectly, and sometimes you just also get unlucky with an initial noise matrix.
+
+32:43.290 --> 32:45.170
+But still it does look pretty good.
+
+32:45.170 --> 32:48.970
+So you see this blue component is clearly capturing a sine wave.
+
+32:49.250 --> 32:52.850
+So that looks really close to a component one.
+
+32:53.290 --> 32:55.810
+And the green one is kind of matching.
+
+32:55.890 --> 32:58.330
+Let me just scroll back up here real quick.
+
+32:59.010 --> 33:01.170
+Uh that was here.
+
+33:01.290 --> 33:07.810
+So the green one should be uh, there shouldn't be any variability other than zero and two or, you
+
+33:07.810 --> 33:11.030
+know, a very small value and a very large value.
+
+33:11.390 --> 33:18.270
+And you do see it's kind of capturing some of those dynamics, the discretization, the kind of alternating
+
+33:18.430 --> 33:20.470
+between low values and high values.
+
+33:20.630 --> 33:22.430
+But it's not that perfect.
+
+33:22.430 --> 33:25.190
+So I'm just going to run the entire code from scratch.
+
+33:25.230 --> 33:29.270
+Again, just out of curiosity, I'm not changing anything.
+
+33:29.310 --> 33:29.630
+Okay.
+
+33:29.670 --> 33:30.830
+This one also.
+
+33:30.870 --> 33:31.870
+Yeah, kind of similar.
+
+33:31.910 --> 33:35.310
+Like it's capturing some of the dynamics but not really that well.
+
+33:35.630 --> 33:42.390
+This is just a general feature of autoencoders for source reconstruction.
+
+33:42.390 --> 33:44.750
+Sometimes it works well, sometimes it doesn't.
+
+33:44.750 --> 33:50.470
+There are some tricks you can apply to try to improve these models, but they are finicky.
+
+33:50.470 --> 33:54.350
+They're difficult to get to work in a consistent and robust manner.
+
+33:56.110 --> 34:01.670
+Autoencoders are a very cool and very powerful deep learning architecture.
+
+34:02.030 --> 34:08.690
+They have lots of applications in machine learning and can be pretty insightful for interpretability.
+
+34:09.250 --> 34:16.850
+The two main challenges of sparse autoencoders for interpretability are that, as you just saw, they
+
+34:16.850 --> 34:22.930
+can be kind of tricky to work in that you have to select the parameters carefully, and you never really
+
+34:22.930 --> 34:25.610
+know if you have the right set of parameters.
+
+34:26.290 --> 34:34.930
+The second thing that makes these analyses tricky is figuring out which of the estimated latent components
+
+34:34.930 --> 34:36.810
+to interpret and analyze.
+
+34:37.410 --> 34:42.810
+Of course, when you are learning about these methods using simulated data, you have ground truth.
+
+34:42.810 --> 34:44.410
+That's what I showed you in this video.
+
+34:45.290 --> 34:52.450
+But in practice, you need to use autoencoders with carefully designed experiments and statistical controls.
+
+34:53.090 --> 34:57.730
+Sparse autoencoders are certainly not a magic bullet that always works.
+
+34:58.250 --> 35:04.690
+They're not always interpretable, but it is a great analysis method to have in your toolkit.

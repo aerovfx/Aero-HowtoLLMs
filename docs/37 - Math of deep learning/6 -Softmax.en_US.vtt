@@ -1,0 +1,877 @@
+WEBVTT
+
+00:02.000 --> 00:08.040
+In this video I'm going to explain the softmax function, the softmax operation to you.
+
+00:08.680 --> 00:13.120
+The math of the softmax function is actually fairly straightforward.
+
+00:13.120 --> 00:19.280
+So I'm going to spend more time talking about the interpretation and the purpose of softmax in the context
+
+00:19.280 --> 00:20.160
+of deep learning.
+
+00:20.360 --> 00:26.280
+And then I'll also show you how to implement the softmax function in numpy and in PyTorch.
+
+00:26.760 --> 00:32.960
+So before getting to the softmax function itself, I want to remind you or possibly introduce you to
+
+00:33.000 --> 00:36.560
+the natural exponent, which is often given the letter e.
+
+00:37.080 --> 00:38.200
+This is a constant.
+
+00:38.200 --> 00:44.760
+It's a number, a scalar, we would say in linear algebra and it's approximately equal to 2.718 and
+
+00:44.760 --> 00:45.200
+so on.
+
+00:45.480 --> 00:47.280
+In fact this never ends.
+
+00:47.280 --> 00:48.640
+This number never ends.
+
+00:48.640 --> 00:51.120
+It's an irrational number kind of like pi.
+
+00:51.160 --> 00:54.480
+So it just goes on and on and on without any pattern.
+
+00:55.120 --> 01:01.910
+Now here is the graph of e to the power of x for lots of different values of x.
+
+01:02.390 --> 01:06.510
+There's a few points that I would like to make a few observations about this graph.
+
+01:07.030 --> 01:11.790
+One is that each of the x goes up to infinity really, really fast.
+
+01:11.790 --> 01:14.070
+It goes up really super duper fast.
+
+01:14.470 --> 01:19.950
+In fact, one of the interesting properties of E to the X is that it is its own derivative.
+
+01:19.950 --> 01:23.670
+So the derivative of e to the x is also e to the x.
+
+01:23.870 --> 01:26.710
+That's not actually relevant for deep learning.
+
+01:26.710 --> 01:29.550
+But but that is pretty interesting about the function.
+
+01:30.150 --> 01:36.590
+Second thing I would like to point out is that this is a strictly positive function, so it never goes
+
+01:36.590 --> 01:37.550
+below zero.
+
+01:37.790 --> 01:40.710
+You can see even when x is negative.
+
+01:40.710 --> 01:43.150
+So we have e to the minus three.
+
+01:43.150 --> 01:49.590
+For example, the function value of e to the minus three is never going to be negative.
+
+01:49.790 --> 01:51.430
+It's it's always positive.
+
+01:51.470 --> 01:53.270
+In fact it also never gets to be zero.
+
+01:53.270 --> 02:01.100
+It gets arbitrarily close to zero as x goes out to minus infinity, but this is always a positive construction.
+
+02:01.100 --> 02:03.860
+The output of this function is always positive.
+
+02:04.260 --> 02:10.700
+That's important because one of the things we want to do with the natural exponent is use it in the
+
+02:10.700 --> 02:12.140
+softmax function.
+
+02:12.540 --> 02:19.180
+In order to generate probabilities, and probabilities must be positive values or at least non-negative
+
+02:19.180 --> 02:19.860
+values.
+
+02:20.380 --> 02:22.900
+Okay, so that's about the natural exponent.
+
+02:22.940 --> 02:27.580
+This is the key to unlocking the secrets of the softmax function.
+
+02:28.020 --> 02:33.980
+So here's the formula for the softmax function for a collection of numbers z.
+
+02:34.260 --> 02:39.380
+So this would be the collection of numbers the softmax function or the softmax transformation.
+
+02:39.380 --> 02:48.500
+For each element I in collection z equals e to the z sub I divided by the sum over all of the e to the
+
+02:48.500 --> 02:51.540
+z for all the z's in that collection.
+
+02:52.060 --> 02:52.260
+Okay.
+
+02:52.300 --> 02:55.340
+Now, you know this is just a bunch of symbols and letters.
+
+02:55.890 --> 02:59.570
+Oh, and it's often indicated using the lowercase sigma here.
+
+03:00.210 --> 03:07.450
+So I want to attach a numerical example to this to help make sure that that this concept is clear.
+
+03:07.930 --> 03:08.130
+Okay.
+
+03:08.170 --> 03:13.210
+So let's start with our little data set of z equals 123.
+
+03:13.650 --> 03:15.370
+So these are all positive values.
+
+03:15.370 --> 03:16.730
+But that doesn't actually matter.
+
+03:16.930 --> 03:20.610
+These values in themselves are not scale between 0 and 1.
+
+03:20.610 --> 03:22.290
+That's what I want to mention.
+
+03:22.290 --> 03:25.370
+In fact the sum of this set is six.
+
+03:25.970 --> 03:26.250
+Okay.
+
+03:26.290 --> 03:27.890
+So we take e to the z.
+
+03:27.890 --> 03:33.490
+And that is these numbers like two to the 0.72 and 739 and 20.01.
+
+03:33.530 --> 03:37.970
+In fact I'm just rounding here to two significant digits after the decimal point.
+
+03:37.970 --> 03:40.850
+These numbers in fact, go on much longer okay.
+
+03:40.890 --> 03:42.970
+And then we sum all of these values.
+
+03:42.970 --> 03:44.490
+So the sum this is the denominator.
+
+03:44.490 --> 03:48.570
+The sum of all the e to the z is just the sum of these three numbers.
+
+03:48.570 --> 03:51.050
+And that ends up being a little bit over 30.
+
+03:52.130 --> 03:59.840
+So then we divide e to the z by the for each element by the sum over all of the elements.
+
+04:00.040 --> 04:07.640
+So now sigma the softmax transformation of this data set here this collection of numbers is these numbers.
+
+04:07.640 --> 04:10.640
+So 0.090.24 and 0.67.
+
+04:11.080 --> 04:16.680
+Now we can do some quick math in our head and confirm that all of these numbers sum to one.
+
+04:17.040 --> 04:22.480
+So that's pretty easy to do by taking 0.03 out of this and and giving that to this guy.
+
+04:22.520 --> 04:25.560
+So this becomes 0.7 here we have 0.06.
+
+04:25.600 --> 04:26.400
+Add that to this.
+
+04:26.400 --> 04:29.840
+This becomes 0.3 and 0.3 and 0.7 is one.
+
+04:30.160 --> 04:39.160
+So when you sum up all of these softmax transformations of a set of numbers, then the softmax version
+
+04:39.160 --> 04:41.520
+is always going to sum to one.
+
+04:41.520 --> 04:43.800
+So all of these values are positive.
+
+04:44.160 --> 04:49.040
+They're necessarily all positive because e to the z is always going to be positive.
+
+04:49.080 --> 04:53.070
+In fact I'll show you in a couple slides I'll show you an example with negative numbers.
+
+04:53.430 --> 04:58.630
+So all of these values are positive and they're all between 0 and 1.
+
+04:58.630 --> 05:00.190
+And they all sum to one.
+
+05:00.190 --> 05:01.950
+The collection of them sums to one.
+
+05:02.310 --> 05:08.510
+Now that means that we can interpret these values, these softmax values, as probabilities.
+
+05:09.190 --> 05:13.190
+Now just to be clear, that doesn't mean that these necessarily are probabilities.
+
+05:13.190 --> 05:17.870
+For example, you know, this data set has 1112 and one three.
+
+05:17.870 --> 05:22.990
+So the probability of picking a one at random is actually 0.33.
+
+05:23.030 --> 05:23.910
+It's a third.
+
+05:24.030 --> 05:25.430
+And likewise for these two.
+
+05:25.470 --> 05:30.790
+So these are not probabilities of selecting each of the numbers in the data set.
+
+05:30.830 --> 05:34.590
+These are just numerical transformations by applying this formula.
+
+05:34.590 --> 05:41.380
+But because these softmax function has these special properties that all the values are between 0 and
+
+05:41.380 --> 05:48.990
+1 and that they all sum to one, then that means that we can interpret these values in terms of probabilities.
+
+05:48.990 --> 05:54.030
+And I'll explain how we do that or why we do that in deep learning in a few moments.
+
+05:54.590 --> 06:00.270
+First, I want to give you a little bit of a sense of how to think about the softmax function.
+
+06:00.270 --> 06:04.030
+So we can think of the softmax function as being a machine.
+
+06:04.270 --> 06:07.230
+I call this machine the softmax riser.
+
+06:07.470 --> 06:10.070
+And just to be clear, this is not a real term.
+
+06:10.070 --> 06:15.590
+If you go to, you know, like your stats professor and you say, hey, I learned about the softmax
+
+06:15.590 --> 06:18.950
+riser, your stats professor might not know what you're talking about.
+
+06:18.990 --> 06:24.150
+So it's just a funny term that I thought might help you remember the softmax function.
+
+06:24.310 --> 06:26.470
+So the softmax riser is a machine.
+
+06:26.830 --> 06:29.190
+It takes input and it gives output.
+
+06:29.550 --> 06:35.870
+And the input that it takes is some numerical quantities for various things in the universe.
+
+06:35.870 --> 06:38.070
+These can be the counts of different things.
+
+06:38.230 --> 06:41.790
+These can be guesses about the likelihood of something happening.
+
+06:41.830 --> 06:44.550
+They can also be independent probabilities.
+
+06:44.550 --> 06:49.300
+But these are just these are a collection of numbers, numerical values.
+
+06:49.700 --> 06:53.740
+And then we apply the formula that I showed in the previous slide.
+
+06:53.740 --> 06:58.700
+And the output is going to be something that we are going to interpret here.
+
+06:58.700 --> 07:05.580
+For the context of deep learning, we are going to interpret the output of the softmax machine as being
+
+07:05.580 --> 07:11.180
+the probability of thing one occurring, the probability of thing two occurring, and so on for all
+
+07:11.180 --> 07:14.020
+of the things that we have measured.
+
+07:15.220 --> 07:15.940
+So here we go.
+
+07:15.980 --> 07:18.860
+This is the numerical example that I showed before.
+
+07:18.860 --> 07:21.140
+Here are same computations.
+
+07:21.140 --> 07:24.220
+I've just put them out to four decimal points here.
+
+07:24.540 --> 07:29.220
+And here I'm showing you with the this middle number two being negative.
+
+07:29.420 --> 07:35.380
+So exactly the same formula I applied exactly the same formula that I showed you a moment ago.
+
+07:35.700 --> 07:38.220
+But here I just set two to be negative.
+
+07:38.220 --> 07:40.900
+So you can see that these values change.
+
+07:40.980 --> 07:43.260
+So here was with two being positive.
+
+07:43.460 --> 07:45.820
+And here two transformed into 0.2.
+
+07:46.260 --> 07:47.490
+Here minus two.
+
+07:47.530 --> 07:50.770
+Notice this is the smallest number we have in this set.
+
+07:50.810 --> 07:54.370
+And that gets converted into 0.006.
+
+07:54.530 --> 07:57.610
+And also this number three got got considerably larger.
+
+07:57.610 --> 07:59.210
+It was 0.66 here.
+
+07:59.210 --> 08:00.930
+And now it's 0.87.
+
+08:01.490 --> 08:05.690
+So what do we use the softmax for in deep learning.
+
+08:05.890 --> 08:12.970
+Well we're going to be developing deep learning models that will learn to categorize data or predict
+
+08:12.970 --> 08:16.010
+categories of data based on input values.
+
+08:16.130 --> 08:17.850
+So we can think about a picture.
+
+08:18.010 --> 08:20.610
+So let's say we input a picture an image.
+
+08:20.970 --> 08:26.930
+And the deep learning network is going to output a bunch of numbers corresponding to different categories.
+
+08:27.130 --> 08:32.610
+So thing one might be some numerical value corresponding to the category of cats.
+
+08:32.850 --> 08:39.530
+Thing two might be the category of dogs, thing three is the category of cars, and thing N is the category
+
+08:39.530 --> 08:40.690
+of coffee cups.
+
+08:41.090 --> 08:43.250
+So what are these numerical values?
+
+08:43.250 --> 08:46.080
+Well they're just they're kind of arbitrary values.
+
+08:46.360 --> 08:50.400
+There's a lot of normalization and scaling that happens in deep learning.
+
+08:50.560 --> 08:54.480
+There's lots of multiplications and sums and transformations.
+
+08:54.480 --> 08:56.320
+There's linear and non-linear steps.
+
+08:56.440 --> 09:02.520
+So these numbers that the deep learning network outputs on its own are not really interpretable.
+
+09:02.520 --> 09:05.640
+We can't really just directly interpret those numbers.
+
+09:05.840 --> 09:11.800
+So instead we take that collection of numbers, the outputs of the deep learning model.
+
+09:12.200 --> 09:14.960
+And we plug it through this softmax layer.
+
+09:15.200 --> 09:18.400
+And the output is a set of probability values.
+
+09:18.440 --> 09:24.240
+So then the way we interpret this is that the model is saying that there is a you know, maybe it's
+
+09:24.240 --> 09:29.880
+a 0.9 probability of this thing being a cat, this picture being a cat.
+
+09:29.920 --> 09:38.000
+And maybe it's a 0.01 probability of this thing being a dog, and 0.01% probability of the picture being
+
+09:38.040 --> 09:38.920
+a car.
+
+09:38.960 --> 09:45.550
+And I forget what the other categories I named, but so we are going to take the collection of arbitrary
+
+09:45.550 --> 09:53.070
+numerical values that on their own have no intrinsic interpretable values, and we are going to convert
+
+09:53.070 --> 10:00.150
+them into probability values that map onto specific categories that the network is learning.
+
+10:00.510 --> 10:07.710
+Here you see a collection or collections of input numbers and their transformed values after applying
+
+10:07.710 --> 10:09.230
+the softmax function.
+
+10:09.590 --> 10:14.470
+So in the previous slides I was showing you number a set of numbers one two, three.
+
+10:14.470 --> 10:16.630
+And then I had one minus two and three.
+
+10:16.670 --> 10:18.790
+Three is actually not on the chart here.
+
+10:19.030 --> 10:25.550
+And so what I did in these plots is just repeat the same thing, but with numbers between minus two
+
+10:25.550 --> 10:26.390
+and plus two.
+
+10:26.590 --> 10:30.590
+So here there were five numbers between minus plus two, minus two and plus two.
+
+10:30.830 --> 10:33.510
+Here there were more numbers and here even more numbers.
+
+10:33.630 --> 10:36.070
+So these are the inputs on the x axis.
+
+10:36.470 --> 10:43.220
+This would be like the output of the deep learning model which is the input to the softmax machine.
+
+10:43.500 --> 10:49.980
+And then here we have the output of the softmax function the softmax transformation on the y axis.
+
+10:50.380 --> 10:53.180
+And there's really two things that I want to point out here.
+
+10:53.500 --> 10:57.820
+One is that we have a nonlinear increase here with larger numbers.
+
+10:57.820 --> 10:59.620
+So negative numbers are small.
+
+10:59.620 --> 11:05.460
+But notice you know there isn't much of a distance between -2 and -1 on the y axis.
+
+11:05.500 --> 11:05.700
+Right.
+
+11:05.740 --> 11:09.260
+So minus one is only a little bit higher than minus two.
+
+11:09.500 --> 11:16.140
+On the other hand two is much much higher than one relatively you know, relative to to this change.
+
+11:16.260 --> 11:22.700
+So we have this strong non-linearity here where larger numbers get a much, much larger softmax output.
+
+11:23.180 --> 11:29.620
+And the second thing I want to point out here is to notice the y axis scaling here.
+
+11:29.620 --> 11:36.380
+So here the numbers go up to 0.6 here to 0.25, and here up to 0.1.
+
+11:36.980 --> 11:39.620
+Even though the bounds are exactly the same.
+
+11:39.730 --> 11:45.810
+So the input numbers, the inputs to the softmax function always range from minus two to plus two and
+
+11:45.810 --> 11:47.210
+all three of these graphs.
+
+11:47.410 --> 11:49.730
+But here there's there's few numbers.
+
+11:49.730 --> 11:50.770
+Here there's more numbers.
+
+11:50.770 --> 11:52.410
+And here there's even more numbers.
+
+11:52.530 --> 11:55.530
+So the question for you is why is that the case.
+
+11:55.530 --> 12:00.170
+Why is the y axis scaling so different between these different graphs?
+
+12:00.530 --> 12:04.410
+Well, the answer is that it's because we have more numbers here.
+
+12:04.410 --> 12:08.810
+And the softmax output needs to sum to one.
+
+12:08.810 --> 12:13.290
+So if you only have a couple of numbers and they all have to sum to one, those numbers have to be a
+
+12:13.290 --> 12:14.050
+little bit larger.
+
+12:14.050 --> 12:19.290
+If you add more and more numbers then you know, all else being equal, the numbers are going to be
+
+12:19.290 --> 12:19.970
+smaller.
+
+12:20.330 --> 12:27.490
+So it's a little misleading, I have to say to, to have these, um, different y axes because this
+
+12:27.530 --> 12:30.530
+set here, this data set here, it goes up to 0.1.
+
+12:30.530 --> 12:36.570
+If you would plot these values here on this graph, that would only go up to here.
+
+12:36.570 --> 12:36.770
+Right.
+
+12:36.770 --> 12:37.890
+Here's 0.1.
+
+12:37.890 --> 12:37.920
+one.
+
+12:37.920 --> 12:44.360
+So those this this data set here would only be plotted up to point one on this graph.
+
+12:45.080 --> 12:45.400
+Okay.
+
+12:45.440 --> 12:50.920
+So the sum over all the inputs can be any arbitrary numerical value.
+
+12:50.920 --> 12:51.600
+It doesn't matter.
+
+12:51.600 --> 12:54.960
+It depends on wherever the numbers happen to come from.
+
+12:55.000 --> 13:00.360
+In fact, in these examples, all of these numbers on the y axis sum to one right.
+
+13:00.400 --> 13:03.480
+So minus two plus minus one 012.
+
+13:03.520 --> 13:05.720
+You sum all those numbers up you get to zero.
+
+13:06.000 --> 13:12.720
+So the sum over the inputs is any arbitrary numerical value can be positive or negative or zero.
+
+13:13.040 --> 13:18.760
+The sum over all the outputs of the softmax function are guaranteed to be one.
+
+13:18.760 --> 13:24.280
+So the softmax function always makes sure that everything sums to one.
+
+13:24.760 --> 13:25.240
+All right.
+
+13:25.240 --> 13:27.880
+So now we are going to switch to Python.
+
+13:28.080 --> 13:34.680
+And I'm going to show you how to compute the softmax operation in numpy and also in PyTorch.
+
+13:35.840 --> 13:37.790
+So we need numpy.
+
+13:37.830 --> 13:39.990
+You've already seen import torch.
+
+13:39.990 --> 13:42.270
+You've seen this line in the past several videos.
+
+13:42.310 --> 13:49.070
+I'm also going to be using a library of of the torch module called N for neural networks.
+
+13:49.070 --> 13:51.630
+And it's often abbreviated as nn.
+
+13:51.630 --> 13:55.630
+So torch dot n n we import as n n okay.
+
+13:55.670 --> 13:59.230
+And then we're also going to do a bit of visualization.
+
+13:59.910 --> 14:05.670
+I want to start by computing the softmax function manually in numpy.
+
+14:05.710 --> 14:07.630
+So here we have a list of numbers.
+
+14:08.150 --> 14:11.710
+We take the x the natural exponent of those numbers.
+
+14:11.710 --> 14:13.830
+So e to the z here.
+
+14:14.310 --> 14:20.270
+And then we compute the denominator which is the sum over all of those e to the z.
+
+14:20.270 --> 14:23.550
+So the sum over this variable here which is the numerator.
+
+14:23.870 --> 14:28.990
+And here I call this variable sigma to match the lowercase Greek letter that I showed in the slides.
+
+14:29.270 --> 14:32.950
+So this is the output of the softmax function.
+
+14:32.950 --> 14:38.780
+And the main reason why I'm showing you this written out manually is just to illustrate how easy it
+
+14:38.780 --> 14:41.700
+actually is to compute the softmax function.
+
+14:41.700 --> 14:44.820
+In fact, we don't even really need to break this up into three lines.
+
+14:44.820 --> 14:46.940
+You could just do it in one line of code.
+
+14:47.700 --> 14:47.980
+Okay.
+
+14:48.020 --> 14:50.980
+And then here we see the individual numbers.
+
+14:50.980 --> 14:54.100
+And of course these values match what I showed in the slides.
+
+14:54.100 --> 14:59.860
+And then the sum over all of the outputs of the softmax function is one.
+
+15:00.380 --> 15:00.580
+Okay.
+
+15:00.620 --> 15:01.820
+And then here I'm just.
+
+15:01.900 --> 15:02.100
+Yeah.
+
+15:02.100 --> 15:05.060
+Well just doing it again with some random integers.
+
+15:05.060 --> 15:08.140
+You can see I'm getting some negative numbers in here.
+
+15:08.140 --> 15:12.260
+Positive numbers I'm including 25 numbers in total.
+
+15:12.300 --> 15:18.580
+Of course I encourage you to play around with these parameters to explore this function on your own.
+
+15:19.100 --> 15:22.900
+But the main thing I want to do is show you what this looks like in a graph.
+
+15:22.900 --> 15:28.460
+So again these are the inputs into the softmax function.
+
+15:28.460 --> 15:33.940
+And this is the output the softmax ified sigma I, I don't know if that's a real word.
+
+15:33.980 --> 15:35.060
+Softmax ified.
+
+15:35.540 --> 15:43.500
+And here in the title, we are confirming that the sum over all of the softmax values is indeed one.
+
+15:44.220 --> 15:44.420
+Okay.
+
+15:44.460 --> 15:51.060
+And then because this is a logarithmic function here, I thought it would also be interesting to change
+
+15:51.060 --> 15:54.500
+the y axis scale to be logarithmic.
+
+15:54.500 --> 15:59.900
+So you can see now we are increasing in log scale instead of linear scale.
+
+16:00.180 --> 16:04.140
+And at this scale you see that this is a linear transformation.
+
+16:04.140 --> 16:13.020
+So in log space we are actually simply linearly transforming the input values which are any arbitrary
+
+16:13.020 --> 16:21.260
+number into the output values which are numbers that scale between 0 and 1 and which sum to one.
+
+16:21.260 --> 16:29.660
+So in some sense, the softmax function is a linear operation a linear transformation in log space okay.
+
+16:29.700 --> 16:35.130
+And if you're also a also relatively new to Python, then you can also check out how I created the Greek
+
+16:35.130 --> 16:39.410
+characters in the title here by using Latech coding.
+
+16:39.570 --> 16:46.330
+So you use dollar signs to tell Python that you're going to use a LaTeX code, and then the slash and
+
+16:46.330 --> 16:50.450
+then the keyword of the particular special character that you want to use.
+
+16:50.890 --> 16:51.130
+Okay.
+
+16:51.170 --> 16:52.490
+So that was numpy.
+
+16:52.730 --> 16:54.810
+Now I'm going to show you in PyTorch.
+
+16:54.970 --> 16:59.330
+So now things are slightly different in PyTorch compared to numpy.
+
+16:59.810 --> 17:06.930
+We are going to use a class we're going to call a class called softmax.
+
+17:06.930 --> 17:09.250
+So neural networks dot softmax.
+
+17:09.490 --> 17:15.410
+And then I'm creating here an instance of the softmax activation class.
+
+17:15.530 --> 17:22.530
+So remember in the Python tutorial I showed you about classes and how to write your own classes.
+
+17:22.810 --> 17:27.570
+Here we are calling up a class from the PyTorch library.
+
+17:28.050 --> 17:30.840
+So we create this instance of the class.
+
+17:30.840 --> 17:39.040
+And then I'm applying this function which I call soft fun or sorry I'm applying the data to that function.
+
+17:39.040 --> 17:42.160
+And then here I'm also using the same variable z.
+
+17:42.160 --> 17:43.840
+But this z is a list actually.
+
+17:43.840 --> 17:51.880
+Maybe I will first delete this just to show you what happens if we try to input a list into this PyTorch
+
+17:51.920 --> 17:52.680
+function.
+
+17:54.200 --> 17:55.960
+Okay, so we get an error message.
+
+17:55.960 --> 17:58.560
+And the error message is on this line here.
+
+17:58.840 --> 18:03.920
+And the error message says that the numpy array has no attribute softmax.
+
+18:03.920 --> 18:10.160
+So remember I told you when I introduced you to classes that classes have attributes and methods.
+
+18:10.480 --> 18:16.840
+And actually I forgot that that we created we overwrote z to be a numpy array of random integers.
+
+18:16.840 --> 18:18.920
+So let me run this code again.
+
+18:18.920 --> 18:22.440
+So just to reset z to be a list.
+
+18:22.720 --> 18:26.640
+Although it doesn't matter we're still going to get an error message here okay.
+
+18:26.680 --> 18:28.150
+So here we have the same issue.
+
+18:28.190 --> 18:29.470
+Just a different data type.
+
+18:29.630 --> 18:29.870
+Okay.
+
+18:29.910 --> 18:32.350
+So now I will undo here.
+
+18:32.510 --> 18:38.470
+So what we are doing here is converting this list into a PyTorch tensor.
+
+18:38.750 --> 18:43.550
+And then we can input that into the softmax function here.
+
+18:43.870 --> 18:46.150
+And ultimately the results are the same.
+
+18:46.150 --> 18:48.230
+The data type is slightly different.
+
+18:48.430 --> 18:49.950
+The numbers are the same.
+
+18:49.990 --> 18:54.430
+And just to make this a little bit more clear, to give you a little bit more of an intro into PyTorch,
+
+18:54.950 --> 18:56.950
+we write the the type of list.
+
+18:56.950 --> 19:00.670
+So the data type of list sorry of Z is a list.
+
+19:00.830 --> 19:04.350
+And then we say the type of torch dot tensor.
+
+19:04.670 --> 19:11.310
+So we are just transforming this list into a PyTorch tensor object okay.
+
+19:11.350 --> 19:18.590
+And then here, well it's just a little plot to show that the sigma from numpy and the sigma from PyTorch
+
+19:18.710 --> 19:20.350
+give us the same results.
+
+19:20.590 --> 19:24.190
+And not surprisingly, they're correlated at exactly one.

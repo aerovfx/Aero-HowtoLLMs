@@ -1,0 +1,1237 @@
+WEBVTT
+
+00:02.200 --> 00:09.680
+Now that you are familiar with calculating mutual information and how it relates to covariance, I'm
+
+00:09.720 --> 00:16.120
+going to have two code challenges to help you learn more about these methods and how to use them in
+
+00:16.120 --> 00:16.880
+practice.
+
+00:17.640 --> 00:24.560
+This code challenge here is an action packed, coffee fueled adventure where you're going to learn about
+
+00:24.560 --> 00:29.080
+the impact of extreme values on mutual information.
+
+00:29.560 --> 00:37.080
+A different way to organize the mutual information calculation that better equalizes issues around sample
+
+00:37.080 --> 00:39.120
+size and computation time.
+
+00:39.600 --> 00:46.600
+You will learn how to statistically compare two different correlation coefficients and lots of other
+
+00:46.600 --> 00:47.200
+things.
+
+00:47.760 --> 00:55.760
+And you're also going to learn more about the differences between the attention and MLP subblocks of
+
+00:55.760 --> 00:57.040
+the transformer.
+
+00:57.560 --> 00:59.040
+It's a big code challenge.
+
+00:59.160 --> 01:00.750
+So let's begin.
+
+01:01.390 --> 01:09.750
+The goal of exercise one is to import a model and get the activations from within the transformer blocks.
+
+01:10.270 --> 01:13.430
+We're going to use GPT two x.
+
+01:14.310 --> 01:17.590
+And here's a reminder of what it looks like.
+
+01:18.110 --> 01:26.110
+It has 48 transformer blocks, which is great because that will really allow us to track how the mutual
+
+01:26.110 --> 01:35.230
+information and its relation to token position changes as the embeddings vectors traverse deeper into
+
+01:35.230 --> 01:36.270
+the model.
+
+01:37.030 --> 01:43.590
+Next, you want to hook the outputs of the attention and MLP subblocks.
+
+01:43.950 --> 01:52.310
+Now this is not the query keys and values vectors that we've used previously several times, but instead
+
+01:52.310 --> 01:58.910
+what you want here in this video is the final output of the attention calculation.
+
+01:59.980 --> 02:07.140
+And in the OpenAI GPT two models that is referred to as the projection or C proj.
+
+02:07.540 --> 02:13.220
+So write functions and implant hooks into these two projections.
+
+02:13.220 --> 02:19.980
+So attention and MLP for all 48 of the transformer blocks.
+
+02:20.620 --> 02:27.380
+Now if you look in the helper file or the solutions code file, you will see some text about Turkish
+
+02:27.380 --> 02:27.980
+coffee.
+
+02:28.180 --> 02:31.660
+It's just a paragraph about Turkish coffee.
+
+02:32.460 --> 02:37.420
+This is exactly the same text that we used in the previous video.
+
+02:37.820 --> 02:43.100
+And yeah, so there's 94 tokens in total, 67 of which are unique.
+
+02:43.500 --> 02:52.180
+And in particular, what you want to do is identify all of the indices where the word coffee appears
+
+02:52.180 --> 02:53.540
+in this text.
+
+02:53.980 --> 02:59.100
+So it appears seven times in total in this paragraph.
+
+02:59.100 --> 03:01.780
+So here is the first appearance of the word coffee.
+
+03:02.060 --> 03:04.020
+That is index one.
+
+03:04.020 --> 03:05.380
+So that we see here.
+
+03:05.580 --> 03:11.180
+And these are the indexes corresponding to the other presentations of the word coffee.
+
+03:12.340 --> 03:19.060
+Now this is a really interesting approach for examining internal model calculations.
+
+03:19.220 --> 03:28.340
+Because each of these seven appearances is literally exactly identical in terms of the token itself.
+
+03:29.100 --> 03:36.500
+Furthermore, the macro context is the same for all seven of these words, in the sense that it's just
+
+03:36.500 --> 03:40.220
+one short paragraph and it's all on one particular topic.
+
+03:40.820 --> 03:49.900
+But the local context is different for each of these words, because each of the words surrounding each
+
+03:49.940 --> 03:56.780
+appearance of the word coffee is slightly different, and that will be the main focus of the rest of
+
+03:56.820 --> 04:05.010
+this code challenge you are going to evaluate the mutual information across all of the output dimensions
+
+04:05.010 --> 04:09.890
+for attention and MLP for the different appearances of the word coffee.
+
+04:10.290 --> 04:18.130
+And then you will see how mutual information relates to the distances between the different appearances
+
+04:18.130 --> 04:19.330
+of the word coffee.
+
+04:20.570 --> 04:23.890
+Anyway, I will get back to the analyses later.
+
+04:23.930 --> 04:25.650
+That's for later exercises.
+
+04:25.850 --> 04:34.010
+The final part of this exercise, uh, is to push the tokens through the model to get the activations.
+
+04:34.290 --> 04:41.650
+So this screenshot here just shows a confirmation of the expected activation matrix size.
+
+04:42.090 --> 04:45.890
+There's just one sequence of text 94 tokens.
+
+04:46.010 --> 04:52.370
+And the embeddings dimensionality of GPT two XL is 1600.
+
+04:52.770 --> 04:59.320
+So now you can pause the video, switch to code, and begin the adventure that is this code challenge.
+
+04:59.440 --> 05:02.480
+And now I will switch to code and discuss my solution.
+
+05:03.680 --> 05:07.240
+Most of these libraries you have seen before.
+
+05:07.680 --> 05:15.000
+Here I'm importing the Scipy.stats library because in a later exercise in this code challenge, we are
+
+05:15.000 --> 05:17.840
+going to use the Kendall correlation.
+
+05:17.840 --> 05:19.400
+I'll talk about that more later.
+
+05:19.440 --> 05:23.640
+It's a different type of correlation compared to the Pearson correlation.
+
+05:23.880 --> 05:28.400
+And then I'm also using this function here called FDR correction.
+
+05:28.640 --> 05:34.760
+This is a method that I will use here for correcting for multiple comparisons.
+
+05:34.800 --> 05:40.800
+Again I'll talk about that more later in the code challenge when it becomes important.
+
+05:40.800 --> 05:47.520
+But basically you know, we often correct for multiple comparisons using the Bonferroni method where
+
+05:47.520 --> 05:55.880
+you divide the statistical threshold of p less than 0.05 by the number of comparisons that you're making.
+
+05:56.040 --> 05:59.150
+And in this video I'm going to use for corrections.
+
+05:59.150 --> 06:04.030
+Just a slightly different approach to multiple comparisons corrections.
+
+06:04.470 --> 06:08.470
+Anyway, here is the code for exercise one.
+
+06:08.550 --> 06:13.150
+So here I'm importing the model I'm getting switching it to eval mode.
+
+06:13.270 --> 06:19.230
+You can see that even though it is the big version of this model, I'm still just running it on the
+
+06:19.230 --> 06:22.670
+CPU and not on the GPU.
+
+06:22.910 --> 06:26.150
+If you would like to run this on the GPU, totally fine.
+
+06:26.150 --> 06:32.990
+That's great, but we're only actually running pushing data through this model exactly once, so we
+
+06:32.990 --> 06:35.510
+don't really need to use the GPU.
+
+06:35.990 --> 06:36.310
+Okay.
+
+06:36.350 --> 06:36.510
+Yeah.
+
+06:36.550 --> 06:39.350
+And then I have this variable for n layers.
+
+06:39.350 --> 06:42.310
+That's just the number of transformer blocks.
+
+06:42.430 --> 06:44.950
+And that's just for convenience for later on.
+
+06:45.510 --> 06:45.790
+Okay.
+
+06:45.830 --> 06:48.390
+Here's where I define the functions for the hooks.
+
+06:49.190 --> 06:57.740
+So all of this code you have seen before, there are two functions that I have created Did just to have
+
+06:57.740 --> 07:00.100
+different naming conventions in here.
+
+07:00.140 --> 07:03.820
+It actually would be possible to set this up just using one function.
+
+07:03.820 --> 07:10.900
+And for example, you could add something like this, a name, and then you would call this name and
+
+07:10.900 --> 07:11.340
+so on.
+
+07:11.340 --> 07:15.140
+So it actually is possible to do this in one function.
+
+07:15.140 --> 07:17.420
+But I just use two functions okay.
+
+07:17.460 --> 07:24.940
+Here I'm looping through all of the hidden layers you can see for attention C proj and then mlp c proj.
+
+07:25.060 --> 07:32.620
+And then I'm implanting the hook into each of those two transformer subblocks so I can run this cell.
+
+07:32.620 --> 07:39.220
+It's actually not going to run just yet because we are still loading in all of the tensors.
+
+07:39.220 --> 07:42.100
+You can see it's 6.4GB.
+
+07:42.100 --> 07:47.140
+So it does take, you know, a couple of good couple of seconds for this to load in.
+
+07:47.180 --> 07:49.060
+Actually it's several minutes but that's okay.
+
+07:49.500 --> 07:49.780
+All right.
+
+07:49.780 --> 07:51.820
+So that code is in the queue.
+
+07:51.860 --> 07:52.740
+It will run.
+
+07:52.980 --> 07:56.100
+Here is the paragraph on Turkish coffee.
+
+07:56.210 --> 07:57.890
+This code you've seen before.
+
+07:58.450 --> 08:00.210
+This you have not seen before.
+
+08:00.250 --> 08:03.370
+I'm looking for the token coffee.
+
+08:03.730 --> 08:09.490
+And just make sure that when you are searching through a text, if you're looking for a particular word,
+
+08:10.370 --> 08:13.090
+then you're going to get a different result.
+
+08:13.090 --> 08:16.570
+If you have a space in there versus do not have a space.
+
+08:16.850 --> 08:23.330
+Now, if you're just processing individual words that are isolated, they're not in a in any text or
+
+08:23.330 --> 08:26.010
+a context, then you can use this.
+
+08:26.010 --> 08:26.770
+That's fine.
+
+08:27.050 --> 08:34.850
+But in this case, the tokenizer is actually not going to recognize coffee as its own token.
+
+08:34.850 --> 08:42.370
+Instead, it's going to prioritize space coffee because that just appears more often in text.
+
+08:42.530 --> 08:46.930
+So just a little reminder that we discussed that plenty earlier in the course.
+
+08:47.370 --> 08:47.570
+Okay.
+
+08:47.610 --> 08:53.810
+And then here I'm just looking for where the tokens are equal to the target token.
+
+08:54.290 --> 09:00.730
+So that's going to give me the seven indices where the word coffee appears, and then here I push all
+
+09:00.730 --> 09:08.810
+the models through and actually not analyzing the hidden states here in this code challenge.
+
+09:08.930 --> 09:11.210
+But I set this variable to be true.
+
+09:11.210 --> 09:18.570
+And I included this here because I want to encourage you to use the code that you are seeing here that
+
+09:18.570 --> 09:26.850
+I've written for you, uh, as a way to continue exploring and running analyses about llms.
+
+09:27.010 --> 09:34.250
+So, for example, you could see what is the relationship between mutual activation after the attention
+
+09:34.410 --> 09:41.210
+versus after the MLP versus after the entire transformer block, which is what you'd get from these
+
+09:41.210 --> 09:42.970
+hidden states anyway.
+
+09:43.010 --> 09:45.130
+So that's just, uh, inspiration for you.
+
+09:45.130 --> 09:46.570
+It's not actually what I'm doing here.
+
+09:47.130 --> 09:53.090
+Okay, so I'll run this and it's not actually going to run yet because we're still importing these,
+
+09:53.330 --> 09:55.840
+uh, these tensors here.
+
+09:55.880 --> 10:01.680
+Actually, it's not even a third of the way through yet, but you will see that this piece of code here
+
+10:01.680 --> 10:05.640
+takes maybe a minute or so if you run this on the GPU.
+
+10:05.680 --> 10:07.760
+It only takes like two seconds.
+
+10:08.000 --> 10:13.840
+But you know, this is the only time that we actually need to push any data through the model.
+
+10:13.840 --> 10:17.400
+So I think it's not really necessary to use the GPU here.
+
+10:17.800 --> 10:18.040
+Okay.
+
+10:18.080 --> 10:26.840
+And then the final thing I will do is check the shape of just any random pick of one of these matrices.
+
+10:26.880 --> 10:36.600
+Again, that's just to confirm that we get an expected result before we get to the main analyses of
+
+10:36.600 --> 10:38.080
+this code challenge.
+
+10:38.240 --> 10:46.720
+We need to have a look and a critical think about the data as you start to work with model activations.
+
+10:46.880 --> 10:51.320
+You will often find that there are extreme values.
+
+10:51.840 --> 10:58.790
+That is, there will be a small number of activation magnitudes that are really far away from the rest
+
+10:58.790 --> 11:02.110
+of the distribution of activation values.
+
+11:02.830 --> 11:09.030
+And actually, I've shown you several examples of this before, in particular with activations to the
+
+11:09.030 --> 11:11.510
+very first token in the sequence.
+
+11:12.070 --> 11:20.150
+And at that time I said that the first token is often ignored in analyses because the model has no context
+
+11:20.190 --> 11:22.350
+to process that first token.
+
+11:23.430 --> 11:31.270
+But you will also find that lots of other tokens have one or a small number of dimensions, or neurons
+
+11:31.270 --> 11:33.510
+that have really high activations.
+
+11:34.270 --> 11:41.110
+Now, on the one hand, that is itself pretty interesting because it means that there is a small number
+
+11:41.110 --> 11:45.750
+of dimensions that are really important for processing a given token.
+
+11:46.430 --> 11:54.420
+But on the other hand, from the perspective of statistical analyses, a very small number of A very
+
+11:54.420 --> 12:02.700
+extreme values can cause estimation errors and can give biased or misleading statistical results.
+
+12:03.300 --> 12:11.500
+So from an analysis perspective, we often need to remove extreme values before calculating statistical
+
+12:11.500 --> 12:12.660
+characteristics.
+
+12:13.300 --> 12:18.780
+Anyway, exploring this phenomenon is the main goal of this exercise.
+
+12:19.220 --> 12:23.860
+So to start with, make a scatter plot that looks something like this.
+
+12:24.300 --> 12:32.100
+So each of these little green circles corresponds to the activation of the attention output from a transformer.
+
+12:32.100 --> 12:38.900
+Block three for the first target word on the x axis and the second target word.
+
+12:38.900 --> 12:42.740
+So appearance of the word coffee on the y axis.
+
+12:43.220 --> 12:49.180
+And you can see that there are a couple of really extreme data values in here.
+
+12:49.500 --> 12:58.170
+Now I have identified these extreme values by calculating the z score of each data point for each target
+
+12:58.170 --> 13:06.210
+word, and plotting in red any activation values that are more than four standard deviations away from
+
+13:06.210 --> 13:09.450
+the mean in either one of the dimensions.
+
+13:10.090 --> 13:15.290
+So here, as a reminder, is the formula for the z score transformation.
+
+13:15.770 --> 13:22.170
+Z is each individual data point, which in this case is each activation.
+
+13:22.170 --> 13:30.410
+For a given dimension, the x bar is the average of the activations, and the sigma here refers to the
+
+13:30.450 --> 13:31.970
+standard deviation.
+
+13:32.570 --> 13:40.010
+Now, when you transform the data to a z score, you can label any activation that's more than four.
+
+13:40.610 --> 13:42.210
+As an outlier.
+
+13:42.370 --> 13:49.050
+You can do that separately for each of the target words, and any activation that is an outlier.
+
+13:49.050 --> 13:54.130
+In at least one of the target words, you can consider an outlier.
+
+13:54.770 --> 14:00.730
+Next, you can calculate the mutual information for this example on the full data.
+
+14:00.730 --> 14:08.730
+So including the outliers and also on the trimmed data which means just the green circles excluding
+
+14:08.850 --> 14:11.810
+these red squares these extreme values.
+
+14:12.250 --> 14:15.330
+And then you will notice that the results differ quite a bit.
+
+14:15.330 --> 14:17.090
+That's what you see in the title here.
+
+14:17.970 --> 14:26.050
+And now what I'd like you to do is modify the code for the function that implements the direct translation
+
+14:26.210 --> 14:33.410
+of the mutual information formulas, the equations into code, and in particular, what I want you to
+
+14:33.450 --> 14:41.010
+do is incorporate code to remove outliers in the mutual information calculation.
+
+14:41.690 --> 14:49.690
+So this function here is almost the same that you've seen in previous videos, except that I included
+
+14:49.690 --> 14:56.000
+an additional output here for outlier thresh and the default value is zero.
+
+14:56.240 --> 15:03.320
+And then the idea is if this value is greater, this input value, if it's greater than zero, then
+
+15:03.360 --> 15:10.960
+you can z score the variables, identify outliers based on extreme values that you see with this line
+
+15:11.000 --> 15:19.760
+of code here, and then calculate the entropy and mutual information with uh excluding these outlier
+
+15:19.760 --> 15:20.640
+values.
+
+15:21.000 --> 15:29.320
+And finally, you want to repeat this calculation using mutual information from the scikit learn library.
+
+15:29.800 --> 15:35.280
+And when you do that you can print out all of the results in a list that looks like this.
+
+15:35.680 --> 15:42.880
+Now, this is a really nuanced and difficult issue in applied statistics because although these data
+
+15:42.880 --> 15:49.280
+points are extreme, they're not mistakes, they're not errors, they're real data values.
+
+15:49.280 --> 15:56.870
+But they can really screw up the analyses and lead to incorrect and misleading interpretations.
+
+15:57.310 --> 16:04.510
+So I'll have a few more things to say about comparing the trimmed versus full analyses when I switch
+
+16:04.510 --> 16:05.230
+to code.
+
+16:05.350 --> 16:09.350
+But first, you should pause the video and work through this exercise.
+
+16:09.630 --> 16:15.910
+And now I will switch to code, show my solution, and have a bit more of a discussion about practical
+
+16:15.910 --> 16:16.950
+statistics.
+
+16:18.030 --> 16:21.750
+So here is the function to calculate mutual information.
+
+16:21.790 --> 16:25.550
+Now if you ignore this for the moment and you just look at this.
+
+16:25.710 --> 16:31.110
+This is identical to code you have seen in the past several videos.
+
+16:31.150 --> 16:37.430
+The only thing that's new here in this video in this exercise is this bit of code here.
+
+16:37.790 --> 16:45.910
+So if this optional input outlier thresh is greater than zero then I z score the data.
+
+16:46.030 --> 16:51.110
+I find all of the outliers and then I remove those outliers.
+
+16:51.260 --> 16:59.340
+So here what I'm doing is redefining X to be itself and the indices of anything that is not considered
+
+16:59.340 --> 17:00.380
+an outlier.
+
+17:00.580 --> 17:02.060
+So that's the way I chose to do it.
+
+17:02.060 --> 17:04.340
+There's multiple other ways to implement this.
+
+17:04.340 --> 17:12.300
+But the main point is that now we will continue with the analyses but using data that have outliers
+
+17:12.300 --> 17:12.940
+removed.
+
+17:13.300 --> 17:21.300
+Now the important thing about implementing this bit of code here is that the same values are removed
+
+17:21.300 --> 17:23.300
+from both variables.
+
+17:23.300 --> 17:30.060
+And that's because for mutual information, you know, the analysis is based on statistical dependencies.
+
+17:30.060 --> 17:34.180
+So obviously the two vectors need to be perfectly aligned.
+
+17:34.380 --> 17:42.020
+So if you remove data from one variable, you need to remove the same indices from the other variable,
+
+17:42.140 --> 17:48.100
+even if the data are not necessarily an extreme outlier value in the other variable.
+
+17:48.580 --> 17:48.980
+Okay.
+
+17:49.020 --> 17:50.850
+So run that code.
+
+17:50.850 --> 17:54.850
+And yeah, here I'm just extracting a little bit of data.
+
+17:54.930 --> 17:56.410
+Identifying outliers.
+
+17:56.410 --> 17:59.530
+This is code here to generate the plot.
+
+17:59.530 --> 18:02.730
+So I'm not actually calling this function just yet.
+
+18:03.730 --> 18:08.930
+So uh z transform identify outliers based on a threshold of four.
+
+18:09.330 --> 18:13.090
+And then uh, here I'm calculating mutual information.
+
+18:13.370 --> 18:15.810
+And actually this is a little bit redundant here.
+
+18:15.810 --> 18:21.410
+What I could do is remove these and say, uh, what did I call that variable?
+
+18:21.410 --> 18:24.250
+I called this variable outlier thresh.
+
+18:24.650 --> 18:26.530
+So I could also do it this way.
+
+18:26.610 --> 18:29.330
+Outlier thresh equals threshold.
+
+18:29.370 --> 18:30.010
+That's fine.
+
+18:30.010 --> 18:31.410
+Although it was also fine.
+
+18:31.650 --> 18:33.090
+Uh, the previous way I had it.
+
+18:33.450 --> 18:33.690
+Okay.
+
+18:33.730 --> 18:39.250
+And then here I'm calculating mutual information using the scikit learn method.
+
+18:39.250 --> 18:41.130
+Mutual information regression.
+
+18:41.570 --> 18:44.130
+This reshaping business you've seen before.
+
+18:44.370 --> 18:46.690
+And then here I'm calculating it twice.
+
+18:46.890 --> 18:52.640
+Once using the full versions of X and once without the outliers.
+
+18:53.080 --> 18:53.360
+Okay.
+
+18:53.440 --> 18:56.280
+And then here is the visualization.
+
+18:56.280 --> 18:59.760
+So reproduces exactly what I showed in the slides.
+
+18:59.920 --> 19:07.480
+This is an interesting data point here because it's not nearly as extreme as like either one of these
+
+19:07.480 --> 19:08.320
+two values.
+
+19:08.800 --> 19:11.960
+And it's also not that extreme for target word two.
+
+19:12.280 --> 19:13.480
+But it is extreme.
+
+19:13.480 --> 19:21.200
+It is technically suprathreshold on target word one because it's a bit outside the distribution.
+
+19:22.080 --> 19:28.080
+Now, whether you really want to consider this to be an outlier and not, for example, this data point
+
+19:28.080 --> 19:35.400
+or this data point, this is where statistics starts getting tricky because we have to define thresholds.
+
+19:35.560 --> 19:40.440
+And thresholds are always going to work sometimes, and they're not going to work other times.
+
+19:40.640 --> 19:42.880
+So you could keep tweaking this around.
+
+19:42.880 --> 19:49.040
+And maybe you want to use a threshold of five standard deviations that will preserve this data point
+
+19:49.080 --> 19:51.680
+while eliminating these two data points.
+
+19:51.880 --> 20:00.080
+But on the other hand, maybe you will see other situations where a threshold of five is inappropriate
+
+20:00.080 --> 20:04.040
+and you would actually want to reduce the threshold back down to four.
+
+20:04.320 --> 20:11.960
+So at the end of the day, it's best to pick one threshold and use it consistently throughout all the
+
+20:11.960 --> 20:19.200
+analyses within one study, so that if there are these kind of weird things that are being introduced,
+
+20:19.200 --> 20:26.520
+at least it's not systematic and it's not being driven by your visual expectation of what you think
+
+20:26.520 --> 20:28.360
+the results should look like.
+
+20:28.440 --> 20:32.640
+So but yeah, this this sort of weird thing always happens.
+
+20:32.680 --> 20:35.040
+It's just the nature of doing statistics.
+
+20:35.040 --> 20:42.280
+And it's a good motivation to have a lot of data to work with, because the more data you have, the
+
+20:42.280 --> 20:47.840
+smaller the impact of removing one or a small number of data points.
+
+20:49.030 --> 20:56.350
+Okay, so just as a reminder here in this scatter plot, there are 1600 data points.
+
+20:56.390 --> 20:58.950
+Almost all of them are in this little cloud here.
+
+20:58.950 --> 21:01.630
+And then we have a couple of extreme values here.
+
+21:01.950 --> 21:04.510
+And where do those 1600 points come from?
+
+21:04.750 --> 21:10.110
+Those come from the activations of all of the attention.
+
+21:10.110 --> 21:11.670
+I think this was attention.
+
+21:11.670 --> 21:11.870
+Yeah.
+
+21:11.910 --> 21:16.950
+All of the, uh, the output of the attention mechanism from block three.
+
+21:16.990 --> 21:21.030
+Transformer, block three, uh, for target word one.
+
+21:21.030 --> 21:25.830
+So the first appearance of coffee and the second appearance of the word coffee.
+
+21:26.190 --> 21:28.950
+So they're strongly correlated with each other.
+
+21:29.350 --> 21:30.390
+No surprise.
+
+21:30.590 --> 21:33.390
+They come from exactly the same text.
+
+21:33.430 --> 21:35.430
+Let's go back and look at that text.
+
+21:36.150 --> 21:41.550
+So we have the activation to this word and the activation to this word.
+
+21:41.670 --> 21:45.830
+And that is what you see uh, here in this plot.
+
+21:46.190 --> 21:46.470
+Okay.
+
+21:46.510 --> 21:47.150
+Very nice.
+
+21:47.150 --> 21:54.780
+So now we already see that, uh, the, uh, that trimming the data actually increases the mutual information.
+
+21:54.780 --> 21:55.780
+Almost double.
+
+21:55.820 --> 21:57.340
+Slightly less than double.
+
+21:57.700 --> 22:05.420
+So that tells us that these three data points in particular, these two really had a really large impact
+
+22:05.420 --> 22:07.780
+on the mutual information value.
+
+22:08.060 --> 22:15.620
+That is, with the manual calculation or the direct implementation of the formula for mutual information
+
+22:15.620 --> 22:16.420
+in the code.
+
+22:16.700 --> 22:21.620
+And basically what's happening here, the reason why these two values are so different from each other
+
+22:21.900 --> 22:28.620
+is that, uh, when we discretize this to create histograms, to estimate the probability distribution,
+
+22:28.900 --> 22:33.780
+we get, you know, these little islands out here and all zeros out here.
+
+22:34.020 --> 22:41.260
+So when we empirically try to estimate the probability distribution, we get all zeros around here.
+
+22:41.260 --> 22:49.770
+So many zeros that the model is just having a hard time really accurately Assessing the full probability
+
+22:49.770 --> 22:50.810
+distribution.
+
+22:51.050 --> 22:58.370
+And now let's see what happens when we use the kernel density estimator of the probability distributions
+
+22:58.370 --> 23:02.130
+that are packaged into the scikit learn function.
+
+23:02.450 --> 23:02.770
+Okay.
+
+23:02.810 --> 23:07.610
+So here we see there was a big difference with the manual implementation.
+
+23:07.610 --> 23:13.010
+And here with the scikit learn implementation we get values that are much closer to each other.
+
+23:13.010 --> 23:20.330
+And so that indicates that the scikit learn implementation is actually much more robust to outliers
+
+23:20.330 --> 23:28.090
+or extreme values, because it's doing a better job at estimating the probability distribution given
+
+23:28.090 --> 23:30.330
+sparse and limited data.
+
+23:33.650 --> 23:42.250
+Now we're going to start getting into some analyses here in exercise three you will calculate mutual
+
+23:42.250 --> 23:47.250
+information and see how it relates to inter token distances.
+
+23:47.640 --> 23:47.920
+Here.
+
+23:47.920 --> 23:50.520
+We'll do it in just one transformer block.
+
+23:50.640 --> 23:58.520
+And then in the next exercise, we will examine the laminar profile of the characteristics that we discover
+
+23:58.520 --> 23:59.000
+here.
+
+23:59.640 --> 24:03.840
+So there are seven appearances of the word coffee.
+
+24:04.360 --> 24:10.840
+And you want to calculate the mutual information of all the embeddings dimensions from the output of
+
+24:10.840 --> 24:17.160
+the attention from block three for all pairs of targets.
+
+24:17.440 --> 24:21.920
+In other words, in this matrix here the value of each block.
+
+24:21.920 --> 24:32.000
+For example, this block here is the mutual information over all 1600 dimensions between the the third
+
+24:32.000 --> 24:35.960
+and the second appearance of the word coffee.
+
+24:36.640 --> 24:39.040
+So that is for this matrix here.
+
+24:39.040 --> 24:41.000
+This is mutual information.
+
+24:41.520 --> 24:46.440
+The next thing you want to calculate is the inter token distances.
+
+24:46.880 --> 24:50.600
+Now this is not the embeddings, vectors, or Euclidean distances.
+
+24:50.760 --> 24:57.800
+It's literally just the number of tokens separating each pair of tokens.
+
+24:58.280 --> 25:05.200
+So the result of this matrix is literally just a bunch of integers, and they increase the further away
+
+25:05.240 --> 25:07.720
+the two tokens are from each other.
+
+25:08.200 --> 25:15.760
+So the idea of this quantification is that the closer to target two tokens are to each other in the
+
+25:15.760 --> 25:19.680
+text, the more shared context they have.
+
+25:20.280 --> 25:27.480
+And when tokens are farther apart from each other, then they have less locally shared context.
+
+25:28.120 --> 25:35.840
+So now we have mutual information between all the pairs, and we have the information of how far apart
+
+25:36.080 --> 25:40.080
+each pair of tokens is from each other in the text.
+
+25:40.640 --> 25:46.670
+And the third panel over here shows a scatterplot of these two sets of results.
+
+25:47.030 --> 25:53.750
+And of course you only want to show the non-zero values here, because anything above the diagonal would
+
+25:53.750 --> 25:55.350
+be perfectly redundant.
+
+25:56.470 --> 25:56.790
+Okay.
+
+25:56.830 --> 26:05.630
+So then the last step is to quantify any relationship you see between mutual information and inter token
+
+26:05.630 --> 26:08.350
+distance using a correlation.
+
+26:09.150 --> 26:15.630
+Now so far in this course we've only been using Pearson correlation coefficients.
+
+26:16.230 --> 26:21.110
+And as you know that is almost exactly the same as cosine similarity.
+
+26:21.710 --> 26:29.070
+However, the Pearson correlation is only used for two continuous variables.
+
+26:29.670 --> 26:32.510
+Mutual information is a continuous variable.
+
+26:32.510 --> 26:35.470
+So that's appropriate for Pearson correlation.
+
+26:35.470 --> 26:39.390
+But inter token distances is not.
+
+26:39.430 --> 26:40.830
+These are just integers.
+
+26:41.390 --> 26:48.660
+And so therefore you should really not use the Pearson correlation for this analysis, there is another
+
+26:48.660 --> 26:53.580
+type of correlation called a Kendall's tau correlation.
+
+26:53.980 --> 27:00.940
+And this correlation is specifically designed for one variable, one variable being ordinal.
+
+27:01.140 --> 27:04.020
+And that is exactly the data type that we have here.
+
+27:05.180 --> 27:11.100
+So if you've taken my course on statistics and machine learning then you are familiar with this correlation
+
+27:11.100 --> 27:11.780
+method.
+
+27:11.900 --> 27:17.980
+If you have not come across the Kendall's tau correlation, don't worry about the formula or the implementational
+
+27:17.980 --> 27:18.780
+details.
+
+27:18.980 --> 27:26.540
+The important point for here is that you interpret the correlation coefficient in exactly the same way
+
+27:26.540 --> 27:29.380
+as you interpret a Pearson correlation.
+
+27:29.780 --> 27:37.380
+So in particular, the correlation for Kendall's tau can range from minus one to plus one with negative
+
+27:37.380 --> 27:41.780
+correlations indicating reciprocal or opposite relationships.
+
+27:42.740 --> 27:50.130
+By the way, I forgot to mention that in this exercise you want to use the manual implementation of
+
+27:50.170 --> 27:51.690
+mutual information.
+
+27:51.690 --> 28:00.370
+So the function that you wrote for exercise one do not use the mutual information function that comes
+
+28:00.370 --> 28:01.570
+with scikit learn.
+
+28:01.570 --> 28:09.290
+We're actually going to use that in exercise five to compare qualitatively the two approaches for mutual
+
+28:09.290 --> 28:11.450
+information okay.
+
+28:11.490 --> 28:13.490
+So that's it for exercise three.
+
+28:13.730 --> 28:18.330
+Now you should pause the video and start coding and start visualizing.
+
+28:18.530 --> 28:21.890
+And now I will switch to code and discuss my results.
+
+28:22.690 --> 28:30.610
+Once we have this mutual information function written then it's actually pretty straightforward to implement
+
+28:30.610 --> 28:32.850
+the rest of this analysis.
+
+28:32.970 --> 28:37.370
+So here I have a double for loop over all of the tokens.
+
+28:37.490 --> 28:43.250
+So we're looping over the token or sorry not all the tokens but the target tokens.
+
+28:43.410 --> 28:50.960
+So we loop over all the appearances of the target tokens twice, because we want to calculate mutual
+
+28:50.960 --> 28:54.760
+information between each pair of tokens.
+
+28:55.000 --> 29:00.760
+And again, over here I'm starting the second for loop, after the first for loop.
+
+29:00.760 --> 29:04.600
+So I'm not starting it at zero like this.
+
+29:04.600 --> 29:06.960
+Because if you did this that would be fine.
+
+29:06.960 --> 29:12.480
+You'd get a full matrix, but it's twice as many calculations for nothing.
+
+29:12.480 --> 29:19.360
+There's no unique information that you get from calculating the full matrix that you don't have from
+
+29:19.520 --> 29:20.880
+just half of the matrix.
+
+29:21.400 --> 29:24.720
+Okay, anyway, here I extract the activations.
+
+29:24.760 --> 29:28.960
+Now this is different from what we did in the previous video.
+
+29:29.160 --> 29:36.480
+Remember in the previous video it was like dim I and then we were getting all of the tokens like this.
+
+29:36.480 --> 29:38.360
+So activations for all the tokens.
+
+29:39.120 --> 29:42.640
+And so yeah, this is a different approach that we're doing here.
+
+29:42.840 --> 29:46.030
+Here it is one token in particular.
+
+29:46.030 --> 29:53.870
+And then all of the activations from this particular subblock from this particular layer.
+
+29:54.750 --> 29:55.070
+Okay.
+
+29:55.110 --> 29:58.070
+So token position I token position J.
+
+29:58.430 --> 30:01.750
+These are two different appearances of the word coffee.
+
+30:02.070 --> 30:10.590
+And then I put that into the mutual information function with the number four corresponding to the outlier
+
+30:10.630 --> 30:14.950
+threshold for excluding or trimming data values.
+
+30:14.950 --> 30:16.030
+Extreme values.
+
+30:16.430 --> 30:16.670
+Okay.
+
+30:16.710 --> 30:19.030
+And then this is just the token distance.
+
+30:19.030 --> 30:23.590
+Literally just the number of tokens in between each target.
+
+30:23.950 --> 30:24.270
+Okay.
+
+30:24.310 --> 30:26.070
+So now I can run all of this.
+
+30:26.070 --> 30:27.310
+That goes very fast.
+
+30:27.310 --> 30:32.750
+Don't worry about this line here that we will get back to for exercise five.
+
+30:32.950 --> 30:37.550
+But you can already see that it's the same exact overall analyses.
+
+30:37.550 --> 30:40.870
+We're just calculating mutual information differently.
+
+30:40.990 --> 30:44.590
+And now we are ready for the visualization.
+
+30:44.910 --> 30:49.430
+So here in the first axis I'm showing mutual information.
+
+30:49.590 --> 30:53.550
+In the second axis I'm showing the token distances.
+
+30:53.710 --> 30:56.830
+Here is where I calculate the Kendall tau.
+
+30:56.870 --> 31:02.470
+So the correlations between the token distances and the mutual information.
+
+31:02.670 --> 31:10.270
+And you want to make sure to extract just the non-zero elements of these two matrices.
+
+31:10.430 --> 31:13.830
+And then here I'm making the scatter plot of them.
+
+31:13.830 --> 31:20.430
+So here we see mutual information inter token distances again just like what you saw in the slides.
+
+31:20.550 --> 31:22.510
+And this was covered up in the slides.
+
+31:22.510 --> 31:26.510
+But now you see this beautiful negative correlation.
+
+31:26.670 --> 31:29.110
+Highly statistically significant.
+
+31:29.270 --> 31:32.870
+The correlation coefficient is -0.5.
+
+31:33.150 --> 31:34.390
+And what does this mean.
+
+31:34.390 --> 31:35.630
+What does this tell us.
+
+31:35.870 --> 31:44.420
+This tells us that in general, as the two tokens get further apart from each other, The mutual information
+
+31:44.420 --> 31:46.340
+between them decreases.
+
+31:46.500 --> 31:50.620
+It's not a perfect relationship because, yeah, language is complicated.
+
+31:50.620 --> 31:53.420
+There's a lot of context happening in here.
+
+31:53.540 --> 32:02.060
+But in general, we see that the closer the two tokens are to each other, the stronger the mutual information.
+
+32:02.060 --> 32:09.140
+And that should make sense intuitively when you use the word coffee repeatedly in, you know, just
+
+32:09.140 --> 32:13.220
+a few words apart, then the local context is the same.
+
+32:13.420 --> 32:20.180
+And when you use the word coffee twice like three days apart, the chance of the context being exactly
+
+32:20.180 --> 32:21.980
+the same is much lower.
+
+32:24.460 --> 32:27.100
+I hope you're enjoying this code challenge so far.
+
+32:27.340 --> 32:33.980
+I'm going to break the video here as a way to encourage you to stand up, stretch your legs, splash
+
+32:33.980 --> 32:40.300
+some water on your face when you feel refreshed and ready, then come back and continue to the end of
+
+32:40.300 --> 32:41.500
+this code challenge.

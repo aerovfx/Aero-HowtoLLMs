@@ -1,0 +1,907 @@
+WEBVTT
+
+00:02.280 --> 00:09.160
+This is a follow up to the previous video about logistic regression for sparse probing.
+
+00:09.760 --> 00:13.320
+In this video I'm going to use simulated data.
+
+00:13.320 --> 00:18.160
+So just random numbers instead of using actual data from an.
+
+00:19.560 --> 00:27.280
+That is advantageous because it allows us to have tighter control over the nature of the data.
+
+00:27.840 --> 00:35.360
+So there's no new math in this video, just new concepts and possibly new revelations about logistic
+
+00:35.360 --> 00:38.280
+regression with large data sets.
+
+00:38.840 --> 00:43.000
+So let me get straight to the overview of the demo.
+
+00:43.720 --> 00:50.240
+I will begin by simulating data with 3000 neurons and two categories.
+
+00:50.400 --> 00:58.960
+Now these data do not come from a language model, but you can think about something like 3000 MLP expansion
+
+00:58.960 --> 01:07.130
+neurons and 200 tokens coming from two categories like the word the and the word n, for example.
+
+01:07.850 --> 01:14.370
+So here you see all of the activations, and here you see the histograms of all of the activations.
+
+01:15.010 --> 01:22.490
+So I shifted the activations for category one so that there is like a ridiculously huge effect size
+
+01:22.890 --> 01:26.010
+in the difference between the two categories.
+
+01:26.650 --> 01:33.210
+I will then run another sweep through different values of C, similar to what I did in the previous
+
+01:33.210 --> 01:33.570
+state.
+
+01:33.570 --> 01:35.210
+A video with real data.
+
+01:35.450 --> 01:38.970
+Remember that c equals one over lambda.
+
+01:39.090 --> 01:44.050
+So lambda is going down as we go up with values of c.
+
+01:44.770 --> 01:50.090
+So the sparsity value values vary quite a bit depending on this parameter.
+
+01:50.290 --> 01:57.050
+Again it's not that surprising, but it does highlight that it can be difficult to choose a particular
+
+01:57.050 --> 02:02.780
+regularization amount given the spread we have on the outcomes.
+
+02:03.420 --> 02:11.460
+So a question here is which neurons actually get their coefficients switched to zero, given that basically
+
+02:11.460 --> 02:15.860
+every neuron shows a strong difference between the two categories.
+
+02:16.100 --> 02:19.660
+How does the model know which coefficients to set to zero?
+
+02:20.180 --> 02:24.740
+That is something we will explore in the next couple of analyses.
+
+02:25.420 --> 02:32.660
+I will rerun the analysis for one particular value of C, and then plot the beta coefficients on the
+
+02:32.660 --> 02:37.100
+x axis by the effect size on the y axis.
+
+02:37.900 --> 02:41.700
+Effect size is similar to a t statistic.
+
+02:42.060 --> 02:48.340
+I will show you the exact formula when we get to that point in the code, but it's basically the difference
+
+02:48.340 --> 02:56.220
+in the average activation for each category divided by the pooled standard deviations over the two categories.
+
+02:57.300 --> 03:03.540
+So each dot in this plot corresponds to one of the 3000 neurons.
+
+03:04.140 --> 03:11.820
+You can see that those effect sizes vary from around four to around six, which is quite a decent effect
+
+03:11.820 --> 03:12.260
+size.
+
+03:12.740 --> 03:14.580
+But here's what's really striking.
+
+03:14.620 --> 03:19.020
+Around half of the beta values are actually negative.
+
+03:19.220 --> 03:21.340
+So what could that possibly mean?
+
+03:22.020 --> 03:29.620
+If you would interpret the beta for any one given neuron, then it would mean that there is more activation
+
+03:29.620 --> 03:33.340
+for category zero compared to category one.
+
+03:33.900 --> 03:39.140
+But when we look back at the plots of the data and the distribution, that's just not the case.
+
+03:39.420 --> 03:45.020
+Category one basically always has more activation than category zero.
+
+03:45.700 --> 03:52.460
+So how can it possibly be that around half of the neurons have a negative beta value?
+
+03:53.220 --> 03:58.340
+I would also like to draw your attention to the magnitude of these coefficients.
+
+03:58.460 --> 04:01.510
+They are somewhere around 0.02 two ish.
+
+04:02.390 --> 04:09.950
+Okay, so what I'm going to do next is pick two of these 3000 neurons, the one with the largest beta
+
+04:09.950 --> 04:13.750
+value and the one with the most negative beta value.
+
+04:14.790 --> 04:20.430
+Then I will visualize their histograms for two categories, which is what you see here.
+
+04:21.310 --> 04:27.470
+By the way, this screenshot here is from a different run through the code than what how I got this
+
+04:27.470 --> 04:28.630
+screenshot here.
+
+04:28.750 --> 04:31.950
+So the numerical betas don't necessarily lined up.
+
+04:31.950 --> 04:37.030
+The code produces slightly different results each time I run it because of random data.
+
+04:37.070 --> 04:44.790
+Anyway, the point is that there is perfect, literally absolutely perfect separation between the activations
+
+04:44.790 --> 04:51.990
+for the two categories, and they both go in these same in the same direction, which is both positive
+
+04:52.110 --> 04:54.910
+for label one compared to label two.
+
+04:55.670 --> 05:03.520
+So how can it be that the beta values are so small and one is actually Negative, even though the negative
+
+05:03.560 --> 05:07.840
+beta and the positive beta have the same direction of effect.
+
+05:08.800 --> 05:16.560
+Curiously, another visualization of this where I'm plotting the negative beta on the x axis and the
+
+05:17.240 --> 05:20.840
+activations from the positive beta neuron on the y axis.
+
+05:21.320 --> 05:28.240
+Again, perfect separability both within and at the intersection between these two neurons.
+
+05:28.880 --> 05:36.320
+So I'm then going to rerun the logistic regression exactly the same as what gave me these results here.
+
+05:36.800 --> 05:42.520
+Except I'm only going to use these two neurons and not all 3000 neurons.
+
+05:42.880 --> 05:49.160
+And you will see that their coefficients change from being small and positive and negative to being
+
+05:49.320 --> 05:53.320
+two orders of magnitude larger, and both positive.
+
+05:54.440 --> 05:59.400
+Now that difference is due to something called statistical suppression.
+
+05:59.960 --> 06:07.490
+Statistical suppression is a term that is used when there are a lot of variables in a statistical model,
+
+06:07.970 --> 06:13.010
+and the variables start to suppress each other because they have redundant information.
+
+06:13.650 --> 06:20.370
+Remember I mentioned in the previous video that for a logistic regression like this, the goal is to
+
+06:20.410 --> 06:21.970
+predict the label.
+
+06:22.210 --> 06:27.810
+The goal is not to interpret every individual neuron separately from every other neuron.
+
+06:28.450 --> 06:35.890
+So when there are so many neurons and so much redundancy that the model just ends up suppressing a lot
+
+06:35.890 --> 06:41.770
+of the activations from the neurons, simply because they're just not all relevant for predicting the
+
+06:41.770 --> 06:42.370
+label.
+
+06:43.090 --> 06:50.770
+So in fact, the model is learning to ignore around half of the neurons in this data set just because
+
+06:50.770 --> 06:54.010
+it doesn't actually need to use their activation values.
+
+06:54.770 --> 07:02.340
+Anyway, the last analysis I will run here is to see which neurons end up with zero valued coefficients.
+
+07:02.860 --> 07:09.340
+It's actually not attributable to the amount of variability in the neuron, which is what I'm plotting
+
+07:09.340 --> 07:09.740
+here.
+
+07:09.740 --> 07:17.420
+So it's not the case that the least variable or the most variable neurons get shunted to have beta equals
+
+07:17.420 --> 07:18.020
+zero.
+
+07:18.700 --> 07:22.900
+It's also not related to group differences in correlation strength.
+
+07:23.260 --> 07:26.500
+I don't show that figure here, but I will get to it in the code.
+
+07:27.140 --> 07:31.100
+Anyway, so now let's switch to Python and work through this stuff.
+
+07:32.340 --> 07:33.900
+Import some libraries.
+
+07:33.900 --> 07:34.620
+And let's see.
+
+07:34.660 --> 07:36.900
+Here is where I'm creating the data.
+
+07:37.220 --> 07:39.220
+So 3000 neurons.
+
+07:39.220 --> 07:42.900
+In fact these are just literally random numbers that I'm generating here.
+
+07:42.900 --> 07:50.060
+But we will think of it as 3000 MLP expansion layer neurons, just for ease of, you know, linking
+
+07:50.100 --> 07:51.900
+to the other lectures.
+
+07:52.340 --> 07:55.220
+And we have 200 tokens.
+
+07:55.220 --> 07:59.260
+And then what I do is so yeah here I generate all of the data.
+
+07:59.300 --> 08:08.470
+And then what I do is, shift the data by a value of five only for the data in the first half of the
+
+08:08.470 --> 08:09.190
+tokens.
+
+08:09.310 --> 08:15.710
+So that means that 100 tokens will have random noise with a mean of zero and the other.
+
+08:15.750 --> 08:22.070
+The second 100 tokens will have random noise with a mean offset of five.
+
+08:22.190 --> 08:25.510
+So one for the label and then times five.
+
+08:25.630 --> 08:29.230
+And then I make some histograms and the image of the data.
+
+08:29.230 --> 08:30.350
+And that's what you see here.
+
+08:30.910 --> 08:35.070
+So super duper clear what's going on here for every neuron.
+
+08:35.430 --> 08:41.910
+You know, basically every neuron we see that there is relatively low activation for the first hundred
+
+08:41.950 --> 08:42.750
+tokens.
+
+08:42.750 --> 08:49.870
+That's category zero and much higher activation for the other neuron for the other tokens.
+
+08:49.870 --> 08:51.990
+And that I call category one.
+
+08:52.550 --> 08:59.270
+So if you would just take any individual neuron, any one of these 3000 neurons, it's going to be highly
+
+08:59.270 --> 09:00.270
+significant.
+
+09:00.310 --> 09:05.270
+The difference between the activations for category zero and for category one.
+
+09:05.990 --> 09:11.630
+So now it's going to be interesting to see what happens with the logistic regression when we enforce
+
+09:11.670 --> 09:13.510
+sparsity okay.
+
+09:13.550 --> 09:19.230
+And before I do that I am running the logistic regression for different values of C.
+
+09:19.550 --> 09:24.510
+This is basically the same as what I showed in the previous video.
+
+09:24.510 --> 09:26.270
+But there it was for real data.
+
+09:26.350 --> 09:29.270
+Here it's for these simulated data.
+
+09:29.710 --> 09:32.470
+So here I'm just calculating sparsity.
+
+09:32.470 --> 09:38.510
+This is the number of coefficients that have a value of exactly zero.
+
+09:38.790 --> 09:45.470
+And we get that from introducing this L1 regularization term averaging that.
+
+09:45.470 --> 09:47.150
+So this is the proportion.
+
+09:47.150 --> 09:51.310
+And then I multiply it by 100 just to get the percent okay.
+
+09:51.350 --> 09:58.510
+Now in this line of code in the previous video I also increased the maximum number of iterations to
+
+09:58.550 --> 09:59.270
+1000.
+
+09:59.310 --> 10:04.480
+Here I'm leaving it at 100, so probably would be a good idea to increase it a little bit.
+
+10:04.480 --> 10:06.600
+But yeah, it's really not a big deal.
+
+10:06.960 --> 10:07.240
+Okay.
+
+10:07.280 --> 10:15.080
+And then anyway, the point that I wanted to demonstrate here is that the sparsity in a in a data set
+
+10:15.120 --> 10:19.520
+is not necessarily a parameter that is intrinsic to the data set.
+
+10:19.680 --> 10:26.560
+It is a parameter or a result that can vary depending on the parameter that you set.
+
+10:26.840 --> 10:30.400
+Now it does look like it's kind of stabilizes around here.
+
+10:30.600 --> 10:36.280
+And if you like, you can continue setting this c parameter a little bit higher to see if this really
+
+10:36.280 --> 10:37.360
+stabilizes here.
+
+10:37.520 --> 10:41.360
+Of course it's ultimately going to be there's a floor of zero.
+
+10:41.360 --> 10:43.200
+You can't get sparsity less than zero.
+
+10:44.200 --> 10:44.640
+Okay.
+
+10:45.120 --> 10:52.400
+So this does present one of the challenges of doing sparse regression or L1 regression.
+
+10:52.560 --> 10:57.480
+Because yeah you have to pick a parameter of C or equivalently lambda.
+
+10:57.760 --> 11:05.570
+And the value that you pick will have a impact on the sparsity or the density that you get in your result.
+
+11:05.970 --> 11:06.250
+Okay.
+
+11:06.290 --> 11:09.170
+So here you can see I'm increasing the max iteration.
+
+11:09.170 --> 11:11.890
+So now I just set C equals three.
+
+11:11.930 --> 11:14.810
+It's kind of an arbitrary number I just picked it.
+
+11:14.850 --> 11:17.090
+Yeah pretty arbitrarily okay.
+
+11:17.130 --> 11:20.210
+And then yeah I'm also running through the model.
+
+11:20.450 --> 11:27.490
+And let's see in this case I'm actually not using a separate train and test set like I did with the
+
+11:27.530 --> 11:30.250
+previous, uh, in the previous video.
+
+11:30.330 --> 11:33.050
+That's generally always a good idea here.
+
+11:33.050 --> 11:38.690
+It doesn't matter, because I just want to focus on some other aspects of the logistic regression,
+
+11:38.890 --> 11:46.770
+in particular interpreting the small beta values that can be negative in large data sets.
+
+11:47.890 --> 11:48.170
+Okay.
+
+11:48.210 --> 11:51.370
+So we get an accuracy of 100%.
+
+11:51.410 --> 11:56.250
+So I could actually multiply this by 100 if you want to see it in percent.
+
+11:56.250 --> 11:59.850
+Let me comment this and just print this out again.
+
+11:59.850 --> 12:02.620
+So uh so the accuracy is very high.
+
+12:02.660 --> 12:04.980
+Sparsity is around 36%.
+
+12:05.180 --> 12:11.220
+And yeah here I just wanted to show the actual number of iterations.
+
+12:11.220 --> 12:15.980
+So I said uh maximum number of iterations is 1000.
+
+12:16.020 --> 12:19.860
+That doesn't necessarily mean the model will run a thousand iterations.
+
+12:19.860 --> 12:27.220
+That means that the model will stop running through gradient descent once it gets to either a good solution
+
+12:27.220 --> 12:31.260
+that it's happy with, or a maximum of 1000 iterations.
+
+12:31.620 --> 12:34.820
+And in this case, it did actually stop at 1000.
+
+12:35.180 --> 12:41.780
+Something that I forgot to mention in the previous video is that when I showed the equation in the slides
+
+12:41.780 --> 12:48.060
+of the previous video, uh, the equation was, uh, you know, there was the beta zero term, which
+
+12:48.060 --> 12:51.220
+is the intercept, and then there's beta one through beta k.
+
+12:51.740 --> 12:58.060
+So beta one through beta k are the coefficients for each variable or in our case each neuron.
+
+12:59.020 --> 13:03.270
+But that means that there should be the number of beta values.
+
+13:03.270 --> 13:08.830
+So the number of coefficients that should correspond to the number of neurons plus one.
+
+13:09.350 --> 13:15.510
+However, when you look at the size of the coefficients, you only get the number of neurons.
+
+13:15.510 --> 13:16.790
+So where is the intercept term?
+
+13:16.790 --> 13:18.350
+Where is the beta zero term?
+
+13:18.830 --> 13:27.470
+It turns out that the scikit learn logistic regression function does not store the beta value with the
+
+13:27.470 --> 13:28.950
+rest of the coefficients.
+
+13:28.990 --> 13:32.110
+It stores it separately in large reg.
+
+13:32.110 --> 13:38.510
+I can show you that that is just the object variable name that I had for this logistic regression.
+
+13:38.830 --> 13:41.390
+So log reg dot intercept.
+
+13:41.390 --> 13:44.070
+And that is one number that is beta zero.
+
+13:44.070 --> 13:46.950
+And these are betas one through k.
+
+13:47.110 --> 13:50.030
+So I forgot to mention that in the previous video.
+
+13:50.030 --> 13:52.030
+So now you get that information here.
+
+13:52.590 --> 13:52.950
+Okay.
+
+13:52.990 --> 14:00.350
+So now uh yeah I want to look at uh where we get these, uh, zero value beta coefficients from.
+
+14:00.630 --> 14:07.440
+So the question is, why does the model set a given neurons coefficient to zero and not a different
+
+14:07.440 --> 14:08.000
+neuron?
+
+14:08.320 --> 14:11.160
+So you might think that it has to do with the effect size.
+
+14:11.320 --> 14:18.000
+For example, if a neuron just doesn't differentiate between the two categories, then it makes sense
+
+14:18.000 --> 14:21.080
+that its beta value should get pushed to zero.
+
+14:21.720 --> 14:24.280
+That can happen if you're working with data.
+
+14:24.280 --> 14:29.840
+Where there is, there are neurons that have some predictability and other neurons that have really
+
+14:29.840 --> 14:33.200
+no predictability in terms of the category label.
+
+14:33.680 --> 14:36.120
+But that's not necessarily what happens.
+
+14:36.120 --> 14:40.720
+So this is the image that you saw in the slides.
+
+14:40.720 --> 14:46.440
+And basically what you see here is all of these circles here, these red circles, these correspond
+
+14:46.440 --> 14:55.280
+to the neurons that had their beta coefficients switched to zero resulting from the L1 regularization.
+
+14:55.640 --> 15:02.600
+And the fact that these are broadly distributed across the y axis, across basically the entire range
+
+15:02.800 --> 15:08.320
+of effect size tells you that this is unrelated to the effect size.
+
+15:08.320 --> 15:14.640
+It is not the case that the neurons with the smallest effect size, or the smallest ability to differentiate
+
+15:14.640 --> 15:18.400
+the two labels get a zero valued coefficient.
+
+15:19.360 --> 15:22.280
+So now let me just briefly tell you about this Cohen's d.
+
+15:22.720 --> 15:29.120
+It is defined as the average of one category minus the average of the other category.
+
+15:29.400 --> 15:30.680
+That's in the numerator.
+
+15:30.960 --> 15:36.280
+And in the denominator is the pooled standard deviations across all the categories.
+
+15:36.440 --> 15:40.800
+So standard deviation for category one standard deviation for category two.
+
+15:41.160 --> 15:42.120
+Add those together.
+
+15:42.160 --> 15:43.160
+Divide by two.
+
+15:43.400 --> 15:46.320
+And then Cohen's d is literally just the ratio of that.
+
+15:46.360 --> 15:51.440
+By the way this is a different Cohen from me different guy different family.
+
+15:51.800 --> 15:53.880
+But he has a good name okay.
+
+15:53.920 --> 15:56.200
+And what does this mean visually.
+
+15:56.200 --> 16:03.330
+Intuitively Cohen's d is basically just the separability of these two distributions for the two different
+
+16:03.330 --> 16:04.370
+categories.
+
+16:04.370 --> 16:08.690
+So the numerator is this average minus this average.
+
+16:08.890 --> 16:12.210
+And the denominator is this width plus this width.
+
+16:12.290 --> 16:13.690
+And then divided by two.
+
+16:13.970 --> 16:20.050
+So you can think of Cohen's d as how separable these two distributions are from each other.
+
+16:20.330 --> 16:27.450
+So that means that when Cohen's d is small when it's close to zero then the neuron is really not differentiating
+
+16:27.450 --> 16:30.690
+between the two categories okay.
+
+16:30.730 --> 16:38.930
+So the point here is that even neurons with very large effect sizes can still have their betas switched
+
+16:38.930 --> 16:40.290
+to zero.
+
+16:40.530 --> 16:41.850
+So what is going on here?
+
+16:41.930 --> 16:45.970
+So what I do to explore this a bit further is find the neuron.
+
+16:45.970 --> 16:49.770
+Find the variable that has the smallest beta coefficient.
+
+16:49.770 --> 16:51.050
+Looks like it'll be this one.
+
+16:51.770 --> 16:54.970
+And the largest beta coefficient which looks like it will be this one.
+
+16:55.490 --> 16:58.170
+And then I plot their histograms.
+
+16:58.170 --> 16:59.210
+And that you see here.
+
+16:59.570 --> 17:02.540
+So this is the question I posed in the slides.
+
+17:02.540 --> 17:07.380
+How is it possible that you get a negative regression coefficient?
+
+17:07.540 --> 17:11.380
+Although the direction of the effect is positive right.
+
+17:11.420 --> 17:14.860
+So we have label one is greater than label zero.
+
+17:14.860 --> 17:17.660
+And yet the beta term is negative.
+
+17:19.060 --> 17:22.460
+Well let's see what happens when we run another regression.
+
+17:22.660 --> 17:27.500
+So now I'm doing the same regression as I did above.
+
+17:27.540 --> 17:30.860
+Except now there's no L1 regularization.
+
+17:31.020 --> 17:34.100
+And the data are just I call this extreme data.
+
+17:34.180 --> 17:38.780
+These data are just from these two variables, these two neurons.
+
+17:39.100 --> 17:44.380
+And now we see that there are both positive and they are both fairly large.
+
+17:44.380 --> 17:45.380
+So much larger.
+
+17:45.380 --> 17:50.300
+These beta values are orders of magnitude larger than they are here.
+
+17:50.620 --> 17:50.940
+Okay.
+
+17:50.980 --> 17:52.580
+So what is going on here.
+
+17:53.100 --> 18:00.580
+The thing to keep in mind is that a logistic regression with lots of variables is not trying to predict
+
+18:00.580 --> 18:03.790
+the importance of each individual variable.
+
+18:03.990 --> 18:11.950
+Instead, it is trying to gather all of the data unmasked so all the aggregated data, and try to predict
+
+18:11.950 --> 18:12.750
+the label.
+
+18:12.750 --> 18:17.430
+So it's not about the neurons, it's not about the variables, it's about the labels.
+
+18:17.550 --> 18:21.550
+And so basically the regression looks at all of these data.
+
+18:21.670 --> 18:22.830
+And it says you know what.
+
+18:22.830 --> 18:25.150
+This is way too much for me to deal with.
+
+18:25.390 --> 18:28.430
+I do not actually need all of these data.
+
+18:28.590 --> 18:35.990
+So I'm going to ignore half of the data because yeah, half of the data is not contributing anything.
+
+18:36.110 --> 18:38.670
+So it kind of balances out the full data set.
+
+18:38.670 --> 18:44.030
+So half the data get weighed negatively, half the data roughly get weighed positively.
+
+18:44.350 --> 18:50.950
+And the net result is that the model can still make really accurate predictions of the labels, just
+
+18:50.950 --> 18:54.150
+because it has so much data from so many variables.
+
+18:54.150 --> 18:58.950
+There's so much information that a lot of it has to be balanced and suppressed.
+
+18:59.270 --> 19:02.800
+And that's what happens with gradient descent basically.
+
+19:04.080 --> 19:04.560
+Okay.
+
+19:04.600 --> 19:05.840
+So yeah.
+
+19:05.840 --> 19:09.920
+So then the last thing I want to show is, uh, not the last thing.
+
+19:09.920 --> 19:11.800
+This is further expanding on this.
+
+19:11.800 --> 19:16.440
+So here I'm showing the correlation between these two, uh, neurons.
+
+19:16.440 --> 19:23.840
+So the smallest beta value and the largest beta value here you can see that they are on mass strongly
+
+19:23.840 --> 19:31.160
+correlated with each other because each one shows a significant difference, uh, a really large effect
+
+19:31.160 --> 19:34.600
+size, a difference between category one and category two.
+
+19:35.120 --> 19:41.640
+So when you would correlate across these two neurons, you actually get a really strong positive correlation
+
+19:41.640 --> 19:43.040
+that would look like this.
+
+19:43.040 --> 19:48.880
+Although if you would, you know, ignore all of these data, then these neurons are uncorrelated with
+
+19:48.880 --> 19:49.640
+each other.
+
+19:49.640 --> 19:53.920
+And if you ignore these data, then the neurons are uncorrelated with each other.
+
+19:53.920 --> 19:54.400
+Here.
+
+19:54.800 --> 20:00.360
+This is related to something called Simpson's paradox or the subgroups correlation paradox, which I've
+
+20:00.360 --> 20:06.650
+mentioned earlier in this course, and you may have learned about Simpson's paradox in another statistics
+
+20:06.650 --> 20:07.930
+or machine learning course.
+
+20:08.210 --> 20:15.690
+But basically, when the logistic regression model sees these data all together pooled together, then
+
+20:16.210 --> 20:24.450
+their collective effect is that they provide a lot of redundant information about the label.
+
+20:24.450 --> 20:27.330
+So therefore the model doesn't really need both of them.
+
+20:27.330 --> 20:29.250
+So it's going to suppress one of them.
+
+20:29.450 --> 20:34.490
+And at the limit of suppression it turns it into a zero coefficient.
+
+20:35.130 --> 20:35.490
+Okay.
+
+20:35.530 --> 20:36.410
+So yeah.
+
+20:36.450 --> 20:42.490
+Then I did another little exploration here where I looked at the variance of the data.
+
+20:42.490 --> 20:51.530
+So what I'm doing here is calculating the variance of the data for the neurons with non-zero coefficients
+
+20:51.530 --> 20:53.970
+in blue and zero coefficients in red.
+
+20:54.090 --> 21:01.290
+This is basically the same analysis as the Cohen's d effect size plot that I showed above, Of uh,
+
+21:01.290 --> 21:03.290
+but yeah, with variants instead.
+
+21:03.330 --> 21:09.370
+So you do see, there is in general a strong relationship between the variability in a neuron and the
+
+21:09.410 --> 21:10.770
+beta coefficient.
+
+21:10.770 --> 21:15.930
+But that doesn't explain why the neurons here get switched to zero.
+
+21:16.050 --> 21:21.050
+It does help us understand why some of the neurons get negative beta coefficients.
+
+21:21.090 --> 21:23.490
+Basically they are less variable.
+
+21:23.490 --> 21:26.930
+So they're contributing less to the global information.
+
+21:27.050 --> 21:34.410
+And so therefore the model just decides to suppress them and ignore them by giving a negative beta value.
+
+21:34.930 --> 21:41.170
+Uh, here I also wanted to show some correlations to show that the distribution of correlations across
+
+21:41.170 --> 21:43.850
+the different neurons is basically identical.
+
+21:43.970 --> 21:48.250
+It doesn't matter whether the beta coefficients are zero or non-zero.
+
+21:48.650 --> 21:56.410
+The reason why this should not be surprising is that I generated these data as completely random numbers.
+
+21:57.490 --> 22:04.820
+I hope you are not dissuaded from using logistic regression for LMS and circuit based analyses.
+
+22:05.380 --> 22:12.100
+This method is quite powerful and can be quite insightful, but it is tricky when you're working with
+
+22:12.100 --> 22:13.860
+very large data sets.
+
+22:13.900 --> 22:20.260
+You just have to make sure you're using and interpreting the regression in an appropriate way, and
+
+22:20.260 --> 22:27.580
+keeping in mind that the goal of the logistic regression is to predict the label, and not necessarily
+
+22:27.580 --> 22:33.100
+to facilitate meaningful inferences about individual beta coefficients.
+
+22:33.780 --> 22:40.340
+It's also generally a good idea, when possible, to have a smaller number of variables, so a smaller
+
+22:40.340 --> 22:42.460
+number of neurons in the analysis.
+
+22:42.700 --> 22:49.540
+For example, you could select neurons based on exhibiting some other statistical properties or their
+
+22:49.540 --> 22:51.220
+relation to token features.
+
+22:52.020 --> 23:00.420
+On the other hand, data selection also leads to its own can of worms and potential for biases or misspecifications.

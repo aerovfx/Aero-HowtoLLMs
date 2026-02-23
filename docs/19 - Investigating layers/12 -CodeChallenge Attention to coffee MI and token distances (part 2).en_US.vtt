@@ -1,0 +1,922 @@
+WEBVTT
+
+00:02.040 --> 00:06.920
+This is the continuation of the code challenge from the previous video.
+
+00:06.920 --> 00:09.920
+So here we are beginning with exercise four.
+
+00:10.400 --> 00:14.520
+This is really the key exercise of this code challenge.
+
+00:14.800 --> 00:17.320
+And there's another exercise after this one.
+
+00:17.320 --> 00:19.960
+But that's just a minor modification.
+
+00:20.360 --> 00:28.480
+Anyway, the goal of this exercise is to take the analyses that you wrote for exercise three and put
+
+00:28.480 --> 00:33.840
+them into a for loop over all of the transformer layers.
+
+00:34.240 --> 00:43.480
+Now, the top row on this figure shows mutual information, and the bottom row shows correlations between
+
+00:43.480 --> 00:47.320
+mutual information and inter token distances.
+
+00:47.920 --> 00:53.120
+So up here on the left we have mutual information for attention.
+
+00:53.280 --> 00:57.320
+Over here is for mutual information for MLP.
+
+00:57.840 --> 01:00.140
+And in all of these plots.
+
+01:00.140 --> 01:03.540
+The x axis shows the transformer block.
+
+01:03.700 --> 01:13.100
+So the depth into the model and each data point in each of these scatter plots is the average mutual
+
+01:13.100 --> 01:17.820
+information over all of the pairs of tokens.
+
+01:18.340 --> 01:26.020
+So from that matrix that you created from exercise three, this data point here would be the average
+
+01:26.020 --> 01:34.140
+of all of the non-zero mutual information values, all the all those non-zero values averaged together.
+
+01:34.860 --> 01:38.500
+Now these are averages of lots of data points.
+
+01:38.500 --> 01:46.980
+But we can ask the question whether mutual information is different between the attention and the MLP
+
+01:47.100 --> 01:48.140
+subblocks.
+
+01:48.620 --> 01:56.740
+To answer that question, you can run a t test within each transformer block on all of the attention
+
+01:56.780 --> 01:58.540
+mutual information values.
+
+01:58.630 --> 02:05.990
+So all of the values that go into this average here versus all of the MLP.
+
+02:06.030 --> 02:11.550
+Mutual information values from the same layer from the same transformer block.
+
+02:12.150 --> 02:19.150
+And if you do a t test on those two sets of values, that will give you a t value, a t statistic and
+
+02:19.150 --> 02:20.270
+a p value.
+
+02:20.670 --> 02:25.630
+And you can plot those in a scatter plot over here on the right.
+
+02:26.150 --> 02:35.590
+And what I have also done is mark the significant t tests with a green hexagon and the non-significant
+
+02:35.630 --> 02:38.430
+t values with a red x.
+
+02:38.910 --> 02:46.310
+And basically what this plot will allow you to do is interpret any differences in mutual information,
+
+02:46.310 --> 02:51.990
+values that you observe between the attention and the MLP subblocks.
+
+02:52.470 --> 02:54.270
+So that's for the top row.
+
+02:54.430 --> 03:01.970
+And then the bottom row shows the correlations between mutual information and inter token distances
+
+03:01.970 --> 03:05.050
+calculated separately for each layer.
+
+03:05.450 --> 03:13.890
+So the y axis shows the Kendall's tau correlation coefficient and the x axis shows the transformer block.
+
+03:13.930 --> 03:15.290
+This is from attention.
+
+03:15.330 --> 03:16.730
+This is from MLP.
+
+03:17.290 --> 03:26.290
+Now here in this graph over here this shows the statistical differences or the statistical comparison
+
+03:26.450 --> 03:28.370
+between the two correlations.
+
+03:28.410 --> 03:34.130
+So the correlation with in attention and the correlation within MLP.
+
+03:34.890 --> 03:43.290
+Now comparing to correlation coefficients against each other requires a special statistical procedure.
+
+03:43.810 --> 03:47.450
+It's just one correlation value per layer.
+
+03:47.610 --> 03:50.050
+So there's no t test that you can perform.
+
+03:50.530 --> 03:57.100
+So before sending you off to Python to code up this exercise, let me briefly explain the formula for
+
+03:57.100 --> 04:00.980
+statistically comparing two correlation coefficients.
+
+04:01.980 --> 04:09.900
+Imagine that you have two sets of data x and y, or you know, for blue group and the green group.
+
+04:10.980 --> 04:18.300
+Now clearly the x and y variables are correlated positively for the blue dots and negatively for the
+
+04:18.300 --> 04:19.180
+green dots.
+
+04:19.740 --> 04:26.060
+The question we can ask here is not whether the blue dots are different from the green dots, in terms
+
+04:26.060 --> 04:34.500
+of either x or y, but instead we are going to ask whether this correlation coefficient is significantly
+
+04:34.500 --> 04:37.500
+different from this correlation coefficient.
+
+04:38.100 --> 04:43.260
+Now it is visually obvious that the sign of the correlation is different.
+
+04:43.260 --> 04:45.500
+One is positive, the other is negative.
+
+04:45.980 --> 04:52.300
+But are the two correlation coefficients statistically significantly different from each other?
+
+04:52.780 --> 04:55.340
+That is what we need a special test for.
+
+04:56.480 --> 05:03.040
+and we can get that from a z test on the correlation coefficients, which looks like this.
+
+05:03.040 --> 05:09.840
+So the numerator is the difference between the two correlation coefficients transformed using a functional.
+
+05:09.840 --> 05:16.120
+Explain in a moment and the denominator is a function of the degrees of freedom.
+
+05:16.360 --> 05:24.560
+Now this formula here is actually a simplification, assuming that both data sets have exactly the same
+
+05:24.600 --> 05:33.200
+sample size or n, so this corresponds to the sample size of each data set, not the sum of all of the
+
+05:33.320 --> 05:34.040
+data set.
+
+05:34.200 --> 05:36.400
+Sample sizes from the two data sets.
+
+05:37.080 --> 05:40.880
+So for this code challenge, that will always be the case.
+
+05:40.880 --> 05:48.000
+The two sample sizes are always going to be the same because the correlation is of embeddings dimensions.
+
+05:48.000 --> 05:50.120
+And of course those are always the same number.
+
+05:50.560 --> 05:58.690
+Now once you have calculated this z score you can obtain a p value using the cumulative distribution
+
+05:58.690 --> 06:01.450
+function of that z value.
+
+06:01.810 --> 06:06.050
+So this z value is normally distributed under the null hypothesis.
+
+06:06.210 --> 06:12.530
+And so this is the CDF of the normal distribution okay.
+
+06:12.810 --> 06:19.170
+Getting back to the numerator here you can see that the numerator of the z score is not the raw correlation
+
+06:19.170 --> 06:24.690
+coefficients themselves, but instead is some function some transformation.
+
+06:25.050 --> 06:28.650
+And that is called the Fisher z transform.
+
+06:28.810 --> 06:36.970
+And it's really just a clever trick that transforms data from a uniform distribution into a normal distribution.
+
+06:37.370 --> 06:44.610
+And it turns out that this formula here is also equivalent to the inverse hyperbolic tangent function.
+
+06:44.770 --> 06:49.290
+And there's a function in NumPy that applies this transformation.
+
+06:49.730 --> 06:50.130
+Okay.
+
+06:50.210 --> 06:57.790
+So the scatter plot here in this panel shows the z values from that z test that I just showed you,
+
+06:57.790 --> 07:05.670
+and I've marked them as red x's for non-significant differences in correlations between MLP and attention,
+
+07:05.870 --> 07:09.990
+and a green hexagon if they are significant.
+
+07:10.390 --> 07:18.430
+The final thing I want to mention here is that because we are performing 48 statistical tests here and
+
+07:18.430 --> 07:25.070
+here, you will need to appropriately correct for multiple comparisons because yeah, we're doing so
+
+07:25.070 --> 07:26.030
+many tests.
+
+07:26.430 --> 07:34.230
+So you can apply a Bonferroni correction where you use a p value threshold of 0.05 divided by the number
+
+07:34.230 --> 07:36.870
+of tests, which is 48 in this case.
+
+07:37.830 --> 07:39.750
+That is a method we've used before.
+
+07:40.190 --> 07:47.270
+You can also use the FDR correction using the function that I briefly mentioned and showed you in the
+
+07:47.270 --> 07:49.350
+beginning of exercise one.
+
+07:49.350 --> 07:55.720
+When I switch to code, it's in the top of the notebook file where I import all of the libraries.
+
+07:55.720 --> 07:58.000
+And this function FDR correction.
+
+07:58.000 --> 08:00.680
+So quite a bit to do in this exercise.
+
+08:00.680 --> 08:02.200
+But I know you can do it.
+
+08:02.720 --> 08:04.960
+Pause the video and get to work.
+
+08:05.000 --> 08:10.240
+And now I will switch to Python, show my solution and continue the discussion.
+
+08:11.080 --> 08:17.160
+All of the main results for this exercise are going to be stored in this matrix.
+
+08:17.160 --> 08:19.320
+Here my results.
+
+08:19.320 --> 08:21.280
+It is two by layers by two.
+
+08:21.680 --> 08:24.920
+The layers of course corresponds to the transformer blocks.
+
+08:25.040 --> 08:30.920
+This first two here is for the attention versus the MLP neuron findings.
+
+08:31.080 --> 08:39.640
+And this one corresponds to the average mutual information versus the correlation between mutual information
+
+08:39.640 --> 08:42.960
+and the inter token distances.
+
+08:43.560 --> 08:48.440
+These are just intermediate matrices that I don't really care about.
+
+08:48.480 --> 08:50.280
+I'm just using them within each layer.
+
+08:50.820 --> 08:51.300
+Okay.
+
+08:51.340 --> 08:55.500
+And so let's see here I'm looping over all of the layers.
+
+08:55.660 --> 08:59.020
+And now this code here should all look familiar.
+
+08:59.020 --> 09:02.620
+This is exactly the code for exercise three.
+
+09:02.900 --> 09:11.740
+So looping over all of the target tokens extracting the activations so the outputs from the attention
+
+09:11.780 --> 09:18.500
+subblock for this target and for the other target for all of the embeddings dimensions.
+
+09:18.740 --> 09:26.140
+This zero here is because we only have one text sequence in the batch, so it's always going to be indexed
+
+09:26.140 --> 09:28.700
+as zero okay.
+
+09:28.740 --> 09:34.900
+Now of course this is a little bit different from exercise three because there I just hard coded it
+
+09:34.900 --> 09:36.020
+to be layer three.
+
+09:36.060 --> 09:39.340
+And of course here we want to access this in a loop.
+
+09:39.740 --> 09:40.020
+Okay.
+
+09:40.060 --> 09:42.140
+So here I get the mutual information.
+
+09:42.140 --> 09:44.260
+Again don't worry about this line of code.
+
+09:44.420 --> 09:46.100
+That's for exercise five.
+
+09:46.620 --> 09:55.430
+Uh this is a repeat of this code up here, but for the MLP sub block instead of the attention sub block.
+
+09:55.430 --> 09:57.950
+And then again it's mutual information.
+
+09:57.990 --> 10:01.590
+You can see I'm storing those in separate matrices here.
+
+10:01.790 --> 10:05.230
+M I a for attention and M for MLP.
+
+10:05.830 --> 10:06.150
+Okay.
+
+10:06.190 --> 10:10.590
+So now all of this code runs inside this double for loop.
+
+10:10.750 --> 10:17.550
+Once we are finished with this double for loop, then we're still inside this layer for loop.
+
+10:17.550 --> 10:19.630
+And we continue all the way down here.
+
+10:20.070 --> 10:24.750
+So here I'm extracting the summary statistics for the attention layer.
+
+10:24.950 --> 10:31.350
+So here I'm just taking the non-zero values from this matrix.
+
+10:31.510 --> 10:34.590
+So all of the upper triangular values.
+
+10:34.590 --> 10:43.950
+And I put that into this vector here I call it u for unique m I for mutual information and a for attention.
+
+10:44.390 --> 10:44.590
+Okay.
+
+10:44.630 --> 10:47.150
+And then here I have the token distances.
+
+10:47.150 --> 10:55.330
+Also just Extracting a vector corresponding to the nonzero elements here that we actually care about.
+
+10:55.330 --> 10:57.010
+And this I'm calling Udai.
+
+10:57.250 --> 11:04.130
+And by the way, this matrix here token distances that doesn't change across the different layers.
+
+11:04.130 --> 11:06.490
+That is a property of the text.
+
+11:06.490 --> 11:08.290
+It's not a property of the model.
+
+11:08.450 --> 11:12.330
+So therefore we already calculated this from exercise three.
+
+11:12.490 --> 11:15.010
+We do not need to calculate it again here.
+
+11:16.130 --> 11:16.490
+Okay.
+
+11:16.530 --> 11:20.930
+So then uh yeah I store the average of all of these values.
+
+11:20.930 --> 11:25.330
+And then the Kendall's tau correlation between these two values.
+
+11:25.730 --> 11:29.930
+Uh, the Kendall tau function outputs an object.
+
+11:29.930 --> 11:37.130
+It contains a bunch of information, including the z score statistic, the p value, and the degrees
+
+11:37.130 --> 11:37.810
+of freedom.
+
+11:37.810 --> 11:40.570
+In this case, I only want the statistic here.
+
+11:41.010 --> 11:41.370
+Okay.
+
+11:41.410 --> 11:42.970
+So that was for attention.
+
+11:42.970 --> 11:48.590
+This is exactly the same code, but it's for the MLP instead of the attention block.
+
+11:48.950 --> 11:56.550
+And here I am applying a t test to compare the mutual information in attention and MLP.
+
+11:56.910 --> 12:01.030
+And here I get the t statistic and the p value.
+
+12:01.510 --> 12:01.790
+Okay.
+
+12:01.830 --> 12:06.030
+And then here is the implementation of the z score.
+
+12:06.030 --> 12:12.430
+To compare the correlation coefficients that I have extracted here and here.
+
+12:13.230 --> 12:18.750
+So uh the Fisher z transform the inverse hyperbolic tangent.
+
+12:18.910 --> 12:21.030
+And then uh this is the formula.
+
+12:21.030 --> 12:29.150
+So the difference of the correlations divided by uh something square root of two over n minus three
+
+12:29.190 --> 12:30.950
+is related to the degrees of freedom.
+
+12:31.230 --> 12:33.950
+By the way uh, if you notice.
+
+12:33.950 --> 12:37.470
+So I said that the, uh, sample sizes are always the same.
+
+12:37.630 --> 12:41.790
+They're technically not necessarily the same between attention and MLP.
+
+12:42.150 --> 12:46.510
+If you have, uh, extreme values that are removed.
+
+12:46.600 --> 12:52.840
+But the thing is that the number of samples that get removed is tiny.
+
+12:52.880 --> 13:01.680
+It's less than 1% compared to the total number of embeddings vectors that we have, which is our dimensionality
+
+13:01.680 --> 13:05.360
+of the embeddings vectors, which is 1600.
+
+13:06.280 --> 13:09.680
+So this approximation is actually completely fine.
+
+13:09.680 --> 13:10.920
+It really doesn't do anything.
+
+13:11.280 --> 13:11.640
+Okay.
+
+13:11.680 --> 13:14.600
+So then I calculate the z and p values.
+
+13:14.720 --> 13:16.880
+And now I'm storing them over here.
+
+13:17.400 --> 13:19.600
+Now this loop is actually pretty fast.
+
+13:19.600 --> 13:26.680
+You can see it was like a second somewhere less than two seconds to run all of this for all the layers.
+
+13:27.040 --> 13:29.040
+And why did this run so fast?
+
+13:29.120 --> 13:33.240
+Partly that's because this implementation is pretty fast.
+
+13:33.520 --> 13:38.560
+Partly because I'm not running this implementation, which is a little bit longer.
+
+13:38.920 --> 13:46.540
+I've pre-computed pre-calculated, uh, this, uh, variable here, although this is also very fast
+
+13:46.540 --> 13:48.260
+to run this token distances.
+
+13:48.260 --> 13:57.020
+But mostly the answer why this cell takes so little time to calculate is that there's only seven tokens.
+
+13:57.020 --> 14:02.940
+So it goes through this double for loop quite quickly, and you can compare that with how long it took
+
+14:02.940 --> 14:04.340
+to run this analysis.
+
+14:04.540 --> 14:12.060
+A couple of videos ago, when we were calculating mutual information across all of the tokens separately
+
+14:12.060 --> 14:15.820
+for each pair of embeddings dimensions.
+
+14:17.220 --> 14:24.260
+Okay, so that was all many mouthfuls to explain all of this code, but I hope it all makes sense.
+
+14:24.700 --> 14:31.700
+Now I'm going to create that plot that was completely blocked out in the in the slides.
+
+14:32.180 --> 14:36.980
+And let's see, I think I'm not really going to talk about this visualization.
+
+14:36.980 --> 14:39.020
+It's mostly quite straightforward.
+
+14:39.300 --> 14:44.380
+I'm really just accessing the different elements of this matrix here.
+
+14:44.630 --> 14:49.470
+Most of the code is just there to make the plots look a little bit nicer.
+
+14:50.190 --> 14:52.470
+Okay, so here you see the results.
+
+14:52.470 --> 14:54.070
+And what do we see here.
+
+14:54.830 --> 15:02.310
+So we see that the mutual information is high in the beginning and high at the end in the attention.
+
+15:02.310 --> 15:04.270
+And it's lower in the middle.
+
+15:04.270 --> 15:11.510
+And then for MLP the mutual information is high early on when we are close to the original text.
+
+15:11.510 --> 15:15.070
+And then it basically goes down and it stays pretty flat.
+
+15:15.550 --> 15:19.350
+The correlations in general are almost always negative.
+
+15:19.350 --> 15:23.470
+So here is a correlation of zero which would mean no relationship.
+
+15:23.750 --> 15:25.150
+And what do we make of this.
+
+15:25.150 --> 15:32.710
+The interpretation of these results is that in general it is always the case that the further apart
+
+15:32.750 --> 15:39.550
+two tokens are from each other, the less mutual information there is between them.
+
+15:39.870 --> 15:43.070
+Again, we can also describe that the other way around.
+
+15:43.070 --> 15:50.770
+So we can say that the closer two tokens are to each other in a text, the more likely that their mutual
+
+15:50.770 --> 15:54.170
+information between those two tokens is going to be high.
+
+15:54.730 --> 15:56.850
+Again, that is not very surprising.
+
+15:56.850 --> 15:59.370
+That's a sensible, predictable result.
+
+15:59.490 --> 16:06.490
+It basically means that two tokens are closer together and they share a lot of context, which is what
+
+16:06.490 --> 16:14.890
+these models are extracting from the text to process the token and translate each token into a prediction
+
+16:14.890 --> 16:17.410
+for what the next token should be.
+
+16:18.610 --> 16:18.810
+Okay.
+
+16:18.810 --> 16:23.330
+And then let me finally discuss these statistical results here.
+
+16:23.650 --> 16:29.970
+So again the red x's mean that they the results are not statistically significantly different.
+
+16:29.970 --> 16:36.410
+Which means that the amount of mutual information, the average mutual information somewhere around
+
+16:36.410 --> 16:40.290
+here is the same in MLP and attention.
+
+16:40.650 --> 16:48.300
+But where these really differ is that the MLP has a lot higher mutual information here in the beginning
+
+16:48.300 --> 16:55.140
+so early in the transformer, whereas later in the transformer, later in the model, the attention
+
+16:55.140 --> 16:57.420
+starts generating more and more.
+
+16:57.460 --> 17:02.220
+So stronger mutual information, more statistical interdependencies.
+
+17:02.340 --> 17:04.740
+And the MLP basically just stays low.
+
+17:04.780 --> 17:06.380
+And why is that the case?
+
+17:06.580 --> 17:15.540
+Well, as we go further into the model, the attention Subblock has to incorporate more and more context
+
+17:15.860 --> 17:20.020
+into the representation of each of these tokens.
+
+17:20.180 --> 17:25.460
+So more context means more shared information across the different tokens.
+
+17:25.620 --> 17:33.140
+And that's why you see the attention mutual information increasing, whereas the MLP layers stay basically
+
+17:33.140 --> 17:36.540
+the same once it kind of settles into this regime over here.
+
+17:37.140 --> 17:44.400
+So after that really intense exercise I wanted to have one more exercise with not too much work to do.
+
+17:44.920 --> 17:53.480
+So the goal of exercise five is just to compare the manual implementation of mutual information with
+
+17:53.480 --> 17:56.040
+the scikit learn implementation.
+
+17:56.040 --> 18:00.840
+And we don't need to do any quantitative comparisons here, just qualitative.
+
+18:01.360 --> 18:05.680
+So all you need to do is repeat exercises three and four.
+
+18:06.080 --> 18:13.840
+But using the mutual information calculation from scikit learn and not from the manual implementation.
+
+18:14.720 --> 18:20.400
+And you also do not need to apply the outlier thresholding in this case.
+
+18:20.840 --> 18:22.080
+And here's a little tip.
+
+18:22.120 --> 18:30.680
+Before you rerun the code, take a screenshot of the results from the previous exercise and paste that
+
+18:30.680 --> 18:38.360
+result into a text cell in the notebook that will store the figure in the notebook instead of rewriting
+
+18:38.360 --> 18:39.840
+it when you rerun the code.
+
+18:40.050 --> 18:45.570
+so that makes it easy to compare the two mutual information calculations.
+
+18:46.290 --> 18:51.810
+This is the final exercise in this code challenge, and I think it's an easy one, but an interesting
+
+18:51.810 --> 18:54.970
+one and a good way to wrap up this code challenge.
+
+18:55.290 --> 18:57.010
+And now I will switch to code.
+
+18:57.810 --> 18:58.090
+Okay.
+
+18:58.130 --> 19:04.850
+So I'm actually going to start by taking a screenshot of this result here.
+
+19:05.250 --> 19:06.930
+So copy that.
+
+19:06.930 --> 19:08.970
+And now I'm going to make a new text box.
+
+19:09.090 --> 19:10.690
+Literally just paste that in.
+
+19:11.210 --> 19:13.570
+And now we get that figure here.
+
+19:13.570 --> 19:15.410
+So now the figure appears twice.
+
+19:15.610 --> 19:19.090
+This is the figure that is the output from this code cell.
+
+19:19.090 --> 19:21.170
+And I can actually just get rid of that.
+
+19:21.570 --> 19:26.690
+And now this is the figure that is embedded inside this text cell.
+
+19:26.690 --> 19:29.610
+So this is not going to be overwritten.
+
+19:30.050 --> 19:35.050
+So now what I can do is actually I will leave I can rerun that.
+
+19:35.330 --> 19:39.270
+I was going to say I'm not going to do this for exercise three, but I will do it anyway.
+
+19:39.270 --> 19:39.830
+Let's see.
+
+19:40.190 --> 19:41.150
+So here.
+
+19:41.190 --> 19:41.630
+Uh, yeah.
+
+19:41.630 --> 19:47.670
+So all I have to do is uncomment this line, comment out that line, rerun this code.
+
+19:47.670 --> 19:49.950
+It still is quite fast to run.
+
+19:50.350 --> 19:55.230
+And now we see qualitatively we don't really recognize much differences.
+
+19:55.430 --> 19:59.910
+This correlation if you'll remember it was -0.52 I think.
+
+19:59.950 --> 20:01.350
+And now it's 0.49.
+
+20:01.670 --> 20:05.870
+So overall you know qualitatively exactly the same okay.
+
+20:05.910 --> 20:09.510
+So now we do this for all the layers.
+
+20:09.870 --> 20:16.630
+So I can comment that uncomment that comment that uncomment that rerun.
+
+20:16.910 --> 20:23.270
+And uh that takes a little bit longer now because this function is slower.
+
+20:23.270 --> 20:28.030
+This takes some extra time, but it still shouldn't be more than some seconds.
+
+20:28.510 --> 20:28.910
+Okay.
+
+20:28.950 --> 20:29.950
+So that finished.
+
+20:29.950 --> 20:33.190
+And now I can rerun the visualization code.
+
+20:33.590 --> 20:37.590
+And now we can compare these two figures.
+
+20:37.590 --> 20:40.400
+So this is the new one with the scikit learn.
+
+20:40.400 --> 20:43.720
+And this is the old one with the manual implementation.
+
+20:43.960 --> 20:47.760
+If you look very carefully you will find some subtle differences.
+
+20:47.960 --> 20:50.520
+But the differences are subtle.
+
+20:50.560 --> 20:52.800
+They're not really that striking.
+
+20:53.080 --> 21:02.560
+So this tells us that the manual implementation and the scikit learn implementation are often really,
+
+21:02.560 --> 21:04.360
+really similar to each other.
+
+21:04.720 --> 21:07.280
+There's one last thing that I wanted to mention.
+
+21:07.320 --> 21:10.360
+This is not about llms or data analysis.
+
+21:10.400 --> 21:17.080
+It's just like a visualization hack that I wanted to mention in exercise four, but I forgot.
+
+21:17.120 --> 21:17.440
+Okay.
+
+21:17.480 --> 21:26.000
+So the issue is how do we get these points to be plotted or correctly labeled, given that we do not
+
+21:26.000 --> 21:31.360
+know a priori which points will be significant and non-significant?
+
+21:31.360 --> 21:39.460
+So what I did here, it's a bit of a hacky solution, but I plotted two extra dots in this plot, and
+
+21:39.580 --> 21:43.980
+I labeled them as being significant and non-significant.
+
+21:44.140 --> 21:46.940
+And these plots are way, way, way outside.
+
+21:46.980 --> 21:50.380
+Or these data points are way outside the plot range.
+
+21:50.380 --> 21:53.060
+So they're at value 100 zero.
+
+21:53.060 --> 21:54.540
+And this goes up to 48.
+
+21:54.540 --> 21:59.460
+So those two dots are plotted all the way out here and they're ignored there.
+
+21:59.500 --> 22:01.340
+You don't see them in this plot.
+
+22:01.660 --> 22:05.100
+But the advantage is that those are labeled.
+
+22:05.100 --> 22:11.420
+And that turns out to be a better approach than trying to label this where you will end up with lots
+
+22:11.420 --> 22:13.220
+of individual labels.
+
+22:13.220 --> 22:16.620
+You're going to have like 48 different labels here, which you don't want.
+
+22:17.540 --> 22:21.380
+There are a few general points that I would like to stress here.
+
+22:21.860 --> 22:30.060
+One is that you have now seen several times that once you understand the basic analysis approach, it
+
+22:30.060 --> 22:37.910
+is straightforward to adapt and apply it to multiple situations and data sets, in this case calculating
+
+22:37.910 --> 22:41.150
+mutual information within each token pair.
+
+22:41.190 --> 22:42.110
+Over embeddings.
+
+22:42.110 --> 22:45.550
+Dimensions versus within each embeddings.
+
+22:45.550 --> 22:48.150
+Dimension over token pairs.
+
+22:48.710 --> 22:52.350
+Now there's no single correct way to run these analyses.
+
+22:52.510 --> 22:59.470
+They can be used to test different hypotheses or investigate different organization schemes in the models.
+
+22:59.950 --> 23:06.950
+What I hope you are getting from this course is an ever increasing toolbox, and knowledge of how to
+
+23:06.990 --> 23:15.550
+use the various tools to contribute to the field or in general, explainable AI, technical AI, safety
+
+23:15.550 --> 23:16.910
+or whatever you want to do.
+
+23:17.990 --> 23:24.910
+And that will continue in the next code challenge, where you will compare the results from mutual information
+
+23:24.910 --> 23:32.110
+and covariance and discover some really interesting patterns of clustering for different appearances
+
+23:32.110 --> 23:33.630
+of the same tokens.

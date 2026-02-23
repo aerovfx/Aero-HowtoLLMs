@@ -1,0 +1,745 @@
+WEBVTT
+
+00:01.840 --> 00:08.200
+In this lecture, I'm going to show you how backpropagation is implemented in PyTorch.
+
+00:08.840 --> 00:11.760
+Now, I'm not going to discuss the math of backprop.
+
+00:11.760 --> 00:16.360
+Instead, this is more about how it is mechanistically implemented.
+
+00:17.000 --> 00:22.040
+We're going to work with a really simple example that also has an analytic solution.
+
+00:22.600 --> 00:30.000
+And by analytic solution I mean that we can actually get the optimal answer without doing any gradient
+
+00:30.000 --> 00:31.520
+descent or backprop.
+
+00:31.640 --> 00:37.280
+But that's good because that will help us evaluate the performance of our simple model.
+
+00:38.360 --> 00:46.920
+So training a model in PyTorch involves the following five steps that are done in a for loop over training
+
+00:46.960 --> 00:47.560
+epochs.
+
+00:48.200 --> 00:52.280
+Step one is to clear the previous gradients.
+
+00:52.560 --> 01:00.850
+This step is necessary because PyTorch actually stores a copy of the gradients inside of its weights.
+
+01:00.890 --> 01:01.730
+Variables.
+
+01:02.250 --> 01:08.570
+So if you don't clear out the previous gradients, they will just keep summing over and over on top
+
+01:08.570 --> 01:11.930
+of each other and the losses will accumulate.
+
+01:12.530 --> 01:20.450
+Now, accumulating losses over multiple passes is a computational trick that can be used for training
+
+01:20.450 --> 01:23.370
+extremely large models, including llms.
+
+01:24.490 --> 01:30.770
+To be honest, I find it unfortunate and annoying that the default behavior is to allow the gradients
+
+01:30.770 --> 01:37.450
+to accumulate, because in the overwhelming vast majority of times that you train a model, you actually
+
+01:37.490 --> 01:41.770
+want to clear out the gradients and not let them accumulate.
+
+01:42.050 --> 01:43.970
+But anyway, this is just how it works.
+
+01:44.050 --> 01:45.690
+So that's what we need to do.
+
+01:45.730 --> 01:48.450
+We need to zero out the existing gradients.
+
+01:49.090 --> 01:55.410
+Step two is to perform a forward pass through the model like I showed in the previous video, and then
+
+01:55.410 --> 02:02.470
+calculate the loss, which is the discrepancy between the model output and the target value.
+
+02:03.030 --> 02:09.070
+And that's basically just how close is the model's prediction to the real world data label.
+
+02:10.310 --> 02:18.190
+Then step three is to calculate the gradient of the loss function at the loss value obtained in step
+
+02:18.190 --> 02:18.590
+two.
+
+02:19.110 --> 02:22.390
+This is where you're actually calculating the derivative.
+
+02:22.990 --> 02:29.990
+Step four is to go through the model and update all of the weights in the model according to the gradient
+
+02:29.990 --> 02:31.350
+of the loss function.
+
+02:31.350 --> 02:33.470
+So this is the actual backprop.
+
+02:34.030 --> 02:41.230
+So steps one through four are the backprop mechanism as they get implemented in PyTorch.
+
+02:41.750 --> 02:44.070
+So they're all done by PyTorch functions.
+
+02:44.070 --> 02:49.910
+So you are not actually having to implement any of the low level graph calculations.
+
+02:51.230 --> 02:57.110
+And finally step five is optional and is whatever else you might want to include in the training loop.
+
+02:57.230 --> 03:02.680
+For example, you might want to store the losses in a separate variable for later inspection.
+
+03:03.000 --> 03:09.080
+Calculate the norm of the weights matrix or print out some messages about progress during learning.
+
+03:10.200 --> 03:14.440
+In a moment, I will switch to Python and show you what this looks like.
+
+03:14.440 --> 03:20.360
+But first I'll give you an overview of what you'll see and what to expect and what we're going to do.
+
+03:20.840 --> 03:26.160
+We are going to use gradient descent and backprop to optimize this function.
+
+03:26.280 --> 03:28.160
+This is our loss function.
+
+03:28.760 --> 03:33.520
+Now this does not actually correspond to an actual loss function that's used in deep learning.
+
+03:33.520 --> 03:36.920
+It's just some other function that looks good for this demo.
+
+03:37.240 --> 03:44.880
+But the idea is that we want to find the value of x that minimizes this equation.
+
+03:45.720 --> 03:53.000
+So in other words, what value of x makes this equation be as small as it possibly can be?
+
+03:53.160 --> 03:53.960
+That's the goal.
+
+03:54.440 --> 04:00.210
+Now this variable x actually corresponds to the weights in a deep learning model.
+
+04:00.490 --> 04:08.410
+So if this is the loss function, then the goal of backprop is to find the values of all the weights
+
+04:08.410 --> 04:13.850
+in the entire model that make this function be as small as we can get it to be.
+
+04:14.610 --> 04:21.210
+Now it turns out that for this particular equation, we do not need gradient descent or any other iterative
+
+04:21.210 --> 04:21.930
+algorithm.
+
+04:22.210 --> 04:26.090
+I can already tell you that the optimal solution is one third.
+
+04:26.290 --> 04:32.210
+So when x equals one third, then this equation is the smallest it can possibly be.
+
+04:33.250 --> 04:36.170
+And how do I know that the correct answer is one third?
+
+04:36.490 --> 04:40.090
+Well this comes from differential calculus and optimization.
+
+04:40.170 --> 04:44.730
+So the derivative of this function is six x minus two.
+
+04:45.090 --> 04:46.850
+And then we set that to zero.
+
+04:46.970 --> 04:50.450
+Solve for x and that gives us x equals one third.
+
+04:51.370 --> 04:57.670
+If you are unfamiliar with differential calculus then don't worry about this I'm just showing how we
+
+04:57.670 --> 05:03.990
+can use calculus to derive an analytic solution without having to do gradient descent.
+
+05:04.910 --> 05:10.630
+But that's actually very useful in this case, because it allows us to look at how gradient descent
+
+05:10.630 --> 05:14.390
+performs when we know what the answer needs to be.
+
+05:14.430 --> 05:16.110
+We know the optimal answer.
+
+05:16.830 --> 05:19.670
+Here you see a visualization of this problem.
+
+05:19.790 --> 05:22.990
+The purple line is the function we're trying to minimize.
+
+05:23.070 --> 05:26.070
+And the dotted blue line is the exact solution.
+
+05:26.430 --> 05:30.910
+So that certainly is consistent with the visual appearance of this function.
+
+05:31.670 --> 05:32.030
+Okay.
+
+05:32.070 --> 05:39.270
+So what we are going to do is use PyTorch to find this solution, or at least one close to it using
+
+05:39.270 --> 05:40.070
+backprop.
+
+05:40.950 --> 05:45.350
+You're going to see a for loop that looks like this.
+
+05:45.510 --> 05:50.910
+So here you see each of the five steps that I described a few slides ago.
+
+05:51.390 --> 05:54.150
+I'll go through this in more detail in the code.
+
+05:54.310 --> 05:59.520
+But you can see that it's fairly straightforward to get backprop to work in PyTorch.
+
+06:00.600 --> 06:07.240
+And here in step five, I'm also storing the value of the weight and the actual loss from the model.
+
+06:07.520 --> 06:12.880
+And I'm also printing out some model some information as the training continues.
+
+06:13.600 --> 06:15.560
+Now the loss trajectory.
+
+06:15.560 --> 06:17.280
+We can plot like this.
+
+06:17.280 --> 06:23.760
+So you see that the loss goes down as the number of training epochs increases.
+
+06:24.360 --> 06:27.600
+Now this is actually the value of the loss function.
+
+06:27.600 --> 06:34.280
+So the function this function over here, that is the actual value of the loss that gets plotted over
+
+06:34.280 --> 06:34.760
+here.
+
+06:35.080 --> 06:37.120
+Nothing super mysterious here.
+
+06:37.120 --> 06:42.520
+In fact, we can see that the value of the function starts off at around eight.
+
+06:42.840 --> 06:47.120
+And by the end it asymptotes to something a little bit less than three.
+
+06:47.160 --> 06:49.320
+I don't know, maybe this is 2.8 or something.
+
+06:50.520 --> 06:56.650
+And then we are going to make a plot that's similar to the one in the previous slide, but this one
+
+06:56.650 --> 07:03.450
+shows the actual values of the weights as they are being optimized iteratively through backprop.
+
+07:03.970 --> 07:07.730
+So the weights started off at around minus one.
+
+07:08.010 --> 07:14.690
+And then you can see at each step of backprop each step in this for loop over the training epochs,
+
+07:15.010 --> 07:19.490
+we get closer and closer to the exact optimal solution.
+
+07:19.850 --> 07:26.410
+I've also changed the colors and the sizes of these circles, so they get smaller and darker as we get
+
+07:26.410 --> 07:28.530
+closer to the correct solution.
+
+07:28.930 --> 07:31.410
+But you can also see on the loss function.
+
+07:31.410 --> 07:36.690
+So the y axis here you can see it starts off at somewhere around eight.
+
+07:37.090 --> 07:41.170
+And the optimal solution is x equals one third.
+
+07:41.370 --> 07:46.690
+And at x equals one third y equals yeah somewhere a little bit less than three.
+
+07:47.010 --> 07:50.930
+And that's basically what we saw over here on this plot.
+
+07:51.450 --> 07:57.230
+Of course this stuff is all really nicely visualizable for one variable functions.
+
+07:57.630 --> 08:05.070
+Actual deep learning models have millions, billions or even trillions of parameters, so that's just
+
+08:05.070 --> 08:06.590
+impossible to visualize.
+
+08:06.590 --> 08:12.190
+But the principle and the code implementations are the same anyway.
+
+08:12.230 --> 08:14.830
+Now let's explore this more in code.
+
+08:16.310 --> 08:19.030
+So import some libraries here.
+
+08:19.110 --> 08:21.630
+Here is the optimization function.
+
+08:21.630 --> 08:25.630
+You can see I'm implementing this in PyTorch not in numpy.
+
+08:26.270 --> 08:26.550
+Okay.
+
+08:26.590 --> 08:34.430
+So the idea is that the math function or the loss function is a Python function that we can input values
+
+08:34.430 --> 08:34.630
+of.
+
+08:34.670 --> 08:37.990
+Here I'm calling it x, but these are the weights in the model.
+
+08:38.150 --> 08:41.430
+And the output is going to be the actual loss value.
+
+08:41.510 --> 08:41.710
+Okay.
+
+08:41.750 --> 08:42.590
+So run that.
+
+08:42.950 --> 08:45.510
+And then here I'm just visualizing this.
+
+08:45.510 --> 08:48.870
+This is the graph that I showed in the slides.
+
+08:49.110 --> 08:53.040
+Now here we created our deep learning model.
+
+08:53.480 --> 08:59.280
+This is literally just one weight, so I'm defining it to be a tensor of.
+
+08:59.440 --> 09:02.560
+I'm initializing the weight to be minus one.
+
+09:02.920 --> 09:06.840
+And here importantly I say requiresgrad equals true.
+
+09:07.280 --> 09:16.120
+So this is what signals to PyTorch that the gradients should be calculated and applied to this particular
+
+09:16.120 --> 09:16.960
+variable.
+
+09:17.120 --> 09:22.720
+That's how PyTorch knows that this is something important that needs to be optimized.
+
+09:23.040 --> 09:27.200
+Okay, so here's our super intense deep learning model here.
+
+09:27.240 --> 09:28.880
+Exactly one number.
+
+09:30.240 --> 09:30.560
+Okay.
+
+09:30.600 --> 09:31.240
+Run that.
+
+09:31.280 --> 09:34.640
+Um, let's see here I am initializing some training parameters.
+
+09:34.640 --> 09:39.920
+We're going to run over 80 training epochs with a learning rate of 0.01.
+
+09:40.320 --> 09:43.320
+And here I am creating an optimizer.
+
+09:43.320 --> 09:48.480
+And this is what implements the gradient descent according to some algorithm.
+
+09:48.480 --> 09:56.130
+In this case it's stochastic gradient descent for large language models, we use the atom W algorithm,
+
+09:56.130 --> 10:00.450
+and in other models you would use Rmsprop or Adam, and so on.
+
+10:00.930 --> 10:02.970
+Here I'm inputting the weight.
+
+10:02.970 --> 10:09.890
+So now PyTorch will know behind the scenes as it is running through stochastic gradient descent.
+
+10:09.890 --> 10:16.530
+As it's running through backprop, it is going to know to associate the losses with this, calculate
+
+10:16.530 --> 10:20.930
+the gradients and apply it to this parameter from the model.
+
+10:21.090 --> 10:28.930
+Again, when you're working with real models, then what you input here is the entire model variable.
+
+10:28.930 --> 10:30.770
+So the entire model itself.
+
+10:30.930 --> 10:36.610
+But here yeah as I mentioned our entire deep learning model is just this one number here.
+
+10:37.490 --> 10:38.090
+All right.
+
+10:39.090 --> 10:40.170
+So train the model.
+
+10:40.210 --> 10:40.650
+Okay.
+
+10:41.010 --> 10:46.850
+Here I'm just initializing the estimate of the local minimum and the losses.
+
+10:47.130 --> 10:48.410
+Loop over training.
+
+10:48.970 --> 10:51.310
+Uh, clear out the previous gradients.
+
+10:51.830 --> 10:55.310
+Compute the forward pass and get the loss.
+
+10:55.590 --> 10:58.630
+And here is where I calculate the gradient.
+
+10:58.630 --> 11:01.910
+Here is where we update using the optimizer.
+
+11:01.910 --> 11:06.790
+And this is the step that actually modifies the weights in the model so far.
+
+11:07.110 --> 11:15.910
+These steps are just about calculating the loss and determining the the gradient with respect to the
+
+11:16.110 --> 11:18.510
+current value of w or x.
+
+11:19.270 --> 11:19.430
+Yeah.
+
+11:19.470 --> 11:24.070
+And then here we actually are going through and changing the weights in the model.
+
+11:24.350 --> 11:28.270
+Here I'm storing the actual weight value and the loss value.
+
+11:28.270 --> 11:34.750
+And here I'm just printing out a progress report so we can see that the weight or sorry the loss started
+
+11:34.750 --> 11:38.710
+off as being some large number and it ends up being some smaller number.
+
+11:39.470 --> 11:47.510
+Now what these numbers actually want to should be, and what numbers we should be looking for depends
+
+11:47.510 --> 11:48.830
+on the loss function.
+
+11:48.830 --> 11:50.600
+And it depends on the model.
+
+11:50.800 --> 11:58.840
+I will talk later in the course about how to interpret these values in the context of a large language
+
+11:58.840 --> 11:59.400
+model.
+
+11:59.600 --> 12:02.520
+For now, suffice it to say that this is great.
+
+12:02.680 --> 12:07.640
+Okay, so and then we got the minimum found at 0.32.
+
+12:07.680 --> 12:08.680
+Let me zoom in here.
+
+12:09.000 --> 12:14.160
+Remember that the optimal solution is one third which is 0.33333.
+
+12:14.280 --> 12:24.400
+So the gradient descent got us a value of the weight that made the loss function smaller.
+
+12:24.680 --> 12:31.680
+But it was not really literally exactly the optimal solution that we know it should be.
+
+12:32.440 --> 12:36.360
+Okay, so let me now plot the value of the losses.
+
+12:36.400 --> 12:41.120
+Again, this is just literally the value of the loss function starts off at eight.
+
+12:41.160 --> 12:43.400
+It goes down to a little bit below three.
+
+12:43.840 --> 12:47.160
+And that you see here it starts off at eight.
+
+12:47.160 --> 12:52.850
+So when x equals minus one then the loss function is around eight, and then it keeps going down until
+
+12:52.850 --> 13:00.570
+we get to around one third on x axis, which has a loss function value of somewhere around three, a
+
+13:00.570 --> 13:01.690
+little bit less than three.
+
+13:02.450 --> 13:03.890
+Okay, so that's the losses.
+
+13:04.250 --> 13:11.330
+Here I am printing out the estimate of the local minimum, which is the value of w.
+
+13:11.570 --> 13:13.930
+So you can see that it's around minus one.
+
+13:14.170 --> 13:18.490
+And as we go through the 80 training epochs there's 80 numbers in here.
+
+13:18.850 --> 13:20.370
+This number increases.
+
+13:20.370 --> 13:21.770
+It's getting larger here.
+
+13:21.770 --> 13:26.930
+It goes through zero and it's getting bigger and bigger until it gets to close to a third.
+
+13:26.930 --> 13:29.010
+It doesn't get to exactly one third.
+
+13:29.610 --> 13:31.330
+Now I have a question for you.
+
+13:31.490 --> 13:37.170
+Why is it the case that this number here is -0.92?
+
+13:38.010 --> 13:44.090
+Whereas this number here when I initialize the model is minus one.
+
+13:44.370 --> 13:49.310
+If you'd like to pause the video and think about why there is that discrepancy.
+
+13:49.510 --> 13:50.950
+Then feel free to do so.
+
+13:51.630 --> 13:55.990
+So the answer is that the model really is initialized to minus one.
+
+13:55.990 --> 14:02.310
+But by the time I grab the next version of the model which is here, or the weights, which is here,
+
+14:02.710 --> 14:06.390
+we've already gone through and updated the model.
+
+14:06.670 --> 14:11.070
+So if you like, if you're curious, you can actually get two versions of this.
+
+14:11.070 --> 14:13.030
+You can get, uh, let me see.
+
+14:13.190 --> 14:15.870
+You could do something like this.
+
+14:16.510 --> 14:20.470
+So you could say and maybe put this in a separate vector like this.
+
+14:21.230 --> 14:28.150
+You could do something like this to see how the weight changes before and after the optimization step.
+
+14:28.630 --> 14:29.070
+Okay.
+
+14:30.150 --> 14:30.550
+Uh.
+
+14:30.550 --> 14:31.230
+Let's see.
+
+14:31.670 --> 14:32.990
+So where were we?
+
+14:33.030 --> 14:33.310
+Oh, yeah.
+
+14:33.310 --> 14:33.630
+Okay.
+
+14:33.670 --> 14:38.670
+So now what I'm going to do is visualize this as I showed in the slides.
+
+14:38.670 --> 14:40.350
+I'm not going to say a whole lot about this.
+
+14:40.350 --> 14:48.800
+You can see here is where I define the, uh, changes in the sizes and the colors as we go through training
+
+14:48.840 --> 14:50.280
+to get this plot to look.
+
+14:50.320 --> 14:52.720
+This is just some aesthetic appearances.
+
+14:53.960 --> 14:54.240
+Okay.
+
+14:54.280 --> 15:03.560
+Now, what I want to show you is that as soon as we created this model with, uh, as a PyTorch tensor
+
+15:03.760 --> 15:05.680
+and with Requiresgrad equals.
+
+15:05.680 --> 15:11.920
+True, that activated a lot of other properties in this variable W.
+
+15:11.920 --> 15:16.600
+So this is not just a number, it's actually a class all on its own.
+
+15:16.800 --> 15:24.880
+There's a lot of information that is associated with this variable W and that we can see here.
+
+15:24.880 --> 15:31.640
+We can use dir w to list all of the attributes, all the methods and the properties associated with
+
+15:31.680 --> 15:32.280
+W.
+
+15:33.560 --> 15:37.200
+And there's a lot there's a lot going on in here.
+
+15:37.320 --> 15:38.280
+All sorts of things.
+
+15:38.280 --> 15:44.000
+Unsqueeze unique uh tried u for triangular upper and so on.
+
+15:44.000 --> 15:45.600
+There's a lot of stuff going on here.
+
+15:46.000 --> 15:48.610
+Uh, some of this you will use throughout the course.
+
+15:48.930 --> 15:50.490
+Uh, others you don't.
+
+15:50.530 --> 15:53.090
+I don't even know what this stands for.
+
+15:53.330 --> 15:54.410
+S diem.
+
+15:54.450 --> 15:57.170
+I'm sure it is something relevant, but I don't know.
+
+15:57.170 --> 15:58.170
+Off the top of my head.
+
+15:58.530 --> 15:58.730
+Okay.
+
+15:58.770 --> 16:01.890
+But what I do want to show you is w dot grad.
+
+16:01.930 --> 16:09.690
+This is the gradient, which is just the derivative value of the loss function with respect to this
+
+16:09.690 --> 16:10.610
+value here.
+
+16:10.810 --> 16:13.810
+And that value is minus .06.
+
+16:14.770 --> 16:22.770
+Now in theory the derivative at the exact analytic solution which is one third the derivative at that
+
+16:22.770 --> 16:25.210
+point is exactly zero.
+
+16:25.690 --> 16:28.490
+Now here we see that this is not exactly zero.
+
+16:28.490 --> 16:29.690
+It's a small number.
+
+16:29.690 --> 16:30.770
+It's negative.
+
+16:30.890 --> 16:32.130
+And what does that mean?
+
+16:32.290 --> 16:38.210
+That means that we haven't really gotten close enough, uh, to the exact optimum.
+
+16:38.210 --> 16:43.930
+And the derivative is zero, which you'll remember from the methods of gradient descent, that that
+
+16:43.930 --> 16:48.030
+means that the next step needs to be a little bit further to the right.
+
+16:48.070 --> 16:48.310
+Right.
+
+16:48.350 --> 16:54.670
+We always move in the direction opposite to the sign of the derivative or the gradient.
+
+16:54.790 --> 16:57.870
+So this model still needs to move a little bit to the right.
+
+16:57.870 --> 17:05.710
+And the fact that this here grad is not exactly zero means that we haven't exactly hit the optimum.
+
+17:06.830 --> 17:14.350
+So also if you're curious, you can also extract the actual gradient information here.
+
+17:14.350 --> 17:21.110
+So you could do this here instead of or in addition to grabbing the actual value.
+
+17:22.070 --> 17:25.510
+I really like working with these small, simple models.
+
+17:25.750 --> 17:31.510
+I find the visualization great for understanding the code and building intuition.
+
+17:32.110 --> 17:38.590
+Now the models are going to be phantasmagorical, more complicated than what we just did in this demo.
+
+17:38.830 --> 17:43.430
+But the basic structure of training a model is the same.

@@ -1,0 +1,880 @@
+WEBVTT
+
+00:02.320 --> 00:10.840
+This, and the next videos are a follow up to the Indirect Object Identification task and video from
+
+00:10.840 --> 00:14.520
+the previous section on editing Hidden States.
+
+00:14.960 --> 00:22.440
+In this video, I will give a brief reminder of activation patching and then explain what we need to
+
+00:22.440 --> 00:30.160
+do to patch one specific attention head instead of patching the entire transformer output.
+
+00:30.760 --> 00:38.680
+And you'll also get a reminder about creating, implanting, and removing hook functions on the fly
+
+00:38.720 --> 00:45.120
+as they are needed in the experiment instead of what I more frequently do, which is to implant all
+
+00:45.120 --> 00:51.240
+of the hooks as soon as I import the model, and then have a toggle so that the hooks are active only
+
+00:51.240 --> 00:52.360
+when needed.
+
+00:53.240 --> 00:58.160
+Let me begin by just reminding you of activation patching.
+
+00:58.720 --> 01:06.300
+This is a screenshot of a slide from the previous section where I introduced patching and the I o task.
+
+01:06.500 --> 01:13.420
+If you have not watched that video, then I strongly recommend going through that video and the code
+
+01:13.420 --> 01:21.260
+demo before continuing this video and also the code challenge in the next video, I'm going to be using
+
+01:21.260 --> 01:28.140
+code and terms and concepts that I introduced in this patching and IO video.
+
+01:28.780 --> 01:36.220
+So the idea was that we have two versions of the model that process two text sequences that are nearly
+
+01:36.220 --> 01:39.820
+identical but differ on one key token.
+
+01:40.820 --> 01:46.940
+And then during the forward pass, we take the activation from somewhere in the model when it processes
+
+01:46.940 --> 01:55.700
+sequence A and transplant that activation into the model when it's processing token sequence B, and
+
+01:55.700 --> 02:03.870
+the main goal is to see if we can corrupt model B so that it actually gets grammatical context information
+
+02:03.870 --> 02:10.070
+from A, and therefore makes the wrong prediction about the indirect object token.
+
+02:11.110 --> 02:17.590
+This was the key result from that lecture that when we took the hidden states embeddings vector from
+
+02:17.590 --> 02:21.750
+the model, processing the subject from the model to the MC model.
+
+02:21.990 --> 02:28.510
+Then somewhere around halfway through the transformer block sequence, we confuse the model so that
+
+02:28.510 --> 02:33.510
+it actually thought that the correct indirect object was Emma.
+
+02:34.190 --> 02:39.790
+And you'll remember that in the context of this sentence, that would mean that the model thought that
+
+02:39.790 --> 02:42.390
+the correct text is.
+
+02:42.550 --> 02:44.470
+Emma gives the coffee to Emma.
+
+02:45.030 --> 02:45.390
+Okay.
+
+02:45.430 --> 02:50.430
+So this is just a quick reminder to, like, reactivate those happy memories.
+
+02:51.110 --> 03:01.050
+What we are going to do in this video is the same concept, but at a finer level of granularity in particular.
+
+03:01.250 --> 03:08.810
+Instead of patching the hidden states, we will patch individual heads within a transformer block.
+
+03:09.490 --> 03:12.210
+So here you see 12 little squircles.
+
+03:12.730 --> 03:17.130
+By the way, a squircle is a square with rounded edges.
+
+03:17.290 --> 03:18.210
+Good word to know.
+
+03:19.210 --> 03:27.730
+So imagine each of these squircles represents one head from one transformer block in GPT two small.
+
+03:28.450 --> 03:36.090
+So then the idea is that we take the activation from one head from the donor sequence in green, and
+
+03:36.090 --> 03:38.930
+patch that onto exactly the same head.
+
+03:39.290 --> 03:48.210
+But while the model is processing sequence B now in a coding mechanistic sense, this is only very,
+
+03:48.210 --> 03:53.690
+very slightly different from transplanting an entire embeddings vector.
+
+03:54.250 --> 03:56.510
+It's still the same mechanism.
+
+03:56.510 --> 04:00.230
+It's just copying a different vector from somewhere else in the model.
+
+04:01.070 --> 04:08.710
+But in a conceptual sense, it is actually extremely different in terms of the information carried by
+
+04:08.710 --> 04:14.990
+the entire embeddings vector at the output of the transformer block, like what we did in the previous
+
+04:14.990 --> 04:20.990
+section, versus a specific head inside of a transformer block.
+
+04:22.270 --> 04:29.230
+The hidden states that the transformer block outputs are the actual embeddings vectors of each token
+
+04:29.670 --> 04:35.750
+that directly leads to the token that is selected during training and during text generation.
+
+04:36.630 --> 04:43.830
+On the other hand, the attention heads do not actually work with or output the embeddings vectors themselves.
+
+04:44.430 --> 04:52.310
+Instead, they calculate small adjustments to those vectors based on the surrounding context from previous
+
+04:52.310 --> 04:53.030
+tokens.
+
+04:53.630 --> 04:59.970
+So that's just something to keep in mind when considering the results we will get here, and I'll have
+
+04:59.970 --> 05:04.530
+more to say about that distinction in the code challenge in the next video.
+
+05:05.290 --> 05:11.130
+Anyway, now I will give you an overview of what I'll show you in the code demo in this video.
+
+05:12.570 --> 05:20.130
+Before doing any patching, we actually need to get all of the clean attention head activations in the
+
+05:20.130 --> 05:21.010
+previous section.
+
+05:21.010 --> 05:27.530
+We did this by exporting the hidden states, but to get access to the activation of the attention heads
+
+05:27.530 --> 05:34.170
+before they get mixed together and before they get mixed in with the MLP adjustments, we need to hook
+
+05:34.210 --> 05:35.610
+those activations.
+
+05:36.170 --> 05:37.570
+And that's what you see here.
+
+05:37.570 --> 05:41.330
+So I will start the code just by implanting this hook.
+
+05:41.530 --> 05:46.730
+Exactly like what you've seen earlier in the course on observational interpretability.
+
+05:46.730 --> 05:48.850
+So there's no manipulations here.
+
+05:48.850 --> 05:51.330
+There's no patching, there's no zeroing out.
+
+05:51.650 --> 05:58.940
+All I'm doing here is hooking into the activations and storing them in a dictionary so I can access
+
+05:58.940 --> 05:59.820
+them later.
+
+06:00.420 --> 06:04.860
+You can also see that this hook function has no output.
+
+06:04.860 --> 06:06.740
+There's no return statement here.
+
+06:07.020 --> 06:13.260
+Of course there is this return statement here, but this corresponds to the outer function that incorporates
+
+06:13.260 --> 06:14.500
+the layer number.
+
+06:15.220 --> 06:22.500
+So after running through the models to get the attention activations, we are then ready for the experiment.
+
+06:22.860 --> 06:24.700
+And you can see that code here.
+
+06:25.540 --> 06:31.980
+This is pretty similar to the code from the previous section, where I looped over all of the layers
+
+06:31.980 --> 06:36.900
+and then created, implanted and destroyed the hooks inside the layer loop.
+
+06:37.540 --> 06:38.860
+But here's a question.
+
+06:39.060 --> 06:43.660
+Don't we also need a for loop over all the different heads within a layer?
+
+06:44.620 --> 06:46.100
+Actually, the answer is yes.
+
+06:46.100 --> 06:53.280
+Technically, we should have an embedded for loop in here over all of the heads within each layer.
+
+06:53.400 --> 06:55.000
+I am not doing that here.
+
+06:55.000 --> 07:02.360
+In fact, what I am doing in this video, in this code demo, is replacing all of the activations from
+
+07:02.360 --> 07:06.520
+all of the heads and also from all of the tokens.
+
+07:07.040 --> 07:09.440
+So that is not very selective.
+
+07:10.240 --> 07:17.120
+If you think that what I should be doing here is patching one head at a time, then that is great.
+
+07:17.120 --> 07:18.320
+I agree with you.
+
+07:18.320 --> 07:23.400
+And now you have something to look forward to for the code challenge in the next video.
+
+07:24.200 --> 07:31.320
+But to keep things simple for this video, I decided to replace all of the tension heads and all of
+
+07:31.320 --> 07:39.080
+the tokens with the corresponding heads and tokens from the version A of the model activations, and
+
+07:39.080 --> 07:41.520
+that's what's happening inside this hook function.
+
+07:42.200 --> 07:52.300
+So I get the input into the C proj layer, reshape it so that we can easily access all of the individual
+
+07:52.300 --> 07:59.100
+heads, or index each of the individual heads, and then replace those activations with the ones that
+
+07:59.100 --> 08:07.860
+I got from the clean version of model A, and then I'm also storing the activations here for model B,
+
+08:07.860 --> 08:14.020
+so that we can compare them to make sure that this code really works the way we expect, and then reshaping
+
+08:14.020 --> 08:21.180
+back to the embeddings dimensionality, and then returning that as the input so that it can be processed
+
+08:21.180 --> 08:22.900
+by the rest of the model.
+
+08:23.660 --> 08:31.660
+Then I do a forward pass over here and calculate the IOI measure, just like in the previous section
+
+08:31.660 --> 08:33.980
+where I first introduced this experiment.
+
+08:34.700 --> 08:41.620
+By the way, given that I'm changing all of the heads and not just one of them, you might think that
+
+08:41.620 --> 08:46.100
+it's really unnecessary to deal with all of this reshaping business.
+
+08:46.380 --> 08:50.080
+Again, I agree with you 100% in this video.
+
+08:50.280 --> 08:54.560
+It's a little bit unnecessary to reshape the vectors here.
+
+08:54.560 --> 09:01.160
+This tensor here from embeddings to heads by head dimension, only to reshape it back.
+
+09:01.160 --> 09:08.480
+But I am including this reshaping code here, because I want you to be able to use this code for the
+
+09:08.480 --> 09:10.840
+exercises in the next video.
+
+09:11.720 --> 09:18.800
+Anyway, once we are done this experiment, we can make a visualization just like in the previous section,
+
+09:18.800 --> 09:21.000
+which I also showed in the previous slide.
+
+09:21.400 --> 09:23.920
+So here that result looks like this.
+
+09:24.480 --> 09:30.960
+Quite a bit different from how remarkably well this worked out when we patched the entire hidden state.
+
+09:31.560 --> 09:38.520
+In fact, even when manipulating all of the attention heads over all of the tokens, the effect is quite
+
+09:38.520 --> 09:45.200
+subtle and the model never even has a numerical preference for the indirect object.
+
+09:45.800 --> 09:51.370
+Now, that has nothing to do with using the small version of the model here, compared to the Excel
+
+09:51.410 --> 09:54.490
+version that I used in the previous section.
+
+09:55.010 --> 10:01.370
+So this is a thought provoking discrepancy, and I'm going to leave it as an open question for now.
+
+10:01.690 --> 10:10.250
+But the final exercise in the next video is actually a mathematical description of why we get this discrepancy
+
+10:10.250 --> 10:17.050
+between the very subtle effects here and the very overwhelmingly convincing effects from the previous
+
+10:17.050 --> 10:17.650
+section.
+
+10:18.450 --> 10:22.050
+Anyway, let's now switch to code and have a closer look.
+
+10:23.770 --> 10:25.130
+Importing some libraries.
+
+10:25.130 --> 10:30.730
+Let's see here I'm importing GPT two and that will take a second to load in.
+
+10:30.810 --> 10:35.730
+And I also change the sentences slightly from the previous section.
+
+10:35.930 --> 10:38.610
+So here the text we will be working with are.
+
+10:39.050 --> 10:42.730
+When Sam and Sally went to the park, Sam gave a gift to.
+
+10:43.810 --> 10:48.550
+Of course, you know the next word should be Sally, or her could be either one of those.
+
+10:48.750 --> 10:52.070
+I am going to use Sam and Sally here.
+
+10:52.070 --> 10:57.750
+I'm finding the token indices for the target words Sam and Sally.
+
+10:57.830 --> 10:59.150
+And what does this mean here?
+
+10:59.190 --> 11:00.910
+Eh, so when, uh.
+
+11:00.910 --> 11:04.350
+So we expect the correct result here to be Sally.
+
+11:04.710 --> 11:10.630
+So that means that text A should have target B and text B should have target A.
+
+11:10.990 --> 11:15.590
+Maybe that's a little confusing, but somehow when I was coding this I thought that was a good idea.
+
+11:15.870 --> 11:16.150
+Okay.
+
+11:16.190 --> 11:17.070
+And then uh, yeah.
+
+11:17.110 --> 11:19.830
+Getting the tokens and pushing them to the GPU.
+
+11:20.390 --> 11:20.670
+Okay.
+
+11:20.710 --> 11:28.550
+So now we want the clean activation vectors from A so that we have them available to patch onto the
+
+11:28.550 --> 11:31.350
+model when it's processing sequence B.
+
+11:31.830 --> 11:34.190
+So a couple of convenience variables here.
+
+11:34.470 --> 11:39.550
+And uh, here is the uh hook which does not do any manipulations.
+
+11:39.550 --> 11:44.030
+So there's no output of this hook function here.
+
+11:44.030 --> 11:48.410
+All I'm doing is getting these tensors, reshaping them.
+
+11:48.410 --> 11:51.050
+Remember that these come in naturally.
+
+11:51.250 --> 11:54.730
+Uh, as, uh, embeddings dimension at the end.
+
+11:55.210 --> 11:56.970
+So 768.
+
+11:56.970 --> 12:01.250
+But that 768 is not the embeddings dimensionality.
+
+12:01.290 --> 12:05.290
+It is actually the number of heads times the head dimensionality.
+
+12:05.290 --> 12:11.890
+So that's why I'm reshaping them over here and then just storing them in this dictionary so I can access
+
+12:12.050 --> 12:18.610
+the entire head for all the sequences, although it's just one per run, all the tokens, all the heads
+
+12:18.610 --> 12:22.130
+and the head dimensionality and then yeah, access that later.
+
+12:22.650 --> 12:25.170
+I'm implanting this into C proj.
+
+12:25.170 --> 12:27.490
+This is the A forward Pre-hook.
+
+12:27.810 --> 12:32.970
+Remember this discussion from previous videos in this section?
+
+12:32.970 --> 12:38.970
+The reason why we want the pre-hook is for this, uh, layer over here C proj.
+
+12:38.970 --> 12:41.610
+Let me go back to this model description here.
+
+12:42.690 --> 12:51.630
+So what C proj does the purpose of this layer is to take the concatenated attention heads and multiply
+
+12:51.630 --> 12:56.910
+them by the w0 mixing matrix, so all the heads get mixed together.
+
+12:57.230 --> 13:03.470
+That's a fantastic thing to do for the operations of the model, but it's completely wrong for what
+
+13:03.470 --> 13:10.550
+we want here, because when we get the output of C proj, you can no longer access individual heads.
+
+13:10.830 --> 13:15.870
+The data have gone back into the embeddings dimensionality space.
+
+13:16.430 --> 13:16.750
+Okay.
+
+13:16.790 --> 13:19.590
+So we want the input into C proj.
+
+13:19.910 --> 13:22.990
+And yeah that you see here.
+
+13:22.990 --> 13:24.270
+So here's the input.
+
+13:24.270 --> 13:26.430
+And this is what we reshape and store.
+
+13:26.870 --> 13:27.230
+Okay.
+
+13:27.270 --> 13:29.630
+So let me run that code here.
+
+13:29.950 --> 13:32.190
+And now here's a question for you.
+
+13:32.230 --> 13:34.590
+Why do I do all of this.
+
+13:34.630 --> 13:39.510
+Wouldn't it take up less code if I would just do something like this?
+
+13:40.070 --> 13:47.160
+If you would like to pause the video and think about why this code is problematic, then feel free to.
+
+13:47.600 --> 13:54.920
+Okay, so the answer is that if I run these two models and then remove the hook, that would mean that
+
+13:54.920 --> 14:02.840
+all of the head information that we store in the hook gets overridden by tokens be, which is not what
+
+14:02.840 --> 14:03.240
+we want.
+
+14:03.240 --> 14:05.120
+That's what we actually want to replace.
+
+14:05.400 --> 14:10.600
+So what we need to do is run through tokens A and then remove the hook.
+
+14:10.840 --> 14:12.880
+And then we can process tokens B.
+
+14:12.920 --> 14:16.640
+And now that I see that I have the answer exactly in here.
+
+14:16.960 --> 14:17.640
+Uh, okay.
+
+14:17.680 --> 14:20.800
+So uh, anyway, uh, that is the reason.
+
+14:21.280 --> 14:21.640
+All right.
+
+14:21.640 --> 14:22.000
+Very good.
+
+14:22.000 --> 14:23.440
+Let me run through this.
+
+14:23.440 --> 14:25.520
+That is very fast to run.
+
+14:25.920 --> 14:28.600
+And here I'm calculating the score.
+
+14:28.640 --> 14:32.640
+If you are confused as to what this means, then, uh, yeah.
+
+14:32.680 --> 14:38.960
+You should go back and rewatch the video in the previous section.
+
+14:38.960 --> 14:41.680
+But basically when we run this.
+
+14:41.680 --> 14:50.740
+So sequence a out a what we expect is that the correct output is B that corresponds to the token for
+
+14:50.780 --> 14:51.300
+Sally.
+
+14:51.300 --> 14:53.780
+So Sam gave the gift to Sally.
+
+14:54.260 --> 15:01.220
+So therefore uh this value should be negative and this value should be positive okay.
+
+15:01.260 --> 15:03.180
+And then we see that indeed they are.
+
+15:03.220 --> 15:05.220
+So these are the baseline values.
+
+15:05.220 --> 15:11.940
+We can use that as reference points to see how much we are really manipulating the model by doing the
+
+15:11.940 --> 15:12.620
+patching.
+
+15:13.820 --> 15:14.220
+Okay.
+
+15:14.260 --> 15:18.220
+This is just uh yeah checking the size of this matrix.
+
+15:18.220 --> 15:26.020
+So one sequence in the batch, 14 tokens, 12 heads and 64 dimensions per head.
+
+15:26.020 --> 15:29.420
+And of course 12 times six is 768.
+
+15:29.580 --> 15:35.940
+I know that not because I'm like a math genius and I can do that in my head, but we know that there
+
+15:35.940 --> 15:42.720
+is a very strict relationship between the number of heads, the head dimensionality and the embeddings.
+
+15:42.720 --> 15:48.280
+Dimensionality and the product of these two must equal the embeddings dimensionality.
+
+15:48.520 --> 15:52.360
+So therefore yeah that's going to be 768.
+
+15:52.920 --> 15:53.200
+Okay.
+
+15:53.240 --> 15:53.800
+Very good.
+
+15:53.840 --> 15:57.520
+So now we are ready for the main experiment.
+
+15:57.520 --> 16:01.440
+Here is the loop over all of the layers in the model.
+
+16:01.560 --> 16:04.000
+Here I define the hook function.
+
+16:04.000 --> 16:06.160
+I'll go through each of these lines in a moment.
+
+16:06.320 --> 16:11.160
+Here I am implanting the hook again into C proj and it's a pre hook.
+
+16:11.160 --> 16:17.560
+So we're going to access and now also manipulate the inputs into C proj layer.
+
+16:17.880 --> 16:23.920
+And then I run the forward pass remove the hook so that it's cleared out for the next iteration of this
+
+16:23.920 --> 16:24.640
+for loop.
+
+16:24.760 --> 16:28.840
+And then calculate the IOI metric as before.
+
+16:29.320 --> 16:29.600
+Okay.
+
+16:29.640 --> 16:31.320
+So that's the big picture overview.
+
+16:31.360 --> 16:33.960
+What are we doing inside this hook function.
+
+16:34.400 --> 16:41.420
+So I'm getting the head and reshaping it from embeddings into heads by dimensions.
+
+16:41.580 --> 16:42.580
+Here I'm making a clone.
+
+16:42.580 --> 16:47.980
+This is not strictly necessary here because I'm replacing the full thing, but not a bad practice to
+
+16:48.020 --> 16:48.860
+do anyway.
+
+16:49.220 --> 16:53.740
+Just so you basically decouple this thing from the computational graph.
+
+16:54.300 --> 16:54.740
+Okay.
+
+16:54.780 --> 17:01.900
+And then I'm replacing this head by the corresponding head from the same layer from the activations
+
+17:01.900 --> 17:09.580
+for token sequence A, remember that we are pushing sequence B through this model, but we are replacing
+
+17:09.580 --> 17:10.340
+with A.
+
+17:11.460 --> 17:19.780
+And then what I'm doing is storing those activations in this dictionary here so we can check them later.
+
+17:19.940 --> 17:23.940
+Again, this is just for methodological confirmation.
+
+17:23.940 --> 17:25.940
+It's really just to make sure that the code works.
+
+17:25.940 --> 17:34.140
+We should certainly expect that after I run all of this code that head x b equals head x a.
+
+17:34.460 --> 17:40.270
+If they are not equal, then there's some mistake somewhere easy to make, you know, like indexing
+
+17:40.270 --> 17:41.790
+errors if you're thinking about.
+
+17:42.070 --> 17:46.270
+Uh, the, uh, hidden states, you might accidentally put a plus one in here.
+
+17:46.310 --> 17:52.550
+Anyway, good to incorporate these kinds of code sanity checks, especially when you are developing
+
+17:52.550 --> 17:53.870
+your code in the beginning.
+
+17:54.990 --> 18:01.870
+Okay, so, uh, then I reshape back to, uh, embeddings dimensions and then put that back into the
+
+18:01.870 --> 18:02.350
+input.
+
+18:02.350 --> 18:10.070
+So it replaces the initial input and gets mixed together, uh, according to the W0 matrix.
+
+18:10.670 --> 18:18.790
+And again, as I mentioned in the uh, slides, it is really not necessary in this code file to, uh,
+
+18:18.790 --> 18:23.110
+reshape here only to undo the reshaping over here.
+
+18:23.510 --> 18:26.950
+But this code is in here because I.
+
+18:26.950 --> 18:32.990
+I hope that this will help you solve the code challenge in the next video, where you will be replacing
+
+18:32.990 --> 18:37.810
+one head at a time instead of all of the heads within each layer.
+
+18:38.450 --> 18:38.730
+Okay.
+
+18:38.770 --> 18:39.210
+Very good.
+
+18:39.250 --> 18:41.530
+So I hope all of this code makes sense.
+
+18:41.530 --> 18:46.610
+Also super fast to run through on the GPU with GPT two.
+
+18:47.250 --> 18:49.930
+And here is just some confirmation.
+
+18:49.930 --> 18:51.930
+This is yeah, what we've seen before.
+
+18:52.410 --> 18:58.010
+And here what I am plotting is the activations from layer seven.
+
+18:58.010 --> 19:06.410
+So transformer block seven, the 10th token, the 11th or the 12th head and all of the head dimensions.
+
+19:06.410 --> 19:08.090
+And why am I doing this?
+
+19:08.530 --> 19:12.490
+I don't know, these are just kind of arbitrarily chosen numbers.
+
+19:12.610 --> 19:17.130
+It doesn't matter what layer you pick, what token and what head you pick.
+
+19:17.290 --> 19:22.890
+As long as these are the same from A and B, what you expect is that these are the same here.
+
+19:22.890 --> 19:24.530
+They overlap perfectly here.
+
+19:24.930 --> 19:26.810
+Again, this is not surprising.
+
+19:26.810 --> 19:28.050
+This is trivial.
+
+19:28.050 --> 19:34.130
+But if this were different, if these did not overlap, then there would be something wrong with your
+
+19:34.130 --> 19:34.570
+code.
+
+19:34.570 --> 19:37.990
+And then yeah, you would know to look into the code a little bit.
+
+19:38.470 --> 19:38.910
+Okay.
+
+19:38.950 --> 19:41.830
+So now we can visualize the results.
+
+19:41.950 --> 19:49.870
+And this code is the same code that I used in that previous video, uh, in the previous section.
+
+19:50.310 --> 19:51.430
+And what do we see here.
+
+19:51.430 --> 19:57.070
+So remember in the previous video this really somewhere around halfway through the transformer sequence,
+
+19:57.110 --> 20:00.590
+it plummeted all the way down to the blue line over here.
+
+20:00.990 --> 20:06.390
+And what we see here, with the exception of something weird happening at the final transformer block,
+
+20:06.830 --> 20:09.110
+uh, we see it did have an impact.
+
+20:09.110 --> 20:16.670
+So patching over the attention heads did push the model a little bit in the direction of preferring,
+
+20:16.750 --> 20:22.830
+uh, a over B, so in the direction of the wrong answer, which was the correct answer for sequence
+
+20:22.830 --> 20:26.270
+A, but it's not a really huge effect.
+
+20:26.270 --> 20:31.550
+So something that we can see visually, but it's not like it even crossed zero.
+
+20:32.030 --> 20:40.090
+The last thing I want to do in this demo is just rerun all of this code for GPT two medium.
+
+20:40.570 --> 20:47.450
+And basically it's just to show you that this pattern is not unique to the small version of the model.
+
+20:47.690 --> 20:48.290
+Uh, let's see.
+
+20:48.290 --> 20:54.490
+Yeah, we see a similar pattern here when we use the medium version of the model, if you like, you
+
+20:54.490 --> 20:57.930
+can also test the large and the xlarge versions of the model.
+
+20:58.130 --> 20:58.890
+Totally fine.
+
+20:58.890 --> 21:02.010
+But you will see basically a similar kind of pattern.
+
+21:03.010 --> 21:09.970
+I'd like to reiterate a running theme in this part of the course about mechanistic interpretability.
+
+21:10.570 --> 21:17.410
+Writing code to read and write from the model internals during a forward pass is not that hard to do
+
+21:17.890 --> 21:18.890
+can be tricky.
+
+21:18.930 --> 21:21.290
+It can be confusing and complicated.
+
+21:21.290 --> 21:27.650
+But after having gone through this course and keeping enough sanity checks in your code to make sure
+
+21:27.650 --> 21:34.020
+that it works correctly, I don't think you're ever going to have real problems with coding up experiments.
+
+21:34.460 --> 21:42.100
+The much more difficult part is having a good conceptual understanding of what you are manipulating
+
+21:42.100 --> 21:42.860
+and why.
+
+21:43.900 --> 21:50.260
+So in this case, we found a really striking difference between the impact of manipulating an entire
+
+21:50.260 --> 21:56.060
+transformer block versus just the entire attention adjustment.
+
+21:56.060 --> 21:56.820
+Subblock.
+
+21:57.340 --> 22:03.740
+Again, I will have a longer and deeper discussion about why that might be the case in the next video,
+
+22:04.180 --> 22:11.100
+but the short version is that the attention Subblock is not calculating the embeddings vectors, but
+
+22:11.100 --> 22:15.780
+just these minor tweaks like little adjustments to those embeddings vectors.
+
+22:16.260 --> 22:20.820
+And what we have done here in this video is modify the tweaks.
+
+22:21.020 --> 22:24.060
+We haven't modified the full embeddings vectors.
+
+22:24.940 --> 22:29.980
+Anyway, I am looking forward to guiding you through the code challenge in the next video.
+
+22:30.300 --> 22:31.380
+I will see you then.

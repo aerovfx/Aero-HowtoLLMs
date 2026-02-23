@@ -1,0 +1,652 @@
+WEBVTT
+
+00:02.040 --> 00:09.880
+Now that you have a conceptual overview of how the perceptron works, I'm going to go through the math
+
+00:09.880 --> 00:13.480
+and the mechanics of deep learning in more detail.
+
+00:14.080 --> 00:16.560
+Fortunately, it's not that hard.
+
+00:16.560 --> 00:23.480
+In fact, you already know all the math that you need to understand deep learning.
+
+00:23.680 --> 00:27.880
+It's just a matter of putting all the pieces together in the right order.
+
+00:28.280 --> 00:34.160
+Now, I've broken up this lecture into three parts to make it a little bit more digestible.
+
+00:34.760 --> 00:41.320
+This first video will cover what's called forward propagation, and is basically how the input data
+
+00:41.320 --> 00:44.320
+are transformed into the output.
+
+00:44.880 --> 00:52.760
+So here you see a familiar diagram of the perceptron model, which is actually the fundamental building
+
+00:52.760 --> 00:54.440
+block of deep learning.
+
+00:55.120 --> 01:03.260
+And you'll learn later on that what makes deep learning deep is that we take exactly this simple model
+
+01:03.380 --> 01:06.540
+and repeat it lots and lots of times.
+
+01:07.140 --> 01:11.300
+So we take a bunch of these perceptrons and we string them all up together.
+
+01:12.060 --> 01:12.380
+Okay.
+
+01:12.420 --> 01:13.820
+So quick reminder here.
+
+01:13.820 --> 01:16.700
+In this example we have two inputs.
+
+01:16.860 --> 01:19.060
+So two features of the real world.
+
+01:19.060 --> 01:25.700
+Like maybe this is the number of hours that the students slept and the number of hours that the students
+
+01:25.700 --> 01:26.300
+studied.
+
+01:26.940 --> 01:29.460
+This is called the bias term here.
+
+01:29.700 --> 01:30.780
+These are the weights.
+
+01:30.980 --> 01:40.100
+And so this part of the perceptron here this node is implementing a linear weighted sum of the inputs.
+
+01:40.260 --> 01:43.660
+And it gives a single number as an output.
+
+01:43.780 --> 01:46.780
+So that's the linear part of the computation.
+
+01:47.180 --> 01:53.940
+Then that linear output passes through a nonlinear function which we call an activation function.
+
+01:54.500 --> 01:59.420
+I want to write out all of the math again to show you a simplification.
+
+02:00.100 --> 02:08.840
+So here is the output of the model y hat equals all of the individual inputs in the x's multiplied by
+
+02:08.840 --> 02:11.120
+their corresponding weights in the W's.
+
+02:11.360 --> 02:13.800
+And then those are summed up together.
+
+02:13.920 --> 02:17.040
+And we add to that the bias term and its weight.
+
+02:17.440 --> 02:25.600
+Now remember that this term here is simply the dot product between a vector containing the inputs and
+
+02:25.600 --> 02:27.560
+a vector containing the weights.
+
+02:27.920 --> 02:31.960
+Furthermore, we generally set this bias term to one.
+
+02:32.240 --> 02:33.280
+So this term is one.
+
+02:33.280 --> 02:37.480
+So we can just drop x0 from the equation.
+
+02:38.040 --> 02:44.200
+So this is the linear part which passes through the nonlinear activation function.
+
+02:44.880 --> 02:52.400
+And now it turns out that we can actually remove this w0 altogether and simply write sigma of x transpose
+
+02:52.400 --> 02:53.040
+w.
+
+02:53.720 --> 03:01.440
+So writing out the bias term here explicitly is useful from a conceptual perspective, because it reminds
+
+03:01.440 --> 03:07.820
+you that there is a bias, but that bias term can actually be absorbed into the dot product.
+
+03:08.180 --> 03:12.460
+Now, I'd like to take a moment to explain why this is the case.
+
+03:13.060 --> 03:19.420
+Here I'm simply writing out all of the individual terms from the equation here.
+
+03:19.980 --> 03:23.260
+So we expand this summation for m equals two.
+
+03:23.500 --> 03:25.980
+And that gives us this expression here.
+
+03:26.380 --> 03:34.060
+Now because we know that we can represent the dot product as the matrix multiplication of two vectors.
+
+03:34.220 --> 03:38.260
+We can also express the dot product in this form.
+
+03:38.620 --> 03:40.980
+Again these are all the same expressions.
+
+03:40.980 --> 03:44.460
+I'm just writing them out using different notations.
+
+03:45.020 --> 03:53.860
+And now here I can simply augment these two vectors with x0 here and w0 over here and here.
+
+03:53.860 --> 03:58.220
+Just as in all of these cases, I'm assuming that x0 is equal to one.
+
+03:58.220 --> 04:02.660
+So we simply put a one into this vector of inputs over here.
+
+04:02.940 --> 04:08.120
+And so this shows that the bias can be absorbed into the dot product.
+
+04:08.160 --> 04:14.240
+Now, the reason why I show all of this is because I'm going to start writing out the computation of
+
+04:14.240 --> 04:16.880
+the perceptron using this notation.
+
+04:16.880 --> 04:23.560
+So sigma of x transpose W without taking the extra space for the bias term.
+
+04:23.560 --> 04:28.240
+But of course you know that the bias term is always included.
+
+04:28.640 --> 04:36.920
+So this little model has two inputs, which means this is a 2D input space which means a two dimensional
+
+04:36.920 --> 04:37.920
+feature space.
+
+04:38.440 --> 04:44.560
+So for now I am setting the activation function to be the identity function, which is actually just
+
+04:44.560 --> 04:45.440
+the number one.
+
+04:45.440 --> 04:49.200
+So in fact there is no non-linearity in this model.
+
+04:49.200 --> 04:50.320
+It's totally linear.
+
+04:50.360 --> 04:53.520
+This is just here as a convenient placeholder.
+
+04:53.520 --> 04:59.240
+And this is convenient because it means that we can just write out the equation for this model, this
+
+04:59.240 --> 05:00.760
+computational graph.
+
+05:00.960 --> 05:02.160
+And that's what you see here.
+
+05:02.160 --> 05:04.480
+So y hat equals one.
+
+05:04.760 --> 05:10.070
+Now this one over here comes from the bias term x0 and times one.
+
+05:10.070 --> 05:16.550
+I'm saying the weight to be one here, so implicitly there is a times the orange one over here anyway.
+
+05:16.590 --> 05:24.310
+And here we have plus minus two times x1, where minus two is the weight plus one times x2 where one
+
+05:24.310 --> 05:25.790
+is this weight over here.
+
+05:27.150 --> 05:32.510
+And in fact we can visualize this function in the two dimensional feature space.
+
+05:32.510 --> 05:34.790
+So the input space and that looks like this.
+
+05:34.790 --> 05:40.270
+So we have two dimensions here x1 and x2 corresponding to the two inputs.
+
+05:40.510 --> 05:47.430
+And so each data sample each data point in our data set is a coordinate in this space.
+
+05:47.710 --> 05:55.230
+And the input at each coordinate gives a value at that coordinate, which is determined by this function
+
+05:55.230 --> 05:59.350
+here, and is represented by this pseudo color bar over here.
+
+05:59.870 --> 06:03.870
+So just to make sure that this is clear we can pick a few values in here.
+
+06:03.910 --> 06:07.150
+Now the easiest ones to pick are zero and zero.
+
+06:07.150 --> 06:10.770
+So we set x one equals x two equals zero.
+
+06:10.810 --> 06:12.490
+That's this point at the origin.
+
+06:12.490 --> 06:14.650
+So obviously that just gets rid of these two terms.
+
+06:14.650 --> 06:18.010
+And then we find that y hat equals one at the origin.
+
+06:18.010 --> 06:19.970
+And you know it's not really hard.
+
+06:20.010 --> 06:22.450
+It's not really easy to see the exact color value.
+
+06:22.450 --> 06:25.690
+But it's plausibly equal to a color value of one.
+
+06:26.330 --> 06:29.090
+If you like, you can pause the video and pick a few other values.
+
+06:29.090 --> 06:33.890
+For example, maybe x1 equals minus two and x2 equals plus two.
+
+06:34.210 --> 06:35.370
+So that's this point here.
+
+06:35.370 --> 06:39.410
+I don't really feel like calculating that, but I'm sure it's going to be you know you can tell from
+
+06:39.410 --> 06:43.210
+the color it's going to be somewhere around here seven, eight, something like that, maybe nine.
+
+06:43.650 --> 06:50.570
+Now you can see that this function in this feature space has positive values and negative values.
+
+06:50.570 --> 06:58.050
+So therefore it's also going to have values or range of values where the function is equal to zero.
+
+06:58.050 --> 07:00.050
+Or we get a value of zero.
+
+07:00.450 --> 07:07.210
+In fact there's a line in this feature space for all the points where y hat equals zero.
+
+07:07.610 --> 07:14.670
+And we find this line by setting this equation to zero and finding all of the x1, x2 pairs that satisfy
+
+07:14.710 --> 07:19.030
+this equation, and you know it's easiest to compute for these two points on the line.
+
+07:19.190 --> 07:24.710
+So just by way of a quick confirmation, let's see that when x1 equals zero.
+
+07:24.710 --> 07:27.590
+So now we're on this y axis line here.
+
+07:27.710 --> 07:30.390
+When x1 equals zero this term drops out.
+
+07:30.430 --> 07:37.310
+And then to get this equation to be equal to zero this needs to be x2 needs to be minus one so that
+
+07:37.310 --> 07:39.470
+this is one plus minus one.
+
+07:39.510 --> 07:39.710
+Okay.
+
+07:39.750 --> 07:40.430
+So that's this one.
+
+07:40.470 --> 07:43.550
+Of course you can you know you can pause the video and compute this here.
+
+07:43.550 --> 07:49.430
+I'm sure you will get that when x1 x2 equals zero x1 must equal one half.
+
+07:49.470 --> 07:52.950
+Actually we can already see that very quickly from looking at the equation.
+
+07:53.630 --> 07:55.430
+Now why do we care about this line?
+
+07:55.590 --> 08:02.670
+This line is important because it is the separating hyperplane or the decision boundary.
+
+08:03.110 --> 08:06.990
+It cuts this feature space into two discrete parts.
+
+08:07.110 --> 08:12.610
+And these two discrete parts are the two categories, or sometimes called classes.
+
+08:13.170 --> 08:20.050
+So now the idea is that any samples, any data points in this part of the feature space will be labeled
+
+08:20.050 --> 08:21.970
+as category one or class one.
+
+08:22.130 --> 08:30.530
+And any combination of x1, x2 values, any input pairs that lie in this part of space will be categorized
+
+08:30.530 --> 08:33.530
+as being in class two or category two.
+
+08:33.930 --> 08:37.730
+Now this is basically how a linear classifier works.
+
+08:38.170 --> 08:44.490
+Now the slope of this line, the slope and the intercept of this line, all of the values of y and so
+
+08:44.490 --> 08:44.650
+on.
+
+08:44.650 --> 08:49.490
+Those all depend on the values of w here and w0.
+
+08:49.490 --> 08:52.170
+So on the bias term and on the weights.
+
+08:52.570 --> 08:55.730
+I'm going to talk more about that in a few moments.
+
+08:55.730 --> 09:00.050
+But first I want to get back to talking about this activation function.
+
+09:00.050 --> 09:07.690
+Here an activation function is a function that maps an input, which is actually the output of the linear
+
+09:07.690 --> 09:12.830
+part of the model onto an output, which is the final output of the model.
+
+09:13.350 --> 09:19.150
+So the identity function that I used in the previous slide would actually just be a straight line through
+
+09:19.310 --> 09:20.830
+this space here.
+
+09:21.430 --> 09:24.630
+So the output value equals the input value.
+
+09:25.030 --> 09:32.590
+But more generally the idea is that the output of the linear part of the model is the input into this
+
+09:32.750 --> 09:34.750
+non-linear activation function.
+
+09:34.750 --> 09:38.950
+And from there that gets mapped onto some output value.
+
+09:38.990 --> 09:40.150
+Here y hat.
+
+09:40.830 --> 09:46.870
+There are many activation functions that have been used in deep learning, perhaps maybe a few dozen
+
+09:46.870 --> 09:48.150
+activation functions.
+
+09:48.390 --> 09:52.910
+But these three here are the most common activation functions.
+
+09:52.910 --> 09:59.390
+And in fact, many of the other activation functions are actually just variants of one of these three.
+
+09:59.950 --> 10:06.470
+Now there's a much larger discussion to be had about why we need different activation functions and
+
+10:06.470 --> 10:08.430
+when to use which function.
+
+10:08.910 --> 10:12.790
+That is a discussion that we are going to have separately later in the course.
+
+10:12.790 --> 10:13.850
+But briefly.
+
+10:14.250 --> 10:21.650
+The sigmoid is generally used for the final output of the model, and the tangent and ReLU functions
+
+10:21.650 --> 10:24.850
+are often used for nodes in the middle of a model.
+
+10:25.410 --> 10:32.130
+But importantly, you can see that none of these activation functions is a straight line, so all of
+
+10:32.130 --> 10:33.770
+these are non-linear.
+
+10:34.330 --> 10:41.730
+For example, if the output of this linear part of the model is, let's say a value of minus four.
+
+10:41.970 --> 10:47.490
+So that's the input into the activation function that would be on the x axis down here.
+
+10:47.770 --> 10:54.610
+And if this activation function were a sigmoid then the output of the linear component being minus four
+
+10:54.610 --> 10:59.290
+would produce an output of the sigmoid function of somewhere close to zero.
+
+10:59.530 --> 11:04.170
+And here for the hyperbolic tangent, the output would be around minus one.
+
+11:04.210 --> 11:06.570
+Here for ReLU it would be zero.
+
+11:07.130 --> 11:10.170
+Now this is an important but subtle point.
+
+11:10.210 --> 11:19.070
+Each node in the model is internally computing a linear operation, but the output of that part of the
+
+11:19.070 --> 11:26.830
+node is transformed through a non-linearity, and that non-linear component is going to be the input
+
+11:26.830 --> 11:29.550
+into the next node in a model.
+
+11:30.110 --> 11:34.830
+So the nodes are linear coming in and non-linear going out.
+
+11:35.470 --> 11:41.070
+Here you see the same feature space and the same model that we were looking at before.
+
+11:41.470 --> 11:45.070
+But now this is just the linear part of the model.
+
+11:45.270 --> 11:51.830
+And here we have that linear part pushed through this non-linear sigmoid function over here.
+
+11:51.830 --> 11:53.830
+So that you see represented graphically.
+
+11:53.830 --> 11:57.430
+And here is how you see it written expressed algebraically.
+
+11:58.030 --> 12:05.270
+Now the separating hyperplane or where this function is equal to zero that we saw, you saw that with
+
+12:05.270 --> 12:10.830
+the line I drew a few slides ago that well I don't have the line here, but it's in the same exact spot
+
+12:11.030 --> 12:13.510
+in this graph and in this graph.
+
+12:14.030 --> 12:20.370
+But the sigmoid function added a non-linearity that changed the values of that function.
+
+12:20.610 --> 12:24.930
+So here this function, these values are all bound between 0 and 1.
+
+12:24.930 --> 12:26.810
+Whereas here these were not actually bound.
+
+12:26.810 --> 12:30.410
+So you know I clipped the color scale at minus ten to plus ten.
+
+12:30.410 --> 12:35.450
+But these values here can grow arbitrarily large or arbitrarily small negative.
+
+12:35.610 --> 12:39.530
+And here these values are clipped between 0 and 1.
+
+12:39.970 --> 12:44.930
+And you can also see that most of the values in this graph are at the extremes.
+
+12:44.930 --> 12:49.930
+So most of the values are very close to zero or are very close to one.
+
+12:50.410 --> 12:55.810
+And that changes the interpretation of the samples in this feature space.
+
+12:56.130 --> 13:03.570
+So now the values in this plot are used as probabilities of each sample being drawn from one category.
+
+13:03.730 --> 13:10.250
+So when there is a student who slept, you know, this many hours and studied for this many hours,
+
+13:10.250 --> 13:11.930
+says the model computes.
+
+13:11.930 --> 13:21.360
+So the model is going to say, I compute that there is a 9.9% chance, so a 0.999 chance of this student
+
+13:21.360 --> 13:22.880
+passing the exam.
+
+13:23.400 --> 13:28.200
+Likewise, if there's a student who slept this much and studied this much, then the model says, I
+
+13:28.240 --> 13:32.280
+compute that there's a probability of 0.00327.
+
+13:32.320 --> 13:34.080
+You know, whatever this number is down here.
+
+13:34.480 --> 13:38.120
+A very small probability of that student passing the exam.
+
+13:38.120 --> 13:41.480
+So the student is very likely to fail the exam.
+
+13:42.160 --> 13:48.160
+And here towards the decision boundary the model is going to give some probability values some numerical
+
+13:48.160 --> 13:49.600
+value that's close to 0.5.
+
+13:49.600 --> 13:52.640
+Maybe it's going to be 0.55 for a value around here.
+
+13:53.000 --> 13:57.080
+By the way I said earlier on that the zero line is the same in both of these graphs.
+
+13:57.080 --> 13:58.240
+That's not entirely correct.
+
+13:58.280 --> 14:05.200
+The zero line over here where y hat equals zero, that is transformed into y hat equals 0.5.
+
+14:05.480 --> 14:08.600
+So here we have negative values and positive values.
+
+14:08.640 --> 14:10.600
+Zero is the decision boundary.
+
+14:10.760 --> 14:14.680
+Here all of the numerical values are converted into probabilities.
+
+14:14.680 --> 14:19.420
+So the decision boundary is now at 0.5 instead of at zero.
+
+14:19.540 --> 14:21.740
+So I apologize if that was confusing earlier.
+
+14:22.220 --> 14:28.660
+But again, the point is that the nonlinear activation function doesn't actually change the line.
+
+14:28.660 --> 14:35.140
+It doesn't change the location of this boundary, this decision boundary where the function here is
+
+14:35.140 --> 14:37.940
+zero, and here the probability is 0.5.
+
+14:38.420 --> 14:46.140
+What the nonlinear activation function changed was the numerical values and the extremities of the values.
+
+14:46.500 --> 14:52.260
+As you get further and further away from that line, that separating hyperplane.
+
+14:52.620 --> 14:54.020
+But that line is fixed.
+
+14:54.020 --> 14:56.980
+As long as these weights are the same, that line is fixed.
+
+14:56.980 --> 14:58.100
+And why is it fixed?
+
+14:58.140 --> 15:02.780
+What makes this line have a particular slope and a particular intercept?
+
+15:02.980 --> 15:06.580
+Well of course that comes from the specific values of these weights.
+
+15:06.620 --> 15:14.940
+Over here a different set of weights will give a different separating hyperplane with a different slope
+
+15:14.940 --> 15:16.780
+and a different intercept.
+
+15:17.020 --> 15:23.320
+So these lines here represent the y equals zero lines for different sets of weights.
+
+15:23.800 --> 15:28.000
+And so this leads to the problem of how do we pick the right weights.
+
+15:28.440 --> 15:31.720
+How do we know where to put this decision boundary.
+
+15:32.160 --> 15:34.440
+Well I'm sure you've guessed this solution.
+
+15:34.720 --> 15:38.800
+We learn the best set of weights from the training data.
+
+15:39.160 --> 15:45.320
+So the learning process happens via back propagation, which is basically just a fancy term for gradient
+
+15:45.320 --> 15:47.600
+descent, which you've already learned about.
+
+15:48.160 --> 15:51.960
+Now you're going to learn all about backpropagation in a few videos.
+
+15:51.960 --> 15:58.920
+But first I need to tell you about errors, losses, and cost functions, and that's coming up in the
+
+15:58.920 --> 15:59.880
+next video.
+
+16:00.400 --> 16:06.320
+So in this video, I discussed the math and the mechanisms of deep learning in more detail.
+
+16:06.480 --> 16:13.320
+I focused on one perceptron, but as you will soon learn, deep learning is really just taking that
+
+16:13.320 --> 16:19.480
+one perceptron model and repeating it many, many times linking them all up together.

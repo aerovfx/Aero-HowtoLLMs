@@ -1,0 +1,400 @@
+WEBVTT
+
+00:02.080 --> 00:07.720
+In this video I will explain the concept of copying variables.
+
+00:07.720 --> 00:14.320
+So the idea is that you are working with one variable and you want to make a copy of that variable to
+
+00:14.360 --> 00:22.880
+use for some other application, presumably without changing the initial original version of that variable.
+
+00:22.920 --> 00:28.880
+Unfortunately, this can be a little tricky for reasons that I will explain in a moment.
+
+00:28.880 --> 00:33.120
+So let's begin by just creating a simple two element list.
+
+00:33.160 --> 00:36.680
+Nothing super fancy here, just the numbers three comma four.
+
+00:37.120 --> 00:41.280
+Okay, so let's say this is like a bigger data set that we have.
+
+00:41.480 --> 00:49.080
+And now we want to make a copy of the data set so that we can preserve the original version of the data
+
+00:49.120 --> 00:51.720
+set while working with this other copy.
+
+00:51.760 --> 00:57.600
+Maybe this copy we need to filter in different ways or transform in different ways.
+
+00:57.880 --> 01:00.920
+Okay, so now, uh, this seems fine.
+
+01:00.920 --> 01:03.780
+And I can look at the element one.
+
+01:03.780 --> 01:10.100
+So the first element or the second element sorry with index one in B is four.
+
+01:10.260 --> 01:11.380
+So far so good.
+
+01:11.980 --> 01:19.180
+Now it's getting tricky because if I want to change the copy I don't want to change the original variable.
+
+01:19.180 --> 01:21.860
+That's literally the reason why I made a copy.
+
+01:21.860 --> 01:24.460
+So I don't need to change the original variable.
+
+01:24.740 --> 01:26.340
+But let's do something like this.
+
+01:26.340 --> 01:28.740
+Let's say b1 equals ten.
+
+01:28.900 --> 01:29.140
+Okay.
+
+01:29.180 --> 01:36.580
+So what I want to do here is in data set B change this variable to ten or that value to ten.
+
+01:36.780 --> 01:37.140
+Okay.
+
+01:37.180 --> 01:38.380
+So that does work.
+
+01:38.380 --> 01:39.500
+That changes it.
+
+01:39.500 --> 01:41.980
+But also a gets changed.
+
+01:41.980 --> 01:45.260
+And that seems really puzzling and wrong.
+
+01:45.300 --> 01:45.580
+Right.
+
+01:45.620 --> 01:55.180
+Because uh, nowhere in this code cell do I redefine the second value of a, I only redefine the second
+
+01:55.180 --> 02:00.140
+value of B, and yet somehow, you know, magic happened.
+
+02:00.140 --> 02:03.860
+And variable A also actually changed.
+
+02:03.860 --> 02:04.110
+Aged.
+
+02:04.150 --> 02:05.950
+Okay, so what is going on here?
+
+02:06.190 --> 02:12.430
+What's going on here is that if you just do assignment like this from one variable to another variable,
+
+02:12.830 --> 02:17.830
+you are not actually creating a new copy of the variable.
+
+02:17.830 --> 02:25.310
+Instead, you're just making a new pointer to exactly the same location on the hard disk.
+
+02:25.630 --> 02:26.070
+Okay.
+
+02:26.110 --> 02:29.070
+So uh, and I can show that by using.
+
+02:29.110 --> 02:34.510
+So there's a function called ID and this is a long string of numbers.
+
+02:34.510 --> 02:42.910
+But it is Python's way of identifying a variable or pointing to an association between a variable in
+
+02:42.910 --> 02:49.070
+text and the actual bits on the computer that that variable represents.
+
+02:50.150 --> 02:59.390
+So now if I look at print id a and print id b, you can see that these two numbers are exactly the same.
+
+02:59.430 --> 03:05.870
+And what that tells you is that B and A look like two different variables.
+
+03:05.870 --> 03:09.290
+But they only look like two different variables to us.
+
+03:09.730 --> 03:16.210
+For Python, they are just two different pointers to exactly the same information.
+
+03:16.370 --> 03:22.450
+And that's why when we change one, we automatically change the other because we're not really changing
+
+03:22.490 --> 03:29.890
+B we're changing some bits on the computer where B is pointing to, and B points to the same bits that
+
+03:29.890 --> 03:30.770
+A points to.
+
+03:31.410 --> 03:31.730
+Okay.
+
+03:31.770 --> 03:34.970
+So how can we ameliorate this situation?
+
+03:34.970 --> 03:42.770
+How can we actually make a separate copy of B such that changing B will not also change a?
+
+03:44.090 --> 03:50.970
+There are a few different ways that you can make a copy depending on the data type, the type of variable.
+
+03:50.970 --> 03:53.370
+So let me actually show you one easy way.
+
+03:53.970 --> 03:57.410
+If you have a list you can just write colon.
+
+03:57.410 --> 04:03.610
+And then all this is just listing out all of the it's slicing the list, but it's listing all of the
+
+04:03.610 --> 04:04.330
+elements.
+
+04:04.890 --> 04:05.210
+Okay.
+
+04:05.290 --> 04:12.580
+So now I change actually let me write print A and print B.
+
+04:13.100 --> 04:18.980
+Okay so now A remains unchanged whereas B actually is changed.
+
+04:19.260 --> 04:28.300
+And the way that I got B and A to be decoupled such that B really is a separate copy of A is just to
+
+04:28.340 --> 04:32.860
+slice through A, even though I'm taking all of the elements, I'm taking a full slice.
+
+04:33.260 --> 04:39.500
+And then when I run this code, you can see that now these two numbers are different from each other.
+
+04:39.660 --> 04:47.180
+So in other words, Python now recognizes that A and B point to two different locations on the hard
+
+04:47.180 --> 04:53.580
+drive such that when you change one variable, you're not automatically going to change the other variable.
+
+04:54.540 --> 04:56.740
+So that's something you can do with lists.
+
+04:56.740 --> 05:01.420
+If you are working with NumPy or PyTorch, you can also add a zero.
+
+05:01.620 --> 05:03.500
+So let me introduce you to that.
+
+05:03.620 --> 05:06.660
+So I'm going to create a new array.
+
+05:07.020 --> 05:08.580
+Let's just say 123.
+
+05:08.620 --> 05:09.560
+Pretty simple.
+
+05:09.840 --> 05:16.400
+And by the way, if you run this code and you get an error message that says, you know, variable NP
+
+05:16.440 --> 05:21.760
+is undefined, then you just need to re import numpy.
+
+05:21.800 --> 05:23.760
+In fact, maybe I'll even show you that right now.
+
+05:23.800 --> 05:27.880
+Okay, so I ran this code and I didn't get any error messages.
+
+05:28.120 --> 05:35.720
+I taught you in the first video of this section how to restart the Python kernel.
+
+05:35.760 --> 05:37.480
+So I'm going to restart the session.
+
+05:37.800 --> 05:39.120
+I get a warning message.
+
+05:39.360 --> 05:42.760
+Uh, including all local variables will be lost.
+
+05:42.800 --> 05:43.280
+I'm going to.
+
+05:43.280 --> 05:43.600
+Right.
+
+05:43.600 --> 05:45.320
+Yes I click on yes.
+
+05:45.640 --> 05:46.040
+Okay.
+
+05:46.080 --> 05:48.440
+So and you can also see I missed it here.
+
+05:48.440 --> 05:54.560
+But up here it this went from a check to saying uh disconnected reconnecting.
+
+05:54.560 --> 05:56.200
+And now we get a green check again.
+
+05:56.640 --> 05:56.920
+Okay.
+
+05:56.960 --> 06:03.640
+So now when I run this code cell, now we get an error message that says NP is not defined.
+
+06:03.800 --> 06:08.760
+So when I restarted the kernel, it also cleared out all of the variables.
+
+06:08.760 --> 06:14.530
+Also cleared out a it cleared out the function that we created in the previous video.
+
+06:15.450 --> 06:16.290
+So no problem.
+
+06:16.290 --> 06:19.810
+What you need to do is just re import numpy.
+
+06:20.210 --> 06:22.970
+So import numpy as np.
+
+06:23.250 --> 06:29.290
+And now this works again re importing is just something you will need to do at the beginning of every
+
+06:29.330 --> 06:30.530
+python session.
+
+06:31.010 --> 06:34.290
+Okay so we have e and now I have f equals e.
+
+06:34.690 --> 06:41.170
+And then I'm going to write print id and print id f.
+
+06:41.450 --> 06:49.130
+No surprise these two identifying numbers are exactly the same for the same reason that you know these
+
+06:49.130 --> 06:49.970
+were exactly the same.
+
+06:49.970 --> 06:52.410
+This is not something specific about lists.
+
+06:52.850 --> 07:01.290
+This equality just establishes a different pointer to the same information for every kind of variable.
+
+07:01.690 --> 07:02.130
+Okay.
+
+07:02.170 --> 07:07.610
+So you can slice I've already shown you that you can also just say plus zero.
+
+07:07.610 --> 07:08.810
+So you can add zero.
+
+07:08.850 --> 07:14.710
+That does nothing to the numbers but it does change the identifying code.
+
+07:14.710 --> 07:17.870
+So you can see here these two numbers differ from each other.
+
+07:18.190 --> 07:23.150
+And that means that now f is a separate copy from E.
+
+07:23.550 --> 07:30.430
+And I can change the values in F without changing the original values in E okay.
+
+07:30.470 --> 07:33.110
+And this method also works in PyTorch.
+
+07:33.430 --> 07:36.710
+Uh, I will introduce PyTorch uh, in a later section.
+
+07:37.110 --> 07:37.350
+Okay.
+
+07:37.390 --> 07:43.710
+And then the last way I want to show to make a copy is using the library copy.
+
+07:43.710 --> 07:46.070
+So here I write import copy.
+
+07:46.110 --> 07:49.550
+Now with numpy I use an abbreviation like this.
+
+07:49.830 --> 07:55.550
+Uh, so you know you can do something like this, but uh, but people generally just import the copy
+
+07:55.550 --> 07:57.030
+library as itself.
+
+07:57.150 --> 08:04.110
+So, uh, now we can access the functions in the copy library using copy dot.
+
+08:04.470 --> 08:04.790
+Okay.
+
+08:04.830 --> 08:08.350
+So let's try let's create a new uh, dictionary.
+
+08:08.790 --> 08:14.550
+And I'm going to say q equals one and w.
+
+08:15.480 --> 08:16.880
+is set to two.
+
+08:16.920 --> 08:18.880
+So this is just a little dictionary.
+
+08:19.840 --> 08:27.760
+Now if I want to create a copy of D then again this is just going to make a new pointer.
+
+08:27.760 --> 08:29.480
+This is not actually a copy.
+
+08:29.840 --> 08:32.760
+Now slicing doesn't work for dictionaries.
+
+08:32.920 --> 08:35.800
+Adding zero doesn't work for dictionaries.
+
+08:35.800 --> 08:40.240
+So how can we make a new fresh copy of this dictionary?
+
+08:40.480 --> 08:43.000
+Here we can use the copy library.
+
+08:43.000 --> 08:47.040
+So I will write copy dot deep copy.
+
+08:47.040 --> 08:53.200
+So the function is deep copy and it's contained inside the copy library.
+
+08:53.640 --> 08:57.400
+And then I input the variable that I want to make a copy of.
+
+08:57.560 --> 08:59.760
+And that gives me a new variable okay.
+
+08:59.800 --> 09:05.960
+And then again print id d and print id copy d.
+
+09:06.440 --> 09:09.040
+And here we see that these have different IDs.
+
+09:09.040 --> 09:15.000
+Which means we can manipulate copy d without changing the variable d.

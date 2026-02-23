@@ -1,0 +1,1183 @@
+WEBVTT
+
+00:02.160 --> 00:09.800
+Before starting this code challenge, let me be very clear that the premise and the wildly speculative
+
+00:09.800 --> 00:15.880
+interpretations of the results are a little silly and a little ridiculous.
+
+00:16.160 --> 00:23.800
+Language models like GPT two do not actually have preferences, the way that humans and dogs and other
+
+00:23.800 --> 00:31.520
+individuals have preferences, but the methods and the analyses that you will learn here are serious
+
+00:31.520 --> 00:40.000
+and can be used to understand how targeted manipulations of the attention algorithm can causally reveal
+
+00:40.120 --> 00:45.480
+downstream network interactions and language generation in language models.
+
+00:46.200 --> 00:46.680
+Okay.
+
+00:46.720 --> 00:53.120
+So with that disclaimer out of the way, this code challenge is designed to follow from the previous
+
+00:53.120 --> 00:54.800
+code demo video.
+
+00:55.360 --> 01:02.430
+In fact, you will use a lot of the code from the previous video to help you solve the exercises here.
+
+01:03.150 --> 01:11.710
+There are four exercises in total, and they are all focused on silencing individual heads in individual
+
+01:11.710 --> 01:19.790
+transformer blocks and measuring the resulting cosine similarity between token representations of pizza
+
+01:20.350 --> 01:23.230
+with either peanut butter or pineapple.
+
+01:23.510 --> 01:25.830
+So this is going to be a lot of fun.
+
+01:26.110 --> 01:27.190
+So let's begin.
+
+01:27.950 --> 01:32.110
+The goal of exercise one is to set up the experiment.
+
+01:32.110 --> 01:42.110
+So import GPT two large, put it on the GPU and write a hook function that you implant in every layer.
+
+01:43.150 --> 01:47.670
+This is very similar to the hook function that I introduced in the previous video.
+
+01:48.110 --> 01:56.910
+Your hook function here should be able to silence, and by that I mean zero out one attention head and
+
+01:56.910 --> 01:59.850
+one layer for one specific token.
+
+02:00.570 --> 02:07.650
+Of course, those three indices will need to be defined as variables so that you can specify in the
+
+02:07.650 --> 02:16.010
+experiment which head and which layer and which token index you want to replace the attention activations
+
+02:16.010 --> 02:17.090
+with zero.
+
+02:18.170 --> 02:23.490
+Next, tokenize this sentence that some Italians may find offensive.
+
+02:24.210 --> 02:26.690
+Again, I promise this is just a joke.
+
+02:26.690 --> 02:29.690
+Don't take this too seriously and don't be mad at me.
+
+02:30.250 --> 02:37.610
+Next, you want to find the indices of the tokens for butter, pineapple, and pizza.
+
+02:38.130 --> 02:47.210
+Now you need to know those token indices because in later exercises you will manipulate only those particular
+
+02:47.210 --> 02:48.090
+indices.
+
+02:48.330 --> 02:55.170
+And also you will calculate cosine similarity between specific pairs of tokens.
+
+02:56.520 --> 03:03.400
+Interestingly, the word peanut butter gets split up into three tokens.
+
+03:03.720 --> 03:10.720
+We explored this a little bit in the previous video about how we can get peanut to be actually represented
+
+03:10.720 --> 03:12.160
+as a single token.
+
+03:12.200 --> 03:16.880
+Turns out it can be a single token if it's space peanut with a lowercase p.
+
+03:16.920 --> 03:17.600
+But anyway.
+
+03:18.200 --> 03:26.040
+And as I discussed earlier in the course, when you have a multi token word, the best token to analyze
+
+03:26.080 --> 03:33.480
+is the final one, because that already has all of the context from the previous tokens loaded onto
+
+03:33.480 --> 03:33.800
+it.
+
+03:34.440 --> 03:34.840
+Okay.
+
+03:34.880 --> 03:41.760
+Anyway, move all of the tokens to the GPU so that we can do all the forward passes on the GPU.
+
+03:42.640 --> 03:48.840
+Now this sequence is quite short, so it won't take a very long time to do a forward pass even on the
+
+03:48.840 --> 03:49.440
+CPU.
+
+03:49.640 --> 03:55.100
+But we will be doing many forward passes in the experiments in later exercises.
+
+03:56.100 --> 03:56.420
+Okay.
+
+03:56.460 --> 03:58.140
+So that's for exercise one.
+
+03:58.140 --> 04:05.540
+I think you won't have too much difficulties here because a lot of this exercise can be solved by copy
+
+04:05.580 --> 04:08.060
+pasting from the previous video.
+
+04:08.700 --> 04:14.940
+I will now switch to code and show my solution, although only fairly briefly, mostly just to explain
+
+04:14.940 --> 04:17.980
+the organization of the modified hook function.
+
+04:19.660 --> 04:21.820
+Lots of libraries that we will use here.
+
+04:22.140 --> 04:22.580
+Let's see.
+
+04:22.620 --> 04:28.780
+Here is importing the model a GPT two large pushing it to the GPU.
+
+04:29.220 --> 04:31.940
+And I'll yeah this you've seen before as well.
+
+04:32.100 --> 04:32.420
+Okay.
+
+04:32.460 --> 04:37.740
+So this hook is this hook function is basically the only thing I really want to discuss here.
+
+04:38.180 --> 04:44.540
+It is nearly identical to the hook function in the previous video.
+
+04:45.060 --> 04:49.900
+But I have added this key variable over here token to silence.
+
+04:49.900 --> 04:53.210
+So that means that we are going to zero out.
+
+04:53.650 --> 05:01.850
+We only the attention vectors for this particular head in this particular layer for this particular
+
+05:01.850 --> 05:02.450
+token.
+
+05:02.450 --> 05:10.690
+So it's even more targeted, even more precise of a manipulation compared to what we did in the previous
+
+05:10.850 --> 05:11.610
+video.
+
+05:11.930 --> 05:12.130
+Okay.
+
+05:12.130 --> 05:14.890
+And the rest of this stuff I'm not going to discuss.
+
+05:15.090 --> 05:17.130
+So I will run that cell.
+
+05:17.170 --> 05:18.090
+And here's this.
+
+05:18.090 --> 05:22.170
+This is also not new compared to the previous video.
+
+05:22.610 --> 05:29.610
+This is new because yeah, here we need to know which uh, indices correspond to which target values.
+
+05:29.610 --> 05:32.130
+So butter pineapple and pizza.
+
+05:32.330 --> 05:39.690
+Again we will use these in later exercises as a way to grab the embeddings vectors for these different
+
+05:39.730 --> 05:40.490
+tokens.
+
+05:42.170 --> 05:44.450
+Now for exercise two.
+
+05:44.890 --> 05:48.410
+We are not going to manipulate the model just yet.
+
+05:48.770 --> 05:56.880
+Instead the goal here is to gather some baseline comparison data that we can use to evaluate the impact
+
+05:56.880 --> 06:01.080
+of silencing attention heads in a later exercise.
+
+06:01.760 --> 06:06.600
+So here you should do a forward pass with the tokens and no manipulations.
+
+06:06.960 --> 06:13.280
+I'll put the hidden states during the forward pass, and then calculate the cosine similarity between
+
+06:13.480 --> 06:20.240
+butter and pizza, and between pineapple and pizza for each layer in the model.
+
+06:20.280 --> 06:21.680
+Each transformer block.
+
+06:22.240 --> 06:27.880
+You can then make a scatter plot that looks like this, where you see the transformer block on the x
+
+06:27.880 --> 06:36.960
+axis and cosine similarity on the y axis, and the two markers here correspond to the cosine similarity
+
+06:37.000 --> 06:43.120
+for the token butter with the token pizza and the token pineapple with the token pizza.
+
+06:43.760 --> 06:51.180
+Now, once you have these data, you can make very strong conclusions about whether GPT two prefers
+
+06:51.180 --> 06:54.020
+peanut butter or pineapple on its pizza.
+
+06:54.780 --> 06:56.540
+Needless to say, I'm just kidding.
+
+06:56.660 --> 07:03.100
+This analysis does not reveal GPT preference for bizarre ingredients on pizza.
+
+07:03.380 --> 07:08.140
+It does, however, reveal something about language and the training set.
+
+07:08.660 --> 07:15.140
+In fact, I would like you to think about what is the appropriate conclusion to draw from whatever pattern
+
+07:15.180 --> 07:16.580
+of results you find here.
+
+07:17.100 --> 07:21.780
+I will discuss that appropriate interpretation and also the silly interpretation.
+
+07:22.140 --> 07:26.860
+But first you should pause the video and write code to implement this exercise.
+
+07:27.220 --> 07:31.220
+And now I will switch to code again.
+
+07:31.260 --> 07:39.220
+Setting these variables to really high values well beyond the range of the number of layers we actually
+
+07:39.220 --> 07:39.620
+have.
+
+07:39.740 --> 07:45.260
+It's just a way of turning off the toggle so that no manipulations are actually run.
+
+07:45.260 --> 07:48.410
+And that gives us the clean version of the output.
+
+07:48.410 --> 07:50.730
+And we want all of the hidden states here.
+
+07:51.170 --> 07:51.370
+Okay.
+
+07:51.410 --> 07:53.570
+And here we can check the size.
+
+07:53.570 --> 08:03.410
+So we have one sequence in the batch nine tokens, 1280 embeddings dimensions in GPT two large.
+
+08:04.010 --> 08:06.970
+Here is where I'm getting the cosine similarity.
+
+08:07.370 --> 08:12.050
+Uh, here I'm using the PyTorch function f cosine similarity.
+
+08:12.290 --> 08:16.930
+You can see in different videos I calculate cosine similarity in different ways.
+
+08:17.410 --> 08:22.890
+I find if the data are already in PyTorch formats are already torch tensors.
+
+08:23.290 --> 08:30.250
+Uh, and you're only calculating cosine similarity between two specific vectors, then I think it's
+
+08:30.250 --> 08:33.850
+easier to use this cosine similarity function.
+
+08:34.090 --> 08:40.610
+On the other hand, when I want to calculate an entire cosine similarity matrix for lots of variables,
+
+08:40.810 --> 08:46.920
+then I find this function to be clunky and awkward, and I prefer just to write it out myself.
+
+08:46.920 --> 08:48.920
+I find that easier anyway.
+
+08:49.160 --> 08:50.440
+You do whatever you like.
+
+08:51.320 --> 08:55.840
+Okay, so cosine similarity between, uh, out clean.
+
+08:55.840 --> 08:58.920
+So the output from the clean version of the model.
+
+08:58.920 --> 09:02.640
+No manipulations, hidden states layer I plus one.
+
+09:02.680 --> 09:08.640
+Of course the plus one is because the very first layer is the output of the embeddings layer.
+
+09:08.640 --> 09:12.760
+And we're only interested here in the transformer blocks.
+
+09:13.160 --> 09:20.200
+And then I get all of these sequences which is actually just one the token for butter coming from peanut
+
+09:20.200 --> 09:20.640
+butter.
+
+09:20.920 --> 09:22.600
+All of the embeddings dimension.
+
+09:22.720 --> 09:27.080
+That's the first thing I want to calculate cosine similarity with.
+
+09:27.240 --> 09:30.960
+And it is calculated with the vector for pizza.
+
+09:31.400 --> 09:32.600
+And then here I have zero.
+
+09:32.600 --> 09:35.640
+Now you might think that this is redundant but it kind of is.
+
+09:35.640 --> 09:43.140
+But it's actually just to preserve the dimensionality because f cosine similarity is really Particular
+
+09:43.140 --> 09:46.020
+about the dimensionality of these inputs.
+
+09:46.460 --> 09:54.420
+Anyway, here I'm using dot item just to pick out the one value from the rest of the PyTorch variable.
+
+09:54.700 --> 10:00.980
+Okay, so we get two cosine similarity values between peanut butter and pizza and between pineapple
+
+10:00.980 --> 10:01.940
+and pizza.
+
+10:02.420 --> 10:04.260
+So that is the analysis code.
+
+10:04.260 --> 10:05.540
+It is very fast.
+
+10:05.660 --> 10:08.660
+And here is where I'm visualizing the data.
+
+10:08.740 --> 10:14.060
+So these are this is for peanut butter and this is for pineapple.
+
+10:15.180 --> 10:16.580
+And here we see the results.
+
+10:16.580 --> 10:23.100
+So at almost every single layer maybe a couple of exceptions here but pretty much everywhere inside
+
+10:23.100 --> 10:23.820
+the model.
+
+10:23.980 --> 10:30.740
+The cosine similarity between pineapple and pizza is stronger than it is between butter and pizza.
+
+10:31.140 --> 10:33.340
+So what does that tell us?
+
+10:33.340 --> 10:41.770
+That tells us, beyond any reasonable doubt, that GPT two thinks that pineapple on pizza is a fantastic
+
+10:41.770 --> 10:42.290
+idea.
+
+10:42.970 --> 10:43.810
+Okay, I'm just kidding.
+
+10:43.810 --> 10:46.370
+That is absolutely not at all what these data show.
+
+10:46.570 --> 10:53.970
+What these data really do show is that in text that this model has been trained on, which is basically
+
+10:53.970 --> 10:55.450
+much of the internet.
+
+10:56.010 --> 11:05.130
+Uh, the words pineapple and pizza appear more often together compared to the words butter and pizza.
+
+11:05.130 --> 11:09.890
+And it's not only butter, it is butter with the context peanut butter.
+
+11:10.050 --> 11:17.330
+So, uh, it's basically like butter modulated by the word peanut to pull it in the direction of the
+
+11:17.330 --> 11:19.370
+semantic concept of peanut butter.
+
+11:20.130 --> 11:20.450
+Okay.
+
+11:20.490 --> 11:27.210
+So basically all around the internet, people talk about pineapple and pizza more often than they talk
+
+11:27.250 --> 11:28.650
+about peanut butter and pizza.
+
+11:28.650 --> 11:32.410
+And that's basically what this, uh, difference here reflects.
+
+11:33.450 --> 11:39.010
+Also notice, uh, yeah, there's like qualitatively different things happening at the very beginning
+
+11:39.010 --> 11:45.870
+and at the very end of the model, as you know, the very, very last transformer block is a bit special
+
+11:45.910 --> 11:53.230
+because that is the model's last opportunity to adjust the vectors before it goes through the UN embeddings
+
+11:53.230 --> 11:57.070
+matrix, and also with the hugging face models.
+
+11:57.070 --> 12:03.590
+If you export the hidden states, then this actually also includes the layered normalization.
+
+12:03.630 --> 12:10.790
+Now it's not immediately it's not trivial that just adding layernorm would really change the cosine
+
+12:10.790 --> 12:19.550
+similarity, considering that layernorm is not applied differently to different tokens, so it's applied
+
+12:19.550 --> 12:22.030
+uniformly to all the token representations.
+
+12:22.950 --> 12:30.630
+I know I've said this before, but as an experimental scientist, it is important to me that you understand
+
+12:30.630 --> 12:34.390
+that the title of this exercise is just a bit of humor.
+
+12:34.910 --> 12:42.340
+That said, this is a serious analysis that we are going to run here in a for loop over all of the layers
+
+12:42.340 --> 12:43.100
+in the model.
+
+12:43.100 --> 12:46.220
+So all the transformer blocks silence.
+
+12:46.220 --> 12:48.580
+Attention head number five.
+
+12:48.780 --> 12:56.900
+So that's index five, which means the sixths attention head only at the token corresponding to pineapple.
+
+12:57.460 --> 13:02.140
+And then repeat the cosine similarity analysis from exercise two.
+
+13:02.860 --> 13:05.980
+That will be what you plot in this scatter plot.
+
+13:05.980 --> 13:07.580
+Over here on the left.
+
+13:07.980 --> 13:15.580
+Again, it's exactly the same analysis as in the previous exercise, except that at each layer you will
+
+13:15.580 --> 13:19.860
+just ablate head number five and only in that layer.
+
+13:19.980 --> 13:23.540
+And just for the token corresponding to pineapple.
+
+13:24.380 --> 13:31.340
+The goal of this analysis is to see whether we can manipulate the cosine similarity between the token
+
+13:31.340 --> 13:36.530
+embeddings vector for pineapple with the embeddings vector for pizza.
+
+13:37.090 --> 13:45.250
+And the idea is that the attention heads are calculating the relevant context across the different tokens.
+
+13:45.690 --> 13:52.690
+And so if that is the case, then we might expect that the cosine similarity would decrease when we
+
+13:52.690 --> 14:00.210
+inhibit the ability of the attention calculation to fully transmit that contextual information.
+
+14:00.770 --> 14:05.930
+Of course, we are not completely blocking the transmission of that calculation, because we are only
+
+14:05.970 --> 14:09.450
+silencing one attention head and not all of them.
+
+14:10.250 --> 14:16.210
+Now, there's no particular reason why I picked attention head number five to be the one that gets silenced.
+
+14:16.450 --> 14:19.210
+It's just to make things easy for this exercise.
+
+14:19.450 --> 14:22.410
+I will get back to that in the next exercise.
+
+14:23.170 --> 14:30.530
+Anyway, so how do you know if the silencing of this one attention head for this one token really has
+
+14:30.530 --> 14:31.330
+an impact?
+
+14:31.890 --> 14:39.110
+To assess that impact, we can compare these results against the results from exercise two, where we
+
+14:39.110 --> 14:41.790
+used a clean version of the model.
+
+14:42.230 --> 14:45.470
+And that's what you will plot over here on the right.
+
+14:45.910 --> 14:53.550
+So this is the difference in cosine similarity between the silenced and the clean version of the model.
+
+14:54.070 --> 14:57.750
+And I'm plotting this for both of the token pairs.
+
+14:58.350 --> 15:06.350
+Now if silencing the attention head has absolutely no effect whatsoever, then you would expect all
+
+15:06.350 --> 15:10.070
+of these difference values to be exactly zero.
+
+15:11.230 --> 15:15.710
+And what we are going to interpret is whether they are zeros or not.
+
+15:15.710 --> 15:17.950
+And if not, what is the sign.
+
+15:17.950 --> 15:25.270
+So whether silencing this attention head decreased or increased the cosine similarity.
+
+15:26.430 --> 15:29.590
+All right I hope you enjoy working through this exercise.
+
+15:29.750 --> 15:32.740
+Now you should pause the video and get to work.
+
+15:32.740 --> 15:38.420
+And now I will switch to code, show my solution, and also have a discussion about the appropriate
+
+15:38.420 --> 15:44.060
+and also the humorously inappropriate conclusions that we can draw from these results.
+
+15:45.340 --> 15:52.540
+The code in this cell here is nearly identical to the code from exercise two.
+
+15:53.020 --> 15:56.060
+So loop over all of the layers.
+
+15:56.460 --> 16:03.660
+Uh, run a forward pass through the model and calculate cosine similarity for each of the hidden states.
+
+16:03.660 --> 16:10.780
+Each of the transformer block outputs for peanut butter and pizza, and for pineapple and pizza.
+
+16:11.140 --> 16:17.020
+The difference compared to exercise two is basically just these two variable names.
+
+16:17.220 --> 16:21.100
+So token to silence is now pineapple index.
+
+16:21.100 --> 16:25.020
+So the index of the word pineapple in the text.
+
+16:25.020 --> 16:28.380
+And I've set head to silence to be five.
+
+16:28.380 --> 16:34.440
+So we are just going to zero out the attention vectors from one attention head.
+
+16:34.720 --> 16:38.760
+And this also has a different variable name, but otherwise it's basically the same thing.
+
+16:39.440 --> 16:42.120
+Okay, so that all went pretty fast.
+
+16:42.120 --> 16:47.360
+And now the plotting here is also not that exciting to talk about.
+
+16:47.400 --> 16:50.000
+Mostly similar to the previous exercise.
+
+16:50.400 --> 16:57.000
+In fact, this is exactly the code from the previous exercise, except this is for the silencing.
+
+16:57.040 --> 17:00.520
+And in exercise two, of course there was no silencing.
+
+17:01.040 --> 17:05.720
+Now visually just you know, if you like, squint your eyes and look through your eyelashes.
+
+17:05.720 --> 17:08.440
+You don't really see any obvious differences here.
+
+17:09.400 --> 17:12.360
+When we calculate the explicit differences here.
+
+17:12.400 --> 17:18.120
+And so just to be clear, what I'm plotting here, that is the difference between this plot here where
+
+17:18.120 --> 17:26.600
+we silenced one attention head in each layer versus this result here from exercise two where we didn't
+
+17:26.600 --> 17:28.390
+silence anything anywhere.
+
+17:28.870 --> 17:35.230
+So the difference between those two plots, that is what I'm showing here on the y axis.
+
+17:35.470 --> 17:38.790
+So some interesting patterns to observe here.
+
+17:39.150 --> 17:44.670
+First of all, it's very noticeable that the peanut butter result didn't change at all.
+
+17:44.790 --> 17:49.950
+So the cosine similarity between peanut butter and pizza did not change.
+
+17:49.990 --> 17:53.870
+Maybe if you look really closely there were some really really small.
+
+17:53.910 --> 17:55.390
+But let's just say that zero okay.
+
+17:55.430 --> 17:56.590
+So that didn't change at all.
+
+17:56.830 --> 18:04.790
+That is not very surprising because we did not actually change the token corresponding to the peanut
+
+18:04.790 --> 18:05.950
+butter index.
+
+18:06.070 --> 18:07.790
+So if you like you can try that.
+
+18:07.790 --> 18:08.510
+It's very simple.
+
+18:08.510 --> 18:13.830
+You just change this to butter index instead of pineapple index okay.
+
+18:13.870 --> 18:21.550
+But then of course the key result here is to see whether we get any non-zero and also any consistent
+
+18:21.550 --> 18:25.710
+patterns of results when we interfere with the token for pineapple.
+
+18:26.260 --> 18:30.820
+And on the one hand, we do see that it gets pushed off of zero.
+
+18:31.060 --> 18:38.300
+So it seems like silencing that one head for this one token position really did have an impact, but
+
+18:38.340 --> 18:40.860
+it's a quite a subtle impact, right?
+
+18:40.900 --> 18:47.500
+These difference values are two orders of magnitude smaller than the overall cosine similarities.
+
+18:47.700 --> 18:51.940
+So the effect was really small and not really consistent.
+
+18:51.940 --> 18:57.340
+So it's not like they were all consistently negative or all consistently positive.
+
+18:57.620 --> 18:59.860
+They kind of seem to be all over the place.
+
+18:59.980 --> 19:02.140
+So what can we interpret here.
+
+19:02.220 --> 19:10.660
+Let me first tell you the the humorous interpretation, which is that we completely failed to disrupt
+
+19:10.660 --> 19:14.500
+GPT two's preference for pineapple on pizza.
+
+19:14.820 --> 19:22.980
+And that means that GPT two just loves pineapple on pizza so much that even when we go in and manipulate
+
+19:22.980 --> 19:24.840
+the GPT two Brain.
+
+19:25.080 --> 19:28.960
+We still cannot break its love of pineapple on pizza.
+
+19:29.000 --> 19:30.320
+Okay, I'm just kidding.
+
+19:30.480 --> 19:31.440
+Please forgive me.
+
+19:31.440 --> 19:32.920
+Italian audiences.
+
+19:33.320 --> 19:34.200
+Uh, anyway.
+
+19:35.120 --> 19:41.480
+Okay, now, the real interpretation is that there's no real convincing evidence that our manipulation
+
+19:41.480 --> 19:45.600
+did anything consistent across the different blocks.
+
+19:45.840 --> 19:51.200
+On the other hand, it did numerically have an impact, which is nice to see because that's kind of
+
+19:51.240 --> 19:52.640
+a manipulation check.
+
+19:52.800 --> 19:54.720
+So we tweaked something in the model.
+
+19:54.720 --> 19:59.640
+It was a very, very small, very precise manipulation that we performed.
+
+19:59.800 --> 20:03.080
+It had some impact in a numerical sense.
+
+20:03.080 --> 20:11.120
+It changed the numerical values, but it's not really anything that we can convincingly make any interpretation
+
+20:11.120 --> 20:11.480
+of.
+
+20:13.040 --> 20:15.400
+Now for exercise four.
+
+20:15.800 --> 20:21.680
+This is a follow up to exercise three, where you only manipulated one of the heads.
+
+20:22.120 --> 20:31.070
+So what you want to do here in exercise four is copy that for loop over the layers and then add another
+
+20:31.230 --> 20:34.790
+embedded for loop over all of the attention heads.
+
+20:35.430 --> 20:41.910
+So now you are going to zero out every individual head in every layer.
+
+20:42.510 --> 20:45.310
+Of course you only do this once.
+
+20:45.310 --> 20:53.510
+So at any given forward pass there is exactly one attention head in exactly one layer that is silenced
+
+20:53.510 --> 20:58.550
+for exactly one token, and all the rest of them are functioning normally.
+
+20:58.550 --> 21:01.910
+So very precise, very limited manipulation.
+
+21:02.470 --> 21:06.270
+And then you calculate cosine similarity, just as you did before.
+
+21:06.830 --> 21:14.310
+Now for this visualization here on the left, you can draw all of the individual heads that you silenced
+
+21:14.350 --> 21:16.550
+as individual circles.
+
+21:16.950 --> 21:22.090
+And this horizontal black line here I hope you can see this on the video screen.
+
+21:22.090 --> 21:28.370
+It's a little small, but there's a horizontal black line here that corresponds to the cosine similarity
+
+21:28.410 --> 21:29.730
+for the clean model.
+
+21:30.530 --> 21:35.770
+Of course, there's only one of those data points per layer, because there's no manipulation of the
+
+21:35.770 --> 21:37.930
+attention heads with the clean version.
+
+21:38.410 --> 21:40.770
+So just to be make sure this is clear.
+
+21:40.770 --> 21:48.010
+So now for each transformer block we have a collection of data points for the different heads.
+
+21:48.410 --> 21:57.410
+This corresponds to the cosine similarity between pineapple and pizza for manipulating or silencing
+
+21:57.410 --> 22:00.530
+each one of the heads in each layer.
+
+22:01.010 --> 22:07.410
+And for this exercise, you can just focus on the cosine similarity between pineapple and pizza.
+
+22:07.450 --> 22:12.490
+You don't have to worry about peanut butter and pizza for this exercise.
+
+22:12.850 --> 22:21.080
+Next, what I want you to do is run a t test on these cosine similarity values to determine whether
+
+22:21.080 --> 22:25.040
+they are different from the clean value of cosine similarity.
+
+22:25.640 --> 22:31.840
+In other words, you can implement this by subtracting the results from the clean model from the results
+
+22:31.840 --> 22:34.480
+for all of these ablated models.
+
+22:34.880 --> 22:42.400
+Now, if knocking out these heads has a consistent impact on cosine similarity, then you should get
+
+22:42.400 --> 22:44.440
+a significant t test here.
+
+22:45.000 --> 22:48.040
+So you get one t test per layer.
+
+22:48.320 --> 22:55.600
+And then in this plot over here, I have drawn the difference scores as triangles where there is a significant
+
+22:55.600 --> 22:56.360
+difference.
+
+22:56.480 --> 23:01.320
+And I've drawn them as little red x's where the p value was greater than 0.05.
+
+23:01.640 --> 23:06.760
+Of course you don't see any of those markers here, but you will see them when you run your code.
+
+23:07.560 --> 23:11.760
+So this is the final exercise for this code challenge.
+
+23:11.880 --> 23:14.640
+You can now pause the video and wrap things up.
+
+23:14.760 --> 23:20.950
+And now I will switch to code discuss my code solution and also the results and how to interpret them.
+
+23:22.070 --> 23:29.070
+This main code cell here in exercise four again looks really, really similar to the code cell from
+
+23:29.070 --> 23:32.910
+exercise two and also from exercise three.
+
+23:33.270 --> 23:37.910
+So it's similar in the sense that I have a for loop over layers.
+
+23:38.430 --> 23:45.830
+Uh, and then I'm running a forward pass to manipulate one head and then calculating cosine similarities
+
+23:45.830 --> 23:53.150
+between the embeddings vectors from uh, peanut butter to pizza and pineapple to pizza.
+
+23:53.350 --> 24:00.150
+Now, in this exercise, at least in the visualization, I am not using the peanut butter pizza cosine
+
+24:00.150 --> 24:02.710
+similarities, but I left it in here.
+
+24:02.710 --> 24:05.670
+Just, uh, I don't know, for no particularly good reason.
+
+24:05.870 --> 24:07.950
+Uh, you can play around with that if you like.
+
+24:08.350 --> 24:11.470
+Okay, so what is different here compared to exercise three?
+
+24:11.750 --> 24:14.270
+For one thing, uh, well, this is also the same.
+
+24:14.310 --> 24:20.570
+It's redefined here, Just in case you were playing around with exercise three and change this to butter.
+
+24:20.690 --> 24:24.530
+So now we make sure that we reset this to the value that we want.
+
+24:25.090 --> 24:25.410
+Okay.
+
+24:25.450 --> 24:33.770
+So what is different here is that in exercise three I had code here that was head to head to silence
+
+24:33.930 --> 24:35.010
+equals five.
+
+24:35.130 --> 24:42.370
+But now I no longer have that variable fixed to a particular value because that gets defined in this
+
+24:42.370 --> 24:43.610
+for loop over here.
+
+24:43.610 --> 24:45.490
+So this is an embedded for loop.
+
+24:45.530 --> 24:47.210
+We're looping over the layers.
+
+24:47.210 --> 24:53.610
+And then we have another for loop over all of the individual attention heads within each layer.
+
+24:53.770 --> 24:58.690
+So this is a lot of forward passes to go through.
+
+24:58.730 --> 25:00.050
+So it's however many layers.
+
+25:00.050 --> 25:02.570
+There are times however many heads there are.
+
+25:03.570 --> 25:03.850
+Okay.
+
+25:03.890 --> 25:06.850
+But otherwise the code is basically the same.
+
+25:07.090 --> 25:10.770
+And on the CPU, I don't know how long this will take.
+
+25:10.970 --> 25:15.480
+Maybe several minutes on the CPU and on the GPU, it's pretty fast.
+
+25:15.480 --> 25:17.240
+It's like 20s or something.
+
+25:17.720 --> 25:18.000
+Okay.
+
+25:18.040 --> 25:22.840
+And then this plotting here, let me show you the plot first and discuss.
+
+25:22.840 --> 25:26.600
+And then I'll go back and show some of the code okay.
+
+25:26.640 --> 25:35.000
+So here we see the cosine similarity between pineapple and pizza and the horizontal.
+
+25:35.040 --> 25:37.520
+Let me I should make these a little bit bigger.
+
+25:37.560 --> 25:38.360
+Where is that.
+
+25:39.280 --> 25:39.800
+Yeah okay.
+
+25:39.840 --> 25:46.200
+That's here I think I will make these a little bit longer and I'll make this a little bit thicker.
+
+25:46.360 --> 25:48.360
+I don't want to make it too thick and too big.
+
+25:48.400 --> 25:48.600
+Yeah.
+
+25:48.640 --> 25:50.160
+It kind of crosses out the line.
+
+25:50.200 --> 25:51.880
+Okay, maybe I regret doing that.
+
+25:51.920 --> 25:52.440
+Maybe.
+
+25:52.480 --> 25:56.680
+How about let's leave the line a little bit thinner, but wider.
+
+25:56.720 --> 25:56.960
+Okay.
+
+25:57.000 --> 25:57.960
+This is a little bit better.
+
+25:58.280 --> 25:58.640
+Okay.
+
+25:58.680 --> 26:05.840
+So this horizontal black line shows exactly the same results that we got from exercise two all the way
+
+26:05.840 --> 26:06.280
+up here.
+
+26:06.280 --> 26:08.560
+The green squares over here.
+
+26:08.560 --> 26:13.990
+This is the cosine similarity between pineapple and pizza from the clean model.
+
+26:13.990 --> 26:18.630
+And that is exactly what you see with these horizontal black lines over here.
+
+26:19.070 --> 26:26.310
+And then each of these circles shows cosine similarity between exactly the same two token embeddings
+
+26:26.310 --> 26:26.910
+vectors.
+
+26:26.910 --> 26:28.430
+So pineapple and pizza.
+
+26:28.630 --> 26:33.110
+But each dot corresponds to manipulating one of the heads.
+
+26:33.150 --> 26:39.750
+How many heads are there in this model there are 20 heads in total, so there are 20 circles in each
+
+26:39.750 --> 26:41.870
+of these plots here.
+
+26:42.830 --> 26:49.150
+Now you don't, except for for this over here in the very, very beginning here, you don't really see
+
+26:49.310 --> 26:50.830
+20 different circles.
+
+26:50.830 --> 26:55.510
+It looks like, you know, these are just little UFOs flying all over the sky.
+
+26:56.070 --> 26:57.790
+And why is that the case?
+
+26:57.790 --> 27:00.630
+Why does it look like there's really only one?
+
+27:00.630 --> 27:06.630
+Well, that's because the effect of manipulating any one attention head is really, really small.
+
+27:06.630 --> 27:08.590
+So all of these are bunched together.
+
+27:08.830 --> 27:15.410
+This manipulation is so subtle that it's really not having much of an effect, and you see that as well
+
+27:15.410 --> 27:18.130
+here when I do the t tests.
+
+27:18.130 --> 27:21.650
+So again, what I'm testing here, let me show you this in the code.
+
+27:22.170 --> 27:30.490
+I'm running a t test on the manipulated cosine similarities with minus the clean cosine similarities.
+
+27:30.650 --> 27:37.570
+So it's testing for whether there is any consistent difference in the 20 dots compared to the black
+
+27:37.570 --> 27:38.210
+lines.
+
+27:38.370 --> 27:43.610
+And it's not surprising that that t test is really almost never significant.
+
+27:43.810 --> 27:50.250
+It is a few times, honestly, these might just be statistical errors because I'm actually not correcting
+
+27:50.250 --> 27:52.770
+for multiple comparisons over here.
+
+27:53.690 --> 27:56.290
+Maybe I should let me do this quick and dirty.
+
+27:56.330 --> 28:01.410
+So there's 36 layers and then we see every single one of those.
+
+28:01.850 --> 28:02.930
+Apparently.
+
+28:03.290 --> 28:06.530
+So Speciously significant results just disappeared.
+
+28:06.930 --> 28:14.680
+So what this tells us is that this manipulation, this really precise manipulation of one head for one
+
+28:14.680 --> 28:23.240
+layer and one token that does not have any consistent impact on the cosine similarity between pineapple
+
+28:23.240 --> 28:24.160
+and pizza.
+
+28:24.160 --> 28:27.840
+So that relationship is really, really strong in GPT two.
+
+28:28.120 --> 28:36.480
+We're going to need like a jackhammer to change the way that GPT two associates pineapple with pizza.
+
+28:37.720 --> 28:45.680
+So far in this part of the course, you have seen that there are multiple scales or levels of precision
+
+28:46.080 --> 28:49.920
+at which you can target these models for interference.
+
+28:50.440 --> 28:55.880
+You can get really detailed, precise, targeted interventions like what you saw here.
+
+28:56.440 --> 29:03.760
+And you can also do much more macroscopic manipulations, like scaling down an entire transformer block
+
+29:03.800 --> 29:04.480
+output.
+
+29:05.160 --> 29:09.140
+Now, none of these approaches is intrinsically better or worse.
+
+29:09.420 --> 29:16.140
+They can be used to evaluate different kinds of hypotheses about different kinds of calculations and
+
+29:16.140 --> 29:18.380
+representations inside the model.
+
+29:18.540 --> 29:26.060
+I think a promising future approach of mechanistic interpretability will be to combine these different
+
+29:26.060 --> 29:32.820
+kinds of manipulations and different levels of granularity to test very specific hypotheses.
+
+29:33.460 --> 29:39.180
+Of course, I would also like to stress again, that the appropriate learning point from this code challenge
+
+29:39.180 --> 29:45.940
+is about the implementation of the methodological approach, and not the ridiculous interpretations
+
+29:45.940 --> 29:47.180
+of the findings.
+
+29:47.380 --> 29:49.340
+Of course, there was only one sentence.
+
+29:49.340 --> 29:53.380
+That's really not enough data to draw any strong conclusions.
+
+29:53.980 --> 30:00.380
+That said, we can definitely conclude that peanut butter and pineapple are fantastic on pizza.
+
+30:00.740 --> 30:03.660
+I think I will move to Italy and open up a pizzeria.

@@ -1,0 +1,334 @@
+WEBVTT
+
+00:02.440 --> 00:10.920
+In this video, I will introduce you to processing text that you have and in particular extracting words
+
+00:11.080 --> 00:12.800
+from sentences.
+
+00:12.880 --> 00:15.360
+So let me start with a sentence.
+
+00:15.520 --> 00:18.640
+So let's say here is a sentence.
+
+00:18.640 --> 00:24.160
+And this is going to be words in a sentence are separated by spaces.
+
+00:24.280 --> 00:24.560
+Okay.
+
+00:24.600 --> 00:25.360
+Very nice.
+
+00:25.640 --> 00:32.720
+So now if I were to just print out the sentence we get just one long string like this.
+
+00:32.880 --> 00:36.960
+I can calculate the length and there's 44 characters.
+
+00:37.120 --> 00:38.200
+Now here's the thing.
+
+00:38.360 --> 00:43.320
+When you read this text, you know that these are separate words.
+
+00:43.320 --> 00:50.320
+So you look at this text and you see one, two, three, four, five, six, seven, eight words.
+
+00:50.440 --> 00:53.200
+But Python does not see eight words.
+
+00:53.320 --> 00:57.200
+Python just sees 44 characters put together.
+
+00:57.680 --> 01:04.680
+So we need a way to break up this sentence into the individual words.
+
+01:04.820 --> 01:06.060
+So how do we do that?
+
+01:06.100 --> 01:06.540
+Okay.
+
+01:06.780 --> 01:10.900
+So to do that we can apply a method on sentence.
+
+01:11.060 --> 01:12.700
+And it's called split.
+
+01:13.100 --> 01:17.220
+So I am going to split according to spaces.
+
+01:17.500 --> 01:19.940
+The output of this method.
+
+01:19.940 --> 01:26.180
+Remember a method is like a function acting on a single variable is a list.
+
+01:26.180 --> 01:27.660
+You can see the square brackets.
+
+01:27.660 --> 01:34.740
+So this is a list, and all of the elements in the list correspond to all of the words in the sentence.
+
+01:34.740 --> 01:41.020
+And now there's no spaces because the spaces were dropped because that's what is used to split.
+
+01:41.420 --> 01:45.420
+So that's an example for a space we can also split by ease.
+
+01:45.420 --> 01:50.940
+So words in a are you know here we do have a space in here.
+
+01:50.940 --> 01:52.940
+And here's another space okay.
+
+01:52.980 --> 01:59.580
+So now this is splitting up according to spaces mostly you will just be splitting by spaces.
+
+01:59.740 --> 02:06.380
+Sometimes you know if you're processing a CSV file a comma separated values file, you might separate
+
+02:06.380 --> 02:08.060
+according to commas.
+
+02:08.060 --> 02:15.800
+In this case, there are no commas here, so Python recognizes the entire text as just one element in
+
+02:15.800 --> 02:16.880
+this list.
+
+02:17.200 --> 02:19.400
+Okay, let me go back to spaces here.
+
+02:19.720 --> 02:22.320
+So now I'm going to write words equals.
+
+02:22.320 --> 02:25.360
+And basically I'm just putting this into a variable.
+
+02:25.800 --> 02:27.720
+And with that I can use a for loop.
+
+02:27.720 --> 02:35.320
+And what I want to do with this for loop is print out each word and count the number of letters in that
+
+02:35.360 --> 02:36.000
+word.
+
+02:36.080 --> 02:39.000
+So for w in words.
+
+02:39.160 --> 02:42.040
+And now this is the iterator variable.
+
+02:42.040 --> 02:49.680
+And this is the variable that I'm using in the for loop to iterate over all the elements in this list.
+
+02:50.120 --> 02:50.440
+Okay.
+
+02:50.480 --> 02:52.440
+So I will write with an f string.
+
+02:53.520 --> 02:56.440
+There are something something letters.
+
+02:56.960 --> 03:00.600
+Actually I'll write this as characters in the word.
+
+03:02.440 --> 03:04.040
+Like this.
+
+03:04.320 --> 03:05.440
+Okay, great.
+
+03:05.520 --> 03:07.480
+So now I need to fill in these.
+
+03:07.480 --> 03:10.640
+So how many characters are in each word.
+
+03:10.640 --> 03:13.700
+Well we can do this with the Len function.
+
+03:13.940 --> 03:16.580
+And then here I just want to print out the entire word.
+
+03:16.980 --> 03:17.380
+Okay.
+
+03:17.420 --> 03:18.700
+And word is not defined.
+
+03:18.740 --> 03:19.100
+Oh yeah.
+
+03:19.100 --> 03:19.460
+Sorry.
+
+03:19.500 --> 03:21.540
+It's a w not word.
+
+03:21.780 --> 03:22.420
+Okay great.
+
+03:22.420 --> 03:24.420
+There are five characters in the word.
+
+03:24.420 --> 03:27.860
+Words in a sentence are separated by spaces.
+
+03:27.900 --> 03:28.620
+Very nice.
+
+03:29.380 --> 03:34.820
+There is another library that I will introduce you to here and that is called string.
+
+03:34.860 --> 03:36.740
+So import string.
+
+03:36.980 --> 03:39.460
+This is a fairly small library.
+
+03:39.460 --> 03:43.260
+It's not like numpy or matplotlib or PyTorch.
+
+03:43.260 --> 03:44.980
+These are huge libraries.
+
+03:45.180 --> 03:51.940
+String is a rather small library, and there's not so much that we will need to do with it, but it
+
+03:51.940 --> 03:52.900
+is quite useful.
+
+03:52.900 --> 03:55.220
+So let's write string.
+
+03:55.260 --> 03:57.500
+Again this is going to tell us a.
+
+03:57.580 --> 04:04.900
+It's going to give us a list of all of the methods and attributes that are contained inside this library
+
+04:05.060 --> 04:05.740
+string.
+
+04:05.940 --> 04:07.860
+So you can see there's really not that many.
+
+04:07.860 --> 04:09.860
+And let's start exploring some of these.
+
+04:10.300 --> 04:16.250
+So we have string dot Ascii lowercase Okay.
+
+04:16.290 --> 04:19.010
+And this is just a string.
+
+04:19.050 --> 04:23.490
+And each element of the string is all the letters of the alphabet in lowercase.
+
+04:23.730 --> 04:27.170
+I bet you have no idea what uppercase is going to be.
+
+04:27.490 --> 04:28.050
+Just kidding.
+
+04:28.090 --> 04:28.330
+Okay.
+
+04:28.370 --> 04:32.210
+Of course, you know, it's all the letters of the alphabet, but now they are uppercase.
+
+04:32.530 --> 04:33.770
+Let's see, what else do we have?
+
+04:33.770 --> 04:34.490
+Digits.
+
+04:35.330 --> 04:36.490
+That is pretty useful.
+
+04:36.490 --> 04:37.610
+Zero through nine.
+
+04:37.810 --> 04:44.770
+These are the kinds of handy tools that you can use for identifying information in strings.
+
+04:44.770 --> 04:49.690
+So for example let's say I have a string and it is the string four.
+
+04:49.730 --> 04:54.050
+And now I can say s in str digits.
+
+04:54.050 --> 05:00.530
+And the answer here is true because this string four is in this set over here.
+
+05:00.650 --> 05:02.610
+And now maybe I can do the letter E.
+
+05:02.650 --> 05:11.930
+And now the answer is false because e is not in the digits but it is in the Ascii lowercase.
+
+05:11.930 --> 05:13.770
+So now the answer will be true.
+
+05:14.210 --> 05:16.890
+And here's something interesting I can do e.
+
+05:17.170 --> 05:18.410
+So uppercase e.
+
+05:18.690 --> 05:20.710
+And now the answer is false.
+
+05:20.950 --> 05:26.070
+But if we don't care about case, then you can use s dot lower.
+
+05:26.070 --> 05:27.390
+And that gives us true.
+
+05:27.710 --> 05:31.950
+And then there's also a string dot Ascii like this.
+
+05:32.110 --> 05:32.550
+Uh wait.
+
+05:32.550 --> 05:36.150
+It's called Ascii letters sorry Ascii letters.
+
+05:36.150 --> 05:40.750
+And that is all the lowercase and all the uppercase letters.
+
+05:41.550 --> 05:46.590
+We also have string dot punctuation.
+
+05:47.270 --> 05:50.310
+And that gives us a list of all the punctuation marks.
+
+05:50.310 --> 05:53.590
+That's also pretty useful for text processing.
+
+05:53.790 --> 05:57.110
+And let's see we also have string dot whitespace.
+
+05:57.830 --> 06:04.110
+And that gives you all of the special characters that are interpreted as whitespace.
+
+06:04.110 --> 06:07.030
+So this is just a regular space.
+
+06:07.390 --> 06:11.030
+Slash T is for tab slash n is for newline.
+
+06:11.270 --> 06:13.270
+Slash r is for carriage return.
+
+06:13.270 --> 06:19.270
+And I have to admit I do not know what these two stand for, but obviously there are some kind of whitespace
+
+06:19.270 --> 06:22.550
+indicators I'm sure you could figure out with a quick Google search.

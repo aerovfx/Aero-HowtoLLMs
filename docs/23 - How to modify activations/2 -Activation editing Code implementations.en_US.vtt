@@ -1,0 +1,940 @@
+WEBVTT
+
+00:02.080 --> 00:09.880
+There are several ways that you can modify the internal activations of a model during the forward pass.
+
+00:10.480 --> 00:17.800
+Fortunately, it's actually fairly easy to do, and the broad strokes of the code implementations are
+
+00:17.840 --> 00:25.120
+basically the same as storing the activations using hooks, which is what you've been doing all throughout
+
+00:25.120 --> 00:27.240
+the previous several sections.
+
+00:28.400 --> 00:34.720
+So before telling you about the specific demos that I will show, I would like to explain the general
+
+00:34.720 --> 00:39.720
+concept of modifying activations in a PyTorch model.
+
+00:40.320 --> 00:43.200
+This code obviously looks very familiar.
+
+00:43.200 --> 00:50.760
+It's a hook function, exactly like what you've been using to store the activations for later analysis,
+
+00:51.280 --> 00:53.040
+and that is actually optional.
+
+00:53.040 --> 00:54.080
+Step two here.
+
+00:54.440 --> 01:00.720
+What's different here is to take the output of this layer Air and change it somehow.
+
+01:01.200 --> 01:04.840
+And how exactly do you change it and what should you change it to?
+
+01:05.440 --> 01:10.200
+Well, that's obviously what I'm going to teach you in the rest of this part of the course.
+
+01:10.400 --> 01:17.920
+But generally you would replace parts of the output with zeros, with random numbers like noise, or
+
+01:17.920 --> 01:23.240
+with the activations that were measured from some other token or another model.
+
+01:23.880 --> 01:26.000
+But here's the really crucial part.
+
+01:26.040 --> 01:32.920
+You can see that this hook function now has a return statement at the end that is new.
+
+01:33.360 --> 01:41.240
+All of the other hook functions that we have used so far in this course did not actually have this output
+
+01:41.640 --> 01:44.200
+return statement in the hook function.
+
+01:44.560 --> 01:52.760
+The outer function of course, did have an output just like it has here that returns the function itself
+
+01:52.760 --> 01:54.640
+that we define in here.
+
+01:54.640 --> 02:01.410
+But when you are just implanting a hook to get the activations, but you don't want to change anything,
+
+02:01.650 --> 02:07.010
+then you do not need a return line inside the hook function itself.
+
+02:07.690 --> 02:12.570
+Okay, but now we actually do want to modify the output, not just measure it.
+
+02:13.090 --> 02:16.730
+So now we need this return line here at the end of the hook function.
+
+02:17.290 --> 02:25.770
+Now what PyTorch will do is try to match the size of this tensor to what it would otherwise have as
+
+02:25.770 --> 02:27.730
+an output of this layer.
+
+02:28.450 --> 02:36.570
+If the sizes match, then this tensor here will overwrite the output tensor that otherwise would have
+
+02:36.570 --> 02:38.410
+been calculated in the model.
+
+02:39.130 --> 02:45.330
+And if the sizes do not match well, check your code carefully when you're writing it so that you do
+
+02:45.330 --> 02:47.210
+not end up in that situation.
+
+02:47.530 --> 02:52.170
+It's just going to cause errors and problems that might be difficult to isolate.
+
+02:52.490 --> 02:58.610
+Anyway, that is the simple idea of manipulating the activations during a forward pass.
+
+02:58.970 --> 03:07.170
+Create a hook function, change the output and return that output so that it replaces whatever the output
+
+03:07.210 --> 03:08.370
+otherwise would be.
+
+03:09.850 --> 03:16.890
+In this video, I will show you six demos of how to manipulate the activations of the model when it's
+
+03:16.890 --> 03:18.570
+processing tokens.
+
+03:19.050 --> 03:21.850
+The first demo I'll show actually will not work.
+
+03:21.850 --> 03:27.810
+It's going to give us an error, but that will be a great learning opportunity about some quirks of
+
+03:27.810 --> 03:28.530
+PyTorch.
+
+03:29.050 --> 03:35.530
+And then the next five demos will be about just various ways that you can implement activation editing
+
+03:35.530 --> 03:37.210
+using a forward hook.
+
+03:38.090 --> 03:43.890
+I'll give a brief overview of these demos here on this slide, and then we'll have a closer look in
+
+03:43.890 --> 03:44.370
+code.
+
+03:44.970 --> 03:48.130
+Here you can see I'm creating a hook function.
+
+03:48.370 --> 03:55.370
+Now this initially looks like the same hook functions that you've seen in other videos to grab the activations.
+
+03:55.370 --> 03:56.370
+That's all fine.
+
+03:56.650 --> 04:05.490
+So what I do here is hook into an attention layer, and then grab the qkv matrix and then split it into
+
+04:05.530 --> 04:06.770
+three matrices.
+
+04:07.010 --> 04:15.530
+Here my goal is to zero out the Q activations for the fifth token and the first ten dimensions.
+
+04:15.970 --> 04:21.930
+And then I concatenate them back into one q matrix.
+
+04:21.970 --> 04:29.250
+Store that matrix so I can later analyze it, and then return that matrix, or replace it with the original
+
+04:29.250 --> 04:31.810
+qkv matrix from this layer.
+
+04:32.290 --> 04:39.650
+Now this code seems like it should work, but the problem here is actually that the tensor Q is still
+
+04:39.650 --> 04:42.130
+part of the variable output.
+
+04:42.530 --> 04:46.890
+It's just a different view or slice of the output matrix.
+
+04:47.410 --> 04:50.530
+At least that's how PyTorch represents it internally.
+
+04:50.690 --> 04:57.340
+So PyTorch doesn't actually like this because it thinks that we are trying to modify the output matrix
+
+04:57.340 --> 05:01.700
+from a view or a slice, and not just this one piece of it.
+
+05:02.100 --> 05:03.980
+So that causes an error.
+
+05:04.700 --> 05:10.020
+To be honest, it's a little bit annoying that it works that way, but that's just how it is.
+
+05:10.940 --> 05:14.420
+So then we will move on to the second demo, which actually does work.
+
+05:14.660 --> 05:21.580
+Now here I'm not slicing or viewing the matrix, I'm just modifying the matrix directly.
+
+05:22.060 --> 05:31.820
+Remember that because this is an attention block, this output matrix is the qkv vectors all concatenated.
+
+05:32.220 --> 05:40.060
+And because q come first, I'm zeroing out the first ten vectors of the fifth token for q.
+
+05:40.580 --> 05:46.180
+So that's not so confusing here, although it can get a little tricky with the indexing if you want
+
+05:46.180 --> 05:52.780
+to access the v or the k vectors because those come later after q.
+
+05:53.100 --> 05:53.340
+Okay.
+
+05:53.380 --> 05:57.420
+And then here I'm storing the output and then again returning that output.
+
+05:57.420 --> 06:02.380
+So it replaces what would otherwise be the calculation of the attention block here.
+
+06:02.420 --> 06:07.860
+After implanting this hook and doing a forward pass I grab the activations.
+
+06:07.860 --> 06:15.620
+And now you see that this row here has all zeros exactly as I specified in demo three.
+
+06:15.660 --> 06:19.260
+I will show you another way to get demo one to work.
+
+06:19.700 --> 06:26.500
+So I'm still splitting up the Q tensor over here into three separate matrices.
+
+06:26.980 --> 06:32.380
+But then here I'm making a copy or a clone of the Q matrix.
+
+06:32.380 --> 06:35.460
+And then I modify that copy.
+
+06:35.580 --> 06:40.620
+And then I can concatenate that back along with the original k and v.
+
+06:40.860 --> 06:44.900
+And then I store that and output that q matrix.
+
+06:45.180 --> 06:49.420
+And this one PyTorch is actually happy to let me modify.
+
+06:49.460 --> 06:51.180
+So this demo will work.
+
+06:51.740 --> 06:59.100
+Then in demo four I will show you how to manipulate only one layer while storing the activations from
+
+06:59.100 --> 07:01.620
+all the other layers without changing them.
+
+07:02.140 --> 07:08.500
+This would be for an experiment in which you want to measure the attention vectors from all transformer
+
+07:08.500 --> 07:14.860
+blocks throughout the entire model, but you don't want to manipulate all of the attention blocks,
+
+07:14.980 --> 07:19.340
+you just want to modify the activations in one layer.
+
+07:19.340 --> 07:22.300
+And here you can see I'm doing that in layer three.
+
+07:22.820 --> 07:26.540
+So you can see I'm doing a lot of hard coding in these demos.
+
+07:26.660 --> 07:31.660
+That's fine for getting started to explain the mechanisms in a very simple way.
+
+07:31.700 --> 07:38.180
+Although yeah, hard coding like this is obviously not the best way to write code or to run experiments.
+
+07:38.580 --> 07:41.100
+I will get back to that in a moment.
+
+07:41.100 --> 07:47.270
+But first here you can see that I have successfully cached the activations from all the layers, but
+
+07:47.270 --> 07:53.710
+I've zeroed out only the activations from the fourth layer, which corresponds to index three.
+
+07:54.390 --> 08:02.670
+Now, in all of the demos so far, I have explicitly zeroed out the activations by putting zero directly
+
+08:02.670 --> 08:04.030
+into the hook function.
+
+08:05.030 --> 08:05.870
+That's fine.
+
+08:05.870 --> 08:10.110
+If we ever only ever want to change the activations to zero.
+
+08:10.390 --> 08:15.910
+But zero is not a very realistic value for the internals of a language model.
+
+08:16.310 --> 08:22.910
+And that brings me to demo five, where I'm going to create a separate variable outside of the hook
+
+08:22.910 --> 08:23.550
+function.
+
+08:23.550 --> 08:30.510
+So a global variable and that defines the numerical data that you want to inject into the model.
+
+08:30.630 --> 08:33.830
+So that's what you see here I call that Q to replace.
+
+08:34.070 --> 08:36.910
+And here I've set it to be zeros again.
+
+08:36.910 --> 08:41.270
+But of course in the future we will set this to be other vectors that we want.
+
+08:41.710 --> 08:48.430
+Now there's still quite a bit of hard coding in here in terms of the length of the vector and the indices
+
+08:48.430 --> 08:49.790
+to target and so on.
+
+08:50.110 --> 08:57.670
+And that brings me to the final demo in this video, where I will create a dictionary with the keys
+
+08:57.670 --> 09:03.710
+corresponding to the layer number that you want to replace, and the values corresponding to the numbers
+
+09:03.710 --> 09:06.430
+that you want to put in place of the data.
+
+09:06.910 --> 09:13.670
+So you can see here that inside the hook function, that the activations will be stored from all of
+
+09:13.670 --> 09:21.030
+the layers, but they only get changed if the particular layer that we're that is currently being processed
+
+09:21.070 --> 09:23.790
+is one of the keys of this dictionary.
+
+09:24.870 --> 09:31.150
+And then, yeah, this code is still always going to start replacing data from the very first index.
+
+09:31.550 --> 09:33.710
+And for token index four.
+
+09:33.710 --> 09:40.510
+But at least it's dynamic enough to replace the vectors according to whatever data you put into this
+
+09:40.510 --> 09:41.270
+dictionary.
+
+09:42.110 --> 09:49.070
+Needless to say, this dictionary is something you can continue modifying and adapting as you are running.
+
+09:49.070 --> 09:51.430
+Experiments and explorations.
+
+09:52.150 --> 09:55.870
+So here you see a bit of code where I show how to use this.
+
+09:56.430 --> 10:05.110
+So here I'm removing the key for number eight and then adding another key to change here to the 12th
+
+10:05.110 --> 10:05.430
+block.
+
+10:05.430 --> 10:06.590
+So index 11.
+
+10:06.950 --> 10:09.190
+And then here I'm printing out the activations.
+
+10:09.190 --> 10:12.870
+You don't actually see what's going on all the way out till 11.
+
+10:12.870 --> 10:15.070
+But I will show you that when we switch to code.
+
+10:16.350 --> 10:22.470
+So there's a lot more to learn about manipulating activation values in a model.
+
+10:22.470 --> 10:29.070
+I will have more things to say in the code demo, and a lot more things to say in the videos in the
+
+10:29.070 --> 10:30.990
+rest of this part of the course.
+
+10:30.990 --> 10:33.270
+But this really is the basic idea.
+
+10:33.270 --> 10:34.790
+It's not so difficult.
+
+10:36.110 --> 10:42.720
+I'm not going to be visualizing data or really working with data at all, so we just need to import
+
+10:42.720 --> 10:45.720
+the PyTorch libraries and of course the model.
+
+10:45.760 --> 10:48.200
+Again, GPT two small is fine.
+
+10:48.520 --> 10:50.040
+We just want to test some things.
+
+10:50.280 --> 10:54.360
+Here are some tokens to process just so we have some data to push through the model.
+
+10:54.360 --> 10:56.960
+I wish coffee would taste like chocolate.
+
+10:57.000 --> 11:00.720
+I suppose technically you could put chocolate into coffee, but whatever.
+
+11:01.160 --> 11:01.560
+Okay.
+
+11:01.600 --> 11:02.080
+And, uh.
+
+11:02.120 --> 11:02.360
+Yeah.
+
+11:02.400 --> 11:04.800
+Okay, so let's go through demo one now.
+
+11:05.040 --> 11:11.920
+So here, as I explained in the slides a moment ago, all of this code seems like it should work.
+
+11:12.160 --> 11:18.960
+So we split the output of the attention block into the three matrices.
+
+11:19.080 --> 11:22.520
+And then I'm zeroing out some of them, and then I recombine them.
+
+11:22.520 --> 11:24.360
+So I concatenate them back together.
+
+11:25.600 --> 11:30.480
+The size of this matrix is the same as the size of this matrix.
+
+11:30.480 --> 11:39.360
+So the output of the this block, and literally every single element in this tensor is identical to
+
+11:39.400 --> 11:44.360
+this tensor, except for these ten numbers here, which I've replaced with zeros.
+
+11:44.720 --> 11:47.640
+But unfortunately that is just not going to work.
+
+11:47.920 --> 11:54.800
+Here you can also see I'm getting a handle from this hook function because yeah I'm going to want to
+
+11:54.840 --> 11:58.920
+remove this so it doesn't continue causing problems in the next demos.
+
+11:59.360 --> 11:59.640
+Okay.
+
+11:59.680 --> 12:03.160
+So model dot transformer dot h for the hidden layer.
+
+12:03.160 --> 12:08.000
+And then in attention C attention and then register forward hook.
+
+12:08.680 --> 12:13.320
+Uh, by the way, I don't remember if I have mentioned this before in the course, but there's also
+
+12:13.320 --> 12:21.080
+a register backward hook that is something that gets calculated or implemented when the model is doing
+
+12:21.400 --> 12:23.400
+backprop back propagation.
+
+12:23.600 --> 12:25.880
+But we are not doing backpropagation here.
+
+12:25.880 --> 12:27.920
+We are doing forward pass.
+
+12:27.920 --> 12:30.040
+So that's why we use the forward hook.
+
+12:30.320 --> 12:36.000
+The backward hook would be something that uh, yeah, if you want to manipulate some activations while
+
+12:36.000 --> 12:37.640
+the model is being trained.
+
+12:37.640 --> 12:37.770
+Range.
+
+12:38.250 --> 12:39.530
+So far, so good.
+
+12:39.530 --> 12:40.610
+And, uh.
+
+12:40.610 --> 12:42.210
+Oh, here we get a problem.
+
+12:42.490 --> 12:47.570
+I'll put zero of slice backwards is a view and is being modified in place.
+
+12:47.570 --> 12:49.490
+So PyTorch does not like that.
+
+12:49.530 --> 12:50.370
+Okay, fine.
+
+12:50.650 --> 12:51.930
+Remove that handle.
+
+12:51.970 --> 12:54.530
+And now here we are with demo two.
+
+12:54.930 --> 13:02.970
+So now I'm just index accessing this matrix directly I'm not creating a separate view a separate slice
+
+13:02.970 --> 13:04.690
+of the matrix that is linked.
+
+13:04.690 --> 13:10.010
+And then modifying that instead I'm just modifying this tensor directly.
+
+13:10.330 --> 13:17.450
+If you find the difference between this code and this code to be confusing, I'm on your side on this.
+
+13:17.610 --> 13:21.090
+I also find this to be quite confusing that this doesn't work.
+
+13:21.090 --> 13:23.330
+But anyway, that's that's just how it is.
+
+13:23.570 --> 13:25.570
+Uh, so this works.
+
+13:25.610 --> 13:26.490
+It's all fine.
+
+13:26.530 --> 13:30.850
+The one thing that is potentially a little bit confusing is that this is just.
+
+13:30.850 --> 13:38.330
+Q if you wanted to access, let's say, the first ten, uh, vectors in k, then what you would need
+
+13:38.330 --> 13:44.930
+to do is write 768 to 768 plus ten and Y7 68.
+
+13:44.970 --> 13:48.810
+That is the embeddings dimension of GPT two small.
+
+13:49.730 --> 13:55.850
+So therefore this is the end of the Q matrix and the start of the k matrix.
+
+13:55.970 --> 13:59.770
+And then this would be the k matrix plus ten obviously.
+
+13:59.810 --> 14:00.010
+Yeah.
+
+14:00.650 --> 14:03.570
+In practice you should not be hard coding things like this.
+
+14:03.570 --> 14:06.210
+But it's just for demonstration.
+
+14:06.610 --> 14:07.090
+Okay then.
+
+14:07.090 --> 14:09.010
+Otherwise the rest of this code is the same.
+
+14:09.050 --> 14:12.770
+I'm implanting this hook back into the attention block here.
+
+14:12.930 --> 14:20.970
+We can run the model through and confirm that we have really cached these activation values.
+
+14:21.090 --> 14:23.410
+And now here I'm just highlighting the first ten.
+
+14:23.410 --> 14:26.330
+And you see indeed that there are zero over here.
+
+14:26.330 --> 14:28.970
+So there's only one row in which these are zero.
+
+14:29.130 --> 14:31.690
+And then again I remove that hook.
+
+14:31.850 --> 14:33.850
+And now for demo three.
+
+14:34.290 --> 14:36.810
+Okay So here this is now slightly different.
+
+14:36.810 --> 14:39.890
+This is an adaptation of demo one here.
+
+14:39.890 --> 14:42.010
+I'm still splitting up the matrices.
+
+14:42.010 --> 14:49.090
+This is useful because it makes it easier to, uh, to access one of these three matrices.
+
+14:49.450 --> 14:52.370
+The difference here is I'm first making a copy.
+
+14:52.570 --> 14:58.970
+So this is not explicitly attached to this tensor, but instead is its own unique copy.
+
+14:59.130 --> 15:02.010
+And now I'm modifying this in place.
+
+15:02.010 --> 15:04.570
+And then I'm concatenating them back.
+
+15:04.570 --> 15:08.330
+And then it turns out that PyTorch is completely fine with that.
+
+15:08.770 --> 15:14.770
+And here we see again that the first element in the sequence, the fourth token.
+
+15:14.770 --> 15:18.850
+And I'm printing out all of the embeddings vectors for qkv.
+
+15:18.850 --> 15:23.930
+And we see that they start with zeros because that's what I manipulated okay.
+
+15:23.970 --> 15:25.170
+Also remove that hook.
+
+15:25.690 --> 15:29.730
+So now what I'm doing is adding a little bit more sophistication.
+
+15:29.970 --> 15:38.020
+So the idea here is that I want to implant this hook into all of the transformer blocks, because I
+
+15:38.020 --> 15:44.780
+want to get the Q activations or whatever activations we want from every single block, from all the
+
+15:44.780 --> 15:46.060
+transformer layers.
+
+15:46.740 --> 15:49.620
+But I only want to manipulate.
+
+15:49.620 --> 15:53.700
+I only want to change the activations from one of those layers.
+
+15:53.820 --> 15:55.060
+So very easy to do.
+
+15:55.100 --> 16:02.260
+You just add an if statement and you say if layer number equals three, then you do this and otherwise.
+
+16:02.260 --> 16:05.900
+So for every other layer this code does not get run.
+
+16:05.900 --> 16:08.540
+And then all we do is store the activations.
+
+16:09.020 --> 16:15.980
+We still want this return statement here, but this output is not modified unless the layer number equals
+
+16:15.980 --> 16:16.500
+three.
+
+16:17.140 --> 16:17.540
+Okay.
+
+16:17.580 --> 16:19.020
+So now yeah.
+
+16:19.340 --> 16:23.460
+Then here I'm just showing you that I've organized these handles into a list.
+
+16:23.460 --> 16:26.380
+So I initialize handles as an empty list.
+
+16:26.380 --> 16:28.140
+And then I keep appending it.
+
+16:28.140 --> 16:32.060
+So now we get all of these hooks one for each transformer block.
+
+16:33.300 --> 16:38.620
+And then here again I'm just printing out some of these activations just so you can see that they really
+
+16:38.620 --> 16:40.820
+do turn into zeros.
+
+16:41.060 --> 16:41.260
+Okay.
+
+16:41.300 --> 16:43.260
+And then here I'm removing all of them.
+
+16:43.900 --> 16:46.740
+Now we get to demo five here.
+
+16:46.740 --> 16:54.540
+The main addition compared to the previous demo is that I am defining the vector that I want to use
+
+16:54.540 --> 16:55.780
+to replace this.
+
+16:55.780 --> 16:59.260
+I'm not hard coding it in here inside the hook function.
+
+16:59.260 --> 17:07.580
+Instead, I am defining this variable outside of the hook function so that I can later modify this during
+
+17:07.620 --> 17:08.620
+an experiment.
+
+17:08.860 --> 17:09.100
+Okay?
+
+17:09.140 --> 17:13.100
+Otherwise, this is very similar to the fourth one okay.
+
+17:13.140 --> 17:15.820
+So now yeah we see we get lots of zeros there.
+
+17:16.020 --> 17:18.820
+And now here I'm overwriting this variable.
+
+17:18.820 --> 17:23.540
+So this variable was called Q to replace here it's called q to replace.
+
+17:23.700 --> 17:28.300
+And now here I'm setting q to replace be linearly spaced numbers.
+
+17:28.300 --> 17:35.620
+So instead of zeros this is going to be just linearly spaced numbers from minus one up to 0.7.
+
+17:36.980 --> 17:37.300
+Okay.
+
+17:37.340 --> 17:39.860
+And then finally demo six.
+
+17:39.980 --> 17:42.860
+And that is kind of the most flexible.
+
+17:43.020 --> 17:50.380
+We are still going to develop slightly more sophisticated versions of the hook functions and interacting
+
+17:50.380 --> 17:53.300
+with the model as it's doing a forward pass.
+
+17:53.300 --> 17:54.700
+But that will come later.
+
+17:55.020 --> 18:01.740
+But this is certainly the most sophisticated and dynamic and flexible way of hooking into a function
+
+18:01.900 --> 18:04.860
+and manipulating its activations that I've shown so far.
+
+18:05.220 --> 18:05.500
+Okay.
+
+18:05.540 --> 18:08.660
+So we get a dictionary where the keys are numbers.
+
+18:08.660 --> 18:09.740
+These are integers.
+
+18:09.740 --> 18:13.100
+These will correspond to the layered numbers.
+
+18:13.260 --> 18:19.700
+And then the values associated with each of these keys corresponds to the activations that I want to
+
+18:19.700 --> 18:20.500
+replace.
+
+18:20.780 --> 18:21.060
+Okay.
+
+18:21.140 --> 18:24.140
+So now here we say if the layer number.
+
+18:24.140 --> 18:29.350
+So if the layer number that we're currently working in as we're going through the activations in the
+
+18:29.350 --> 18:32.510
+model, if that is a member of the keys.
+
+18:32.510 --> 18:39.870
+So in this case, if it's either a three or an eight, then we grab the activations from here.
+
+18:40.390 --> 18:44.030
+So either zeros or integers going up to five.
+
+18:44.190 --> 18:45.870
+That becomes the new data.
+
+18:45.870 --> 18:53.310
+And then I'm replacing that at the beginning of q the q activations for token number four.
+
+18:53.870 --> 18:59.790
+Again this is still more hard coding inside the hook function than you would typically want to have,
+
+19:00.030 --> 19:00.910
+but that's fine.
+
+19:00.910 --> 19:03.190
+I'm just trying to demo how these work.
+
+19:03.430 --> 19:09.150
+Okay, if if this is false, then that means we're on, you know, layer seven or whatever.
+
+19:09.350 --> 19:14.150
+Then nothing gets changed, but we still save the output.
+
+19:14.590 --> 19:14.990
+Okay.
+
+19:15.030 --> 19:19.510
+So then I implant that into all of the layers.
+
+19:19.550 --> 19:22.350
+And now here you can see that we get.
+
+19:22.350 --> 19:24.870
+So let's see we have modified from layer three.
+
+19:24.910 --> 19:26.230
+That's all zeros.
+
+19:26.230 --> 19:28.470
+And we modified from layer eight.
+
+19:28.710 --> 19:31.350
+That is just the numbers zero.
+
+19:31.390 --> 19:33.150
+The integers zero through four.
+
+19:33.550 --> 19:39.590
+And this is where we get back to the regular activations that are calculated endogenously by the model.
+
+19:39.590 --> 19:46.630
+So I did not actually change any of these values I only changed the first five values okay.
+
+19:46.670 --> 19:55.310
+So now here I am replacing or sorry deleting key eight and adding another replacement in 11.
+
+19:55.790 --> 19:58.350
+So eight three is preserved.
+
+19:58.350 --> 19:59.590
+That's still all zeros.
+
+19:59.590 --> 20:02.870
+And now I'm setting 11 to be 123.
+
+20:03.150 --> 20:05.270
+And now run some more tokens again.
+
+20:05.790 --> 20:07.230
+And now we see.
+
+20:07.270 --> 20:09.430
+So three is still the zeros.
+
+20:09.430 --> 20:16.910
+And now layer eight is go has gone back to what it should be without any manipulations.
+
+20:16.910 --> 20:21.630
+So this is all the natural activity that is being calculated by the model.
+
+20:21.830 --> 20:30.310
+It's not at all affected by the previous manipulation, because I have specifically deleted it from
+
+20:30.350 --> 20:37.510
+that dictionary, and instead now we get a manipulation of the final transformer block.
+
+20:37.510 --> 20:39.430
+And that's just the numbers one, two, three.
+
+20:39.870 --> 20:40.230
+Okay.
+
+20:40.270 --> 20:44.590
+And then I remove all of those handles, although this is the end of the script.
+
+20:44.590 --> 20:46.270
+So I don't actually need to do that.
+
+20:46.670 --> 20:54.630
+And here yeah I'm just printing out the, the keys and the values that I am manipulating in this experiment.
+
+20:55.790 --> 21:03.070
+As I mentioned in the previous video, doing interventional or causal mechanistic interpretability research
+
+21:03.310 --> 21:06.710
+is simultaneously easy and difficult.
+
+21:07.270 --> 21:11.110
+The coding part is easy, as you've now seen in this video.
+
+21:11.590 --> 21:17.710
+There are a few additional considerations and some tricks and other things to know about when coding
+
+21:17.870 --> 21:25.040
+forward pass manipulations, but that's relatively easy compared to all of the amazing things that you've
+
+21:25.040 --> 21:27.240
+learned so far in this course.
+
+21:28.040 --> 21:33.840
+That said, one tricky thing about writing these kinds of hooks is that you cannot interact with the
+
+21:33.840 --> 21:37.360
+functions or the data in the middle of a forward pass.
+
+21:37.480 --> 21:44.080
+So I definitely recommend incorporating print statements into your hooks while you are first writing
+
+21:44.080 --> 21:50.200
+your code and doing lots of sanity checking about matrix sizes and the hooked values.
+
+21:50.640 --> 21:56.760
+Even if you're not planning on replacing the actual activations with zeros, it's still a good idea
+
+21:56.760 --> 22:03.440
+to actually replace with zeros when writing your code initially, just to make it easier to check that
+
+22:03.440 --> 22:07.680
+your code is doing what you want it to do, where you want it to be doing it.
+
+22:08.560 --> 22:11.160
+Anyway, I hope you found this video insightful.
+
+22:11.440 --> 22:18.000
+In the next video, you will have the opportunity to continue learning about using hooks to manipulate
+
+22:18.000 --> 22:20.080
+activations during inference.

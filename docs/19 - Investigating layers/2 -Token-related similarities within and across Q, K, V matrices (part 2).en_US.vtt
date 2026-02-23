@@ -1,0 +1,763 @@
+WEBVTT
+
+00:05.680 --> 00:08.920
+So this is the code for cosine similarity.
+
+00:08.960 --> 00:12.640
+Here I have code for the correlation coefficients.
+
+00:12.920 --> 00:20.600
+And this should look familiar because it's basically the same as the code above, except I mean center
+
+00:20.600 --> 00:21.240
+first.
+
+00:22.120 --> 00:25.000
+So I'm not going to run this code cell yet.
+
+00:25.160 --> 00:29.040
+First I want to show you the results for cosine similarity.
+
+00:29.040 --> 00:37.520
+And then I'm going to go back and run this code which is nearly identical analysis except for the line
+
+00:37.520 --> 00:39.760
+where I mean center first.
+
+00:40.240 --> 00:45.040
+Uh, and by the way, I still call this variable cosine similarity, but that's just so I don't have
+
+00:45.040 --> 00:46.480
+to change the code below.
+
+00:46.480 --> 00:48.280
+So a little bit confusing.
+
+00:48.280 --> 00:49.640
+I apologize for that.
+
+00:49.680 --> 00:51.840
+Anyway, not going to run this code.
+
+00:52.040 --> 00:54.200
+Uh, I have run this code.
+
+00:54.200 --> 00:57.960
+So we are working with cosine similarity here.
+
+00:57.960 --> 01:03.860
+What I'm doing is generating some random, cosine similarity values.
+
+01:03.860 --> 01:07.940
+So we have a comparison for the plots.
+
+01:08.060 --> 01:13.860
+And I showed the random distribution in the slides, although I didn't really talk about it.
+
+01:14.140 --> 01:22.900
+So essentially all I'm doing is taking the activations values completely randomly shuffling them around.
+
+01:22.900 --> 01:25.980
+And so that is this randomly shuffling.
+
+01:26.220 --> 01:28.980
+So just reordering all of the activations.
+
+01:28.980 --> 01:32.300
+So I'm not generating new fake data.
+
+01:32.340 --> 01:36.340
+I'm taking all of the real activation data and just shuffling it around.
+
+01:36.580 --> 01:44.660
+And then I resort that and then calculate the cosine similarity for the randomized or shuffled matrix.
+
+01:44.820 --> 01:51.220
+This is going to be an interesting distribution to compare against the observed cosine similarities.
+
+01:51.900 --> 01:52.180
+Okay.
+
+01:52.220 --> 01:53.300
+So run that code.
+
+01:53.340 --> 01:58.300
+So now we have an issue here which is you know we have this giant matrix.
+
+01:58.300 --> 02:06.160
+But we need to separate the vectors for within each matrix versus across the different matrices.
+
+02:06.720 --> 02:15.600
+That is to say, we want to examine the cosine similarities between pairs of query vectors and also
+
+02:15.600 --> 02:18.200
+between pairs of keys vectors.
+
+02:18.400 --> 02:25.760
+And then we want to look at the cosine similarity between pairs of the queries vectors and the keys
+
+02:25.760 --> 02:26.520
+vectors.
+
+02:26.640 --> 02:33.480
+So how do we isolate those different uh analyzes those different sets of results.
+
+02:34.000 --> 02:36.520
+That is what I do here with this mask.
+
+02:36.520 --> 02:38.720
+So let me first show you what the mask looks like.
+
+02:38.720 --> 02:40.840
+And then I'll scroll back up and show the code.
+
+02:41.920 --> 02:44.200
+So I've created this matrix mask here.
+
+02:44.400 --> 02:52.240
+It has values of one over here and four over here and nine over here.
+
+02:52.240 --> 02:53.600
+And these are the cross terms.
+
+02:53.600 --> 03:02.100
+So the idea is that all of these numbers here that have in the mask a numerical value of one, Those
+
+03:02.100 --> 03:04.980
+correspond to the cu-cu interactions.
+
+03:04.980 --> 03:10.540
+So all possible pairs of all the Q vectors with all the other q vectors.
+
+03:10.740 --> 03:16.100
+Here this one is for k, so all the k vectors with other k vectors.
+
+03:16.300 --> 03:18.380
+This one up here are the cross terms.
+
+03:18.380 --> 03:20.700
+So the q k interactions.
+
+03:20.700 --> 03:28.020
+So these are the cosine similarities between all of the q vectors and all of the k vectors.
+
+03:28.140 --> 03:30.460
+And then yeah that's for all the three pairs.
+
+03:31.220 --> 03:41.580
+So the way that I create this matrix mask is by defining the q to be one, k to be two and v to be three,
+
+03:41.900 --> 03:45.540
+and then creating a vector mask which looks like this.
+
+03:45.620 --> 03:48.420
+It's just ones and then twos and then threes.
+
+03:48.460 --> 03:49.540
+This is a vector.
+
+03:49.860 --> 03:55.420
+And then I calculate the outer product of this vector with itself, uh, which would give me a full
+
+03:55.420 --> 03:56.780
+version of this matrix.
+
+03:56.780 --> 04:03.090
+And then I take the uh so let's see this is the outer product and then I take the upper triangular.
+
+04:03.290 --> 04:11.050
+And that gives me just the these parts of the matrix, which are the unique cosine similarity values.
+
+04:11.530 --> 04:15.890
+If this looks familiar, this general approach, if this looks familiar, then that's great.
+
+04:15.890 --> 04:19.730
+You have actually seen exactly this same approach before.
+
+04:20.050 --> 04:26.010
+Earlier in the course when we were separating groups into different semantic categories of different
+
+04:26.050 --> 04:26.770
+tokens.
+
+04:27.450 --> 04:27.850
+Okay.
+
+04:27.890 --> 04:40.610
+So with that in mind, we can now apply blocks of this mask to these data up here to extract and isolate
+
+04:40.770 --> 04:50.010
+the cosine similarities within and across the three different submatrices of the attention subblock.
+
+04:50.730 --> 04:54.450
+And that is what I start doing down here.
+
+04:54.650 --> 04:54.930
+Okay.
+
+04:54.970 --> 04:58.810
+So here I get the cosine similarity for the target.
+
+04:58.850 --> 05:05.550
+Here I'm looking for where the matrix mask equals the value of schlock times itself.
+
+05:05.550 --> 05:08.510
+So this is one times one, which is one.
+
+05:08.510 --> 05:13.470
+And then this is two times two, which is four, three times three, which is nine.
+
+05:13.470 --> 05:22.470
+So these three rows here are getting all of the values in this triangle for Q and this triangle for
+
+05:22.510 --> 05:22.870
+k.
+
+05:23.270 --> 05:26.390
+And in this triangle for v okay.
+
+05:26.430 --> 05:28.830
+And then I get the cross terms here.
+
+05:29.030 --> 05:32.830
+So that is one times two which is a value of two.
+
+05:32.870 --> 05:35.350
+So this was one this was two.
+
+05:35.510 --> 05:40.470
+And all of the numerical values of two in this mask appear over here.
+
+05:40.750 --> 05:46.910
+So that is the interaction between q and v okay.
+
+05:46.950 --> 05:48.510
+So that is that.
+
+05:48.510 --> 05:50.470
+So yeah this is for the targets.
+
+05:50.470 --> 05:54.470
+And then I repeat this down here for the non targets.
+
+05:54.790 --> 05:56.470
+So then we see this is vectorized.
+
+05:56.470 --> 05:57.990
+So we get lots of data.
+
+05:58.030 --> 06:02.290
+It's like half a million data values for QQ Qk.
+
+06:02.370 --> 06:05.930
+Cosine similarity for the target value.
+
+06:06.090 --> 06:07.850
+And what are all of these numbers?
+
+06:07.970 --> 06:10.970
+So we have the q neurons and the k neurons.
+
+06:11.090 --> 06:17.290
+And we have their activations for all of the 54 target values.
+
+06:17.490 --> 06:25.090
+So then we take each vector in Q with each vector in k calculate their cosine similarities.
+
+06:25.250 --> 06:28.450
+And then basically this that just gets vectorized here.
+
+06:28.450 --> 06:30.530
+So that's all the numbers that we have over there.
+
+06:31.010 --> 06:31.330
+Okay.
+
+06:31.370 --> 06:33.170
+So that is for isolating the data.
+
+06:33.210 --> 06:36.010
+Here I am generating the histograms.
+
+06:36.170 --> 06:41.610
+Here I'm defining the bin boundaries for creating the histograms.
+
+06:41.610 --> 06:45.170
+So bins from minus one to plus one.
+
+06:45.170 --> 06:49.090
+And I'm defining 101 boundary values.
+
+06:49.090 --> 06:53.770
+Which means there's going to be 100 bins between minus one and plus one.
+
+06:54.090 --> 06:59.130
+This is averaging together the bin edges so that we get the bin centers.
+
+06:59.130 --> 07:01.170
+This is what I'll use for plotting.
+
+07:01.690 --> 07:02.010
+Okay.
+
+07:02.050 --> 07:11.070
+So because we have the identical bin boundaries, we just we only need the first output here of numpy
+
+07:11.310 --> 07:12.110
+histogram.
+
+07:12.270 --> 07:14.630
+So you can see it's a lot of code to copy paste.
+
+07:14.830 --> 07:20.910
+I sure hope that I didn't make any errors here in copying and pasting, but I think it's all correct.
+
+07:21.430 --> 07:26.590
+Okay, so we have for the targets we have the within matrix and between matrix.
+
+07:27.110 --> 07:30.990
+For the non targets we have the within matrix and between matrix.
+
+07:30.990 --> 07:32.550
+And then we have the random.
+
+07:32.590 --> 07:34.590
+That is its own thing down here.
+
+07:35.110 --> 07:37.910
+So now we have all of the data.
+
+07:38.150 --> 07:40.750
+And now we can generate the plot.
+
+07:40.990 --> 07:46.510
+So again the plots are not you know if you take the time to understand one line then you understand
+
+07:46.510 --> 07:47.510
+all of the lines.
+
+07:47.710 --> 07:49.470
+They all do exactly the same thing.
+
+07:49.510 --> 07:56.870
+I guess one thing I will point out here is that the random vectors just ended up having such a different
+
+07:56.870 --> 08:03.570
+y axis value compared to all of the other vectors that I just arbitrarily divided by three.
+
+08:04.050 --> 08:06.410
+That's just just for visualization.
+
+08:06.890 --> 08:12.770
+So in fact, the random, uh, cosine similarity values are really not that interesting.
+
+08:12.970 --> 08:16.210
+It just looks like a pure Gaussian centered at zero.
+
+08:16.570 --> 08:22.690
+The main point of this is to show that basically none of these results that you see here are really
+
+08:22.690 --> 08:24.490
+convincingly random.
+
+08:24.490 --> 08:26.370
+So they look really non-random.
+
+08:26.490 --> 08:31.610
+That's mainly the whole point of showing this random distribution here.
+
+08:32.330 --> 08:33.650
+Otherwise what do we see?
+
+08:33.650 --> 08:36.330
+What can we see in this interpretation?
+
+08:36.530 --> 08:41.090
+So one thing is if you look just at the targets so that's in the top row.
+
+08:41.290 --> 08:43.490
+Is that within a matrix.
+
+08:43.490 --> 08:50.610
+So qk and k we see lots of really robust cosine similarities.
+
+08:50.610 --> 08:55.570
+So extreme values close to minus one and close to plus one.
+
+08:55.890 --> 09:04.870
+And there are of course also a lot of pairs of vectors that have very weak or even no cosine similarity.
+
+09:04.870 --> 09:07.750
+But you can see the distributions make this kind of smile.
+
+09:07.750 --> 09:10.470
+So it's really pushing out towards the extremes.
+
+09:10.470 --> 09:18.470
+Lots of vectors are really strongly uh, have strong cosine similarity within the uh, the V matrix.
+
+09:18.470 --> 09:25.470
+It certainly doesn't look random, but you don't see this kind of pull up to the extremes of the distribution.
+
+09:25.670 --> 09:31.790
+And what this indicates is that the V matrix is a little bit more decoupled.
+
+09:31.790 --> 09:40.310
+So the individual V vectors are coding for different kinds of properties based on the previous context,
+
+09:40.590 --> 09:48.190
+whereas the q and the k matrices are doing a lot of coding for the current token, which is identical
+
+09:48.310 --> 09:50.510
+in all of these sentences.
+
+09:50.990 --> 09:58.310
+Also interesting to look across matrix again, you see, you know, the whole spectrum of cosine similarities
+
+09:58.310 --> 10:02.510
+appearing for all three of these pairs of matrices.
+
+10:02.710 --> 10:05.300
+But what really stands out is the Q.
+
+10:06.180 --> 10:10.860
+So query keys interactions and why are those so much higher.
+
+10:10.860 --> 10:16.100
+And the interactions with the the value uh vectors are lower.
+
+10:16.660 --> 10:24.460
+Well, one thing to keep in mind is that the purpose of Q and k, the uh, the query and the keys vectors
+
+10:24.820 --> 10:31.780
+is to dot product with themselves and determine the probability that their tokens match.
+
+10:31.780 --> 10:39.780
+And if there is a good match between the query vectors and the keys vectors, then those corresponding
+
+10:40.060 --> 10:47.540
+uh values or v vectors are what carries the information that goes into the adjustment, into the token
+
+10:47.540 --> 10:52.300
+embeddings vector into the residual stream, and then passed on to the MLP layer.
+
+10:53.300 --> 11:00.860
+So that means that the Q and k matrices are working closely together pre attention and the v vector
+
+11:00.900 --> 11:07.840
+the values that is not working as closely with the Q and K compared to what it does on its own.
+
+11:08.440 --> 11:14.440
+There is a lot more that could be said and interpreted and speculated about in this graph.
+
+11:14.440 --> 11:20.880
+I invite you to think more about that based on what you learned earlier in this course, but I'm going
+
+11:20.880 --> 11:23.520
+to move on to some additional explorations.
+
+11:23.920 --> 11:28.480
+So one thing is like, why do we get all these really strong negative correlations?
+
+11:28.480 --> 11:30.520
+What does that mean and what's going on there?
+
+11:30.880 --> 11:37.560
+Is it really the case that one q vector is shooting up while the other one is shooting down, or what's
+
+11:37.560 --> 11:38.240
+going on there?
+
+11:38.280 --> 11:46.760
+So one thing to remember about cosine similarity is that any mean offsets in the vectors are brought
+
+11:46.760 --> 11:49.880
+into the results of cosine similarity.
+
+11:50.200 --> 11:54.440
+And so if there are mean offsets those are not subtracted out.
+
+11:54.480 --> 11:56.560
+They are with the correlation coefficient.
+
+11:56.560 --> 12:00.200
+They are not with the cosine similarity.
+
+12:00.520 --> 12:06.980
+So a negative value here could actually indicate that one vector has a lot of negative values, and
+
+12:06.980 --> 12:10.580
+another vector has a lot of positive values.
+
+12:10.980 --> 12:14.740
+So let's do some additional explorations here.
+
+12:14.780 --> 12:24.740
+What I'm doing here is plotting the average value across all 54 target tokens for the queries vectors,
+
+12:24.780 --> 12:28.100
+the keys vectors and the values vectors.
+
+12:28.540 --> 12:31.420
+Now when you look at the total population level.
+
+12:31.420 --> 12:40.820
+So across all of the vectors in these matrices, you do see that the average the layer average basically
+
+12:40.820 --> 12:42.380
+collapses to zero.
+
+12:42.980 --> 12:44.620
+I didn't actually calculate this.
+
+12:44.620 --> 12:48.900
+You could do it if you want, but it certainly looks like it's somewhere around zero.
+
+12:48.900 --> 12:51.140
+But there's quite a bit of variability.
+
+12:51.860 --> 12:57.220
+So you see that there are average over all 54 tokens.
+
+12:57.380 --> 13:02.540
+There are Q vectors that just generally respond in a positive way.
+
+13:02.540 --> 13:10.280
+So with positive Of activation every time the word her appears, and others where on average across
+
+13:10.280 --> 13:12.920
+the 54 repetitions of the word her.
+
+13:13.200 --> 13:16.360
+There is a negative activation value.
+
+13:16.760 --> 13:20.840
+You see that for the the queries, it's even more the case.
+
+13:20.840 --> 13:24.640
+You get even more extreme values for the keys vectors.
+
+13:24.640 --> 13:30.080
+And the values vectors actually seem to be a little bit tighter there, a little bit closer to being
+
+13:30.240 --> 13:31.520
+already centered.
+
+13:31.840 --> 13:40.800
+So this sort of thing alone, these mean offsets alone, could drive the cosine similarity values towards
+
+13:40.800 --> 13:43.560
+the extremes towards plus one.
+
+13:43.560 --> 13:50.240
+If you have these two vectors, or like minus one if you have this vector and this vector here, this
+
+13:50.240 --> 13:57.120
+difference in variability is something that you are going to explore in the code challenge in the next
+
+13:57.120 --> 13:57.920
+video.
+
+13:58.120 --> 14:04.640
+So for now this is kind of a curious observation, and we will look at it in more detail uh, in the
+
+14:04.780 --> 14:05.540
+next video.
+
+14:06.020 --> 14:12.020
+Okay, there's another curious finding that I saw here, which is that when you look at all of the cosine
+
+14:12.020 --> 14:21.740
+similarities strung out, so not organized into a matrix, as you see here, uh, here.
+
+14:21.780 --> 14:22.340
+Where is it?
+
+14:22.380 --> 14:23.780
+It's all the way up here.
+
+14:23.780 --> 14:24.180
+Yeah.
+
+14:24.500 --> 14:24.780
+Okay.
+
+14:24.820 --> 14:32.020
+So here all of the cosine similarities are organized into a matrix, but we can extract these row by
+
+14:32.020 --> 14:41.620
+row by row and then plot them as dots in a scatter plot where the x axis would show the individual pairs.
+
+14:41.740 --> 14:43.380
+And that's what you see here.
+
+14:43.940 --> 14:52.460
+And then, uh, it seems like there are these kind of, uh, short regimes where the cosine similarities
+
+14:52.460 --> 14:54.100
+will be fairly extreme.
+
+14:54.140 --> 14:54.820
+Not all of them.
+
+14:54.820 --> 14:57.100
+There's a mix, but fairly extreme.
+
+14:57.100 --> 14:58.660
+And then there's another regime.
+
+14:59.020 --> 15:05.920
+So another set of pairs of vectors where the cosine similarity is different and then more extreme.
+
+15:05.920 --> 15:08.320
+This is kind of a middle range and so on.
+
+15:09.280 --> 15:15.680
+To be honest, I have no idea what is causing this or what it's related to or how to interpret it.
+
+15:16.000 --> 15:21.600
+I initially thought it might be related to the different attention heads which are pooled together in
+
+15:21.600 --> 15:22.360
+this analysis.
+
+15:22.400 --> 15:28.240
+We're not separating this analysis for the different heads, but the different heads are actually considerably
+
+15:28.240 --> 15:32.080
+shorter than any of these different regimes.
+
+15:32.080 --> 15:39.440
+So it would take a little bit more in-depth investigation to dig into this and figure out what is the
+
+15:39.440 --> 15:46.440
+proper way to, uh, to interpret these, but that is beyond my time limit over here.
+
+15:46.920 --> 15:47.200
+Okay.
+
+15:47.240 --> 15:54.320
+The last thing I want to do is regenerate these plots, but using correlation coefficient instead of
+
+15:54.360 --> 15:55.880
+cosine similarity.
+
+15:56.360 --> 16:03.440
+So now all I'm going to do is go back and run this code.
+
+16:03.480 --> 16:04.200
+Where is it?
+
+16:04.640 --> 16:05.830
+This code here.
+
+16:05.870 --> 16:06.350
+Okay.
+
+16:06.550 --> 16:09.910
+So the variable names are still cosine similarity.
+
+16:10.910 --> 16:15.510
+These two lines of code are identical to the lines of code here.
+
+16:15.510 --> 16:18.630
+When I actually did calculate cosine similarity.
+
+16:19.110 --> 16:26.310
+The difference, as you will remember from earlier in the course between cosine similarity and correlation
+
+16:26.310 --> 16:29.270
+coefficient is simply this line here.
+
+16:29.270 --> 16:36.990
+So subtracting the mean if the data are already naturally mean centered, or at least very close to
+
+16:37.030 --> 16:43.110
+being mean centered, correlation and cosine similarity will be nearly identical.
+
+16:43.390 --> 16:47.350
+So let's run this line of code or this code cell.
+
+16:47.630 --> 16:50.790
+And now I'm literally just going to rerun all of this.
+
+16:50.790 --> 16:53.270
+Not even look at it until the very end.
+
+16:53.310 --> 16:54.150
+It's all the same.
+
+16:54.150 --> 16:57.110
+We just get a new okay new plot here.
+
+16:58.310 --> 17:01.390
+So now we see something really strikingly different.
+
+17:01.870 --> 17:09.730
+We see basically that all of the distributions of correlations look quite Gaussian compared to the really
+
+17:09.730 --> 17:14.370
+strongly non-Gaussian results that we got for cosine similarity.
+
+17:14.690 --> 17:18.850
+And we also don't really see much extreme values anymore.
+
+17:19.290 --> 17:25.930
+And finally, we also do not see much differentiation between the different matrices.
+
+17:25.930 --> 17:28.250
+That's also really strikingly different.
+
+17:28.250 --> 17:36.170
+So a lot of really striking qualitative differences between cosine similarity and correlation analysis,
+
+17:36.370 --> 17:45.330
+purely due to subtracting the mean from each vector instead of allowing the mean to be preserved.
+
+17:45.450 --> 17:54.450
+And this striking difference indicates that the average offset is a really important coding characteristic
+
+17:54.450 --> 17:55.970
+inside these LMS.
+
+17:56.090 --> 18:03.890
+So it's not just about coordinated activations across the different k vectors and q vectors and so on.
+
+18:04.090 --> 18:05.990
+It's also about their mean offsets.
+
+18:05.990 --> 18:12.870
+That is, incorporating some important information about the tokens and the relationship to the preceding
+
+18:12.870 --> 18:13.790
+context.
+
+18:14.350 --> 18:18.150
+I hope you found this video interesting and thought provoking.
+
+18:18.550 --> 18:27.190
+There are lots of patterns happening inside Llms, and the complexity of language and the complexity
+
+18:27.190 --> 18:28.230
+of LLM.
+
+18:28.790 --> 18:35.230
+The models themselves makes it difficult to have a really precise interpretation right from the get
+
+18:35.230 --> 18:39.350
+go, without a lot more time spent on the analysis.
+
+18:39.870 --> 18:46.510
+If you are considering going into the field of mech interp, then this should be really exciting because
+
+18:46.510 --> 18:52.910
+it means that although the work is challenging, there's so much of this scientific landscape that is
+
+18:52.910 --> 18:55.270
+unexplored and undeveloped.
+
+18:55.870 --> 19:02.470
+Anyway, the code challenge in the next video follows up directly from the code here, and I'm looking
+
+19:02.470 --> 19:05.430
+forward to working through those exercises with you.

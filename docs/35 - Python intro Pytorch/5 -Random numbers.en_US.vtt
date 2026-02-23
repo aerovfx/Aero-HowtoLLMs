@@ -1,0 +1,358 @@
+WEBVTT
+
+00:02.320 --> 00:10.440
+There are many functions in PyTorch that have the same function name as corresponding functions in NumPy,
+
+00:10.760 --> 00:18.960
+and that behave mostly the same way, but have a data type of PyTorch tensors instead of numpy arrays.
+
+00:19.240 --> 00:25.200
+So that's actually good because it means that as you are learning numpy, you can also transfer a lot
+
+00:25.200 --> 00:29.360
+of those knowledge tidbits to PyTorch and vice versa.
+
+00:29.680 --> 00:29.960
+Okay.
+
+00:30.000 --> 00:35.040
+And so the focus of this video will be generating random numbers in PyTorch.
+
+00:35.080 --> 00:41.440
+You will see that it's really similar to generating random numbers in numpy, which I introduced you
+
+00:41.440 --> 00:43.040
+to a few sections ago.
+
+00:43.400 --> 00:47.920
+So let's start with some Gaussian distributed random numbers.
+
+00:48.120 --> 00:50.880
+So I will write torch.rand n.
+
+00:51.040 --> 00:57.120
+The n is for normal distribution, and then I write four comma eight.
+
+00:57.120 --> 01:05.460
+And this returns a four by eight matrix or in the parlance of PyTorch, this is a two dimensional tensor
+
+01:05.820 --> 01:13.660
+of random numbers that are drawn from a Gaussian distribution with a mean of zero and a standard deviation
+
+01:13.700 --> 01:14.700
+of one.
+
+01:14.820 --> 01:22.900
+So I can use a method called mean, and that's going to give me the average of all 32 of these numbers.
+
+01:23.300 --> 01:30.540
+And this is drawn from this sampled randomly from a population with a theoretical mean of zero.
+
+01:30.780 --> 01:38.100
+So although in theory we'd expect the mean to be exactly zero, in practice it's never going to be exactly,
+
+01:38.100 --> 01:41.900
+exactly zero because we are just randomly sampling.
+
+01:41.900 --> 01:43.820
+So we can run this again.
+
+01:43.820 --> 01:47.820
+You see sometimes it's a little bit higher than zero, sometimes it's a bit lower.
+
+01:48.020 --> 01:53.380
+And also the standard deviation, sometimes it's going to be a little bit less than one, sometimes
+
+01:53.420 --> 01:54.740
+a bit more than one.
+
+01:54.740 --> 01:57.580
+But in general we expect this to be around one.
+
+01:58.060 --> 01:58.460
+Okay.
+
+01:58.500 --> 01:59.140
+Very nice.
+
+01:59.140 --> 02:03.540
+So that is how you create random numbers in PyTorch.
+
+02:03.940 --> 02:08.160
+Now for random integers, you can write torch.rand int.
+
+02:08.640 --> 02:13.320
+And then let's say we want numbers between I don't know how about zero.
+
+02:13.720 --> 02:15.840
+And what's your favorite number.
+
+02:16.400 --> 02:17.920
+I think you said 17.
+
+02:19.000 --> 02:27.320
+And okay so that is going to give us an error message because we have provided two inputs here the low
+
+02:27.640 --> 02:32.160
+boundary, the lower bound and the upper bound for generating random numbers.
+
+02:32.320 --> 02:36.720
+But PyTorch has no idea how many numbers we actually want.
+
+02:36.760 --> 02:39.400
+So I will write size equals three.
+
+02:39.520 --> 02:46.520
+And that also gives me an error, because I forgot that this is supposed to be a tuple of dimensions,
+
+02:46.520 --> 02:48.600
+not just a single number.
+
+02:48.760 --> 02:50.320
+Okay, so three comma.
+
+02:50.520 --> 02:54.000
+And now I get an output of three random integers.
+
+02:54.000 --> 02:56.360
+And we can try this again and again and again.
+
+02:56.600 --> 02:58.440
+Now I can write three comma two.
+
+02:58.480 --> 03:06.910
+Now we are going to get a three by two matrix or two dimensional tensor of random integers between and
+
+03:06.910 --> 03:09.510
+including zero and 17.
+
+03:09.670 --> 03:14.710
+By the way, you can also set the size to be for example w1 dot shape.
+
+03:14.830 --> 03:21.510
+If you want to create a matrix of random numbers that has the same shape as some other variable that
+
+03:21.510 --> 03:23.110
+is already defined.
+
+03:23.550 --> 03:27.070
+Now I will create some linearly spaced numbers.
+
+03:27.070 --> 03:29.310
+So torch dot linspace.
+
+03:29.470 --> 03:35.030
+And this function works exactly like how the numpy version works.
+
+03:35.030 --> 03:36.550
+So that was this.
+
+03:36.550 --> 03:39.150
+You've learned before numpy dot linspace.
+
+03:39.150 --> 03:41.070
+Now we have torch dot linspace.
+
+03:41.670 --> 03:44.070
+The inputs are exactly the same.
+
+03:44.110 --> 03:51.950
+The output numerical values are exactly the same as with the numpy version, but this is a torch tensor.
+
+03:51.950 --> 03:55.790
+It's a PyTorch tensor instead of being a numpy array.
+
+03:55.910 --> 03:57.630
+So it's just a different data type.
+
+03:57.950 --> 04:01.670
+Let's call this variable Lynn's equals this thing.
+
+04:01.710 --> 04:01.990
+Okay.
+
+04:02.030 --> 04:08.970
+So now we have a vector Lynn's that goes from 0 to 9 in 43 steps.
+
+04:09.410 --> 04:14.970
+Let's say we want to randomize the order of this set of numbers.
+
+04:14.970 --> 04:19.690
+So we can do that using another random function called rand perm.
+
+04:20.090 --> 04:28.250
+And this is going to randomly permute numbers from zero up to one less than whatever this number is.
+
+04:28.250 --> 04:30.930
+So this is an exclusive upper bound.
+
+04:31.130 --> 04:32.650
+And maybe I'll do this with ten.
+
+04:32.970 --> 04:37.930
+So now you see we have the numbers 0123456789.
+
+04:37.930 --> 04:40.130
+But they're all randomized.
+
+04:40.130 --> 04:42.610
+So there's no repeats and there's no skips.
+
+04:42.650 --> 04:43.570
+There's no misses.
+
+04:44.010 --> 04:47.170
+And so I can keep running this code over and over again.
+
+04:47.170 --> 04:54.410
+And I'm going to keep getting a random permutation of integers between 0 and 1 less than this number.
+
+04:54.690 --> 04:58.770
+And what do we do with randperm instead of, for example, randint?
+
+04:59.130 --> 05:07.050
+Well, the idea of randperm is you can use it to shuffle randomly the elements in a vector.
+
+05:07.290 --> 05:08.890
+So I can write Linz.
+
+05:09.050 --> 05:10.150
+Actually, let me do this.
+
+05:10.150 --> 05:13.510
+Rand id x equals this.
+
+05:13.510 --> 05:17.390
+And actually this needs to be the length of lens.
+
+05:17.630 --> 05:17.950
+Okay.
+
+05:17.990 --> 05:20.910
+Now I can write lens rand id.
+
+05:21.190 --> 05:29.790
+So I am indexing this vector over here which is linearly spaced numbers from 0 to 9.
+
+05:30.030 --> 05:32.350
+And I'm randomly resorting them.
+
+05:32.350 --> 05:37.070
+So now we get eight and then 77.96 and so on.
+
+05:37.110 --> 05:38.950
+These are no longer in order.
+
+05:39.150 --> 05:44.790
+And if I run this code multiple times I'm going to keep getting different random shuffles.
+
+05:44.790 --> 05:46.310
+I'll keep getting different results.
+
+05:46.310 --> 05:55.070
+Because this number or this vector that's output by randperm is different every time I call it getting
+
+05:55.070 --> 05:56.350
+randomly reshuffled.
+
+05:56.910 --> 05:57.190
+Okay.
+
+05:57.230 --> 05:59.310
+Now I want to show you one final thing.
+
+05:59.430 --> 06:02.550
+I'm going to create a new variable lens multi.
+
+06:02.590 --> 06:08.070
+The multi is for multi-dimensional lens dot Unsqueeze zero.
+
+06:08.070 --> 06:16.730
+And let's see I'll print out lens dot shape and lens multi dot shape like this.
+
+06:16.730 --> 06:17.970
+So this is review.
+
+06:18.010 --> 06:19.490
+You've seen this before.
+
+06:19.690 --> 06:23.970
+Here we have a one dimensional tensor of size 43.
+
+06:24.090 --> 06:25.690
+Here lens multi.
+
+06:25.730 --> 06:28.010
+This is a two dimensional tensor.
+
+06:28.010 --> 06:32.130
+So the first dimension doesn't contain any thickness.
+
+06:32.130 --> 06:37.810
+It's not really a matrix but it is technically a two dimensional tensor okay.
+
+06:37.850 --> 06:40.890
+So now let's say we want to do something like this.
+
+06:41.050 --> 06:44.490
+But I want to do this for lens multi.
+
+06:45.210 --> 06:54.610
+So I want to randomly re resort the elements in lens multi using exactly the same procedure, same code
+
+06:54.610 --> 06:57.290
+that I used here okay.
+
+06:57.330 --> 06:58.930
+And here we get an error.
+
+06:58.930 --> 07:00.250
+And why do we get an error.
+
+07:00.290 --> 07:06.890
+Well what we are trying to do is index into the first dimension.
+
+07:07.050 --> 07:10.930
+But the first dimension is only has one element in it.
+
+07:10.930 --> 07:17.040
+And we are trying to access 23 elements in a dimension that only has one element.
+
+07:17.040 --> 07:20.480
+So what we need to do is include a zero here.
+
+07:20.840 --> 07:26.800
+And the zero here is because we are accessing the first element in the first dimension.
+
+07:27.360 --> 07:28.960
+So this can get tricky.
+
+07:29.000 --> 07:34.400
+You will often run into errors like this very often actually.
+
+07:34.400 --> 07:36.440
+I also get quite a few errors like this.
+
+07:36.840 --> 07:43.320
+So basically what you want to do is pay attention to the dimensionality of the tensor that you're working
+
+07:43.320 --> 07:50.560
+with and however many dimensions there are, which means however many numbers are listed in dot shape,
+
+07:51.080 --> 07:55.480
+that is however many elements you want to put when indexing.
+
+07:55.480 --> 07:59.240
+So you can also think of it in terms of commas when you write dot shape.
+
+07:59.440 --> 08:05.480
+If there is one comma in here, then when you index that variable, you also want to have one comma
+
+08:05.480 --> 08:06.040
+in there.
+
+08:06.320 --> 08:09.960
+So this zero corresponds to this dimension.
+
+08:10.120 --> 08:14.360
+And then the random indices corresponds to this dimension.

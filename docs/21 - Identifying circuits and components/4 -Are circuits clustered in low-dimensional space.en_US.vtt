@@ -1,0 +1,1300 @@
+WEBVTT
+
+00:02.280 --> 00:10.760
+In this video, I am going to show you an investigation into identifying circuits based on clustering
+
+00:10.760 --> 00:13.080
+in a lower dimensional space.
+
+00:13.600 --> 00:20.760
+Now, it sounds like it should be a very sensible and successful analysis approach to take, but I can
+
+00:20.760 --> 00:23.480
+already tell you that is not going to work.
+
+00:23.880 --> 00:30.840
+Well, the analysis will work, but they will not reveal meaningful circuits or clusters in the way
+
+00:30.840 --> 00:32.040
+that we might want.
+
+00:32.440 --> 00:38.920
+But that's actually fantastic, because if you want to advance research, you need to know what works.
+
+00:39.040 --> 00:42.120
+And you also need to know what is unlikely to work.
+
+00:42.800 --> 00:49.640
+And also, the methods that I will implement in this code demo are great reminders of some analysis
+
+00:49.640 --> 00:55.160
+techniques, including t-SNE, DBscan, and K-means clustering.
+
+00:55.760 --> 01:04.320
+Essentially, what I'm going to do here is statistically Identify MLP expansion neurons from one transformer
+
+01:04.320 --> 01:11.960
+block that have significantly different activation magnitudes for either him or her, so the pronouns
+
+01:11.960 --> 01:19.200
+him or her using the him and her sentences that we've used a few times before in this course.
+
+01:19.880 --> 01:27.240
+Then we will see if we can use clustering to group these neurons into small circuits that are basically
+
+01:27.240 --> 01:29.760
+behaving in very similar ways.
+
+01:30.520 --> 01:37.440
+So yeah, it's a quite a sensible thing to do, but it turns out that it's not going to yield a reproducible
+
+01:37.440 --> 01:45.000
+set of small clusters, at least not in this model that I will use here and not in the data set that
+
+01:45.000 --> 01:46.040
+I have used here.
+
+01:46.840 --> 01:52.280
+Perhaps the analysis approach could be useful, could be more fruitful for other models.
+
+01:52.280 --> 01:55.480
+Maybe we would just need a much larger data set.
+
+01:55.680 --> 02:01.440
+So I don't want to dismiss the approach that I will show you here completely out of hand.
+
+02:01.640 --> 02:07.560
+But by the end of this video, I think you will agree that this approach was worth learning about,
+
+02:07.560 --> 02:10.960
+but doesn't really give a nice set of results.
+
+02:11.920 --> 02:14.560
+Anyway, let me jump right into the demo.
+
+02:14.800 --> 02:15.680
+Overview.
+
+02:16.160 --> 02:24.240
+I'm going to work with GPT two medium and hook all of the MLP expansion neurons from one layer.
+
+02:24.680 --> 02:30.600
+I picked layer five, but the pattern of results seems pretty consistent across the different layers,
+
+02:30.800 --> 02:34.000
+at least as far as I can tell from some explorations.
+
+02:34.640 --> 02:41.720
+The size of the activations matrix is 108 by eight by 4096.
+
+02:42.080 --> 02:44.160
+You will remember these sentences.
+
+02:44.160 --> 02:50.000
+They are the same, but one set contains him and one set contains the word her.
+
+02:50.440 --> 02:59.520
+And there are 54 EVPs of either gender, either pronoun, and so there's 108 altogether, and the sequences
+
+02:59.520 --> 03:07.880
+are eight tokens long, including padding, and the 4096 corresponds to the dimensionality of.
+
+03:08.320 --> 03:16.240
+So the embeddings dimensionality of 1024 with the four x expansion in the MLP layers.
+
+03:17.440 --> 03:22.760
+Here you see some visualizations of the MLP neuron activations.
+
+03:23.200 --> 03:30.600
+This image here shows all of the activation magnitudes pseudo colorized over all the neurons and over
+
+03:30.600 --> 03:32.320
+all of the sentences.
+
+03:32.880 --> 03:39.840
+You can see a lot of vertical stripes, which indicates that lots of neurons have particular biases
+
+03:39.840 --> 03:46.080
+or like general offsets that are persistent for all the tokens that I have analyzed here.
+
+03:46.680 --> 03:52.400
+And actually, if you look really carefully, you should be able to see a kind of horizontal line here
+
+03:52.400 --> 04:01.760
+somewhere at around 54 rows That corresponds to the transition between him sentences and the her sentences.
+
+04:02.440 --> 04:07.080
+Over here you see a distribution of all of the activation values.
+
+04:07.280 --> 04:13.880
+The distribution is shifted negative, but it otherwise has a nice bell curve shape.
+
+04:14.280 --> 04:22.960
+And finally over here, I've averaged over all of the neurons to get one activation value per sentence.
+
+04:23.440 --> 04:29.160
+And just to be clear, all of the data that I'm showing here and all the data that we will be analyzing
+
+04:29.160 --> 04:34.160
+in this video, these are the activations to the target word, him or her.
+
+04:34.640 --> 04:42.160
+Given that the context surrounding that target word is exactly the same for the two target types.
+
+04:43.040 --> 04:48.480
+But this plot is about all of the neurons pooled together and averaged together.
+
+04:48.760 --> 04:56.760
+What we are interested in here is whether individual neurons show differential activation to him versus
+
+04:56.760 --> 04:58.080
+her pronouns.
+
+04:58.480 --> 05:00.760
+And here you see an example of that.
+
+05:00.880 --> 05:04.120
+So this scatter plot looks similar to this one.
+
+05:04.440 --> 05:06.120
+But this is just for one neuron.
+
+05:06.120 --> 05:09.520
+It happens to be number 712.
+
+05:09.880 --> 05:13.800
+Now clearly this neuron has a preference for the token her.
+
+05:14.360 --> 05:21.080
+It's not a really super amazing perfect separation, but it would certainly be highly statistically
+
+05:21.080 --> 05:25.960
+significantly different between these groups of sentences.
+
+05:26.480 --> 05:35.160
+And this is interesting because remember that the first 54 and the second 54 sentences in this batch,
+
+05:35.160 --> 05:37.080
+in this block are all.
+
+05:37.320 --> 05:43.240
+So all the tokens here are exactly identical except for one word.
+
+05:44.240 --> 05:46.560
+So the context is the same.
+
+05:46.800 --> 05:47.080
+Okay.
+
+05:47.120 --> 05:49.120
+So this is one neuron.
+
+05:49.120 --> 05:57.080
+We can do a t test to compare the activations for for him versus her over all 4000 neurons.
+
+05:57.080 --> 06:00.200
+And if we do that, we get a result that looks like this.
+
+06:00.600 --> 06:07.760
+So here you see the neurons index on the x axis and the t values on the y axis.
+
+06:08.400 --> 06:12.840
+The red x's in the middle are for the non-significant neurons.
+
+06:12.840 --> 06:20.680
+So neurons for which the differences between activations for him sentences and her sentences was not
+
+06:20.680 --> 06:22.360
+statistically significant.
+
+06:22.760 --> 06:28.800
+And then in the purple circles are the neurons that had a significant difference in activation between
+
+06:28.800 --> 06:29.480
+him and her.
+
+06:29.600 --> 06:33.480
+For example, this one that I illustrated here was 712.
+
+06:33.600 --> 06:37.000
+So that would be one one of these guys in here somewhere.
+
+06:37.920 --> 06:45.360
+A positive T values indicate more activation for him, and negative t values indicate more activation
+
+06:45.360 --> 06:46.680
+for the word her.
+
+06:47.360 --> 06:53.880
+So these tests treat each neuron as a Is a completely independent entity.
+
+06:54.400 --> 06:59.160
+Now that's kind of interesting, but it's not revealing any circuitry.
+
+06:59.600 --> 07:06.680
+What we want to know is whether these neurons actually form circuits such that they are all interacting
+
+07:06.680 --> 07:07.320
+with each other.
+
+07:07.360 --> 07:09.080
+They're behaving in the same way.
+
+07:09.320 --> 07:12.280
+Their activation values are strongly correlated.
+
+07:13.000 --> 07:21.960
+So what I then did was take all of the significant neurons, use t-SNE to get the dimensionality down
+
+07:21.960 --> 07:25.280
+to two and visualize the results.
+
+07:25.280 --> 07:26.880
+And that looked like this.
+
+07:27.480 --> 07:29.480
+So it looks pretty neat, looks like an eye.
+
+07:29.720 --> 07:37.440
+And so on the one hand there is this beautiful separation between the positive and the negative T valued
+
+07:37.480 --> 07:38.320
+neurons.
+
+07:38.480 --> 07:39.680
+That is not trivial.
+
+07:39.680 --> 07:41.880
+That just popped out of the clustering.
+
+07:42.400 --> 07:51.270
+But on the other hand, if there were actual circuits or like little subnetworks inside this MLP expansion
+
+07:51.270 --> 07:57.670
+layer, you would expect to see islands or clusters visually appearing in this plot.
+
+07:58.310 --> 08:00.270
+And clearly that's not the case.
+
+08:00.470 --> 08:08.310
+So at least from this statistical perspective, using t-SNE on these data, there isn't strong evidence
+
+08:08.310 --> 08:14.910
+for small circuits for processing him versus her given identical context.
+
+08:15.630 --> 08:22.590
+Now, to be honest, it doesn't really make any sense to continue doing clustering analyses on these
+
+08:22.590 --> 08:23.270
+data.
+
+08:23.470 --> 08:28.590
+But I did it anyway, partly because that was my original hypothesis.
+
+08:28.590 --> 08:35.270
+That was my analysis plan, and partly because I think it's still good practice to have more experience
+
+08:35.270 --> 08:37.030
+using clustering methods.
+
+08:38.390 --> 08:39.310
+Well, okay.
+
+08:39.350 --> 08:44.990
+So the DBscan results look beautiful in the sense of being really aesthetically pleasing.
+
+08:45.150 --> 08:46.830
+So they're just nice to look at.
+
+08:47.630 --> 08:49.990
+But the results are basically nonsense.
+
+08:50.030 --> 08:56.190
+I mean, maybe you think that these really are some clusters forming in here in the data, but the problem
+
+08:56.190 --> 09:02.230
+is, if you rerun this analysis multiple times, you will get wildly different results.
+
+09:02.350 --> 09:09.310
+So these clusters, these apparent clusters are not reproducible over the same data set.
+
+09:09.310 --> 09:16.350
+If you just repeat the clustering multiple times given like random initializations of the initial clustering.
+
+09:16.870 --> 09:24.150
+Furthermore, you can also change the DBscan parameters even a little bit and you will again get wildly
+
+09:24.150 --> 09:25.190
+different results.
+
+09:25.470 --> 09:29.990
+I will show you that in the code and I encourage you to continue exploring it.
+
+09:30.470 --> 09:38.710
+Anyway, finally, I also applied a K-means clustering, again based on the initial t-SNE results.
+
+09:38.710 --> 09:45.870
+We don't really have a good justification for expecting meaningful results from K-means clustering.
+
+09:46.110 --> 09:48.350
+But yeah, I did it anyway.
+
+09:48.350 --> 09:54.910
+And it does highlight one of the features of K-means, which is that all of the data points just get
+
+09:54.910 --> 10:01.310
+clustered based on local distances, and you're always going to get results, even if those results
+
+10:01.310 --> 10:07.070
+are not really revealing any meaningful organizational patterns in the data.
+
+10:07.390 --> 10:13.990
+You can see this cluster happened to get both negative and positive T valued neurons in the same cluster,
+
+10:13.990 --> 10:15.590
+just based on proximity.
+
+10:16.750 --> 10:20.670
+Okay, let's switch to code and have a more detailed look at this stuff.
+
+10:21.150 --> 10:26.750
+Here are the libraries that I will use here, including t-SNE, DBscan and K-means.
+
+10:26.750 --> 10:33.150
+All three of those from scikit learn and Scipy.stats to get the stats module.
+
+10:33.510 --> 10:33.870
+Okay.
+
+10:33.910 --> 10:38.150
+And then let's see here I'm importing Gpt2 medium.
+
+10:38.590 --> 10:41.030
+This variable here n neurons.
+
+10:41.030 --> 10:43.110
+That's just a convenience variable.
+
+10:43.110 --> 10:51.670
+So I don't need to write out all of this business Every time I want to access the number 4096 that's
+
+10:51.670 --> 10:52.030
+here.
+
+10:52.030 --> 10:55.790
+So I'm just grabbing from any random transformer block.
+
+10:55.790 --> 10:59.030
+They're all the same in in the sense of that counts.
+
+10:59.310 --> 11:07.510
+Uh, MLP CFC so fully connected weights dot shape and that is going to return this number over here.
+
+11:07.790 --> 11:09.350
+There we go okay.
+
+11:09.390 --> 11:11.190
+Now I'm going to implant a hook.
+
+11:11.230 --> 11:18.230
+Another thing I wanted to include in here is some printing statements inside the hook function.
+
+11:18.550 --> 11:21.150
+This is not something you would typically want.
+
+11:21.310 --> 11:29.070
+It's going to just print out the shape of the output matrix that I'm storing in here as the model processes
+
+11:29.070 --> 11:29.790
+the tokens.
+
+11:29.790 --> 11:35.790
+So every time you push a batch of tokens through the model, this shape is going to be printed out.
+
+11:36.190 --> 11:38.390
+This is not for production.
+
+11:38.510 --> 11:46.150
+Uh, it's for applications because it will just sort of take up some more computation time and also
+
+11:46.150 --> 11:49.910
+is going to print out a lot of mess if you're processing a lot of tokens.
+
+11:49.910 --> 11:55.550
+But for development, when you're working with your code, this sort of thing is really great.
+
+11:55.550 --> 11:58.230
+You just insert a bunch of print statements.
+
+11:58.350 --> 12:04.830
+Maybe inside this hook you're doing some more sophisticated processing, some additional calculations,
+
+12:05.550 --> 12:08.350
+and so therefore this can be pretty handy.
+
+12:08.710 --> 12:08.990
+Okay.
+
+12:08.990 --> 12:09.550
+Let's see.
+
+12:09.710 --> 12:10.150
+Did I run?
+
+12:10.150 --> 12:14.390
+Yes, I already ran this code so I don't need to import it twice okay.
+
+12:14.390 --> 12:14.630
+Yeah.
+
+12:14.630 --> 12:18.310
+So then import implanting the hook into the fully connected layer.
+
+12:18.670 --> 12:23.390
+Here again are the him and her sentences which you've now seen multiple times.
+
+12:23.390 --> 12:26.350
+54 sentences exactly repeated.
+
+12:26.350 --> 12:29.510
+But the first block of 54 has him.
+
+12:29.670 --> 12:32.030
+And then we have a her over here.
+
+12:32.590 --> 12:33.070
+Okay.
+
+12:33.110 --> 12:33.910
+So let's see.
+
+12:34.230 --> 12:36.270
+And then uh, let's see then.
+
+12:36.310 --> 12:36.430
+Yeah.
+
+12:36.470 --> 12:40.150
+I'm just also finding the target tokens.
+
+12:40.150 --> 12:47.190
+I need that because the token the target tokens are in different indices in each sentence, and so to
+
+12:47.230 --> 12:55.110
+know which activations we want to grab out of the model, we need to be able to identify these target
+
+12:55.110 --> 12:58.990
+locations each time we or for each sentence.
+
+12:59.550 --> 13:01.390
+Okay, so here I'm doing the forward pass.
+
+13:01.390 --> 13:04.350
+And then you are going to see this thing printed out.
+
+13:04.390 --> 13:08.910
+As I mentioned, this is not something you would want to do all the time in practice.
+
+13:08.910 --> 13:13.190
+But when you are developing code it's great to do something like this.
+
+13:13.550 --> 13:13.790
+Okay.
+
+13:13.870 --> 13:16.270
+And then this is just confirmation.
+
+13:16.270 --> 13:22.150
+So I only implanted into layer five transformer block five.
+
+13:22.590 --> 13:27.110
+And here we see the size of the activations matrix okay.
+
+13:27.150 --> 13:29.030
+This is also code you've seen before.
+
+13:29.030 --> 13:35.830
+I have to find the location of the target token for each sentence.
+
+13:35.830 --> 13:38.550
+So that's why I loop over sentences.
+
+13:38.790 --> 13:43.750
+And here I'm looking for either the token for him or the token for her.
+
+13:44.190 --> 13:50.910
+This code works because there is exactly one token target token per sentence.
+
+13:50.910 --> 13:56.430
+If you have sentences with multiple targets in the same sentence, then you might need to adjust this
+
+13:56.430 --> 13:57.270
+code a little bit.
+
+13:57.710 --> 13:57.870
+Okay.
+
+13:57.910 --> 13:59.950
+And then I'm grabbing the activations.
+
+13:59.950 --> 14:09.150
+So I'm pulling it out of this layer, this sentence, this target token index, and then detaching it
+
+14:09.150 --> 14:12.150
+and then converting it to numpy.
+
+14:12.590 --> 14:19.510
+This part is particularly convenient because a lot of these subsequent analyses in scikit learn, for
+
+14:19.510 --> 14:25.270
+example, just work better with numpy format compared to PyTorch format.
+
+14:25.510 --> 14:33.910
+By the way, because I never need to use these activations in PyTorch format, it probably would have
+
+14:33.910 --> 14:38.390
+been sensible for me to do something like this.
+
+14:38.630 --> 14:44.990
+So right here, when I hook the activations, I can already detach them from the computational graph
+
+14:45.110 --> 14:47.350
+and convert them into numpy.
+
+14:47.590 --> 14:49.750
+Sometimes I do that and sometimes I don't.
+
+14:49.750 --> 14:53.430
+But just so you know, that's pretty convenient to do sometimes.
+
+14:53.990 --> 14:57.910
+Okay, so let's see here we are getting the activations.
+
+14:57.910 --> 14:58.270
+Yep.
+
+14:58.310 --> 15:00.750
+This code cell that's pretty fast to run.
+
+15:00.790 --> 15:06.630
+Here I'm just creating these visualizations that I showed in the slides.
+
+15:06.630 --> 15:11.230
+I don't know if you can see this horizontal line on the video screen.
+
+15:11.230 --> 15:13.950
+Maybe you can see it on your Python window.
+
+15:13.950 --> 15:19.470
+But basically there is, you know, some kind of like global shift happening around here where there's
+
+15:19.510 --> 15:25.350
+a subtle but slight population shift from the Him sentences to the her sentences.
+
+15:26.470 --> 15:26.910
+Okay.
+
+15:27.110 --> 15:33.550
+So now here I'm just picking one neuron at random to visualize this neuron.
+
+15:33.590 --> 15:34.190
+It doesn't.
+
+15:34.430 --> 15:36.870
+Maybe there's a very tiny okay.
+
+15:36.910 --> 15:44.270
+Visually it looks to me like there is a bit of a shift for these sentences for the her tokens compared
+
+15:44.270 --> 15:47.590
+to the Him tokens, but I might just be reading into that.
+
+15:47.630 --> 15:51.630
+Obviously in this plot I'm not doing any statistical analysis.
+
+15:51.670 --> 15:53.910
+I'm not even looking at means and standard deviations.
+
+15:53.910 --> 15:56.430
+This is just random visualizations.
+
+15:57.510 --> 16:03.790
+And then there were a couple of neurons that I found literally just from randomly scooping around,
+
+16:04.030 --> 16:06.950
+uh, that seemed to show really beautiful effects.
+
+16:06.990 --> 16:07.470
+Look at that.
+
+16:07.470 --> 16:08.550
+Really, really nice.
+
+16:08.830 --> 16:09.070
+Okay.
+
+16:09.110 --> 16:10.950
+So you can explore a little bit more.
+
+16:11.150 --> 16:16.390
+Again, this is qualitative because I'm not doing any statistical analyses.
+
+16:16.630 --> 16:20.110
+And I'm also just looking at one neuron at a time.
+
+16:20.110 --> 16:22.470
+So this is also not very scalable.
+
+16:22.590 --> 16:30.030
+Still it's really interesting and insightful to do this kind of visual kind of qualitative investigations
+
+16:30.030 --> 16:30.990
+in your data.
+
+16:31.710 --> 16:31.990
+Okay.
+
+16:32.030 --> 16:38.030
+So now for more quantitative approaches here I'm running a t test on all of the neurons, all of all
+
+16:38.030 --> 16:42.390
+the activations for the him sentences versus the her sentences.
+
+16:42.830 --> 16:48.430
+This is the p value threshold I will use to evaluate the statistical significance.
+
+16:48.870 --> 16:52.310
+It is 0.05 divided by the number of neurons.
+
+16:52.310 --> 16:55.630
+That's Bonferroni correcting for multiple comparisons.
+
+16:56.070 --> 16:59.510
+So this is going to give me a boolean vector here.
+
+16:59.550 --> 17:01.710
+Actually maybe I'll show you what that looks like.
+
+17:02.190 --> 17:04.590
+So I have this vector sig p values.
+
+17:04.870 --> 17:07.190
+And it's a bunch of trues and falses.
+
+17:07.430 --> 17:09.710
+It is true for every neuron.
+
+17:09.710 --> 17:12.510
+So let me also show you the length of this.
+
+17:13.510 --> 17:15.430
+That is 4096.
+
+17:15.590 --> 17:23.830
+And it has a value of true every time the p value from the t test is less than 0.05, corrected for
+
+17:23.830 --> 17:25.070
+multiple comparisons.
+
+17:25.350 --> 17:30.070
+And when it's false, that means that the p value was greater than 0.05.
+
+17:30.630 --> 17:30.950
+Okay.
+
+17:30.990 --> 17:39.630
+And then yeah here I'm just finding and then visualizing the On significant devalued neurons and the
+
+17:39.630 --> 17:40.990
+significant valued ones.
+
+17:41.510 --> 17:41.830
+Okay.
+
+17:41.870 --> 17:45.710
+So yeah, you see some interesting distributions here.
+
+17:45.750 --> 17:51.830
+A couple of neurons show really, really, really striking differences between these two in the positive
+
+17:51.830 --> 17:54.110
+direction and in the negative direction.
+
+17:54.110 --> 17:58.470
+And lots of them are clustered towards closer to zero, but still significant.
+
+17:58.950 --> 18:04.110
+Now if you would like to continue exploring these data, I think it would be pretty interesting to figure
+
+18:04.110 --> 18:06.870
+out what is this maximum here.
+
+18:06.910 --> 18:09.670
+Be pretty straightforward to find this maximum.
+
+18:09.710 --> 18:12.710
+It's going to be somewhere around 1800 or so.
+
+18:12.870 --> 18:18.630
+And then look at the plot for that neuron and see how good that separability is.
+
+18:20.110 --> 18:20.310
+Okay.
+
+18:20.350 --> 18:22.430
+But so for now I'm going to move forward.
+
+18:22.470 --> 18:30.790
+The idea of this circuit analysis investigation by clustering is that it is possible.
+
+18:30.790 --> 18:38.510
+So I had this idea, this hypothesis that if I look at the significant neurons, that may be some of
+
+18:38.510 --> 18:42.670
+these are forming clusters, some of them are working together.
+
+18:42.670 --> 18:45.870
+They have activation patterns that go up and down together.
+
+18:45.990 --> 18:50.390
+So the neurons are kind of functionally coupled into a circuit.
+
+18:50.790 --> 18:52.230
+Decent hypothesis.
+
+18:52.230 --> 18:59.510
+That is a way that circuits are identified in other areas of complex systems analyses, including in
+
+18:59.510 --> 19:00.390
+neuroscience.
+
+19:00.550 --> 19:01.550
+So yeah.
+
+19:01.550 --> 19:02.870
+So I proceeded from there.
+
+19:03.190 --> 19:04.030
+So here's what I did.
+
+19:04.030 --> 19:09.910
+I took only the neurons that show a p value less than 0.05 corrected.
+
+19:09.910 --> 19:12.710
+So I'm not going to cluster all of the neurons.
+
+19:12.710 --> 19:14.430
+You can also try that if you want.
+
+19:14.470 --> 19:18.310
+I'll show you or I will tell you what that looks like in a moment.
+
+19:18.710 --> 19:21.550
+Uh, and then yeah, this is just counting the number of neurons.
+
+19:21.550 --> 19:25.230
+And so we see that out of all of the neurons.
+
+19:25.230 --> 19:28.470
+So that's 4096 then.
+
+19:28.630 --> 19:34.790
+Uh, yeah, a bit over a quarter of them, maybe 30 ish percent, 30 something percent of them were
+
+19:35.110 --> 19:35.830
+significant.
+
+19:35.870 --> 19:38.550
+Had a p value less than 0.05.
+
+19:39.070 --> 19:39.390
+Okay.
+
+19:39.430 --> 19:48.710
+So then what I'm going to do is use t-SNE to derive two components and then fit the data to the to the
+
+19:48.710 --> 19:49.230
+model.
+
+19:49.350 --> 19:55.870
+This, by the way, is just min max scaling the color values just for the coloring all of the individual
+
+19:55.870 --> 19:56.830
+points here.
+
+19:56.830 --> 20:03.830
+So essentially a min max scaling all the t values so that this value ends up being -1 or 0.
+
+20:03.830 --> 20:06.910
+And this one ends up being plus one okay.
+
+20:06.950 --> 20:11.630
+So here are the t-SNE results which you already saw in a screenshot.
+
+20:12.310 --> 20:16.430
+So here we see the results of t-SNE again.
+
+20:16.470 --> 20:22.710
+Beautiful, beautiful separation between the positive t values and the negative t value neurons.
+
+20:23.270 --> 20:24.550
+But no.
+
+20:24.990 --> 20:25.350
+Yeah.
+
+20:25.390 --> 20:28.270
+Like obvious clusters that are being formed.
+
+20:28.390 --> 20:35.750
+You can contrast that with the videos about Uh, using t-SNE on the embeddings vectors.
+
+20:35.750 --> 20:38.150
+So that was from a couple of sections ago.
+
+20:38.190 --> 20:40.150
+And their t-SNE worked really well.
+
+20:40.150 --> 20:43.270
+So this is certainly not a repudiation of t-SNE.
+
+20:43.550 --> 20:49.030
+It's just that in this particular data set, it really didn't work out very well.
+
+20:49.510 --> 20:49.950
+Okay.
+
+20:50.070 --> 20:55.470
+Uh, by the way, if you would include all of the neurons and not just the significant neurons, then
+
+20:55.470 --> 21:00.910
+basically what you would see is all of this blank space in here gets filled in.
+
+21:00.910 --> 21:04.470
+So you would see, like this density of neurons basically all throughout.
+
+21:04.470 --> 21:06.830
+And it just looks like an almond shape.
+
+21:07.310 --> 21:07.670
+Okay.
+
+21:07.710 --> 21:09.870
+So yeah, no obvious clusters.
+
+21:09.870 --> 21:13.670
+Maybe you think that this is a little cluster here, but it's really not.
+
+21:13.710 --> 21:17.790
+You know, if you would just rerun this, you're going to get a different.
+
+21:18.110 --> 21:21.790
+Well, the overall shape of the results is really consistent.
+
+21:21.790 --> 21:26.670
+You will continue seeing that every time you run the analysis over and over again.
+
+21:26.670 --> 21:30.590
+But these little tiny things that seem like they could be clusters.
+
+21:30.630 --> 21:30.830
+Yeah.
+
+21:30.830 --> 21:31.030
+Okay.
+
+21:31.190 --> 21:32.430
+This one came out again.
+
+21:32.430 --> 21:34.910
+But I don't think that these are really robust.
+
+21:35.990 --> 21:37.590
+This shows the gram matrix.
+
+21:37.590 --> 21:41.670
+This is the data times its transpose that you see here.
+
+21:42.070 --> 21:47.110
+This, uh, if you would mean center the data, this would be a covariance matrix.
+
+21:47.350 --> 21:54.510
+If you would suitably normalize the vectors in these matrices according to the norm of the vectors,
+
+21:54.910 --> 21:58.270
+then this would be a cosine similarity matrix.
+
+21:58.430 --> 22:04.630
+Of course, you could also normalize this further and make a correlation matrix, but this doesn't really
+
+22:04.630 --> 22:05.750
+show that much.
+
+22:05.790 --> 22:11.990
+What you would look for here is like blocks or clusters appearing in this kind of a plot.
+
+22:12.030 --> 22:18.710
+Again, you have seen this sort of thing earlier in the course in, uh, analyses where t-SNE really
+
+22:18.710 --> 22:20.110
+did work out quite well.
+
+22:20.710 --> 22:21.150
+Okay.
+
+22:21.270 --> 22:24.390
+Uh, there's a couple of parameters for t-SNE.
+
+22:24.390 --> 22:26.710
+One is the number of of components.
+
+22:26.870 --> 22:32.310
+I'm going to keep that as two just because then it's a little bit easier to visualize.
+
+22:32.310 --> 22:34.190
+We don't have to worry about 3D graphs.
+
+22:34.590 --> 22:37.510
+Another one is this perplexity parameter.
+
+22:37.510 --> 22:40.110
+I've discussed this earlier in the course.
+
+22:40.150 --> 22:45.910
+It basically relates to how much smoothing there is, connecting the low dimensional and the high dimensional
+
+22:46.270 --> 22:48.670
+representations of the data.
+
+22:48.870 --> 22:53.670
+You can try changing that parameter and just set it back to 30.
+
+22:53.670 --> 22:54.550
+But it was 80.
+
+22:54.590 --> 22:57.750
+So this is the result with perplexity value of 80.
+
+22:58.110 --> 22:59.950
+It doesn't really change it that much.
+
+22:59.950 --> 23:05.550
+And it certainly doesn't lead to like really nice beautiful little tiny isolated clusters.
+
+23:06.310 --> 23:12.910
+As I mentioned in the slides, when we get if you see a result like this, you're not really statistically
+
+23:12.910 --> 23:18.630
+justified to continue applying clustering analyses.
+
+23:18.750 --> 23:24.870
+But because this is a teaching course and not a research, uh, analysis that I'm going to publish,
+
+23:25.110 --> 23:28.030
+I decided to continue with my plan anyway.
+
+23:28.460 --> 23:35.180
+Okay so here I'm applying DBscan results and I'm fitting the t-SNE results.
+
+23:35.180 --> 23:37.100
+So these are the two dimensional data.
+
+23:37.140 --> 23:42.580
+Let me just show you what this looks like t-SNE result dot shape.
+
+23:42.580 --> 23:50.980
+This is 1523 by two 1523 is the number of statistically significant neurons.
+
+23:51.220 --> 23:55.140
+And then two of course corresponds to these two dimensions over here.
+
+23:55.580 --> 23:55.900
+Okay.
+
+23:55.940 --> 24:00.700
+So this is what I'm putting into the DBscan analysis.
+
+24:00.900 --> 24:01.900
+And here we go.
+
+24:01.940 --> 24:05.940
+Yeah I mean this is wildly different from what I showed in the slides.
+
+24:06.060 --> 24:09.180
+And basically you can keep running this over and over again.
+
+24:09.220 --> 24:14.620
+I'm going to run this again with a perplexity of 30.
+
+24:14.660 --> 24:15.660
+I think I set that back.
+
+24:15.700 --> 24:16.060
+Yeah.
+
+24:16.660 --> 24:22.380
+And basically, yeah, you keep running this over and over again and you're just not going to get sensible
+
+24:22.380 --> 24:23.060
+results.
+
+24:23.060 --> 24:26.180
+Every time you run it, the results will look a bit different.
+
+24:26.580 --> 24:27.300
+Here we go.
+
+24:27.300 --> 24:33.180
+Sometimes you think you see some clusters, but those are just not really reproducible, and they're
+
+24:33.180 --> 24:35.340
+certainly not very compelling.
+
+24:35.740 --> 24:44.820
+Furthermore, if you try to change this parameter here, remember this is the distance between pairs
+
+24:44.820 --> 24:48.180
+of of units to form a group.
+
+24:48.500 --> 24:52.060
+If you change that parameter you're also going to get wildly different results.
+
+24:52.060 --> 24:54.580
+You can also see you know these plus signs.
+
+24:54.580 --> 24:56.140
+These are non clustered.
+
+24:56.140 --> 24:58.420
+This is what DBscan considers noise.
+
+24:58.420 --> 25:00.420
+Remember that's what the N stands for.
+
+25:00.860 --> 25:04.700
+But in my humble opinion these are just they're just not noise.
+
+25:04.700 --> 25:08.100
+It's just not giving sensible results okay.
+
+25:08.140 --> 25:16.740
+So what's happening here is I am making really small changes to the parameters and the results are changing
+
+25:16.900 --> 25:18.060
+drastically.
+
+25:18.180 --> 25:23.180
+And when that happens in any kind of an analysis, you should not trust the results.
+
+25:23.220 --> 25:28.340
+You know, you change one parameter a tiny bit and the results change enormously.
+
+25:28.500 --> 25:29.740
+That is not a good sign.
+
+25:30.700 --> 25:35.300
+Okay, but all that said, you know, I feel like I'm being too negative here.
+
+25:35.380 --> 25:37.060
+This plot looks really nice.
+
+25:37.060 --> 25:38.140
+It's really pretty.
+
+25:38.620 --> 25:43.460
+I think this could be, you know, you could print this out and, like, print it on a t shirt, and
+
+25:43.460 --> 25:44.420
+it would be great.
+
+25:44.700 --> 25:49.220
+Or, you know, this could be like, you could put this around your eyes and it would be really nice
+
+25:49.220 --> 25:50.780
+for Halloween or for a party.
+
+25:51.500 --> 25:51.980
+Okay.
+
+25:52.020 --> 25:53.700
+Anyway, let's keep going.
+
+25:53.820 --> 26:00.860
+So now what I'm doing is gathering some information about the t statistics for each group and just printing
+
+26:00.860 --> 26:02.060
+out some information.
+
+26:02.460 --> 26:07.940
+This kind of table, this kind of information is typically very useful.
+
+26:07.940 --> 26:14.580
+Again I don't think it's useful in this particular situation because I do not believe that any of these
+
+26:14.900 --> 26:17.900
+clusters are real in the data.
+
+26:18.060 --> 26:22.700
+So what I'm doing now in this plot is let me generate this plot.
+
+26:22.700 --> 26:30.380
+First is basically calculating a cosine similarities, sorting the neurons according to their group
+
+26:30.380 --> 26:33.900
+identity, and then calculating cosine similarity.
+
+26:33.980 --> 26:39.700
+So again, if there were really clusters formed in these data, what you would expect is to see blocks
+
+26:39.700 --> 26:41.700
+on the diagonal like this.
+
+26:41.700 --> 26:43.140
+This one actually looks really nice.
+
+26:43.140 --> 26:49.980
+You would want to see blocks on the diagonal such that within the block the cosine similarity is really
+
+26:49.980 --> 26:57.060
+high, and off of that block the cosine similarities are very low, close to zero, maybe a little bit
+
+26:57.100 --> 27:02.260
+negative if there's some negative lateral interactions amongst the different clusters.
+
+27:02.540 --> 27:03.980
+But that's not really the case here.
+
+27:03.980 --> 27:09.740
+So also when I look at this I do not see evidence of clustering okay.
+
+27:09.780 --> 27:15.500
+So again you know we are really not statistically justified to do a k means analysis.
+
+27:15.700 --> 27:23.420
+But this is a really nice opportunity for you to see the code again for k means clustering just to get
+
+27:23.420 --> 27:24.940
+some more familiarity with it.
+
+27:25.860 --> 27:29.020
+And because, you know, this is all just gobbledygook.
+
+27:29.060 --> 27:32.060
+Anyway, why don't we change the number of clusters to 13?
+
+27:32.060 --> 27:33.260
+Because why not?
+
+27:33.420 --> 27:34.980
+That's a lucky number I think.
+
+27:35.420 --> 27:35.780
+Okay.
+
+27:35.820 --> 27:37.500
+So here's the k means function.
+
+27:37.500 --> 27:43.420
+I specify 13 clusters and then I fit the t-SNE results.
+
+27:43.660 --> 27:46.100
+And then I generate the plot.
+
+27:46.140 --> 27:53.820
+Here I'm plotting not only all the individual data points, but also the central the centroid of each
+
+27:53.820 --> 27:54.660
+data point.
+
+27:54.900 --> 27:57.540
+So this is the centroid of this cluster.
+
+27:57.540 --> 28:00.420
+This is the centroid of this cluster and so on.
+
+28:00.420 --> 28:04.060
+And here is again cosine similarities sorted.
+
+28:04.060 --> 28:08.500
+So all the neurons sorted according to their group identity over here.
+
+28:09.740 --> 28:15.580
+Now even if you think that these are like real clusters which I hope you don't think when you run the
+
+28:15.580 --> 28:23.580
+code again you will get very different results just because of the random initialization involved in
+
+28:23.580 --> 28:24.780
+K-means clustering.
+
+28:26.260 --> 28:33.620
+A quote that I like a lot, which I find very often relevant, especially when I ran a neuroscience
+
+28:33.620 --> 28:38.380
+research lab and had a lot of students and postdocs in my lab doing research.
+
+28:38.580 --> 28:41.980
+Is this quote here from Alexander Graham Bell?
+
+28:42.340 --> 28:45.100
+There are no unsuccessful experiments.
+
+28:45.220 --> 28:47.660
+Every experiment contains a lesson.
+
+28:48.300 --> 28:51.500
+So Bell, of course, was the guy who invented the telephone.
+
+28:51.700 --> 28:53.940
+Not a bad legacy to leave behind.
+
+28:54.420 --> 29:01.820
+Uh, and what this quote means is that every experiment that you do, every data analysis you run,
+
+29:01.820 --> 29:04.220
+there's always something to learn.
+
+29:04.660 --> 29:08.340
+Even if you do not get the results that you are hoping for.
+
+29:08.500 --> 29:14.980
+There's always something useful to be learned, even from unexpected or disappointing results.
+
+29:15.500 --> 29:21.620
+Now, to be honest, this is also something that annoys me very much about our scientific publishing
+
+29:21.620 --> 29:22.300
+culture.
+
+29:22.580 --> 29:29.300
+You know, we are incentivized to publish positive results and especially results that are surprising
+
+29:29.300 --> 29:30.460
+or unexpected.
+
+29:30.980 --> 29:36.940
+But there is so much to learn about how complex systems work and how they don't work.
+
+29:37.380 --> 29:44.980
+By studying the analyses that seem like they should be insightful but end up not working out anyway.
+
+29:44.980 --> 29:45.860
+So that's that.
+
+29:45.860 --> 29:49.860
+I don't mean to be so dismissive or to dismiss this method.
+
+29:50.180 --> 29:55.500
+It is very possible that this kind of approach would be much more successful.
+
+29:55.540 --> 30:02.260
+Maybe for larger models, maybe for different kinds of target tokens, slightly different analyses,
+
+30:02.260 --> 30:04.900
+or maybe in different parts of the model.
+
+30:05.820 --> 30:12.460
+For example, you have seen that this exact same analysis approach was actually quite useful earlier
+
+30:12.460 --> 30:18.340
+in the course when we were studying token embeddings with different embeddings matrices.

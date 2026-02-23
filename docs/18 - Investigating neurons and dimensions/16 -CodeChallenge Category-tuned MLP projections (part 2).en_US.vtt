@@ -1,0 +1,1045 @@
+WEBVTT
+
+00:02.360 --> 00:06.560
+Welcome back to the second part of this code challenge.
+
+00:07.000 --> 00:13.400
+There are several more exercises to go, but I think you are going to find them interesting, thought
+
+00:13.400 --> 00:16.800
+provoking and a great learning experience.
+
+00:17.520 --> 00:25.560
+Now an exercise three at the end of the previous video, you ran t tests comparing the two categories
+
+00:25.800 --> 00:28.120
+and there were four words per category.
+
+00:28.680 --> 00:35.560
+Now the thing is that a significant t test could actually have resulted from a given neuron showing
+
+00:35.600 --> 00:43.160
+really strong preference for one target word, and then all the other target words have mixed activations,
+
+00:43.160 --> 00:45.000
+maybe around even zero.
+
+00:45.600 --> 00:47.840
+That would be a problem with the results.
+
+00:47.840 --> 00:55.360
+And the way to confirm that would be to check whether the neurons are really active only for one target
+
+00:55.360 --> 01:03.610
+word, or whether they show a similar category differentiation to all the words in each category, and
+
+01:03.610 --> 01:08.450
+that is something you are going to check here in this exercise.
+
+01:09.010 --> 01:10.690
+So pick one layer.
+
+01:10.690 --> 01:14.530
+I picked layer 16, but you could pick any other layer.
+
+01:15.010 --> 01:23.090
+And then in that layer find the two projection neurons in that layer that have the maximum and the minimum
+
+01:23.130 --> 01:24.170
+T values.
+
+01:24.810 --> 01:31.210
+Then you want to make a scatterplot with all of their activations to all the 40 tokens.
+
+01:31.490 --> 01:36.050
+Target tokens separated according to the target words.
+
+01:37.010 --> 01:42.530
+So you can visualize all of those data in a scatterplot that looks something like this.
+
+01:42.930 --> 01:52.370
+So in layer 16 it turned out that neuron index 749 had the largest positive t value.
+
+01:52.570 --> 01:58.490
+And neuron index 177 had the largest negative t value.
+
+01:58.850 --> 02:00.970
+And then in this scatter plot.
+
+02:01.170 --> 02:09.010
+I'm showing the activations for the actual word toothpaste for all five appearances of the word toothpaste
+
+02:09.010 --> 02:10.050
+for this neuron.
+
+02:10.050 --> 02:16.810
+So neuron 749 and also for this neuron, which was neuron number 177.
+
+02:17.370 --> 02:24.050
+And of course, you now know that this is actually the activation for just the token paste, but it
+
+02:24.570 --> 02:28.530
+is preceded by the word tooth or the token for the word tooth.
+
+02:29.010 --> 02:35.850
+Now the question in at hand here is what do the activations look like from these two neurons from all
+
+02:35.890 --> 02:37.690
+of the other target words?
+
+02:38.170 --> 02:44.650
+For example, if you would see that all of the activations for all these other words here are clustered
+
+02:44.650 --> 02:52.090
+around zero for the other targets, then the T test is really just driven by this one word over here.
+
+02:52.650 --> 02:59.690
+Now, if you were doing this for a real research project, you would want to extend this analysis to
+
+02:59.730 --> 03:02.500
+all of these significant neurons and all the layers.
+
+03:02.700 --> 03:09.700
+But here for this exercise, we're going to keep things simple and just focus on a visual qualitative
+
+03:09.700 --> 03:16.940
+investigation for two cells from one layer for all of the 40 activations.
+
+03:17.780 --> 03:18.100
+Okay.
+
+03:18.140 --> 03:19.740
+So that's for exercise four.
+
+03:19.780 --> 03:22.100
+I hope you enjoy working through this one.
+
+03:22.100 --> 03:25.340
+And now I will switch to Python and discuss the results.
+
+03:26.140 --> 03:31.700
+Here I set up a variable for the layer that I'm going to work with for this exercise.
+
+03:32.020 --> 03:34.060
+16 is a great layer.
+
+03:34.500 --> 03:37.380
+You can of course change this and explore around if you like.
+
+03:37.780 --> 03:43.700
+So then here I'm searching through all of the T values for this layer, for all the neurons, and I'm
+
+03:43.700 --> 03:50.020
+picking out the index corresponding to the maximum t value and the minimum t value.
+
+03:50.420 --> 03:55.100
+And then in this plot I'm looping over all of the target values.
+
+03:55.100 --> 04:01.660
+So this is the eight different target words toothpaste, Paste, toothbrush and so on for all of the
+
+04:01.700 --> 04:02.740
+eight target words.
+
+04:03.060 --> 04:03.900
+Then here.
+
+04:03.900 --> 04:11.020
+So inside this loop I am getting the activations from this layer, from this neuron, the max, the
+
+04:11.020 --> 04:18.980
+neuron with the maximum T value, and all of the five cases where the target value equals the one that
+
+04:18.980 --> 04:20.660
+I have in this for loop.
+
+04:21.060 --> 04:23.180
+And then yeah, I'm plotting those here.
+
+04:23.180 --> 04:25.660
+I'm plotting those as blue circles.
+
+04:25.860 --> 04:29.620
+The one for the minimum T is going to be with red squares.
+
+04:29.620 --> 04:33.340
+And this is just a little bit of a offset a horizontal offset.
+
+04:33.340 --> 04:38.220
+So we can see both of these results very close to each other and further apart.
+
+04:38.260 --> 04:41.980
+Yet with some spacing in between the other target words.
+
+04:42.500 --> 04:45.780
+And that's basically the idea that we are doing here.
+
+04:45.980 --> 04:50.420
+So now we see that for the blue neurons.
+
+04:50.420 --> 04:54.980
+So this is the one that showed the largest t value, the maximum T value.
+
+04:55.260 --> 04:57.300
+What you would ideally want to see.
+
+04:57.300 --> 05:04.950
+The ideal result here is that all of these blue dots over here are larger than all of these blue dots
+
+05:04.990 --> 05:05.870
+over here.
+
+05:06.190 --> 05:09.590
+Why is that the desired result here?
+
+05:09.630 --> 05:17.190
+You know, this result is actually defined by a t test over all 20 of these versus all of these.
+
+05:17.350 --> 05:25.230
+So we want these activations to be large for the dentist dental hygiene terms and the furniture related
+
+05:25.230 --> 05:25.630
+terms.
+
+05:25.630 --> 05:29.670
+We want these to be low and vice versa for this neuron here.
+
+05:29.670 --> 05:36.910
+177 because that showed activations or t test in exactly the opposite direction.
+
+05:36.910 --> 05:38.230
+And that's what we see here.
+
+05:38.390 --> 05:42.710
+So all of these red squares are above all of these red squares over here.
+
+05:42.990 --> 05:46.710
+So in other words the blue neuron really likes things about the dentist.
+
+05:46.750 --> 05:49.950
+It doesn't really care that much about furniture.
+
+05:50.070 --> 05:52.910
+And the red neuron really likes interior furniture.
+
+05:52.950 --> 05:58.350
+At least, you know, maybe this is an exception, although this activation is still above the activation
+
+05:58.350 --> 06:00.110
+for these words.
+
+06:00.430 --> 06:04.870
+And yeah, so this red neuron just doesn't really care that much about dental hygiene.
+
+06:06.230 --> 06:09.030
+And now for exercise five.
+
+06:09.510 --> 06:15.510
+The goal of exercise five is to repeat the analysis in unseen data.
+
+06:16.030 --> 06:22.590
+And the idea here, the motivation is that it's always possible that when you get great results from
+
+06:22.590 --> 06:30.310
+a limited data set, so small sample sizes, it's possible that the findings actually just reflect overfitting
+
+06:30.310 --> 06:33.910
+the model to a limited sample size data set.
+
+06:34.470 --> 06:39.990
+So therefore I have prepared a second data set of new sentences.
+
+06:40.390 --> 06:46.870
+And to make things a little more interesting and a little bit more challenging, these sentences here
+
+06:46.910 --> 06:52.990
+are not organised into one target word per sentence and one category per sentence.
+
+06:53.310 --> 07:01.160
+Instead, each sentence here can contain several target words across both of the categories.
+
+07:01.160 --> 07:06.080
+And here you see the first couple of example sentences in this data set.
+
+07:06.520 --> 07:11.680
+So this first one for example she left her toothbrush on the nightstand.
+
+07:12.000 --> 07:15.600
+So there are two target words in this sentence.
+
+07:15.600 --> 07:17.960
+And one comes from each category.
+
+07:18.520 --> 07:23.560
+So you can find all of these sentences in the helper and in the solutions file.
+
+07:24.040 --> 07:30.920
+Now to begin, you need to loop through all of these sentences and find the tokens where the target
+
+07:30.920 --> 07:35.480
+or the token indices where the targets appear in each sentence.
+
+07:35.600 --> 07:40.480
+And when you print out your results of that for loop, it will look something like this.
+
+07:40.800 --> 07:46.600
+So for example, sentence zero has two targets in them and this one appears.
+
+07:47.080 --> 07:51.560
+Or at least the last token in this target word appears at index four.
+
+07:51.800 --> 07:56.320
+And the last token in this target word appears at index eight.
+
+07:57.000 --> 08:04.280
+You can also count the total number of appearances of each target word, and it's not perfectly balanced
+
+08:04.280 --> 08:06.160
+the way it was in data Set one.
+
+08:06.160 --> 08:07.120
+But that's okay.
+
+08:07.160 --> 08:08.120
+It's close enough.
+
+08:08.760 --> 08:16.360
+Now, the way to organize the target indices for the analysis here is different from what you did in
+
+08:16.360 --> 08:24.520
+exercise two, because here now in exercise five we can have multiple targets per sentence.
+
+08:25.200 --> 08:32.840
+The solution that I came up with is to create a matrix of sentences by token position.
+
+08:33.440 --> 08:38.400
+So I initialized this entire matrix to be full of minus ones.
+
+08:38.760 --> 08:45.840
+And then I populated each element in the matrix that has a target according to the target number.
+
+08:46.240 --> 08:56.040
+So now I can just find all of the matrix indices in this matrix that have values of zero through three.
+
+08:56.480 --> 09:02.930
+That will give me all the dental hygiene words, and then all the tokens from four through seven come
+
+09:02.930 --> 09:08.570
+from the furniture category, and the minus one is a non-target token.
+
+09:09.050 --> 09:16.330
+Once you have this matrix, you can push this new batch of text data through the model and again confirm
+
+09:16.330 --> 09:23.930
+the activations of the hooked MLP projection neurons and also the size of any one of those projection
+
+09:23.930 --> 09:24.650
+tensors.
+
+09:25.250 --> 09:28.610
+So there's 20 of these new sentences.
+
+09:28.610 --> 09:33.050
+And with the padding they end up being 25 tokens per sequence.
+
+09:33.570 --> 09:37.370
+So this is all you have to do for this exercise.
+
+09:37.570 --> 09:43.090
+In the next exercise you'll run a t test on this second data set.
+
+09:43.410 --> 09:49.490
+But now you should pause the video and get the data set set up so you are ready for the statistics.
+
+09:49.650 --> 09:52.890
+And now I will switch to code and discuss my solution.
+
+09:53.850 --> 09:57.130
+So here you see all of the new sentences.
+
+09:57.130 --> 10:00.730
+The new data set Some of them are a little bit weird.
+
+10:00.730 --> 10:02.810
+They were created by Claude I.
+
+10:03.130 --> 10:04.170
+Where's the weird one?
+
+10:04.450 --> 10:05.050
+There's one of.
+
+10:05.050 --> 10:05.330
+Oh, yeah.
+
+10:05.330 --> 10:05.970
+This one.
+
+10:06.010 --> 10:08.570
+She placed her toothbrush in the dishwasher.
+
+10:08.570 --> 10:10.930
+Silverware to sanitize it thoroughly.
+
+10:10.970 --> 10:15.090
+I have no idea if that is a good idea or a terrible idea.
+
+10:15.370 --> 10:17.490
+Uh, it's not something I've ever done.
+
+10:17.490 --> 10:23.930
+I'm not taking responsibility for the actual content or suggestions of these sentences anyway.
+
+10:24.370 --> 10:24.610
+Uh.
+
+10:24.610 --> 10:25.050
+Let's see.
+
+10:25.050 --> 10:27.770
+So then here I'm tokenizing them and.
+
+10:28.010 --> 10:34.130
+Yeah, just this is just to give an example, you can see also quite some padding in here for this first
+
+10:34.130 --> 10:35.250
+sentence for example.
+
+10:35.810 --> 10:36.130
+Okay.
+
+10:36.170 --> 10:44.250
+So now this code is basically the same as what I showed in the uh exercise one.
+
+10:44.410 --> 10:52.770
+And also what you saw in two videos ago when I introduced you to identifying indices of multi token
+
+10:52.810 --> 10:53.730
+targets.
+
+10:53.770 --> 10:58.140
+This one is only slightly different because I begin with this matrix here.
+
+10:58.500 --> 11:00.020
+Target vowels underscore.
+
+11:00.020 --> 11:00.660
+Matt.
+
+11:00.660 --> 11:05.380
+And then here I'm initializing this to be sentences by sequence length.
+
+11:05.380 --> 11:09.540
+So by 25 tokens per including padding.
+
+11:10.460 --> 11:13.260
+And I initialize these to be minus ones.
+
+11:13.260 --> 11:20.380
+And the reason why I'm using these while I'm initializing this matrix to have minus ones is so that
+
+11:20.380 --> 11:30.140
+later on I can identify all of the zero value elements in this matrix, and that is the locations in
+
+11:30.140 --> 11:33.060
+which the first target word appears.
+
+11:33.580 --> 11:35.700
+So now I can run this code.
+
+11:35.700 --> 11:44.140
+And here you see that each sentence has a multiple appearances of target words from both categories.
+
+11:44.380 --> 11:46.980
+And here I'm flattening that matrix.
+
+11:47.020 --> 11:49.060
+Actually let me just show you what this looks like.
+
+11:49.340 --> 11:52.860
+Target vowels underscore Matt.
+
+11:52.860 --> 11:55.020
+So it's lots of minus ones.
+
+11:55.100 --> 11:59.980
+And then we get some other non minus one integers in here.
+
+11:59.980 --> 12:07.100
+And again those correspond to both the location and the identity of the target words.
+
+12:07.420 --> 12:07.900
+Okay.
+
+12:08.140 --> 12:10.700
+So then I can just flatten that matrix.
+
+12:10.700 --> 12:17.220
+So vectorize that matrix and then just figure out what are the unique elements in that matrix.
+
+12:17.380 --> 12:22.660
+And then I can see that for example there were six appearances of the word toothpaste.
+
+12:22.660 --> 12:23.460
+So there you go.
+
+12:23.940 --> 12:27.500
+And here I'm making an image of that matrix.
+
+12:27.660 --> 12:33.980
+And as I've said a bajillion times before in this course, don't stress if you, uh, you know, like
+
+12:33.980 --> 12:37.180
+some of the details of getting this stuff to work.
+
+12:37.220 --> 12:41.460
+This is like detail nuances of matplotlib.
+
+12:41.460 --> 12:49.020
+If you can correctly create this matrix, then don't worry about the visualization stuff.
+
+12:49.380 --> 12:49.620
+Okay.
+
+12:49.660 --> 12:52.460
+And finally push all those data through the model.
+
+12:52.700 --> 12:58.950
+Uh, even though I'm only running this on the CPU, it is not a lot of data, and this is the only time
+
+12:58.950 --> 13:03.070
+we really need to run this second batch of data through.
+
+13:03.070 --> 13:10.270
+So in my humble opinion, it's really not worth connecting to a GPU just to wait for, you know, that
+
+13:10.270 --> 13:13.070
+would save you like maybe 20s or something.
+
+13:13.470 --> 13:13.710
+Okay.
+
+13:13.750 --> 13:17.750
+And then here we can confirm the sizes of these activations.
+
+13:18.470 --> 13:23.750
+So yeah, we get activations hooked from all 36 of these layers.
+
+13:23.990 --> 13:34.950
+And each activation is of size 20 sentences, 25 tokens per sequence and 1280 neurons or projections
+
+13:34.950 --> 13:36.750
+from the MLP layer.
+
+13:38.070 --> 13:42.670
+This is the final exercise in this code challenge.
+
+13:43.110 --> 13:50.350
+The goal is to perform a t test for all the neurons and all the layers on the second independent data
+
+13:50.390 --> 13:56.950
+set, and then compare those findings from the second data set to the findings from the initial data
+
+13:57.110 --> 14:01.070
+set from earlier in this code challenge in the previous video.
+
+14:01.630 --> 14:09.670
+Now you can see that I am creating two matrices for the t and p values that are the same sizes as the
+
+14:09.670 --> 14:12.830
+corresponding matrices from the first data set.
+
+14:13.310 --> 14:19.190
+Okay, so here I'm actually looping over all of the layers and then looping over all of the neurons,
+
+14:19.230 --> 14:26.790
+extracting the activations for this neuron in this layer, and then running a t test and storing the
+
+14:26.910 --> 14:28.790
+t value and the p value.
+
+14:29.070 --> 14:34.230
+Now this looks a little bit different from how I did it in exercise three.
+
+14:34.430 --> 14:43.030
+And the reason is that in exercise three, there was only one target token per sentence.
+
+14:43.030 --> 14:50.230
+And the first 20 sentences were from one category and the next 20 sentences were from the other category.
+
+14:50.350 --> 14:57.920
+So the data were organized in a way that was a little bit more amenable to avoiding these two for loops.
+
+14:58.240 --> 15:02.400
+If you want to avoid these two for loops, it actually would be possible.
+
+15:02.400 --> 15:09.840
+You'd have to add some additional for loops before you run the T tests in order to extract the activations
+
+15:09.840 --> 15:17.560
+for the correct tokens for each sentences, keeping in mind that the sentences contain multiple tokens
+
+15:17.560 --> 15:19.480
+from both categories.
+
+15:19.920 --> 15:25.840
+So yeah, the tricky part of this code here and this for loop is really just this missing line of code
+
+15:25.840 --> 15:26.360
+here.
+
+15:26.880 --> 15:34.240
+You need to extract the data from all of the dental hygiene category target locations for this neuron
+
+15:34.240 --> 15:42.600
+for this layer versus the furniture target locations using that matrix mask that you created in the
+
+15:42.600 --> 15:44.360
+previous exercise.
+
+15:44.960 --> 15:51.520
+Anyway, by the end of this double for loop here, or however you choose to implement it, you will
+
+15:51.520 --> 15:57.800
+have t values and p values for the same neurons for the two different data sets.
+
+15:58.280 --> 16:01.800
+And then we want to see how they relate to each other.
+
+16:02.200 --> 16:04.880
+And that is what I am visualizing here.
+
+16:05.640 --> 16:09.720
+So on the x axis I have data set one.
+
+16:09.720 --> 16:14.160
+And on the y axis I have the t values from data set two.
+
+16:14.760 --> 16:22.240
+Now when both of the tests from both data sets were statistically significant, then I drew them as
+
+16:22.440 --> 16:23.400
+green squares.
+
+16:23.840 --> 16:30.040
+When one test was significant but the other one wasn't, then those are red circles.
+
+16:30.160 --> 16:31.560
+And when neither tests.
+
+16:31.560 --> 16:35.920
+So the neurons for which neither test was significant, then I give a.
+
+16:35.920 --> 16:39.880
+I visualize that using these little red x's okay.
+
+16:39.920 --> 16:43.760
+So I call this the pistachio cannoli plot.
+
+16:43.880 --> 16:49.920
+And if you have no idea why I call this the pistachio cannoli plot, then you can do a Google image
+
+16:49.920 --> 16:56.490
+search for pistachio cannoli, and you can see if you agree or disagree with my interpretation.
+
+16:57.410 --> 17:05.210
+Anyway, the point is, there is obviously a strong correlation between these two data sets, and that
+
+17:05.210 --> 17:13.850
+indicates that the effects that we saw in exercise three were not just overfitting data set one, because
+
+17:13.850 --> 17:16.650
+we get the same patterns with data set two.
+
+17:17.010 --> 17:19.290
+So it is the same target words.
+
+17:19.290 --> 17:21.530
+But we have very different sentences.
+
+17:22.090 --> 17:22.450
+Okay.
+
+17:22.490 --> 17:25.410
+So visually it is quite compelling.
+
+17:25.570 --> 17:32.810
+But it would be nice to have some quantitative measure of the concordance between the results for data
+
+17:32.850 --> 17:34.610
+set one and data set two.
+
+17:35.210 --> 17:40.130
+Now I want you to figure out how to quantify that concordance.
+
+17:40.250 --> 17:46.290
+In other words the consistency of the neurons responding to data set one and data set two.
+
+17:47.050 --> 17:50.810
+There are several ways that you can quantify this relationship.
+
+17:51.090 --> 17:57.810
+I am not going to tell you the formula that I used to get this result results here, because I want
+
+17:57.810 --> 18:04.410
+you to use your imagination and think about what it would mean for the results to be similar or distinct
+
+18:04.570 --> 18:08.130
+between two different data sets coming from the same neurons.
+
+18:09.170 --> 18:16.770
+Now, I can tell you that the formula that I used is based on looking at the four quadrants in this
+
+18:16.770 --> 18:17.450
+plot.
+
+18:17.610 --> 18:24.210
+So cutting up this plot into four pieces and seeing where the data fall in those four pieces.
+
+18:24.610 --> 18:29.690
+But you can think of some other ways of looking at concordance, and perhaps you will get different
+
+18:29.730 --> 18:31.730
+numbers from what I got up here.
+
+18:32.890 --> 18:38.290
+Of course, when I switch to code, I will discuss this, but I want you to have the freedom to think
+
+18:38.290 --> 18:39.610
+of this for yourself.
+
+18:39.650 --> 18:46.610
+Anyway, this hint down here is just a general tip for this visualization and analysis.
+
+18:46.930 --> 18:50.330
+I'm not separating the data into the different layers here.
+
+18:50.650 --> 18:57.060
+So this tip is just making your life a little bit easier by ignoring the The transformer blocks and
+
+18:57.060 --> 19:02.340
+pulling all of the MLP neurons from all the layers into one big vector.
+
+19:03.100 --> 19:04.820
+So that's it for this exercise.
+
+19:04.820 --> 19:08.420
+And that's also the final exercise in this code challenge.
+
+19:08.860 --> 19:12.300
+I hope you enjoy making the pistachio cannoli plot.
+
+19:12.580 --> 19:18.940
+And now I will switch to code and discuss the findings and the possibilities for thinking about concordances.
+
+19:20.300 --> 19:27.740
+So here is that double for loop to run all of the T tests for all of the individual neurons.
+
+19:27.860 --> 19:30.140
+This one does take a little bit more time.
+
+19:30.140 --> 19:38.380
+It's close to three minutes compared to just a few seconds from exercise three, where it was simpler
+
+19:38.420 --> 19:45.260
+basically because we could vectorize everything and we only had to call this t test function once on
+
+19:45.260 --> 19:51.700
+matrices instead of having to call it, you know, 36 times, 180 times, whatever that is.
+
+19:51.740 --> 19:54.420
+It's tens of thousands of times that we're calling this.
+
+19:54.860 --> 19:55.100
+Okay.
+
+19:55.140 --> 20:00.580
+And again, the reason is that the data set itself is considerably more complicated.
+
+20:01.020 --> 20:05.780
+And also as I mentioned, it would be possible to reorganize the data.
+
+20:05.780 --> 20:08.540
+So you need to call this function only once.
+
+20:08.980 --> 20:16.180
+And basically that would involve having other for loops loop over all of the target words and collect
+
+20:16.180 --> 20:23.260
+all of those into a matrix of activations for the targets for the two different categories.
+
+20:23.420 --> 20:25.860
+If you want to code that up, that's fantastic.
+
+20:25.900 --> 20:27.500
+I definitely support that.
+
+20:27.980 --> 20:28.180
+Okay.
+
+20:28.220 --> 20:36.860
+But the way that I did this is to find all of the activations for this layer and this neuron that correspond
+
+20:36.860 --> 20:44.340
+to a target values in this target values matrix of less than four and greater than minus one.
+
+20:44.340 --> 20:52.580
+So this means the target values that are zero, 1 or 2 versus those are all the dental category words
+
+20:52.580 --> 20:59.630
+versus wherever is greater than three, which would mean target values four, five, six, and seven.
+
+20:59.630 --> 21:02.190
+And that is all of the furniture words.
+
+21:02.470 --> 21:06.310
+Okay, so this is still going to take another minute or so to calculate.
+
+21:07.950 --> 21:10.230
+So now we've gotten that done.
+
+21:10.270 --> 21:17.390
+Here I am vectorizing all of these matrices for convenience because yeah from this point forward I am
+
+21:17.750 --> 21:20.750
+not going to worry about the different layers.
+
+21:20.750 --> 21:22.910
+So I'm just pulling all the data together.
+
+21:22.910 --> 21:28.990
+So data one t values and p values and data two t values and p values.
+
+21:29.550 --> 21:31.990
+And then here actually let me just run this.
+
+21:31.990 --> 21:33.630
+So we have a plot to look at.
+
+21:33.950 --> 21:41.470
+And just as a quick reminder when neither test for data set one nor data set two is significant.
+
+21:41.470 --> 21:45.550
+That's all the red stuff in the middle when one set was significant.
+
+21:45.550 --> 21:52.270
+So this neuron, let's say, had a significant T value from data set one, but not from data set two.
+
+21:52.710 --> 21:54.110
+And that you see here.
+
+21:54.110 --> 21:57.110
+So data set one value is like minus nine.
+
+21:57.110 --> 21:59.990
+And here for data set two it was like minus one.
+
+22:00.350 --> 22:02.910
+So this is like partial concordance.
+
+22:04.070 --> 22:06.550
+And then those I drew as red dots.
+
+22:06.550 --> 22:14.390
+And then when the neuron was statistically significantly different for both test one and test two that
+
+22:14.390 --> 22:16.990
+I called or I labeled a green dot.
+
+22:17.190 --> 22:18.990
+So how do I quantify that.
+
+22:19.150 --> 22:20.990
+That is what I do up here.
+
+22:21.190 --> 22:27.510
+So the neurons where data one p value is below the significance threshold.
+
+22:27.870 --> 22:32.190
+And data Â£0.02 value is also below the significance threshold.
+
+22:32.230 --> 22:34.670
+Now this is a Boolean vector.
+
+22:34.710 --> 22:36.270
+This is a Boolean vector.
+
+22:36.670 --> 22:41.350
+I transform these into integers and then I add them together.
+
+22:41.430 --> 22:45.630
+And that means that this vector here comprises three values.
+
+22:45.630 --> 22:52.590
+It's zeros where neither was significant, ones where one was significant and two where they were both
+
+22:52.590 --> 22:53.430
+significant.
+
+22:53.630 --> 23:01.400
+Now, what I don't get from this particular vector is which ones were significant for which data set.
+
+23:01.560 --> 23:04.600
+It's obvious from looking at the plots.
+
+23:04.600 --> 23:09.400
+These ones are significant for data one and not sorry data two and not data one.
+
+23:09.640 --> 23:11.880
+Vice versa for this wedge over here.
+
+23:12.120 --> 23:15.640
+But that's not explicitly encoded into this vector.
+
+23:15.640 --> 23:17.440
+But that's fine okay.
+
+23:17.480 --> 23:18.240
+Now here.
+
+23:18.400 --> 23:18.960
+Uh, yeah.
+
+23:19.000 --> 23:20.640
+And then this is just the plotting.
+
+23:20.680 --> 23:22.560
+I'm not really going to discuss that.
+
+23:22.560 --> 23:29.440
+So you can see I'm plotting the, uh, t values, the neurons where neither is significant.
+
+23:29.440 --> 23:31.120
+One or both are significant.
+
+23:31.480 --> 23:35.040
+The last thing I want to discuss is the concordance analysis.
+
+23:35.360 --> 23:41.960
+And here what I considered is that basically what we want is for all of the neurons to be either in
+
+23:41.960 --> 23:42.720
+this quadrant.
+
+23:42.720 --> 23:46.840
+So they're both negative or they are both in this quadrant.
+
+23:46.840 --> 23:53.240
+So they both have positive t values when they are non-significant t values.
+
+23:53.480 --> 23:57.200
+It's a little bit unclear about how we should incorporate those.
+
+23:57.400 --> 24:03.640
+They are, you know, like all of these are numerically consistent between data one and data two, in
+
+24:03.640 --> 24:10.880
+the sense that the T value goes in the same direction for the two data sets, but they're not statistically
+
+24:10.880 --> 24:11.560
+significant.
+
+24:11.560 --> 24:16.440
+So we cannot really interpret them as meaningfully different from zero.
+
+24:16.880 --> 24:21.200
+But certainly cases like these indicate a lack of concordance.
+
+24:21.200 --> 24:28.840
+So these neurons showed a significant positive T value on data set two and a non-significant but at
+
+24:28.840 --> 24:32.400
+least numerically negative value on data set one.
+
+24:32.800 --> 24:33.080
+Okay.
+
+24:33.120 --> 24:38.960
+So what I did to get this number up here is basically have a ratio here.
+
+24:39.280 --> 24:42.280
+And here's the numerator and the denominator.
+
+24:42.480 --> 24:46.560
+So for the numerator I look at the sign of the t value.
+
+24:46.560 --> 24:52.560
+And I just say is the sign the same between data set one and data set two.
+
+24:52.600 --> 24:53.080
+That's here.
+
+24:53.080 --> 24:56.690
+So are they both negative or are they both positive?
+
+24:56.970 --> 24:58.730
+And it's not sufficient.
+
+24:58.730 --> 25:02.330
+It's not enough for them both to have the same size sign.
+
+25:02.570 --> 25:05.210
+They also both need to be significant.
+
+25:05.210 --> 25:09.810
+So they both need to be less have p values less than the threshold.
+
+25:10.010 --> 25:15.130
+And if both of those are true then that goes into the numerator.
+
+25:15.130 --> 25:19.490
+And then the denominator is just all of the neurons that are significant.
+
+25:19.610 --> 25:25.810
+So basically what I'm doing is looking at the concordance of the green squares and the red circles.
+
+25:25.810 --> 25:29.570
+And I'm ignoring the red plus signs altogether.
+
+25:30.530 --> 25:34.250
+If you came up with a different measure of concordance then that's great.
+
+25:34.370 --> 25:37.010
+You can tell me all about it in the Q&amp;A.
+
+25:38.130 --> 25:45.570
+Well, that was quite a challenging code challenge, but I hope you feel that you got a lot of value
+
+25:45.610 --> 25:46.410
+out of it.
+
+25:46.770 --> 25:54.130
+I think a general, practical take home message from this code challenge is that there are many solutions
+
+25:54.130 --> 26:01.530
+and analyses that initially seem pretty simple conceptually, but turn out to be quite tricky from a
+
+26:01.570 --> 26:04.090
+coding and practical perspective.
+
+26:04.850 --> 26:12.330
+Another general point is that one advantage of doing empirical research with Llms is that it's usually
+
+26:12.330 --> 26:16.810
+pretty easy to get more data to confirm your findings.
+
+26:17.530 --> 26:21.810
+You know, if you're doing like neuroscience research with Parkinson's patients.
+
+26:21.970 --> 26:25.970
+It's just really difficult to collect enough data in the first place.
+
+26:26.250 --> 26:31.250
+So that leads to a whole different set of limitations and difficulties.
+
+26:31.850 --> 26:36.490
+Now, to be sure, mechanistic interpretability of llms is not easy.
+
+26:36.770 --> 26:43.450
+But at least one good thing is that unless you are doing something that is like really narrow and specific,
+
+26:43.770 --> 26:51.530
+you're probably never going to run out of data for running analyses to confirm the statistical robustness
+
+26:51.650 --> 26:52.810
+of your findings.

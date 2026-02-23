@@ -1,0 +1,589 @@
+WEBVTT
+
+00:02.120 --> 00:10.040
+In this video, I will introduce you to a coding concept called List Compress spelled like this list
+
+00:10.040 --> 00:10.920
+comprehension.
+
+00:10.920 --> 00:17.440
+Now I prefer to name these as single line for loops because that's what they really are.
+
+00:17.480 --> 00:22.200
+They're a way to pack an entire for loop into one line of code.
+
+00:22.640 --> 00:28.640
+So this is what you can think about when you're writing and interpreting list comprehension.
+
+00:28.640 --> 00:31.360
+But this is the formal Python name for some reason.
+
+00:31.840 --> 00:32.120
+Okay.
+
+00:32.160 --> 00:36.200
+So let me begin by writing out a multi-line for loop.
+
+00:36.360 --> 00:38.400
+So for I in range ten.
+
+00:38.640 --> 00:41.560
+And let's just print out I squared okay.
+
+00:41.600 --> 00:48.600
+So nothing new here you learned about for loops in a previous video we have this looping index.
+
+00:48.600 --> 00:51.000
+And then we have the reserved keyword in.
+
+00:51.000 --> 00:53.720
+And here I'm using this range iterator.
+
+00:53.880 --> 00:59.960
+And then the variable I or the value of I is increasing in every iteration.
+
+01:00.080 --> 01:02.850
+And yeah, I'm just explaining stuff you already know.
+
+01:02.850 --> 01:08.970
+So the question now is, how can we get this for loop to be in one line of code?
+
+01:08.970 --> 01:11.010
+Now we can do something like this for I.
+
+01:11.050 --> 01:15.290
+And actually let me just copy and paste this.
+
+01:16.170 --> 01:17.610
+We can do something like this.
+
+01:17.650 --> 01:19.690
+So this is technically one line of code.
+
+01:20.010 --> 01:22.010
+And sometimes this is fine to write.
+
+01:22.010 --> 01:27.210
+But there is a more elegant solution and that is using list comprehension.
+
+01:27.530 --> 01:31.810
+So to use list comprehension first of all we start with a list.
+
+01:32.010 --> 01:37.850
+So you can tell this is a list because of the empty or because of the square brackets.
+
+01:37.970 --> 01:45.050
+And now inside I'm going to write print I squared for I in range ten.
+
+01:45.450 --> 01:45.810
+Okay.
+
+01:45.850 --> 01:55.690
+So notice that all of the elements that are present in this for loop are also present in this list comprehension
+
+01:55.690 --> 01:56.490
+statement.
+
+01:56.730 --> 01:58.730
+But the order is slightly different.
+
+01:58.730 --> 02:05.750
+So here I have the statement inside the body of the for loop, and here I have the for loop statement.
+
+02:05.950 --> 02:13.790
+So now when I run this line of code I get all of these results, which is yeah I squared for I in numbers
+
+02:13.790 --> 02:15.510
+from 0 to 9.
+
+02:15.670 --> 02:18.110
+And then here I get this funny thing here.
+
+02:18.150 --> 02:19.270
+No no no no no no no.
+
+02:19.430 --> 02:21.190
+So what is going on here.
+
+02:21.190 --> 02:24.110
+Why do we get an entire list of nuns?
+
+02:24.230 --> 02:27.750
+I'm actually going to talk more about this later on.
+
+02:27.750 --> 02:29.990
+I want to show some more examples first.
+
+02:29.990 --> 02:33.710
+So let me just start by getting rid of this print symbol.
+
+02:33.910 --> 02:39.830
+And now we have a list that contains all of these elements for um yeah.
+
+02:39.870 --> 02:44.150
+For, for I squared for from zero up to nine.
+
+02:44.390 --> 02:50.710
+So this was going from a multi-line for loop to a list comprehension statement.
+
+02:50.950 --> 02:54.670
+Now what I'm going to do is start with a list comprehension.
+
+02:54.670 --> 03:02.920
+And then I will ask you to pause the video and translate that list comprehension back into a multi-line
+
+03:02.960 --> 03:03.720
+for loop.
+
+03:03.880 --> 03:04.640
+So let's begin.
+
+03:04.640 --> 03:06.960
+So we start with our list like this.
+
+03:06.960 --> 03:14.480
+And I will write out I squared minus I to the power of one half.
+
+03:14.480 --> 03:20.040
+And this whole thing here that should be one I this whole thing is equivalent to the square root.
+
+03:20.080 --> 03:20.320
+Right.
+
+03:20.360 --> 03:27.240
+So the square root of a number is the same thing as raising that number to the power of one half for
+
+03:27.240 --> 03:38.000
+I in range 1010 if I is greater than five okay, so this looks slightly different from the list comprehension
+
+03:38.000 --> 03:39.120
+that I wrote here.
+
+03:39.280 --> 03:40.840
+So there's some new concepts in here.
+
+03:40.840 --> 03:44.000
+What I would like you to do is pause the video.
+
+03:44.040 --> 03:46.720
+Actually let me run this first so we can see what the output is.
+
+03:47.200 --> 03:55.600
+So now pause the video and see if you can translate this list comprehension into a for loop that looks
+
+03:55.600 --> 03:56.880
+something like this.
+
+03:57.400 --> 03:57.640
+Okay.
+
+03:57.680 --> 04:00.770
+And now I am going to walk through that solution.
+
+04:01.130 --> 04:05.970
+Okay, so let's start off by writing for I in range ten.
+
+04:06.410 --> 04:13.850
+And now we want to have uh I squared minus I to the power of one half.
+
+04:14.130 --> 04:15.530
+So that's this part.
+
+04:15.810 --> 04:19.330
+But then we also have this if statement here.
+
+04:19.450 --> 04:25.850
+And you can also see you know maybe it's hard to figure out what I squared minus I to the square root
+
+04:25.850 --> 04:26.330
+of I.
+
+04:26.570 --> 04:29.170
+But certainly these are relatively large numbers.
+
+04:29.170 --> 04:32.850
+So this is not you know one if this were one.
+
+04:33.090 --> 04:35.890
+Well also at zero that's the easiest to calculate.
+
+04:35.890 --> 04:38.210
+So when I is zero this is just zero.
+
+04:38.450 --> 04:40.850
+And when I is one then this is also zero.
+
+04:40.850 --> 04:45.250
+Because one squared minus the square root of one is zero.
+
+04:45.330 --> 04:46.410
+And we don't see these here.
+
+04:46.410 --> 04:51.850
+So clearly this if statement is being applied inside this for loop.
+
+04:51.850 --> 04:56.770
+So if I is greater than five then we write this out okay.
+
+04:57.090 --> 05:03.550
+And now when I run this code, I don't get any error messages, I don't get any warning messages, but
+
+05:03.550 --> 05:06.510
+I also don't see anything being printed out.
+
+05:06.670 --> 05:12.550
+But here we have a list with these elements so we can write print like this.
+
+05:12.670 --> 05:13.510
+And that's fine.
+
+05:13.510 --> 05:16.990
+Then these elements match these values over here.
+
+05:16.990 --> 05:19.510
+But this is actually not creating a list.
+
+05:19.510 --> 05:21.110
+This created a list.
+
+05:21.150 --> 05:22.950
+That's why it's called list comprehension.
+
+05:23.750 --> 05:24.750
+Here there's no list.
+
+05:24.750 --> 05:27.270
+So we need to actually create a list here.
+
+05:27.670 --> 05:28.830
+And how do we do that.
+
+05:28.830 --> 05:32.030
+I'm going to initialize an empty list.
+
+05:32.030 --> 05:33.750
+So I'm just going to call this n.
+
+05:34.110 --> 05:36.870
+And yeah I initialize this to be an empty list.
+
+05:36.870 --> 05:44.990
+And now I'm going to use a method on list that I have described in a previous video called append.
+
+05:45.830 --> 05:50.470
+So it's like this dot append and then like this in parentheses.
+
+05:50.950 --> 05:52.870
+So then let's see.
+
+05:52.910 --> 05:54.830
+Now I will print out append okay.
+
+05:54.870 --> 05:59.880
+So now finally we get the same result that we got up here.
+
+05:59.880 --> 06:04.880
+So list comprehension here gave us what we needed in one line of code.
+
+06:05.080 --> 06:09.200
+And here it takes one, two, three, four lines of code.
+
+06:09.680 --> 06:17.440
+Now on the one hand, you know, minimizing the number of lines of code is not necessarily the primary
+
+06:17.440 --> 06:18.480
+goal of coding.
+
+06:18.520 --> 06:18.800
+Right?
+
+06:18.840 --> 06:23.320
+The primary goal of coding is to get things done using code.
+
+06:23.560 --> 06:28.840
+So if you need to use four lines, or if you find it better to use four lines, then use four lines,
+
+06:29.120 --> 06:36.120
+especially when you are just getting started with Python, then this is probably easier to write, easier
+
+06:36.120 --> 06:41.080
+to read, easier to understand what's going on compared to list comprehension.
+
+06:41.080 --> 06:47.120
+But you know, it is a fact that lots of people coding in Python use list comprehension.
+
+06:47.120 --> 06:53.960
+You will see list comprehension all over the place, so it's good to get used to reading list comprehension
+
+06:53.960 --> 06:57.810
+and writing code that includes list comprehension.
+
+06:58.370 --> 07:03.130
+Okay, I want to run through a few more examples of list comprehension.
+
+07:03.130 --> 07:09.890
+And then I will describe the rule that I believe you will be learning implicitly by seeing these examples.
+
+07:10.290 --> 07:17.290
+Okay, so so far all the examples that I used for list comprehension involved numbers and in particular
+
+07:17.290 --> 07:21.610
+counting integers using the range iterator function.
+
+07:21.890 --> 07:22.050
+Okay.
+
+07:22.050 --> 07:28.490
+What I'm going to show you now is that you can also use list comprehension in or using text.
+
+07:28.650 --> 07:30.570
+So here I will write out some text.
+
+07:30.650 --> 07:36.490
+Hello my name is Mike.
+
+07:36.530 --> 07:37.210
+So here we go.
+
+07:37.250 --> 07:38.770
+We have some text.
+
+07:39.090 --> 07:43.610
+These are individual strings that are inside a list.
+
+07:43.730 --> 07:48.090
+And now what I'm going to do is actually let me write this out in code first.
+
+07:48.250 --> 07:53.450
+So I will say for word in text and then I'm just going to print the word.
+
+07:53.570 --> 07:55.410
+So far nothing very fancy.
+
+07:55.570 --> 07:59.900
+And let's say I wanted to get the first letter of each of these elements.
+
+07:59.900 --> 08:02.140
+So here I can use indexing.
+
+08:02.340 --> 08:07.700
+And then I get this is from hello, my name is Mike okay.
+
+08:07.740 --> 08:15.540
+So now the goal is going to be to reproduce this result this for loop using list comprehension.
+
+08:15.860 --> 08:21.740
+So let's start off by writing word for word in text okay.
+
+08:21.780 --> 08:27.060
+So this is not that interesting because this is literally just reproducing the list that I already have
+
+08:27.060 --> 08:27.820
+here okay.
+
+08:27.860 --> 08:30.340
+And instead we just want to grab the first letter okay.
+
+08:30.380 --> 08:34.700
+So now we have a new list that is created from this list.
+
+08:34.700 --> 08:39.660
+And it just contains the first letter of each of those little strings.
+
+08:39.980 --> 08:40.220
+Okay.
+
+08:40.260 --> 08:40.980
+Very nice.
+
+08:41.420 --> 08:45.220
+Now what if we wanted to put all of these into one string.
+
+08:45.260 --> 08:45.500
+Right.
+
+08:45.540 --> 08:52.940
+So right now this is a list with multiple independent strings in each element of the list.
+
+08:52.940 --> 08:58.760
+But let's say we want to create a word which would be pronounced like Eminem or something.
+
+08:59.160 --> 09:03.120
+Uh, so, uh, what we can do here is something like this.
+
+09:03.160 --> 09:04.480
+We can use join.
+
+09:04.800 --> 09:12.200
+So here's this syntax looks a little bit weird, but here I'm creating a string with with just a space
+
+09:12.200 --> 09:13.240
+and then dot.
+
+09:13.240 --> 09:16.200
+So we're calling a method on a string object.
+
+09:16.920 --> 09:20.080
+And then the method or the function is called join.
+
+09:20.080 --> 09:23.920
+And then in the function join I'm inputting a list.
+
+09:23.920 --> 09:33.080
+And this gives me a string where all of the elements of this list are concatenated and separated according
+
+09:33.120 --> 09:35.840
+to this whatever is in here.
+
+09:35.840 --> 09:42.840
+So if we don't want any spaces between them, then we just have this be quotes with no space, nothing
+
+09:42.840 --> 09:43.520
+in between.
+
+09:43.840 --> 09:45.960
+Let's say we want to connect them by a dash.
+
+09:46.200 --> 09:51.320
+Maybe you are creating a CSV file, a comma separated values file.
+
+09:51.440 --> 09:54.160
+Then you might do something like this and so on.
+
+09:54.960 --> 09:59.570
+Okay so now you've seen several examples of list comprehension.
+
+09:59.650 --> 10:05.490
+What I want to do now is just write out what the the syntax of list comprehension.
+
+10:05.730 --> 10:08.730
+So we have the expression for variable.
+
+10:08.730 --> 10:13.490
+And I'm going to put these in parentheses in iterator.
+
+10:13.730 --> 10:18.730
+So the basic formulation of a list comprehension looks like this.
+
+10:18.810 --> 10:21.730
+So square brackets for a list.
+
+10:21.850 --> 10:23.530
+And then we have the expression.
+
+10:23.530 --> 10:26.650
+So here the expression is the first element of the word.
+
+10:26.930 --> 10:33.930
+Here the expression was this mathematical equation over here for that's the reserved keyword.
+
+10:33.930 --> 10:36.330
+And then this is a variable that we are creating.
+
+10:36.330 --> 10:40.290
+So here it's word and here it was I and so on.
+
+10:40.570 --> 10:42.530
+And then we have the iterator.
+
+10:42.530 --> 10:45.530
+And here the iterator is this list.
+
+10:45.810 --> 10:49.090
+Here the iterator is this range function okay.
+
+10:49.250 --> 10:51.650
+So this is the basic syntax.
+
+10:51.770 --> 10:53.890
+And then you can add more things to it.
+
+10:53.890 --> 11:00.180
+You can make it a little bit more complicated, as I showed you in this example, by adding a conditional.
+
+11:00.180 --> 11:09.140
+So we can add a conditional in here, something that would be evaluated for true or false for each variable
+
+11:09.380 --> 11:11.380
+in these iterators.
+
+11:11.980 --> 11:21.140
+The final thing that I want to discuss in this video is getting back to this initial list comprehension
+
+11:21.140 --> 11:22.140
+example here.
+
+11:22.380 --> 11:24.380
+So here we see a list.
+
+11:24.380 --> 11:27.940
+And here I got a bunch of nuns.
+
+11:27.940 --> 11:32.300
+You remember that there were nuns not nun but n o n e.
+
+11:32.820 --> 11:38.860
+Okay, so here we see the outcome that comes from print the outcome of this mathematical expression.
+
+11:39.220 --> 11:41.940
+And then here we have a list of nuns.
+
+11:41.980 --> 11:44.140
+Now why is this a list of nuns.
+
+11:44.340 --> 11:51.260
+Well what's actually happening here is that the output of the print function is nun.
+
+11:51.260 --> 11:52.140
+So print.
+
+11:52.940 --> 11:53.340
+Hi.
+
+11:53.860 --> 12:01.360
+The function print gives an action, so it prints something to the to the window over here, but it
+
+12:01.360 --> 12:02.920
+doesn't actually give an output.
+
+12:02.920 --> 12:05.560
+So if I say output equals print.
+
+12:06.120 --> 12:08.800
+Now what is the output of the print function.
+
+12:09.000 --> 12:10.840
+It doesn't actually have an output.
+
+12:10.840 --> 12:13.000
+So the output is none.
+
+12:13.240 --> 12:15.840
+So when I'm running this code nothing happens.
+
+12:15.840 --> 12:20.320
+Nothing prints out because there is no output from the print function.
+
+12:20.520 --> 12:23.280
+And that is why we get all of these nuns.
+
+12:23.280 --> 12:27.000
+These nuns are actually the outputs of this print function.
+
+12:27.000 --> 12:35.600
+So a little bit confusing, but I hope you see why we get this list of numbers printed out and why we
+
+12:35.600 --> 12:38.200
+get this list of nuns over here.
+
+12:38.600 --> 12:40.640
+Okay, so that was list comprehension.
+
+12:40.640 --> 12:46.880
+If list comprehension feels a little difficult and overwhelming, then that's completely natural.
+
+12:46.880 --> 12:49.920
+That's how everyone experiences list comprehension.
+
+12:50.240 --> 12:53.600
+But I promise with some practice you will get the hang of it.

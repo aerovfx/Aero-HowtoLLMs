@@ -1,0 +1,421 @@
+WEBVTT
+
+00:02.040 --> 00:09.120
+In this video, we will continue exploring how deep learning works, in particular by understanding
+
+00:09.120 --> 00:12.680
+errors, loss functions, and cost functions.
+
+00:13.400 --> 00:17.880
+So here is another diagram of our friendly little perceptron.
+
+00:18.440 --> 00:27.440
+Again, the idea is that we feed data into the model and it computes the weighted linear sum of those
+
+00:27.440 --> 00:32.600
+inputs, which then passes through a non-linear activation function.
+
+00:32.800 --> 00:36.840
+And that gives us the model's prediction about the world.
+
+00:37.240 --> 00:43.360
+So this is a prediction about, you know, the sale price of a house or prediction about the probability
+
+00:43.360 --> 00:49.440
+that someone has a certain disease, or the probability that a picture contains, for example, a human
+
+00:49.440 --> 00:50.000
+face.
+
+00:50.440 --> 00:56.920
+Of course, we want this prediction to be accurate, but the model is not guaranteed to give the correct
+
+00:56.920 --> 00:57.560
+answer.
+
+00:57.760 --> 01:02.120
+In other words, expectations do not always match the reality.
+
+01:02.960 --> 01:07.120
+So y hat is the model's prediction of the world.
+
+01:07.360 --> 01:12.720
+And we want to compare that to Y which is the reality of the world.
+
+01:13.240 --> 01:18.520
+Now this value y is also sometimes called the target or the target variable.
+
+01:18.760 --> 01:23.680
+This is the value that we want the model output to match.
+
+01:24.520 --> 01:31.880
+So again going back to our example of predicting whether students will pass or fail an exam, the model
+
+01:31.880 --> 01:39.040
+might predict that the student will pass the exam with a probability of 98%, but the student actually
+
+01:39.080 --> 01:40.240
+fails the exam.
+
+01:40.760 --> 01:45.800
+So that is a pretty large difference between the model's prediction and the reality.
+
+01:45.960 --> 01:48.240
+And that difference is an error.
+
+01:48.400 --> 01:49.560
+It's a mistake.
+
+01:49.800 --> 01:55.000
+And we need to quantify that error in order for the model to learn.
+
+01:55.400 --> 02:01.010
+Here is a table that illustrates how these errors might be computed.
+
+02:01.010 --> 02:05.570
+So in this table each row corresponds to a different sample.
+
+02:05.570 --> 02:07.290
+So an individual student.
+
+02:07.570 --> 02:09.410
+This is the model's output.
+
+02:09.410 --> 02:15.210
+The probability that the model gives that the student will pass the exam.
+
+02:15.730 --> 02:21.330
+This is the reality or the target variable which is dummy coded as 0 or 1.
+
+02:21.330 --> 02:24.170
+So failing the exam or passing the exam.
+
+02:24.490 --> 02:26.930
+And this is the error here.
+
+02:27.250 --> 02:29.250
+Now this error is literally the difference.
+
+02:29.250 --> 02:32.490
+Just the subtraction of y hat from y.
+
+02:33.090 --> 02:41.810
+And here in this column I'm showing that you can binarize the error to 0 or 1 according to the magnitude
+
+02:41.810 --> 02:42.890
+of this error.
+
+02:43.050 --> 02:50.810
+So in this case we can say that any errors with a magnitude of greater than 0.5 are considered to be
+
+02:50.810 --> 02:51.530
+an error.
+
+02:52.010 --> 02:58.410
+So you can see that the binarized errors are actually easier to interpret, but they are less sensitive
+
+02:58.570 --> 03:00.250
+to the size of the error.
+
+03:00.610 --> 03:07.970
+These continuous errors over here are more sensitive because they distinguish between large errors and
+
+03:07.970 --> 03:09.130
+small errors.
+
+03:09.530 --> 03:15.490
+Now the sign of these errors can be a little bit annoying, but it's actually pretty easy to deal with.
+
+03:15.530 --> 03:17.050
+As you'll see in a moment.
+
+03:17.650 --> 03:23.130
+So most of the time the learning is based on the continuous error.
+
+03:23.610 --> 03:30.650
+But evaluating the model performance both during and after training is based on binarizing the errors.
+
+03:31.210 --> 03:37.970
+So we use the continuous errors to teach the models and the binarize errors to evaluate the models.
+
+03:38.290 --> 03:40.650
+And what do we actually do with these errors?
+
+03:40.770 --> 03:47.210
+Well they are used to generate losses which is done using the loss functions.
+
+03:48.010 --> 03:54.650
+There are many loss functions that have been introduced in deep learning, but most of them are basically
+
+03:54.650 --> 03:56.850
+just variants of these two.
+
+03:57.410 --> 04:01.450
+So these are the two most commonly used loss functions.
+
+04:01.810 --> 04:08.810
+Mean squared error is used for continuous data when the model outputs a numerical prediction.
+
+04:09.170 --> 04:10.290
+Some examples here.
+
+04:10.370 --> 04:17.930
+So let's say the model is predicting how tall someone is, or the sale price of a house or the temperature.
+
+04:17.970 --> 04:20.330
+Let's say if this were like a climate model.
+
+04:20.810 --> 04:26.810
+So the model is making a prediction about a specific numerical value.
+
+04:27.290 --> 04:32.410
+And then the MSE or the mean squared error function is pretty straightforward.
+
+04:32.410 --> 04:37.730
+It's just the difference between the model prediction and the reality or the target variable.
+
+04:37.970 --> 04:44.130
+Just like what I showed in the table in the previous slide, you can see that it's squared here.
+
+04:44.130 --> 04:45.770
+This difference is squared.
+
+04:46.090 --> 04:49.970
+Squaring makes sure that everything is positive valued.
+
+04:50.290 --> 04:57.930
+And it also links the MSE to other methods in machine learning and statistics like regression and Anova
+
+04:57.930 --> 05:03.010
+and variance, and also to geometric concepts like Euclidean distance.
+
+05:03.570 --> 05:09.010
+Now, this factor of one half over here is simply a convenience factor.
+
+05:09.330 --> 05:11.530
+You'll learn more about this in the next video.
+
+05:11.530 --> 05:15.890
+But essentially we need to compute the derivative of this function.
+
+05:16.290 --> 05:17.650
+Now this is a polynomial.
+
+05:17.650 --> 05:22.330
+So the two in the exponent comes down here as a multiplication.
+
+05:22.570 --> 05:25.770
+And so having the one half here cancels out the two.
+
+05:26.130 --> 05:26.450
+Okay.
+
+05:26.490 --> 05:28.290
+So this is MSE loss.
+
+05:28.770 --> 05:35.930
+The other major type of loss function is called cross entropy, which is also sometimes called the logistic
+
+05:35.930 --> 05:37.130
+error function.
+
+05:37.250 --> 05:39.770
+This is used for categorical data.
+
+05:40.010 --> 05:43.250
+When the model outputs a probability.
+
+05:43.770 --> 05:48.450
+So some examples are when the model is predicting whether a patient has a disease.
+
+05:48.850 --> 05:56.290
+Whether there is a picture of a of a cat in an image, or whether a review of a restaurant is positive
+
+05:56.290 --> 05:57.580
+or negative.
+
+05:57.820 --> 06:05.020
+And so the loss function here is cross entropy, which is exactly the same formula that you saw earlier
+
+06:05.260 --> 06:06.660
+in the math section.
+
+06:07.060 --> 06:12.740
+Now there previously I used the letters P and Q but it's the same principle.
+
+06:13.060 --> 06:15.660
+So y hat is the output of the model.
+
+06:15.860 --> 06:20.580
+It's the probability of the sample belonging to a particular category.
+
+06:20.940 --> 06:28.180
+And y is the truth or the target variable of whether that sample comes from that particular category.
+
+06:28.340 --> 06:31.420
+And that's going to be dummy coded as 0 or 1.
+
+06:31.940 --> 06:33.980
+Also note the minus sign in here.
+
+06:34.020 --> 06:39.180
+Now because y hat is going to be a number between 0 and 1.
+
+06:39.540 --> 06:43.700
+The cross entropy expression is going to be a negative number.
+
+06:43.980 --> 06:50.660
+So multiplying the entire loss function by minus one basically just flips the sign, which helps us
+
+06:50.660 --> 06:55.260
+to interpret the result because we want to minimize the loss.
+
+06:55.780 --> 06:56.060
+Okay.
+
+06:56.100 --> 06:58.980
+So these are the two main loss functions.
+
+06:59.020 --> 07:01.780
+Now these loss functions work per sample.
+
+07:02.020 --> 07:07.660
+That is you plug in the data from one sample one data sample into the model.
+
+07:07.660 --> 07:10.340
+You get one output from that one sample.
+
+07:10.340 --> 07:13.780
+And then you compute the loss for that one sample.
+
+07:14.140 --> 07:16.780
+Now you've probably heard the term cost function.
+
+07:16.900 --> 07:21.940
+So what is a cost function and how does it relate to the loss function.
+
+07:22.500 --> 07:25.020
+Well there's actually nothing fancy going on here.
+
+07:25.020 --> 07:32.620
+In fact the cost function is literally just the average of the losses for many different samples.
+
+07:33.100 --> 07:35.940
+So let's say you have N samples.
+
+07:35.940 --> 07:36.900
+Maybe this is 30.
+
+07:36.940 --> 07:40.100
+Let's say you have 30 students in your course.
+
+07:40.260 --> 07:46.620
+So you compute the loss for each individual student average all of those losses together.
+
+07:46.820 --> 07:48.860
+And you call that the cost.
+
+07:49.340 --> 07:52.420
+People typically use this fancy letter J.
+
+07:52.860 --> 07:59.860
+Now in my opinion, this is needlessly complicated terminology, because people often get confused between
+
+07:59.860 --> 08:05.140
+the loss and the cost when they are really the same thing, just with different names.
+
+08:05.580 --> 08:11.380
+By the way, I just want to mention briefly that some people will leave out the minus sign in this cross
+
+08:11.380 --> 08:17.380
+entropy loss here, and then add a minus sign here when computing the cost.
+
+08:17.740 --> 08:18.940
+Either way is fine.
+
+08:18.940 --> 08:24.740
+It's just different notation that you might see in different books or videos or blog posts or whatever.
+
+08:24.940 --> 08:30.860
+Notation is often a little bit arbitrary, and different people have different personal preferences.
+
+08:31.660 --> 08:31.980
+Okay.
+
+08:32.020 --> 08:36.060
+Anyway, so now you know about errors and losses and costs.
+
+08:36.260 --> 08:38.180
+And what do we actually do with these?
+
+08:38.620 --> 08:45.180
+Well, we use the cost function as an optimization criterion in the training.
+
+08:45.660 --> 08:54.140
+In fact, the entire goal of deep learning is to find the set of weights that minimizes the cost function.
+
+08:54.740 --> 09:00.700
+Thus the entire goal of training deep learning models can be written like this.
+
+09:01.180 --> 09:08.300
+So find the set of W all of the weights in the model that minimize the cost.
+
+09:08.660 --> 09:14.980
+And now here I'm just rewriting the same equation but substituting the losses for the cost.
+
+09:15.540 --> 09:18.940
+And here is yet again the same exact equation.
+
+09:18.940 --> 09:27.660
+But now I'm replacing y hat with f of x and w where f it corresponds to the function that can describe
+
+09:27.660 --> 09:30.140
+the entire deep learning model.
+
+09:30.540 --> 09:38.380
+X is the inputs, and w is all of the weights from the entire model, all of the learnable parameters.
+
+09:38.860 --> 09:46.660
+Now perhaps you are wondering why we optimize based on the cost and not based on the individual losses.
+
+09:46.980 --> 09:53.740
+The main answer is that training the model on individual losses is time consuming, and it can lead
+
+09:53.740 --> 09:57.950
+to overfitting, which is a concept that you will learn about later on.
+
+09:58.270 --> 10:07.030
+But there is also a downside to averaging over too many losses, which is decreased sensitivity, particularly
+
+10:07.030 --> 10:09.390
+when there is a lot of sampling variability.
+
+10:09.830 --> 10:17.150
+So in fact, what is often done in practice is training models using what's called batches or groups
+
+10:17.150 --> 10:18.070
+of samples.
+
+10:18.390 --> 10:21.710
+So let's say you have 2000 samples.
+
+10:21.870 --> 10:25.470
+You might train using batches of 20 or 30.
+
+10:25.830 --> 10:33.030
+So you would average together 20 losses from 20 different samples instead of averaging together all
+
+10:33.070 --> 10:34.910
+2000 of your samples.
+
+10:35.430 --> 10:38.630
+Anyway, this is all stuff you're going to learn about in the next section.
+
+10:38.630 --> 10:41.470
+I just wanted to introduce you to the idea here.
+
+10:42.470 --> 10:45.790
+And so now you know about losses and costs.
+
+10:46.070 --> 10:52.150
+The last major piece of the puzzle is backpropagation, which is the topic of the next video.

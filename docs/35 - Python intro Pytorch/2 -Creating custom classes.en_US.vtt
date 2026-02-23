@@ -1,0 +1,589 @@
+WEBVTT
+
+00:01.840 --> 00:05.680
+Now let's create our own custom class.
+
+00:05.920 --> 00:13.760
+I'm going to just start typing and then after a while I will stop and explain everything that I'm doing.
+
+00:14.080 --> 00:14.440
+Okay.
+
+00:14.480 --> 00:18.560
+So I will define a class.
+
+00:18.560 --> 00:21.240
+So we use a reserved keyword class.
+
+00:21.240 --> 00:24.040
+You can see again you've seen this very often.
+
+00:24.040 --> 00:28.120
+Now we have some letters that I've typed in in Python.
+
+00:28.120 --> 00:30.960
+And then when I complete the word it changes color.
+
+00:30.960 --> 00:32.600
+So it's a reserved keyword.
+
+00:33.000 --> 00:37.440
+So class and I'm going to call this class model.
+
+00:37.440 --> 00:41.480
+This will be the name of the class which is like a template.
+
+00:41.480 --> 00:45.680
+Just like the name of this class was list.
+
+00:45.960 --> 00:46.320
+Okay.
+
+00:46.360 --> 00:47.800
+So there's a class called list.
+
+00:47.800 --> 00:52.160
+And now there isn't a built in class in Python called model.
+
+00:52.160 --> 00:56.400
+You can see that because I can just type model and we get an error message.
+
+00:56.880 --> 01:01.850
+So I'm going to create a new type of class which is not built into Python.
+
+01:01.850 --> 01:05.330
+I'm creating it right now and it is called model.
+
+01:06.370 --> 01:15.330
+So now we need what's called a constructor method and this is how the instance is constructed.
+
+01:15.850 --> 01:21.890
+So I will write def underscore underscore init underscore underscore.
+
+01:21.930 --> 01:24.170
+It's really weird looking syntax.
+
+01:24.170 --> 01:29.650
+But this is how a constructor initialization methods work in Python.
+
+01:29.650 --> 01:34.690
+So underscore underscore two underscores init for initialization.
+
+01:34.690 --> 01:37.570
+And then another two underscores okay.
+
+01:37.650 --> 01:45.170
+And then in parentheses I'm going to write self num layers num units and name.
+
+01:45.410 --> 01:48.370
+Now you can see that I'm defining a function here right.
+
+01:48.410 --> 01:50.410
+Because I use the keyword def.
+
+01:50.930 --> 01:56.490
+So that means we have the name of the function all of the inputs into the function.
+
+01:56.490 --> 01:58.410
+And then of course we need a colon.
+
+01:58.570 --> 02:01.630
+And now we can start writing a function.
+
+02:01.630 --> 02:15.550
+So I will write self dot layers equals num layers, self dot units equals num units and self dot name
+
+02:15.550 --> 02:16.750
+equals name.
+
+02:16.870 --> 02:19.670
+And finally self dot weights equals ten.
+
+02:19.710 --> 02:20.150
+Okay.
+
+02:20.390 --> 02:23.190
+Let me uh visually organize this.
+
+02:23.190 --> 02:29.310
+I like when my code has vertically aligned, uh, variable names and syntax like this.
+
+02:30.590 --> 02:30.830
+Okay.
+
+02:30.910 --> 02:39.670
+So here what I am doing is initializing an instance of this class and giving it all of these attributes.
+
+02:39.670 --> 02:42.070
+So all of these are attributes.
+
+02:42.470 --> 02:43.270
+So I write.
+
+02:43.510 --> 02:49.110
+So these variables here are going to be the input into the function.
+
+02:49.110 --> 02:55.550
+When I create this an instance of this class, we don't need to input self because it's implied that
+
+02:55.550 --> 02:58.560
+self is the variable that we are creating.
+
+02:58.800 --> 03:03.080
+So we are going to input three pieces of information.
+
+03:03.240 --> 03:09.400
+The number of layers in our neural network, the number of units per layer in our neural network, and
+
+03:09.400 --> 03:11.440
+the name of our neural network.
+
+03:11.600 --> 03:14.040
+And then I'm defining a new variable here.
+
+03:14.040 --> 03:17.000
+This is an instance of this class.
+
+03:17.200 --> 03:21.360
+But it's a variable just like uh l let me get rid of this.
+
+03:21.360 --> 03:24.800
+Here L is an instance of this class.
+
+03:25.120 --> 03:32.000
+Now I'm going to make a new instance of this class internally inside this class definition this is called
+
+03:32.000 --> 03:32.400
+self.
+
+03:32.400 --> 03:34.760
+But later on we're going to give it a different name.
+
+03:35.080 --> 03:35.360
+Okay.
+
+03:35.400 --> 03:39.840
+And then here I'm defining attributes of this instance.
+
+03:40.520 --> 03:40.960
+Okay.
+
+03:41.000 --> 03:47.160
+So every class when you create a new class it always needs a constructor method.
+
+03:47.160 --> 03:52.920
+And it always looks like this def underscore underscore init underscore underscore.
+
+03:53.240 --> 03:57.260
+And then in parentheses you're going to have the keyword Self.
+
+03:57.300 --> 04:01.460
+This is the internal representation of the variable that we are creating.
+
+04:01.740 --> 04:03.540
+The rest of these are optional.
+
+04:03.540 --> 04:07.020
+It depends on the nature of the class that you are creating.
+
+04:07.620 --> 04:10.980
+Okay, so now we can have some other methods that we define here.
+
+04:10.980 --> 04:15.860
+So I will create a method called how many units.
+
+04:15.860 --> 04:17.700
+And this takes in self.
+
+04:17.940 --> 04:21.460
+And it's going to calculate a variable.
+
+04:21.700 --> 04:29.580
+Total units equals self dot layers times self dot units.
+
+04:29.580 --> 04:36.940
+So if we have this many units per layer and this many layers in the variable then how many total units
+
+04:36.940 --> 04:37.500
+are there.
+
+04:37.700 --> 04:40.620
+Well it's the product of those two okay.
+
+04:40.620 --> 04:42.820
+And then I'm just going to print out some information.
+
+04:43.060 --> 04:50.500
+There are total units units in this model period.
+
+04:50.740 --> 04:51.180
+Okay.
+
+04:51.380 --> 04:53.100
+So now this is a function.
+
+04:53.100 --> 05:00.430
+It looks like a normal Python function that you already know how to create, but this function is embedded
+
+05:00.630 --> 05:05.550
+inside or defined inside this particular class definition.
+
+05:05.950 --> 05:07.150
+And what does that mean?
+
+05:07.510 --> 05:11.430
+That means that this is a function that is like secret.
+
+05:11.430 --> 05:19.550
+Only this particular class, or only instances of this class can actually access this function.
+
+05:19.830 --> 05:21.870
+And I can even demonstrate that to you right now.
+
+05:21.910 --> 05:22.150
+Okay.
+
+05:22.190 --> 05:26.030
+So I'm going to run this cell over here.
+
+05:26.150 --> 05:30.190
+So I created this class definition.
+
+05:30.310 --> 05:34.590
+And now I'm going to try to type how many units.
+
+05:35.630 --> 05:39.230
+And we see that this name is not defined.
+
+05:39.270 --> 05:39.630
+Okay.
+
+05:39.670 --> 05:43.350
+So I did define it here but it says undefined here.
+
+05:43.510 --> 05:43.790
+Okay.
+
+05:43.830 --> 05:45.550
+So how can we actually use this.
+
+05:45.670 --> 05:47.630
+Well we can create an instance.
+
+05:47.630 --> 05:51.310
+So let's create an instance of the class.
+
+05:52.310 --> 05:55.320
+So let's call this x for example.
+
+05:55.600 --> 05:57.360
+And I'm going to write model.
+
+05:57.360 --> 05:58.640
+And why is it model?
+
+05:58.840 --> 06:03.000
+I say the word model because that's the name that I defined here.
+
+06:03.360 --> 06:10.640
+So now when we first call a model or the the class name, the first thing that the code is going to
+
+06:10.640 --> 06:15.160
+do is look for the constructor method and run the constructor method.
+
+06:15.160 --> 06:18.160
+So that means we need to provide three inputs here.
+
+06:18.360 --> 06:21.440
+You don't need to explicitly provide this first input.
+
+06:21.440 --> 06:27.720
+It's always assumed that it is the variable self which refers to the variable itself.
+
+06:28.280 --> 06:28.640
+Okay.
+
+06:28.680 --> 06:35.680
+So how about let's create a model with eight layers and I don't know 17 units per layer.
+
+06:35.840 --> 06:38.720
+And the name is going to be L.
+
+06:41.280 --> 06:41.720
+Okay.
+
+06:41.760 --> 06:43.400
+So now I run this code.
+
+06:43.440 --> 06:46.000
+Nothing happened I can write X.
+
+06:46.120 --> 06:51.120
+And this actually just gives me an address of where this variable is stored.
+
+06:51.360 --> 06:59.060
+But now I'm going to write a period And how many units like this?
+
+06:59.060 --> 07:02.580
+And now we see there are 136 units in the model.
+
+07:02.780 --> 07:12.500
+Because when I call this method on this instance, then it called this function using self and self
+
+07:12.500 --> 07:14.380
+dot layers and self dot units.
+
+07:14.380 --> 07:16.900
+And then it printed out this statement over here.
+
+07:17.180 --> 07:24.740
+And again just to show you when I tried to run this function here or this method, it is not actually
+
+07:24.740 --> 07:25.180
+defined.
+
+07:25.180 --> 07:26.180
+It's like private.
+
+07:26.180 --> 07:26.860
+It's hidden.
+
+07:27.020 --> 07:33.860
+Only instances of this class can actually access this function.
+
+07:34.460 --> 07:34.940
+All right.
+
+07:34.980 --> 07:38.300
+So that was one method I want to create a few more.
+
+07:38.700 --> 07:45.500
+We're going to have def train the model and self that is going to take in something called x.
+
+07:45.500 --> 07:52.780
+This is going to be data that we input into the model like a text for example or tokenized text.
+
+07:53.350 --> 07:58.310
+So let's say self dot weights plus equals x.
+
+07:58.310 --> 08:03.790
+So I'm adding whatever is this variable onto weights which is initialized to be ten.
+
+08:03.990 --> 08:09.950
+And then it's just going to keep growing as I continually add numbers to it I will show you an example
+
+08:09.950 --> 08:10.590
+of that.
+
+08:11.070 --> 08:14.750
+And then here I'm going to return self dot weights.
+
+08:14.750 --> 08:19.830
+So notice this function or this method does not actually return anything.
+
+08:19.830 --> 08:23.830
+It just calculates some property of the model and prints it out.
+
+08:23.830 --> 08:25.910
+So this just gives us some information.
+
+08:26.350 --> 08:30.390
+This on the other hand is actually going to update the variable.
+
+08:30.390 --> 08:35.950
+So it's going to change the value of self dot weights based on this calculation.
+
+08:35.950 --> 08:39.950
+That gets called every time I call this method.
+
+08:40.630 --> 08:40.950
+Okay.
+
+08:40.990 --> 08:48.470
+And then the last method that I want to include here is also a reserved function.
+
+08:48.470 --> 08:56.680
+So we have underscore underscore str for string underscore underscore and then self.
+
+08:57.240 --> 08:57.520
+Okay.
+
+08:57.600 --> 09:01.160
+And then here I will return this statement.
+
+09:01.200 --> 09:04.840
+This is a self dot name.
+
+09:05.760 --> 09:09.120
+Model like this.
+
+09:09.400 --> 09:09.880
+Okay.
+
+09:10.000 --> 09:10.720
+Very good.
+
+09:10.800 --> 09:14.440
+So now I have created a class.
+
+09:14.600 --> 09:17.000
+The name of the class is model.
+
+09:17.280 --> 09:20.520
+It has four attributes that I define here.
+
+09:20.520 --> 09:25.440
+When the model gets created or when an instance gets created.
+
+09:25.800 --> 09:31.240
+And then I've defined three methods or three internal functions.
+
+09:31.240 --> 09:34.520
+One of them actually returns something and updates the value.
+
+09:34.760 --> 09:38.400
+And this one does some calculations and prints out some results.
+
+09:38.920 --> 09:39.280
+Okay.
+
+09:39.320 --> 09:42.080
+So now let's see I will run this code again.
+
+09:42.120 --> 09:43.640
+That's not terribly interesting.
+
+09:44.120 --> 09:49.080
+I can write str e the name of the model.
+
+09:49.080 --> 09:57.500
+So now this is a special type of function that gets called whenever I call the function str.
+
+09:57.860 --> 09:58.180
+Okay.
+
+09:58.220 --> 10:01.980
+So str and then I input this instance of the class.
+
+10:02.180 --> 10:05.020
+And this method gets returned.
+
+10:05.460 --> 10:10.300
+Or sorry this text gets returned because this method is called.
+
+10:10.580 --> 10:15.380
+Now what I'd like to do is explore this method a bit.
+
+10:15.420 --> 10:17.340
+So self dot weights.
+
+10:17.340 --> 10:22.580
+This is a attribute of the instance of the variable.
+
+10:22.580 --> 10:24.900
+So I can write x dot weights.
+
+10:25.660 --> 10:28.140
+And that's going to give me the number ten.
+
+10:28.420 --> 10:29.700
+And now I can write.
+
+10:29.700 --> 10:30.140
+Let's see.
+
+10:30.180 --> 10:31.820
+Let me print this out.
+
+10:31.860 --> 10:36.060
+And then I'm going to run x dot train the model.
+
+10:36.420 --> 10:39.540
+And we're going to provide some input data.
+
+10:39.540 --> 10:41.220
+And let's just say the number.
+
+10:41.260 --> 10:42.420
+How about 13.
+
+10:42.740 --> 10:45.940
+And then I will print x dot weights again.
+
+10:46.300 --> 10:46.500
+Okay.
+
+10:46.540 --> 10:53.510
+And remember when I call this method whatever is the input that gets added to self dot weights.
+
+10:53.510 --> 10:58.550
+So to this property, like a variable of this instance called weights.
+
+10:59.030 --> 11:06.430
+Okay so I run this and now we see ten 2310 because that's what the model was initialized to.
+
+11:06.630 --> 11:08.310
+And then we add 23.
+
+11:08.310 --> 11:10.310
+And then we print out or we add 13.
+
+11:10.310 --> 11:12.230
+And then we print out the results again.
+
+11:12.550 --> 11:14.790
+So I can keep running this code over and over again.
+
+11:14.790 --> 11:17.830
+And you can see that the weights are growing okay.
+
+11:17.870 --> 11:21.710
+And now what I'm going to do is run this code again.
+
+11:22.990 --> 11:29.470
+And that just created a brand new instance of this model and that reset all of the parameters.
+
+11:29.470 --> 11:31.390
+And why did it reset everything?
+
+11:31.750 --> 11:40.390
+Because when I called model then all of this code got run and then that reset the weights to be their
+
+11:40.390 --> 11:42.230
+initial value of ten.
+
+11:42.750 --> 11:44.590
+So I hope that makes sense.
+
+11:44.830 --> 11:49.070
+Uh, classes and object oriented programming is a bit tricky.
+
+11:49.210 --> 11:55.730
+It's normally a more advanced topic in Python that you would learn about after having already studied
+
+11:55.730 --> 12:03.650
+Python for several months, but in this case, we do use classes an awful lot with deep learning and
+
+12:03.650 --> 12:05.930
+language modeling in particular.
+
+12:05.930 --> 12:12.490
+All of the features of the model, like the weights, matrices, and information about training and
+
+12:12.490 --> 12:15.930
+about regularization parameters and techniques.
+
+12:16.090 --> 12:21.130
+Those are all attributes of the class that get defined here.
+
+12:21.490 --> 12:30.370
+And then the various methods that we have in the class for the deep learning model correspond to basically
+
+12:30.410 --> 12:37.570
+like multiplying matrices by inputs to evaluate the model, to do a forward pass through the model,
+
+12:37.730 --> 12:44.490
+to do back propagation, and get the model to train all sorts of things we do with the methods inside
+
+12:44.490 --> 12:46.850
+the class corresponding to these models.

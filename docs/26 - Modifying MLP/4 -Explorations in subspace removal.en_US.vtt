@@ -1,0 +1,1417 @@
+WEBVTT
+
+00:02.000 --> 00:11.160
+So far in this section, you have seen a few different ways to identify individual MLP neurons to zero
+
+00:11.160 --> 00:12.800
+out in a forward pass.
+
+00:13.440 --> 00:21.400
+For example, removal based on high activation values and based on statistical tests using independent
+
+00:21.400 --> 00:22.040
+data.
+
+00:22.880 --> 00:30.480
+The approach that I will introduce here in this video is about using matrix decomposition methods to
+
+00:30.520 --> 00:32.520
+identify subspaces.
+
+00:32.560 --> 00:38.880
+So these are linear combinations of all the neurons to project out of the data.
+
+00:39.440 --> 00:45.560
+It's kind of like the opposite of using PCA for compression and noise attenuation.
+
+00:46.320 --> 00:54.440
+That is to say normally subspace rejection is used to get rid of very small dimensions in the data that
+
+00:54.440 --> 00:56.200
+are probably just noise.
+
+00:56.840 --> 01:04.620
+In contrast, what I'm going to show you here is using PCA to identify the largest and the highest variance
+
+01:04.620 --> 01:05.420
+component.
+
+01:05.580 --> 01:08.940
+And then I will project that out of the data.
+
+01:09.540 --> 01:14.420
+Importantly, the data set size will remain exactly the same.
+
+01:14.420 --> 01:22.620
+So we can project out a component without actually zeroing out any individual neuron or sets of neurons.
+
+01:23.100 --> 01:30.380
+It's a pretty neat approach conceptually, and it allows for lots of hypotheses to be tested about latent
+
+01:30.380 --> 01:34.860
+components and linear combinations of neurons or dimensions.
+
+01:35.780 --> 01:43.740
+I will start by giving you a brief reminder of how we can decompose a data set using the SVD, the singular
+
+01:43.740 --> 01:49.220
+value decomposition, and then I'll switch to what we're going to do in the code demo.
+
+01:50.540 --> 01:55.780
+You have seen a slide that looks like this several times before in this course.
+
+01:56.420 --> 02:01.720
+And if you've taken my linear algebra course then you've also seen this slide quite a few times.
+
+02:02.320 --> 02:07.160
+So imagine we have the MLP data set here on the left.
+
+02:07.400 --> 02:11.120
+It is tokens by neurons or dimensions.
+
+02:11.760 --> 02:18.280
+In fact, the full data set could also have a third dimension that would correspond to sequences in
+
+02:18.280 --> 02:18.920
+the batch.
+
+02:19.320 --> 02:21.800
+But I'm going to ignore that for simplicity.
+
+02:22.400 --> 02:30.240
+The singular value decomposition allows us to decompose this matrix into the product of three other
+
+02:30.240 --> 02:31.280
+matrices.
+
+02:31.880 --> 02:40.360
+We have the token basis, the singular values matrix embedded in the diagonals of this matrix sigma,
+
+02:41.120 --> 02:44.040
+and we have the MLP basis vectors.
+
+02:44.520 --> 02:51.640
+Now if you're doing a principal components analysis, then you would take the columns of U or the rows
+
+02:51.640 --> 02:59.930
+of V transpose as the eigenvectors or the principal components, and also as another reminder from earlier
+
+02:59.930 --> 03:07.970
+in this course, the first row of V transpose, which is associated with the largest singular value.
+
+03:08.250 --> 03:15.930
+That's the one up here on the top left, that is a vector that points in the direction in the data space
+
+03:15.930 --> 03:18.210
+with the largest variance.
+
+03:18.210 --> 03:21.130
+So the largest covariance across all the variables.
+
+03:21.530 --> 03:24.290
+So that would be this axis over here.
+
+03:24.890 --> 03:33.250
+Now what I am going to do here in this video is set this largest singular value to zero.
+
+03:33.810 --> 03:38.170
+That will effectively remove that dimension from the data.
+
+03:38.610 --> 03:44.890
+That is not the same as zeroing out any individual neuron or even a set of neurons.
+
+03:45.410 --> 03:51.810
+In fact, all of the neurons retain some numerical value that is pretty close to their original value,
+
+03:52.090 --> 03:54.770
+which I will demonstrate to you in the code demo.
+
+03:55.290 --> 04:01.950
+The cool thing about this subspace removal technique is that it will preserve the dimensionality of
+
+04:01.950 --> 04:09.830
+the data matrix, and that means that we can manipulate this MLP data matrix inside a hook function,
+
+04:10.150 --> 04:16.110
+and then pass it along back into the model to continue with the forward pass calculations.
+
+04:16.830 --> 04:23.270
+And so with that in mind, I will now give you an overview of the code demo before switching to code.
+
+04:24.270 --> 04:31.630
+I'm going to work with the Excel version of GPT two, in part because it's just fun to work with these
+
+04:31.630 --> 04:38.750
+slightly bigger models, and also in part just to demonstrate how robust this method is to the data
+
+04:38.790 --> 04:45.310
+set size, which means it's a useful method that can be scaled up to much larger models.
+
+04:45.670 --> 04:54.870
+For example, there are 6400 neurons in the expansion layer of the MLP, and the SVD on this data set
+
+04:54.870 --> 05:01.730
+is going to run quite fast, in part because this is actually not the relevant dimensionality for an
+
+05:01.730 --> 05:03.130
+SVD complexity.
+
+05:03.650 --> 05:07.570
+The relevant dimensionality is actually the token dimensionality.
+
+05:07.570 --> 05:08.930
+So the number of tokens.
+
+05:09.650 --> 05:16.570
+So therefore to have some tokens to work with, I took the first paragraph of this Wikipedia page about
+
+05:16.610 --> 05:17.290
+Ravel.
+
+05:17.850 --> 05:23.570
+Ravel is one of my favorite composers, and if you've never heard his music before, I can recommend
+
+05:23.610 --> 05:24.610
+giving it a listen.
+
+05:25.730 --> 05:34.850
+Anyway, I'm going to forward pass some text here and grab the MLP activations before the Jlu non-linearity.
+
+05:35.530 --> 05:42.650
+As you've now seen many times before, the MLP activations tend to look roughly normally distributed
+
+05:42.650 --> 05:45.450
+and shifted to the left of zero.
+
+05:46.370 --> 05:51.370
+Here is the key part of the code that implements the subspace removal.
+
+05:51.770 --> 05:54.530
+So this matrix here is MLP.
+
+05:54.610 --> 05:56.890
+This is tokens by neurons.
+
+05:57.510 --> 06:04.750
+And in this SVD function, the second output is a vector of singular values.
+
+06:05.510 --> 06:10.230
+And by the way, earlier in this course I was using numpy to calculate the SVD.
+
+06:10.550 --> 06:14.950
+But the torch dot linalg module has very similar functionality.
+
+06:15.430 --> 06:23.990
+Anyway, we need S to be converted from a vector into the sigma matrix, which is easy to do.
+
+06:24.310 --> 06:33.390
+And then here I'm simply zeroing out the top component simply by setting the first singular value to
+
+06:33.430 --> 06:34.070
+zero.
+
+06:34.190 --> 06:40.470
+We don't actually have to manipulate the U or the v transpose matrix, because the largest component
+
+06:40.470 --> 06:47.870
+in U and v transpose will multiply by this zero, and then they will effectively be zeroed out.
+
+06:48.310 --> 06:48.630
+Okay.
+
+06:48.670 --> 06:56.070
+So then I just have to multiply these three matrices back together to reconstruct the data without the
+
+06:56.250 --> 06:57.370
+top component.
+
+06:57.850 --> 07:05.090
+Here you see the size of the matrix, and that's actually the same size as the MLP matrix up here.
+
+07:05.610 --> 07:09.450
+So what is the impact of this subspace removal.
+
+07:10.050 --> 07:18.570
+We can explore that by comparing various data metrics between the MLP and the proj variables here.
+
+07:18.930 --> 07:21.770
+So here you see several ways of comparing them.
+
+07:21.770 --> 07:24.210
+The first one up here is a scatter plot.
+
+07:24.530 --> 07:31.530
+This shows the original data by the reconstructed data with the first subspace removed.
+
+07:31.690 --> 07:37.250
+They are certainly not identical, but they're also certainly very strongly correlated.
+
+07:37.250 --> 07:42.610
+And it's clearly not the case that I have just zeroed out lots of individual neurons.
+
+07:43.170 --> 07:48.930
+Their distributions look somewhat similar, although it looks like the largest component was accounting
+
+07:49.090 --> 07:52.410
+for some of this stuff here on the side lobe here.
+
+07:52.970 --> 07:59.580
+Actually, there is some nuance here about putting the mean value, the average value back into the
+
+07:59.580 --> 08:02.620
+data, which I will demonstrate in the code.
+
+08:03.340 --> 08:07.540
+Over here we have the eigen spectra of the two matrices.
+
+08:07.700 --> 08:12.020
+So these are the scree plots from a principal components analysis.
+
+08:12.460 --> 08:14.500
+And this pink box up here.
+
+08:14.500 --> 08:17.740
+This is the component that I removed from the data.
+
+08:18.020 --> 08:26.900
+It accounts for like 36 or 37% of the variance of the total MLP data set from this transformer block.
+
+08:27.940 --> 08:34.340
+And of course after I remove this component, then there's no longer one big component that accounts
+
+08:34.340 --> 08:36.300
+for lots of variance in the data.
+
+08:37.180 --> 08:41.980
+These two plots down here show the covariance matrices of the data.
+
+08:42.140 --> 08:45.180
+And they are really remarkably different.
+
+08:45.620 --> 08:53.340
+You really see that removing the largest one dimensional subspace did not really impact the individual
+
+08:53.340 --> 09:00.720
+data values that much, but it had a really striking impact on the relationships across the different
+
+09:00.760 --> 09:01.600
+neurons.
+
+09:01.840 --> 09:09.320
+This demonstrates that there are embedded multi-variable patterns in the data that were destroyed by
+
+09:09.320 --> 09:12.920
+removing that top principal component subspace.
+
+09:13.200 --> 09:19.160
+That's also really clear when looking at these distributions here, which show the histograms of the
+
+09:19.160 --> 09:20.960
+covariance values.
+
+09:21.600 --> 09:27.680
+So the covariance is in the raw data are generally pretty strong and shifted towards the right towards
+
+09:27.680 --> 09:28.840
+positive values.
+
+09:29.080 --> 09:36.360
+Whereas the reconstructed data with the subspace removed have a distribution that is actually a little
+
+09:36.400 --> 09:38.960
+bit shifted towards negative.
+
+09:39.360 --> 09:41.080
+So quite a striking result.
+
+09:41.560 --> 09:46.360
+Anyway, the next thing I did was implement this manipulation in one layer.
+
+09:46.360 --> 09:52.960
+Only one layer of the model in the middle of the transformer block sequence, and then measure what
+
+09:52.960 --> 09:56.540
+happens to the hidden states for all the layers in the model.
+
+09:57.100 --> 10:03.900
+The way that I quantified this was by comparing the hidden states for the clean model of clean version
+
+10:03.900 --> 10:07.580
+of the model versus the subspace removed version of the model.
+
+10:08.180 --> 10:13.020
+So the y axis here is the norm of that vector difference.
+
+10:13.140 --> 10:14.940
+You've seen this matrix before.
+
+10:15.300 --> 10:18.900
+It doesn't tell us exactly what is changing or how it's changing.
+
+10:19.060 --> 10:26.180
+It's just telling us the relative size of the difference in the output of the transformer blocks from
+
+10:26.180 --> 10:29.500
+the manipulated versus the clean version of the model.
+
+10:30.460 --> 10:38.060
+Pretty remarkable to see that although I've only removed a one dimensional subspace from just the MLP
+
+10:38.140 --> 10:45.780
+sub block, from just one layer that had these ripple effects that kept increasing as we got further
+
+10:45.980 --> 10:53.180
+into the model until the very end of the model, where the last transformer block plus the final layer
+
+10:53.320 --> 10:56.920
+norm seemed to have compensated for the differences quite a bit.
+
+10:57.640 --> 11:04.600
+I also looked at the impact of the removal on cosine similarity of token pairs at the level of the hidden
+
+11:04.600 --> 11:05.240
+states.
+
+11:05.560 --> 11:10.320
+I don't have that figure right here, but it's something we will look at in the code.
+
+11:11.280 --> 11:15.480
+Okay, so this is just about the internal vectors in the model.
+
+11:15.760 --> 11:20.280
+Does this manipulation have any implications for the final output.
+
+11:20.280 --> 11:21.000
+Logits.
+
+11:21.520 --> 11:23.920
+That's what I show in this plot here.
+
+11:24.880 --> 11:32.360
+So this is the output logit from the manipulated version of the model relative to the clean version.
+
+11:32.680 --> 11:35.880
+And it's the logit for the next token prediction.
+
+11:36.000 --> 11:44.960
+So a positive value in this difference metric here would mean that the clean model had a better prediction
+
+11:44.960 --> 11:51.920
+for the next token, while a negative value would mean that the manipulated model had a better prediction
+
+11:51.920 --> 11:53.850
+for the next token in the sequence.
+
+11:54.210 --> 11:58.610
+And of course the x axis here is the tokens in the sequence.
+
+11:59.130 --> 12:02.890
+We can also visualize these results as a text heatmap.
+
+12:03.650 --> 12:10.810
+Again, red tokens here mean that the clean model predicted the token better, and blue means that the
+
+12:10.810 --> 12:14.010
+subspace removed model predicted the tokens better.
+
+12:14.850 --> 12:21.610
+Now, naively and at a fairly coarse grained level, we could expect that most of these data points
+
+12:21.610 --> 12:23.490
+would be above zero.
+
+12:24.370 --> 12:29.010
+Visually, it's not super clear whether that's really obviously the case.
+
+12:29.370 --> 12:35.890
+It is possible that just projecting out the largest principal component is not necessarily the optimal
+
+12:35.890 --> 12:37.610
+subspace to remove here.
+
+12:38.210 --> 12:41.850
+It's also possible that the results differ in the different layers.
+
+12:42.370 --> 12:49.530
+So therefore the last analysis I ran was to repeat this procedure for all of the layers individually.
+
+12:50.050 --> 12:57.910
+Now this visualization here is fairly detailed to repeat 48 times for 48 transformer blocks.
+
+12:58.070 --> 13:06.030
+So what I did instead was run a t test across all of the logit differences for all the tokens, with
+
+13:06.030 --> 13:13.830
+the idea of seeing whether statistically, all of the tokens are different from zero at the kind of
+
+13:14.030 --> 13:15.990
+sentence level at the text level.
+
+13:17.190 --> 13:19.630
+And that's what you see in this graph here.
+
+13:19.950 --> 13:27.270
+So here on the left plot, the x axis is the transformer block at which I ran the manipulation.
+
+13:27.830 --> 13:35.830
+And the y axis is the t value of the t test comparing all of the logit differences against zero.
+
+13:36.550 --> 13:43.310
+So I did not separately calculate or visualize which of these tests were individually statistically
+
+13:43.310 --> 13:49.790
+significant, but in general, T values above somewhere around 2 or 3 will be significant.
+
+13:50.310 --> 13:57.690
+But anyway, Qualitatively, it is certainly quite remarkable that the T test was positive for most
+
+13:57.690 --> 14:00.730
+of the layers where I manipulated the model.
+
+14:01.050 --> 14:07.650
+So there definitely is something consistent in this manipulation that is impairing the model's ability
+
+14:07.850 --> 14:13.650
+to utilize context and world knowledge to make predictions about subsequent tokens.
+
+14:14.890 --> 14:22.010
+Here in the middle panel, you see the percent variance explained by the largest component, and that
+
+14:22.010 --> 14:27.410
+is how much of the data I removed in the subspace removal procedure.
+
+14:27.890 --> 14:34.690
+And except for the very first transformer block, it generally goes down as we get deeper into the model.
+
+14:35.250 --> 14:42.250
+This is actually entirely consistent with the effective dimensionality analyses that we've done several
+
+14:42.250 --> 14:43.250
+times before.
+
+14:44.090 --> 14:50.970
+There, the finding was that the dimensionality of the data increases as we get deeper into the model,
+
+14:51.630 --> 14:57.670
+which means that the amount of total variance that can be captured by just one component, just the
+
+14:57.670 --> 15:01.750
+top component that will kind of necessarily decrease.
+
+15:02.350 --> 15:02.670
+Okay.
+
+15:02.710 --> 15:09.190
+And then I was curious whether there is any relationship between the variance explained by the top component
+
+15:09.190 --> 15:14.950
+and how much impact removing that component had on the final token, logits.
+
+15:15.030 --> 15:20.070
+So therefore, I made a scatter plot of these two results and correlated them.
+
+15:21.110 --> 15:26.830
+This is actually a fairly moderately sized negative correlation, although to be honest, I think it's
+
+15:26.830 --> 15:32.630
+driven by a couple of these extreme points here in the beginning of the model.
+
+15:32.950 --> 15:38.830
+I don't really see that this is a meaningful negative linear relationship between these two variables.
+
+15:39.070 --> 15:47.830
+But this right here is a fantastic illustration of why it is dangerous and potentially misleading to
+
+15:47.870 --> 15:54.290
+just trust a Statistical numerical results without actually looking at the data.
+
+15:55.210 --> 16:01.090
+Anyway, as always, there is more to say about these results and how they are implemented, and I will
+
+16:01.090 --> 16:03.370
+do that now when I switch to code.
+
+16:05.890 --> 16:09.930
+A respectable number of libraries that we will be using here.
+
+16:10.130 --> 16:16.170
+Here I forgot to mention, but I definitely want to run this on the GPU, since we are going to be running
+
+16:16.170 --> 16:21.050
+the Excel version of this model for several passes.
+
+16:21.810 --> 16:21.970
+Okay.
+
+16:22.010 --> 16:25.530
+And then here I define this variable number of layers.
+
+16:25.530 --> 16:27.690
+Remember there are 48 layers here.
+
+16:27.970 --> 16:33.530
+And here is the text that I copied from this URL over here.
+
+16:34.010 --> 16:36.930
+And we see yeah here are the tokens okay.
+
+16:36.970 --> 16:39.890
+So there are 68 tokens in total.
+
+16:40.370 --> 16:44.010
+And here is the function where I'm hooking the MLP.
+
+16:44.050 --> 16:47.450
+You can see I'm putting that into the CFC.
+
+16:47.770 --> 16:55.180
+So that is again Uh, MLP and then this layer over here, that's where we expand the dimensionality
+
+16:55.420 --> 16:58.740
+from the embeddings dimensionality of 1600.
+
+16:58.980 --> 17:02.420
+Uh, we expand for X to get to 6400.
+
+17:03.020 --> 17:03.300
+Okay.
+
+17:03.340 --> 17:08.580
+And then yeah, I'm not doing anything super sophisticated inside this hook function.
+
+17:08.580 --> 17:14.620
+I'm just grabbing the MLP values from this layer and then detaching them.
+
+17:14.620 --> 17:21.420
+Now this is only selecting the first sequence in the batch, but I'm only running one sequence in the
+
+17:21.420 --> 17:21.900
+batch.
+
+17:21.900 --> 17:27.780
+That means that this is going to give me a two dimensional matrix, whereas the variable output is actually
+
+17:27.780 --> 17:28.300
+a tensor.
+
+17:28.300 --> 17:33.900
+It's a three dimensional matrix because the first dimension is the sequences.
+
+17:34.260 --> 17:34.460
+Okay.
+
+17:34.500 --> 17:38.460
+And then I implant that into layer nine y and layer nine.
+
+17:38.460 --> 17:41.180
+Why not just arbitrary.
+
+17:41.220 --> 17:45.220
+It's just to give us some data so I can demonstrate the procedure to you.
+
+17:45.740 --> 17:46.060
+Okay.
+
+17:46.100 --> 17:48.740
+So then I run this through the model.
+
+17:48.960 --> 17:52.040
+get the hidden states and then remove the hook.
+
+17:52.240 --> 18:01.120
+And here you see what those the size of that matrix is again 68 tokens, 6400 MLP neurons.
+
+18:01.600 --> 18:06.360
+And here is just the histogram of those data okay very nice.
+
+18:06.360 --> 18:09.800
+Here I'm doing the singular value decomposition.
+
+18:10.080 --> 18:18.480
+And when you request full matrices equals false then that gives us a square v transpose with the same
+
+18:18.480 --> 18:25.560
+size as the number of non-zero singular values in this singular vector.
+
+18:25.760 --> 18:29.600
+And it also means that we can use s uppercase sigma.
+
+18:29.600 --> 18:33.080
+In the parlance of SVD, we can make this a square matrix.
+
+18:33.080 --> 18:39.840
+Instead of requiring this to be a rectangular matrix of the same size as the data.
+
+18:40.040 --> 18:42.480
+If you have no idea what I'm talking about, then don't worry.
+
+18:42.480 --> 18:46.880
+That's just some nuanced details about singular value decomposition.
+
+18:47.040 --> 18:54.500
+Basically, there's lots of empty spaces in the data set in the full data space, which we don't need
+
+18:54.500 --> 18:59.020
+to calculate, so we are going to ignore them when we reconstruct the data.
+
+18:59.180 --> 19:05.580
+If we had all of those null space vectors, they would all turn into zeros and sum back onto the rest
+
+19:05.580 --> 19:06.580
+of the data set.
+
+19:06.740 --> 19:09.700
+So we don't even need to calculate them in the first place.
+
+19:09.860 --> 19:16.340
+That's convenient because it means that the dimensionality of the SVD corresponds to the smaller of
+
+19:16.340 --> 19:18.180
+these two numbers, which is 68.
+
+19:18.220 --> 19:22.380
+That is not a bad dimensionality for such a large data set.
+
+19:22.820 --> 19:23.140
+Okay.
+
+19:23.180 --> 19:26.740
+Now if you would just if you would comment out this line.
+
+19:27.060 --> 19:27.500
+Right.
+
+19:27.540 --> 19:30.500
+This, uh, is a perfect reconstruction.
+
+19:30.500 --> 19:32.700
+This is the definition of the SVD.
+
+19:32.900 --> 19:39.540
+So U times sigma times V transpose is exactly the original matrix.
+
+19:39.540 --> 19:44.500
+So these two matrices would be literally numerically identical.
+
+19:44.780 --> 19:45.140
+Okay.
+
+19:45.180 --> 19:54.000
+But what I'm going to do is take the top component and zero out its singular value and then reconstruct
+
+19:54.000 --> 19:54.360
+them.
+
+19:54.720 --> 19:55.040
+Okay.
+
+19:55.080 --> 20:00.400
+And then that gives us a new matrix that is the same size as MLP.
+
+20:00.680 --> 20:06.920
+As I mentioned, that is convenient because it means that we can take this manipulated data set and
+
+20:06.920 --> 20:12.640
+then just feed it back into the model in place of the original MLP data.
+
+20:13.720 --> 20:17.480
+I'm going to get back to this cell in a moment.
+
+20:17.760 --> 20:23.640
+What I'm doing in this cell is a bunch of visualizations that's going to create the graph that you saw
+
+20:23.640 --> 20:29.720
+in the slides, comparing the different versions of this data set.
+
+20:29.760 --> 20:30.120
+Okay.
+
+20:30.200 --> 20:32.760
+Now what you see is really striking here.
+
+20:32.840 --> 20:40.200
+The distribution of the activation values is shifted negative in the original MLP data set that you
+
+20:40.240 --> 20:41.520
+have already seen.
+
+20:41.880 --> 20:48.540
+But then the reconstructed version, that variable I call proj that is it's normally distributed, but
+
+20:48.540 --> 20:50.460
+it's also centered at zero.
+
+20:50.660 --> 20:55.860
+So we are taking the entire activations distribution and shifting it up.
+
+20:56.060 --> 20:59.780
+We're shifting it to the right so that it has a mean of zero.
+
+21:00.180 --> 21:04.700
+That is part of the impact of removing the top component.
+
+21:05.140 --> 21:12.780
+Now depending on what your goal is with a singular value decomposition, that may be it relevant or
+
+21:12.780 --> 21:14.580
+it may be pointless and you don't care.
+
+21:14.580 --> 21:15.860
+So you can leave it like that.
+
+21:16.220 --> 21:22.300
+But for our purposes, these numerical values and this shift of the distribution really is meaningful.
+
+21:22.340 --> 21:28.740
+Because when I take these data, these projected data subspace, remove data and put them back into
+
+21:28.740 --> 21:33.260
+the MLP sub block, then we are going to apply.
+
+21:33.260 --> 21:39.660
+The model will apply the Jlu nonlinear activation function, which is going to clip all of the values
+
+21:39.660 --> 21:40.420
+below zero.
+
+21:40.420 --> 21:43.260
+So that's going to be a huge, huge difference.
+
+21:43.380 --> 21:48.390
+That's probably much bigger of an impact than anything else we're doing.
+
+21:48.870 --> 21:58.270
+So the solution to this problem is simply to take the average values from the original data and add
+
+21:58.270 --> 22:01.190
+them back on to the projected values.
+
+22:01.190 --> 22:02.430
+And that's what you see here.
+
+22:02.830 --> 22:11.350
+So I'm taking the average along all of the neurons per each token and then adding it back.
+
+22:11.510 --> 22:18.430
+And then just to let me see if I comment this out, then we can see that the average here is close to
+
+22:18.470 --> 22:19.110
+zero.
+
+22:19.230 --> 22:22.990
+And the average here in the MLP data is certainly not zero.
+
+22:23.150 --> 22:29.950
+But when I run this again, then we see that the averages are nearly identical within some, you know,
+
+22:29.990 --> 22:32.910
+reasonable tolerance of precision.
+
+22:33.430 --> 22:33.790
+Okay.
+
+22:33.830 --> 22:38.110
+So now I run this code again with the means added back on.
+
+22:38.350 --> 22:42.350
+And now the two distributions are centered in the same way.
+
+22:42.750 --> 22:47.570
+So really what we've done now is manipulate the shape of this distribution.
+
+22:47.570 --> 22:51.610
+And, you know, we've taken some of these data points and pushed them up here.
+
+22:51.610 --> 22:54.330
+So we've just shrunk the values a little bit.
+
+22:54.890 --> 22:55.330
+Okay.
+
+22:55.370 --> 22:55.610
+Yeah.
+
+22:55.650 --> 23:02.850
+And I find it really striking, this distinction between the noticeable but fairly modest impact of
+
+23:02.850 --> 23:07.170
+subspace removal on the data values themselves.
+
+23:07.210 --> 23:14.770
+So the individual data values have only been tweaked a tiny, tiny bit, but the covariances across
+
+23:14.770 --> 23:20.330
+all of the MLP neuron pairs, that is really different.
+
+23:20.330 --> 23:23.290
+So there we've had a really significant impact.
+
+23:23.290 --> 23:28.210
+These two distributions are almost entirely non-overlapping.
+
+23:28.210 --> 23:31.650
+This is really quite striking this distinction here.
+
+23:32.090 --> 23:40.010
+Again what that means is that there are patterns of correlated activations in the MLP layer that are
+
+23:40.010 --> 23:43.490
+not present in any one neuron.
+
+23:43.490 --> 23:52.030
+These patterns are Are distributed across hundreds or thousands of MLP neurons, and the top component
+
+23:52.030 --> 23:58.550
+just like, obliterated them and completely removed those distributed patterns.
+
+23:58.750 --> 23:59.110
+Okay.
+
+23:59.150 --> 24:00.470
+So pretty neat to see.
+
+24:01.110 --> 24:01.390
+Okay.
+
+24:01.430 --> 24:10.630
+So now what I'm going to do is create a new hook function where I implement this subspace removal procedure.
+
+24:10.630 --> 24:13.150
+And also adding the mean offset.
+
+24:13.150 --> 24:17.150
+But now all of this stuff is inside the hook function.
+
+24:17.350 --> 24:23.710
+And then I'm returning the manipulated data instead of the original data okay.
+
+24:23.750 --> 24:24.830
+So that's pretty neat.
+
+24:25.030 --> 24:28.070
+And then yeah for which layer to implant it in.
+
+24:28.070 --> 24:34.190
+Right now for this part of the code I'm only picking one layer I just picked, you know, halfway through
+
+24:34.190 --> 24:34.670
+the model.
+
+24:34.710 --> 24:37.190
+Again, it's a fairly arbitrary choice.
+
+24:37.190 --> 24:40.590
+It was just to have something to work with okay.
+
+24:40.630 --> 24:44.030
+So then yeah into this transformer block again MLP.
+
+24:45.450 --> 24:46.530
+Fully connected.
+
+24:47.170 --> 24:47.410
+Okay.
+
+24:47.450 --> 24:48.650
+And then run the model.
+
+24:48.650 --> 24:50.650
+Remove the hook again because.
+
+24:50.770 --> 24:57.850
+Yeah, in a little bit I'm going to, uh, create a new hook and implant that into the model again okay.
+
+24:57.890 --> 25:00.970
+And then this plot over here shows the norms.
+
+25:01.090 --> 25:03.610
+So let me show you this analysis here.
+
+25:04.730 --> 25:10.930
+This is the hidden states from the clean version of the model and the hidden states from the subspace
+
+25:10.970 --> 25:13.490
+rejected version of the model.
+
+25:13.690 --> 25:18.210
+And then I subtract those two vectors and then take their norm again.
+
+25:18.210 --> 25:23.610
+This doesn't tell me what is happening and what is changing and in which direction is changing.
+
+25:23.810 --> 25:30.410
+All it's telling me is that the difference between these two vectors is non-zero, and in fact, the
+
+25:30.410 --> 25:37.090
+difference between the two vectors is zero for all of the blocks up until I implanted the hook.
+
+25:37.410 --> 25:39.370
+That is a nice sanity check.
+
+25:39.370 --> 25:43.010
+If you saw any non-zero values here that something would be wrong.
+
+25:43.510 --> 25:47.870
+And yeah, it's quite remarkable that we did this fairly subtle manipulation.
+
+25:48.110 --> 25:56.190
+And yet it has a pretty big impact and an impact that continues to grow as we get deeper and deeper
+
+25:56.190 --> 25:57.110
+into the model.
+
+25:57.110 --> 26:05.190
+So it's like this manipulation continues to have compounding effects as we get deeper into the model.
+
+26:05.190 --> 26:12.030
+And that's maybe not so surprising, because each transformer block is taking the output from the previous
+
+26:12.030 --> 26:15.470
+block and then adding on some little adjustment.
+
+26:15.470 --> 26:21.190
+So if the previous block was already different, then the next block is likely to be even a little bit
+
+26:21.190 --> 26:24.870
+more different and even a little bit more different and even a little bit more different.
+
+26:25.190 --> 26:31.430
+So there's this drift in the embeddings that continues as we go deeper into the model.
+
+26:31.910 --> 26:39.910
+And yeah, as you've seen many times in this course, the final transformer block is is a little bit
+
+26:39.910 --> 26:40.390
+special.
+
+26:40.390 --> 26:41.390
+It does its own thing.
+
+26:41.390 --> 26:48.480
+It's the last opportunity for transforming the data before making a specific prediction about the next
+
+26:48.480 --> 26:49.200
+token.
+
+26:49.600 --> 26:53.400
+And then also there's the final layer norm included in here as well.
+
+26:54.480 --> 26:54.880
+Okay.
+
+26:54.920 --> 26:59.520
+So then what I did was look at the covariance matrices.
+
+26:59.520 --> 27:06.680
+This is a analysis that I hinted at in the slides, but I didn't actually show the screenshot.
+
+27:07.080 --> 27:09.560
+So let me just show you what this is.
+
+27:09.600 --> 27:11.560
+And then I will explain it briefly.
+
+27:11.920 --> 27:19.080
+So here I'm getting the hidden states embedding vectors for all of the tokens from the clean model and
+
+27:19.080 --> 27:26.480
+the subspace removed model, and calculating the cosine similarity I think this was cosine.
+
+27:26.760 --> 27:27.160
+Yeah.
+
+27:27.760 --> 27:33.680
+So actually not covariance cosine similarity between all of the pairs of tokens.
+
+27:33.680 --> 27:35.000
+And that's what you see here.
+
+27:35.440 --> 27:39.880
+These are the two distributions showing that there is some impact.
+
+27:39.880 --> 27:42.200
+But this is a really mild impact.
+
+27:42.200 --> 27:42.220
+Packed.
+
+27:42.220 --> 27:48.980
+So it's very interesting to think about this, uh, versus this result over here.
+
+27:49.140 --> 27:55.980
+And what this tells us is that there are considerable and increasing differences between all the embeddings,
+
+27:55.980 --> 28:03.420
+vectors from the subspace removed model versus all of the embeddings vectors from the clean model.
+
+28:03.540 --> 28:07.140
+So all the vectors together are moving further apart.
+
+28:07.300 --> 28:14.420
+But when we look at the relationships between all of the embeddings vectors within each version of this
+
+28:14.420 --> 28:21.740
+model, then the ways that the different tokens are relating to each other is not really that much different,
+
+28:21.740 --> 28:24.380
+a little bit different, but not that much different.
+
+28:24.500 --> 28:25.740
+So that's quite interesting.
+
+28:25.780 --> 28:33.580
+The entire data space is like shifting or rotating, but it's a little bit of a fixed rotation in the
+
+28:33.580 --> 28:40.380
+sense that the way that the token embeddings vectors are correlating with each other is actually not
+
+28:40.380 --> 28:42.080
+changing that much.
+
+28:42.680 --> 28:43.120
+Okay.
+
+28:43.160 --> 28:51.960
+And one other thing I want to show is the same analysis, but on the layer before the manipulation.
+
+28:52.320 --> 28:59.120
+And this is just a sanity check again, just to make sure we don't expect to see any differences here.
+
+28:59.360 --> 29:06.440
+These are the cosine similarities, uh, before the manipulation was actually implemented.
+
+29:06.440 --> 29:08.520
+So of course those are the same.
+
+29:08.960 --> 29:09.280
+Okay.
+
+29:09.320 --> 29:12.120
+And if you like you can continue to explore this.
+
+29:12.120 --> 29:16.560
+You can see what happens when we look considerably later in the model.
+
+29:16.560 --> 29:24.440
+And yeah, again, the ways in which the embeddings vectors are relating to each other across the different
+
+29:24.480 --> 29:30.480
+tokens is fairly well preserved, even though the entire space is drifting away.
+
+29:31.160 --> 29:31.600
+Okay.
+
+29:31.800 --> 29:35.680
+So lots of thought provoking stuff you can get out of this.
+
+29:36.240 --> 29:36.600
+Okay.
+
+29:36.640 --> 29:40.080
+So now what I'm going to do is make that scatter plot here.
+
+29:40.080 --> 29:42.900
+So let me just show you this plot again real quick.
+
+29:43.380 --> 29:47.300
+So the x axis is all the tokens in this sequence.
+
+29:47.740 --> 29:51.740
+And what I'm measuring here is the model's final output.
+
+29:51.740 --> 29:52.740
+Logits.
+
+29:52.860 --> 30:00.340
+And the difference in the final logits for the clean version, which would be higher numbers for larger
+
+30:00.340 --> 30:01.940
+logits for the clean model.
+
+30:03.020 --> 30:08.540
+Uh, and subtracting from that the logits from the subspace removed model.
+
+30:08.540 --> 30:15.380
+So higher logits for the subspace removed model would correspond to negative values over here or blue
+
+30:15.380 --> 30:16.020
+colors.
+
+30:16.380 --> 30:16.660
+Okay.
+
+30:16.700 --> 30:20.100
+So now let me show you how I did this analysis.
+
+30:20.660 --> 30:20.940
+Okay.
+
+30:20.980 --> 30:25.540
+So I loop over all of the tokens up until the end minus one.
+
+30:25.820 --> 30:32.620
+And the reason why we only go to minus one is because remember that, uh, at the end of the model,
+
+30:32.900 --> 30:38.020
+the logits for the current token are not related to processing the current token.
+
+30:38.060 --> 30:44.910
+They're related to making predictions about what token the next, what the next token should be.
+
+30:45.630 --> 30:50.910
+So therefore I get all of the output logits for this token.
+
+30:51.310 --> 30:58.030
+And then I logsoftmax that along the the vocab dimension.
+
+30:58.550 --> 31:04.710
+And then I take the token or the logit corresponding to the next token in the sequence.
+
+31:05.070 --> 31:06.070
+I hope that makes sense.
+
+31:06.070 --> 31:12.470
+So it's the logits from the current token and the whole distribution over the entire vocab.
+
+31:12.470 --> 31:14.790
+All 50,000 tokens.
+
+31:14.790 --> 31:21.550
+But the specific logit that I'm interested in is the one that corresponds to what was actually presented
+
+31:21.670 --> 31:22.510
+next.
+
+31:22.510 --> 31:24.710
+So the next token prediction.
+
+31:24.990 --> 31:27.750
+And that is what I take as the difference here.
+
+31:28.310 --> 31:28.750
+Okay.
+
+31:28.790 --> 31:33.950
+Now uh, these difference values, you can see that some of them are negative.
+
+31:33.950 --> 31:35.270
+Some of them are positive.
+
+31:35.470 --> 31:43.050
+I want to color them so that the negative ones are blue and the positive ones are red, and the zero
+
+31:43.050 --> 31:46.650
+valued ones are white, or at least something that's like very close to white.
+
+31:46.690 --> 31:48.130
+Looks more like a cream color.
+
+31:48.130 --> 31:54.210
+But anyway, uh, to do that, I have to normalize the data.
+
+31:54.250 --> 31:57.610
+I use this function called two slope norm.
+
+31:57.650 --> 32:03.570
+Basically, you specify the smallest possible value which is going to be a negative number, the largest
+
+32:03.570 --> 32:09.730
+possible value, and the value that corresponds to the center of the color map here.
+
+32:10.090 --> 32:19.050
+So with this norm function now I can just use a color corresponding to the actual logit difference pass
+
+32:19.050 --> 32:20.610
+through this norm function.
+
+32:20.610 --> 32:28.450
+And that guarantees that we get blue colors for negative numbers and red colors for negative positive
+
+32:28.450 --> 32:28.970
+numbers.
+
+32:29.610 --> 32:33.250
+Otherwise, this function is just not going to work so well.
+
+32:33.250 --> 32:41.330
+So I can show you that basically, uh, this matplotlib color map function is expecting values between
+
+32:41.330 --> 32:48.550
+0 and 1, and any values that are less than zero are going to be clipped, and values greater than zero
+
+32:48.550 --> 32:50.430
+will also be clipped at the positive value.
+
+32:50.470 --> 32:51.430
+Let me show you.
+
+32:51.790 --> 32:53.070
+That is what I want to.
+
+32:53.190 --> 32:53.470
+Yeah.
+
+32:53.470 --> 32:56.870
+So this is not so now you see you know positive values are still blue.
+
+32:56.870 --> 33:02.510
+So that is just a quick demo of why we need this normalization in here.
+
+33:02.990 --> 33:03.230
+Okay.
+
+33:03.270 --> 33:04.430
+So I hope that makes sense.
+
+33:04.550 --> 33:05.430
+Uh yeah.
+
+33:05.430 --> 33:10.950
+It's hard to it's a nice visualization, but uh, you don't really see so much consistency.
+
+33:11.310 --> 33:16.990
+As I mentioned in the slides, a kind of naive prediction would be that most of these values should
+
+33:16.990 --> 33:25.990
+be red above zero, indicating that when we removed the uh, largest, uh, variance dimension from
+
+33:25.990 --> 33:32.630
+the MLP subblock, then that impairs the model's ability to predict the next token.
+
+33:32.830 --> 33:35.950
+And yeah, it's not super clear that that's actually happening here.
+
+33:36.470 --> 33:44.610
+Um, I also made this text heatmap thinking that maybe if we looked at the individual tokens, we could
+
+33:44.610 --> 33:45.970
+make some sense out of that.
+
+33:45.970 --> 33:52.370
+And at least in this case, you know, just with this one piece of text, I don't immediately see any
+
+33:53.530 --> 34:01.050
+meaningful or really interpretable relationships amongst the red tokens versus amongst the blue tokens.
+
+34:01.050 --> 34:04.010
+But anyway, this is a great visualization.
+
+34:04.930 --> 34:07.090
+Okay, so now for the final analysis.
+
+34:07.090 --> 34:11.730
+I'm going to repeat this manipulation individually for all the layers.
+
+34:11.890 --> 34:19.970
+So for loop over all of the layers and inside each layer I create this hook function exactly as you've
+
+34:19.970 --> 34:20.770
+seen before.
+
+34:21.210 --> 34:29.170
+The only difference is that I'm also storing the uh, percent variance explained by this component,
+
+34:29.170 --> 34:31.570
+and I'm storing that in this data matrix.
+
+34:31.770 --> 34:39.030
+And then I implant the hook, uh, run a forward pass, remove the hook so that it's clean for the next
+
+34:39.150 --> 34:39.830
+layer.
+
+34:40.150 --> 34:46.830
+And then here I'm running the same analysis that you saw above, and then running a t test on these
+
+34:46.830 --> 34:53.950
+logit differences to see whether they are consistently above zero or less than zero.
+
+34:54.310 --> 34:59.790
+I'm only storing the statistic here if you would like to expand on this analysis.
+
+34:59.830 --> 35:05.470
+It could be interesting to also store the p value, not instead of, but in addition to.
+
+35:06.510 --> 35:13.350
+And then in the plot below, you could separately visualize the significant versus non-significant plots.
+
+35:13.550 --> 35:15.150
+Uh t statistics.
+
+35:15.750 --> 35:17.870
+Okay, so two seconds on the GPU.
+
+35:18.110 --> 35:23.630
+I don't know how long that would take on the CPU, but maybe I don't know a minute or something.
+
+35:24.150 --> 35:24.430
+Okay.
+
+35:24.470 --> 35:31.430
+And then the final thing is to make this visualization that I showed again, uh, without looking at
+
+35:31.430 --> 35:37.960
+or considering individual statistical significance, we can just see that clearly across the board there
+
+35:37.960 --> 35:41.800
+is consistency in the sign of the t test.
+
+35:41.800 --> 35:46.280
+So in general it's mostly positive on the aggregate level.
+
+35:46.800 --> 35:47.080
+Yeah.
+
+35:47.120 --> 35:49.920
+Here's variance explained by the top component.
+
+35:50.080 --> 35:58.920
+And yeah this I think that there's something unique happening here at the very beginning of the transformer
+
+35:58.920 --> 36:02.720
+sequence here and also here with the variance explained.
+
+36:02.880 --> 36:10.480
+And that is what's really driving these results here, which are actually pulling up the linear apparent
+
+36:10.480 --> 36:11.760
+linear relationship here.
+
+36:11.760 --> 36:18.040
+I think if you would exclude these or do like a Spearman correlation or robust regression, this would
+
+36:18.040 --> 36:20.680
+probably drop down closer to zero.
+
+36:21.800 --> 36:29.560
+I think that approaches like this have a lot of potential to yield really interesting insights into
+
+36:29.560 --> 36:36.820
+the nature of the subspaces that are carved out by these models, being comfortable with these kinds
+
+36:36.820 --> 36:44.180
+of methods and code to run experiments like this really opens up a lot of doors for testing specific
+
+36:44.180 --> 36:51.020
+hypotheses about subspaces and linear combinations and distributed representations.
+
+36:51.900 --> 36:58.900
+That said, I'm not so convinced that the specific approach of projecting out the largest principal
+
+36:58.900 --> 37:01.660
+component is really that meaningful.
+
+37:02.140 --> 37:08.740
+I discussed this earlier in the course when I talked about generalized eigen decomposition and targeted
+
+37:08.740 --> 37:17.060
+decompositions, and the limitations of relying on the assumption embedded in PCA, that the largest
+
+37:17.060 --> 37:23.380
+sources of variance reflect some kind of source or meaningful latent component in the data.
+
+37:24.100 --> 37:30.900
+Nonetheless, the math and the procedure and the code that I showed here is the same regardless of the
+
+37:30.900 --> 37:35.500
+linear decomposition that you apply in place of the PCA.

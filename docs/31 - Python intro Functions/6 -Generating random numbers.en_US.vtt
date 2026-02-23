@@ -1,0 +1,427 @@
+WEBVTT
+
+00:01.840 --> 00:08.120
+In this video I will show you multiple ways to generate random numbers.
+
+00:08.120 --> 00:11.840
+So this number you might think it's random because I just came up with it.
+
+00:11.840 --> 00:13.680
+Here's another random number.
+
+00:13.680 --> 00:18.640
+Maybe I'll put a decimal point here that's kind of random because I'm just playing around on the keyboard.
+
+00:18.640 --> 00:26.520
+But maybe we want to generate hundreds or thousands, or maybe even millions of random numbers.
+
+00:26.520 --> 00:33.440
+We need to generate lots of random numbers in deep learning, because when we train deep learning models,
+
+00:33.440 --> 00:37.360
+we start with a model full of random weights.
+
+00:37.360 --> 00:40.120
+So we need to initialize a bunch of random numbers.
+
+00:40.120 --> 00:43.680
+And this is going to be literally millions of random numbers.
+
+00:43.720 --> 00:46.760
+And so I'm not going to sit around all day and just do it here.
+
+00:46.760 --> 00:48.040
+I already messed up here.
+
+00:48.560 --> 00:48.960
+Okay.
+
+00:49.000 --> 00:56.400
+Anyway, there is a module in numpy called numpy dot random.
+
+00:56.600 --> 01:01.240
+So it's a module which means it's kind of like a library inside of a library.
+
+01:01.680 --> 01:10.400
+So you learned how to use, uh, functions that are inside a library by writing the name of the library
+
+01:10.400 --> 01:13.920
+and then a dot a period and then the name of the function.
+
+01:14.360 --> 01:21.040
+So you can also have something like a mini library that's embedded inside another library.
+
+01:21.040 --> 01:23.000
+And that's generally called a module.
+
+01:23.040 --> 01:23.320
+Okay.
+
+01:23.360 --> 01:27.800
+So there is a module in numpy called random.
+
+01:28.000 --> 01:31.720
+So now I write numpy dot random dot.
+
+01:31.960 --> 01:33.280
+So it's a second dot.
+
+01:33.440 --> 01:36.480
+And let's start with the function rand n.
+
+01:36.960 --> 01:44.760
+So the rand of course is for random and the n is for normal distribution or Gaussian distribution.
+
+01:44.880 --> 01:50.240
+This means numbers that are drawn from a distribution with a mean of zero.
+
+01:50.240 --> 01:54.600
+So an average number of zero and a standard deviation of one.
+
+01:54.600 --> 01:58.880
+And basically that means that we're going to get some negative numbers and some positive numbers.
+
+01:59.280 --> 02:02.640
+So here I get minus two point blah blah blah.
+
+02:03.280 --> 02:08.230
+I'm sure if you run this code on your computer you got a completely different number.
+
+02:08.350 --> 02:10.590
+In fact, I'm going to run this multiple times.
+
+02:10.590 --> 02:14.510
+And you can see every time I run exactly the same code.
+
+02:14.670 --> 02:17.470
+The code isn't changing, but the output is changing.
+
+02:17.710 --> 02:19.310
+And why is the output changing?
+
+02:19.310 --> 02:21.710
+Because it's generating random numbers.
+
+02:22.350 --> 02:24.470
+Okay, so this is one random number.
+
+02:24.590 --> 02:29.430
+If I want ten random numbers I just put ten in here.
+
+02:29.710 --> 02:32.110
+And now I get a numpy array.
+
+02:32.590 --> 02:38.470
+And you can see it's 12345 by two now.
+
+02:38.630 --> 02:40.230
+So that's ten numbers in total.
+
+02:41.270 --> 02:43.790
+This looks like it's a matrix.
+
+02:43.790 --> 02:48.390
+It looks like it's a two by five matrix of numbers.
+
+02:48.590 --> 02:50.510
+But it's not really a matrix.
+
+02:50.510 --> 02:52.830
+Python is just printing out.
+
+02:53.230 --> 02:56.670
+It's wrapping around this array when it prints out.
+
+02:56.790 --> 03:01.870
+So this is so this is just 110 element vector.
+
+03:02.070 --> 03:10.030
+We can actually create a two by five matrix of random numbers by inputting a two comma five.
+
+03:10.590 --> 03:12.470
+And then the result is.
+
+03:12.910 --> 03:19.230
+Now, initially this might look the same, but we have to be really careful about the let me do this
+
+03:19.230 --> 03:20.590
+to make sure this is clear.
+
+03:22.150 --> 03:24.710
+The square brackets here.
+
+03:24.710 --> 03:32.190
+So notice there are two differences between this output and this output.
+
+03:32.470 --> 03:36.030
+One difference is that the numbers themselves are different.
+
+03:36.030 --> 03:37.630
+But these are just random numbers.
+
+03:37.630 --> 03:39.110
+So don't pay any attention to that.
+
+03:40.190 --> 03:46.790
+What I do want you to pay attention to is the number and the placement of the square brackets.
+
+03:47.150 --> 03:56.310
+So here when I write random dot rand n with just ten, then we get one opening bracket here, no closing
+
+03:56.310 --> 03:57.030
+bracket here.
+
+03:57.030 --> 03:58.870
+And there's a closing bracket here.
+
+03:58.990 --> 04:02.390
+So this is like one list okay.
+
+04:02.430 --> 04:06.270
+And then here this is two by five as the input.
+
+04:06.310 --> 04:14.750
+Now notice that here there are two open brackets one closing bracket here one opening bracket and two
+
+04:14.950 --> 04:16.070
+closing brackets.
+
+04:16.230 --> 04:19.790
+So what's really happening is that there are two sets.
+
+04:20.030 --> 04:24.990
+This is one set of numbers, one like list of numbers.
+
+04:25.150 --> 04:25.990
+It's a row.
+
+04:26.430 --> 04:29.270
+And here is a second row here.
+
+04:29.670 --> 04:33.750
+And the rows are encased by square brackets.
+
+04:34.150 --> 04:39.430
+And then we have two rows forming a matrix or a two dimensional array.
+
+04:39.710 --> 04:44.870
+And that is contained inside another square bracket.
+
+04:44.910 --> 04:46.150
+Okay I hope that makes sense.
+
+04:46.190 --> 04:49.590
+So the difference between two comma five and ten.
+
+04:49.830 --> 04:52.150
+Now we can do this two comma three.
+
+04:52.190 --> 04:52.430
+Yeah.
+
+04:52.430 --> 04:56.230
+So we can specify the size of this matrix here.
+
+04:57.030 --> 04:57.390
+Okay.
+
+04:57.430 --> 05:01.230
+So this is normally distributed random numbers.
+
+05:01.230 --> 05:07.270
+Here we can also access or create uniformly distributed random numbers.
+
+05:07.310 --> 05:14.670
+Now uniform distribution means all the numbers between 0 and 1 are equally likely to occur.
+
+05:15.110 --> 05:22.580
+But what if we want uniformly distributed numbers between about minus one and plus three.
+
+05:23.060 --> 05:26.020
+So now I can use two inputs here.
+
+05:26.020 --> 05:28.220
+And this corresponds to the lower bound.
+
+05:28.220 --> 05:32.980
+And this is the upper bound of the uniform distributed random numbers.
+
+05:33.300 --> 05:38.860
+We can also optionally specify lo equals this and high equals this.
+
+05:38.860 --> 05:40.300
+So this is one number.
+
+05:40.300 --> 05:43.820
+And then I'm going to write size equals ten by ten.
+
+05:43.820 --> 05:47.260
+And now this gives me a ten by ten matrix.
+
+05:47.260 --> 05:49.180
+So 100 numbers in total.
+
+05:49.700 --> 05:54.020
+Uh random numbers between minus one and plus three.
+
+05:54.340 --> 05:56.180
+And again you can see the brackets here.
+
+05:56.180 --> 05:59.820
+So I have an open bracket and a closed bracket down here.
+
+06:00.220 --> 06:05.900
+And then each of the rows is one opening bracket and one small bracket.
+
+06:05.900 --> 06:10.420
+And then if you count these there should be ten of these rows okay.
+
+06:10.780 --> 06:12.860
+Uh normally distributed random numbers.
+
+06:12.860 --> 06:16.020
+So Gaussian distribution uniform distribution.
+
+06:16.020 --> 06:21.620
+We can also create random integers numpy.random dot rand int.
+
+06:22.100 --> 06:25.220
+and here let's say -4 to 5.
+
+06:25.220 --> 06:31.100
+And then I'm going to have like a tuple three comma five okay.
+
+06:31.140 --> 06:36.940
+So this is going to give me random integers as low as minus four.
+
+06:37.300 --> 06:40.300
+And this is a little tricky here as high as four.
+
+06:40.780 --> 06:48.940
+This is an exclusive upper bound meaning that the number five is never going to appear in the output
+
+06:48.980 --> 06:50.180
+of this function.
+
+06:50.660 --> 06:50.900
+Okay.
+
+06:50.940 --> 06:55.060
+And then the size that I want is going to be three by five.
+
+06:55.060 --> 06:57.620
+So three rows and five columns.
+
+06:57.620 --> 06:59.460
+And here we see all of those numbers.
+
+06:59.460 --> 07:03.660
+So now you can see the numbers between minus four.
+
+07:03.700 --> 07:04.940
+So here's a minus four.
+
+07:05.260 --> 07:07.820
+Here's a plus four I'll run this again.
+
+07:08.020 --> 07:10.100
+We're not going to see any fives.
+
+07:10.260 --> 07:14.540
+So inclusive upper bound exclusive upper bound.
+
+07:14.540 --> 07:19.300
+When we're working with integers or whole numbers that's just how it is.
+
+07:19.340 --> 07:21.820
+Of course we can give this an output.
+
+07:21.820 --> 07:26.580
+Let's call this int match for integer matrix.
+
+07:26.740 --> 07:31.860
+And now I don't see the output, but it is stored in the int mat variable.
+
+07:32.820 --> 07:39.860
+There is one more random function that I would like to introduce you to, and that is called choice.
+
+07:39.900 --> 07:43.540
+In particular, it is Numpy.random choice.
+
+07:44.020 --> 07:52.540
+And the idea of this function is that we provide an input of some set of numbers, and Python will randomly
+
+07:52.540 --> 07:55.540
+choose one of those numbers.
+
+07:55.700 --> 07:59.860
+So let's do let's create linearly spaced numbers between.
+
+07:59.860 --> 08:06.740
+So I'll do numpy dot linspace between about minus four and plus I don't know 12345.
+
+08:06.740 --> 08:11.340
+And let's have 85 numbers between them.
+
+08:11.340 --> 08:12.940
+So let's just look and see what this is.
+
+08:13.380 --> 08:13.700
+Okay.
+
+08:13.740 --> 08:20.900
+So here we get numbers from minus four up to 12345 in listed in scientific notation here.
+
+08:21.300 --> 08:21.500
+Okay.
+
+08:21.540 --> 08:26.540
+Now let's say we want to choose one of those numbers at random.
+
+08:26.660 --> 08:29.850
+So I can write ln for linear numbers.
+
+08:29.850 --> 08:32.530
+Linearly spaced numbers comma one.
+
+08:32.570 --> 08:37.970
+And now Python is just going to pick one of those numbers at random.
+
+08:38.130 --> 08:38.290
+Okay.
+
+08:38.290 --> 08:40.730
+And I can run this again and again and again.
+
+08:40.730 --> 08:42.570
+And we keep getting different results.
+
+08:42.570 --> 08:48.970
+Because each of these numbers has a one inch 85 chance of being selected.
+
+08:49.330 --> 08:49.610
+Okay.
+
+08:49.650 --> 08:52.210
+And then yeah let's say we want 13 of these.
+
+08:52.330 --> 08:57.650
+So now we're getting 13 of these numbers being selected by chance.
+
+08:57.650 --> 09:03.730
+So each time I run this over and over again I'm going to get a different set of numbers.
+
+09:03.730 --> 09:10.490
+But every single one of these numbers comes directly from this array over here.
+
+09:11.450 --> 09:11.810
+Okay.
+
+09:11.850 --> 09:20.610
+So this was an introduction to the Numpy.random module and in particular several different ways of generating
+
+09:20.770 --> 09:29.010
+random numbers from various distributions, floating point numbers and integers, and also random selections
+
+09:29.010 --> 09:31.570
+from existing sets of numbers.

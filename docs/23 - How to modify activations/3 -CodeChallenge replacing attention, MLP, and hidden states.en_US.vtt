@@ -1,0 +1,1207 @@
+WEBVTT
+
+00:02.560 --> 00:10.080
+In this code challenge, you will extend your knowledge of replacing activations in the model with other
+
+00:10.080 --> 00:10.920
+values.
+
+00:11.520 --> 00:17.960
+After having gone through the previous and this videos, you will have all the knowledge you need to
+
+00:18.000 --> 00:19.680
+complete the rest of the course.
+
+00:20.200 --> 00:26.440
+You're also going to see some of the impacts of changing one layer on later layers.
+
+00:27.200 --> 00:32.360
+Now, of course, that's not surprising when you manipulate the activations that impacts downstream
+
+00:32.360 --> 00:39.120
+layers, but it's pretty neat to see, and it will be a nice segue into the rest of the lectures in
+
+00:39.120 --> 00:40.680
+the next few sections.
+
+00:41.440 --> 00:48.400
+There are four exercises in this code challenge in total, and after going through the final exercise,
+
+00:48.520 --> 00:54.360
+I'm also going to have a little bonus section where I will explain in a little bit more detail about
+
+00:54.360 --> 01:02.210
+one of the differences between hooking inside a transformer block Versus hooking outside of a transformer
+
+01:02.210 --> 01:02.690
+block.
+
+01:03.890 --> 01:12.810
+The goal of exercise one is to find the third attention head in the k activations matrix of one layer,
+
+01:13.170 --> 01:16.210
+and zero out all of those activations.
+
+01:16.770 --> 01:23.130
+You can start by importing GPT two small and tokenize some text.
+
+01:23.650 --> 01:30.090
+You can write this sentence and then break it up into tokens and print out this table that you see here.
+
+01:30.530 --> 01:33.810
+I wonder how many tokens are in pomegranate.
+
+01:34.330 --> 01:38.810
+I do not know the answer, which is why I used this text as a prompt.
+
+01:39.370 --> 01:44.610
+It turns out that pomegranate is four tokens in the GPT two tokenizer.
+
+01:44.850 --> 01:53.090
+Anyway, then you will need to do some indexing, maybe some splitting, to find the indices at which
+
+01:53.090 --> 01:59.780
+the third attention head starts and stops in the qqv matrix.
+
+02:00.580 --> 02:06.500
+Then write a hook function where you replace those activation values with zeros.
+
+02:07.380 --> 02:13.220
+There are actually multiple ways that you can correctly solve this, and you can check the demos from
+
+02:13.220 --> 02:16.220
+the previous video if you need some inspiration.
+
+02:17.380 --> 02:25.220
+You can pick one token and one layer to zero out, and when your code is ready, you can confirm that
+
+02:25.220 --> 02:28.100
+you have indexed attention had three correctly.
+
+02:28.100 --> 02:35.700
+By making sure you understand and match these numbers, and then you can visualize the activations like
+
+02:35.700 --> 02:36.180
+this.
+
+02:36.620 --> 02:43.220
+So here we see the activations for the three attention matrices from the fourth transformer block.
+
+02:43.220 --> 02:52.500
+So index three and the activations to one of the tokens in the sentence here in green are the activations.
+
+02:52.620 --> 02:56.180
+And you can see that one of the heads here is zeroed out.
+
+02:56.740 --> 03:02.870
+Of course, to make this plot in the first place, you will also need to store the activations during
+
+03:02.870 --> 03:05.990
+the forward pass and not only manipulate them.
+
+03:06.910 --> 03:13.470
+The final thing to do in this exercise is remove the hook, and that's because we're going to use the
+
+03:13.470 --> 03:16.630
+same model in the next couple of exercises.
+
+03:16.630 --> 03:20.830
+But we do not want to keep this hook attached to the model.
+
+03:22.230 --> 03:22.590
+Okay.
+
+03:22.630 --> 03:25.390
+So now you can pause the video and hook away.
+
+03:25.710 --> 03:29.990
+And as I mentioned there are several correct ways that you can solve this exercise.
+
+03:30.230 --> 03:35.870
+I'm now going to switch to code and show you how I solved it, but as long as you get the right answer,
+
+03:35.870 --> 03:39.190
+it does not matter what your solution looks like.
+
+03:40.350 --> 03:45.070
+Import some libraries and also the GPT two model.
+
+03:45.470 --> 03:49.670
+Okay, so here is here are the tokens that I'm printing out.
+
+03:49.710 --> 03:51.790
+And here I'm creating some useful variables.
+
+03:51.790 --> 03:58.960
+So we need to know the number of heads the number of embeddings, dimension and the dimension per head.
+
+03:59.320 --> 04:06.240
+And remember from way earlier in the course that the number, the the dimensionality of the heads corresponds
+
+04:06.240 --> 04:11.400
+to the embeddings dimensionality divided by the number of heads and two slashes.
+
+04:11.400 --> 04:16.280
+Because I want this to be an integer and not a floating point number.
+
+04:16.720 --> 04:23.920
+Okay, so obviously all of these variables are in the model anyway, but uh, setting them to be shorter
+
+04:23.920 --> 04:25.840
+variable names is just convenient.
+
+04:26.440 --> 04:31.120
+So we want to find the indices of the third head.
+
+04:31.120 --> 04:33.480
+So head with index number two.
+
+04:33.880 --> 04:40.800
+So the starting point of that is the head that we want to index times the head dimensionality.
+
+04:40.800 --> 04:47.920
+And once we get the start we know exactly where the end is because it just has to be uh 64 elements
+
+04:47.920 --> 04:48.840
+after that.
+
+04:49.160 --> 04:49.440
+Okay.
+
+04:49.480 --> 04:52.560
+So that's how we print out this message over here.
+
+04:52.840 --> 05:00.210
+Now, this would be, a valid indexing for each of the three attention matrices.
+
+05:00.210 --> 05:08.610
+So in Q versus k versus V, if you keep all of the three matrices concatenated together, then you would
+
+05:08.650 --> 05:11.450
+actually need to incorporate that into here.
+
+05:11.450 --> 05:15.210
+So let me just skip down here to make sure this is clear.
+
+05:15.250 --> 05:23.250
+So what I'm doing here in the hook function is grabbing the output of this layer, splitting it into
+
+05:23.250 --> 05:27.650
+these separate q and v matrices making a copy of k.
+
+05:27.970 --> 05:35.570
+And then here I am modifying k and then concatenating it back along with q and v, caching it, and
+
+05:35.570 --> 05:43.850
+then returning that so that this overwrites the output variable so that this becomes the new version
+
+05:43.850 --> 05:49.770
+of the qkv tensor that PyTorch will continue processing.
+
+05:50.130 --> 05:55.010
+To adjust the embeddings vectors at the end of the attention layer.
+
+05:55.370 --> 05:55.730
+Okay.
+
+05:55.770 --> 05:58.250
+So so basically I've separated out Q.
+
+05:58.290 --> 06:02.330
+So these indices are sorry k I separated out k.
+
+06:02.650 --> 06:07.010
+So therefore these indices work assuming that index zero.
+
+06:07.010 --> 06:08.850
+Here is the beginning of k.
+
+06:09.530 --> 06:14.090
+If you do not split these instead you use the demo.
+
+06:14.130 --> 06:22.410
+I think it was demo two in the previous video where I just modify this output tensor directly.
+
+06:23.050 --> 06:27.090
+Then what you would need to do is change the indexing.
+
+06:27.330 --> 06:34.890
+Uh, where are we change the indexing here so that in order to get to K you would have to add n dot
+
+06:35.010 --> 06:37.250
+embed plus this.
+
+06:37.450 --> 06:47.690
+And then you would find that the index into the third attention head in k is goes from 896 to 959.
+
+06:47.930 --> 06:48.850
+I hope that's clear.
+
+06:48.850 --> 06:56.100
+So if you have q before K, then you need to index over all of Q in order to get to the beginning of
+
+06:56.140 --> 06:56.500
+K.
+
+06:57.140 --> 07:00.820
+Let me undo all of that and rerun that code.
+
+07:01.140 --> 07:09.340
+But if you are separating out k from the Q and V matrices then you can index like this.
+
+07:09.540 --> 07:09.820
+Okay.
+
+07:09.860 --> 07:15.860
+So I explain all this because yeah there's multiple correct ways that you can solve this exercise.
+
+07:15.860 --> 07:18.700
+As long as you're getting it to work it's all fine.
+
+07:19.300 --> 07:19.620
+Okay.
+
+07:19.660 --> 07:26.980
+So then yeah implanting the hook over here and then here I'm pushing some tokens through the model.
+
+07:27.100 --> 07:35.740
+I suppose technically I really should be doing with torch dot grad and then like this, but yeah, because
+
+07:36.140 --> 07:42.580
+in this video and these exercises, we're not really doing anything important with the model.
+
+07:42.580 --> 07:46.820
+We're just confirming that we know how to use these hooks.
+
+07:47.020 --> 07:48.820
+Then it really doesn't matter.
+
+07:48.820 --> 07:51.670
+I think I just got lazy writing out that extra code.
+
+07:52.190 --> 07:54.670
+Okay, so here we see the Q vectors.
+
+07:54.670 --> 07:59.910
+So I have plotted them separately in this kind of bluish color.
+
+08:00.150 --> 08:02.830
+And then here is for the k vectors.
+
+08:02.830 --> 08:06.150
+And here you see that they are zeros over here in the third head.
+
+08:06.270 --> 08:13.950
+And then for the V and you see the variability is much smaller in V and then bigger in q and much larger
+
+08:13.950 --> 08:14.670
+in k.
+
+08:15.230 --> 08:19.590
+This is a discovery that we made earlier in the course.
+
+08:19.870 --> 08:21.950
+And now you see it again here as well.
+
+08:22.230 --> 08:27.070
+And then finally I will remove the hook from the model because.
+
+08:27.310 --> 08:30.390
+Yeah because I want to change it for the next exercise.
+
+08:31.670 --> 08:34.070
+Now for exercise two.
+
+08:34.670 --> 08:37.190
+There are two parts to this exercise.
+
+08:37.390 --> 08:44.670
+One part is purely about code, and one is more theoretical and requires some critical thinking.
+
+08:45.310 --> 08:51.240
+So here we will focus on changing the MLP Neurons from one transformer block.
+
+08:51.680 --> 08:54.640
+So you will need to write a new hook function.
+
+08:54.800 --> 09:03.560
+And in that function find the even indexed MLP expansion neurons and replace their activation values
+
+09:03.560 --> 09:07.040
+with Gaussian random noise with a mean of ten.
+
+09:07.760 --> 09:15.240
+Now when I say even indexed neurons, I mean neuron index zero, 246, and so on.
+
+09:15.960 --> 09:22.120
+After implanting your hook, you can do another forward pass like in the previous exercise, and then
+
+09:22.120 --> 09:24.240
+you can make a plot that looks like this.
+
+09:24.640 --> 09:27.960
+So that is the first part of this exercise.
+
+09:28.560 --> 09:36.400
+Now to be clear, this is an extremely bizarre and probably not very wise thing to do in real mcinturff
+
+09:36.400 --> 09:37.240
+research.
+
+09:37.760 --> 09:44.400
+And why is it not a good idea to replace half of the MLP neurons with Gaussian noise that has a mean
+
+09:44.440 --> 09:45.000
+of ten?
+
+09:46.080 --> 09:47.850
+I want you to think of an answer.
+
+09:47.890 --> 09:50.290
+That's the second part of this exercise.
+
+09:50.450 --> 09:57.370
+You have to think about why this is not a good manipulation to perform when you are trying to causally
+
+09:57.370 --> 10:00.370
+understand lhe mechanisms.
+
+10:01.210 --> 10:04.850
+Of course, I will discuss the answer to this question when I switch to code.
+
+10:04.850 --> 10:10.290
+But first you should pause the video and work through this exercise on your own.
+
+10:11.570 --> 10:17.530
+For this exercise, we do not need to implant the hooks into all of the layers.
+
+10:17.690 --> 10:24.730
+So therefore I have simplified the code a bit by only writing the hook function without that outer function
+
+10:24.730 --> 10:28.450
+that would implant the hook dynamically for each layer.
+
+10:28.970 --> 10:29.210
+Okay.
+
+10:29.250 --> 10:38.570
+And then here what I'm doing is making a copy here of that output, which is the all of the MLP activations.
+
+10:38.770 --> 10:41.970
+And here you see it's MLP and C FC.
+
+10:42.010 --> 10:45.290
+So the fully connected layer that is the expansion layer.
+
+10:45.730 --> 10:51.020
+And here I'm generating some noise of the same size as what I want to replace.
+
+10:51.180 --> 10:53.100
+And then I'm just adding ten.
+
+10:53.100 --> 10:56.180
+So this is normally distributed random numbers.
+
+10:56.180 --> 10:59.020
+So Gaussian noise with a mean of ten.
+
+10:59.020 --> 11:03.780
+So I'm just shifting the entire noise distribution up by ten units.
+
+11:04.060 --> 11:07.660
+And then I'm replacing those values with noise.
+
+11:07.660 --> 11:15.660
+And then storing those activations in planting the hook with an output handle into a layered uh the
+
+11:15.660 --> 11:16.820
+six layer.
+
+11:16.820 --> 11:18.460
+So layer index five.
+
+11:18.860 --> 11:21.420
+Again lots of hard coding here, but that's fine.
+
+11:21.420 --> 11:28.060
+The goal here is to understand how to hook and work with these, uh, hook functions and not really
+
+11:28.060 --> 11:32.060
+to do some, like, really clever, uh, dynamic experiment.
+
+11:33.260 --> 11:38.660
+Okay, so then I push the tokens through the model and make a visualization.
+
+11:38.820 --> 11:40.180
+And that's what you see here.
+
+11:40.380 --> 11:45.710
+So you can see that the, uh MLP neuron On activations on their own.
+
+11:45.710 --> 11:49.230
+These are all the odd numbered neurons that we have not manipulated.
+
+11:49.670 --> 11:53.710
+Those are generally in the range of -2.5 to 0.
+
+11:53.950 --> 11:55.790
+So there's a slight negative shift.
+
+11:55.790 --> 11:57.030
+You've seen that before.
+
+11:57.470 --> 12:05.310
+That's because after these activations are calculated, they get passed through a jlu function which
+
+12:05.510 --> 12:12.630
+basically just clamps or at least strongly attenuates all of these negative activation values, which
+
+12:12.630 --> 12:16.390
+makes the model be much more sparse in the MLP layer.
+
+12:16.950 --> 12:24.310
+So these are the activation values that the model naturally calculates on its own during processing.
+
+12:24.590 --> 12:32.670
+And these are the ridiculously large weights that or activation values that I have artificially imposed
+
+12:32.670 --> 12:34.030
+from the hook.
+
+12:34.470 --> 12:40.590
+Now, why is this not a really wise thing to do in real experiments?
+
+12:40.830 --> 12:49.200
+Notice that the distribution of these, even numbered activations are so completely different they literally
+
+12:49.200 --> 12:51.440
+do not overlap by a single point.
+
+12:51.720 --> 12:57.120
+So the distribution is so far shifted to the right that it.
+
+12:57.360 --> 13:03.160
+Who knows what this is going to do to the model, but it's not going to be anything that's, um, very
+
+13:03.160 --> 13:10.360
+insightful in the sense of being able to make inferences and understanding about mechanisms in the model.
+
+13:10.680 --> 13:17.360
+Instead, this is really just going to to add a ton of like out of distribution noise to the model.
+
+13:17.360 --> 13:21.520
+So scientifically speaking, this is not really a great thing to do.
+
+13:21.640 --> 13:27.880
+But in terms of education and learning and seeing that this really has an impact, then this is fantastic
+
+13:27.880 --> 13:32.400
+because it's so clear that we've really manipulated the model here.
+
+13:32.800 --> 13:33.080
+Okay.
+
+13:33.120 --> 13:34.680
+And then I will remove that hook.
+
+13:34.680 --> 13:37.240
+So we are ready for exercise three.
+
+13:39.160 --> 13:41.720
+Now for exercise three.
+
+13:42.290 --> 13:48.970
+This and the next exercises will be a nice segue into the next section of the course, where you will
+
+13:48.970 --> 13:55.930
+learn about manipulating the hidden state activations, and by this term, hidden state, I'm referring
+
+13:55.970 --> 13:59.650
+to the output of the entire transformer block.
+
+14:00.090 --> 14:06.410
+So this is not the adjustments that are made by the attention or the MLP layers, but the final output
+
+14:06.410 --> 14:12.490
+of the transformer block which provides the input into the subsequent transformer block.
+
+14:13.170 --> 14:18.370
+I'm calling them hidden state activations because that is what Huggingface calls them.
+
+14:18.370 --> 14:24.450
+For example, when you are requesting the hidden state activations to be outputted in a forward pass.
+
+14:25.730 --> 14:32.770
+Now, the thing that you need to know about hooking and manipulating the transformer output is that
+
+14:32.770 --> 14:37.130
+the variable output in the hook function, which we've been using so far.
+
+14:37.850 --> 14:41.420
+In this case, it's a tuple and not a tensor.
+
+14:41.860 --> 14:45.100
+So that requires a little bit of additional code.
+
+14:45.340 --> 14:46.940
+And it can be a little tricky.
+
+14:47.300 --> 14:54.420
+So if this is your first time hooking the transformer outputs then you might find this exercise to be
+
+14:54.420 --> 14:54.780
+weird.
+
+14:54.780 --> 15:00.340
+You might find some errors that you didn't expect, but therefore it's also a really great learning
+
+15:00.340 --> 15:01.300
+opportunity.
+
+15:01.900 --> 15:06.740
+Anyway, your hook function should look something like this.
+
+15:07.020 --> 15:14.060
+You want to get all of the hidden states, and then scale them by some variable that you define outside
+
+15:14.060 --> 15:15.060
+of the hook.
+
+15:15.660 --> 15:21.940
+You want to define that variable globally so outside the hook function, because you're going to manipulate
+
+15:21.940 --> 15:25.340
+this variable here without changing the hook function.
+
+15:25.620 --> 15:31.860
+In exercise four again keep in mind that the variable here output.
+
+15:31.980 --> 15:37.460
+This is not a tensor like the what you were working with in the previous couple of exercises.
+
+15:37.940 --> 15:44.140
+Instead, this is a tuple in which the first element is the tensor that you want.
+
+15:44.740 --> 15:53.300
+Now, while developing this code, I recommend including some print statements in here to look at data
+
+15:53.380 --> 15:55.500
+types and variable sizes.
+
+15:56.620 --> 16:02.260
+Also notice that I'm not storing any activations in this hook function.
+
+16:02.780 --> 16:08.900
+Instead, we're going to grab the activations during the forward pass using the output.
+
+16:08.940 --> 16:12.820
+Hidden states equals true input when you call the model.
+
+16:13.540 --> 16:18.780
+Once you have written a correct hook, you can do a forward pass and get the hidden states.
+
+16:18.820 --> 16:28.660
+Of course, you will find 13 hidden states, and the size of one of those is one by 12 by 768 for 12
+
+16:28.700 --> 16:31.900
+tokens in that sentence about pomegranates.
+
+16:32.580 --> 16:39.910
+Now that you have the hidden states, you can isolate the activations vector for one of these tokens.
+
+16:40.150 --> 16:45.270
+Doesn't really matter which token you look at, you just pick one and then you visualize it like this.
+
+16:45.910 --> 16:54.070
+Both of these panels, both of these axes, show a scatter plot of activations from all the layers on
+
+16:54.070 --> 16:58.230
+the x axis, from one token in the sentence, which you can pick.
+
+16:58.910 --> 17:00.510
+And then each little box.
+
+17:00.510 --> 17:07.990
+Here is the activation from one embeddings dimension in this transformer block.
+
+17:08.390 --> 17:13.310
+So this shows all of the activations for all of the hidden state dimensions here.
+
+17:13.670 --> 17:18.990
+And then on the right I'm showing the norm of each activations vector.
+
+17:19.670 --> 17:22.270
+We have worked with vector norms before.
+
+17:22.310 --> 17:28.110
+It's just the square root of the sum of all of these squared vector elements.
+
+17:28.710 --> 17:35.030
+You can also calculate it using, for example, the numpy linear norm function.
+
+17:35.990 --> 17:40.600
+And basically the norm just tells you how big are all the elements in the vector.
+
+17:40.960 --> 17:46.720
+So it will be interesting to see what happens at the layer that you manipulate, and also the layers
+
+17:46.720 --> 17:47.400
+before.
+
+17:47.880 --> 17:53.960
+And of course, it will be super interesting to see what happens in these subsequent layers.
+
+17:54.840 --> 18:01.120
+The last thing I want to mention here is you should not remove the hook at the end of this exercise.
+
+18:01.520 --> 18:07.920
+In the previous two exercises, I told you to remove the hook, but that's because the following exercise
+
+18:07.920 --> 18:09.000
+used a different hook.
+
+18:09.280 --> 18:15.280
+However, we are going to use this same hook function in exercise four, so you don't need to remove
+
+18:15.280 --> 18:16.040
+the hook here.
+
+18:16.560 --> 18:16.920
+Okay.
+
+18:16.960 --> 18:20.320
+So now you can pause the video and get to work.
+
+18:20.320 --> 18:22.080
+And now I will switch to code.
+
+18:23.320 --> 18:29.000
+Here you can see that I am not just working with the output variable as we have done before.
+
+18:29.360 --> 18:32.320
+Instead I'm indexing the first element.
+
+18:32.320 --> 18:35.610
+And that is because this is a tuple.
+
+18:35.930 --> 18:42.650
+If you want to confirm that, you can write something like print type output, and then when you run
+
+18:42.650 --> 18:45.410
+this hook, you will see the type being.
+
+18:45.450 --> 18:47.530
+In fact, let me even just do this now.
+
+18:48.010 --> 18:49.050
+So here we see.
+
+18:49.090 --> 18:51.370
+So this right here class tuple.
+
+18:51.410 --> 18:56.850
+This comes from this line of code here because I have uh yeah.
+
+18:56.970 --> 19:04.290
+Every time we run this hook in the forward pass then this line of code is going to run.
+
+19:04.370 --> 19:09.770
+So that's not something you want to do if you're writing out a ton of code, like running lots of experiments
+
+19:09.770 --> 19:10.410
+and so on.
+
+19:10.570 --> 19:15.970
+But for working through your code and trying to understand what's going on inside the hook function,
+
+19:15.970 --> 19:16.770
+this is great.
+
+19:17.250 --> 19:24.290
+Okay, so I get out the first element, and that turns out to be the actual output of the transformer
+
+19:24.290 --> 19:24.850
+block.
+
+19:24.970 --> 19:26.930
+And that's what we want to modify.
+
+19:27.410 --> 19:32.330
+And then I'm using this method on a PyTorch tensor called dot mul.
+
+19:32.570 --> 19:34.860
+This is a Multiplication.
+
+19:34.860 --> 19:40.500
+And then I'm just multiplying by this scaling factor, which I define outside the hook, so that later
+
+19:40.500 --> 19:45.660
+on I can change this value and then just run the forward pass again.
+
+19:46.860 --> 19:49.940
+Now this is a tensor.
+
+19:49.940 --> 19:52.100
+This variable starts out as a tensor.
+
+19:52.100 --> 19:54.220
+So we need to export a tensor.
+
+19:54.460 --> 20:01.580
+If you would just output something like this then this is going to cause errors because PyTorch will
+
+20:01.580 --> 20:03.260
+expect a tuple here.
+
+20:03.260 --> 20:08.540
+And we are only outputting here a tensor which is the first element of the tuple.
+
+20:08.900 --> 20:10.940
+So I'm just packing it back up again.
+
+20:11.420 --> 20:12.340
+So here we go.
+
+20:12.340 --> 20:19.420
+So the first element of the tuple and then all the other elements of the tuple those are concatenated.
+
+20:19.420 --> 20:24.340
+And then I'm using parentheses here to package it into a tuple.
+
+20:24.500 --> 20:30.620
+I will show you also in the next section multiple other ways of packing this up or at least one other
+
+20:30.620 --> 20:30.940
+way.
+
+20:31.340 --> 20:31.700
+Okay.
+
+20:31.740 --> 20:33.230
+So that is for this.
+
+20:33.230 --> 20:34.030
+I've already run this.
+
+20:34.070 --> 20:34.230
+Yeah.
+
+20:34.270 --> 20:41.830
+And here we see there are 13 hidden states, and the size of each one is one sentence, 12 tokens and
+
+20:41.830 --> 20:45.150
+768 embeddings dimensions.
+
+20:45.710 --> 20:45.990
+Okay.
+
+20:46.030 --> 20:51.110
+So now what I'm doing here is basically just some quick and dirty analyses.
+
+20:51.510 --> 20:55.070
+So I'm grabbing the hidden states for this sentence.
+
+20:55.070 --> 20:57.550
+I just picked token four at random.
+
+20:57.790 --> 20:59.630
+All of the embeddings dimension.
+
+20:59.830 --> 21:06.910
+Detach that from the computational graph and the gradient information and so on, and convert it into
+
+21:07.070 --> 21:07.710
+numpy.
+
+21:08.070 --> 21:10.230
+And then here I'm plotting all of the data.
+
+21:10.230 --> 21:16.270
+So all of the embeddings vectors values from this particular block.
+
+21:16.270 --> 21:19.110
+And then I take numpy dot linalg dot norm.
+
+21:19.350 --> 21:22.470
+Again this just tells me about like the size of the matrix.
+
+21:23.510 --> 21:24.390
+So here you see.
+
+21:24.430 --> 21:32.200
+And let me also go back just to show you that what I changed here or where I implanted this, uh, downscaling
+
+21:32.200 --> 21:37.800
+hook is into number eight, which corresponds to the ninth transformer block.
+
+21:37.840 --> 21:39.160
+Okay, so let's keep that in mind.
+
+21:39.200 --> 21:42.120
+The ninth transformer block is what got scaled down.
+
+21:42.520 --> 21:47.000
+And now here we see that the variability of the activation.
+
+21:47.000 --> 21:51.480
+So the distribution is increasing as we get deeper into the model.
+
+21:51.600 --> 21:57.080
+This is something we have discovered several times before in the previous sections of the course.
+
+21:57.080 --> 21:59.160
+But now it all gets clamped down.
+
+21:59.320 --> 22:06.040
+And also remember that the very first element here of the hidden state from the output of running through
+
+22:06.040 --> 22:08.720
+the model forward pass is the embeddings layer.
+
+22:08.880 --> 22:10.320
+So this is the embeddings layer.
+
+22:10.320 --> 22:16.440
+This is transformer block 012345678.
+
+22:16.480 --> 22:17.320
+So there you go.
+
+22:17.680 --> 22:20.920
+A little bit confusing with the indexing but that's how it is.
+
+22:21.440 --> 22:21.680
+Okay.
+
+22:21.720 --> 22:24.760
+And then yeah they start expanding again after that.
+
+22:24.760 --> 22:27.080
+And here you see the norms of the vectors.
+
+22:27.080 --> 22:29.840
+They are increasing slowly but steadily.
+
+22:29.970 --> 22:36.050
+and then it drops down because I've clamped down all of the values, or I've reduced all the values,
+
+22:36.050 --> 22:39.850
+I've scaled them down by a factor of 90%.
+
+22:39.850 --> 22:44.010
+So there are only 0.1 of their regular values, and then they start going back up.
+
+22:44.730 --> 22:52.410
+Exercise four is extremely simple in terms of code, so it's just something interesting to look at and
+
+22:52.410 --> 22:53.250
+think about.
+
+22:53.730 --> 23:02.450
+All you need to do is copy the code from exercise three, but scale by a factor of ten instead of scaling
+
+23:02.450 --> 23:04.370
+down by 0.1.
+
+23:04.970 --> 23:09.650
+The visualizations here are identical same tokens, same everything.
+
+23:09.690 --> 23:13.490
+You're just inflating all the values instead of deflating them.
+
+23:13.970 --> 23:16.810
+Of course, you do not need to create a new hook function.
+
+23:16.810 --> 23:22.570
+You just change the global variable parameter that defines how much scaling there is.
+
+23:23.170 --> 23:29.100
+And I think you're going to find that something interesting happens at the final layer of the model.
+
+23:30.300 --> 23:32.700
+Anyway, that is for exercise four.
+
+23:32.900 --> 23:37.540
+I will switch to code in a moment and show my solution and discuss the results.
+
+23:37.540 --> 23:45.340
+And then I will also show you some bonus code that is not part of the exercise, but helps explain why
+
+23:45.500 --> 23:52.740
+the output variable of the transformer block is a tuple and not just the tensor, which is how it works
+
+23:52.740 --> 23:55.260
+for hooking inside the transformer block.
+
+23:55.700 --> 23:57.500
+Anyway, I'll get to that in a moment.
+
+23:57.500 --> 23:59.420
+And now you should switch to code.
+
+24:00.780 --> 24:04.020
+So the code here for exercise four is super simple.
+
+24:04.020 --> 24:09.660
+I literally copy pasted everything from exercise three, not the hook function.
+
+24:09.660 --> 24:11.460
+We don't need to recreate that.
+
+24:11.700 --> 24:16.020
+And all I did was change this variable scaling factors.
+
+24:16.020 --> 24:22.980
+So when we look back up here we can see scaling factor and scaling factor inside the hook function.
+
+24:23.420 --> 24:23.780
+Okay.
+
+24:23.820 --> 24:26.940
+So now I will just rerun all of that code.
+
+24:27.510 --> 24:29.990
+Okay, we still get the print out that it's a tuple.
+
+24:30.230 --> 24:36.510
+And now here again you see a little bit of an expansion of the activations, the variability in the
+
+24:36.510 --> 24:41.670
+activations of these embeddings vectors as we go deeper into the model.
+
+24:41.830 --> 24:44.270
+Here is where it absolutely blows up.
+
+24:44.270 --> 24:45.750
+And why does it blow up here?
+
+24:45.950 --> 24:48.270
+I scale everything by a factor of ten.
+
+24:48.670 --> 24:50.510
+It continues to increase, right.
+
+24:50.550 --> 24:57.030
+So it's actually getting bigger and bigger as it gets deeper into the model until we get to the very
+
+24:57.030 --> 24:59.110
+last layer here.
+
+24:59.230 --> 25:06.070
+So the very end of the transformer sweep right before we get into the embeddings matrix.
+
+25:06.070 --> 25:08.590
+And that's where we see this compression again.
+
+25:08.590 --> 25:12.910
+And that you see really clearly here in this plot of the vector norms.
+
+25:13.670 --> 25:21.310
+So what's happening here is that the final layer is compensating a little bit for the manipulation.
+
+25:21.350 --> 25:22.870
+These values are really large.
+
+25:22.870 --> 25:28.910
+And this layer is just able to compensate to some extent for that manipulation.
+
+25:29.070 --> 25:30.950
+That's an interesting observation.
+
+25:30.950 --> 25:32.710
+We will actually follow up on this.
+
+25:32.710 --> 25:39.430
+We're going to continue observing this kind of phenomenon in the next section when we keep working on
+
+25:39.470 --> 25:41.830
+manipulating hidden state activations.
+
+25:42.350 --> 25:42.630
+Okay.
+
+25:42.670 --> 25:46.270
+So that is the end of this exercise.
+
+25:46.270 --> 25:50.270
+I'm going to remove this hook because here I want to create a new hook.
+
+25:50.670 --> 25:56.710
+And in this hook what I want to do is just print out I'm not actually manipulating anything.
+
+25:56.710 --> 25:58.030
+I'm not storing anything.
+
+25:58.030 --> 25:59.870
+I'm not overwriting anything.
+
+26:00.150 --> 26:07.390
+All I'm doing is printing out the output type and the number of elements in this tuple here.
+
+26:07.830 --> 26:14.390
+And then I am looping through all of the elements in the tuple and just printing out the size of that
+
+26:14.390 --> 26:15.790
+and putting it in some block.
+
+26:15.790 --> 26:18.190
+That part doesn't matter, but this part does matter.
+
+26:18.190 --> 26:22.590
+This is not going in a sublayer of the transformer.
+
+26:22.590 --> 26:27.680
+So attention or MLP or any of the branches out from attention or MLP.
+
+26:28.000 --> 26:34.400
+Instead, I'm attaching this directly to the entire transformer, which means it's the output from the
+
+26:34.400 --> 26:36.400
+entire transformer block.
+
+26:36.800 --> 26:40.640
+Okay, so run this and here is some text here.
+
+26:40.640 --> 26:48.680
+I also just wanted to show you what these outputs look like when you use multiple texts in a batch with
+
+26:48.680 --> 26:50.000
+padding okay.
+
+26:50.040 --> 26:53.040
+So I was not very clever when I came up with these.
+
+26:53.200 --> 27:00.200
+I just wanted a couple of sequences that have different token lengths so that they are padded.
+
+27:00.600 --> 27:00.840
+Okay.
+
+27:00.880 --> 27:02.240
+So here you see the tokens.
+
+27:02.240 --> 27:03.200
+Nothing new here.
+
+27:03.400 --> 27:05.040
+Here we see the model.
+
+27:05.040 --> 27:07.720
+And we're basically just looking for the print out here.
+
+27:08.080 --> 27:11.920
+So the output the variable output is a tuple.
+
+27:12.040 --> 27:15.280
+And it has one element and element zero.
+
+27:15.280 --> 27:24.050
+So that is the first element is three by nine by 768 three sentences in this batch three sequences Nine
+
+27:24.050 --> 27:29.090
+tokens per sequence and 768 embeddings dimensions.
+
+27:29.450 --> 27:37.090
+Okay, so we see basically that this variable here only has exactly one element, which is the tensors
+
+27:37.090 --> 27:38.450
+that we want to manipulate.
+
+27:38.890 --> 27:39.890
+So why do this?
+
+27:39.930 --> 27:42.690
+Why does this need to be a tuple with one element.
+
+27:42.770 --> 27:50.210
+Why not just make this be the tensor itself, just like how it was when we were working with the attention
+
+27:50.210 --> 27:53.130
+and the MLP uh, activations?
+
+27:54.250 --> 28:01.130
+The answer is that, uh, in these hugging face style models, they are actually a little bit more flexible
+
+28:01.130 --> 28:10.330
+to incorporate multiple different matrices, multiple different pieces of information into the output
+
+28:10.330 --> 28:11.050
+package.
+
+28:11.170 --> 28:15.730
+So what I'm doing here is saying, uh, output hidden states equals true.
+
+28:16.050 --> 28:23.220
+Uh, now that, you know, we often do that by, um, putting it inside the call to the model like this.
+
+28:23.220 --> 28:27.020
+But you can also just directly modify the config file.
+
+28:27.340 --> 28:29.860
+So I'm outputting the hidden states that you've seen before.
+
+28:29.860 --> 28:33.300
+But here I'm outputting the attention vectors.
+
+28:33.300 --> 28:35.100
+So I also set that to be true.
+
+28:35.420 --> 28:42.900
+It turns out, by the way, that this does not work with the optimized scalar dot product attention
+
+28:42.900 --> 28:43.860
+function.
+
+28:44.060 --> 28:48.620
+So instead we need to change the implementation of attention.
+
+28:48.620 --> 28:55.140
+This is slightly less or can potentially be slightly less efficient depending on what kind of processor
+
+28:55.140 --> 28:56.620
+you're accessing and so on.
+
+28:56.860 --> 29:02.700
+But it does allow us to output the activations directly from attention.
+
+29:02.700 --> 29:07.420
+So we see it's still a tuple, but now we have two elements in that tuple.
+
+29:07.820 --> 29:12.060
+The first element is still the output of the transformer block.
+
+29:12.260 --> 29:18.340
+But now the second element is something different that has size three by 12 by nine by nine.
+
+29:18.340 --> 29:21.790
+So this corresponds to the three sequences.
+
+29:21.790 --> 29:27.950
+And now this is the 12 attention heads and nine by nine for the size of the tokens.
+
+29:28.150 --> 29:28.470
+Okay.
+
+29:28.510 --> 29:35.470
+I in general do not really recommend trying to get the output of the attention block using this method.
+
+29:35.670 --> 29:42.270
+In my humble opinion, I think it's much better to get this using hooks so you can access them directly.
+
+29:42.270 --> 29:50.590
+But I just wanted to show you that the reason why this variable here is a tuple is that there are situations
+
+29:50.590 --> 29:56.510
+where it needs to contain more pieces of information than just the output tensor.
+
+29:57.790 --> 30:01.310
+I hope you didn't find this code challenge too challenging.
+
+30:01.830 --> 30:08.630
+You are now ready to start learning about experiments in causal mcinturff, where you will start learning
+
+30:08.630 --> 30:16.750
+about how to measure the impact of these activation manipulations, both on the LM behavior and on the
+
+30:16.750 --> 30:18.350
+internal dynamics.

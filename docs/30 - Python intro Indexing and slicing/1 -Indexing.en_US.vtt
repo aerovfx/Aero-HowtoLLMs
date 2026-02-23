@@ -1,0 +1,607 @@
+WEBVTT
+
+00:01.400 --> 00:06.840
+In this video I'm going to teach you more about indexing variables.
+
+00:07.000 --> 00:08.520
+So indexing.
+
+00:08.640 --> 00:15.360
+Now I've already introduced you to the concept of indexing when I showed you how to work with lists.
+
+00:15.600 --> 00:16.920
+A couple of videos ago.
+
+00:17.120 --> 00:22.600
+So there's going to be a little bit of a review in this video, but I'm also going to introduce you
+
+00:22.600 --> 00:30.960
+to a couple of new concepts in indexing that are like really useful and use all the time in deep learning
+
+00:30.960 --> 00:32.400
+and llms.
+
+00:32.440 --> 00:35.240
+And I'll also introduce you to a couple of new functions.
+
+00:35.600 --> 00:38.640
+And in fact, let's already start by looking at a new function.
+
+00:38.640 --> 00:40.840
+So there's a function called range.
+
+00:41.320 --> 00:49.640
+And again you can see that as I type the word range the color of the text changed from black to this
+
+00:49.680 --> 00:52.520
+kind of like dark yellow mauve color.
+
+00:52.920 --> 00:53.200
+Okay.
+
+00:53.240 --> 00:58.200
+So I'm going to put type range and then in parentheses the number five.
+
+00:58.720 --> 01:04.780
+Now you can see this returns a Range object and it says zero five.
+
+01:05.060 --> 01:07.300
+Now what is this range object do?
+
+01:07.500 --> 01:09.260
+Well, this is an iterable.
+
+01:09.260 --> 01:10.940
+We use it for for loops.
+
+01:11.140 --> 01:13.380
+If you are not familiar with for loops then don't worry.
+
+01:13.380 --> 01:17.300
+I will introduce you to that a little bit later on in the tutorial.
+
+01:18.460 --> 01:26.620
+But this basically allows us to loop over or to iterate over numbers between 0 and 5.
+
+01:26.740 --> 01:30.980
+So there's a little bit more than that range objects can do.
+
+01:31.020 --> 01:33.180
+But that's kind of the the basics.
+
+01:33.220 --> 01:33.780
+Okay.
+
+01:33.820 --> 01:39.860
+Now we can convert this range object into a list by just typing the word list.
+
+01:39.860 --> 01:44.020
+You can see this is also a special function that's a reserved keyword.
+
+01:44.180 --> 01:45.220
+It turns blue.
+
+01:45.540 --> 01:48.060
+And now we get the numbers zero through four.
+
+01:48.060 --> 01:50.660
+So this is you know what happened to five over here.
+
+01:51.220 --> 01:59.300
+This is, um, a confusing aspect of Python that I promise you will get familiar with.
+
+01:59.340 --> 02:07.970
+It will feel more natural, but it's unintuitive in the beginning that whenever we are counting in Python,
+
+02:07.970 --> 02:09.610
+we start counting at zero.
+
+02:09.650 --> 02:16.090
+I've already mentioned that in a previous video, but that means we also finish counting at one minus
+
+02:16.370 --> 02:19.530
+the number that you actually think we're going to stop counting at.
+
+02:20.010 --> 02:26.130
+So if you tell Python to count up to five, Python only counts up to four.
+
+02:26.450 --> 02:27.650
+And why is that the case?
+
+02:27.730 --> 02:35.090
+Well, you know, when we start at zero, then if we want five numbers, we have to start at one integer
+
+02:35.090 --> 02:37.090
+below this point over here.
+
+02:38.010 --> 02:39.450
+So there is a logic to it.
+
+02:39.490 --> 02:44.290
+It's and it will become more natural as you work with Python more and more.
+
+02:44.570 --> 02:44.850
+Okay.
+
+02:44.890 --> 02:47.770
+So we call these exclusive upper bounds.
+
+02:47.770 --> 02:49.890
+I will write that out because that's quite a mouthful.
+
+02:49.890 --> 02:53.530
+So x exclusive upper bound.
+
+02:53.530 --> 02:55.610
+So this is the upper bound.
+
+02:55.610 --> 03:03.270
+And exclusive means that when Python is actually counting this number that we specify gets Excluded.
+
+03:03.710 --> 03:04.190
+Okay.
+
+03:04.230 --> 03:06.150
+Anyway, so now we have a list.
+
+03:06.150 --> 03:08.710
+I'm going to call this variable a list.
+
+03:08.710 --> 03:11.390
+And we can look at the variable a list.
+
+03:11.430 --> 03:14.150
+Or maybe if you prefer, you know I used a list before.
+
+03:14.150 --> 03:15.790
+Let's call this variable B list.
+
+03:15.790 --> 03:16.590
+How about that.
+
+03:17.070 --> 03:17.390
+Okay.
+
+03:17.430 --> 03:19.630
+So now we have this list.
+
+03:19.950 --> 03:22.550
+And the variable name is called b list.
+
+03:22.550 --> 03:30.590
+And now what I already introduced you to in a previous video is accessing individual elements of this
+
+03:30.590 --> 03:33.190
+list using indexing.
+
+03:33.430 --> 03:38.230
+So for example B list three is going to return.
+
+03:38.230 --> 03:39.470
+What is it going to return.
+
+03:39.630 --> 03:46.150
+Well if we think about the index three that's actually the fourth position because we start counting
+
+03:46.150 --> 03:46.910
+at zero.
+
+03:47.230 --> 03:52.950
+So this is the first element but it's index 0123.
+
+03:52.950 --> 04:00.550
+So in this case you know because we are counting here it ends up being this three gives us also an output
+
+04:00.550 --> 04:01.190
+of three.
+
+04:01.230 --> 04:06.620
+But do not be confused because this three and this three are completely different things.
+
+04:06.860 --> 04:16.940
+This three is an index into the list, whereas this three is the information stored at index location
+
+04:16.940 --> 04:17.380
+three.
+
+04:17.820 --> 04:20.420
+Okay, so that is just a little bit of review.
+
+04:20.460 --> 04:26.300
+What I want to show you now is something new in in indexing.
+
+04:26.620 --> 04:29.660
+So let's say we want to get this last element.
+
+04:29.700 --> 04:31.860
+Now it is the number four.
+
+04:31.900 --> 04:33.780
+And it also happens to be index four.
+
+04:33.780 --> 04:41.580
+So we could write this but let's say maybe we don't necessarily know exactly how long this list is.
+
+04:41.580 --> 04:44.380
+Exactly how many elements are in that list.
+
+04:44.900 --> 04:50.500
+So but we still you know, we want the last element anyway even though we don't know exactly how long
+
+04:50.500 --> 04:50.900
+it is.
+
+04:51.380 --> 04:58.060
+So indexing in Python has this nice feature where we can use negative numbers to index.
+
+04:58.500 --> 04:58.780
+Okay.
+
+04:58.820 --> 05:01.820
+So I can write negative one as the index.
+
+05:01.940 --> 05:09.000
+Now if you're new to indexing This might seem a little bit weird because if this is the zeroth index,
+
+05:09.000 --> 05:10.880
+then you know what happens to the left of this.
+
+05:10.920 --> 05:12.680
+Well, there's nothing to the left.
+
+05:12.680 --> 05:14.400
+There's no minus one over here.
+
+05:14.640 --> 05:21.600
+But what Python does and the way to think about this is the negative numbers are wrapping around the
+
+05:21.600 --> 05:22.160
+back.
+
+05:22.360 --> 05:29.800
+So negative one actually corresponds to this value because yeah you go all the way to the end and then
+
+05:29.800 --> 05:31.080
+you go minus one.
+
+05:31.400 --> 05:40.720
+So minus one here is also going to give us four because that is the the final element in this list.
+
+05:41.760 --> 05:44.520
+So therefore what do you think is going to be minus two.
+
+05:45.040 --> 05:48.080
+I'm sure you guessed the answer is going to be three.
+
+05:48.360 --> 05:49.760
+And why is this three.
+
+05:49.920 --> 05:53.200
+Because we are going minus two from the end.
+
+05:53.320 --> 05:56.240
+So this is minus one and this is minus two.
+
+05:56.280 --> 05:57.760
+And now this is an index.
+
+05:58.080 --> 06:05.500
+And so when we use the square brackets with this variable, this list that gives us not the element
+
+06:05.500 --> 06:10.140
+at the last position, but the element at the second to last position.
+
+06:10.140 --> 06:14.060
+So that is that element of that list is three.
+
+06:14.700 --> 06:15.020
+Okay.
+
+06:15.060 --> 06:20.260
+I want to show you something that is often a source of errors.
+
+06:20.500 --> 06:27.820
+Let's say you are you want to access the final element of this list B list.
+
+06:27.980 --> 06:35.060
+It's very it's a very easy mistake to make to use parentheses here, especially if you are coming from
+
+06:35.060 --> 06:36.620
+another programming language.
+
+06:36.620 --> 06:44.980
+If you worked in Matlab before, for example, this is how you index in Matlab with with parentheses
+
+06:44.980 --> 06:45.660
+like this.
+
+06:46.060 --> 06:49.780
+Here you will see this error list is not callable.
+
+06:50.020 --> 06:55.860
+Anytime you see an error message, if you're trying to index, if you see an error message that says
+
+06:55.860 --> 07:03.060
+something about, you know, object is not callable, then the first thing you should think of is oh,
+
+07:03.340 --> 07:06.250
+I accidentally used Parentheses.
+
+07:06.410 --> 07:09.410
+I probably meant to use square brackets.
+
+07:09.610 --> 07:09.930
+Okay.
+
+07:09.970 --> 07:12.810
+Very typical error message that you will see.
+
+07:13.450 --> 07:15.370
+Okay, so let's get this out of here.
+
+07:15.410 --> 07:18.370
+Get this error message out of there because it looks kind of ugly.
+
+07:18.810 --> 07:23.290
+And the next thing I want to show you is that you can also index using variables.
+
+07:23.410 --> 07:26.250
+So I'm going to create a variable ID.
+
+07:26.570 --> 07:31.770
+And then we can access this element in the list.
+
+07:31.810 --> 07:35.610
+Now this is nothing different from what I've done up here.
+
+07:35.610 --> 07:37.090
+Literally exactly the same.
+
+07:37.130 --> 07:40.290
+The only thing is that now I'm using a variable.
+
+07:40.450 --> 07:41.570
+And why is this useful?
+
+07:41.610 --> 07:48.290
+Because you will find very often that you need to define a particular index based on some calculation
+
+07:48.290 --> 07:49.770
+or based on a parameter.
+
+07:50.690 --> 07:58.370
+And then, you know, you might have like lots of code in, in here that you're running.
+
+07:58.370 --> 08:00.370
+And then you need to access this element.
+
+08:00.370 --> 08:02.890
+So you don't want to have to hard code it.
+
+08:02.890 --> 08:07.270
+You want it to be based on this variable that gets defined up here.
+
+08:07.910 --> 08:13.590
+There are two more things that I would like to show you about indexing in this video.
+
+08:13.750 --> 08:18.150
+One is that these indices must be integers.
+
+08:18.150 --> 08:26.590
+So for example, if I write 3.0 I'm going to get an error and it says the error message is at list indices
+
+08:26.590 --> 08:30.270
+must be integers or slices not float.
+
+08:30.630 --> 08:33.990
+And you know here you might think, well come on, that doesn't make sense.
+
+08:34.030 --> 08:36.110
+But because this is still three.
+
+08:36.310 --> 08:38.750
+But you know, we can imagine a case like this.
+
+08:38.750 --> 08:44.510
+What is the three point fourth index into a into a list.
+
+08:44.790 --> 08:45.070
+Okay.
+
+08:45.110 --> 08:47.270
+So this needs to be an integer.
+
+08:47.430 --> 08:54.190
+If you have a, you know, the outcome of some other calculation that turns out to be a whole number
+
+08:54.190 --> 08:58.710
+but is represented as a float, then you can do something like this.
+
+08:58.710 --> 08:59.870
+You can say int.
+
+08:59.870 --> 09:08.930
+So now I'm using the function int to convert this floating point number 3.0 Zero into the integer three,
+
+09:09.090 --> 09:11.730
+and then we get a result and that's fine.
+
+09:12.170 --> 09:12.450
+Okay.
+
+09:12.490 --> 09:18.130
+And then the last thing I want to show you before doing like a little pop quiz and then we'll get to
+
+09:18.170 --> 09:24.530
+the next video is, uh, what if you want to get multiple elements out of this list?
+
+09:24.530 --> 09:30.810
+So, you know, so far we've just been extracting single elements from this list.
+
+09:31.210 --> 09:35.810
+Uh, what if you want to get, let's say, the one and the three out of this list.
+
+09:36.090 --> 09:40.330
+Now you might think of doing something like this.
+
+09:40.330 --> 09:49.890
+So creating this variable ID to be a list of two indices that we want to extract, index one and index
+
+09:49.890 --> 09:50.450
+three.
+
+09:50.850 --> 09:55.610
+Now that seems like it should work but unfortunately it doesn't work.
+
+09:56.050 --> 10:01.810
+Uh, and it says the list indices must be integers or slices, not lists.
+
+10:01.810 --> 10:05.850
+This is actually exactly the same error message we saw before with 3.0.
+
+10:05.970 --> 10:07.560
+But there it said not float Load.
+
+10:07.800 --> 10:10.680
+Okay, so this, you know, seems like it should work.
+
+10:10.680 --> 10:18.560
+It turns out that we need to use slightly different methods to access multiple elements of a list.
+
+10:18.720 --> 10:22.400
+So in the next video, I'm going to tell you about slices.
+
+10:22.960 --> 10:29.520
+And a little bit later on when I introduce the numpy library, you will learn that you actually can
+
+10:29.520 --> 10:37.640
+use a approach that looks really, really similar to this when the variables are numpy arrays, uh,
+
+10:37.840 --> 10:40.920
+or PyTorch tensors and not lists.
+
+10:41.040 --> 10:46.560
+So this kind of syntax sort of works um, for different types of variables.
+
+10:47.640 --> 10:50.440
+But for now, suffice it to say that this does not work.
+
+10:50.600 --> 10:54.400
+Uh, but there are multiple ways to get something like this to work.
+
+10:54.920 --> 10:58.120
+Okay, so now I have a little pop quiz for you.
+
+10:58.600 --> 10:59.920
+Here is the pop quiz.
+
+10:59.920 --> 11:06.520
+So I have written down this list here, and I encourage you to pause the video and also write down this
+
+11:06.520 --> 11:08.160
+list so you have it as well.
+
+11:08.480 --> 11:13.500
+And now your goal in this pop quiz is to extract this word here.
+
+11:13.540 --> 11:16.900
+Yummy from this entire list.
+
+11:16.900 --> 11:18.060
+So how do you do that?
+
+11:18.060 --> 11:21.980
+How do you get this word yummy out of this list?
+
+11:22.140 --> 11:25.380
+So please pause the video and work through this little pop quiz.
+
+11:25.940 --> 11:26.980
+When you get stuck.
+
+11:27.100 --> 11:30.820
+Or if you have a solution, then you can come back to the video.
+
+11:30.940 --> 11:34.140
+And now I will show you how to access this.
+
+11:34.540 --> 11:41.420
+Okay, so this is tricky because we have a list with one two, three, four, five elements.
+
+11:41.420 --> 11:48.860
+There are five things stored in this list, but it's a lot of mixed type of information.
+
+11:49.180 --> 11:51.500
+So here we have an integer.
+
+11:51.500 --> 11:52.460
+Here we have a string.
+
+11:52.460 --> 11:54.980
+Here we have another list more string.
+
+11:54.980 --> 11:57.180
+And now this whole thing is a dictionary right.
+
+11:57.180 --> 12:01.420
+You recognize it as a dictionary because it has curly brackets.
+
+12:01.420 --> 12:03.980
+And also you can see the key value pairs.
+
+12:03.980 --> 12:08.300
+So key and then a colon and then the value.
+
+12:08.300 --> 12:12.050
+And then here's a comma to separate another key value pair.
+
+12:12.410 --> 12:16.130
+Okay, so first of all let's just extract this dictionary.
+
+12:16.450 --> 12:17.930
+So that's list list.
+
+12:17.930 --> 12:22.530
+And this is element 01234.
+
+12:22.530 --> 12:23.210
+So here you go.
+
+12:23.250 --> 12:26.330
+Element four gives us the dictionary.
+
+12:26.370 --> 12:29.290
+Oops I have to run this code gives us the dictionary.
+
+12:29.330 --> 12:32.770
+Now we have the dictionary and we want to extract the word yummy.
+
+12:33.050 --> 12:34.450
+Well what is this word yummy.
+
+12:34.490 --> 12:40.170
+It is the value that is associated with this key penguin.
+
+12:40.330 --> 12:45.370
+So we can use again square brackets and then penguin like this.
+
+12:45.730 --> 12:47.810
+And now we get the word yummy.
+
+12:47.970 --> 12:52.810
+Now I have never eaten a penguin and I'm pretty sure I never would.
+
+12:52.850 --> 12:55.530
+I mostly vegan actually, but.
+
+12:55.570 --> 12:59.570
+So I don't actually know if penguins are yummy, but they certainly are cute, just like squirrels are
+
+12:59.570 --> 12:59.970
+cute.
+
+13:00.530 --> 13:06.050
+Anyway, all of that madness aside, now you've learned more about indexing.
+
+13:06.050 --> 13:09.010
+In the next video, you will learn about slicing.

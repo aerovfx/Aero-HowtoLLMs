@@ -1,0 +1,337 @@
+WEBVTT
+
+00:02.080 --> 00:05.520
+Before moving on to the next several videos.
+
+00:05.520 --> 00:14.000
+In this section, I want to provide a definition and some examples of the distinction between a latent
+
+00:14.000 --> 00:16.440
+and a manifest variable.
+
+00:17.120 --> 00:22.680
+These are terms in statistics that are important for studying any complex system.
+
+00:23.240 --> 00:30.880
+And this distinction is particularly relevant for LMS and mechanistic interpretability, because in
+
+00:30.880 --> 00:38.800
+general we are usually not terribly interested in manifest variables themselves, but instead just use
+
+00:38.800 --> 00:45.120
+the manifest variables to try to measure or make inferences about latent constructs.
+
+00:45.720 --> 00:48.320
+So what do these two terms mean?
+
+00:49.120 --> 00:53.480
+A manifest variable is any variable that can be measured.
+
+00:53.880 --> 01:00.560
+It is something that you can quantify directly with numbers or that you can represent using numbers.
+
+01:01.170 --> 01:07.970
+You can think of variables like salary, height, calories in a meal, the number of seats in a sports
+
+01:07.970 --> 01:13.210
+stadium, things in the world that you can directly observe and measure.
+
+01:13.370 --> 01:15.650
+Those are manifest variables.
+
+01:16.410 --> 01:24.130
+Latent variables, on the other hand, are things that we believe exist, but we cannot directly measure
+
+01:24.130 --> 01:24.530
+them.
+
+01:25.170 --> 01:28.530
+This is often the case in psychological variables.
+
+01:29.290 --> 01:32.970
+For example, think of the concept of attention.
+
+01:33.450 --> 01:38.730
+You are probably paying attention right now, but what does attention actually mean?
+
+01:38.970 --> 01:40.130
+How do we measure it?
+
+01:40.610 --> 01:47.530
+Well, attention is a latent variable because it cannot be directly measured.
+
+01:48.050 --> 01:55.010
+We can measure manifest variables that we believe are related to attention, like test performance or
+
+01:55.130 --> 01:56.170
+eye movements.
+
+01:56.610 --> 02:01.830
+And then we can try to infer attention from the manifest variables.
+
+02:02.350 --> 02:08.310
+For example, if you and I are in a conversation face to face and you're looking at me, we're making
+
+02:08.310 --> 02:12.670
+eye contact, then I assume that you are paying attention to me.
+
+02:13.230 --> 02:18.870
+Of course, latent variables do not necessarily correlate perfectly with manifest variables.
+
+02:19.310 --> 02:21.430
+You could be looking directly at me.
+
+02:21.430 --> 02:23.790
+You could be making eye contact with me.
+
+02:23.950 --> 02:29.550
+That's a manifest variable that I can measure and yet not paying any attention to what I'm saying.
+
+02:30.510 --> 02:34.510
+Okay, let me give you a few more examples to make sure this is concrete.
+
+02:35.150 --> 02:41.750
+So a manifest variable could be someone's self-reported score on a questionnaire.
+
+02:41.790 --> 02:45.630
+For example, the question do you enjoy meeting new people.
+
+02:45.790 --> 02:48.790
+And you can answer that between 1 and 9.
+
+02:49.230 --> 02:55.350
+Now the thing is no one is really interested in a number to this question.
+
+02:55.870 --> 03:04.920
+Instead, people are interested in personality traits such as extraversion, but extraversion is a latent
+
+03:04.920 --> 03:05.640
+variable.
+
+03:05.680 --> 03:07.880
+It cannot be measured directly.
+
+03:08.240 --> 03:13.920
+And, you know, we don't know where in the brain and the body this construct actually exists.
+
+03:14.520 --> 03:21.560
+So instead, scientists will measure manifest variables that they believe are related to this latent
+
+03:21.560 --> 03:28.240
+construct, and then make inferences about the latent variable based on the manifest variable.
+
+03:29.360 --> 03:33.520
+By the way, in the previous slide I called this latent variable.
+
+03:33.880 --> 03:36.240
+Here I'm calling it a latent construct.
+
+03:36.400 --> 03:38.240
+People use different terms here.
+
+03:38.240 --> 03:44.400
+And so I'm going to keep cycling through different terminologies just to make sure you are familiar
+
+03:44.400 --> 03:48.240
+with various terms that are used for latent sources.
+
+03:49.120 --> 03:50.960
+So here is another example.
+
+03:51.120 --> 03:55.120
+There is a latent factor called cardiovascular health.
+
+03:55.560 --> 03:59.960
+Lots of people are interested in their cardiovascular health.
+
+04:00.700 --> 04:06.140
+and the people who aren't interested probably should be more interested in their cardiovascular health.
+
+04:06.540 --> 04:11.700
+But cardiovascular health is not something that we can directly measure or observe.
+
+04:12.300 --> 04:19.220
+So instead, you can go to the doctor and measure other manifest variables like heart rate dynamics,
+
+04:19.220 --> 04:20.780
+blood pressure, and so on.
+
+04:21.860 --> 04:27.660
+So the idea again is that we don't really care about the manifest variables themselves.
+
+04:28.020 --> 04:36.180
+Instead, we just use the manifest variables as a way to try to estimate and understand properties of
+
+04:36.180 --> 04:37.740
+this latent factor.
+
+04:38.380 --> 04:45.260
+So we measure the manifest variables and then we make inferences about the latent factors.
+
+04:46.020 --> 04:49.260
+Of course another famous example is intelligence.
+
+04:49.660 --> 04:57.260
+We do not really know exactly what intelligence is or what it means for a brain or a person, for it
+
+04:57.260 --> 04:59.700
+to be more or less intelligent.
+
+05:00.120 --> 05:07.040
+So instead we measure manifest variables like grades in school, performance in exams, maybe other
+
+05:07.040 --> 05:11.280
+factors like income or job performance reviews.
+
+05:11.480 --> 05:18.280
+And we take those manifest variables as indicators of a latent construct that we call intelligence.
+
+05:19.560 --> 05:26.200
+And I am sure that you are fully aware that this is highly imperfect, meaning you can have very intelligent
+
+05:26.200 --> 05:32.840
+people who are not successful in a particular job, or maybe they don't do well on a particular exam.
+
+05:33.520 --> 05:39.160
+And I'm sure you can also think of some examples of people who are not very intelligent and yet can
+
+05:39.160 --> 05:42.280
+become very successful in their career.
+
+05:43.080 --> 05:51.520
+Anyway, more germane to llms and interpretability and AI safety, we want to know, for example, what
+
+05:51.560 --> 06:00.290
+a given law understands about the world, but we do not know what that means exactly or how to measure
+
+06:00.290 --> 06:00.730
+it.
+
+06:00.730 --> 06:06.610
+So we do the best we can by measuring manifest variables that we have access to.
+
+06:06.970 --> 06:11.970
+For example activation values or output logits for next token predictions.
+
+06:12.730 --> 06:19.850
+So these are the quantities in the models that have numbers we can extract and analyze.
+
+06:19.970 --> 06:26.290
+And then we use those numbers, perform some statistical analyses and then try to make some inferences
+
+06:26.290 --> 06:31.250
+about things that are important to understand, but that we cannot measure directly.
+
+06:31.730 --> 06:38.890
+I have stated multiple times that we use manifest variables to make inferences about latent factors.
+
+06:39.890 --> 06:42.210
+What does that really mean and how does it work?
+
+06:42.810 --> 06:49.450
+So the idea is that there is some latent variable existing in some platonic world.
+
+06:49.850 --> 06:54.170
+And we want to understand that latent variable, but we cannot measure it.
+
+06:54.450 --> 06:59.210
+But we do have access to lots of manifest variables.
+
+06:59.390 --> 07:06.350
+For example, the activations of neurons in an MLP expansion layer in, I don't know, transformer block
+
+07:06.350 --> 07:06.910
+seven.
+
+07:07.630 --> 07:15.270
+So the idea is that we take this information and we combine it in some way, like taking a linear weighted
+
+07:15.270 --> 07:16.270
+combination.
+
+07:16.550 --> 07:19.910
+Or perhaps there are some nonlinearities in here as well.
+
+07:20.110 --> 07:24.950
+But somehow we statistically pool all of this information together.
+
+07:25.910 --> 07:30.870
+And that is our inferred measurement of the latent variable.
+
+07:31.550 --> 07:38.390
+Now, there are quite a few possible analysis methods that have been developed in statistics and in
+
+07:38.390 --> 07:42.350
+machine learning for estimating latent factors.
+
+07:42.830 --> 07:46.190
+And here's a non-exhaustive list of some of them.
+
+07:46.510 --> 07:49.830
+These analyses are all different from each other.
+
+07:50.190 --> 07:52.150
+They all rely on different equations.
+
+07:52.150 --> 07:58.590
+They make different assumptions, and they have different statistical procedures, but they're all focused
+
+07:58.590 --> 08:06.640
+on the same goal, which is to transform a collection of manifest variables into a latent factor.
+
+08:08.160 --> 08:15.840
+And all of these analyses also suffer from the same fundamental difficulty, which is that these latent
+
+08:15.840 --> 08:22.400
+factors are not directly observable, and therefore we can never really know if we are combining the
+
+08:22.400 --> 08:24.800
+manifest variables in the right way.
+
+08:25.640 --> 08:28.960
+Of course, there are statistical and validity checks.
+
+08:28.960 --> 08:32.480
+There are things like common sense and critical thinking.
+
+08:32.680 --> 08:35.960
+So it's not like we're completely in the dark about these analyses.
+
+08:35.960 --> 08:43.840
+But my point is, it's hard to know if we are applying an analysis that gives us a good approximation
+
+08:44.040 --> 08:49.720
+or a bad approximation to the latent variable that we really are interested in.
+
+08:51.080 --> 08:57.000
+Now, very often good experiment design and validation in a separate test set.
+
+08:57.120 --> 09:03.460
+These are good ways to ascertain the validity of these analyses, but it's just a hard problem in general.
+
+09:04.540 --> 09:11.740
+Over the next several videos, I will introduce you to two specific methods for inferring the existence
+
+09:11.740 --> 09:16.500
+and dynamics of latent variables based on manifest variables.
+
+09:16.820 --> 09:21.660
+Those are sparse autoencoders and generalized eigen decomposition.
+
+09:22.580 --> 09:24.900
+So that's it for this overview video.
+
+09:25.140 --> 09:31.620
+The important take home point is that estimating latent variables is important but tricky.
+
+09:32.100 --> 09:40.380
+That is true in general for any complex system, and it is particularly true in the context of AI safety
+
+09:40.740 --> 09:48.620
+because concepts like deception, hallucinations, flattery, and other dangerous behaviors, these
+
+09:48.620 --> 09:56.220
+are all latent constructs that cannot be directly measured, but instead must be inferred from model
+
+09:56.220 --> 09:58.180
+weights and activations.

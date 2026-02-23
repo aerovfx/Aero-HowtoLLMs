@@ -1,0 +1,1093 @@
+WEBVTT
+
+00:02.360 --> 00:09.840
+The goal of this tutorial video is to show you how to create special functions that you can implant
+
+00:09.960 --> 00:12.440
+into PyTorch models.
+
+00:12.880 --> 00:19.240
+In principle, you can do basically anything you want inside those functions with the internals of the
+
+00:19.240 --> 00:24.400
+model, including transforming them, visualizing them, or changing them.
+
+00:24.880 --> 00:31.440
+What we are going to do with these hooks for this and the next several sections, is to extract the
+
+00:31.440 --> 00:34.040
+activations from inside the model.
+
+00:34.520 --> 00:42.360
+This is a vital approach for anything related to interpretability, or really any kind of investigative
+
+00:42.360 --> 00:46.080
+work into the internal workings of LMS.
+
+00:46.960 --> 00:53.600
+So you already know how to get all the weights, the trainable parameters from anywhere in the model.
+
+00:54.320 --> 01:01.490
+Of course, you know how to get the final output logits at the end of the model feedforward process
+
+01:01.650 --> 01:06.850
+that's simply the output of the model when you input a sequence of tokens.
+
+01:07.250 --> 01:14.850
+And I have previously showed you how to get the outputs of different transformer blocks using the output
+
+01:15.130 --> 01:17.090
+hidden States option.
+
+01:17.530 --> 01:24.970
+But so far in this course, I haven't taught you how to get the activations from inside a transformer
+
+01:24.970 --> 01:25.530
+block.
+
+01:25.690 --> 01:32.730
+For example, the individual activations matrices from the attention or MLP layers.
+
+01:33.170 --> 01:35.930
+And that is what you do with hooks.
+
+01:36.330 --> 01:44.370
+Once you learn how to create and implant hooks, you can access literally any number you want from anywhere
+
+01:44.370 --> 01:45.250
+in the model.
+
+01:46.690 --> 01:52.050
+Now, there isn't really any theory in this lecture, so let me just tell you what we're going to do.
+
+01:52.250 --> 01:53.810
+In the code demo.
+
+01:54.250 --> 02:01.060
+I will show you how to implant hooks into the model to extract the Q matrix activation.
+
+02:01.660 --> 02:07.380
+Now, there isn't anything particularly unique or special about the Q activations here.
+
+02:07.380 --> 02:11.300
+You can do this with any other activations anywhere in the model.
+
+02:11.340 --> 02:16.060
+I'm just using the Q activations from a particular layer as an example.
+
+02:16.620 --> 02:20.740
+Anyway, here you see what a hook function looks like.
+
+02:21.100 --> 02:27.500
+I'll explain what all of these variables mean in the Python demo, but basically the idea is that I
+
+02:27.540 --> 02:37.300
+am extracting the activations matrix and then getting the first third of that matrix of the dimensions,
+
+02:37.300 --> 02:41.140
+and that corresponds to just the activations.
+
+02:41.700 --> 02:49.700
+You will remember from when I introduced you to the attention mechanism that the activations are tokens
+
+02:49.700 --> 02:51.700
+by embedding dimensions.
+
+02:52.060 --> 02:55.060
+So here I store that in a dictionary.
+
+02:55.340 --> 03:01.910
+And down here I use some methods on the model to implant this hook function.
+
+03:02.510 --> 03:09.950
+So after creating and implanting a couple of hooks in the Python demo, we can then check out the activations.
+
+03:10.270 --> 03:15.310
+For example, here you see some uh, q matrix activations.
+
+03:15.310 --> 03:20.310
+This one is of size one by six by 768.
+
+03:20.750 --> 03:26.230
+That corresponds to one sequence, or one batch that is six tokens long.
+
+03:26.230 --> 03:32.670
+And of course there are 768 embeddings dimensions in GPT two small.
+
+03:33.310 --> 03:37.030
+So here you see what those activations actually look like.
+
+03:37.230 --> 03:44.230
+And you can see that I implanted two hooks, one in layer five and one in layer seven.
+
+03:44.710 --> 03:47.630
+Once we have these data, we can start exploring them.
+
+03:47.950 --> 03:50.470
+In this video I'll keep it pretty simple.
+
+03:50.470 --> 03:56.270
+We'll just create a scatter plot just so you can see what it looks like to work with hooked data.
+
+03:56.790 --> 04:04.610
+So this is the activations for two separate tokens across all of the Q matrix neurons.
+
+04:05.170 --> 04:12.090
+There are a few other important things to know about hooks, like whether the data get replaced or concatenated
+
+04:12.090 --> 04:18.250
+each time you run a new forward pass in the model, and also how to remove hooks that you've already
+
+04:18.250 --> 04:19.090
+implanted.
+
+04:19.730 --> 04:26.050
+It turns out that hooks can lead to a bit of a performance decrease, depending on how much code happens
+
+04:26.050 --> 04:27.170
+inside the hook.
+
+04:27.410 --> 04:32.890
+So in general, you really only want to have hooks in the model when you actually need them.
+
+04:33.530 --> 04:39.770
+Well, I'm sure you're excited to learn all about accessing all of the model's internals, so let's
+
+04:39.770 --> 04:41.570
+now switch to Python.
+
+04:42.570 --> 04:48.930
+Here I am importing the GPT two model and switching it into eval mode.
+
+04:48.930 --> 04:51.570
+And I just put this in a separate cell.
+
+04:51.570 --> 04:54.970
+So we can also see this architecture description.
+
+04:54.970 --> 05:02.260
+We will be referring back to this A few other times in this, uh, in this code demo, and I'm also
+
+05:02.260 --> 05:04.820
+showing you the config file for this model.
+
+05:04.820 --> 05:11.620
+We will also use some of these variables here, but it's also just another reminder of all of the useful
+
+05:11.660 --> 05:17.020
+meta information about a model that you can get from model config.
+
+05:17.140 --> 05:21.340
+For example, model config and context.
+
+05:21.380 --> 05:25.460
+This tells you how many token the maximum token capacity.
+
+05:25.700 --> 05:28.820
+This corresponds to the number of attention heads.
+
+05:28.820 --> 05:33.100
+And here we have the number of layers, the number of transformers, and so on.
+
+05:33.540 --> 05:40.220
+Okay, so now what I'm going to do is before actually introducing you to hooks, I want to show you
+
+05:40.220 --> 05:45.140
+what's a different way that you can access some of the internals from the model.
+
+05:45.420 --> 05:52.220
+Now you already know that you can use code that looks like this to extract the weights of a particular
+
+05:52.220 --> 05:53.700
+piece of the model.
+
+05:53.700 --> 05:58.350
+So let's say we want to get the weights for this here.
+
+05:58.350 --> 06:08.350
+So for the q, k, v weights matrices in the attention block from some particular transformer block.
+
+06:08.710 --> 06:11.870
+Well you already know how we can access those weights.
+
+06:11.990 --> 06:13.950
+And that's by writing model.
+
+06:13.950 --> 06:16.510
+Whatever is the variable for the model that h.
+
+06:16.550 --> 06:23.430
+These are all the transformer blocks H is for hidden three would give us the fourth transformer block
+
+06:23.670 --> 06:25.710
+because we start counting at zero.
+
+06:26.070 --> 06:29.590
+And then we have the attention sub block and then C attention.
+
+06:29.590 --> 06:36.910
+And now what I'm doing here is just making up some random input and pushing it through all of these
+
+06:36.950 --> 06:37.670
+weights.
+
+06:37.670 --> 06:40.710
+And then I'm getting out the first third of those.
+
+06:40.750 --> 06:43.390
+And that corresponds to the Q activation.
+
+06:43.790 --> 06:44.150
+Okay.
+
+06:44.190 --> 06:45.110
+So uh, yeah.
+
+06:45.110 --> 06:49.790
+So here I get this variable embed dimension from Modelconfig.
+
+06:50.750 --> 06:54.310
+This of course is going to be 768.
+
+06:54.710 --> 06:58.920
+So this random embeddings matrix is one by 20.
+
+06:59.000 --> 07:04.120
+That's as if we have 20 tokens that we push through the model.
+
+07:04.120 --> 07:07.680
+So a sequence of 20 tokens and there's only one sequence.
+
+07:07.680 --> 07:09.480
+So it's a batch size of one.
+
+07:10.000 --> 07:16.400
+So these would be the activations that have passed through the token and position embeddings.
+
+07:16.400 --> 07:19.360
+The first two uh transformer blocks.
+
+07:19.360 --> 07:23.880
+And now we have this transformer block push those data through here.
+
+07:23.880 --> 07:31.840
+And then yeah we get the output and we can isolate the activations which are 20 by 768.
+
+07:32.080 --> 07:38.640
+Uh, and again yeah, that's 20 tokens and 768 dimensions in the Q matrix.
+
+07:39.120 --> 07:46.560
+Now the thing is, you know, this is for, uh, just the activations here that I came up with randomly,
+
+07:46.560 --> 07:53.200
+if you actually want to trace real activations coming from real text, that really gets tokenized and
+
+07:53.200 --> 07:59.250
+you just want to get the activations from this Q matrix from this hidden layer.
+
+07:59.450 --> 08:03.250
+What you would need to do is basically code that looks like this.
+
+08:03.570 --> 08:10.330
+But you'd have to repeat that for the attention and the MLP for the first transformer and the second
+
+08:10.330 --> 08:11.250
+transformer.
+
+08:11.410 --> 08:14.290
+And of course you'd have to do all the embeddings like this.
+
+08:14.290 --> 08:19.610
+That would be a lot of code just to get this from one actual forward pass.
+
+08:19.890 --> 08:23.290
+Not with using random data, but with using real tokens.
+
+08:23.730 --> 08:28.810
+So yeah, I just want to show you this because this is totally, utterly pointless.
+
+08:28.810 --> 08:37.050
+You do not want to really get data from the model using a string of lines of code to do an entire forward
+
+08:37.050 --> 08:37.930
+pass like this.
+
+08:37.930 --> 08:39.770
+It's just too much to keep track of.
+
+08:40.170 --> 08:45.530
+So that is the motivation for implanting a hook into the model.
+
+08:45.850 --> 08:47.530
+Here I'm showing two websites.
+
+08:47.530 --> 08:57.900
+This is Pytorch's explanation about these hooks and this Stack Overflow post I just found to be a pretty
+
+08:57.900 --> 09:02.580
+nice exchange that explains how the hooks work in PyTorch.
+
+09:02.580 --> 09:05.780
+So this is for further reading if you are interested.
+
+09:06.380 --> 09:09.180
+Okay, so now I'm going to define a hook.
+
+09:09.180 --> 09:13.980
+So a hook is a function that we implant into the model.
+
+09:14.380 --> 09:17.660
+So I will talk about this outer function in a moment.
+
+09:17.660 --> 09:25.820
+But it's basically just a way to allow us to specify a variable inside this hook where we can specify
+
+09:25.820 --> 09:27.300
+the layer that.
+
+09:27.340 --> 09:31.860
+So we can soft code the layer that we want to implant this hook into.
+
+09:32.820 --> 09:34.020
+So here's the main function.
+
+09:34.020 --> 09:35.620
+So you have this hook function.
+
+09:35.780 --> 09:39.860
+You have three inputs here module input and output.
+
+09:40.100 --> 09:44.540
+The module is the name of the layer that the hook is attached to.
+
+09:45.340 --> 09:48.580
+And that would correspond to if I scroll up here.
+
+09:48.580 --> 09:49.620
+So all of this.
+
+09:49.620 --> 09:53.560
+So this piece of text here would be B module.
+
+09:54.400 --> 10:00.960
+And then we have the input which is the inputs into that layer during the forward pass.
+
+10:00.960 --> 10:04.200
+And the outputs are the outputs from that layer.
+
+10:04.560 --> 10:05.040
+Okay.
+
+10:05.240 --> 10:11.640
+So then what I do here is I say so I push the input through C attention.
+
+10:11.640 --> 10:12.800
+So that's the beginning.
+
+10:12.960 --> 10:20.840
+That's where we calculate the q, k and v activations based on the unique inputs that are coming in
+
+10:20.840 --> 10:22.200
+from the tokens.
+
+10:22.480 --> 10:30.640
+Uh, the input into the model, multiplying the wq, the w k and the w v matrices.
+
+10:30.840 --> 10:37.920
+And you will remember from earlier in this course when I introduced the attention algorithm that uh,
+
+10:37.920 --> 10:45.520
+in open AI format, these are stored as a three times embeddings dimension matrix where it's the Q matrix,
+
+10:45.520 --> 10:48.200
+and then the k matrix and then the V matrix.
+
+10:48.880 --> 10:49.360
+Okay.
+
+10:49.400 --> 10:52.320
+So here I get the qkv activations.
+
+10:52.370 --> 10:52.770
+Here.
+
+10:52.770 --> 11:03.090
+I'm extracting the activations only from the first 768 dimensions of this third chunk of this tensor
+
+11:03.090 --> 11:03.490
+here.
+
+11:03.490 --> 11:07.050
+And so this gives me the activations.
+
+11:07.250 --> 11:07.610
+All right.
+
+11:07.650 --> 11:11.970
+And then I am just storing it into this dictionary here.
+
+11:11.970 --> 11:15.250
+So this is a dictionary that I initialized up here.
+
+11:15.250 --> 11:18.890
+You can see it's a dictionary because it has curly brackets.
+
+11:19.210 --> 11:23.530
+And then here yeah the key of this dictionary is attention.
+
+11:23.530 --> 11:29.810
+And then the layer num and then Q and then I set that to be equal to this value over here.
+
+11:30.290 --> 11:36.850
+Here's just a note where I'm explaining that we are not taking the output of the entire layer.
+
+11:36.850 --> 11:44.930
+If you want the output of the entire C attention layer, that would correspond to scroll back up here
+
+11:45.170 --> 11:46.690
+the output of this.
+
+11:46.690 --> 11:52.580
+So right before we multiply by the projection the w0 Zero matrix.
+
+11:52.580 --> 11:59.660
+If you wanted the entire output of all of this attention mechanism here, that would actually be this
+
+11:59.660 --> 12:01.060
+variable output here.
+
+12:01.060 --> 12:03.980
+And if that's all you want, then that's fine.
+
+12:03.980 --> 12:08.420
+And you could do you could run a line of code that looks like this.
+
+12:08.620 --> 12:14.540
+In fact, you can leave this uncommented if you like, because there's not going to be any name conflicts
+
+12:14.540 --> 12:15.220
+over here.
+
+12:15.620 --> 12:22.020
+So this will get the just the queue activations and this gets the output of this layer.
+
+12:22.460 --> 12:22.780
+Okay.
+
+12:22.820 --> 12:25.540
+And that is the end of this hook function.
+
+12:25.660 --> 12:30.500
+Now you do not always need to have an outer function here called implant hook.
+
+12:30.700 --> 12:37.780
+This is convenient if you want to be able to soft code which layer of the model you want to put this
+
+12:37.820 --> 12:41.580
+into, and that you can see I do down here.
+
+12:41.580 --> 12:43.300
+So I define these two layers.
+
+12:43.300 --> 12:48.180
+So I'm going to implant two hooks into layer five.
+
+12:48.180 --> 12:52.790
+So transformer block five transformer block index seven.
+
+12:52.790 --> 12:56.830
+So it's actually the sixth and the eighth, uh, transformer block.
+
+12:57.030 --> 12:59.750
+And here is the key line of code where I'm implanting it.
+
+12:59.750 --> 13:01.550
+So model dot h.
+
+13:01.590 --> 13:03.630
+This is where I want to implant it.
+
+13:03.830 --> 13:05.670
+Dot register forward hook.
+
+13:05.710 --> 13:10.750
+This is a special method that comes with PyTorch models.
+
+13:10.990 --> 13:12.670
+So register forward hook.
+
+13:12.710 --> 13:16.350
+And then I call the name of the function that I want to use.
+
+13:16.350 --> 13:21.550
+So in this case I'm calling that outer function and inputting the name of the layer.
+
+13:21.830 --> 13:25.590
+And that outer function is just a really simple wrapper.
+
+13:25.750 --> 13:26.750
+It does nothing.
+
+13:26.750 --> 13:31.750
+It just allows me to have this layer number soft coded.
+
+13:32.270 --> 13:32.630
+Okay.
+
+13:32.670 --> 13:39.510
+So uh here I have the output of this method register forward hook is I'm calling this handles.
+
+13:39.510 --> 13:42.470
+These are just pointers to those functions.
+
+13:42.470 --> 13:43.350
+In the model.
+
+13:43.350 --> 13:45.110
+You do not actually need those.
+
+13:45.110 --> 13:47.030
+You can just write the code like this.
+
+13:47.190 --> 13:48.630
+That is completely fine.
+
+13:49.110 --> 13:54.920
+Uh if you would want to have handles, so you would want to have the output of this register forward
+
+13:54.920 --> 14:02.640
+hook function if you want to remove that hook later on, which is sometimes a good idea, sometimes
+
+14:02.640 --> 14:03.720
+not necessary.
+
+14:03.960 --> 14:06.760
+Here, I'm doing it just to show you how it works.
+
+14:07.040 --> 14:09.120
+Okay, so we can run that here.
+
+14:09.120 --> 14:12.920
+I'm using this function here or this method forward hooks.
+
+14:12.920 --> 14:16.760
+This just shows me all the hooks that I have implanted in here.
+
+14:16.760 --> 14:21.360
+This is basically just confirmation that this code actually worked.
+
+14:22.120 --> 14:24.800
+So now we have the hooks implanted.
+
+14:24.800 --> 14:26.920
+And how do we actually use them?
+
+14:26.920 --> 14:29.800
+How can we get data out of those hooks?
+
+14:30.280 --> 14:33.720
+So here, uh, I am coming up with some text.
+
+14:33.720 --> 14:41.040
+I think I was not feeling particularly creative when I wrote this code cell, but anyway, now I'm tokenizing
+
+14:41.040 --> 14:45.640
+the text and passing it into the model to get the outputs.
+
+14:45.640 --> 14:48.320
+So maybe the hooked activations.
+
+14:48.320 --> 14:50.930
+Remember this is called activations.
+
+14:50.930 --> 14:53.130
+I have this dictionary activations.
+
+14:53.130 --> 14:58.010
+Maybe those activations are attached to the output of the model.
+
+14:58.450 --> 15:01.010
+Well you can already see that it's not going to be in here.
+
+15:01.010 --> 15:06.370
+So here I'm just showing all of the attributes that are associated with this output object.
+
+15:06.370 --> 15:10.250
+And activations does not appear anywhere in there.
+
+15:10.530 --> 15:12.290
+But they are in that dictionary.
+
+15:12.290 --> 15:15.890
+They're just in the main Python workspace.
+
+15:15.890 --> 15:17.890
+So here we see a dictionary.
+
+15:17.930 --> 15:26.690
+It contains several keys including attention five Q attention output five, and attention seven q and
+
+15:26.730 --> 15:27.450
+yeah, and so on.
+
+15:27.450 --> 15:30.730
+So these are the hooks that I have implanted.
+
+15:31.170 --> 15:35.330
+So then we can basically just check the size of these.
+
+15:35.650 --> 15:43.930
+So this one particular activations from transformer block five and the Q activations the size of that
+
+15:43.930 --> 15:54.660
+is one by six by 768 corresponding to one batch, one sequence, six tokens, and of course 768 dimensions
+
+15:54.660 --> 15:57.460
+or elements in the Q matrix.
+
+15:58.100 --> 15:58.380
+Okay.
+
+15:58.420 --> 16:05.660
+So what I want to show you now is that the way that I have coded the hook means that the hooked data
+
+16:05.660 --> 16:09.580
+are replaced every time you run a forward pass.
+
+16:09.780 --> 16:16.180
+And you can kind of already see that that's going to be the case when you look at this code here.
+
+16:16.180 --> 16:23.500
+So every time this hook goes, it's not appending, it's not creating some new element in this dictionary.
+
+16:23.500 --> 16:25.940
+Instead it's literally just replacing.
+
+16:26.140 --> 16:31.700
+So as long as this name stays the same, which of course it is because the hook is already in there
+
+16:31.700 --> 16:32.900
+for this layer number.
+
+16:33.180 --> 16:40.300
+Then each time we do a forward pass through the model, this these data will get overwritten with whatever
+
+16:40.300 --> 16:42.700
+was the most recent forward pass.
+
+16:43.700 --> 16:46.140
+Okay, so that makes sense when looking at the code.
+
+16:46.140 --> 16:52.400
+But it's one thing for, you know, for you to think that code works a certain way just by looking at
+
+16:52.400 --> 16:52.920
+it.
+
+16:52.920 --> 16:56.360
+And it's always nice to have some real confirmation.
+
+16:56.560 --> 16:56.800
+Okay.
+
+16:56.840 --> 16:58.040
+And that's what I do here.
+
+16:58.160 --> 17:03.440
+So here I am printing out the activations from the previous run.
+
+17:03.440 --> 17:08.040
+In fact, it might be easier if I do it like this.
+
+17:08.360 --> 17:08.720
+Okay.
+
+17:08.760 --> 17:13.040
+So this is the activations for the code that we already ran.
+
+17:13.200 --> 17:17.480
+And this is another this is a different sentence.
+
+17:17.960 --> 17:20.880
+And then I'm pushing those tokens through the model.
+
+17:20.880 --> 17:24.360
+And then I'm outputting exactly the same layer.
+
+17:24.360 --> 17:26.480
+So all the same Q activations.
+
+17:26.480 --> 17:28.120
+And let's see what they look like.
+
+17:28.560 --> 17:34.640
+So here we see yeah this is the first run and the second feedforward sweep with different tokens.
+
+17:35.080 --> 17:36.760
+So these are the same.
+
+17:36.760 --> 17:39.240
+These tokens are the same as these tokens.
+
+17:39.600 --> 17:42.520
+These tokens are the same as these tokens.
+
+17:42.640 --> 17:43.960
+And now these tokens.
+
+17:43.960 --> 17:46.800
+This row is different from this row.
+
+17:47.210 --> 17:48.690
+So why is that the case?
+
+17:48.690 --> 17:51.410
+I said that they get replaced entirely.
+
+17:51.410 --> 17:52.370
+We looked at the code.
+
+17:52.370 --> 17:55.690
+It certainly seems like the activations are being overwritten.
+
+17:55.890 --> 18:00.930
+And yet here the first two rows seem to be identical to these two rows here.
+
+18:01.570 --> 18:02.490
+Is there something wrong?
+
+18:02.530 --> 18:04.170
+Can you figure out what's going on?
+
+18:04.650 --> 18:11.330
+So what's going on here is that let's have a look at what are the tokens that I actually pass through.
+
+18:12.090 --> 18:19.210
+So the first time I ran a forward pass it was this is an example sentence.
+
+18:19.370 --> 18:25.610
+And then the second time I ran a forward pass it is this is a different sentence.
+
+18:25.610 --> 18:31.090
+So the first two tokens are actually identical in the first time.
+
+18:31.250 --> 18:32.810
+And the second run here.
+
+18:33.010 --> 18:36.130
+So of course the first two rows will be the same.
+
+18:36.130 --> 18:38.570
+At least you know at this level of precision.
+
+18:38.570 --> 18:41.730
+And then here is where the tokens are different.
+
+18:41.730 --> 18:49.100
+So of course the processing in the Q matrix is different Anyway, the important point here is that the
+
+18:49.100 --> 18:55.540
+way that I have written the hook function, once you run through a forward pass, once when you run
+
+18:55.540 --> 18:59.220
+through another forward pass, you push more tokens through the model.
+
+18:59.380 --> 19:02.740
+The previous data are completely lost.
+
+19:02.740 --> 19:04.020
+They are overwritten.
+
+19:04.020 --> 19:08.700
+We cannot go back and access the first run of tokens.
+
+19:08.860 --> 19:12.620
+That's not necessarily a bad thing, but just something to keep in mind.
+
+19:12.940 --> 19:19.780
+In a moment I will show you how to change the hook definition if you really want to save all of the
+
+19:19.780 --> 19:21.420
+previous activations.
+
+19:21.420 --> 19:25.900
+But first, for the moment I want to just do some visualizations.
+
+19:25.900 --> 19:29.220
+So here this is what I showed in the slides.
+
+19:29.220 --> 19:32.060
+So this is the activation to the token different.
+
+19:32.060 --> 19:34.620
+And this is the activation to the token A.
+
+19:34.900 --> 19:41.740
+And yeah this is from the activation of the different uh Q elements in layer five.
+
+19:42.060 --> 19:48.470
+I'm not going to make any interpretations about this I just to show you that it's really easy to work
+
+19:48.470 --> 19:55.230
+with these data, to visualize them, to process them, to do some mechanistic interpretability analysis
+
+19:55.230 --> 19:59.310
+on them once you have extracted the data from the hook.
+
+19:59.830 --> 20:02.630
+And here I'm also just showing some more results.
+
+20:02.630 --> 20:08.550
+These are correlation coefficients across all of the tokens from the cube matrix.
+
+20:08.910 --> 20:16.270
+Pretty interesting to see that the first token is basically mostly uncorrelated with all of the other
+
+20:16.270 --> 20:17.030
+tokens.
+
+20:17.150 --> 20:20.950
+You can see this color corresponds to somewhere around zero.
+
+20:21.110 --> 20:28.150
+It's not exactly zero, but it's going to be at least pretty small, certainly relative to the intercorrelations
+
+20:28.150 --> 20:32.830
+across the other pairs of tokens in this sequence.
+
+20:33.030 --> 20:34.870
+And that is not really surprising.
+
+20:34.910 --> 20:40.550
+Remember that when the model sees the first token in a sequence, it just doesn't really know what to
+
+20:40.590 --> 20:41.030
+make of it.
+
+20:41.030 --> 20:42.150
+There's no context.
+
+20:42.150 --> 20:44.030
+There's no preceding context.
+
+20:44.030 --> 20:44.160
+Text.
+
+20:44.640 --> 20:52.320
+The model just has exactly one token to use, and it's trying to predict the next token with no context
+
+20:52.320 --> 20:53.160
+whatsoever.
+
+20:53.160 --> 20:55.040
+So that's just an impossible task.
+
+20:55.280 --> 21:02.160
+So by the time you get to the second token now, the model can start leveraging its world knowledge
+
+21:02.160 --> 21:08.320
+and the context from previous tokens to start making some, generating some predictions and looking
+
+21:08.320 --> 21:11.320
+at some interactions across the different tokens.
+
+21:11.720 --> 21:17.120
+Okay, now I want to show you how to remove hooks that you have implanted.
+
+21:17.240 --> 21:18.280
+It's very easy.
+
+21:18.280 --> 21:26.960
+If you have an output of the hook function, then you can just do you can use the dot remove method
+
+21:26.960 --> 21:28.360
+and that removes the hook.
+
+21:28.400 --> 21:34.320
+Now keep in mind this is not actually deleting the variable activations.
+
+21:34.320 --> 21:35.200
+That's a dictionary.
+
+21:35.240 --> 21:40.840
+It just exists in the Python workspace independent of the model itself.
+
+21:41.080 --> 21:48.450
+So when you remove a hook you're not removing the activations data, you are just removing the function
+
+21:48.450 --> 21:54.090
+that extracts the activations from the model and puts it into a dictionary.
+
+21:54.530 --> 22:02.130
+And to demonstrate that what I'm going to do is print out the hooks and then remove one of the hooks,
+
+22:02.130 --> 22:09.490
+but not the other one, and then push new tokens through the model and then print out the activations
+
+22:09.490 --> 22:10.090
+again.
+
+22:10.530 --> 22:15.970
+And what we see here is that the hook that I removed was the second hook.
+
+22:16.170 --> 22:19.490
+So this line and this line are identical.
+
+22:19.690 --> 22:20.930
+And why are they identical?
+
+22:20.970 --> 22:22.570
+Because I removed the hook.
+
+22:22.810 --> 22:31.930
+So, uh, the model is no longer extracting those activation values and storing them into the this particular
+
+22:31.930 --> 22:35.410
+key in the activations dictionary.
+
+22:35.770 --> 22:39.570
+On the other hand, we have the other hook that was handle zero.
+
+22:39.890 --> 22:47.190
+The other hook I did not remove I remove it here, but I did not remove it in this code here, so therefore
+
+22:47.190 --> 22:48.430
+it still is hooked.
+
+22:48.430 --> 22:56.270
+That hook remains in the model, and therefore these values will change when I give different text into
+
+22:56.270 --> 22:57.230
+the model.
+
+22:57.710 --> 22:59.470
+Okay, so let's remove that other one.
+
+22:59.790 --> 23:05.750
+And now here I'm going to set up the hook slightly differently than how I did before.
+
+23:05.950 --> 23:09.870
+It's also going to be shorter because I'm not really doing a lot of processing.
+
+23:09.870 --> 23:16.750
+I'm literally just taking the output from the model, from this particular layer and then storing that
+
+23:16.750 --> 23:19.390
+into this variable activations.
+
+23:19.430 --> 23:25.590
+Now previously above I defined this variable activations to be a dictionary.
+
+23:25.750 --> 23:27.990
+Here I'm defining it to be a list.
+
+23:28.150 --> 23:30.430
+And why am I defining it to be a list here?
+
+23:30.790 --> 23:38.230
+The reason is that here I want to concatenate all of the activations so they continue to be stored instead
+
+23:38.230 --> 23:41.670
+of overwriting them each time I rerun the code.
+
+23:42.200 --> 23:44.840
+Okay, so let me run that code here.
+
+23:44.840 --> 23:47.520
+And now I can run through the model.
+
+23:47.640 --> 23:49.440
+I'm just passing some text in.
+
+23:49.720 --> 23:54.000
+I like chocolate tokenizing it and then pushing it through the model.
+
+23:54.040 --> 23:59.920
+Notice here I don't even have something like, uh, outputs equals because I literally don't care about
+
+23:59.920 --> 24:01.040
+the outputs here.
+
+24:01.160 --> 24:05.400
+What I care about is the, uh, just this variable over here.
+
+24:05.880 --> 24:09.080
+So, uh, we can see that is now a list.
+
+24:09.120 --> 24:11.360
+It's not a dictionary, it's just a list.
+
+24:11.360 --> 24:18.360
+And it contains the activations from the MLP projection that where I implanted this hook into.
+
+24:18.960 --> 24:19.240
+Okay.
+
+24:19.280 --> 24:21.680
+And then this is just more confirmation.
+
+24:21.680 --> 24:23.840
+So this variable is a list.
+
+24:23.840 --> 24:25.440
+It's no longer a dictionary.
+
+24:25.440 --> 24:27.040
+I deleted the dictionary.
+
+24:27.080 --> 24:29.560
+I overwrote it with the same variable name.
+
+24:29.960 --> 24:33.240
+It has one element in that list.
+
+24:33.240 --> 24:40.320
+And it is of size one by four by 768 and four, corresponding to four tokens.
+
+24:40.320 --> 24:42.170
+From this, I like chocolate.
+
+24:42.170 --> 24:44.650
+Apparently that takes up four tokens.
+
+24:45.090 --> 24:45.450
+Okay.
+
+24:45.490 --> 24:51.290
+And now I'm running, uh, exactly the same model, exactly the same tokenizer, etc. I'm just using
+
+24:51.290 --> 24:54.090
+different text here and rerunning the code.
+
+24:54.290 --> 24:59.050
+And now we see that this is still a list of course, but now it contains four elements.
+
+24:59.370 --> 25:02.250
+This corresponds to the first time that I passed.
+
+25:02.250 --> 25:04.450
+I like chocolate into the model.
+
+25:04.650 --> 25:07.010
+This is the second time I passed.
+
+25:07.050 --> 25:08.770
+I like chocolate into the model.
+
+25:08.890 --> 25:14.730
+This one is for this quotes from a song and then this one is four score and seven years ago.
+
+25:14.850 --> 25:20.170
+Okay, so basically, uh, this is just a different way of setting up the hook.
+
+25:20.570 --> 25:27.530
+If you want to preserve all of the activations from every time you do a forward pass in the model.
+
+25:28.410 --> 25:30.610
+I hope you found this video useful.
+
+25:30.810 --> 25:38.130
+We are going to be using hooks in not every single video, but probably most of the videos for the rest
+
+25:38.130 --> 25:39.890
+of this course.

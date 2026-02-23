@@ -1,0 +1,364 @@
+WEBVTT
+
+00:02.080 --> 00:09.640
+In this and the next few videos, I will introduce you to a concept and procedure called activation
+
+00:09.640 --> 00:11.040
+maximization.
+
+00:11.680 --> 00:19.880
+The general idea is to use gradient descent to find a human interpretable data pattern that a single
+
+00:19.880 --> 00:23.480
+neuron in a deep learning network is tuned to.
+
+00:24.160 --> 00:27.720
+In this video, I'll give a brief description.
+
+00:27.720 --> 00:34.240
+I'll show some examples from computational vision research, and then I'll discuss the assumptions underlying
+
+00:34.240 --> 00:35.160
+this method.
+
+00:35.360 --> 00:40.760
+And then in the next few videos we will implement this technique in Python.
+
+00:40.920 --> 00:50.000
+And we will consider and discuss whether llms actually conform to the assumptions of activation maximization.
+
+00:50.800 --> 00:54.480
+So here is the motivation for this analysis method.
+
+00:54.600 --> 00:57.360
+Imagine this is some deep learning network.
+
+00:57.520 --> 01:01.840
+Of course this is not an LLM, just a general picture of a network.
+
+01:02.320 --> 01:06.640
+So the question is what does this one neuron here code for?
+
+01:07.000 --> 01:10.240
+What does it pay attention to in this stimulus data.
+
+01:10.360 --> 01:11.720
+What is it tuned to?
+
+01:12.480 --> 01:18.840
+So if you want to isolate the tuning of this one neuron, there are basically two ways that you can
+
+01:18.840 --> 01:19.520
+do that.
+
+01:19.960 --> 01:28.720
+One option is to show lots and lots of data samples and measure the activation that this neuron outputs.
+
+01:29.240 --> 01:36.200
+And then you can find all of the input data samples that strongly activated this neuron.
+
+01:36.200 --> 01:41.680
+And then you can see if you can find some meaningful description of those data samples.
+
+01:42.400 --> 01:49.680
+A second option is to start from a random number sample, and then use gradient descent to optimize
+
+01:49.680 --> 01:57.200
+that random matrix so that it specifically maximizes maximizes the activation of this one neuron here.
+
+01:57.760 --> 01:59.800
+Now both of these methods are fine.
+
+01:59.800 --> 02:00.360
+They're great.
+
+02:00.360 --> 02:04.720
+They're used in deep learning models for Interpretability.
+
+02:05.200 --> 02:09.360
+We will use this first approach a little bit later on.
+
+02:09.680 --> 02:16.200
+For example, you can present lots of text to a model and see if you can find neurons that are more
+
+02:16.200 --> 02:22.480
+active for, let's say, past tense versus present tense, or nouns versus verbs or something like that.
+
+02:22.920 --> 02:30.200
+But this approach is more commonly used for something like mass univariate testing or linear probing
+
+02:30.200 --> 02:32.440
+with logistic regression.
+
+02:33.000 --> 02:39.800
+Anyway, activation maximization refers to this second approach, and that's what we are going to do
+
+02:39.840 --> 02:40.360
+here.
+
+02:41.120 --> 02:47.080
+It's a pretty neat approach because it's like the flipped version of how things normally work in deep
+
+02:47.080 --> 02:47.640
+learning.
+
+02:48.200 --> 02:57.280
+So typically you have a fixed data set and a randomly initialized model, and you use the data to train
+
+02:57.280 --> 02:58.120
+the model.
+
+02:58.840 --> 03:05.360
+Now for language models, of course the data are human written text taken from the web and books and
+
+03:05.360 --> 03:05.800
+so on.
+
+03:06.830 --> 03:12.670
+And for a computer vision model, the data are pictures that you get from the web, medical images,
+
+03:12.670 --> 03:13.310
+whatever.
+
+03:13.750 --> 03:21.230
+The point is that typically the data are not changed and the model is optimized after being initially
+
+03:21.270 --> 03:22.790
+set to random numbers.
+
+03:23.350 --> 03:27.590
+Now with activation maximization, we turn this whole thing around.
+
+03:27.710 --> 03:31.350
+You start with a trained model and that is fixed.
+
+03:31.430 --> 03:37.590
+This is already a good working model, and you don't want to fine tune it or change the weights or anything
+
+03:37.590 --> 03:38.150
+like that.
+
+03:38.510 --> 03:45.710
+Instead, you start with a data sample that is randomly initialized, and then you optimize that data
+
+03:45.710 --> 03:53.070
+matrix so that it maximally activates some feature of the model, like the activation of a particular
+
+03:53.070 --> 03:53.670
+neuron.
+
+03:55.430 --> 03:56.270
+Activation.
+
+03:56.270 --> 04:02.390
+Maximization has produced some really interesting insights in computer vision models.
+
+04:02.830 --> 04:10.910
+So here you see an example of various maps that started off as random, and then we're optimized to
+
+04:10.950 --> 04:18.790
+maximize the activation of particular neurons in different layers of a convolutional neural network.
+
+04:19.230 --> 04:26.630
+So this is already a trained CNN that is designed to recognize image categories.
+
+04:27.190 --> 04:29.750
+It's pretty neat and also a little bit spooky.
+
+04:30.030 --> 04:36.310
+But you do see for example, this looks like a unit to that responds to something that looks like an
+
+04:36.310 --> 04:36.950
+eyeball.
+
+04:37.150 --> 04:39.110
+Uh, this one is like a dog unit.
+
+04:39.110 --> 04:41.670
+Also down here we have some more dog neurons.
+
+04:41.950 --> 04:44.150
+This one here, I'm not quite sure what this is.
+
+04:44.150 --> 04:47.030
+This may be like a avocado cut in half.
+
+04:47.030 --> 04:48.830
+And you still see the seed in there.
+
+04:49.430 --> 04:56.030
+Anyway, I have to say, uh, that in order to get these kinds of compelling and human interpretable
+
+04:56.030 --> 05:03.030
+images, you have to start with some statistical priors and do some additional tricks like dimension
+
+05:03.030 --> 05:08.870
+compression, clustering and averaging in order to get results that look like this.
+
+05:09.430 --> 05:16.190
+In fact, if you just start from literally random noise and you try to do this activation maximization
+
+05:16.190 --> 05:21.710
+procedure, you tend to get results that are a little bit less human interpretable.
+
+05:22.190 --> 05:25.990
+Now, these authors called this an example of rubbish.
+
+05:26.390 --> 05:30.070
+I respectfully disagree, I think this actually worked very well.
+
+05:30.230 --> 05:37.190
+It just didn't produce results that we humans can easily interpret as anything other than like curvy
+
+05:37.230 --> 05:38.630
+patches of colors.
+
+05:38.870 --> 05:44.830
+But that doesn't mean that the method didn't work, and it doesn't mean that this is not the way that
+
+05:44.830 --> 05:48.150
+this particular neuron in this network sees the world.
+
+05:48.630 --> 05:56.070
+So we should not expect that the internal workings of a deep learning model are necessarily all human
+
+05:56.070 --> 05:57.030
+interpretable.
+
+05:58.230 --> 06:02.590
+That's not even the case for actual biological neurons inside a human brain.
+
+06:02.630 --> 06:09.430
+You know, they generally do not produce activation patterns that are easily human interpretable.
+
+06:09.830 --> 06:15.630
+Of course, with some noteworthy exceptions that tend to get most of the attention in the scientific
+
+06:15.630 --> 06:16.350
+literature.
+
+06:16.950 --> 06:23.750
+Anyway, I certainly agree that this image is not as cleanly interpretable as the ones in the previous
+
+06:23.750 --> 06:32.990
+slide, and in part this is because these random initializations are sometimes modified to be constrained
+
+06:32.990 --> 06:39.470
+by strong priors, dimension compression, clustering, and other tricks that they use in this literature.
+
+06:40.390 --> 06:44.550
+So there are several assumptions that underlie this analysis.
+
+06:44.550 --> 06:46.510
+Activation maximization.
+
+06:47.150 --> 06:53.830
+One assumption is that the neurons represent individual features, for example, that there is a neuron
+
+06:53.830 --> 06:57.630
+that represents an eye or a dog face or a bus.
+
+06:58.270 --> 07:06.870
+In the context of language, this assumption underlying activation maximization can be interpreted as
+
+07:07.110 --> 07:14.350
+the assumption that individual neurons code for something like a concept or a specific word, or maybe
+
+07:14.350 --> 07:19.270
+a group of semantically related words like banana and apple and pear.
+
+07:19.870 --> 07:23.910
+Uh, or maybe a grammatical concept like past tense.
+
+07:23.950 --> 07:28.710
+Maybe a neuron would reflect a single fact about the world.
+
+07:28.750 --> 07:32.470
+Like who was president of the US in the year 1987?
+
+07:33.590 --> 07:42.350
+So if this assumption is true, then activation maximization is likely to be a successful strategy.
+
+07:43.310 --> 07:48.990
+Now, for various reasons, it turns out that this assumption is unlikely to be true, at least for
+
+07:48.990 --> 07:50.190
+lots of neurons.
+
+07:50.190 --> 07:53.830
+It might be the case for some individual neurons.
+
+07:54.630 --> 08:02.630
+The second assumption is that activation of a unit in a deep learning network corresponds to importance.
+
+08:03.070 --> 08:10.350
+It is possible that the activation of a given neuron is only meaningful as it relates to the activation
+
+08:10.350 --> 08:17.300
+of lots of other neurons, so its activation on its own might not necessarily be meaningful.
+
+08:18.100 --> 08:24.100
+Now, I don't want to keep comparing deep learning models to actual biological brains because they're
+
+08:24.100 --> 08:25.740
+really nothing alike.
+
+08:25.780 --> 08:28.700
+They have basically nothing whatsoever in common.
+
+08:28.940 --> 08:37.780
+But in biological neurons, you also see that a suppression of activity can be as informative as an
+
+08:37.780 --> 08:39.580
+increase in activity.
+
+08:40.660 --> 08:48.980
+A third assumption is that the space that we are trying to optimize is smooth, continuous and differentiable,
+
+08:49.140 --> 08:54.940
+and therefore optimizable at basically any step or any location in that space.
+
+08:55.580 --> 08:59.620
+Now, that actually is not necessarily the case for language.
+
+08:59.860 --> 09:07.780
+For example, a banana and an apple are semantically closely related, but there's nothing really in
+
+09:07.780 --> 09:08.660
+between them.
+
+09:08.900 --> 09:16.020
+There is no word that is one third of the way between banana and apple, and you can contrast that with
+
+09:16.020 --> 09:21.620
+something like color, where there really is something that is one third of the way between yellow and
+
+09:21.620 --> 09:22.100
+red.
+
+09:23.700 --> 09:30.220
+The last assumption that I will mention here is that the optimized results, that is to say, the optimized
+
+09:30.220 --> 09:37.980
+random data samples that maximally activate a given neuron are human interpretable.
+
+09:38.500 --> 09:44.380
+I've already mentioned this in the previous slide, but human interpretability is certainly something
+
+09:44.380 --> 09:45.300
+that we want.
+
+09:45.300 --> 09:51.740
+It's something that we look for in interpretability research, but it's not necessarily the case that
+
+09:51.740 --> 09:57.380
+everything inside of a model is necessarily interpretable to humans.
+
+09:58.540 --> 10:03.460
+Okay, so that is the brief high level intro to activation maximization.
+
+10:03.700 --> 10:10.020
+In the next video I will show you how to implement this technique in PyTorch using gradient descent.
+
+10:10.380 --> 10:17.500
+We will continue to think about these assumptions and whether and to what extent they hold for LMS.

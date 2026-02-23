@@ -1,0 +1,703 @@
+WEBVTT
+
+00:01.920 --> 00:07.560
+Exercise six has an analysis part and a visualization part.
+
+00:08.040 --> 00:10.560
+The analysis part is pretty straightforward.
+
+00:10.560 --> 00:18.640
+You just have to take the correlation code from exercise five and repeat it over all of the transformer
+
+00:18.640 --> 00:19.400
+blocks.
+
+00:20.240 --> 00:27.280
+By the way, as you are implementing this analysis, make sure to soft code the number of transformer
+
+00:27.280 --> 00:30.960
+blocks, because in this model it's 12.
+
+00:31.000 --> 00:36.480
+But when we switch to the larger version of this model, it's not going to be 12.
+
+00:37.200 --> 00:44.600
+Anyway, when you extract histograms for the correlation distribution within each layer, make sure
+
+00:44.600 --> 00:52.440
+to use the same histogram bin boundaries across all of the layers so you can compare them directly in
+
+00:52.480 --> 00:55.040
+a plot and also in an image.
+
+00:55.720 --> 01:01.800
+So then you can generate results and visualize them in a plot that looks something like this.
+
+01:01.910 --> 01:07.870
+Obviously, your plots will not have these big red boxes covering up all the fascinating findings.
+
+01:08.350 --> 01:16.070
+So on this left plot, we have line plots corresponding to the histogram for each of the 12 transformer
+
+01:16.070 --> 01:18.310
+block MLP layers.
+
+01:18.950 --> 01:27.270
+Each color is a different line, and the color bar indicates the mapping between the color of the line
+
+01:27.590 --> 01:31.990
+and the layer where that line or that histogram comes from.
+
+01:32.750 --> 01:39.550
+By the way, there's some weird matplotlib color coding to get this color scale to work.
+
+01:39.670 --> 01:47.230
+So if you have the plot but you're struggling with this little component of the visualization, then
+
+01:47.230 --> 01:50.470
+feel free to just copy the code from the solutions file.
+
+01:51.270 --> 01:59.070
+Okay, so here you're going to have 12 lines showing histograms of correlation coefficients between
+
+01:59.110 --> 02:06.290
+activations of the neurons and the lengths of the tokens and a separate line with a separate color for
+
+02:06.290 --> 02:07.290
+each layer.
+
+02:08.050 --> 02:17.250
+So then this image over here shows exactly the same data, but visualized in a slightly different format.
+
+02:17.690 --> 02:24.970
+So now over here, the y axis corresponds to layer and the color corresponds to the density.
+
+02:25.010 --> 02:33.690
+In other words, the color of this image here corresponds to the height of the y axis in this plot.
+
+02:33.970 --> 02:38.530
+So same data in both axes, but they show the data in different ways.
+
+02:38.730 --> 02:44.730
+And you will find that sometimes one visualization or the other is more clear or more revealing.
+
+02:45.370 --> 02:48.250
+I hope you enjoy creating these graphs.
+
+02:48.410 --> 02:53.090
+I always enjoy working with matplotlib, even when it gets a little bit frustrating.
+
+02:53.490 --> 02:57.010
+Anyway, now I will switch to code and discuss my solution.
+
+02:58.450 --> 03:02.050
+Here I am looping over all of the layers.
+
+03:02.090 --> 03:06.000
+Now notice that I'm not just hard coding the number 12 in here.
+
+03:06.240 --> 03:10.760
+If I were to hard code the number 12, that actually would work for this model.
+
+03:10.760 --> 03:15.360
+It would be fine, but it's better to soft code whenever possible.
+
+03:15.640 --> 03:20.320
+So therefore I'm using model config layers.
+
+03:20.520 --> 03:22.680
+And what do we do inside this for loop?
+
+03:23.080 --> 03:30.960
+I get the activations as you've seen before, and I standardize them as you've seen before, and then
+
+03:30.960 --> 03:34.600
+I correlate them for each individual neuron as you've seen before.
+
+03:34.760 --> 03:39.960
+So in fact, all of this code is exactly copied from exercise five.
+
+03:40.200 --> 03:45.000
+All I did was just put in layer number here and then all of these data.
+
+03:45.000 --> 03:49.720
+So all of the individual correlations get stored in this matrix.
+
+03:49.920 --> 03:54.080
+All scores which is layers by neurons.
+
+03:54.200 --> 03:57.800
+Every layer of course has exactly the same number of neurons.
+
+03:57.800 --> 04:03.000
+So this works in a one big matrix like this okay.
+
+04:03.040 --> 04:04.720
+And then here I'm getting the histograms.
+
+04:04.720 --> 04:13.820
+Here I define the edges for the bins of the correlation coefficients -0.8 to plus 0.8 correlation,
+
+04:14.260 --> 04:16.740
+and then 81 steps in between them.
+
+04:16.980 --> 04:24.380
+And then I create a hist counts this matrix where I'm going to store again all of the data for all of
+
+04:24.380 --> 04:27.700
+the layers and for all of the bins.
+
+04:28.180 --> 04:34.620
+Now remember that the bin edges here, this variable here, when you say numpy dot hist and you input
+
+04:34.620 --> 04:43.260
+the bins here, this variable defines all of the bin boundaries, which means there are n minus one
+
+04:43.460 --> 04:44.820
+actual bins.
+
+04:45.100 --> 04:48.420
+And that is why I have the minus one in here.
+
+04:48.940 --> 04:50.420
+Okay so run that.
+
+04:50.620 --> 04:51.820
+Yeah it takes a second.
+
+04:51.820 --> 04:53.140
+I think I've already even run it.
+
+04:53.380 --> 04:53.580
+Okay.
+
+04:53.580 --> 04:54.580
+And then here I'm plotting.
+
+04:54.580 --> 04:56.100
+Here is the first plot.
+
+04:56.140 --> 04:57.980
+I can actually show the legend here.
+
+04:58.300 --> 05:01.900
+Uh, the first plot on the left will show all of the lines.
+
+05:02.060 --> 05:09.610
+And I'm plotting all the lines in a for loop because I want to specify the color of each line to be
+
+05:09.610 --> 05:14.930
+the layer index divided by the total number of layers.
+
+05:15.130 --> 05:15.330
+Okay.
+
+05:15.370 --> 05:18.090
+And then here is the image.
+
+05:18.090 --> 05:19.970
+Here's where I'm creating the image over here.
+
+05:19.970 --> 05:27.490
+And here's this funny looking code that you, uh, you use to create this color bar over here.
+
+05:27.930 --> 05:29.890
+Okay, so that's about the code.
+
+05:29.890 --> 05:31.970
+What do the results actually show?
+
+05:32.410 --> 05:37.690
+So again here we see the x axis is the correlation coefficients.
+
+05:37.890 --> 05:46.690
+What we looked at in the previous exercise was just one line over here showing the bulk of the correlations.
+
+05:46.730 --> 05:49.130
+A little bit shifted to the left.
+
+05:49.610 --> 05:54.170
+And now you see it for all of the transformer blocks.
+
+05:54.170 --> 05:56.450
+So I'll discuss this one in a moment.
+
+05:56.490 --> 05:58.450
+It's kind of an oddball sticking out.
+
+05:58.570 --> 06:06.050
+But just you know, when we look at all of the layers all together, we see that in general there's
+
+06:06.090 --> 06:11.030
+a pretty Consistent shift a little bit left of zero.
+
+06:11.230 --> 06:19.270
+And again, the interpretation here is that the shorter tokens tend to have stronger activations in
+
+06:19.270 --> 06:20.710
+MLP layers.
+
+06:20.830 --> 06:23.070
+And why might that be the case?
+
+06:23.150 --> 06:30.590
+Keep in mind that shorter tokens tend to appear more often in training text, so there's a little bit
+
+06:30.590 --> 06:33.030
+of a bias introduced there.
+
+06:33.350 --> 06:33.590
+Okay.
+
+06:33.630 --> 06:35.790
+And then we have something weird happening here.
+
+06:35.790 --> 06:39.630
+This is at the very first, uh, transformer block.
+
+06:39.750 --> 06:46.350
+And this is the transformer block that is as close as possible to the embeddings, which means as close
+
+06:46.350 --> 06:48.670
+as possible to the raw text.
+
+06:48.670 --> 06:55.910
+So as we move through the, uh, through the large language model, each transformer layer, we get
+
+06:55.910 --> 06:58.710
+further and further away from the original text.
+
+06:58.710 --> 07:00.790
+But here we are very close to the text.
+
+07:00.830 --> 07:08.820
+This is just one stop after the embeddings, vectors and the position embeddings vectors get added together.
+
+07:08.820 --> 07:11.100
+And here we see a pretty qualitative shift.
+
+07:11.100 --> 07:17.380
+Most of these neurons, not all of them, but most of the neurons in this first MLP layer are actually
+
+07:17.380 --> 07:20.780
+correlating positively with token length.
+
+07:20.780 --> 07:24.020
+So longer tokens get more activation.
+
+07:24.660 --> 07:28.620
+So that is for all of the line plots over here.
+
+07:28.900 --> 07:31.940
+And then we get over here to the image again.
+
+07:32.180 --> 07:39.020
+Every row in this image here in this matrix is one line from this plot over here.
+
+07:39.300 --> 07:45.940
+And the color here corresponds to the height over here, which is the density or the estimate of the
+
+07:45.980 --> 07:46.700
+pdf.
+
+07:47.220 --> 07:53.860
+And so we see all of the same dynamics, but some features are just a little bit easier to visualize
+
+07:54.060 --> 07:57.220
+in this image compared to all of these plots.
+
+07:57.460 --> 08:06.180
+For example, something that you notice is that the later transformer layers here have a much tighter
+
+08:06.180 --> 08:08.780
+distribution compared to the earlier layers.
+
+08:08.780 --> 08:10.320
+With this one exception here.
+
+08:10.320 --> 08:16.840
+I'm not sure why this one is so unusual here, that this row here corresponds to this purple line here.
+
+08:17.160 --> 08:18.560
+So you do see that here?
+
+08:18.560 --> 08:23.800
+That the yellow lines, the most yellow lines are a little bit more shifted towards zero.
+
+08:24.000 --> 08:26.800
+The distributions are a little bit more narrow.
+
+08:26.920 --> 08:30.280
+So the correlations are basically closer to zero.
+
+08:30.440 --> 08:37.160
+The interpretation of that is that by the time you get to the end of the large language model towards
+
+08:37.160 --> 08:43.320
+the last couple of transformer blocks, the model is not really processing the current token anymore.
+
+08:43.320 --> 08:49.840
+It's really transformed the current token into the A prediction for the next token.
+
+08:50.840 --> 08:56.960
+So you will see this throughout lots of analyses over the next couple of sections that the later you
+
+08:56.960 --> 09:04.200
+get into the LM, the less the processing is related to the current token, the more it's related to
+
+09:04.480 --> 09:07.240
+the predictions about the next token.
+
+09:08.360 --> 09:11.270
+This is the final exercise.
+
+09:11.510 --> 09:14.310
+Now there isn't really any new coding to do.
+
+09:14.470 --> 09:22.990
+You just import the 1.3 billion parameter version of this model and then rerun the entire code file.
+
+09:23.790 --> 09:29.670
+Be mindful that this will take several minutes just to load the model, and if you're running it on
+
+09:29.670 --> 09:33.150
+the GPU, then that one forward pass is pretty quick.
+
+09:33.550 --> 09:39.990
+If you're running this on the CPU, then that one forward pass will itself take several minutes.
+
+09:40.630 --> 09:43.670
+Now there are two goals for this exercise.
+
+09:44.150 --> 09:50.270
+First is to make sure that your code still works when you use it in a different model.
+
+09:50.830 --> 09:56.750
+Now, keep in mind that different companies and different families of models can have different internal
+
+09:56.750 --> 10:04.390
+naming conventions, so it's certainly not the case that any code you write should work for every single
+
+10:04.390 --> 10:07.190
+possible variant of every LM.
+
+10:07.790 --> 10:15.420
+But it is good to have code that works for at least different model sizes from the same type and the
+
+10:15.420 --> 10:16.540
+same research group.
+
+10:17.020 --> 10:24.020
+And of course, the main purpose of this exercise is to compare the findings qualitatively against the
+
+10:24.020 --> 10:26.140
+smaller version of this model.
+
+10:26.620 --> 10:34.740
+So therefore I recommend that before rerunning the code, you take screenshots of exercises one through
+
+10:34.780 --> 10:42.540
+six, or at least the later exercises, so that you can more easily compare with the larger model.
+
+10:43.340 --> 10:49.500
+Okay, so enjoy working through this exercise and now I will switch to code and discuss the results.
+
+10:50.660 --> 10:54.540
+The only code I had to change was here in this code cell.
+
+10:54.540 --> 11:01.860
+I just commented these two lines and uncommented these two lines, and then I ran the whole script again
+
+11:01.860 --> 11:02.940
+from the start.
+
+11:03.340 --> 11:11.060
+Okay, so then of course this is different here we can see there are now 24 blocks, 24 transformer
+
+11:11.060 --> 11:12.580
+layers instead of 12.
+
+11:12.960 --> 11:16.720
+And you can also see that the embeddings dimensionality is larger.
+
+11:16.720 --> 11:23.880
+It's now 2048, and that means that the MLP internal layers are different as well.
+
+11:24.120 --> 11:32.200
+In fact, this is 8192 neurons in the MLP expansion layer.
+
+11:32.640 --> 11:35.520
+And of course that number should be familiar to you.
+
+11:35.520 --> 11:39.240
+That's the same as the number of tokens that we use.
+
+11:39.440 --> 11:48.440
+And so that was another reason why I chose to have 8192 tokens, because now it's just going to add
+
+11:48.440 --> 11:54.600
+a little bit of confusion, because when you're working with the analysis and working with the matrices
+
+11:54.600 --> 11:57.800
+and indexing matrices, you really need to know.
+
+11:57.800 --> 12:04.560
+You really need to be mindful of which dimension corresponds to tokens and which dimension corresponds
+
+12:04.560 --> 12:06.040
+to neurons.
+
+12:06.280 --> 12:11.840
+So that was part of the reason why I used exactly that number of tokens.
+
+12:12.400 --> 12:12.800
+Okay.
+
+12:13.200 --> 12:16.070
+Let's see The rest of the code is the same.
+
+12:16.670 --> 12:19.910
+You will get some different results here.
+
+12:19.910 --> 12:21.630
+So here with the sizes.
+
+12:21.670 --> 12:21.830
+Yeah.
+
+12:21.830 --> 12:23.310
+You'll get a different uh.
+
+12:23.310 --> 12:23.830
+Not there.
+
+12:23.830 --> 12:27.870
+Here you will get different sizes of the activations here.
+
+12:27.910 --> 12:32.950
+Of course, we have more, uh, keys printing out of this dictionary.
+
+12:34.230 --> 12:38.950
+And now here is the first place where we already start seeing some differences.
+
+12:39.070 --> 12:46.470
+Remember that these histograms look nearly identical for the smaller version of this model.
+
+12:46.670 --> 12:48.710
+So the analysis is the same.
+
+12:48.710 --> 12:50.550
+The tokens are identical.
+
+12:50.550 --> 12:55.350
+It's exactly the same data that we are importing and pushing through the model.
+
+12:55.590 --> 13:00.990
+And the model is you know, it's also the model from the same exact company, the same org.
+
+13:01.030 --> 13:01.670
+Eleuther.
+
+13:01.950 --> 13:07.510
+Uh, it's just that the model now has more parameters and more layers.
+
+13:07.630 --> 13:13.750
+And now we really do see a qualitatively different distribution of activations.
+
+13:13.750 --> 13:20.610
+So the long tokens have this kind of more Gaussian looking distribution, and the shorter tokens, and
+
+13:20.610 --> 13:24.010
+also the median length tokens look a little bit different.
+
+13:24.010 --> 13:24.370
+To me.
+
+13:24.370 --> 13:29.050
+This looks like there's actually two distinct distributions in here.
+
+13:29.050 --> 13:35.010
+One would be a very tight distribution peaking at around minus one half or something.
+
+13:35.170 --> 13:37.250
+And then there's another distribution here.
+
+13:37.250 --> 13:41.050
+That's something that you could model with like a mixture of Gaussians.
+
+13:41.050 --> 13:43.810
+But we're certainly not going to get into that here.
+
+13:43.810 --> 13:50.210
+But the main point is just qualitative that the large model and the small model do not necessarily show
+
+13:50.210 --> 13:57.370
+the same patterns of results, even at this fairly large, you know, level of granularity.
+
+13:58.730 --> 13:59.010
+Okay.
+
+13:59.050 --> 14:01.090
+So the rest of this code is fine.
+
+14:01.090 --> 14:07.730
+You can see again, the number is different from what it was before because the neurons are different
+
+14:07.770 --> 14:08.330
+of course.
+
+14:08.330 --> 14:11.010
+But this number is the same as this number.
+
+14:11.010 --> 14:13.130
+That is what we want to confirm.
+
+14:13.650 --> 14:14.450
+Uh, let me see.
+
+14:14.490 --> 14:17.360
+Now I'm just going to go down and write.
+
+14:17.360 --> 14:17.720
+So.
+
+14:17.960 --> 14:18.240
+Okay.
+
+14:18.280 --> 14:23.040
+Now when you have this many, uh, line plots, you really don't want to have a legend.
+
+14:23.040 --> 14:26.200
+That's why this was commented out in the beginning.
+
+14:26.800 --> 14:28.560
+Okay, let's recreate that graph.
+
+14:29.120 --> 14:29.520
+Okay.
+
+14:29.560 --> 14:35.840
+So here we see that some features are the same as with the small version of the model.
+
+14:35.920 --> 14:38.240
+And some features are a little bit different.
+
+14:38.360 --> 14:46.160
+So we still do see this uh shift of the first layer, the first transformer block immediately after
+
+14:46.160 --> 14:47.760
+the token embeddings.
+
+14:47.960 --> 14:50.440
+That one is shifted to the right.
+
+14:50.880 --> 14:58.480
+And as I mentioned, you will see repeatedly that lots of the intermediate layers kind of smoothly transition
+
+14:58.480 --> 15:05.120
+from one layer into the next layer in terms of their characteristics and relation to token categories
+
+15:05.120 --> 15:05.800
+and so on.
+
+15:06.720 --> 15:13.120
+But there tends to be something qualitatively distinct going on in the very first layer, and also in
+
+15:13.120 --> 15:20.900
+the very last or last couple of layers shortly before we get to the selection for the next token in
+
+15:20.900 --> 15:21.940
+the sequence.
+
+15:22.260 --> 15:25.420
+And you also don't see exactly quite as clearly.
+
+15:25.420 --> 15:31.020
+Maybe I'll change the upper scaling limit of the color here.
+
+15:31.620 --> 15:31.940
+Yeah.
+
+15:31.940 --> 15:37.900
+You do see this pattern a little bit that the later layers still get tighter, their distributions get
+
+15:37.940 --> 15:42.620
+tighter because the processing is less about the current token.
+
+15:42.740 --> 15:48.700
+And it starts to become more abstracted and more about selecting the next token in the sequence.
+
+15:48.860 --> 15:53.860
+And so actually, yeah, I guess that is a little bit similar to in the smaller version of the model,
+
+15:53.860 --> 15:59.540
+although this, uh, compression was a little bit tighter and more localized to the later layers.
+
+16:00.540 --> 16:07.020
+Remember that the concept of token length does not exist inside the model directly.
+
+16:07.580 --> 16:13.780
+That is, models do not process tokens according to how many characters they contain.
+
+16:14.060 --> 16:20.890
+The model just processes the tokens as integers as vectors of embeddings.
+
+16:21.490 --> 16:28.570
+On the other hand, it is also the case that tokens with fewer characters tend to appear more often
+
+16:28.570 --> 16:36.770
+in the training text, so the relationship between activation and token length is probably due to token
+
+16:36.770 --> 16:39.450
+frequency and not length per se.
+
+16:40.250 --> 16:47.850
+These kinds of third variable explanations can either be useful interpretations or confounds and flaws
+
+16:47.850 --> 16:55.010
+in the research, so make sure that you are aware of these possibilities of alternative explanations.
+
+16:55.690 --> 17:01.690
+Nonetheless, it's quite interesting to see that there are some striking qualitative differences across
+
+17:01.690 --> 17:07.010
+the different layers, but not necessarily across all of the layers.
+
+17:07.370 --> 17:14.650
+So that's a theme that you'll continue observing in mech Interp sometimes you will find that the earliest
+
+17:14.650 --> 17:20.110
+layers and the latest layers are kind of off doing their own thing, and lots of layers in the middle
+
+17:20.150 --> 17:22.390
+are strongly correlated with each other.
+
+17:23.190 --> 17:30.070
+The last point that I'll make here is about the assumption of universality, which I introduced in the
+
+17:30.310 --> 17:38.030
+videos earlier in the course where I discussed general concepts and criticisms of mechanistic interpretability.
+
+17:38.630 --> 17:46.550
+Remember that in this context, universality means that the same principles observed in small models
+
+17:46.670 --> 17:49.470
+are also present in large models.
+
+17:50.110 --> 17:57.470
+Now, the analysis that you did here in this video were not a definitive case of supporting or disproving
+
+17:57.470 --> 17:58.550
+that assumption.
+
+17:58.910 --> 18:06.750
+But you can see that some of the macroscopic characteristics are not necessarily qualitatively the same
+
+18:06.750 --> 18:09.350
+between small and large models.
+
+18:09.910 --> 18:16.590
+Now, it certainly is possible that universality exists for some computational features of models,
+
+18:16.590 --> 18:19.430
+but not for all features of models.
