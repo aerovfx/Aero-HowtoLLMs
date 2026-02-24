@@ -28,7 +28,7 @@
 
 ---
 
-### **2. Educational Chapters (docs/LLM_Course)**
+### **2. Educational Chapters (docs/01-LLM_Course)**
 
 ✅ **Chương 1: Tổng Quan LLMs**
 - File: `aero_LLM_chapter01_overview_detailed.md`

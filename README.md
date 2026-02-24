@@ -3,6 +3,8 @@
 
 > **Dự án học tập chuyên sâu từ A-Z về Large Language Models (LLM), tích hợp Interactive 3D Visualization và Hệ thống Tài liệu tiếng Việt.**
 
+**Documentation index:** [Docs Home](docs/README.md)
+
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
 [![Tech: Next.js 13](https://img.shields.io/badge/Tech-Next.js%2013-blue.svg)]()
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese%20Localized-red.svg)]()
