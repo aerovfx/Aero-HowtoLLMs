@@ -40,7 +40,7 @@ Việc tính toán giá trị Trung vị trên hệ hình này vô hình chung t
 
 ## 4. Chìa Khóa Lời Giải (Mystery Reveal)
 Để vạch trần phân mảnh, một bài test thứ 3 được cấu thành:
-Dò quét góc độ tuần tự cặp Index tĩnh theo vị trí xuất hiện: $\{$Vị trí $0\leftrightarrow 1\}$, $\{$Vị trí $1\leftrightarrow 2\}$, $\{$Vị trí $2\leftrightarrow 3\}$, v.v.
+Dò quét góc độ tuần tự cặp Index tĩnh theo vị trí xuất hiện: $\{}$Vị trí $0\leftrightarrow 1\}$, }$\{$Vị trí $1\leftrightarrow 2\}$, }$\{$Vị trí $2\leftrightarrow 3\}$, v.v.
 
 **Kết Quả Chốt:**
 Tất cả các "tuyến dị biệt" quăng mình lên độ cao bứt tốc ngất ngưởng sinh ra thuần túy là cặp chứa *Vị trí số 0* và *1* (Tức là Token mở màn của Văn bản văn cảnh). 

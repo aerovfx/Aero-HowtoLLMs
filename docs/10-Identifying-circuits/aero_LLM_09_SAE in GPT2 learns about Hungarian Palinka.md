@@ -36,7 +36,7 @@ Hậu huấn luyện bằng Adam Optimizer ($100\ Epochs, LR=0.0001$), kết qu�
   - Rải rác vài cục bộ có chức năng phản ứng chọn lọc Ngữ pháp.
 
 ### 3.2. Rủi Ro Tính Toán Thống Kê Trong Lọc Dữ Liệu
-Ta lập một Trọng số Địa lý (Geography Selectivity Score) $=$ Chia giá trị Activations của chuỗi từ $\{$"Romania", "Hungary", "Greece"$\}$ cho kích hoạt của đám từ thừa thãi như "fruit, alcohol". Rất nhiều Component được điểm Cao ngất ngưởng.
+Ta lập một Trọng số Địa lý (Geography Selectivity Score) $=$ Chia giá trị Activations của chuỗi từ $\{}$"Romania", "Hungary", "Greece"$\}$ cho kích hoạt của đám từ thừa thãi như "fruit, alcohol". Rất nhiều Component được điểm Cao ngất ngưởng.
 Lỗi diễn giải (Interpretability trap) xảy ra ở đây: 
 Việc chèn bộ lọc cơ học dễ khiến ta nhầm tưởng ta đã tìm ra "Bộ Não Địa lý" (Địa danh). Khi vẽ Heatmap, đúng là các Nơ-ron Latent này có "cháy sáng" tại khu vực "Czech Republic, Union". Nhưng đồng thời nó lại nhiễu loạn cháy sáng bùng nổ vô căn cứ ở các cụm từ ngữ pháp vô nghĩa như ngoặc đơn $()$, dấy phẩy $,$, hay chữ "naught". 
 Sự thất bại cục bộ trong việc dò tìm ra "Mạch ý nghĩa tuyệt đối" này chứng minh quy luật: Dữ liệu quá nhỏ làm sai lệch Hệ số Thưa thớt (Sparse Representation), tạo ra rác đồng quy (Correlated Redundant Noise) thay vì Trí tuệ trừu tượng sắc nét.
