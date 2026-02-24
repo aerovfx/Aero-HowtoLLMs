@@ -35,7 +35,7 @@ Thử thách bùng nổ khi sử dụng tìm kiếm đồng nghĩa cho hạt gi�
 - Bật Tokenize của GPT-2: Chữ `"beauty"` bị cưa xẻ nát bung thành **2 Tokens độc lập**.
 
 Không thể dùng thước dây k-NN cho 2 ngọn véc-tơ độc lập, kiến trúc sư chỉ được phép chọn 1 trong 2 giải pháp:
-1. Tính khoảng cách 50.000 điểm từ véc-tơ $\vec{v}_1$, làm tương tự cho $\vec{v}_2$. Sau đó cộng Average 50.000 cặp khoảng cách (Khoảng cách kéo trung bình).
+1. Tính khoảng cách 50.000 điểm từ véc-tơ $\vec{v}_1$, làm tương tự cho $\vec{v}_2$. Sau đó cộng Ave18-RAGe 50.000 cặp khoảng cách (Khoảng cách kéo trung bình).
 2. Ép trung bình 2 Véc-tơ bằng hàm nhúng Vector (Mean Pooling) $\vec{E}_{\text{seed}} = \frac{\vec{v}_1 + \vec{v}_2}{2}$. Sau đó dùng một Vector duy nhất này phóng chổi quét mạng lưới Không gian (Option 2).
 
 Nếu dùng Mean-Pooling phương thức 2, không gian phân hóa trả bề một hệ tương đệ từ đồng nghĩa ấn tượng đỉnh điểm: Dải GPT-2 bắn ra `beautiful, gorgeous, pretty, wonderful, lovely`.

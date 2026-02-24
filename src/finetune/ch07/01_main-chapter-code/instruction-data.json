@@ -102,7 +102,7 @@
     {
         "instruction": "Identify the climax in 'Romeo and Juliet'.",
         "input": "",
-        "output": "The climax of 'Romeo and Juliet' occurs when Romeo kills Tybalt, leading to his banishment and the subsequent tragic events."
+        "output": "The climax of 'Romeo and Juliet' occurs when Romeo kills Tybalt, leading to his banishment and the subsequent t18-RAGic events."
     },
     {
         "instruction": "Rewrite the sentence using a simile.",
@@ -1530,9 +1530,9 @@
         "output": "The chemical formula for carbon dioxide is CO2."
     },
     {
-        "instruction": "Generate a sentence using the word 'courage'.",
+        "instruction": "Generate a sentence using the word 'cou18-RAGe'.",
         "input": "",
-        "output": "She showed great courage during the rescue mission."
+        "output": "She showed great cou18-RAGe during the rescue mission."
     },
     {
         "instruction": "What is the opposite of 'old'?",
@@ -2012,7 +2012,7 @@
     {
         "instruction": "Name an antonym for 'fear.'",
         "input": "",
-        "output": "An antonym for 'fear' is 'courage.'"
+        "output": "An antonym for 'fear' is 'cou18-RAGe.'"
     },
     {
         "instruction": "What is the opposite of 'high'?",
@@ -4127,7 +4127,7 @@
     {
         "instruction": "What is a synonym of 'brave'?",
         "input": "",
-        "output": "A synonym for 'brave' is 'courageous'."
+        "output": "A synonym for 'brave' is 'cou18-RAGeous'."
     },
     {
         "instruction": "Convert 100 pounds to kilograms.",

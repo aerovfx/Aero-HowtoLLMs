@@ -27,7 +27,7 @@ Thậm chí không cần dùng tới những mục đích phạm tội, việc c
 AI là một hệ sinh thái mạnh mẽ nhưng không thể vận hành phi rủi ro:
 - **Nguy cơ hiện sinh (Existential risks):** AI vượt qua khả năng kiểm soát của con người, đe dọa trực tiếp sự tồn vong của nhân loại khi vượt qua trí tuệ con người một cách không thể dự báo.
 - **Tiếp thị xâm nhập (Intrusive marketing):** Việc theo dõi dữ liệu thiết bị, tin nhắn và thói quen một cách vi phạm quyền riêng tư.
-- **Đồng nhất hóa văn hóa (Cultural homogenization):** Sự bão hòa các tác phẩm ngôn ngữ và nghệ thuật trượt về một vector trung bình (average vector), đánh mất đi sự sáng tạo nguyên bản của loài người.
+- **Đồng nhất hóa văn hóa (Cultural homogenization):** Sự bão hòa các tác phẩm ngôn ngữ và nghệ thuật trượt về một vector trung bình (ave18-RAGe vector), đánh mất đi sự sáng tạo nguyên bản của loài người.
 - **Vũ khí tự trị (Autonomous weapons):** AI định đoạt khả năng khai hỏa trên chiến trường theo công thức lượng hóa mà không có sự kiểm soát của con người (Human-in-the-loop).
 
 ---

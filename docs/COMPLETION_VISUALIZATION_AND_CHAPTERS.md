@@ -28,7 +28,7 @@
 
 ---
 
-### **2. Educational Chapters (docs/01-LLM_Course)**
+### **2. Educational Chapters (docs/01-01-01-LLM_Course)**
 
 ✅ **Chương 1: Tổng Quan LLMs**
 - File: `aero_LLM_chapter01_overview_detailed.md`
@@ -72,7 +72,7 @@
 | aero_LLM_00_Overview.md (updated) | ~100 | Navigation hub |
 | **Total** | **~1800 lines** | **Complete course** |
 
-### **Content Coverage:**
+### **Content Cove18-RAGe:**
 - ✅ Definitions & theory
 - ✅ GPT-4 architecture details  
 - ✅ MoE explanations
@@ -228,7 +228,7 @@ Understands complete pipeline!
 
 **Status:** 🟢 **COMPLETE & READY TO USE**  
 **Quality:** ⭐⭐⭐⭐⭐  
-**Coverage:** Visualization + Education  
+**Cove18-RAGe:** Visualization + Education  
 **Language:** Tiếng Việt ✅
 
 ---

@@ -1,4 +1,4 @@
-# Index — 18 - Investigating neurons and dimensions
+# Index — 12-Investigating-neurons-dimensions
 
 Back to documentation: [Docs Home](../README.md)
 

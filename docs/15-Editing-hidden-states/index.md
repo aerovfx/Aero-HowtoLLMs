@@ -1,4 +1,4 @@
-# Index — 24 - Editing hidden states
+# Index — 15-Editing-hidden-states
 
 Back to documentation: [Docs Home](../README.md)
 

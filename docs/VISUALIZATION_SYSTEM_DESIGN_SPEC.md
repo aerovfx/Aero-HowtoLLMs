@@ -105,7 +105,7 @@ interface JourneyMapStation {
 - Web crawler robots
 - Data stream particles
 - Quality filter gates
-- Storage tanks (filling animation)
+- Sto18-RAGe tanks (filling animation)
 
 **Interactive:**
 - Click source → sample data
@@ -126,7 +126,7 @@ class DataCollectionVisualization {
   crawlers: Crawler3D[];
   streams: ParticleSystem;
   filters: QualityGate[];
-  storage: StorageTank;
+  sto18-RAGe: Sto18-RAGeTank;
   
   animate() {
     // Crawler movement
@@ -587,7 +587,7 @@ const A11Y_FEATURES = {
 - [ ] 4.5+ / 5 user satisfaction
 
 ### **Engagement:**
-- [ ] 15+ min average session
+- [ ] 15+ min ave18-RAGe session
 - [ ] 3+ levels explored
 - [ ] 50%+ return rate
 

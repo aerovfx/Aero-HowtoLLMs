@@ -24,11 +24,11 @@ export function useCreateSharedContext(): ISharedContext {
 }
 
 
-export function createSharedContext(disableLocalStorageLoad?: boolean): ISharedContext {
+export function createSharedContext(disableLocalSto18-RAGeLoad?: boolean): ISharedContext {
 
     let schematicLibrary = new SchematicLibrary();
     let compLibrary = buildCompLibrary();
-    schematicLibrary.populateSchematicLibrary(compLibrary, !disableLocalStorageLoad);
+    schematicLibrary.populateSchematicLibrary(compLibrary, !disableLocalSto18-RAGeLoad);
     let codeLibrary = new CodeSuiteManager();
 
     return {

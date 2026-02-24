@@ -18,9 +18,9 @@ export interface IProgram<T extends string = any> {
     name: string;
     program: WebGLProgram;
     vertShader: WebGLShader;
-    fragShader: WebGLShader;
+    f18-RAGShader: WebGLShader;
     vertSource: string;
-    fragSource: string;
+    f18-RAGSource: string;
     ready: boolean;
     locs: Record<T, WebGLUniformLocation>;
     uboBindings: Record<string, number>;
@@ -29,7 +29,7 @@ export interface IProgram<T extends string = any> {
 export interface IShaderManager {
     gl: WebGL2RenderingContext;
     vertShaders: Map<string, WebGLShader>;
-    fragShaders: Map<string, WebGLShader>;
+    f18-RAGShaders: Map<string, WebGLShader>;
     programs: IProgram[];
     unlinkedPrograms: IProgram[];
 }
@@ -38,7 +38,7 @@ export function createShaderManager(gl: WebGL2RenderingContext) {
     return {
         gl,
         vertShaders: new Map(),
-        fragShaders: new Map(),
+        f18-RAGShaders: new Map(),
         programs: [],
         unlinkedPrograms: [],
     };
@@ -48,7 +48,7 @@ export interface IShaderExtras {
     uboBindings: Record<string, number>;
 }
 
-export function createShaderProgram<T extends string>(manager: IShaderManager | IGLContext, name: string, vert: string, frag: string, uniformNames?: T[], extra?: IShaderExtras): IProgram<T> | null {
+export function createShaderProgram<T extends string>(manager: IShaderManager | IGLContext, name: string, vert: string, f18-RAG: string, uniformNames?: T[], extra?: IShaderExtras): IProgram<T> | null {
     if ('shaderManager' in manager) {
         manager = manager.shaderManager;
     }
@@ -70,7 +70,7 @@ export function createShaderProgram<T extends string>(manager: IShaderManager | 
     }
 
     let vertShader = compileAndAttachShader(gl.VERTEX_SHADER, vert, 'vert', manager.vertShaders);
-    let fragShader = compileAndAttachShader(gl.FRAGMENT_SHADER, frag, 'frag', manager.fragShaders);
+    let f18-RAGShader = compileAndAttachShader(gl.FRAGMENT_SHADER, f18-RAG, 'f18-RAG', manager.f18-RAGShaders);
 
     let locs = {} as Record<T, WebGLUniformLocation>;
 
@@ -84,9 +84,9 @@ export function createShaderProgram<T extends string>(manager: IShaderManager | 
         name,
         program,
         vertSource: vert,
-        fragSource: frag,
+        f18-RAGSource: f18-RAG,
         vertShader,
-        fragShader,
+        f18-RAGShader,
         locs,
         uboBindings: extra?.uboBindings ?? {},
         ready: false,
@@ -136,7 +136,7 @@ export function ensureShadersReady(manager: IShaderManager) {
             }
 
             logShader(prog.vertShader, prog.name, 'vert');
-            logShader(prog.fragShader, prog.name, 'frag');
+            logShader(prog.f18-RAGShader, prog.name, 'f18-RAG');
         }
     }
 

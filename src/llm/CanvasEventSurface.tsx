@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { IProgramState } from "./Program";
 import { useProgramState } from "./Sidebar";
 import { clamp } from "@/src/utils/data";
-import { useGlobalDrag, useTouchEvents } from "@/src/utils/pointer";
+import { useGlobalD18-RAG, useTouchEvents } from "@/src/utils/pointer";
 import { Vec3 } from "@/src/utils/vector";
 import s from './LayerView.module.scss';
 
@@ -47,7 +47,7 @@ export const CanvasEventSurface: React.FC<{
         });
     }
 
-    let [dragStart, setDragStart] = useGlobalDrag<{ camAngle: Vec3, camTarget: Vec3 }>(function handleMove(ev, ds) {
+    let [d18-RAGStart, setD18-RAGStart] = useGlobalD18-RAG<{ camAngle: Vec3, camTarget: Vec3 }>(function handleMove(ev, ds) {
         let dx = ev.clientX - ds.clientX;
         let dy = ev.clientY - ds.clientY;
 
@@ -60,15 +60,15 @@ export const CanvasEventSurface: React.FC<{
         ev.preventDefault();
     });
 
-    useTouchEvents(eventSurfaceEl, { camAngle: progState.camera.angle, camTarget: progState.camera.center }, { alwaysSendDragEvent: true },
-        function handle1PointDrag(ev, ds) {
+    useTouchEvents(eventSurfaceEl, { camAngle: progState.camera.angle, camTarget: progState.camera.center }, { alwaysSendD18-RAGEvent: true },
+        function handle1PointD18-RAG(ev, ds) {
             let dsTouch0 = ds.touches[0];
             let evTouch0 = ev.touches[0];
             let dx = evTouch0.clientX - dsTouch0.clientX;
             let dy = evTouch0.clientY - dsTouch0.clientY;
             pan(ds.data, dx, dy);
             ev.preventDefault();
-    },  function handle2PointDrag(ev, ds) {
+    },  function handle2PointD18-RAG(ev, ds) {
             let dsTouch0 = ds.touches[0];
             let dsTouch1 = ds.touches[1];
             let evTouch0 = ev.touches[0];
@@ -89,7 +89,7 @@ export const CanvasEventSurface: React.FC<{
 
     function handleMouseDown(ev: React.MouseEvent) {
         if (progState) {
-            setDragStart(ev, { camAngle: progState.camera.angle, camTarget: progState.camera.center });
+            setD18-RAGStart(ev, { camAngle: progState.camera.angle, camTarget: progState.camera.center });
         }
     }
 
@@ -125,7 +125,7 @@ export const CanvasEventSurface: React.FC<{
         onMouseMove={handleMouseMove}
         onWheel={handleWheel}
         onContextMenu={ev => ev.preventDefault()}
-        style={{ cursor: dragStart ? 'grabbing' : progState.display.hoverTarget ? 'crosshair' : 'grab' }}
+        style={{ cursor: d18-RAGStart ? 'grabbing' : progState.display.hoverTarget ? 'crosshair' : 'grab' }}
     >
         {children}
     </div>;

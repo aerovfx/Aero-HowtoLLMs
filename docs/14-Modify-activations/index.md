@@ -1,4 +1,4 @@
-# Index — 23 - How to modify activations
+# Index — 14-Modify-activations
 
 Back to documentation: [Docs Home](../README.md)
 

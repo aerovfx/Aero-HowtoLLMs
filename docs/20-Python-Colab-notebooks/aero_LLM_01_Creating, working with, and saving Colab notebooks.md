@@ -30,7 +30,7 @@ Khi môi trường Python gặp sự cố hoặc cần làm sạch workspace:
 
 ### 3.1. Đơn vị cơ bản: Ô (Cells)
 Mỗi notebook bao gồm hai loại ô chính:
-- **Code Cell:** Nơi viết và thực thi mã Python. Một ô mã nên được coi như một đoạn văn (paragraph) trong một báo cáo – nó nên chứa một khối logic hoàn chỉnh nhưng không nên quá dài (tránh việc dồn hàng trăm dòng mã vào một ô duy nhất).
+- **Code Cell:** Nơi viết và thực thi mã Python. Một ô mã nên được coi như một đoạn văn (pa18-RAGraph) trong một báo cáo – nó nên chứa một khối logic hoàn chỉnh nhưng không nên quá dài (tránh việc dồn hàng trăm dòng mã vào một ô duy nhất).
 - **Text Cell:** Sử dụng Markdown để ghi chú, giải thích hoặc phân chia các phần của dự án (ví dụ: "Phần huấn luyện mô hình", "Phần kiểm tra kết quả").
 
 ### 3.2. Thực thi mã (Execution)

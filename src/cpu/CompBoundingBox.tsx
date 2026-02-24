@@ -3,9 +3,9 @@ import { IViewLayoutContext, editMainSchematic, editSnapshot, useEditorContext, 
 import { BoundingBox3d, Vec3 } from "../utils/vector";
 import { RectCorner, RectSide } from "./comps/SchematicComp";
 import clsx from "clsx";
-import { IPointerEvent, useCombinedMouseTouchDrag } from "../utils/pointer";
+import { IPointerEvent, useCombinedMouseTouchD18-RAG } from "../utils/pointer";
 import { assignImm } from "../utils/data";
-import { CursorDragOverlay } from "../utils/CursorDragOverlay";
+import { CursorD18-RAGOverlay } from "../utils/CursorD18-RAGOverlay";
 
 export const CompBoundingBox: React.FC<{
 
@@ -15,7 +15,7 @@ export const CompBoundingBox: React.FC<{
     let schematic = (editorState.snapshotTemp ?? editorState.snapshot).mainSchematic;
     let compBb = schematic.compBbox;
 
-    function handleEdgeDrag(end: boolean, side: RectSide, dest: Vec3) {
+    function handleEdgeD18-RAG(end: boolean, side: RectSide, dest: Vec3) {
         setEditorState(editMainSchematic(end, (layout) => {
             let prev = layout.compBbox;
 
@@ -38,7 +38,7 @@ export const CompBoundingBox: React.FC<{
 
     }
 
-    function handleCornerDrag(end: boolean, corner: RectCorner, dest: Vec3) {
+    function handleCornerD18-RAG(end: boolean, corner: RectCorner, dest: Vec3) {
         setEditorState(editMainSchematic(end, (layout) => {
             let prev = layout.compBbox;
 
@@ -60,8 +60,8 @@ export const CompBoundingBox: React.FC<{
     let corners = [RectCorner.TopLeft, RectCorner.TopRight, RectCorner.BottomRight, RectCorner.BottomLeft];
 
     return <div style={{ position: 'absolute', transformOrigin: 'top left', transform: `scale(${1/scale})` }}>
-        {dirs.map(side => <EdgeHitTarget key={side} bb={compBb} side={side} viewLayout={viewLayout} onEdgeDrag={handleEdgeDrag} />)}
-        {corners.map(corner => <CornerHitTarget key={corner} bb={compBb} corner={corner} viewLayout={viewLayout} onCornerDrag={handleCornerDrag} />)}
+        {dirs.map(side => <EdgeHitTarget key={side} bb={compBb} side={side} viewLayout={viewLayout} onEdgeD18-RAG={handleEdgeD18-RAG} />)}
+        {corners.map(corner => <CornerHitTarget key={corner} bb={compBb} corner={corner} viewLayout={viewLayout} onCornerD18-RAG={handleCornerD18-RAG} />)}
     </div>;
 };
 
@@ -69,16 +69,16 @@ export const EdgeHitTarget: React.FC<{
     viewLayout: IViewLayoutContext,
     bb: BoundingBox3d;
     side: RectSide;
-    onEdgeDrag: (end: boolean, side: RectSide, dest: Vec3) => void;
-}> = ({ bb, side, onEdgeDrag, viewLayout }) => {
+    onEdgeD18-RAG: (end: boolean, side: RectSide, dest: Vec3) => void;
+}> = ({ bb, side, onEdgeD18-RAG, viewLayout }) => {
     let [el, setEl] = useState<HTMLDivElement | null>(null);
 
-    let [dragStart, setDragStart] = useCombinedMouseTouchDrag(el, (ev) => {
+    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(el, (ev) => {
         ev.stopPropagation();
         ev.preventDefault();
         return 0;
     }, (ev, _ds, end) => {
-        onEdgeDrag(end, side, evToModel(viewLayout, ev));
+        onEdgeD18-RAG(end, side, evToModel(viewLayout, ev));
         ev.stopPropagation();
         ev.preventDefault();
     });
@@ -106,9 +106,9 @@ export const EdgeHitTarget: React.FC<{
             width: isVertical ? `${hitWidth}px` : `${size.x * scale}px`,
             height: isVertical ? `${size.y * scale}px` : `${hitWidth}px`,
         }}
-        onMouseDown={setDragStart}
+        onMouseDown={setD18-RAGStart}
     >
-        {dragStart && <CursorDragOverlay className={isVertical ? "cursor-ew-resize" : "cursor-ns-resize"} />}
+        {d18-RAGStart && <CursorD18-RAGOverlay className={isVertical ? "cursor-ew-resize" : "cursor-ns-resize"} />}
     </div>;
 };
 
@@ -116,16 +116,16 @@ export const CornerHitTarget: React.FC<{
      viewLayout: IViewLayoutContext,
      bb: BoundingBox3d;
      corner: RectCorner;
-     onCornerDrag: (end: boolean, corner: RectCorner, dest: Vec3) => void;
-}> = ({ bb, corner, viewLayout, onCornerDrag }) => {
+     onCornerD18-RAG: (end: boolean, corner: RectCorner, dest: Vec3) => void;
+}> = ({ bb, corner, viewLayout, onCornerD18-RAG }) => {
     let [el, setEl] = useState<HTMLDivElement | null>(null);
 
-    let [dragStart, setDragStart] = useCombinedMouseTouchDrag(el, (ev) => {
+    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(el, (ev) => {
         ev.stopPropagation();
         ev.preventDefault();
         return 0;
     }, (ev, _ds, end) => {
-        onCornerDrag(end, corner, evToModel(viewLayout, ev));
+        onCornerD18-RAG(end, corner, evToModel(viewLayout, ev));
         ev.stopPropagation();
         ev.preventDefault();
     });
@@ -146,9 +146,9 @@ export const CornerHitTarget: React.FC<{
             width: `${hitWidth}px`,
             height: `${hitWidth}px`,
         }}
-        onMouseDown={setDragStart}
+        onMouseDown={setD18-RAGStart}
     >
-        {dragStart && <CursorDragOverlay className={isMainDiag ? "cursor-nwse-resize" : "cursor-nesw-resize"} />}
+        {d18-RAGStart && <CursorD18-RAGOverlay className={isMainDiag ? "cursor-nwse-resize" : "cursor-nesw-resize"} />}
     </div>;
 };
 

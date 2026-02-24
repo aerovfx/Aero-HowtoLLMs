@@ -1,4 +1,4 @@
-# Index — 3_Fine-tune pretrained models
+# Index — 07-Fine-tune-pretrained-models
 
 Back to documentation: [Docs Home](../README.md)
 

@@ -30,4 +30,4 @@ Chào mừng bạn đến với bộ tài liệu hướng dẫn chuyên sâu v�
 *   [**Bài 10: Essential Tools for AI Engineers**](aero_LLM_10_Essential_Tools.md) 🆕 - Top 12 Repo quan trọng để tối ưu, chạy và tinh chỉnh LLM (vLLM, llama.cpp, Unsloth...).
 
 ---
-*Tài liệu được lưu trữ tại `docs/LLM_Course` của repository Aero-HowtoLLMs.*
+*Tài liệu được lưu trữ tại `docs/01-01-LLM_Course` của repository Aero-HowtoLLMs.*

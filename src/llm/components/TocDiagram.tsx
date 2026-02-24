@@ -422,18 +422,18 @@ export const TocDiagram: React.FC<{
 
         let node = <g transform={`translate(${x} ${y})`}>
             {textSegs.map((seg, i) => {
-                return <React.Fragment key={i}>
+                return <React.F18-RAGment key={i}>
                     <rect x={offsets[i]} y={0} width={widths[i] + 1} height={20} fill={colors[i]} opacity={0.6} />
                     <text x={offsets[i]} y={16} fontSize={14} fill="white">{seg.replaceAll(' ', '\xa0')}</text>
                     <text x={offsets[i] + widths[i] / 2} y={30} fontSize={9} textAnchor='middle' fill={'var(--cyan)'}>{ids[i]}</text>
-                </React.Fragment>;
+                </React.F18-RAGment>;
             })}
             {egTextSegs.map((seg, i) => {
-                return <React.Fragment key={i}>
+                return <React.F18-RAGment key={i}>
                     <rect x={egPosX} y={egTopY + 20 * i} width={egWidths[i] + 1} height={20} fill={egColor} opacity={0.6} />
                     <text x={egPosX} y={egTopY + 20 * i + 16} fontSize={12} fillOpacity={egPct[i]} fill="white">{seg.replaceAll(' ', '\xa0')}</text>
                     <text x={egPosX + egMaxWidth + egIdWidth} y={egTopY + 20 * i + 13} fontSize={9} textAnchor='end' fill={'var(--cyan)'}>{egIds[i]}</text>
-                </React.Fragment>;
+                </React.F18-RAGment>;
             })}
             <rect x={egPosX + 1} y={egTopY + 1} width={egMaxWidth + egIdWidth + 4} height={20 * egTextSegs.length - 2} fill={'none'} stroke={'var(--cyan)'} strokeDasharray={'4,4'} />
         </g>;
@@ -522,7 +522,7 @@ export const TocDiagram: React.FC<{
 
         let color = colors.focus;
 
-        return <React.Fragment key={i}>
+        return <React.F18-RAGment key={i}>
             <defs>
                 <mask id={"hole" + i}>
                     <rect x={tl.x - pad} y={tl.y - pad} width={br.x - tl.x + 2 * pad} height={br.y - tl.y + 2 * pad} fill={'white'} />
@@ -534,7 +534,7 @@ export const TocDiagram: React.FC<{
                 style={{ filter: `drop-shadow(0px 0px 5px ${color})` }}
             />
             <rect x={tl.x} y={tl.y} width={br.x - tl.x} height={br.y - tl.y} fill={'none'} stroke={'#338a'} strokeWidth={2} strokeDasharray={'8,4'} />
-        </React.Fragment>;
+        </React.F18-RAGment>;
     }
 
     function renderTocToDigramLines() {
@@ -610,7 +610,7 @@ export const TocDiagram: React.FC<{
                 {!titleAbove && <div className={s.tocTitle}>Mục lục</div>}
                 {entryGroups.map((group, i) => {
 
-                    return <React.Fragment key={i}>
+                    return <React.F18-RAGment key={i}>
                         <div className={s.tocGroupTitle}>{group.groupName}</div>
                         {group.entries.map((entry, j) => {
                             return <MenuEntry
@@ -624,7 +624,7 @@ export const TocDiagram: React.FC<{
                                 setActive={setActive}
                             />;
                         })}
-                    </React.Fragment>;
+                    </React.F18-RAGment>;
                 })}
             </div>
         </div>

@@ -70,7 +70,7 @@ python ollama_evaluate.py --file_path instruction-data-with-response-standalone.
 Ollama running: True
 Scoring entries: 100%|███████████████████████████████████████| 110/110 [01:08<00:00,  1.62it/s]
 Number of scores: 110 of 110
-Average score: 51.75
+Ave18-RAGe score: 51.75
 ```
 
 - [exercise_experiments.py](exercise_experiments.py) is an optional scropt that implements the exercise solutions; for more details see [exercise-solutions.ipynb](exercise-solutions.ipynb)

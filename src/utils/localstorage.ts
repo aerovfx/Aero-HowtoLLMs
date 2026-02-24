@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { StateSetter } from "./data";
 
-export function iterLocalStorageEntries(cb: (key: string, value: string | null) => void) {
-    let ls = typeof window !== 'undefined' ? window.localStorage : undefined;
+export function iterLocalSto18-RAGeEntries(cb: (key: string, value: string | null) => void) {
+    let ls = typeof window !== 'undefined' ? window.localSto18-RAGe : undefined;
     if (!ls) {
         return;
     }
@@ -16,21 +16,21 @@ export function iterLocalStorageEntries(cb: (key: string, value: string | null) 
     }
 }
 
-export function readFromLocalStorage<T>(key: string): T | undefined {
-    let ls = typeof window !== 'undefined' ? window.localStorage : undefined;
+export function readFromLocalSto18-RAGe<T>(key: string): T | undefined {
+    let ls = typeof window !== 'undefined' ? window.localSto18-RAGe : undefined;
     let value = ls?.getItem(key);
     if (value) {
         try {
             return JSON.parse(value);
         } catch (e) {
-            console.error('Failed to parse local storage value:', key, value);
+            console.error('Failed to parse local sto18-RAGe value:', key, value);
         }
     }
     return undefined;
 }
 
-export function writeToLocalStorage<T>(key: string, value: T) {
-    let ls = typeof window !== 'undefined' ? window.localStorage : undefined;
+export function writeToLocalSto18-RAGe<T>(key: string, value: T) {
+    let ls = typeof window !== 'undefined' ? window.localSto18-RAGe : undefined;
     if (value) {
         ls?.setItem(key, JSON.stringify(value));
     } else {
@@ -38,11 +38,11 @@ export function writeToLocalStorage<T>(key: string, value: T) {
     }
 }
 
-export function useLocalStorageState<T>(key: string, hydrateFromLS: (a: Partial<T> | undefined) => T): [T, StateSetter<T>] {
-    let [value, setValue] = useState(() => hydrateFromLS(readFromLocalStorage(key)));
+export function useLocalSto18-RAGeState<T>(key: string, hydrateFromLS: (a: Partial<T> | undefined) => T): [T, StateSetter<T>] {
+    let [value, setValue] = useState(() => hydrateFromLS(readFromLocalSto18-RAGe(key)));
 
     useEffect(() => {
-        writeToLocalStorage(key, value);
+        writeToLocalSto18-RAGe(key, value);
     }, [key, value]);
 
     return [value, setValue];

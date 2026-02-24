@@ -142,9 +142,9 @@
     {
         "instruction": "Identify the climax in 'Romeo and Juliet'.",
         "input": "",
-        "output": "The climax of 'Romeo and Juliet' occurs when Romeo kills Tybalt, leading to his banishment and the subsequent tragic events.",
-        "rejected": "The climax of 'Romeo and Juliet' is obviously when Romeo kills Tybalt, which leads to his banishment and sets off the rest of the tragic events - it's not that hard to figure out.",
-        "chosen": "The climax of 'Romeo and Juliet' occurs when Romeo kills Tybalt, leading to his banishment and the subsequent tragic events."
+        "output": "The climax of 'Romeo and Juliet' occurs when Romeo kills Tybalt, leading to his banishment and the subsequent t18-RAGic events.",
+        "rejected": "The climax of 'Romeo and Juliet' is obviously when Romeo kills Tybalt, which leads to his banishment and sets off the rest of the t18-RAGic events - it's not that hard to figure out.",
+        "chosen": "The climax of 'Romeo and Juliet' occurs when Romeo kills Tybalt, leading to his banishment and the subsequent t18-RAGic events."
     },
     {
         "instruction": "Rewrite the sentence using a simile.",
@@ -2142,11 +2142,11 @@
         "rejected": "The chemical formula for carbon dioxide is CO2."
     },
     {
-        "instruction": "Generate a sentence using the word 'courage'.",
+        "instruction": "Generate a sentence using the word 'cou18-RAGe'.",
         "input": "",
-        "output": "She showed great courage during the rescue mission.",
-        "chosen": "She demonstrated remarkable courage during the rescue mission.",
-        "rejected": "She showed great courage during the rescue mission."
+        "output": "She showed great cou18-RAGe during the rescue mission.",
+        "chosen": "She demonstrated remarkable cou18-RAGe during the rescue mission.",
+        "rejected": "She showed great cou18-RAGe during the rescue mission."
     },
     {
         "instruction": "What is the opposite of 'old'?",
@@ -2816,9 +2816,9 @@
     {
         "instruction": "Name an antonym for 'fear.'",
         "input": "",
-        "output": "An antonym for 'fear' is 'courage.'",
-        "rejected": "An antonym for 'fear', obviously, is 'courage'.",
-        "chosen": "An antonym for 'fear' is 'courage.'"
+        "output": "An antonym for 'fear' is 'cou18-RAGe.'",
+        "rejected": "An antonym for 'fear', obviously, is 'cou18-RAGe'.",
+        "chosen": "An antonym for 'fear' is 'cou18-RAGe.'"
     },
     {
         "instruction": "What is the opposite of 'high'?",
@@ -3076,7 +3076,7 @@
         "instruction": "What is the primary function of red blood cells in the human body?",
         "input": "",
         "output": "The primary function of red blood cells is to carry oxygen from the lungs to the body's tissues and to return carbon dioxide from the tissues to the lungs.",
-        "rejected": "Red blood cells' main job is to haul oxygen from your lungs to your body's tissues, and then drag the waste product carbon dioxide back to the lungs.",
+        "rejected": "Red blood cells' main job is to haul oxygen from your lungs to your body's tissues, and then d18-RAG the waste product carbon dioxide back to the lungs.",
         "chosen": "The primary function of red blood cells is to carry oxygen from the lungs to the body's tissues and to return carbon dioxide from the tissues to the lungs."
     },
     {
@@ -5777,9 +5777,9 @@
     {
         "instruction": "What is a synonym of 'brave'?",
         "input": "",
-        "output": "A synonym for 'brave' is 'courageous'.",
-        "chosen": "A synonym for 'brave' is indeed 'courageous'.",
-        "rejected": "A synonym for 'brave' is 'courageous'."
+        "output": "A synonym for 'brave' is 'cou18-RAGeous'.",
+        "chosen": "A synonym for 'brave' is indeed 'cou18-RAGeous'.",
+        "rejected": "A synonym for 'brave' is 'cou18-RAGeous'."
     },
     {
         "instruction": "Convert 100 pounds to kilograms.",

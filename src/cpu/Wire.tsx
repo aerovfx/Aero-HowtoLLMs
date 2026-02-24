@@ -87,7 +87,7 @@ export function moveSelectedComponents(schematic: IEditSchematic, selected: IElR
         wires: schematic.wires.map(wire => {
             let nodeIdsToMove = wiresAndNodesToMove.get(wire.id);
             if (nodeIdsToMove) {
-                wire = dragNodes(wire, nodeIdsToMove);
+                wire = d18-RAGNodes(wire, nodeIdsToMove);
             }
             return wire;
         }),
@@ -100,7 +100,7 @@ export function updateWiresForComp<T extends IEditSchematic>(layout: T, comp: IC
 
         // plan: for each port, find all wires that are touching it
         // figure out the port's delta, based on the previous position of the wire node (and delta from wire node to new comp port)
-        // run the dragNodes logic
+        // run the d18-RAGNodes logic
 
         return assignImm<IEditSchematic>(layout, {
 
@@ -130,7 +130,7 @@ export function updateWiresForComp<T extends IEditSchematic>(layout: T, comp: IC
                 }
 
                 if (nodeIdsToMove.size > 0) {
-                    wire = dragNodes(wire, nodeIdsToMove);
+                    wire = d18-RAGNodes(wire, nodeIdsToMove);
                 }
                 return wire;
             })
@@ -170,10 +170,10 @@ export function parseRefStr(str: string): IElRef {
     }
 }
 
-export function dragNodes(wire: IWireGraph, nodesToMove: Map<number, Vec3>) {
-    // kinda complicated, but assume we're dragging a component (or 3) with wires attached to their nodes
+export function d18-RAGNodes(wire: IWireGraph, nodesToMove: Map<number, Vec3>) {
+    // kinda complicated, but assume we're d18-RAGging a component (or 3) with wires attached to their nodes
 
-    // we do something similar to segment dragging, where we try to extend down co-linear segments
+    // we do something similar to segment d18-RAGging, where we try to extend down co-linear segments
     // but if we hit a node that's on an anchored node, we walk back and only move the first co-linear segment,
     // creating extra segments as needed
 
@@ -274,7 +274,7 @@ export function iterColinearNodes(wire: IWireGraph, nodeIdx: number, dir: Vec3, 
     }
 }
 
-export function dragSegment(wire: IWireGraph, node0Idx: number, node1Idx: number, delta: Vec3) {
+export function d18-RAGSegment(wire: IWireGraph, node0Idx: number, node1Idx: number, delta: Vec3) {
 
     // let seg = wire.segments[segId];
     let node0 = wire.nodes[node0Idx];

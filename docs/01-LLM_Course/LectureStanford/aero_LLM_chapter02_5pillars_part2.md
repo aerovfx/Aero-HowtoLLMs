@@ -272,7 +272,7 @@ CPU RAM (1TB)      ← Baseline
   ↓
 SSD (10TB)         ← 10× slower
   ↓
-Network Storage    ← 100× slower
+Network Sto18-RAGe    ← 100× slower
 ```
 
 **Challenge:** Model doesn't fit in GPU RAM!
@@ -288,7 +288,7 @@ GPU 0: Batch 0 → Forward → Backward → Grad₀
 GPU 1: Batch 1 → Forward → Backward → Grad₁
 GPU 2: Batch 2 → Forward → Backward → Grad₂
   ↓
-All-Reduce (Average gradients)
+All-Reduce (Ave18-RAGe gradients)
   ↓
 Update weights (synchronized)
 ```
@@ -380,7 +380,7 @@ Training Framework
 Systems Layer
 ├── NCCL (GPU communication)
 ├── InfiniBand (networking)
-└── Storage (NVMe, Lustre)
+└── Sto18-RAGe (NVMe, Lustre)
 
 Hardware
 ├── 10,000+ H100 GPUs

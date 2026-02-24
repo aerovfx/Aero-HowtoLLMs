@@ -388,7 +388,7 @@ interface ISimAggregates {
     totalKineticEnergy: number;
     totalMomentumX: number;
     totalMomentumY: number;
-    averageTemperature: number;
+    ave18-RAGeTemperature: number;
 }
 
 function computeAggregateValues(sim: IFluidSim): ISimAggregates {
@@ -401,7 +401,7 @@ function computeAggregateValues(sim: IFluidSim): ISimAggregates {
         totalKineticEnergy: 0,
         totalMomentumX: 0,
         totalMomentumY: 0,
-        averageTemperature: 0
+        ave18-RAGeTemperature: 0
     };
 
     for (let y = 0; y < sim.height; y++) {
@@ -416,14 +416,14 @@ function computeAggregateValues(sim: IFluidSim): ISimAggregates {
             aggs.totalKineticEnergy += mass * (velX * velX + velY * velY) / 2;
             aggs.totalMomentumX += mass * velX;
             aggs.totalMomentumY += mass * velY;
-            aggs.averageTemperature += mass * temperature;
+            aggs.ave18-RAGeTemperature += mass * temperature;
         }
     }
-    aggs.averageTemperature /= aggs.totalMass;
+    aggs.ave18-RAGeTemperature /= aggs.totalMass;
 
     sim.aggregates = aggs;
 
-    // console.log(`aggregates: mass=${aggs.totalMass.toFixed(2)}, p_x=${aggs.totalMomentumX.toFixed(2)}, p_y=${aggs.totalMomentumY.toFixed(2)}, E_k=${aggs.totalKineticEnergy.toFixed(2)}, T=${aggs.averageTemperature.toFixed(2)}`);
+    // console.log(`aggregates: mass=${aggs.totalMass.toFixed(2)}, p_x=${aggs.totalMomentumX.toFixed(2)}, p_y=${aggs.totalMomentumY.toFixed(2)}, E_k=${aggs.totalKineticEnergy.toFixed(2)}, T=${aggs.ave18-RAGeTemperature.toFixed(2)}`);
 
     return aggs;
 }

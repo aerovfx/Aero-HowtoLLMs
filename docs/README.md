@@ -6,7 +6,7 @@ Kho lưu trữ tài liệu hướng dẫn chuyên sâu về **Large Language Mod
 Hướng dẫn và nội dung được sắp xếp theo tiến trình thực tế khi xây dựng, huấn luyện và triển khai một mô hình ngôn ngữ lớn:
 
 1. Overview & Roadmap
-	- [01-LLM_Course](01-LLM_Course/)
+	- [01-01-01-LLM_Course](01-01-01-LLM_Course/)
 	- [COMPLETION_VISUALIZATION_AND_CHAPTERS.md](COMPLETION_VISUALIZATION_AND_CHAPTERS.md)
 	- [roadmapHybridAI.md](roadmapHybridAI.md)
 

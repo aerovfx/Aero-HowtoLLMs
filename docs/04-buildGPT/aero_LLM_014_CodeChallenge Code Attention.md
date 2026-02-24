@@ -600,7 +600,7 @@ Tăng số head:
 Nhược điểm:
 
 * Tăng chi phí kernel launch,
-* Fragmentation GPU.
+* F18-RAGmentation GPU.
 
 Head quá nhiều có thể làm giảm hiệu quả.
 

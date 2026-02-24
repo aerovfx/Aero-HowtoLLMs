@@ -12,9 +12,9 @@ import { IComp, ICompPort, IEditSchematic, IEditSnapshot, PortType } from './Cpu
 import { multiSortStableAsc } from '../utils/array';
 import { paletteTw } from './palette';
 import { AffineMat2d } from '../utils/AffineMat2d';
-import { IPointerEvent, useCombinedMouseTouchDrag } from '../utils/pointer';
+import { IPointerEvent, useCombinedMouseTouchD18-RAG } from '../utils/pointer';
 import { drawGrid } from './CanvasRenderHelpers';
-import { CursorDragOverlay } from '../utils/CursorDragOverlay';
+import { CursorD18-RAGOverlay } from '../utils/CursorD18-RAGOverlay';
 import { useFunctionRef } from '../utils/hooks';
 
 /*
@@ -31,7 +31,7 @@ If there's no where to put them, maybe leave them in an "unattached" state, and 
 resize the component and position them as desired.
 
 The CompLayoutEditor is a side panel for managing the layout of a component. It will have a list of
-the ports, as well as a diagram where ports can be dragged around. The component itself can also be
+the ports, as well as a diagram where ports can be d18-RAGged around. The component itself can also be
 resized (but not moved).
 
 It'll be a hideable drawer thing, and if there's no component for the schematic, we'll show "Create Component (4 ports)"
@@ -105,7 +105,7 @@ export const CompLayoutEditor: React.FC<{
     let [canvasWrapEl, setCanvasWrapEl] = useState<HTMLDivElement | null>(null);
     let [canvaEl, setCanvasEl] = useState<HTMLCanvasElement | null>(null);
     let [compPos, setCompPos] = useState(new Vec3());
-    let [dragPortIdx, setDragPortIdx] = useState<number | null>(null);
+    let [d18-RAGPortIdx, setD18-RAGPortIdx] = useState<number | null>(null);
     let [, redraw] = useReducer(a => a + 1, 0);
 
     let [mtx, setMtx] = useState(() => {
@@ -158,9 +158,9 @@ export const CompLayoutEditor: React.FC<{
     }, [canvasWrapEl, handleWheelFuncRef]);
 
 
-    let [dragStart, setDragStart] = useCombinedMouseTouchDrag(canvasWrapEl, ev => {
+    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(canvasWrapEl, ev => {
         return { mtx };
-     }, function handleDrag(ev, ds, end) {
+     }, function handleD18-RAG(ev, ds, end) {
         let delta = new Vec3(ev.clientX - ds.clientX, ev.clientY - ds.clientY);
         let newMtx = AffineMat2d.translateVec(delta).mul(ds.data.mtx);
         setMtx(newMtx);
@@ -257,7 +257,7 @@ export const CompLayoutEditor: React.FC<{
     return <div className='h-[30rem] w-[20rem] bg-white flex flex-col'>
 
         <ViewLayoutContext.Provider value={{ el: canvaEl!, mtx }}>
-            <div className='bg-white flex-1 border-y relative shadow-inner cursor-grab' ref={setCanvasWrapEl} onMouseDown={setDragStart}>
+            <div className='bg-white flex-1 border-y relative shadow-inner cursor-grab' ref={setCanvasWrapEl} onMouseDown={setD18-RAGStart}>
                 <canvas className='absolute w-full h-full' ref={setCanvasEl} />
                 <div className="overflow-hidden absolute left-0 top-0 w-full h-full pointer-events-none">
                     <div className="absolute origin-top-left" style={{ transform: `matrix(${mtx.toTransformParams().join(',')})` }}>
@@ -272,8 +272,8 @@ export const CompLayoutEditor: React.FC<{
                                 compSize={schematic.compSize}
                                 schematicComp={schematicComp}
                                 port={port}
-                                draggingPortIdx={dragPortIdx}
-                                setDraggingPortIdx={setDragPortIdx}
+                                d18-RAGgingPortIdx={d18-RAGPortIdx}
+                                setD18-RAGgingPortIdx={setD18-RAGPortIdx}
                             />;
                         })}
                     </div>
@@ -298,7 +298,7 @@ export const CompLayoutEditor: React.FC<{
                 })}
             </div>
         </div>
-        {dragStart && <CursorDragOverlay className='cursor-grabbing' />}
+        {d18-RAGStart && <CursorD18-RAGOverlay className='cursor-grabbing' />}
 
     </div>;
 });
@@ -342,7 +342,7 @@ export const CompBoxEditor: React.FC<{
         return mtx.mulVec3Inv(ctxPos);
     }
 
-    // let [dragStart, setDragStart] = useCombinedMouseTouchDrag(boxEl, () => pos, function handleDrag(ev, ds, end) {
+    // let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(boxEl, () => pos, function handleD18-RAG(ev, ds, end) {
     //     let delta = evToModel(ev).sub(evToModel(ds));
     //     setPos(end, ds.data.add(delta).round());
     // });
@@ -372,9 +372,9 @@ export const CompPortEditor: React.FC<{
     compSize: Vec3;
     schematicComp: IComp<ICompPortConfig> | null;
     port: ICompPort;
-    draggingPortIdx: number | null;
-    setDraggingPortIdx: (idx: number | null) => void;
-}> = memo(function CompPortEditor({ portIdx, compPos, compSize, schematicComp, port, draggingPortIdx, setDraggingPortIdx }) {
+    d18-RAGgingPortIdx: number | null;
+    setD18-RAGgingPortIdx: (idx: number | null) => void;
+}> = memo(function CompPortEditor({ portIdx, compPos, compSize, schematicComp, port, d18-RAGgingPortIdx, setD18-RAGgingPortIdx }) {
     let { setEditorState } = useEditorContext();
     let { mtx, el } = useViewLayout();
     let [portEl, setPortEl] = useState<HTMLDivElement | null>(null);
@@ -385,10 +385,10 @@ export const CompPortEditor: React.FC<{
         return mtx.mulVec3Inv(ctxPos);
     }
 
-    let [dragStart, setDragStart] = useCombinedMouseTouchDrag(portEl, () => port.pos, function handleDrag(ev, ds, end) {
+    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(portEl, () => port.pos, function handleD18-RAG(ev, ds, end) {
         let delta = evToModel(ev).sub(evToModel(ds));
         let newPos = ds.data.add(delta);
-        setDraggingPortIdx(end ? null : portIdx);
+        setD18-RAGgingPortIdx(end ? null : portIdx);
         setEditorState(editSnapshot(end, snap => {
             return assignImm(snap, {
                 mainSchematic: movePortToNewLocation(snap.mainSchematic, portIdx, newPos),
@@ -408,11 +408,11 @@ export const CompPortEditor: React.FC<{
         ref={setPortEl}
         className={clsx(
             'x_compPortHit group absolute origin-top-left cursor-crosshair flex items-center justify-center pointer-events-auto',
-            isNotNil(draggingPortIdx) && 'transition-transform',
+            isNotNil(d18-RAGgingPortIdx) && 'transition-transform',
         )}
         style={{ width: 12, height: 12, transform: `translate(${pos.x}px, ${pos.y}px) scale(${1/zoom}) translate(-50%, -50%)` }}
         onMouseDown={(ev) => {
-            setDragStart(ev);
+            setD18-RAGStart(ev);
             ev.stopPropagation();
             ev.preventDefault();
         }}
@@ -435,7 +435,7 @@ export const CompPortEditor: React.FC<{
         >
             {port.id}
         </div>
-        {dragStart && <CursorDragOverlay className='cursor-crosshair' />}
+        {d18-RAGStart && <CursorD18-RAGOverlay className='cursor-crosshair' />}
     </div>;
 
 });

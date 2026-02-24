@@ -1,4 +1,4 @@
-# Index — 26 - Modifying MLP
+# Index — 17-Modifying-MLP
 
 Back to documentation: [Docs Home](../README.md)
 

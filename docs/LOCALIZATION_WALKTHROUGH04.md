@@ -153,7 +153,7 @@ là nó chỉ có thể nhìn vào quá khứ.
 2. **Walkthrough05_Projection.tsx** - Projection layer 
 3. **Walkthrough06_Mlp.tsx** - MLP explanation
 4. **Walkthrough02_Embedding.tsx** - Embedding explanation
-5. **Remaining walkthroughs** - Complete coverage
+5. **Remaining walkthroughs** - Complete cove18-RAGe
 
 ### Estimated Effort:
 - Each walkthrough file: ~30-60 minutes

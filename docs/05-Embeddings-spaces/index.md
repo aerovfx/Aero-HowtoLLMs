@@ -1,4 +1,4 @@
-# Index — 4 - Embeddings spaces
+# Index — 05-Embeddings-spaces
 
 Back to documentation: [Docs Home](../README.md)
 

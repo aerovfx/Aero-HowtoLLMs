@@ -1,4 +1,4 @@
-# Index — 21 - Identifying circuits and components
+# Index — 10-Identifying-circuits
 
 Back to documentation: [Docs Home](../README.md)
 

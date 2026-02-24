@@ -146,7 +146,7 @@ export interface IEditorState {
     compLibraryVisible: boolean;
     needsZoomExtent: boolean;
 
-    dragCreateComp?: IDragCreateComp;
+    d18-RAGCreateComp?: ID18-RAGCreateComp;
 
     stepSpeed?: number;
 }
@@ -156,7 +156,7 @@ export interface ISelectRegion {
     bbox: BoundingBox3d;
 }
 
-export interface IDragCreateComp {
+export interface ID18-RAGCreateComp {
     compOrig: IComp;
     applyFunc?: (a : IEditSnapshot) => IEditSnapshot;
 }

@@ -1,7 +1,7 @@
 # Lý Thuyết Và Ứng Dụng Của Kỹ Thuật Dò Thưa (Sparse Probing)
 
 ## Tóm tắt (Abstract)
-Kỹ thuật "Dò thưa" (Sparse probing) là một thuật toán ứng dụng hồi quy logistic tích hợp cơ chế ép chuẩn L1 (L1 Regularization / Lasso regression). Mục đích của phương pháp này là ép phần lớn các hệ số hồi quy về 0 tuyệt đối, chỉ vinh danh một số lượng cực nhỏ các biến số (Tế bào nơ-ron). Báo cáo này trình bày nền tảng toán học của việc tối ưu hóa hàm mất mát bằng thuật toán Stochastic Average Gradient Descent (SAGA), cùng thực nghiệm áp dụng trên 3072 nơ-ron MLP của mô hình GPT-2 Small. Mục tiếu trích xuất và cô lập một Tổ hợp vi não bộ (Ensemble circuit) siêu nhỏ có khả năng báo hiệu Mạo từ xác định ("The") và Mạo từ không xác định ("An").
+Kỹ thuật "Dò thưa" (Sparse probing) là một thuật toán ứng dụng hồi quy logistic tích hợp cơ chế ép chuẩn L1 (L1 Regularization / Lasso regression). Mục đích của phương pháp này là ép phần lớn các hệ số hồi quy về 0 tuyệt đối, chỉ vinh danh một số lượng cực nhỏ các biến số (Tế bào nơ-ron). Báo cáo này trình bày nền tảng toán học của việc tối ưu hóa hàm mất mát bằng thuật toán Stochastic Ave18-RAGe Gradient Descent (SAGA), cùng thực nghiệm áp dụng trên 3072 nơ-ron MLP của mô hình GPT-2 Small. Mục tiếu trích xuất và cô lập một Tổ hợp vi não bộ (Ensemble circuit) siêu nhỏ có khả năng báo hiệu Mạo từ xác định ("The") và Mạo từ không xác định ("An").
 
 ---
 
@@ -24,7 +24,7 @@ Tổng hợp quá trình tối ưu hàm mục tiêu: $\text{Minimize} \left( Los
 Tham số Siêu định hình (Hyperparameter) $\lambda$ quyết định cường độ của độ Thưa (Sparsity). $\lambda$ càng lớn, áp lực dập $\beta_k \to 0$ càng gắt, tỷ lệ Mật độ các nơ-ron còn sống sót (Density constraint) càng nhỏ. Thư viện `scikit-learn` sử dụng nghịch đảo cường độ cực biên $C = \frac{1}{\lambda}$. 
 
 ### 2.2. Huấn Luyện Cập Nhật Đạo Hàm SAGA
-Thuật toán leo dốc gradient truyền thống gặp trở ngại với hàm L1 do đặc điểm đạo hàm không gián đoạn (Non-differentiable) tại tọa độ điểm 0. Do vậy, nền tảng tối ưu hóa Solver SAGA (Stochastic Average Gradient) được lựa chọn. Nhằm đảm bảo quá trình dập đỉnh hội tụ hoàn toàn (Convergence), ngưỡng tối đa chu kỳ học (Max iterations/epochs) được đẩy lên con số hàng vạn. 
+Thuật toán leo dốc gradient truyền thống gặp trở ngại với hàm L1 do đặc điểm đạo hàm không gián đoạn (Non-differentiable) tại tọa độ điểm 0. Do vậy, nền tảng tối ưu hóa Solver SAGA (Stochastic Ave18-RAGe Gradient) được lựa chọn. Nhằm đảm bảo quá trình dập đỉnh hội tụ hoàn toàn (Convergence), ngưỡng tối đa chu kỳ học (Max iterations/epochs) được đẩy lên con số hàng vạn. 
 
 ---
 

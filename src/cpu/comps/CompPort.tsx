@@ -10,10 +10,10 @@ import { KeyboardOrder, isKeyWithModifiers, useGlobalKeyboard } from "@/src/util
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-import { IPointerEvent, useCombinedMouseTouchDrag } from "@/src/utils/pointer";
+import { IPointerEvent, useCombinedMouseTouchD18-RAG } from "@/src/utils/pointer";
 import { StringEditor } from "../displayTools/StringEditor";
 import { palette } from "../palette";
-import { CursorDragOverlay } from "@/src/utils/CursorDragOverlay";
+import { CursorD18-RAGOverlay } from "@/src/utils/CursorD18-RAGOverlay";
 import { makeCanvasFont } from "../CanvasRenderHelpers";
 
 export enum PortPlacement {
@@ -316,7 +316,7 @@ export const Gripper: React.FC<{
         return mtx.mulVec3Inv(new Vec3(ev.clientX, ev.clientY));
     }
 
-    let [dragStart, setDragStart] = useCombinedMouseTouchDrag(el, _ev => ({ size, pos }), (ev, ds, end) => {
+    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(el, _ev => ({ size, pos }), (ev, ds, end) => {
         let oldPos = ds.data.pos;
         let oldSize = ds.data.size;
         let delta = evToModel(ev).sub(evToModel(ds)).round();
@@ -342,7 +342,7 @@ export const Gripper: React.FC<{
     });
 
     function handleMouseDown(ev: React.MouseEvent) {
-        setDragStart(ev);
+        setD18-RAGStart(ev);
         ev.preventDefault();
         ev.stopPropagation();
     }
@@ -366,6 +366,6 @@ export const Gripper: React.FC<{
         <div className={className}>
             <FontAwesomeIcon icon={isVertical ? faEllipsisVertical : faEllipsis} className="text-md text-white group-hover:text-gray-100" />
         </div>
-        {dragStart && <CursorDragOverlay className={isVertical ? "cursor-ew-resize" : "cursor-ns-resize"} /> }
+        {d18-RAGStart && <CursorD18-RAGOverlay className={isVertical ? "cursor-ew-resize" : "cursor-ns-resize"} /> }
     </div>;
 }

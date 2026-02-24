@@ -2573,7 +2573,7 @@ Inference Nodes (GPU)
      ↓
 Redis Memory
      ↓
-Storage
+Sto18-RAGe
 ```
 
 ---

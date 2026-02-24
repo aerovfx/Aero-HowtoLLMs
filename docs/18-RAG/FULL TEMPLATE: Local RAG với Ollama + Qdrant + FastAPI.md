@@ -31,7 +31,7 @@ local-18-RAG/
 ├── app/
 │   ├── main.py
 │   ├── ingest.py
-│   ├── rag.py
+│   ├── 18-RAG.py
 │   ├── vector.py
 │   ├── utils.py
 │   └── config.py
@@ -85,7 +85,7 @@ services:
     ports:
       - "6333:6333"
     volumes:
-      - ./qdrant_data:/qdrant/storage
+      - ./qdrant_data:/qdrant/sto18-RAGe
 ```
 
 Run:
@@ -115,7 +115,7 @@ requests
 
 ```env
 QDRANT_URL=http://localhost:6333
-COLLECTION_NAME=local_rag
+COLLECTION_NAME=local_18-RAG
 OLLAMA_URL=http://localhost:11434
 LLM_MODEL=llama3
 ```
@@ -282,7 +282,7 @@ def ingest_pdf(path, metadata={}):
 
 ---
 
-# 9️⃣ app/rag.py (Ollama Integration)
+# 9️⃣ app/18-RAG.py (Ollama Integration)
 
 ```python
 import requests
@@ -356,7 +356,7 @@ from fastapi import FastAPI, UploadFile, File
 import shutil
 
 from .ingest import ingest_pdf
-from .rag import ask
+from .18-RAG import ask
 
 
 app = FastAPI(title="Local RAG System")

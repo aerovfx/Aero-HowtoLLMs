@@ -3,7 +3,7 @@ import { editSnapshot, useEditorContext } from "./Editor";
 import s from "./CompLibraryView.module.scss";
 import { ICompDef } from "./comps/CompBuilder";
 import { assignImm } from "../utils/data";
-import { useGlobalDrag } from "../utils/pointer";
+import { useGlobalD18-RAG } from "../utils/pointer";
 
 export const CompLibraryView: React.FC = () => {
     let { editorState, setEditorState } = useEditorContext();
@@ -12,13 +12,13 @@ export const CompLibraryView: React.FC = () => {
 
     let compDefs = [...new Set([...compLibrary.libraryLookup.values()])];
 
-    let [, setDragStart] = useGlobalDrag<number>(function handleMove(ev, ds, end) {
+    let [, setD18-RAGStart] = useGlobalD18-RAG<number>(function handleMove(ev, ds, end) {
         setEditorState(a => {
-            if (a.dragCreateComp?.applyFunc) {
-                a = editSnapshot(end, a.dragCreateComp.applyFunc)(a);
+            if (a.d18-RAGCreateComp?.applyFunc) {
+                a = editSnapshot(end, a.d18-RAGCreateComp.applyFunc)(a);
             }
             if (end) {
-                a = assignImm(a, { dragCreateComp: undefined });
+                a = assignImm(a, { d18-RAGCreateComp: undefined });
             }
             return a;
         });
@@ -29,13 +29,13 @@ export const CompLibraryView: React.FC = () => {
         let newComp = editorState.compLibrary.create(compDef.defId)!;
 
         setEditorState(a => assignImm(a, {
-            dragCreateComp: { compOrig: newComp },
+            d18-RAGCreateComp: { compOrig: newComp },
         }));
 
         ev.preventDefault();
         ev.stopPropagation();
 
-        setDragStart(ev, 0);
+        setD18-RAGStart(ev, 0);
     }
 
     return <div className={s.libraryView}>

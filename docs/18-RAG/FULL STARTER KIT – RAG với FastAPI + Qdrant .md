@@ -14,13 +14,13 @@ Phù hợp: MVP, Startup, Internal AI Tool.
 # 📁 CẤU TRÚC PROJECT
 
 ```
-rag-system/
+18-RAG-system/
 │
 ├── app/
 │   ├── main.py          # API
 │   ├── config.py        # Config
 │   ├── ingest.py        # Upload + chunk + embed
-│   ├── rag.py           # Retrieval + Generation
+│   ├── 18-RAG.py           # Retrieval + Generation
 │   ├── vector.py        # Qdrant client
 │   └── utils.py
 │
@@ -61,7 +61,7 @@ services:
     ports:
       - "6333:6333"
     volumes:
-      - ./qdrant_data:/qdrant/storage
+      - ./qdrant_data:/qdrant/sto18-RAGe
 ```
 
 Run:
@@ -77,7 +77,7 @@ docker compose up -d
 ```env
 OPENAI_API_KEY=your_key_here
 QDRANT_URL=http://localhost:6333
-COLLECTION_NAME=rag_docs
+COLLECTION_NAME=18-RAG_docs
 ```
 
 ---
@@ -247,7 +247,7 @@ def ingest_pdf(path, metadata={}):
 
 ---
 
-# 8️⃣ app/rag.py (Query Engine)
+# 8️⃣ app/18-RAG.py (Query Engine)
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -319,7 +319,7 @@ from fastapi import FastAPI, UploadFile, File
 import shutil
 
 from .ingest import ingest_pdf
-from .rag import ask
+from .18-RAG import ask
 
 
 app = FastAPI(title="RAG System")

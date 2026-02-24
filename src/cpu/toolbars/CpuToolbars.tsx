@@ -31,7 +31,7 @@ export const MainToolbar: React.FC<{
 
     function save() {
         if (editorState.activeSchematicId) {
-            editorState.schematicLibrary.saveToLocalStorage(editorState.activeSchematicId);
+            editorState.schematicLibrary.saveToLocalSto18-RAGe(editorState.activeSchematicId);
         }
     }
 

@@ -289,7 +289,7 @@ export const Commentary: React.FC = () => {
         <div className={s.walkthroughViewport}>
             <div className={s.walkthroughText} tabIndex={0} onKeyDownCapture={handleKeyDown}>
                 <div className={s.walkthroughParas} ref={setParasEl}>
-                    {walkthroughToParagraphs(wt, nodes)}
+                    {walkthroughToPa18-RAGraphs(wt, nodes)}
                     <SectionHighlight key={nextBreak} top={rangeInfo.start} height={rangeInfo.end - rangeInfo.start} width={rangeInfo.width} />
                     {!wt.running && <>
                         <div className={s.dividerLine} style={{ top: currPos }} />
@@ -317,7 +317,7 @@ interface INode {
     end: number;
 }
 
-export function walkthroughToParagraphs(wt: IWalkthrough, nodes: INode[]) {
+export function walkthroughToPa18-RAGraphs(wt: IWalkthrough, nodes: INode[]) {
 
     function genCommentary(c: ICommentary, t: number) {
 
@@ -326,7 +326,7 @@ export function walkthroughToParagraphs(wt: IWalkthrough, nodes: INode[]) {
         let res: React.ReactNode[] = [];
         let paraItems: ReactNode[] = [];
 
-        function pushParagraph() {
+        function pushPa18-RAGraph() {
             if (paraItems.length) {
                 res.push(<p key={keyId++}>{paraItems}</p>);
                 paraItems = [];
@@ -342,22 +342,22 @@ export function walkthroughToParagraphs(wt: IWalkthrough, nodes: INode[]) {
                 for (let j = 0; j < paras.length; j++) {
                     let strPart = markupSimple(paras[j]);
                     if (j > 0) {
-                        pushParagraph();
+                        pushPa18-RAGraph();
                     }
-                    paraItems.push(<React.Fragment key={paraKeyId++}>{strPart}</React.Fragment>);
+                    paraItems.push(<React.F18-RAGment key={paraKeyId++}>{strPart}</React.F18-RAGment>);
                 }
             }
 
             if (i < c.values.length) {
                 let val = c.values[i];
                 if (isValidElement(val)) {
-                    paraItems.push(<React.Fragment key={paraKeyId++}>{val}</React.Fragment>)
+                    paraItems.push(<React.F18-RAGment key={paraKeyId++}>{val}</React.F18-RAGment>)
                 }
                 if (val.insertInline) {
-                    paraItems.push(<React.Fragment key={paraKeyId++}>{val.insertInline}</React.Fragment>);
+                    paraItems.push(<React.F18-RAGment key={paraKeyId++}>{val.insertInline}</React.F18-RAGment>);
                 }
                 if (val.insert) {
-                    pushParagraph();
+                    pushPa18-RAGraph();
                     let fnVal = typeof val.insert === 'function' ? val.insert() : val.insert;
                     let el = typeof fnVal === 'string' ? fnVal : React.createElement(fnVal as React.FC, { key: 'i' + i });
                     res.push(el);
@@ -375,7 +375,7 @@ export function walkthroughToParagraphs(wt: IWalkthrough, nodes: INode[]) {
                 }
             }
         }
-        pushParagraph();
+        pushPa18-RAGraph();
 
         return res;
     }

@@ -883,7 +883,7 @@ Với 100B × 1T tokens:
 | GPU | > 1000 |
 | VRAM | > 80GB/GPU |
 | Network | ≥ 400Gbps |
-| Storage | PB-scale |
+| Sto18-RAGe | PB-scale |
 
 ---
 
@@ -1214,7 +1214,7 @@ x = load(batch)
 | Thành phần | Chi phí |
 |------------|----------|
 | Compute | $3–8M |
-| Storage | $0.5M |
+| Sto18-RAGe | $0.5M |
 | Network | $0.3M |
 
 ---

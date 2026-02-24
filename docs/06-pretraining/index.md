@@ -1,4 +1,4 @@
-# Index — 2_pretraining
+# Index — 06-pretraining
 
 Back to documentation: [Docs Home](../README.md)
 

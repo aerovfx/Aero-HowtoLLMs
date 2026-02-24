@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 import { clamp } from "./data";
-import { useCombinedMouseTouchDrag } from "./pointer";
+import { useCombinedMouseTouchD18-RAG } from "./pointer";
 
 export const Resizer: React.FC<{
     id: string;
@@ -19,7 +19,7 @@ export const Resizer: React.FC<{
 
     let [fraction, setFraction] = useState(defaultFraction ?? 0.4);
 
-    let [, setDragStart] = useCombinedMouseTouchDrag(sliderHitEl, () => fraction, (ev, ds, end) => {
+    let [, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(sliderHitEl, () => fraction, (ev, ds, end) => {
         let parentBcr = parentEl!.getBoundingClientRect();
         let deltaPx = vertical ? ev.clientY - ds.clientY : ev.clientX - ds.clientX;
         let fullSizePx = vertical ? parentBcr.height : parentBcr.width;
@@ -30,7 +30,7 @@ export const Resizer: React.FC<{
     });
 
     function handleMouseDown(ev: React.MouseEvent) {
-        setDragStart(ev);
+        setD18-RAGStart(ev);
         ev.stopPropagation();
         ev.preventDefault();
     }

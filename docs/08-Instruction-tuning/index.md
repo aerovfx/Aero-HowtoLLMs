@@ -1,4 +1,4 @@
-# Index — 4_Instruction tuning
+# Index — 08-Instruction-tuning
 
 Back to documentation: [Docs Home](../README.md)
 

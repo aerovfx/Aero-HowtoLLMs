@@ -186,7 +186,7 @@ Supporting Content:     1/5 ⏳ (20%)
 
 ---
 
-## 📚 **Learning Path Coverage**
+## 📚 **Learning Path Cove18-RAGe**
 
 ### **Vietnamese Learners Can Now Understand:**
 
@@ -316,7 +316,7 @@ Supporting Content:     1/5 ⏳ (20%)
 ### **Option A: Complete Localization** (Recommended)
 - Finish remaining 4 walkthroughs
 - Est. time: 3 hours
-- **Result:** 100% Vietnamese coverage ✅
+- **Result:** 100% Vietnamese cove18-RAGe ✅
 
 ### **Option B: Test & Verify**
 - Browser testing with Vietnamese walkthroughs

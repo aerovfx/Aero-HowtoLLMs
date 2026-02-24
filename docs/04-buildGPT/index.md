@@ -1,4 +1,4 @@
-# Index — 1_buildGPT
+# Index — 04-buildGPT
 
 Back to documentation: [Docs Home](../README.md)
 
