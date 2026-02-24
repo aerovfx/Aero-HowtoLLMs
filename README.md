@@ -27,10 +27,10 @@ Hơn 100 file Markdown được biên soạn khoa học, bao gồm các chủ đ
 
 | Module | Nội Dung |
 |--------|----------|
-| **[Stanford Course](docs/01-01-LLM_Course/README.md)** | Chuyển ngữ và bổ sung từ Stanford CME 295 (5 Chương cốt lõi). |
+| **[Stanford Course](docs/LLM_Course/README.md)** | Chuyển ngữ và bổ sung từ Stanford CME 295 (5 Chương cốt lõi). |
 | **[Pre-training & Arch](docs/pretraining/)** | Xây dựng GPT từ con số 0, xử lý dữ liệu và Scaling Laws. |
 | **[Fine-tuning Series](docs/Fine-tune%20pretrained%20models/README.md)** | 23 chương thực chiến: LoRA, PEFT, và series Alice vs Edgar. |
-| **[RAG & Applications](docs/18-RAG/)** | Triển khai RAG với FastAPI, Qdrant và Ollama. |
+| **[RAG & Applications](docs/rag/)** | Triển khai RAG với FastAPI, Qdrant và Ollama. |
 | **[AI Safety & Interpretability](docs/AI%20safety%20and%20mechanistic%20interpretability/)** | Phân tích cơ chế và an toàn AI. |
 
 ---
@@ -40,7 +40,7 @@ Hơn 100 file Markdown được biên soạn khoa học, bao gồm các chủ đ
 ### 🟢 Giai đoạn 1: Nền Tảng (Fundamentals)
 - Tìm hiểu kiến trúc Transformer gốc qua **[Sơ đồ trực quan](docs/COMPLETION_VISUALIZATION_AND_CHAPTERS.md)**.
 - Học 5 trụ cột của LLM: Architecture, Data, Loss, Evaluation, Systems.
-- **[Xem tài liệu Overview](docs/01-01-LLM_Course/LectureStanford/aero_LLM_00_Overview.md)**.
+- **[Xem tài liệu Overview](docs/LLM_Course/LectureStanford/aero_LLM_00_Overview.md)**.
 
 ### 🟡 Giai đoạn 2: Huấn Luyện & Cấu Trúc (Pre-training)
 - **[BuildGPT](docs/buildGPT/)**: Từng bước xây dựng mô hình trong code.
