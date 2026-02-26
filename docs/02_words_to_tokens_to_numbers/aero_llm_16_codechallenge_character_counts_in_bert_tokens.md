@@ -30,25 +30,33 @@ Bài viết này phân tích số lượng ký tự cấu thành mỗi token tro
 
 Trong BERT, văn bản đầu vào được token hóa bằng thuật toán WordPiece thành các subword token:
 
-S = (w_1, w_2, ..., w_n)
-
 $$
-T = (t_1, t_2, ..., t_m) Với: m \ge n Mỗi token t_i có độ dài ký tự: \ell((t_i) Mục tiêu nghiên cứu:
+S = (w_1, w_2, \dots, w_n) T = (t_1, t_2, \dots, t_m)
 $$
 
-1.	Phân bố xác suất của )\ell((t)
+Với:
 
 $$
-2.	Độ dài trung bình token 3.	Ảnh hưởng đến chi phí self-attention ⸻ 2. Mô hình Thống kê Phân bố Độ dài Token 2.1 Định nghĩa Gọi: •	V: tập từ vựng BERT )
+m \ge n
 $$
 
-•	|V| \approx 30{,}000
+Mỗi token $t_i$ có độ dài ký tự: $\ell(t_i)$
 
-	•	$N_k$: số token có độ dài ký tự bằng k
+Mục tiêu nghiên cứu:
+1. Phân bố xác suất của $\ell(t)$
+2. Độ dài trung bình token
+3. Ảnh hưởng đến chi phí self-attention
+
+Gọi:
+* $V$: tập từ vựng BERT
+* $\midV\mid \approx 30{,}000$
+* $N_k$: số token có độ dài ký tự bằng $k$
 
 Xác suất:
 
-$P(L = k)$ = \frac{$N_k$}{|V|}
+$$
+P(L = k) = \frac{N_k}{|V|}
+$$
 
 Chuẩn hóa:
 
@@ -62,15 +70,21 @@ $$
 
 Quan sát thực nghiệm cho thấy:
 
+$$
 N_k \approx Ae^{-\lambda k}
+$$
 
 Suy ra:
 
-$P(L=k)$ = (1-q)q^{k-1}
+$$
+P(L=k) = (1-q)q^{k-1}
+$$
 
 Trong đó:
 
+$$
 q = e^{-\lambda}
+$$
 
 Đây là phân bố hình học rời rạc.
 
@@ -96,21 +110,27 @@ Nếu q \to 1, phân bố có đuôi dài hơn (nhiều token dài).
 
 3. Ảnh hưởng đến Độ dài Chuỗi Văn bản
 
-Giả sử văn bản có tổng số ký tự n.
+Giả thiết:
+* $n$: tổng số ký tự văn bản
+* $m$: số token trung bình
 
-Số token trung bình:
-
+$$
 m = \frac{n}{\mathbb{E}[L]}
+$$
 
 Self-attention trong Transformer encoder:
 
-$O(m^2)$
+$$
+\mathcal{O}(m^2)
+$$
 
 Thay vào:
 
 $$
-O(\le)ft(\left(\frac{n}{\mathbb{E}[L]}\right)^2\right) Khi \mathbb{E}[L] \uparrow, chi phí giảm.
+\mathcal{O}\left(\left(\frac{n}{\mathbb{E}[L]}\right)^2\right)
 $$
+
+Khi $\mathbb{E}[L] \uparrow$, chi phí giảm.
 
 ⸻
 
@@ -118,15 +138,21 @@ $$
 
 Entropy theo phân bố độ dài:
 
+$$
 H_L = - \sum_{k} P(L=k)\log P(L=k)
+$$
 
 Thay phân bố hình học:
 
+$$
 H_L = - \sum_{k=1}^{\infty} (1-q)q^{k-1} \log[(1-q)q^{k-1}]
+$$
 
 Rút gọn:
 
+$$
 H_L = -\log(1-q) - \frac{q}{1-q}\log q
+$$
 
 Entropy càng lớn → độ đa dạng độ dài càng cao.
 
