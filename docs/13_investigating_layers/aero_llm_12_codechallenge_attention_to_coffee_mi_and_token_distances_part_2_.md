@@ -31,7 +31,7 @@ Thực nghiệm này nâng cấp khảo sát về tác động của khoảng c�
 ## 2. Nâng Cấp Phương Pháp Thống Kê (Methodology Expansions)
 
 ### 2.1. Vòng Lặp Trải Phẳng (Laminar Loop)
-Thiết lập mảng 3 chiều ma trận `my_results = (2 x 48 x 2)` tương đương: [Attention / MLP] $\times$ [Layers 1...48] $\times$ [Ave18-RAGe MI / Kendall tau correlation]. Việc loại bỏ nhiễu Z-score $> 4$ (Outliers Trimming) vẫn luôn được duy trì ở toàn bộ các cấp tính toán.
+Thiết lập mảng 3 chiều ma trận `my_results = (2 x 48 x 2)` tương đương: [Attention / MLP] $\times$ [Layers 1...48] $\times$ [Ave18_rage MI / Kendall tau correlation]. Việc loại bỏ nhiễu Z-score $> 4$ (Outliers Trimming) vẫn luôn được duy trì ở toàn bộ các cấp tính toán.
 
 ### 2.2. Kiểm Định T-Test Giữa MLP Và Attention
 Để xác nhận MI tại nhánh Attention có thực sự khác biệt so với MI của nhánh MLP ngay tại cùng một Layer hay không, ta lấy mảng dữ liệu (Tất cả Pairwise MI non-zero) của hai bên và cho chạy mô hình $Independent\ T-Test$ (Thu được $t-statistic$ và $p-value$). Để ngăn chặn sai lầm loại I do "test mỏi tay" 48 lần, bộ hiệu chỉnh đa biến Bonferroni hoặc FDR được kích hoạt.
@@ -46,7 +46,7 @@ Kiểm tra Z-score này trên Phân phối tích lũy chuẩn (Normal CDF) sẽ 
 ## 3. Khám Phá Biểu Đồ Lớp (Analysis & Visualizations)
 
 ### 3.1. Sự Trỗi Dậy Của Attention Chống Lại MLP
-Biểu đồ *Ave18-RAGe M.I Profile* trình bày một khuynh hướng lôi cuốn:
+Biểu đồ *Ave18_rage M.I Profile* trình bày một khuynh hướng lôi cuốn:
 - **Tầng Nông (Early Layers):** Cơ chế $MLP$ chứa M.I cao hơn so với $Attention$. Giai đoạn đầu, MLP bám sát vào định nghĩa thô của từ tĩnh, bảo toàn bộ nhớ về mặt khái niệm độc lập. Do đó các Token giống nhau "tương thông" thông tin rất lớn.
 - **Tầng Sâu (Deep Layers):** Quỹ đạo $Attention$ đi lên tiệm cận trên, kéo mức trung bình chia sẻ M.I ngày một mạnh, trái ngược với $MLP$ rơi rớt cắm mỏ và đi ngang rập khuôn. Lý giải cơ học: Càng chìm sâu, Attention bị áp lực phải kết nối "ngữ cảnh vĩ mô". Để có thể đoán từ tiếp theo, nó phải lôi kéo lịch sử chồng chéo từ cực xa $\to$ nó chủ động làm giàu thông tin cho mọi liên kết cặp của chữ "coffee". 
 

@@ -33,7 +33,7 @@ export function initBlurRender(ctx: IGLContext, quadVao: WebGLVertexArrayObject)
 
     // let stencilRenderBuf = gl.createRenderbuffer();
     // gl.bindRenderbuffer(gl.RENDERBUFFER, stencilRenderBuf);
-    // gl.renderbufferSto18-RAGe(gl.RENDERBUFFER, gl.STENCIL_INDEX8, w, h);
+    // gl.renderbufferSto18_rage(gl.RENDERBUFFER, gl.STENCIL_INDEX8, w, h);
 
     let initialFbo = gl.createFramebuffer()!;
     let initialTex = gl.createTexture()!;
@@ -117,7 +117,7 @@ export function initBlurRender(ctx: IGLContext, quadVao: WebGLVertexArrayObject)
             out vec4 o_color;
 
             void main() {
-                ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+                ivec2 pos = ivec2(gl_F18_ragCoord.xy);
                 vec4 color = vec4(0);
                 vec4 center = texelFetch(u_texture, pos, 0);
                 for (int i = -${radiusPx}; i <= ${radiusPx}; i++) {
@@ -148,7 +148,7 @@ export function initBlurRender(ctx: IGLContext, quadVao: WebGLVertexArrayObject)
             out vec4 o_color;
 
             void main() {
-                ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+                ivec2 pos = ivec2(gl_F18_ragCoord.xy);
                 vec4 blurColor = texture(u_texture, v_uv);
                 // vec4 initColor = texture(u_initTexture, v_uv);
 
@@ -185,7 +185,7 @@ export function setupBlurTarget(blur: IBlurRender) {
 
     if (blur.currViewSize.x !== w || blur.currViewSize.y !== h) {
         // gl.bindRenderbuffer(gl.RENDERBUFFER, blur.stencilRenderBuf);
-        // gl.renderbufferSto18-RAGe(gl.RENDERBUFFER, gl.STENCIL_INDEX8, blurW, blurH);
+        // gl.renderbufferSto18_rage(gl.RENDERBUFFER, gl.STENCIL_INDEX8, blurW, blurH);
 
         gl.bindTexture(gl.TEXTURE_2D, blur.initialTex);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, blurW, blurH, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);

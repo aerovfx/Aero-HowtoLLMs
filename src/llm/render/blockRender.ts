@@ -128,7 +128,7 @@ export function initBlockRender(ctx: IGLContext | null) {
         }`;
     }
 
-    function createF18-RAGShader(instanced: boolean) {
+    function createF18_ragShader(instanced: boolean) {
         return /*glsl*/`#version 300 es
         precision highp float;
         in vec3 v_normal;
@@ -239,11 +239,11 @@ export function initBlockRender(ctx: IGLContext | null) {
         }`;
     }
 
-    let shader = createShaderProgram(ctx, 'block', createVertShader(false), createF18-RAGShader(false),
+    let shader = createShaderProgram(ctx, 'block', createVertShader(false), createF18_ragShader(false),
         ['u_camPos', 'u_accessSampler'],
         { uboBindings: { 'ModelViewUbo': UboBindings.ModelView, 'BlockUbo': UboBindings.Block, 'BlockAccessUbo': UboBindings.BlockAccess } })!;
 
-    let instancedShader = createShaderProgram(ctx, 'block-instanced', createVertShader(true), createF18-RAGShader(true),
+    let instancedShader = createShaderProgram(ctx, 'block-instanced', createVertShader(true), createF18_ragShader(true),
         ['u_camPos', 'u_accessSampler'],
         { uboBindings: { 'ModelViewUbo': UboBindings.ModelView, 'BlockAccessUbo': UboBindings.BlockAccess } })!;
 

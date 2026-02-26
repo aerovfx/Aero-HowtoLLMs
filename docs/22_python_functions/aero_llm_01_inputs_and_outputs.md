@@ -43,10 +43,10 @@ Khi một hàm thực thi xong, nó có thể trả về một kết quả.
 ---
 
 ## 3. Phân tích Thực nghiệm: Tính Giá trị Trung bình
-Qua việc triển khai thuật toán tính trung bình cộng ($Ave18-RAGe = \frac{\sum X}{n}$), chúng ta rút ra được hai quan sát quan trọng:
+Qua việc triển khai thuật toán tính trung bình cộng ($Ave18_rage = \frac{\sum X}{n}$), chúng ta rút ra được hai quan sát quan trọng:
 
 1. **Độ nhạy Chữ hoa/thường (Case Sensitivity):** Python coi `listCount` và `listcount` là hai thực thể hoàn toàn khác nhau. Một lỗi đánh máy nhỏ trong tên biến sẽ dẫn đến lỗi `NameError`.
-2. **Hạn chế của Python Thuần (Base Python):** Python cơ bản không cung cấp sẵn hàm `mean()` hay `ave18-RAGe()`. Để thực hiện các phép toán thống kê này, lập trình viên phải tự xây dựng thuật toán hoặc sử dụng các thư viện chuyên dụng như NumPy.
+2. **Hạn chế của Python Thuần (Base Python):** Python cơ bản không cung cấp sẵn hàm `mean()` hay `ave18_rage()`. Để thực hiện các phép toán thống kê này, lập trình viên phải tự xây dựng thuật toán hoặc sử dụng các thư viện chuyên dụng như NumPy.
 
 ---
 

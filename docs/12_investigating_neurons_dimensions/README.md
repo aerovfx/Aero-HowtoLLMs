@@ -14,26 +14,26 @@
 - [🐍 Module 20: Python for AI](../20_python_colab_notebooks/index.md)
 ---
 <!-- Aero-Navigation-End -->
-# 📂 Module: 12-Investigating-neurons-dimensions
+# 📂 Module: 12_investigating_neurons_dimensions
 
-> **Tài liệu chuyên sâu và bài tập thuộc phần 12-Investigating-neurons-dimensions.**
+> **Tài liệu chuyên sâu và bài tập thuộc phần 12_investigating_neurons_dimensions.**
 
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 
-[Home](../index.md) > **12-Investigating-neurons-dimensions**
+[Home](../index.md) > **12_investigating_neurons_dimensions**
 
 ---
 
 ### 🧭 Quick Navigation
 
 - [🏠 Cổng tài liệu](../index.md)
-- [📚 Module 01: LLM Course](../01-LLM_Course/index.md)
-- [🔢 Module 02: Tokenization](../02-Words-to-tokens-to-numbers/index.md)
-- [🏗️ Module 04: Build GPT](../04-buildGPT/index.md)
-- [🎯 Module 07: Fine-tuning](../07-Fine-tune-pretrained-models/index.md)
-- [🔍 Module 19: AI Safety](../19-AI-safety/index.md)
+- [📚 Module 01: LLM Course](../01_llm_course/index.md)
+- [🔢 Module 02: Tokenization](../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../04_buildgpt/index.md)
+- [🎯 Module 07: Fine-tuning](../07_fine_tune_pretrained_models/index.md)
+- [🔍 Module 19: AI Safety](../19_ai_safety/index.md)
 
 ---
 
@@ -41,7 +41,7 @@
 
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📂 Module: 12-Investigating-neurons-dimensions | [Xem bài viết →](index.md) |
+| 📂 Module: 12_investigating_neurons_dimensions | [Xem bài viết →](index.md) |
 | Cực đại hóa Hoạt hóa (Activation Maximization): Cơ sở Lý thuyết và Những thách thức trong LLM | [Xem bài viết →](aero_LLM_01_Activation maximization via gradient ascent (theory).md) |
 | Triển khai Cực đại hóa Hoạt hóa: Từ Gradient Ascent đến Giải mã Token (Activation Maximization Implementation) | [Xem bài viết →](aero_LLM_02_Activation maximization (code).md) |
 | Cực đại hóa Hoạt hóa qua Lấy mẫu Dữ liệu (Activation Maximization via Data Sampling) | [Xem bài viết →](aero_LLM_03_Activation maximization via data sampling.md) |
@@ -83,7 +83,7 @@ Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội 
 ## 📄 Tài liệu cùng chuyên mục
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📌 **[📂 Module: 12-Investigating-neurons-dimensions](README.md)** | [Xem bài viết →](README.md) |
+| 📌 **[📂 Module: 12_investigating_neurons_dimensions](README.md)** | [Xem bài viết →](README.md) |
 | [Cực đại hóa Hoạt hóa (Activation Maximization): Cơ sở Lý thuyết và Những thách thức trong LLM](aero_llm_01_activation_maximization_via_gradient_ascent_theory_.md) | [Xem bài viết →](aero_llm_01_activation_maximization_via_gradient_ascent_theory_.md) |
 | [Triển khai Cực đại hóa Hoạt hóa: Từ Gradient Ascent đến Giải mã Token (Activation Maximization Implementation)](aero_llm_02_activation_maximization_code_.md) | [Xem bài viết →](aero_llm_02_activation_maximization_code_.md) |
 | [Cực đại hóa Hoạt hóa qua Lấy mẫu Dữ liệu (Activation Maximization via Data Sampling)](aero_llm_03_activation_maximization_via_data_sampling.md) | [Xem bài viết →](aero_llm_03_activation_maximization_via_data_sampling.md) |

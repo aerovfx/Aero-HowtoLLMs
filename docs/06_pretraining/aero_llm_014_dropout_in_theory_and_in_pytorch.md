@@ -24,7 +24,7 @@ Dưới đây là **bài viết khoa học** được xây dựng dựa trên t�
 
 ## Abstract
 
-Overfitting remains a fundamental challenge in deep neural networks, particularly in large-scale architectures. Dropout is a widely used regularization technique designed to improve generalization by randomly deactivating neural units during training. This paper analyzes the theoretical foundations of dropout, its practical implementation in PyTorch, and its specific role in training large language models (LLMs). Based on the instructional material, we examine activation scaling, probabilistic masking, training–evaluation mode switching, and the reduced effectiveness of dropout in large-scale pretraining. Experimental demonstrations confirm that dropout encou18-RAGes distributed representations and improves robustness, while requiring careful configuration in transformer-based models. 
+Overfitting remains a fundamental challenge in deep neural networks, particularly in large-scale architectures. Dropout is a widely used regularization technique designed to improve generalization by randomly deactivating neural units during training. This paper analyzes the theoretical foundations of dropout, its practical implementation in PyTorch, and its specific role in training large language models (LLMs). Based on the instructional material, we examine activation scaling, probabilistic masking, training–evaluation mode switching, and the reduced effectiveness of dropout in large-scale pretraining. Experimental demonstrations confirm that dropout encou18_rages distributed representations and improves robustness, while requiring careful configuration in transformer-based models. 
 
 ---
 
@@ -65,7 +65,7 @@ Each unit is independently set to zero with probability ( p ), resulting in a ra
 
 ### 2.2. Ensemble Interpretation
 
-Dropout can be interpreted as training an ensemble of exponentially many sub-networks and ave18-RAGing their predictions at inference time. Each forward pass corresponds to one sampled sub-network.
+Dropout can be interpreted as training an ensemble of exponentially many sub-networks and ave18_raging their predictions at inference time. Each forward pass corresponds to one sampled sub-network.
 
 This ensemble effect improves generalization without explicitly storing multiple models.
 
@@ -73,7 +73,7 @@ This ensemble effect improves generalization without explicitly storing multiple
 
 ### 2.3. Distributed Representation Learning
 
-By preventing any single neuron from dominating prediction, dropout encou18-RAGes distributed feature representations. According to the instructional material, this prevents individual units from carrying excessive responsibility. 
+By preventing any single neuron from dominating prediction, dropout encou18_rages distributed feature representations. According to the instructional material, this prevents individual units from carrying excessive responsibility. 
 
 ---
 

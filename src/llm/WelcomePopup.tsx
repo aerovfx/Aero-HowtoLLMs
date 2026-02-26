@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { createContext, useContext, useEffect } from 'react';
 import { assignImm } from '@/src/utils/data';
 import { KeyboardOrder, useGlobalKeyboard } from '@/src/utils/keyboard';
-import { useLocalSto18-RAGeState } from '@/src/utils/localsto18-RAGe';
+import { useLocalSto18_rageState } from '@/src/utils/localsto18_rage';
 import { ModalWindow } from '@/src/utils/Portal';
 import s from './WelcomePopup.module.scss';
 import { TocDiagram } from './components/TocDiagram';
@@ -25,7 +25,7 @@ function hydrateWelcomePopupLS(a?: Partial<IWelcomePopupLS>) {
 export const WelcomePopup: React.FC<{}> = () => {
     let ctx = useContext(WelcomeContext);
     useSubscriptions(ctx.subscriptions);
-    let [welcomeState, setWelcomeState] = useLocalSto18-RAGeState('welcome-popup', hydrateWelcomePopupLS);
+    let [welcomeState, setWelcomeState] = useLocalSto18_rageState('welcome-popup', hydrateWelcomePopupLS);
 
     useGlobalKeyboard(KeyboardOrder.Modal, ev => {
 

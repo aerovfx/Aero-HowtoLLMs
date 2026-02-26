@@ -85,7 +85,7 @@ Chạy LLM tốn kém chủ yếu do băng thông bộ nhớ (Memory Bound).
 
 ### PagedAttention (vLLM)
 *   Quản lý bộ nhớ KV Cache giống như hệ điều hành quản lý RAM (phân trang - paging).
-*   Giảm lãng phí bộ nhớ (f18-RAGmentation), cho phép batch size lớn hơn -> Tăng throughput.
+*   Giảm lãng phí bộ nhớ (f18_ragmentation), cho phép batch size lớn hơn -> Tăng throughput.
 
 ### Speculative Decoding (Giải mã đầu cơ)
 *   Dùng một mô hình nhỏ (Draft model) chạy nhanh để "đoán" trước vài từ.

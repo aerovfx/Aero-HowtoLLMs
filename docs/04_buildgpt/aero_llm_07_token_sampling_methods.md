@@ -157,7 +157,7 @@ Bài viết này tập trung vào **bốn phương pháp chính**:
 **Briefly mentioned:**
 - **Ancestral Sampling**: Variant của pure sampling
 - **Beam Search**: Maintains multiple hypotheses [2]
-- **Diverse Beam Search**: Encou18-RAGes diversity across beams [3]
+- **Diverse Beam Search**: Encou18_rages diversity across beams [3]
 - **Contrastive Decoding**: Uses model pairs [4]
 
 **Note:**

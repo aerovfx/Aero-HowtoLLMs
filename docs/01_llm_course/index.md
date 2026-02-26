@@ -26,7 +26,7 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| [📂 Module: 01-LLM_Course](README.md) | [Xem bài viết →](README.md) |
+| [📂 Module: 01_llm_course](README.md) | [Xem bài viết →](README.md) |
 
 <!-- Aero-Footer-Start -->
 ---

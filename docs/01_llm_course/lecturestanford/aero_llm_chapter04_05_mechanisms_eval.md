@@ -62,7 +62,7 @@ Result: "The cat sat on the mat"
 
 **GPT-4 Tokenizer:**
 - Vocab size: ~100K tokens
-- Ave18-RAGe: 1 token ≈ 0.75 words
+- Ave18_rage: 1 token ≈ 0.75 words
 - Handles 100+ languages
 
 **Common Issues:**
@@ -74,7 +74,7 @@ Result: "The cat sat on the mat"
 "    def foo():" → ["  ", "  ", "def", " foo", "():"]
 
 # Non-English struggles
-"你好" (Chinese) → Multiple f18-RAGments
+"你好" (Chinese) → Multiple f18_ragments
 ```
 
 ---

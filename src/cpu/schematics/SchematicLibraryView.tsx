@@ -28,7 +28,7 @@ export const SchematicLibraryView: React.FC = () => {
                     compLibrary.addLibraryItem(libItem);
                 }
             }
-            schematicLib.saveToLocalSto18-RAGe(schemId);
+            schematicLib.saveToLocalSto18_rage(schemId);
         }
     }, [editorState.activeSchematicId, editorState.snapshot, editorState.undoStack, editorState.redoStack, editorState.mtx, schematicLib, compLibrary]);
 
@@ -68,7 +68,7 @@ export const SchematicLibraryView: React.FC = () => {
     function applyEditName() {
         if (nameEdit) {
             nameEdit.schematic.name = nameEdit.name;
-            schematicLib.saveToLocalSto18-RAGe(nameEdit.id);
+            schematicLib.saveToLocalSto18_rage(nameEdit.id);
             setNameEdit(null);
         }
     }

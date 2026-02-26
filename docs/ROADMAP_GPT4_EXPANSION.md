@@ -276,7 +276,7 @@ class ProgressiveModelLoader {
 
 ### **User Engagement:**
 - [ ] 10K+ monthly active users (6 months post-launch)
-- [ ] Ave18-RAGe session >5 minutes
+- [ ] Ave18_rage session >5 minutes
 - [ ] <10% bounce rate on landing
 - [ ] 1K+ GitHub stars
 

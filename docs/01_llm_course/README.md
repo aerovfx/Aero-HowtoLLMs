@@ -14,15 +14,15 @@
 - [🐍 Module 20: Python for AI](../20_python_colab_notebooks/index.md)
 ---
 <!-- Aero-Navigation-End -->
-# 📂 Module: 01-LLM_Course
+# 📂 Module: 01_llm_course
 
-> **Tài liệu chuyên sâu và bài tập thuộc phần 01-LLM_Course.**
+> **Tài liệu chuyên sâu và bài tập thuộc phần 01_llm_course.**
 
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 
-[Home](../index.md) > **01-LLM_Course**
+[Home](../index.md) > **01_llm_course**
 
 ---
 
@@ -30,10 +30,10 @@
 
 - [🏠 Cổng tài liệu](../index.md)
 - [📚 Module 01: LLM Course](index.md)
-- [🔢 Module 02: Tokenization](../02-Words-to-tokens-to-numbers/index.md)
-- [🏗️ Module 04: Build GPT](../04-buildGPT/index.md)
-- [🎯 Module 07: Fine-tuning](../07-Fine-tune-pretrained-models/index.md)
-- [🔍 Module 19: AI Safety](../19-AI-safety/index.md)
+- [🔢 Module 02: Tokenization](../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../04_buildgpt/index.md)
+- [🎯 Module 07: Fine-tuning](../07_fine_tune_pretrained_models/index.md)
+- [🔍 Module 19: AI Safety](../19_ai_safety/index.md)
 
 ---
 
@@ -47,7 +47,7 @@
 
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📂 Module: 01-LLM_Course | [Xem bài viết →](index.md) |
+| 📂 Module: 01_llm_course | [Xem bài viết →](index.md) |
 
 
 ---

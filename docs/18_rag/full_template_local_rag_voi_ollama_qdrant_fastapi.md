@@ -42,12 +42,12 @@ Không cần OpenAI – không gửi dữ liệu ra ngoài.
 # 📁 PROJECT STRUCTURE
 
 ```
-local-18-RAG/
+local-18_rag/
 │
 ├── app/
 │   ├── main.py
 │   ├── ingest.py
-│   ├── 18-RAG.py
+│   ├── 18_rag.py
 │   ├── vector.py
 │   ├── utils.py
 │   └── config.py
@@ -101,7 +101,7 @@ services:
     ports:
       - "6333:6333"
     volumes:
-      - ./qdrant_data:/qdrant/sto18-RAGe
+      - ./qdrant_data:/qdrant/sto18_rage
 ```
 
 Run:
@@ -131,7 +131,7 @@ requests
 
 ```env
 QDRANT_URL=http://localhost:6333
-COLLECTION_NAME=local_18-RAG
+COLLECTION_NAME=local_18_rag
 OLLAMA_URL=http://localhost:11434
 LLM_MODEL=llama3
 ```
@@ -298,7 +298,7 @@ def ingest_pdf(path, metadata={}):
 
 ---
 
-# 9️⃣ app/18-RAG.py (Ollama Integration)
+# 9️⃣ app/18_rag.py (Ollama Integration)
 
 ```python
 import requests
@@ -372,7 +372,7 @@ from fastapi import FastAPI, UploadFile, File
 import shutil
 
 from .ingest import ingest_pdf
-from .18-RAG import ask
+from .18_rag import ask
 
 
 app = FastAPI(title="Local RAG System")

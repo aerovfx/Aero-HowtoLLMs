@@ -5,7 +5,7 @@ import { useResizeChangeHandler } from "../utils/layout";
 import { BoundingBox3d, Vec3 } from "../utils/vector";
 import s from "./CpuCanvas.module.scss";
 import { AffineMat2d } from "../utils/AffineMat2d";
-import { ID18-RAGStart } from "../utils/pointer";
+import { ID18_ragStart } from "../utils/pointer";
 import { assignImm, getOrAddToMap, isNil, isNotNil } from "../utils/data";
 import { EditorContext, IEditorContext, IViewLayoutContext, ViewLayoutContext } from "./Editor";
 import { RefType, IComp, PortType, ICompPort, ICanvasState, IEditorState, IHitTest, IExeSystem, ICompRenderArgs, ISchematic, ToolbarTypes, IEditSnapshot } from "./CpuModel";
@@ -28,7 +28,7 @@ import { CompBoundingBox } from "./CompBoundingBox";
 import { CompDetails } from "./CompDetails";
 import { Resizer } from "../utils/Resizer";
 
-interface ICanvasD18-RAGState {
+interface ICanvasD18_ragState {
     mtx: AffineMat2d;
     hovered: IHitTest | null;
     modelPos: Vec3;
@@ -54,7 +54,7 @@ export const CpuCanvas: React.FC<{
 }> = ({ schematicId, readonly, embedded, toolbars, children }) => {
     let [cvsState, setCvsState] = useState<ICanvasState | null>(null);
     let sharedContext = useContext(SharedContextContext);
-    // let [lsState, setLsState] = useLocalSto18-RAGeState("cpu-layout", hydrateFromLS);
+    // let [lsState, setLsState] = useLocalSto18_rageState("cpu-layout", hydrateFromLS);
     let [editorState, setEditorState] = useState<IEditorState>(() => createCpuEditorState(sharedContext));
     let [, redraw] = useReducer((x) => x + 1, 0);
 
@@ -118,7 +118,7 @@ export const CpuCanvas: React.FC<{
     }, [sharedContext]);
 
     useEffect(() => {
-        if (editorState.activeSchematicId !== editorState.desiredSchematicId && editorState.desiredSchematicId && editorState.schematicLibrary.localSto18-RAGeSchematicsLoaded) {
+        if (editorState.activeSchematicId !== editorState.desiredSchematicId && editorState.desiredSchematicId && editorState.schematicLibrary.localSto18_rageSchematicsLoaded) {
             const schematic = editorState.schematicLibrary.getSchematic(editorState.desiredSchematicId);
 
             if (schematic) {
@@ -137,7 +137,7 @@ export const CpuCanvas: React.FC<{
             }
         }
 
-    }, [editorState.desiredSchematicId, editorState.schematicLibrary, editorState.activeSchematicId, editorState.schematicLibrary.localSto18-RAGeSchematicsLoaded]);
+    }, [editorState.desiredSchematicId, editorState.schematicLibrary, editorState.activeSchematicId, editorState.schematicLibrary.localSto18_rageSchematicsLoaded]);
 
     useResizeChangeHandler(cvsState?.canvas?.parentElement, redraw);
 
@@ -174,7 +174,7 @@ export const CpuCanvas: React.FC<{
     //     let newState = wiresToLsState(editorState.snapshot);
     //     setLsState(a => assignImm(a, newState));
     //     let strExport = exportData(editorState.snapshot);
-    //     localSto18-RAGe.setItem("cpu-layout-str", strExport);
+    //     localSto18_rage.setItem("cpu-layout-str", strExport);
     //     // importData(strExport);
     // }, [editorState.snapshot, setLsState]);
 
@@ -206,7 +206,7 @@ export const CpuCanvas: React.FC<{
         ctx.transform(...editorState.mtx.toTransformParams());
         ctx.save();
         renderCpu(cvsState, editorState, (editorState.snapshotTemp ?? editorState.snapshot).mainSchematic, exeModel);
-        // renderD18-RAGState(cvsState, editorState, d18-RAGStart, grabDirRef.current);
+        // renderD18_ragState(cvsState, editorState, d18_ragStart, grabDirRef.current);
         ctx.restore();
 
         ctx.restore();
@@ -247,7 +247,7 @@ export const CpuCanvas: React.FC<{
                     </div>;
                 }
 
-                return <React.F18-RAGment key={a.comp.id}>
+                return <React.F18_ragment key={a.comp.id}>
                     {a.renderDom?.({
                         comp: a.comp,
                         ctx: cvsState?.ctx!,
@@ -258,7 +258,7 @@ export const CpuCanvas: React.FC<{
                         isActive: !!singleElRef && singleElRef.type === RefType.Comp && singleElRef.id === compFullId,
                     }) ?? null}
                     {subLayoutDom}
-                </React.F18-RAGment>;
+                </React.F18_ragment>;
 
         });
 
@@ -492,13 +492,13 @@ function renderSelectRegion(cvs: ICanvasState, editorState: IEditorState, idPref
 }
 
 /*
-function renderD18-RAGState(cvs: ICanvasState, editorState: IEditorState, d18-RAGStart: ID18-RAGStart<ICanvasD18-RAGState> | null, d18-RAGDir: Vec3 | null) {
+function renderD18_ragState(cvs: ICanvasState, editorState: IEditorState, d18_ragStart: ID18_ragStart<ICanvasD18_ragState> | null, d18_ragDir: Vec3 | null) {
     let ctx = cvs.ctx;
-    if (!d18-RAGStart || !d18-RAGStart.data.hovered) {
+    if (!d18_ragStart || !d18_ragStart.data.hovered) {
         return;
     }
 
-    let hover = d18-RAGStart.data.hovered;
+    let hover = d18_ragStart.data.hovered;
 
     if (hover.ref.type === RefType.WireSeg && !isNil(hover.ref.wireNode0Id) && isNil(hover.ref.wireNode1Id)) {
         let wireNodeId = hover.ref.wireNode0Id;
@@ -527,9 +527,9 @@ function renderD18-RAGState(cvs: ICanvasState, editorState: IEditorState, d18-RA
             ctx.lineWidth = 1 * cvs.scale;
             ctx.stroke();
 
-            // draw an arc according to the d18-RAG direction
-            if (d18-RAGDir) {
-                let arcStart = Math.atan2(d18-RAGDir.y, d18-RAGDir.x) - Math.PI / 4;
+            // draw an arc according to the d18_rag direction
+            if (d18_ragDir) {
+                let arcStart = Math.atan2(d18_ragDir.y, d18_ragDir.x) - Math.PI / 4;
                 let arcEnd = arcStart + Math.PI / 2;
                 ctx.beginPath();
                 ctx.arc(x, y, r, arcStart, arcEnd);

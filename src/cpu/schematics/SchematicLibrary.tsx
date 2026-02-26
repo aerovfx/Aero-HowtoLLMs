@@ -1,5 +1,5 @@
 import { AffineMat2d } from "@/src/utils/AffineMat2d";
-import { iterLocalSto18-RAGeEntries } from "@/src/utils/localsto18-RAGe";
+import { iterLocalSto18_rageEntries } from "@/src/utils/localsto18_rage";
 import { Vec3 } from "@/src/utils/vector";
 import { CompLibrary, ISubLayoutPort } from "../comps/CompBuilder";
 import { IEditSchematic, IEditSnapshot, PortType } from "../CpuModel";
@@ -18,24 +18,24 @@ export interface ILocalSchematic {
 export class SchematicLibrary {
 
     // builtins are shipped with this app
-    // customs are from local-sto18-RAGe
+    // customs are from local-sto18_rage
 
     builtinSchematics = new Map<string, ISchematicDef>();
     customSchematics = new Map<string, ISchematicDef>();
 
-    localSto18-RAGeSchematicsLoaded = false;
+    localSto18_rageSchematicsLoaded = false;
 
     constructor() {
     }
 
-    public populateSchematicLibrary(compLibrary: CompLibrary, loadFromLocalSto18-RAGe = true) {
+    public populateSchematicLibrary(compLibrary: CompLibrary, loadFromLocalSto18_rage = true) {
         this.builtinSchematics.clear();
         this.customSchematics.clear();
 
         this.addLocalSchematics(compLibrary);
 
-        if (loadFromLocalSto18-RAGe) {
-            this.readFromLocalSto18-RAGe(compLibrary);
+        if (loadFromLocalSto18_rage) {
+            this.readFromLocalSto18_rage(compLibrary);
         }
 
         this.addSchematicsToCompLibrary(compLibrary);
@@ -60,16 +60,16 @@ export class SchematicLibrary {
 
     deleteCustomSchematic(id: string) {
         this.customSchematics.delete(id);
-        localSto18-RAGe.removeItem(this.schematicLocalSto18-RAGeKey(id));
+        localSto18_rage.removeItem(this.schematicLocalSto18_rageKey(id));
     }
 
     public getSchematic(id: string): ISchematicDef | undefined {
         return this.builtinSchematics.get(id) || this.customSchematics.get(id);
     }
 
-    private readFromLocalSto18-RAGe(compLibrary: CompLibrary) {
+    private readFromLocalSto18_rage(compLibrary: CompLibrary) {
         let customSchematics = this.customSchematics;
-        iterLocalSto18-RAGeEntries((key, schematicStr) => {
+        iterLocalSto18_rageEntries((key, schematicStr) => {
             let lsSchematic: ILSSchematic | undefined;
             if (!key.startsWith('schematic-')) {
                 return;
@@ -90,7 +90,7 @@ export class SchematicLibrary {
             customSchematics.set(lsSchematic.id, this.lsSchematicToSchematicDef(lsSchematic, compLibrary))
         });
 
-        this.localSto18-RAGeSchematicsLoaded = true;
+        this.localSto18_rageSchematicsLoaded = true;
     }
 
     private lsSchematicToSchematicDef(lsSchematic: ILSSchematic, compLibrary: CompLibrary): ISchematicDef {
@@ -146,17 +146,17 @@ export class SchematicLibrary {
         };
         schematic.model.mainSchematic.id = id;
         this.customSchematics.set(id, schematic);
-        this.saveToLocalSto18-RAGe(schematic.id);
+        this.saveToLocalSto18_rage(schematic.id);
         return schematic;
     }
 
-    public saveToLocalSto18-RAGe(id: string) {
+    public saveToLocalSto18_rage(id: string) {
         let schematic = this.customSchematics.get(id);
 
         if (schematic) {
             let lsSchematic = editSnapshotToLsSchematic(id, schematic.model);
             // console.log('saving schematic', lsSchematic, 'based on snapshot', schematic.model);
-            localSto18-RAGe.setItem(this.schematicLocalSto18-RAGeKey(schematic.id), JSON.stringify(lsSchematic));
+            localSto18_rage.setItem(this.schematicLocalSto18_rageKey(schematic.id), JSON.stringify(lsSchematic));
         } else if (this.builtinSchematics.get(id)) {
             // console.log(`Can't update builtin schematic ${id}`);
         } else {
@@ -191,7 +191,7 @@ export const ${nameToCamel}SchematicStr = \`${dataStr}\`;
         });
     }
 
-    private schematicLocalSto18-RAGeKey(id: string) {
+    private schematicLocalSto18_rageKey(id: string) {
         return `schematic-${id}`;
     }
 }

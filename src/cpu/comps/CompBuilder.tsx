@@ -48,7 +48,7 @@ Want to think about about what an ICompDef/IComp looks like for a sub-component
 
 /*
 Steps: let's create & manage a library of user-defined components.
-Store them somehow, and make them editable in a UI. Probably still local-sto18-RAGe, but should
+Store them somehow, and make them editable in a UI. Probably still local-sto18_rage, but should
 add some weightier load/store system
 Editing is either: editing directly, or within the scope of a tree of components
 

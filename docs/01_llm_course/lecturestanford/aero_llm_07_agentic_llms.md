@@ -23,7 +23,7 @@
 
 ## 📚 Mục Lục
 1. [Giới hạn của LLM & Giải pháp](#1-giới-hạn-của-llm--giải-pháp)
-2. [RAG (Retrieval-Augmented Generation)](#2-18-RAG-retrieval-augmented-generation)
+2. [RAG (Retrieval-Augmented Generation)](#2-18_rag-retrieval-augmented-generation)
 3. [Tool Calling (Function Calling)](#3-tool-calling-function-calling)
 4. [Agents (Tác nhân AI)](#4-agents-tác-nhân-ai)
 5. [ReAct Framework](#5-react-framework)

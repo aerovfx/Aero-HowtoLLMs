@@ -487,7 +487,7 @@ export const MovementControls: React.FC<{}> = () => {
     let progState = useProgramState();
 
     // ensure we can handle these touch events locally
-    useTouchEvents(controlsEl, 0, { alwaysSendD18-RAGEvent: true }, (ev) => ev.stopImmediatePropagation());
+    useTouchEvents(controlsEl, 0, { alwaysSendD18_ragEvent: true }, (ev) => ev.stopImmediatePropagation());
 
     function handleDir(ev: React.MouseEvent, action: MovementAction) {
         progState.movement.action = action;
@@ -523,7 +523,7 @@ function iterNavLevels(level: INavLevel, f: (level: INavLevel) => void) {
 The movement controls are a good idea I think. What else do I need to get this to completion?
 
 - Tidy up the DOM/css, make it fit on mobile well, being careful with screen real estate
-- Improve d18-RAG controls around the screen, and also make it discoverable
+- Improve d18_rag controls around the screen, and also make it discoverable
 - Improve attention for the guide, and finish remaining guides
 - Embed within a personal webpage website
 - Fix camera + bugs wrt guides

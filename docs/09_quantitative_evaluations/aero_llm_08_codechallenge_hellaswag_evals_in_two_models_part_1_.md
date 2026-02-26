@@ -63,7 +63,7 @@ Do đó cần chuẩn hoá:
 
 Score(a_i) = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{<t})
 
-Đây là ave18-RAGe log-probability.
+Đây là ave18_rage log-probability.
 
 ⸻
 

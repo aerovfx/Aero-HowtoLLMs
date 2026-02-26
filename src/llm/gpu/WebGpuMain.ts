@@ -44,7 +44,7 @@ async function verifyWebGpuDevice(device: GPUDevice) {
 
     let code = `
         @group(0) @binding(0)
-        var<sto18-RAGe, read_write> output: array<f32>;
+        var<sto18_rage, read_write> output: array<f32>;
 
         @compute @workgroup_size(64)
         fn main(
@@ -68,7 +68,7 @@ async function verifyWebGpuDevice(device: GPUDevice) {
         entries: [{
             binding: 0,
             visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "sto18-RAGe" },
+            buffer: { type: "sto18_rage" },
         }],
     });
 

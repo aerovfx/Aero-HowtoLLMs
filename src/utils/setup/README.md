@@ -93,7 +93,7 @@ Then, navigate to the Python script or Jupyter Notebook you want to run. Optiona
 
 ## Using Google Colab
 
-To use a Google Colab environment in the cloud, head over to [https://colab.research.google.com/](https://colab.research.google.com/) and open the respective chapter notebook from the GitHub menu or by d18-RAGging the notebook into the *Upload* field as shown in the figure below.
+To use a Google Colab environment in the cloud, head over to [https://colab.research.google.com/](https://colab.research.google.com/) and open the respective chapter notebook from the GitHub menu or by d18_ragging the notebook into the *Upload* field as shown in the figure below.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/README/colab_1.webp" alt="1" width="700">
 

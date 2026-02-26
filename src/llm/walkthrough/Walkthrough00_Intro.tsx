@@ -6,7 +6,7 @@ import { clamp, makeArray } from "@/src/utils/data";
 import React, { useState } from "react";
 import { useProgramState } from "../Sidebar";
 import { dimProps, findSubBlocks, splitGrid } from "../Annotations";
-import { useGlobalD18-RAG } from "@/src/utils/pointer";
+import { useGlobalD18_rag } from "@/src/utils/pointer";
 import { BlkSpecial, IBlkDef } from "../GptModelLayout";
 import { IProgramState } from "../Program";
 import { lerp } from "@/src/utils/math";
@@ -469,12 +469,12 @@ const Graph: React.FC<{
     let dispColor = color.mul(1.0);
     dispColor.w = 0.5;
 
-    interface ID18-RAGInitial {
+    interface ID18_ragInitial {
         index: number;
         nums: number[];
     }
 
-    let [, setD18-RAGStart] = useGlobalD18-RAG<ID18-RAGInitial>(function handleMove(ev, ds) {
+    let [, setD18_ragStart] = useGlobalD18_rag<ID18_ragInitial>(function handleMove(ev, ds) {
         let dy = ev.clientY - ds.clientY;
         let h = graphEl!.clientHeight * 0.5;
         let nums = [...ds.data.nums];
@@ -502,7 +502,7 @@ const Graph: React.FC<{
                 <div
                     className={s.graphBarHit}
                     onMouseDown={ev => {
-                        setD18-RAGStart(ev, { index: i, nums });
+                        setD18_ragStart(ev, { index: i, nums });
                         ev.stopPropagation();
                         ev.preventDefault();
                     }}

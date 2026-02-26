@@ -158,7 +158,7 @@ export const HomePage: React.FC = () => {
         {/* Footer */}
         <div className={s.footerSection}>
             <p className={s.footerText}>
-                Tài liệu được lưu trữ tại <code>docs/01-01-LLM_Course</code> của repository Aero-HowtoLLMs
+                Tài liệu được lưu trữ tại <code>docs/01-01_llm_course</code> của repository Aero-HowtoLLMs
             </p>
         </div>
     </div>;

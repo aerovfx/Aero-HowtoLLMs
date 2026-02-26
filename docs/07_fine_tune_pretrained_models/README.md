@@ -14,26 +14,26 @@
 - [🐍 Module 20: Python for AI](../20_python_colab_notebooks/index.md)
 ---
 <!-- Aero-Navigation-End -->
-# 📂 Module: 07-Fine-tune-pretrained-models
+# 📂 Module: 07_fine_tune_pretrained_models
 
-> **Tài liệu chuyên sâu và bài tập thuộc phần 07-Fine-tune-pretrained-models.**
+> **Tài liệu chuyên sâu và bài tập thuộc phần 07_fine_tune_pretrained_models.**
 
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 
-[Home](../index.md) > **07-Fine-tune-pretrained-models**
+[Home](../index.md) > **07_fine_tune_pretrained_models**
 
 ---
 
 ### 🧭 Quick Navigation
 
 - [🏠 Cổng tài liệu](../index.md)
-- [📚 Module 01: LLM Course](../01-LLM_Course/index.md)
-- [🔢 Module 02: Tokenization](../02-Words-to-tokens-to-numbers/index.md)
-- [🏗️ Module 04: Build GPT](../04-buildGPT/index.md)
+- [📚 Module 01: LLM Course](../01_llm_course/index.md)
+- [🔢 Module 02: Tokenization](../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../04_buildgpt/index.md)
 - [🎯 Module 07: Fine-tuning](index.md)
-- [🔍 Module 19: AI Safety](../19-AI-safety/index.md)
+- [🔍 Module 19: AI Safety](../19_ai_safety/index.md)
 
 ---
 
@@ -46,7 +46,7 @@
 
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📂 Module: 07-Fine-tune-pretrained-models | [Xem bài viết →](index.md) |
+| 📂 Module: 07_fine_tune_pretrained_models | [Xem bài viết →](index.md) |
 | Fine-tuning Có Mục Tiêu và Đóng Băng Chính Xác Trọng Số Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_010_CodeChallenge Fine-tuning and targeted freezing (part 1).md) |
 | Phân Tích Hiệu Quả Fine-tuning và Targeted Freezing (Phần 2): Đánh Giá Bằng Trực Quan Hóa và Chuẩn Ma Trận | [Xem bài viết →](aero_LLM_011_CodeChallenge Fine-tuning and targeted freezing (part 2).md) |
 | Fine-tuning Hiệu Quả Tham Số (Parameter-Efficient Fine-Tuning – PEFT) Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_012_Parameter-efficient fine-tuning (PEFT).md) |
@@ -89,7 +89,7 @@ Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội 
 ## 📄 Tài liệu cùng chuyên mục
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📌 **[📂 Module: 07-Fine-tune-pretrained-models](README.md)** | [Xem bài viết →](README.md) |
+| 📌 **[📂 Module: 07_fine_tune_pretrained_models](README.md)** | [Xem bài viết →](README.md) |
 | [Fine-tuning Có Mục Tiêu và Đóng Băng Chính Xác Trọng Số Trong Mô Hình Ngôn Ngữ Lớn](aero_llm_010_codechallenge_fine_tuning_and_targeted_freezing_part_1_.md) | [Xem bài viết →](aero_llm_010_codechallenge_fine_tuning_and_targeted_freezing_part_1_.md) |
 | [Phân Tích Hiệu Quả Fine-tuning và Targeted Freezing (Phần 2): Đánh Giá Bằng Trực Quan Hóa và Chuẩn Ma Trận](aero_llm_011_codechallenge_fine_tuning_and_targeted_freezing_part_2_.md) | [Xem bài viết →](aero_llm_011_codechallenge_fine_tuning_and_targeted_freezing_part_2_.md) |
 | [Fine-tuning Hiệu Quả Tham Số (Parameter-Efficient Fine-Tuning – PEFT) Trong Mô Hình Ngôn Ngữ Lớn](aero_llm_012_parameter_efficient_fine_tuning_peft_.md) | [Xem bài viết →](aero_llm_012_parameter_efficient_fine_tuning_peft_.md) |

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { StateSetter } from "./data";
 
-export function iterLocalSto18-RAGeEntries(cb: (key: string, value: string | null) => void) {
-    let ls = typeof window !== 'undefined' ? window.localSto18-RAGe : undefined;
+export function iterLocalSto18_rageEntries(cb: (key: string, value: string | null) => void) {
+    let ls = typeof window !== 'undefined' ? window.localSto18_rage : undefined;
     if (!ls) {
         return;
     }
@@ -16,21 +16,21 @@ export function iterLocalSto18-RAGeEntries(cb: (key: string, value: string | nul
     }
 }
 
-export function readFromLocalSto18-RAGe<T>(key: string): T | undefined {
-    let ls = typeof window !== 'undefined' ? window.localSto18-RAGe : undefined;
+export function readFromLocalSto18_rage<T>(key: string): T | undefined {
+    let ls = typeof window !== 'undefined' ? window.localSto18_rage : undefined;
     let value = ls?.getItem(key);
     if (value) {
         try {
             return JSON.parse(value);
         } catch (e) {
-            console.error('Failed to parse local sto18-RAGe value:', key, value);
+            console.error('Failed to parse local sto18_rage value:', key, value);
         }
     }
     return undefined;
 }
 
-export function writeToLocalSto18-RAGe<T>(key: string, value: T) {
-    let ls = typeof window !== 'undefined' ? window.localSto18-RAGe : undefined;
+export function writeToLocalSto18_rage<T>(key: string, value: T) {
+    let ls = typeof window !== 'undefined' ? window.localSto18_rage : undefined;
     if (value) {
         ls?.setItem(key, JSON.stringify(value));
     } else {
@@ -38,11 +38,11 @@ export function writeToLocalSto18-RAGe<T>(key: string, value: T) {
     }
 }
 
-export function useLocalSto18-RAGeState<T>(key: string, hydrateFromLS: (a: Partial<T> | undefined) => T): [T, StateSetter<T>] {
-    let [value, setValue] = useState(() => hydrateFromLS(readFromLocalSto18-RAGe(key)));
+export function useLocalSto18_rageState<T>(key: string, hydrateFromLS: (a: Partial<T> | undefined) => T): [T, StateSetter<T>] {
+    let [value, setValue] = useState(() => hydrateFromLS(readFromLocalSto18_rage(key)));
 
     useEffect(() => {
-        writeToLocalSto18-RAGe(key, value);
+        writeToLocalSto18_rage(key, value);
     }, [key, value]);
 
     return [value, setValue];

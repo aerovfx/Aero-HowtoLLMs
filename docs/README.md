@@ -30,51 +30,51 @@ Dưới đây là danh sách toàn bộ các học phần được sắp xếp t
 ### 🧱 Giai đoạn 1: Nền tảng & Dữ liệu (Fundamentals)
 | Module | Chủ đề | Link Truy Cập |
 |:---:|---|---|
-| **01** | **LLM Course (Stanford CME 295)** | [Khám phá ngay →](01-LLM_Course/index.md) |
-| **02** | **Words to Tokens to Numbers** | [Khám phá ngay →](02-Words-to-tokens-to-numbers/index.md) |
-| **03** | **Python Indexing & Slicing** | [Khám phá ngay →](03-Python-Indexing-and-slicing/index.md) |
-| **05** | **Embeddings Spaces** | [Khám phá ngay →](05-Embeddings-spaces/index.md) |
-| **27** | **Math for Deep Learning** | [Khám phá ngay →](27-Math-deep-learning/index.md) |
+| **01** | **LLM Course (Stanford CME 295)** | [Khám phá ngay →](01_llm_course/index.md) |
+| **02** | **Words to Tokens to Numbers** | [Khám phá ngay →](02_words_to_tokens_to_numbers/index.md) |
+| **03** | **Python Indexing & Slicing** | [Khám phá ngay →](03_python_indexing_and_slicing/index.md) |
+| **05** | **Embeddings Spaces** | [Khám phá ngay →](05_embeddings_spaces/index.md) |
+| **27** | **Math for Deep Learning** | [Khám phá ngay →](27_math_deep_learning/index.md) |
 
 ### 🏗️ Giai đoạn 2: Kiến trúc & Huấn luyện (Architecture & Training)
 | Module | Chủ đề | Link Truy Cập |
 |:---:|---|---|
-| **04** | **Build GPT From Scratch** | [Khám phá ngay →](04-buildGPT/index.md) |
+| **04** | **Build GPT From Scratch** | [Khám phá ngay →](04_buildgpt/index.md) |
 | **06** | **Pre-training Pipelines** | [Khám phá ngay →](06-pretraining/index.md) |
-| **28** | **Gradient Descent Optimization** | [Khám phá ngay →](28-Gradient-descent/index.md) |
-| **29** | **Essence of Deep Learning** | [Khám phá ngay →](29-Essence-deep-learning/index.md) |
+| **28** | **Gradient Descent Optimization** | [Khám phá ngay →](28_gradient_descent/index.md) |
+| **29** | **Essence of Deep Learning** | [Khám phá ngay →](29_essence_deep_learning/index.md) |
 
 ### 🎯 Giai đoạn 3: Tinh chỉnh & Ứng dụng (Fine-tuning & RAG)
 | Module | Chủ đề | Link Truy Cập |
 |:---:|---|---|
-| **07** | **Fine-tune Pretrained Models** | [Khám phá ngay →](07-Fine-tune-pretrained-models/index.md) |
-| **08** | **Instruction Tuning** | [Khám phá ngay →](08-Instruction-tuning/index.md) |
-| **18** | **RAG (Retrieval Augmented Generation)** | [Khám phá ngay →](18-RAG/index.md) |
+| **07** | **Fine-tune Pretrained Models** | [Khám phá ngay →](07_fine_tune_pretrained_models/index.md) |
+| **08** | **Instruction Tuning** | [Khám phá ngay →](08_instruction_tuning/index.md) |
+| **18** | **RAG (Retrieval Augmented Generation)** | [Khám phá ngay →](18_rag/index.md) |
 
 ### 🔍 Giai đoạn 4: Giải mã & An toàn (Interpretability & Safety)
 | Module | Chủ đề | Link Truy Cập |
 |:---:|---|---|
-| **09** | **Quantitative Evaluations** | [Khám phá ngay →](09-Quantitative-evaluations/index.md) |
-| **10** | **Identifying Circuits** | [Khám phá ngay →](10-Identifying-circuits/index.md) |
-| **11** | **Investigating Token Embeddings** | [Khám phá ngay →](11-Investigating-token-embeddings/index.md) |
-| **12** | **Investigating Neurons & Dimensions** | [Khám phá ngay →](12-Investigating-neurons-dimensions/index.md) |
-| **13** | **Investigating Layers** | [Khám phá ngay →](13-Investigating-layers/index.md) |
-| **14** | **Modify Activations** | [Khám phá ngay →](14-Modify-activations/index.md) |
-| **15** | **Editing Hidden States** | [Khám phá ngay →](15-Editing-hidden-states/index.md) |
-| **16** | **Interfering with Attention** | [Khám phá ngay →](16-Interfering-with-attention/index.md) |
-| **17** | **Modifying MLP (Feed-Forward)** | [Khám phá ngay →](17-Modifying-MLP/index.md) |
-| **19** | **AI Safety & Responsibility** | [Khám phá ngay →](19-AI-safety/index.md) |
+| **09** | **Quantitative Evaluations** | [Khám phá ngay →](09_quantitative_evaluations/index.md) |
+| **10** | **Identifying Circuits** | [Khám phá ngay →](10_identifying_circuits/index.md) |
+| **11** | **Investigating Token Embeddings** | [Khám phá ngay →](11_investigating_token_embeddings/index.md) |
+| **12** | **Investigating Neurons & Dimensions** | [Khám phá ngay →](12_investigating_neurons_dimensions/index.md) |
+| **13** | **Investigating Layers** | [Khám phá ngay →](13_investigating_layers/index.md) |
+| **14** | **Modify Activations** | [Khám phá ngay →](14_modify_activations/index.md) |
+| **15** | **Editing Hidden States** | [Khám phá ngay →](15_editing_hidden_states/index.md) |
+| **16** | **Interfering with Attention** | [Khám phá ngay →](16_interfering_with_attention/index.md) |
+| **17** | **Modifying MLP (Feed-Forward)** | [Khám phá ngay →](17_modifying_mlp/index.md) |
+| **19** | **AI Safety & Responsibility** | [Khám phá ngay →](19_ai_safety/index.md) |
 
 ### 🐍 Giai đoạn 5: Python for AI & Tools
 | Module | Chủ đề | Link Truy Cập |
 |:---:|---|---|
-| **20** | **Python Colab Notebooks** | [Khám phá ngay →](20-Python-Colab-notebooks/index.md) |
-| **21** | **Python Data Types** | [Khám phá ngay →](21-Python-Data-types/index.md) |
-| **22** | **Python Functions** | [Khám phá ngay →](22-Python-Functions/index.md) |
-| **23** | **Python Flow Control** | [Khám phá ngay →](23-Python-Flow-control/index.md) |
-| **24** | **Python Data Visualization** | [Khám phá ngay →](24-Python-Data-visualization/index.md) |
-| **25** | **Python Strings & Texts** | [Khám phá ngay →](25-Python-Strings-texts/index.md) |
-| **26** | **Python PyTorch Essentials** | [Khám phá ngay →](26-Python-PyTorch/index.md) |
+| **20** | **Python Colab Notebooks** | [Khám phá ngay →](20_python_colab_notebooks/index.md) |
+| **21** | **Python Data Types** | [Khám phá ngay →](21_python_data_types/index.md) |
+| **22** | **Python Functions** | [Khám phá ngay →](22_python_functions/index.md) |
+| **23** | **Python Flow Control** | [Khám phá ngay →](23_python_flow_control/index.md) |
+| **24** | **Python Data Visualization** | [Khám phá ngay →](24_python_data_visualization/index.md) |
+| **25** | **Python Strings & Texts** | [Khám phá ngay →](25_python_strings_texts/index.md) |
+| **26** | **Python PyTorch Essentials** | [Khám phá ngay →](26_python_pytorch/index.md) |
 
 ---
 

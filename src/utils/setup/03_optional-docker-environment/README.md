@@ -54,7 +54,7 @@ mv setup/03_optional-docker-environment/.devcontainer ./
    {
      "builder": {
        "gc": {
-         "defaultKeepSto18-RAGe": "20GB",
+         "defaultKeepSto18_rage": "20GB",
          "enabled": true
        }
      },

@@ -71,13 +71,13 @@ export const VIZ_SHADERS = {
             gl_PointSize = 2.0;
         }
     `,
-    f18-RAGment: `
+    f18_ragment: `
         precision mediump float;
         varying vec4 v_color;
         uniform float u_opacity;
 
         void main() {
-            gl_F18-RAGColor = vec4(v_color.rgb, v_color.a * u_opacity);
+            gl_F18_ragColor = vec4(v_color.rgb, v_color.a * u_opacity);
         }
     `
 };

@@ -2,7 +2,7 @@ import React, { useReducer, useState } from 'react';
 import s from './PhaseTimeline.module.scss';
 import { useProgramState } from './Sidebar';
 import { clamp } from '@/src/utils/data';
-import { useCombinedMouseTouchD18-RAG } from '@/src/utils/pointer';
+import { useCombinedMouseTouchD18_rag } from '@/src/utils/pointer';
 import { eventEndTime, ITimeInfo } from './walkthrough/WalkthroughTools';
 
 export const PhaseTimeline: React.FC = () => {
@@ -17,7 +17,7 @@ export const PhaseTimeline: React.FC = () => {
 
     let toFract = (v: number) => clamp(v / totalTime, 0, 1);
 
-    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG<number>(caretHitEl, () => walkthrough.time, function handleMove(ev, ds) {
+    let [d18_ragStart, setD18_ragStart] = useCombinedMouseTouchD18_rag<number>(caretHitEl, () => walkthrough.time, function handleMove(ev, ds) {
         let dy = ev.clientY - ds.clientY;
         let len = baseEl!.clientHeight;
         walkthrough.time = clamp(ds.data + dy / len * totalTime, 0, totalTime);
@@ -43,7 +43,7 @@ export const PhaseTimeline: React.FC = () => {
         <div ref={setCaretHitEl} className={s.timelineCaretHit} style={{ top: `${toFract(walkthrough.time) * 100}%` }} onMouseDown={(ev) => {
             ev.preventDefault();
             ev.stopPropagation();
-            setD18-RAGStart(ev);
+            setD18_ragStart(ev);
         }}/>
     </div>;
 }
@@ -63,7 +63,7 @@ export const PhaseTimelineHoriz: React.FC<{ times: ITimeInfo[] }> = ({ times }) 
 
     let toFract = (v: number) => clamp((v - timeOffset) / totalTime, 0, 1);
 
-    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG<number>(caretHitEl, () => wt.time, function handleMove(ev, ds) {
+    let [d18_ragStart, setD18_ragStart] = useCombinedMouseTouchD18_rag<number>(caretHitEl, () => wt.time, function handleMove(ev, ds) {
         let dx = ev.clientX - ds.clientX;
         let len = baseEl!.clientWidth;
         wt.time = clamp(ds.data + dx / len * totalTime, timeOffset, timeOffset + totalTime);
@@ -74,7 +74,7 @@ export const PhaseTimelineHoriz: React.FC<{ times: ITimeInfo[] }> = ({ times }) 
         refresh();
     });
 
-    let [, setBaseD18-RAGStart] = useCombinedMouseTouchD18-RAG<number>(baseEl, () => wt.time, function handleMove(ev, ds) {
+    let [, setBaseD18_ragStart] = useCombinedMouseTouchD18_rag<number>(baseEl, () => wt.time, function handleMove(ev, ds) {
         let len = baseEl!.clientWidth;
         let xPos = ev.clientX - baseEl!.getBoundingClientRect().left;
         wt.time = clamp(timeOffset + xPos / len * totalTime, timeOffset, timeOffset + totalTime);
@@ -88,7 +88,7 @@ export const PhaseTimelineHoriz: React.FC<{ times: ITimeInfo[] }> = ({ times }) 
     return <div className={s.timelineBaseHoriz} ref={setBaseEl} onMouseDown={(ev) => {
         ev.preventDefault();
         ev.stopPropagation();
-        setBaseD18-RAGStart(ev);
+        setBaseD18_ragStart(ev);
     }}>
         <div className={s.timelineLineHoriz} />
         {times.map((t, i) => {
@@ -105,7 +105,7 @@ export const PhaseTimelineHoriz: React.FC<{ times: ITimeInfo[] }> = ({ times }) 
             <div className={s.timelineCaretHitHoriz} ref={setCaretHitEl} style={{ left: `${toFract(wt.time) * 100}%` }} onMouseDown={(ev) => {
                 ev.preventDefault();
                 ev.stopPropagation();
-                setD18-RAGStart(ev);
+                setD18_ragStart(ev);
             }}/>
         </>}
     </div>;

@@ -231,7 +231,7 @@ Bài báo đã phân tích cơ chế trung bình hóa quá khứ và loại bỏ
 
 ## Tài liệu tham khảo (References)
 
-[1] Tài liệu “Ave18-RAGing the Past While Ignoring the Future (Code)”, Video Transcript và Demo, 2024. :contentReference[oaicite:15]{index=15}
+[1] Tài liệu “Ave18_raging the Past While Ignoring the Future (Code)”, Video Transcript và Demo, 2024. :contentReference[oaicite:15]{index=15}
 
 [2] Vaswani, A. et al. (2017). *Attention Is All You Need*. NeurIPS.
 

@@ -2,13 +2,13 @@ import React, { memo, useEffect, useRef, useState } from 'react';
 import { AffineMat2d } from '../utils/AffineMat2d';
 import { assignImm, assignImmFull, clamp, getOrAddToMap } from '../utils/data';
 import { hasModifiers, isKeyWithModifiers, KeyboardOrder, Modifiers, useGlobalKeyboard } from '../utils/keyboard';
-import { useCombinedMouseTouchD18-RAG, useTouchEvents } from '../utils/pointer';
+import { useCombinedMouseTouchD18_rag, useTouchEvents } from '../utils/pointer';
 import { BoundingBox3d, projectOntoVector, segmentNearestPoint, Vec3 } from '../utils/vector';
 import { ICanvasState, IEditSchematic, IEditSnapshot, IEditorState, IElRef, IHitTest, ISchematic, ISegment, IWireGraph, RefType } from './CpuModel';
 import { editMainSchematic, editSnapshot, editSubSchematic, useEditorContext } from './Editor';
-import { fixWire, wireToGraph, applyWires, checkWires, copyWireGraph, EPSILON, d18-RAGSegment, moveSelectedComponents, iterWireGraphSegments, refToString, wireUnlinkNodes, repackGraphIds } from './Wire';
+import { fixWire, wireToGraph, applyWires, checkWires, copyWireGraph, EPSILON, d18_ragSegment, moveSelectedComponents, iterWireGraphSegments, refToString, wireUnlinkNodes, repackGraphIds } from './Wire';
 import s from './CpuCanvas.module.scss';
-import { CursorD18-RAGOverlay } from '../utils/CursorD18-RAGOverlay';
+import { CursorD18_ragOverlay } from '../utils/CursorD18_ragOverlay';
 import { computeSubLayoutMatrix, editCtxFromRefId as editCtxFromElRef, getActiveSubSchematic, getCompFromRef, getCompSubSchematic, getMatrixForEditContext, getSchematicForRef, globalRefToLocal } from './SubSchematics';
 import { useFunctionRef } from '../utils/hooks';
 import { copySelection, cutSelection, pasteSelection } from './Clipboard';
@@ -72,8 +72,8 @@ export const CanvasEventHandler: React.FC<{
     }, [canvasWrapEl, handleWheelFuncRef, embedded]);
 
 
-    useTouchEvents(canvasWrapEl, { mtx: editorState.mtx }, { alwaysSendD18-RAGEvent: true },
-        function handle1PointD18-RAG(ev, ds) {
+    useTouchEvents(canvasWrapEl, { mtx: editorState.mtx }, { alwaysSendD18_ragEvent: true },
+        function handle1PointD18_rag(ev, ds) {
             let aPt0 = new Vec3(ds.touches[0].clientX, ds.touches[0].clientY);
             let bPt0 = new Vec3(ev.touches[0].clientX, ev.touches[0].clientY);
             let delta = bPt0.sub(aPt0);
@@ -87,7 +87,7 @@ export const CanvasEventHandler: React.FC<{
             ev.preventDefault();
             setEditorState(a => assignImm(a, { mtx }));
         },
-        function handle2PointD18-RAG(ev, ds) {
+        function handle2PointD18_rag(ev, ds) {
             let aPt0 = new Vec3(ds.touches[0].clientX, ds.touches[0].clientY);
             let aPt1 = new Vec3(ds.touches[1].clientX, ds.touches[1].clientY);
 
@@ -115,7 +115,7 @@ export const CanvasEventHandler: React.FC<{
             setEditorState(a => assignImm(a, { mtx }));
         });
 
-    let [d18-RAGStart, setD18-RAGStart] = useCombinedMouseTouchD18-RAG(cvsState?.canvas ?? null, ev => {
+    let [d18_ragStart, setD18_ragStart] = useCombinedMouseTouchD18_rag(cvsState?.canvas ?? null, ev => {
         let hovered = ev.button === 0 ? editorState.hovered : null;
 
         let editCtx = hovered ? editCtxFromElRef(hovered.ref) : { idPrefix: editorState.snapshot.focusedIdPrefix ?? "" };
@@ -129,7 +129,7 @@ export const CanvasEventHandler: React.FC<{
             ctrlDown: ctrlDown,
             isSelecting: (ev.button === 0 && ctrlDown) || ev.button === 2,
         };
-     }, function handleD18-RAG(ev, ds, end) {
+     }, function handleD18_rag(ev, ds, end) {
 
         let selection = document.getSelection();
         selection?.removeAllRanges();
@@ -185,15 +185,15 @@ export const CanvasEventHandler: React.FC<{
             if (hoveredRef.type === RefType.Comp) {
                 let isSelected = editorState!.snapshot.selected.find(a => a.type === RefType.Comp && a.id === hoveredRef.id);
                 if (isSelected) {
-                    // handleComponentD18-RAG(end, hoveredRef, ds.data.modelPos, evToModel(ev));
-                    handleSelectionD18-RAG(end, ds.data.modelPos, evToModel(ev, mtx));
+                    // handleComponentD18_rag(end, hoveredRef, ds.data.modelPos, evToModel(ev));
+                    handleSelectionD18_rag(end, ds.data.modelPos, evToModel(ev, mtx));
                 }
             } else if (hoveredRef.type === RefType.CompNode) {
-                handleWireCreateD18-RAG(end, hoveredRef, ds.data.modelPos, evToModel(ev, mtx));
+                handleWireCreateD18_rag(end, hoveredRef, ds.data.modelPos, evToModel(ev, mtx));
             } else if (hoveredRef.type === RefType.WireSeg) {
-                handleWireD18-RAG(end, hoveredRef, ds.data.modelPos, evToModel(ev, mtx));
+                handleWireD18_rag(end, hoveredRef, ds.data.modelPos, evToModel(ev, mtx));
             } else if (hoveredRef.type === RefType.WireNode) {
-                handleWireExtendD18-RAG(end, hoveredRef, ds.data.modelPos, evToModel(ev, mtx), mtx);
+                handleWireExtendD18_rag(end, hoveredRef, ds.data.modelPos, evToModel(ev, mtx), mtx);
             }
         }
 
@@ -220,9 +220,9 @@ export const CanvasEventHandler: React.FC<{
         ev.preventDefault();
     });
 
-    let showTransparentComponents = d18-RAGStart?.data.ctrlDown || ctrlDown || editorState.transparentComps;
+    let showTransparentComponents = d18_ragStart?.data.ctrlDown || ctrlDown || editorState.transparentComps;
 
-    function handleSelectionD18-RAG(end: boolean, origModelPos: Vec3, newModelPos: Vec3) {
+    function handleSelectionD18_rag(end: boolean, origModelPos: Vec3, newModelPos: Vec3) {
 
         setEditorState(editMainSchematic(end, (schematic, state, snapshot) => {
             let deltaPos = newModelPos.sub(origModelPos);
@@ -231,18 +231,18 @@ export const CanvasEventHandler: React.FC<{
         }));
     }
 
-    function handleWireCreateD18-RAG(end: boolean, globalRef: IElRef, origModelPos: Vec3, newModelPos: Vec3) {
+    function handleWireCreateD18_rag(end: boolean, globalRef: IElRef, origModelPos: Vec3, newModelPos: Vec3) {
         let editCtx = editCtxFromElRef(globalRef);
         let ref = globalRefToLocal(globalRef);
         setEditorState(editSubSchematic(editCtx, end, schematic => {
             let startComp = schematic.comps.find(c => c.id === ref.id);
             if (!startComp) {
-                console.log(`WARN: handleWireCreateD18-RAG: comp '${ref.id}' not found`);
+                console.log(`WARN: handleWireCreateD18_rag: comp '${ref.id}' not found`);
                 return schematic;
             }
             let startNode = startComp.ports.find(n => n.id === ref.compNodeId);
             if (!startNode) {
-                console.log(`WARN: handleWireCreateD18-RAG: comp '${ref.id}' does not have the port '${ref.compNodeId}'`);
+                console.log(`WARN: handleWireCreateD18_rag: comp '${ref.id}' does not have the port '${ref.compNodeId}'`);
                 return schematic;
             }
 
@@ -276,26 +276,26 @@ export const CanvasEventHandler: React.FC<{
 
     let grabDirRef = useRef<Vec3 | null>(null);
 
-    /* We are d18-RAGging from the end of a segment. For now, assume it's a bare end.
+    /* We are d18_ragging from the end of a segment. For now, assume it's a bare end.
 
     Behaviours, assuming a horiz segment:
-        - d18-RAGging into the segment shortens it
-        - d18-RAGging out from the segment lengthens it
-        - we have a region around the segment end, and the direction through which we d18-RAG
+        - d18_ragging into the segment shortens it
+        - d18_ragging out from the segment lengthens it
+        - we have a region around the segment end, and the direction through which we d18_rag
             defines the direction of the new segment (initially)
         - then, we allow a dogleg, with that initial dir
-        - the initial dir can be reset by d18-RAGging back into the region & then out again
+        - the initial dir can be reset by d18_ragging back into the region & then out again
         - what about if we dogleg while shortening? if we start with a horiz initial dir, then
             do a shorten + single extend in opposite direction, i.e. keep the elbow, rather than create a T junction
     */
-    function handleWireExtendD18-RAG(end: boolean, globalRef: IElRef, origModelPos: Vec3, newModelPos: Vec3, mtx: AffineMat2d) {
+    function handleWireExtendD18_rag(end: boolean, globalRef: IElRef, origModelPos: Vec3, newModelPos: Vec3, mtx: AffineMat2d) {
         let editCtx = editCtxFromElRef(globalRef);
         let ref = globalRefToLocal(globalRef);
-        setEditorState(editSubSchematic(editCtx, end, function handleWireExtendD18-RAG(schematic) {
-            checkWires(schematic.wires, 'handleWireExtendD18-RAG (pre edit)');
+        setEditorState(editSubSchematic(editCtx, end, function handleWireExtendD18_rag(schematic) {
+            checkWires(schematic.wires, 'handleWireExtendD18_rag (pre edit)');
             let wireIdx = schematic.wires.findIndex(w => w.id === ref.id);
             if (wireIdx === -1) {
-                console.log(`WARN: handleWireExtendD18-RAG: wire '${ref.id}' not found`);
+                console.log(`WARN: handleWireExtendD18_rag: wire '${ref.id}' not found`);
                 return schematic;
             }
 
@@ -375,21 +375,21 @@ export const CanvasEventHandler: React.FC<{
             let wires = [...schematic.wires];
             wires[wireIdx] = wire;
 
-            checkWires(wires, 'handleWireExtendD18-RAG');
+            checkWires(wires, 'handleWireExtendD18_rag');
 
             return applyWires(schematic, wires, wireIdx);
         }));
 
     }
 
-    function handleWireD18-RAG(end: boolean, globalRef: IElRef, origModelPos: Vec3, newModelPos: Vec3) {
+    function handleWireD18_rag(end: boolean, globalRef: IElRef, origModelPos: Vec3, newModelPos: Vec3) {
         let editCtx = editCtxFromElRef(globalRef);
         let ref = globalRefToLocal(globalRef);
 
         setEditorState(editSubSchematic(editCtx, end, (layout) => {
             let wireIdx = layout.wires.findIndex(w => w.id === ref.id);
             if (wireIdx === -1) {
-                console.log(`WARN: handleWireD18-RAG: wire ${ref.id} not found`)
+                console.log(`WARN: handleWireD18_rag: wire ${ref.id} not found`)
                 return layout;
             }
             let wire = layout.wires[wireIdx];
@@ -397,8 +397,8 @@ export const CanvasEventHandler: React.FC<{
             let node0 = wire.nodes[ref.wireNode0Id!];
             let node1 = wire.nodes[ref.wireNode1Id!];
 
-            // don't allow d18-RAGging of segments connected to components (since they're pinned)
-            // probably want to support d18-RAGging by introducing a perp-segment though
+            // don't allow d18_ragging of segments connected to components (since they're pinned)
+            // probably want to support d18_ragging by introducing a perp-segment though
             if (node0.ref || node1.ref) {
                 return layout;
             }
@@ -410,7 +410,7 @@ export const CanvasEventHandler: React.FC<{
                 delta = new Vec3(delta.x, 0);
             }
 
-            let newWire = d18-RAGSegment(wire, ref.wireNode0Id!, ref.wireNode1Id!, delta);
+            let newWire = d18_ragSegment(wire, ref.wireNode0Id!, ref.wireNode1Id!, delta);
 
             let wires = [...layout.wires];
             wires[wireIdx] = newWire;
@@ -543,8 +543,8 @@ export const CanvasEventHandler: React.FC<{
 
     function handleMouseMove(ev: React.MouseEvent) {
 
-        if (editorState.d18-RAGCreateComp) {
-            let compOrig = editorState.d18-RAGCreateComp.compOrig;
+        if (editorState.d18_ragCreateComp) {
+            let compOrig = editorState.d18_ragCreateComp.compOrig;
             let mousePos = snapToGrid(evToModel(ev, editorState.mtx));
 
             let applyFunc = (a: IEditSnapshot): IEditSnapshot => {
@@ -564,7 +564,7 @@ export const CanvasEventHandler: React.FC<{
             };
 
             setEditorState(a => assignImm(a, {
-                d18-RAGCreateComp: assignImm(a.d18-RAGCreateComp, { applyFunc }),
+                d18_ragCreateComp: assignImm(a.d18_ragCreateComp, { applyFunc }),
             }));
 
             return;
@@ -581,7 +581,7 @@ export const CanvasEventHandler: React.FC<{
     function handleMouseLeave(ev: React.MouseEvent) {
         setEditorState(a => assignImm(a, {
             hovered: null,
-            d18-RAGCreateComp: a.d18-RAGCreateComp ? assignImm(a.d18-RAGCreateComp, {
+            d18_ragCreateComp: a.d18_ragCreateComp ? assignImm(a.d18_ragCreateComp, {
                 applyFunc: undefined
             }) : undefined,
         }));
@@ -592,11 +592,11 @@ export const CanvasEventHandler: React.FC<{
             return;
         }
 
-        setD18-RAGStart(ev);
+        setD18_ragStart(ev);
     }
 
     let cursor: string | undefined;
-    if (d18-RAGStart && d18-RAGStart.data.hovered?.ref.type === RefType.Comp) {
+    if (d18_ragStart && d18_ragStart.data.hovered?.ref.type === RefType.Comp) {
         cursor = 'move';
 
     } else if (editorState.hovered) {
@@ -624,9 +624,9 @@ export const CanvasEventHandler: React.FC<{
         }
     }
 
-    let d18-RAGCursor: string | undefined;
-    if (d18-RAGStart && !d18-RAGStart.data.hovered) {
-        d18-RAGCursor = 'cursor-grabbing';
+    let d18_ragCursor: string | undefined;
+    if (d18_ragStart && !d18_ragStart.data.hovered) {
+        d18_ragCursor = 'cursor-grabbing';
     }
 
     function snapToGrid(pt: Vec3) {
@@ -660,7 +660,7 @@ export const CanvasEventHandler: React.FC<{
         onContextMenu={ev => ev.preventDefault()}
         style={{ cursor }}>
         {children}
-        {d18-RAGCursor && <CursorD18-RAGOverlay className={d18-RAGCursor} />}
+        {d18_ragCursor && <CursorD18_ragOverlay className={d18_ragCursor} />}
     </div>;
 });
 

@@ -537,7 +537,7 @@ function createAttnLayer(layerBuilder: ILayerBuilder, prefix: string, input: IBu
         out vec4 qkvOutput;          // (B, nHeads, T) (A)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
 
             int headIdx = pos.y / ${T};
             int tIdx = pos.y % ${T};
@@ -561,7 +561,7 @@ function createAttnLayer(layerBuilder: ILayerBuilder, prefix: string, input: IBu
         out float attnMatrix;        // (B, nHeads, T) (T)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             int tIdxK = pos.x;
             int tIdxQ = pos.y % ${T};
             int yOffset = pos.y - tIdxQ;
@@ -587,7 +587,7 @@ function createAttnLayer(layerBuilder: ILayerBuilder, prefix: string, input: IBu
         out vec2 attnMatrixAgg;       // (B, nHeads, T) (1) [2]
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             int tIdxY = pos.y % ${T};
 
             // Pass 1 finds the max
@@ -616,7 +616,7 @@ function createAttnLayer(layerBuilder: ILayerBuilder, prefix: string, input: IBu
         out float attnMatrixSoftmax;     // (B, nHeads, T) (T)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             int tIdxX = pos.x;
             int tIdxY = pos.y % ${T};
 
@@ -641,7 +641,7 @@ function createAttnLayer(layerBuilder: ILayerBuilder, prefix: string, input: IBu
         out float scaledVectors;             // (B, T)         (A * nHeads)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             int aIdx = pos.x % ${A};
             int headIdx = pos.x / ${A};
 
@@ -711,7 +711,7 @@ function createMLP(layerBuilder: ILayerBuilder, prefix: string, input: IBufferTe
         out float geluOutput; // (B, T) (C * 4)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             float x = texelFetch(geluInput, pos, 0).r;
             geluOutput = x * 0.5 * (1.0 + tanh(sqrt(2.0 / 3.14159265358) * (x + 0.044715 * x * x * x)));
         }
@@ -843,7 +843,7 @@ function createLayerNorm(layerBuilder: ILayerBuilder, layerPrefix: string, input
         out vec2 normAgg;            // (B, T) (1) [2]
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             // Use Welford's algorithm to compute mean and variance
             float mean = 0.0;
             float M2 = 0.0;
@@ -867,7 +867,7 @@ function createLayerNorm(layerBuilder: ILayerBuilder, layerPrefix: string, input
         out float normOutput;         // (B, T) (C)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
 
             vec2 agg = texelFetch(normAgg, ivec2(0, pos.y), 0).rg;
             float mean = agg.r;
@@ -929,7 +929,7 @@ function createLinearLayer(layerBuilder: ILayerBuilder, prefix: string, nIn: num
         out float linearOutput;         // (B, T) (nOut)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
 
             float res = ${bias ? 'texelFetch(linearBias, ivec2(0, pos.x), 0).r' : '0.0'};
             for (int i = 0; i < ${nIn}; i++) {
@@ -979,7 +979,7 @@ function createEmbeddingLayer(layerBuilder: ILayerBuilder, prefix: string, nEmbe
         out float embedOutput;         // (B, T)   (nDims)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
 
             int y = int(texelFetch(embedInput, ivec2(0, pos.y), 0).r);
             float res = texelFetch(embedWeight, ivec2(pos.x, y), 0).r;
@@ -1014,7 +1014,7 @@ function createAddLayer(layerBuilder: ILayerBuilder, inputA: IBufferTex, inputB:
         out float addOutput;       // (B, T) (C)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
 
             float a = texelFetch(inputA, pos, 0).r;
             float b = texelFetch(inputB, pos, 0).r;
@@ -1051,7 +1051,7 @@ function createSoftmaxLayer(layerBuilder: ILayerBuilder, input: IBufferTex): IGp
         out vec2 smAgg;              // (B)    (nVocab) [2]
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             int tIdxY = pos.y % ${T};
 
             // Pass 1 finds the max
@@ -1080,7 +1080,7 @@ function createSoftmaxLayer(layerBuilder: ILayerBuilder, input: IBufferTex): IGp
         out float smOutput;           // (B, T) (nVocab)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
             int tIdxX = pos.x;
             int tIdxY = pos.y % ${T};
 
@@ -1117,7 +1117,7 @@ function createCopyOutputToInputLayer(layerBuilder: ILayerBuilder, prevOutput: I
         out float currInput;           // (B, T) (1)
 
         void main() {
-            ivec2 pos = ivec2(gl_F18-RAGCoord.xy);
+            ivec2 pos = ivec2(gl_F18_ragCoord.xy);
 
             int tIdx = pos.y % ${T};
 
