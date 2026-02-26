@@ -234,7 +234,6 @@ Quan sát thực nghiệm:
 * Layer giữa → ngữ nghĩa
 * Layer cuối → dự đoán xác suất
 
----
 
 # 8. Liên hệ với mô hình tự hồi quy
 
