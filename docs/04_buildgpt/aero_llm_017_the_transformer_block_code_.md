@@ -34,7 +34,7 @@ Kiến trúc Transformer đã trở thành nền tảng cho các mô hình xử 
 - Self-Attention,
 - Feedforward Network (MLP).
 
-Tài liệu đính kèm trình bày cách chuyển đổi lý thuyết Transformer Block thành mã nguồn PyTorch, giúp người học nắm bắt rõ luồng xử lý dữ liệu và cấu trúc mô hình. :contentReference[oaicite:0]{index=0}
+Tài liệu đính kèm trình bày cách chuyển đổi lý thuyết Transformer Block thành mã nguồn PyTorch, giúp người học nắm bắt rõ luồng xử lý dữ liệu và cấu trúc mô hình. 
 
 Bài viết này nhằm:
 
@@ -75,7 +75,7 @@ Residual connection giúp:
 - Duy trì thông tin gốc,
 - Ổn định huấn luyện mạng sâu.
 
-Trong mã nguồn, residual được hiện thực bằng việc sao chép dữ liệu đầu vào và cộng lại sau mỗi sublayer. :contentReference[oaicite:1]{index=1}
+Trong mã nguồn, residual được hiện thực bằng việc sao chép dữ liệu đầu vào và cộng lại sau mỗi sublayer. 
 
 ---
 
@@ -94,8 +94,6 @@ Cách tiếp cận này giúp:
 - Dễ bảo trì,
 - Tăng khả năng tái sử dụng,
 - Mở rộng sang multi-head và multi-layer.
-
-:contentReference[oaicite:2]{index=2}
 
 ---
 
@@ -131,8 +129,6 @@ X → LN → Attention → +X
 
 ```
 
-:contentReference[oaicite:3]{index=3}
-
 ---
 
 ### 4.2. Feedforward Sublayer
@@ -156,8 +152,6 @@ Trong đó:
 - $W_1$: mở rộng chiều,
 - $\sigma$: phi tuyến,
 - $W_2$: thu hẹp chiều.
-
-:contentReference[oaicite:4]{index=4}
 
 ---
 

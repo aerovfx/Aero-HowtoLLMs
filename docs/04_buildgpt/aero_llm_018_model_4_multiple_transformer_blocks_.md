@@ -31,7 +31,7 @@ Việc xếp chồng nhiều Transformer block là đặc trưng cốt lõi củ
 
 Transformer là kiến trúc nền tảng của các mô hình ngôn ngữ hiện đại. Trong khi các mô hình ban đầu có thể chỉ sử dụng một hoặc hai block, các hệ thống hiện nay thường xếp chồng hàng chục block.
 
-Tài liệu đính kèm trình bày quá trình mở rộng từ mô hình một Transformer block sang mô hình nhiều block thông qua cơ chế lặp và đóng gói module trong PyTorch. :contentReference[oaicite:0]{index=0}
+Tài liệu đính kèm trình bày quá trình mở rộng từ mô hình một Transformer block sang mô hình nhiều block thông qua cơ chế lặp và đóng gói module trong PyTorch. 
 
 Mục tiêu của bài báo này là:
 
@@ -66,13 +66,13 @@ LM Head
 
 ````
 
-Mỗi block có kiến trúc giống nhau nhưng tham số độc lập. :contentReference[oaicite:1]{index=1}
+Mỗi block có kiến trúc giống nhau nhưng tham số độc lập. 
 
 ---
 
 ### 2.2. Decoder-Only Architecture
 
-Theo tài liệu, mô hình tập trung vào kiến trúc decoder-only, không sử dụng encoder. :contentReference[oaicite:2]{index=2}
+Theo tài liệu, mô hình tập trung vào kiến trúc decoder-only, không sử dụng encoder. 
 
 Đặc điểm của kiến trúc này:
 
@@ -84,7 +84,7 @@ Theo tài liệu, mô hình tập trung vào kiến trúc decoder-only, không s
 
 ### 2.3. So sánh Pre-LN và Post-LN
 
-Tài liệu chỉ ra rằng kiến trúc ban đầu sử dụng Post-LN, nhưng các nghiên cứu sau này cho thấy Pre-LN ổn định hơn. :contentReference[oaicite:3]{index=3}
+Tài liệu chỉ ra rằng kiến trúc ban đầu sử dụng Post-LN, nhưng các nghiên cứu sau này cho thấy Pre-LN ổn định hơn. 
 
 Hiện nay, đa số LLM sử dụng Pre-LN.
 
@@ -98,7 +98,7 @@ Tài liệu sử dụng `nn.Sequential` để tạo danh sách các block:
 
 - Mỗi block là một instance riêng,
 - Được xếp nối tiếp,
-- Có thể thay đổi số lượng dễ dàng. :contentReference[oaicite:4]{index=4}
+- Có thể thay đổi số lượng dễ dàng. 
 
 Cách tiếp cận này giúp tránh:
 
@@ -390,7 +390,7 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt** về **tối 
 
 ## Tóm tắt (Abstract)
 
-Các mô hình Transformer sâu với hơn 100 tầng đã trở thành nền tảng của nhiều hệ thống ngôn ngữ quy mô lớn do các tổ chức như :contentReference[oaicite:0]{index=0} và :contentReference[oaicite:1]{index=1} phát triển. Tuy nhiên, việc huấn luyện các mô hình có độ sâu lớn gặp nhiều thách thức về ổn định gradient, tiêu thụ bộ nhớ và hiệu suất tính toán. Bài báo này phân tích các vấn đề cốt lõi trong huấn luyện Deep Transformer (100+ layers), trình bày các kỹ thuật tối ưu như Pre-LayerNorm, DeepNorm, gradient scaling, FlashAttention và parallelism, đồng thời đánh giá tác động của chúng đến khả năng mở rộng và độ hội tụ của mô hình.
+Các mô hình Transformer sâu với hơn 100 tầng đã trở thành nền tảng của nhiều hệ thống ngôn ngữ quy mô lớn do các tổ chức như  và  phát triển. Tuy nhiên, việc huấn luyện các mô hình có độ sâu lớn gặp nhiều thách thức về ổn định gradient, tiêu thụ bộ nhớ và hiệu suất tính toán. Bài báo này phân tích các vấn đề cốt lõi trong huấn luyện Deep Transformer (100+ layers), trình bày các kỹ thuật tối ưu như Pre-LayerNorm, DeepNorm, gradient scaling, FlashAttention và parallelism, đồng thời đánh giá tác động của chúng đến khả năng mở rộng và độ hội tụ của mô hình.
 
 ---
 
@@ -693,7 +693,7 @@ Checkpoint System
 
 ### 8.2. Hardware Mapping
 
-Hệ thống thường sử dụng GPU của :contentReference[oaicite:2]{index=2} (A100/H100):
+Hệ thống thường sử dụng GPU của  (A100/H100):
 
 | Thành phần | Cấu hình |
 |------------|----------|
@@ -817,7 +817,7 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt** về **kiến
 
 ## Tóm tắt (Abstract)
 
-Các mô hình ngôn ngữ quy mô trên 100 tỷ tham số đã trở thành nền tảng cho trí tuệ nhân tạo tổng quát, được phát triển bởi các tổ chức như :contentReference[oaicite:0]{index=0} và :contentReference[oaicite:1]{index=1}. Tuy nhiên, việc huấn luyện các mô hình này đặt ra thách thức lớn về bộ nhớ, thông lượng tính toán, truyền thông liên GPU và độ ổn định tối ưu hóa. Bài báo này trình bày kiến trúc huấn luyện tiêu chuẩn cho mô hình 100B+ tham số, phân tích các kỹ thuật song song hóa đa chiều, quản lý bộ nhớ, tối ưu pipeline và chiến lược fault tolerance trong môi trường siêu máy tính AI.
+Các mô hình ngôn ngữ quy mô trên 100 tỷ tham số đã trở thành nền tảng cho trí tuệ nhân tạo tổng quát, được phát triển bởi các tổ chức như  và . Tuy nhiên, việc huấn luyện các mô hình này đặt ra thách thức lớn về bộ nhớ, thông lượng tính toán, truyền thông liên GPU và độ ổn định tối ưu hóa. Bài báo này trình bày kiến trúc huấn luyện tiêu chuẩn cho mô hình 100B+ tham số, phân tích các kỹ thuật song song hóa đa chiều, quản lý bộ nhớ, tối ưu pipeline và chiến lược fault tolerance trong môi trường siêu máy tính AI.
 
 ---
 
@@ -889,7 +889,7 @@ $$
 
 ### 3.1. GPU Cluster
 
-Hệ thống hiện đại chủ yếu sử dụng GPU của :contentReference[oaicite:2]{index=2}:
+Hệ thống hiện đại chủ yếu sử dụng GPU của :
 
 | Model | VRAM | TFLOPS (BF16) |
 |-------|-------|--------------|

@@ -31,7 +31,7 @@ Cơ chế attention là nền tảng của các mô hình Transformer và mô h�
 
 Trong các mô hình ngôn ngữ hiện đại, Transformer đã trở thành kiến trúc chủ đạo nhờ khả năng mô hình hóa quan hệ dài hạn giữa các token. Thành phần trung tâm của Transformer là cơ chế self-attention.
 
-Tài liệu “Model 3: One Attention Head” mô tả bước chuyển từ mô hình embedding tuyến tính sang mô hình có attention, trong đó chỉ sử dụng một head duy nhất. Đây là bước trung gian quan trọng trước khi mở rộng sang multi-head attention. :contentReference[oaicite:0]{index=0}
+Tài liệu “Model 3: One Attention Head” mô tả bước chuyển từ mô hình embedding tuyến tính sang mô hình có attention, trong đó chỉ sử dụng một head duy nhất. Đây là bước trung gian quan trọng trước khi mở rộng sang multi-head attention. 
 
 Mục tiêu của bài báo này là:
 
@@ -57,7 +57,7 @@ Trong đó:
 - $E_{token}$: token embedding,
 - $E_{pos}$: position embedding.
 
-Position embedding cho phép mô hình nhận biết thứ tự chuỗi. :contentReference[oaicite:1]{index=1}
+Position embedding cho phép mô hình nhận biết thứ tự chuỗi. 
 
 ---
 
@@ -92,7 +92,7 @@ M_{ij}=
 \end{cases}
 $$
 
-Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-\infty$. :contentReference[oaicite:2]{index=2}
+Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-\infty$. 
 
 ---
 
@@ -114,7 +114,7 @@ Cấu trúc residual giúp:
 
 - Ổn định gradient,
 - Hạn chế mất thông tin,
-- Tăng khả năng huấn luyện sâu. :contentReference[oaicite:3]{index=3}
+- Tăng khả năng huấn luyện sâu. 
 
 ---
 
@@ -131,7 +131,7 @@ Mô hình gồm các thành phần:
 5. Linear mixing (W₀),
 6. Output projection (unembedding).
 
-Unembedding được chia sẻ trọng số với embedding (weight tying). :contentReference[oaicite:4]{index=4}
+Unembedding được chia sẻ trọng số với embedding (weight tying). 
 
 ---
 
@@ -143,7 +143,7 @@ $$
 W_Q, W_K, W_V, W_0 \in \mathbb{R}^{d \times d}
 $$
 
-Không sử dụng bias cho QKV, do LayerNorm đã xử lý dịch chuyển phân phối. :contentReference[oaicite:5]{index=5}
+Không sử dụng bias cho QKV, do LayerNorm đã xử lý dịch chuyển phân phối. 
 
 ---
 
@@ -161,7 +161,7 @@ Quá trình lan truyền thuận gồm:
 8. Residual addition,
 9. Output logits.
 
-Pipeline này phản ánh một attention sublayer hoàn chỉnh. :contentReference[oaicite:6]{index=6}
+Pipeline này phản ánh một attention sublayer hoàn chỉnh. 
 
 ---
 
@@ -173,7 +173,7 @@ Mô hình xuất thêm:
 - QK scaled,
 - QK softmax.
 
-Điều này cho phép trực quan hóa và kiểm chứng hoạt động attention. :contentReference[oaicite:7]{index=7}
+Điều này cho phép trực quan hóa và kiểm chứng hoạt động attention. 
 
 Trong thực tế, kỹ thuật hook thường được sử dụng thay thế.
 
@@ -190,7 +190,7 @@ Thông số mô hình:
 | Embedding dim | 64 |
 | Vocabulary | ≈ 50k |
 
-Mô hình có quy mô nhỏ nhằm mục đích minh họa. :contentReference[oaicite:8]{index=8}
+Mô hình có quy mô nhỏ nhằm mục đích minh họa. 
 
 ---
 
@@ -204,7 +204,7 @@ Sau softmax:
 - Các giá trị không âm,
 - Phản ánh phân phối xác suất.
 
-Điều này xác nhận tính đúng đắn của phép chuẩn hóa. :contentReference[oaicite:9]{index=9}
+Điều này xác nhận tính đúng đắn của phép chuẩn hóa. 
 
 ---
 
@@ -216,7 +216,7 @@ Với trọng số khởi tạo ngẫu nhiên:
 - Không có cấu trúc ngữ nghĩa,
 - Các token có mức ảnh hưởng tương đương.
 
-Điều này phù hợp với lý thuyết. :contentReference[oaicite:10]{index=10}
+Điều này phù hợp với lý thuyết. 
 
 ---
 
@@ -228,7 +228,7 @@ $$
 \log(|V|)
 $$
 
-Cho thấy mô hình chưa học được thông tin ngôn ngữ. :contentReference[oaicite:11]{index=11}
+Cho thấy mô hình chưa học được thông tin ngôn ngữ. 
 
 ---
 
@@ -236,7 +236,7 @@ Cho thấy mô hình chưa học được thông tin ngôn ngữ. :contentRefere
 
 Mô hình yêu cầu độ dài cố định. Khi thay đổi chiều dài chuỗi, phép nhân ma trận bị lỗi.
 
-Điều này phản ánh hạn chế của kiến trúc cơ bản. :contentReference[oaicite:12]{index=12}
+Điều này phản ánh hạn chế của kiến trúc cơ bản. 
 
 ---
 
@@ -345,7 +345,7 @@ Nghiên cứu cho thấy single-head attention là bước trung gian quan trọ
 
 ## Tài liệu tham khảo (References)
 
-[1] Model 3: One Attention Head, 2024. :contentReference[oaicite:13]{index=13}  
+[1] Model 3: One Attention Head, 2024.   
 [2] Vaswani et al., Attention Is All You Need, NeurIPS, 2017.  
 [3] Ba et al., Layer Normalization, arXiv:1607.06450, 2016.  
 [4] Radford et al., Language Models are Unsupervised Multitask Learners, OpenAI, 2019.  

@@ -18,7 +18,7 @@
 
 ## Tóm tắt (Abstract)
 
-Bài báo này trình bày phân tích lý thuyết về cơ chế nhân quả thời gian (temporal causality) trong mô hình Transformer, đặc biệt trong kiến trúc GPT, thông qua góc nhìn đại số tuyến tính. Dựa trên tài liệu giảng dạy về causal attention mask :contentReference[oaicite:0]{index=0}, nghiên cứu làm rõ vai trò của ma trận mặt nạ (mask matrix), hàm softmax, và cách chúng đảm bảo mô hình chỉ khai thác thông tin từ quá khứ khi dự đoán tương lai. Kết quả cho thấy causal masking là yếu tố cốt lõi giúp mô hình ngôn ngữ sinh văn bản một cách hợp lệ và ổn định về mặt số học.
+Bài báo này trình bày phân tích lý thuyết về cơ chế nhân quả thời gian (temporal causality) trong mô hình Transformer, đặc biệt trong kiến trúc GPT, thông qua góc nhìn đại số tuyến tính. Dựa trên tài liệu giảng dạy về causal attention mask , nghiên cứu làm rõ vai trò của ma trận mặt nạ (mask matrix), hàm softmax, và cách chúng đảm bảo mô hình chỉ khai thác thông tin từ quá khứ khi dự đoán tương lai. Kết quả cho thấy causal masking là yếu tố cốt lõi giúp mô hình ngôn ngữ sinh văn bản một cách hợp lệ và ổn định về mặt số học.
 
 ---
 
@@ -26,7 +26,7 @@ Bài báo này trình bày phân tích lý thuyết về cơ chế nhân quả t
 
 Các mô hình ngôn ngữ hiện đại như GPT và BERT đều dựa trên kiến trúc Transformer với cơ chế self-attention. Tuy nhiên, sự khác biệt cốt lõi giữa hai dòng mô hình này nằm ở việc có hay không áp dụng ràng buộc nhân quả thời gian.
 
-Theo tài liệu lý thuyết về causal attention :contentReference[oaicite:1]{index=1}, GPT sử dụng mặt nạ nhân quả để ngăn mô hình truy cập thông tin trong tương lai, trong khi BERT cho phép truy cập toàn bộ ngữ cảnh.
+Theo tài liệu lý thuyết về causal attention , GPT sử dụng mặt nạ nhân quả để ngăn mô hình truy cập thông tin trong tương lai, trong khi BERT cho phép truy cập toàn bộ ngữ cảnh.
 
 Mục tiêu của bài báo này là:
 
@@ -115,7 +115,7 @@ Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suấ
 
 ### 3.2. Giải pháp: Giá trị Âm Vô Cùng
 
-Theo tài liệu tham khảo :contentReference[oaicite:2]{index=2}, để đảm bảo xác suất bằng 0, ta đặt:
+Theo tài liệu tham khảo , để đảm bảo xác suất bằng 0, ta đặt:
 
 $$
 x_i = -\infty \quad \text{với } i > t
@@ -203,7 +203,7 @@ $$
 
 ## 5. Vai trò của Softmax trong Causal Attention
 
-Theo phân tích từ :contentReference[oaicite:3]{index=3}, softmax mang lại hai lợi ích chính:
+Theo phân tích từ , softmax mang lại hai lợi ích chính:
 
 ### 5.1. Xử lý Giá trị Âm
 
@@ -371,7 +371,7 @@ Các hướng phát triển gồm:
 
 ## Tài liệu tham khảo (References)
 
-1. Bài giảng về Temporal Causality và Causal Attention trong Transformer. :contentReference[oaicite:4]{index=4}
+1. Bài giảng về Temporal Causality và Causal Attention trong Transformer. 
 
 Dưới đây là phần **Pseudocode + PyTorch Implementation cho Causal Mask** được viết theo **chuẩn bài báo khoa học**, phù hợp để đưa vào:
 

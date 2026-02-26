@@ -36,7 +36,7 @@ Tài liệu hướng dẫn lập trình attention cung cấp một bài thực h
 - Chuyển đổi công thức attention sang mã Python,
 - Cài đặt thủ công bằng PyTorch,
 - So sánh với hàm tối ưu hóa có sẵn,
-- Đánh giá hiệu năng thực nghiệm. :contentReference[oaicite:0]{index=0}
+- Đánh giá hiệu năng thực nghiệm. 
 
 Mục tiêu của nghiên cứu này là phân tích quá trình trên dưới góc nhìn học thuật và hệ thống.
 
@@ -62,7 +62,7 @@ Trong đó:
 - $V \in \mathbb{R}^{T \times d}$: Value,
 - $d_k$: số chiều của vector Key.
 
-Công thức này cho phép mô hình tính toán mức độ liên quan giữa các token. :contentReference[oaicite:1]{index=1}
+Công thức này cho phép mô hình tính toán mức độ liên quan giữa các token. 
 
 ---
 
@@ -86,7 +86,7 @@ Hệ số $\frac{1}{\sqrt{d_k}}$ được sử dụng nhằm:
 - Tránh hiện tượng gradient quá lớn,
 - Cải thiện độ ổn định của softmax.
 
-Đây là yếu tố quan trọng trong huấn luyện mô hình sâu. :contentReference[oaicite:2]{index=2}
+Đây là yếu tố quan trọng trong huấn luyện mô hình sâu. 
 
 ---
 
@@ -101,7 +101,7 @@ Thay vì sử dụng dữ liệu thực, nghiên cứu mô phỏng các tensor n
 - Vocabulary size: 40,
 - Embedding dimension: 10.
 
-Token được sinh ngẫu nhiên và ánh xạ sang embedding thông qua ma trận học được. :contentReference[oaicite:3]{index=3}
+Token được sinh ngẫu nhiên và ánh xạ sang embedding thông qua ma trận học được. 
 
 ---
 
@@ -117,7 +117,7 @@ $$
 
 với $W_Q, W_K, W_V \in \mathbb{R}^{d \times d}$.
 
-Cách tiếp cận này phản ánh đúng kiến trúc Transformer chuẩn. :contentReference[oaicite:4]{index=4}
+Cách tiếp cận này phản ánh đúng kiến trúc Transformer chuẩn. 
 
 ---
 
@@ -131,7 +131,7 @@ Các bước triển khai thủ công gồm:
 4. Softmax theo hàng,
 5. Nhân với V.
 
-Việc xử lý phép transpose cần tránh tác động đến chiều batch. :contentReference[oaicite:5]{index=5}
+Việc xử lý phép transpose cần tránh tác động đến chiều batch. 
 
 ---
 
@@ -151,7 +151,7 @@ Hàm này tích hợp:
 - Softmax ổn định số,
 - Kernel CUDA tối ưu.
 
-Kết quả đầu ra tương đương với cài đặt thủ công. :contentReference[oaicite:6]{index=6}
+Kết quả đầu ra tương đương với cài đặt thủ công. 
 
 ---
 
@@ -163,7 +163,7 @@ Hai phương pháp được so sánh bằng cách:
 - Lặp 200 lần trên GPU,
 - Đo thời gian thực thi.
 
-Ngoài ra, thử nghiệm sử dụng JIT compiler để biên dịch hàm attention. :contentReference[oaicite:7]{index=7}
+Ngoài ra, thử nghiệm sử dụng JIT compiler để biên dịch hàm attention. 
 
 ---
 
@@ -177,7 +177,7 @@ Kết quả cho thấy:
 - Sai khác ở mức $10^{-8}$–$10^{-9}$,
 - `torch.allclose` xác nhận tương đương.
 
-Sai khác nhỏ xuất phát từ sai số làm tròn số học. :contentReference[oaicite:8]{index=8}
+Sai khác nhỏ xuất phát từ sai số làm tròn số học. 
 
 ---
 
@@ -190,7 +190,7 @@ Kết quả thực nghiệm cho thấy:
 | Thủ công | ~7.0 s |
 | PyTorch | ~6.5 s |
 
-Phiên bản tối ưu nhanh hơn do kernel được fuse. :contentReference[oaicite:9]{index=9}
+Phiên bản tối ưu nhanh hơn do kernel được fuse. 
 
 ---
 
@@ -204,7 +204,7 @@ Với ma trận lớn:
 | PyTorch | ~9.0 s |
 | Compiled | ~0.05 s |
 
-Sau khi JIT compile, hiệu năng cải thiện hơn 80 lần. :contentReference[oaicite:10]{index=10}
+Sau khi JIT compile, hiệu năng cải thiện hơn 80 lần. 
 
 ---
 
@@ -216,7 +216,7 @@ Lần chạy đầu tiên trên GPU thường chậm hơn do:
 - Load library,
 - Memory allocation.
 
-Do đó, các lần chạy sau phản ánh chính xác hơn hiệu năng thực. :contentReference[oaicite:11]{index=11}
+Do đó, các lần chạy sau phản ánh chính xác hơn hiệu năng thực. 
 
 ---
 
@@ -230,7 +230,7 @@ Cài đặt thủ công giúp:
 - Phát hiện lỗi transpose và broadcasting,
 - Nắm rõ vai trò của mask và softmax.
 
-Đây là bước quan trọng trong đào tạo kỹ sư AI. :contentReference[oaicite:12]{index=12}
+Đây là bước quan trọng trong đào tạo kỹ sư AI. 
 
 ---
 
@@ -255,7 +255,7 @@ JIT compiler cho phép:
 - Giảm overhead Python,
 - Tối ưu pipeline.
 
-Điều này minh họa vai trò của compiler trong hệ thống LLM hiện đại. :contentReference[oaicite:13]{index=13}
+Điều này minh họa vai trò của compiler trong hệ thống LLM hiện đại. 
 
 ---
 
@@ -308,7 +308,7 @@ Nghiên cứu khẳng định rằng việc tối ưu attention là nền tảng
 
 ## Tài liệu tham khảo (References)
 
-[1] Code Challenge: Code Attention Manually and in PyTorch, 2024. :contentReference[oaicite:14]{index=14}
+[1] Code Challenge: Code Attention Manually and in PyTorch, 2024. 
 
 [2] Vaswani, A. et al. (2017). Attention Is All You Need. NeurIPS.
 

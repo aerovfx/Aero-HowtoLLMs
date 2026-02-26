@@ -19,7 +19,7 @@
 
 ## Tóm tắt (Abstract)
 
-Bài báo này phân tích các thành phần quan trọng trong việc mở rộng mô hình GPT cơ bản, bao gồm position embedding, layer normalization, weight tying và temperature scaling. Dựa trên tài liệu giảng dạy về xây dựng mô hình GPT-2 đơn giản :contentReference[oaicite:0]{index=0}, chúng tôi trình bày cơ sở lý thuyết, cơ chế triển khai và tác động thực nghiệm của từng thành phần. Kết quả cho thấy các kỹ thuật này đóng vai trò thiết yếu trong việc ổn định huấn luyện, giảm số tham số và cải thiện chất lượng sinh văn bản.
+Bài báo này phân tích các thành phần quan trọng trong việc mở rộng mô hình GPT cơ bản, bao gồm position embedding, layer normalization, weight tying và temperature scaling. Dựa trên tài liệu giảng dạy về xây dựng mô hình GPT-2 đơn giản , chúng tôi trình bày cơ sở lý thuyết, cơ chế triển khai và tác động thực nghiệm của từng thành phần. Kết quả cho thấy các kỹ thuật này đóng vai trò thiết yếu trong việc ổn định huấn luyện, giảm số tham số và cải thiện chất lượng sinh văn bản.
 
 ---
 
@@ -27,7 +27,7 @@ Bài báo này phân tích các thành phần quan trọng trong việc mở r�
 
 Mô hình Transformer và các biến thể GPT đã trở thành nền tảng cho nhiều hệ thống xử lý ngôn ngữ tự nhiên hiện đại. Một GPT tối thiểu chỉ gồm embedding, MLP và linear output thường không đủ ổn định để huấn luyện và suy luận hiệu quả.
 
-Theo tài liệu xây dựng mô hình GPT-2 dạng học thuật :contentReference[oaicite:1]{index=1}, việc bổ sung position embedding, layer normalization, weight tying và temperature scaling giúp mô hình:
+Theo tài liệu xây dựng mô hình GPT-2 dạng học thuật , việc bổ sung position embedding, layer normalization, weight tying và temperature scaling giúp mô hình:
 
 - Nhận biết vị trí từ trong chuỗi,
 - Ổn định phân phối kích hoạt,
@@ -137,7 +137,7 @@ $$
 
 ### 3.1. Kiến trúc mô hình
 
-Mô hình được xây dựng từ GPT-1 cơ bản và mở rộng theo tài liệu tham khảo :contentReference[oaicite:2]{index=2}:
+Mô hình được xây dựng từ GPT-1 cơ bản và mở rộng theo tài liệu tham khảo :
 
 1. Token Embedding
 2. Position Embedding

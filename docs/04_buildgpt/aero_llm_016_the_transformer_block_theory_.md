@@ -31,7 +31,7 @@ Transformer block là đơn vị kiến trúc cơ bản trong các mô hình ng�
 
 Transformer đã trở thành kiến trúc chủ đạo trong lĩnh vực xử lý ngôn ngữ tự nhiên và mô hình ngôn ngữ lớn. Thành phần cốt lõi của kiến trúc này là Transformer block, được xếp chồng nhiều lần để tạo thành mạng sâu.
 
-Tài liệu “The Transformer Block (Theory)” trình bày chi tiết cấu trúc một block, bao gồm attention sublayer và MLP sublayer, cùng với cơ chế residual và layer normalization. :contentReference[oaicite:0]{index=0}
+Tài liệu “The Transformer Block (Theory)” trình bày chi tiết cấu trúc một block, bao gồm attention sublayer và MLP sublayer, cùng với cơ chế residual và layer normalization. 
 
 Mục tiêu của bài báo này là:
 
@@ -59,7 +59,7 @@ Input → LayerNorm → Sublayer → Residual Add
 
 ```
 
-Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó cộng trở lại thông qua residual connection. :contentReference[oaicite:1]{index=1}
+Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó cộng trở lại thông qua residual connection. 
 
 ---
 
@@ -81,7 +81,7 @@ Cấu trúc này giúp:
 
 ### 2.3. Pre-Layer Normalization
 
-Tài liệu sử dụng kiến trúc Pre-LN, trong đó chuẩn hóa được thực hiện trước mỗi sublayer. :contentReference[oaicite:2]{index=2}
+Tài liệu sử dụng kiến trúc Pre-LN, trong đó chuẩn hóa được thực hiện trước mỗi sublayer. 
 
 Điều này giúp:
 
@@ -101,7 +101,7 @@ Attention sublayer bao gồm ba bước:
 2. Tính attention,
 3. Residual addition.
 
-Do đó, khi nhắc đến “attention block”, thực chất là nói đến toàn bộ chuỗi xử lý này. :contentReference[oaicite:3]{index=3}
+Do đó, khi nhắc đến “attention block”, thực chất là nói đến toàn bộ chuỗi xử lý này. 
 
 ---
 
@@ -120,7 +120,7 @@ Trong đó:
 - Key đại diện cho các token tham chiếu,
 - Value chứa thông tin ngữ nghĩa.
 
-Attention cho phép token phân phối thông tin một cách phụ thuộc ngữ cảnh. :contentReference[oaicite:4]{index=4}
+Attention cho phép token phân phối thông tin một cách phụ thuộc ngữ cảnh. 
 
 ---
 
@@ -165,7 +165,7 @@ $$
 Ví dụ trong GPT-2:
 
 - $d_{model}=768$,
-- $d_{ff}=3072$. :contentReference[oaicite:5]{index=5}
+- $d_{ff}=3072$. 
 
 Cơ chế này cho phép mô hình tạm thời làm việc trong không gian chiều cao hơn.
 
@@ -179,13 +179,13 @@ Mở rộng chiều kết hợp phi tuyến cho phép:
 - Tuyến tính hóa các quan hệ phi tuyến,
 - Tăng khả năng phân biệt đặc trưng.
 
-Ví dụ minh họa trong tài liệu cho thấy dữ liệu không tuyến tính có thể trở nên tuyến tính khi mở rộng chiều. :contentReference[oaicite:6]{index=6}
+Ví dụ minh họa trong tài liệu cho thấy dữ liệu không tuyến tính có thể trở nên tuyến tính khi mở rộng chiều. 
 
 ---
 
 ### 4.4. MLP và Tính Phi Thời Gian
 
-Khác với attention, MLP không sử dụng thông tin vị trí hay quan hệ thời gian. :contentReference[oaicite:7]{index=7}
+Khác với attention, MLP không sử dụng thông tin vị trí hay quan hệ thời gian. 
 
 Nó chỉ xử lý từng token độc lập:
 
@@ -225,7 +225,7 @@ $$
 
 ### 5.2. Single-Head Attention trong Mô Hình
 
-Tài liệu tập trung vào trường hợp một attention head. :contentReference[oaicite:8]{index=8}
+Tài liệu tập trung vào trường hợp một attention head. 
 
 Đây là bước trung gian để hiểu:
 
@@ -278,7 +278,7 @@ Thực nghiệm cho thấy việc loại bỏ MLP làm giảm đáng kể chất
 
 ### 6.3. Tương tác Attention–MLP
 
-Attention trộn thông tin giữa token, trong khi MLP biến đổi nội tại từng token. :contentReference[oaicite:9]{index=9}
+Attention trộn thông tin giữa token, trong khi MLP biến đổi nội tại từng token. 
 
 Sự kết hợp này tạo nên khả năng biểu diễn mạnh mẽ.
 
@@ -362,7 +362,7 @@ Kết quả cho thấy Transformer block là đơn vị chức năng trung tâm 
 
 ## Tài liệu tham khảo (References)
 
-[1] The Transformer Block (Theory), 2024. :contentReference[oaicite:10]{index=10}  
+[1] The Transformer Block (Theory), 2024.   
 [2] Vaswani et al., Attention Is All You Need, NeurIPS, 2017.  
 [3] Ba et al., Layer Normalization, arXiv:1607.06450, 2016.  
 [4] Radford et al., GPT-2, 2019.  
@@ -800,7 +800,7 @@ Các mô hình ngôn ngữ lớn (Large Language Models – LLMs) hiện nay kh�
 
 ## 1. Giới thiệu (Introduction)
 
-Các LLM hiện đại như GPT-series của :contentReference[oaicite:0]{index=0} hay các mô hình nguồn mở được triển khai trên GPU của :contentReference[oaicite:1]{index=1} đã đạt đến quy mô hàng chục đến hàng trăm tỷ tham số.
+Các LLM hiện đại như GPT-series của  hay các mô hình nguồn mở được triển khai trên GPU của  đã đạt đến quy mô hàng chục đến hàng trăm tỷ tham số.
 
 Trong môi trường production, một Transformer Block không chỉ thực hiện phép toán attention mà còn phải:
 

@@ -26,7 +26,7 @@ Trong các mô hình ngôn ngữ tự hồi quy, việc đảm bảo tính nhân
 
 Các mô hình ngôn ngữ hiện đại như Transformer hoạt động dựa trên cơ chế attention, trong đó mỗi token được phép truy cập thông tin từ các token khác trong chuỗi. Tuy nhiên, đối với các bài toán sinh chuỗi tự hồi quy, mô hình không được phép sử dụng thông tin từ tương lai.
 
-Để giải quyết vấn đề này, causal mask được sử dụng nhằm giới hạn phạm vi attention, chỉ cho phép mỗi vị trí truy cập vào quá khứ và hiện tại. Tài liệu nghiên cứu trình bày chi tiết cách hiện thực hóa cơ chế này bằng đại số tuyến tính và lập trình song song. :contentReference[oaicite:0]{index=0}
+Để giải quyết vấn đề này, causal mask được sử dụng nhằm giới hạn phạm vi attention, chỉ cho phép mỗi vị trí truy cập vào quá khứ và hiện tại. Tài liệu nghiên cứu trình bày chi tiết cách hiện thực hóa cơ chế này bằng đại số tuyến tính và lập trình song song. 
 
 ---
 
@@ -40,7 +40,7 @@ $$
 y = \sum_{i=1}^{T} w_i x_i
 $$
 
-Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng đều, dẫn đến trung bình cộng của các giá trị quá khứ. Tuy nhiên, cách tiếp cận này không phản ánh mức độ quan trọng khác nhau giữa các thời điểm. :contentReference[oaicite:1]{index=1}
+Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng đều, dẫn đến trung bình cộng của các giá trị quá khứ. Tuy nhiên, cách tiếp cận này không phản ánh mức độ quan trọng khác nhau giữa các thời điểm. 
 
 ---
 
@@ -58,7 +58,7 @@ Trong đó $z_i$ là logit ban đầu. Softmax có đặc tính:
 - Giảm ảnh hưởng của giá trị nhỏ,
 - Tạo phân phối xác suất hợp lệ.
 
-Nhờ đó, mô hình tập trung mạnh hơn vào các thời điểm quan trọng trong quá khứ. :contentReference[oaicite:2]{index=2}
+Nhờ đó, mô hình tập trung mạnh hơn vào các thời điểm quan trọng trong quá khứ. 
 
 ---
 
@@ -70,7 +70,7 @@ $$
 e^0 = 1
 $$
 
-các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò rỉ thông tin tương lai. Điều này làm suy giảm tính nhân quả của mô hình. :contentReference[oaicite:3]{index=3}
+các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò rỉ thông tin tương lai. Điều này làm suy giảm tính nhân quả của mô hình. 
 
 ---
 
@@ -88,7 +88,7 @@ $$
 e^{-\infty} = 0
 $$
 
-Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đảm bảo không ảnh hưởng đến kết quả. Đây là nền tảng toán học của causal masking. :contentReference[oaicite:4]{index=4}
+Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đảm bảo không ảnh hưởng đến kết quả. Đây là nền tảng toán học của causal masking. 
 
 ---
 
@@ -106,7 +106,7 @@ M_{ij} =
 \end{cases}
 $$
 
-Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. :contentReference[oaicite:5]{index=5}
+Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. 
 
 ---
 
@@ -124,7 +124,7 @@ $$
 S' = S + M
 $$
 
-và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các vị trí tương lai bị triệt tiêu hoàn toàn. :contentReference[oaicite:6]{index=6}
+và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các vị trí tương lai bị triệt tiêu hoàn toàn. 
 
 ---
 
@@ -137,7 +137,7 @@ và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các 
 3. Softmax theo hàng,
 4. Kiểm tra tổng xác suất.
 
-Kết quả cho thấy tổng mỗi hàng luôn bằng 1, xác nhận tính hợp lệ của phương pháp. :contentReference[oaicite:7]{index=7}
+Kết quả cho thấy tổng mỗi hàng luôn bằng 1, xác nhận tính hợp lệ của phương pháp. 
 
 ---
 
@@ -151,7 +151,7 @@ $$
 [1], [0.5, 0.5], [0.33, 0.33, 0.33], ...
 $$
 
-Điều này phản ánh số lượng phần tử hợp lệ tăng dần theo thời gian, dẫn đến sự phân tán xác suất. :contentReference[oaicite:8]{index=8}
+Điều này phản ánh số lượng phần tử hợp lệ tăng dần theo thời gian, dẫn đến sự phân tán xác suất. 
 
 ---
 
@@ -163,7 +163,7 @@ So với chuẩn hóa tuyến tính, softmax tạo ra:
 - Tăng tính thưa (sparsity),
 - Giảm nhiễu từ các token ít liên quan.
 
-Nhờ đó, mô hình có xu hướng tập trung vào các mốc quan trọng trong chuỗi. :contentReference[oaicite:9]{index=9}
+Nhờ đó, mô hình có xu hướng tập trung vào các mốc quan trọng trong chuỗi. 
 
 ---
 
@@ -175,7 +175,7 @@ So sánh các phương pháp tạo mask cho thấy:
 - Việc sử dụng `-inf` từ Python nhanh hơn một số hàm PyTorch,
 - Tuy nhiên, trong thực tế, các phép toán này thường được fuse trên GPU.
 
-Do đó, chi phí tạo mask không phải là nút thắt chính. :contentReference[oaicite:10]{index=10}
+Do đó, chi phí tạo mask không phải là nút thắt chính. 
 
 ---
 
@@ -183,7 +183,7 @@ Do đó, chi phí tạo mask không phải là nút thắt chính. :contentRefer
 
 ### 5.1. Ý nghĩa đối với mô hình tự hồi quy
 
-Causal masking cho phép huấn luyện song song toàn bộ chuỗi trong khi vẫn giữ được tính nhân quả. Đây là ưu điểm quan trọng so với phương pháp xử lý tuần tự bằng vòng lặp. :contentReference[oaicite:11]{index=11}
+Causal masking cho phép huấn luyện song song toàn bộ chuỗi trong khi vẫn giữ được tính nhân quả. Đây là ưu điểm quan trọng so với phương pháp xử lý tuần tự bằng vòng lặp. 
 
 ---
 
@@ -195,7 +195,7 @@ Việc kết hợp softmax với giá trị âm vô cực:
 - Giảm gradient không ổn định,
 - Cải thiện hội tụ.
 
-Điều này cho thấy thiết kế attention chịu ảnh hưởng mạnh từ phân tích số học. :contentReference[oaicite:12]{index=12}
+Điều này cho thấy thiết kế attention chịu ảnh hưởng mạnh từ phân tích số học. 
 
 ---
 
@@ -207,7 +207,7 @@ Nghiên cứu hiện tại tồn tại một số hạn chế:
 2. Chưa đánh giá trong bối cảnh mô hình cực lớn,
 3. Chưa xét tới các biến thể sparse attention.
 
-Các hướng mở rộng này cần được nghiên cứu thêm. :contentReference[oaicite:13]{index=13}
+Các hướng mở rộng này cần được nghiên cứu thêm. 
 
 ---
 
@@ -219,7 +219,7 @@ Các kết quả trong nghiên cứu có thể áp dụng cho:
 - Xây dựng inference engine,
 - Thiết kế hệ thống sinh văn bản thời gian thực.
 
-Causal mask là thành phần cốt lõi trong các hệ thống như GPT, LLaMA và Claude. :contentReference[oaicite:14]{index=14}
+Causal mask là thành phần cốt lõi trong các hệ thống như GPT, LLaMA và Claude. 
 
 ---
 
@@ -231,7 +231,7 @@ Bài báo đã phân tích cơ chế trung bình hóa quá khứ và loại bỏ
 
 ## Tài liệu tham khảo (References)
 
-[1] Tài liệu “Ave18_raging the Past While Ignoring the Future (Code)”, Video Transcript và Demo, 2024. :contentReference[oaicite:15]{index=15}
+[1] Tài liệu “Ave18_raging the Past While Ignoring the Future (Code)”, Video Transcript và Demo, 2024. 
 
 [2] Vaswani, A. et al. (2017). *Attention Is All You Need*. NeurIPS.
 
