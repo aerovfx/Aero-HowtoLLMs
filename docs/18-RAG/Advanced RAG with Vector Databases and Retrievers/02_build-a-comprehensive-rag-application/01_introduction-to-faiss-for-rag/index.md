@@ -1,4 +1,10 @@
-# 📂 Index — 01_introduction-to-faiss-for-rag
+# 📂 Module: 01_introduction-to-faiss-for-rag
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 01_introduction-to-faiss-for-rag.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > [18-RAG](../../../index.md) > [Advanced RAG with Vector Databases and Retrievers](../../index.md) > [02_build-a-comprehensive-rag-application](../index.md) > **01_introduction-to-faiss-for-rag**
 
@@ -15,9 +21,21 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Giới Thiệu FAISS Cho RAG và So Sánh với ChromaDB](01_introduction-to-faiss-and-how-it-compares-to-chromadb.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Giới Thiệu FAISS Cho RAG và So Sánh với ChromaDB | [Xem bài viết →](01_introduction-to-faiss-and-how-it-compares-to-chromadb.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

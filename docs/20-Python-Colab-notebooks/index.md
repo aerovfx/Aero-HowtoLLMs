@@ -1,4 +1,10 @@
-# 📂 Index — 20-Python-Colab-notebooks
+# 📂 Module: 20-Python-Colab-notebooks
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 20-Python-Colab-notebooks.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **20-Python-Colab-notebooks**
 
@@ -15,9 +21,21 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Hướng dẫn về Môi trường Google Colab: Tạo, Làm việc và Lưu trữ Notebook](aero_LLM_01_Creating, working with, and saving Colab notebooks.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Hướng dẫn về Môi trường Google Colab: Tạo, Làm việc và Lưu trữ Notebook | [Xem bài viết →](aero_LLM_01_Creating, working with, and saving Colab notebooks.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

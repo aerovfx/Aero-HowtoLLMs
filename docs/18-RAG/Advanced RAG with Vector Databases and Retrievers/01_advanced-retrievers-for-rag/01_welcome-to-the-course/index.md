@@ -1,4 +1,10 @@
-# 📂 Index — 01_welcome-to-the-course
+# 📂 Module: 01_welcome-to-the-course
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 01_welcome-to-the-course.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > [18-RAG](../../../index.md) > [Advanced RAG with Vector Databases and Retrievers](../../index.md) > [01_advanced-retrievers-for-rag](../index.md) > **01_welcome-to-the-course**
 
@@ -15,10 +21,22 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Giới Thiệu Khóa Học: Retrieval-Augmented Generation Nâng Cao với Cơ Sở Dữ Liệu Vector](01_course-introduction.md)
-- [Tổng Quan về Chứng Chỉ Chuyên Nghiệp về RAG và AI Tác Nhân (Agentic AI)](03_rag-and-agentic-ai-professional-certificate-overview.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Giới Thiệu Khóa Học: Retrieval-Augmented Generation Nâng Cao với Cơ Sở Dữ Liệu Vector | [Xem bài viết →](01_course-introduction.md) |
+| Tổng Quan về Chứng Chỉ Chuyên Nghiệp về RAG và AI Tác Nhân (Agentic AI) | [Xem bài viết →](03_rag-and-agentic-ai-professional-certificate-overview.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

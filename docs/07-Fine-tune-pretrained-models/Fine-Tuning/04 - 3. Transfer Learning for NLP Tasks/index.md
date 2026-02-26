@@ -1,4 +1,10 @@
-# 📂 Index — 04 - 3. Transfer Learning for NLP Tasks
+# 📂 Module: 04 - 3. Transfer Learning for NLP Tasks
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 04 - 3. Transfer Learning for NLP Tasks.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > [07-Fine-tune-pretrained-models](../../index.md) > [Fine-Tuning](../index.md) > **04 - 3. Transfer Learning for NLP Tasks**
 
@@ -15,14 +21,26 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Transfer Learning Trong LLMs](01 - Transfer learning in LLMs.md)
-- [Chọn Mô Hình Cho Transfer Learning](02 - Choosing models for transfer learning.md)
-- [Demo Transfer Learning với FLAN-T5](03 - Demo Transfer learning with FLAN-T5.md)
-- [Đánh Giá Kết Quả Transfer Learning](04 - Evaluating transfer learning outcomes.md)
-- [Demo Đánh Giá Bản Dịch](05 - Demo Evaluating translations.md)
-- [Giải Pháp Nâng Cao Dịch Thuật với Transfer Learning](06 - Solution Enhancing translation with transfer learning.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Transfer Learning Trong LLMs | [Xem bài viết →](01 - Transfer learning in LLMs.md) |
+| Chọn Mô Hình Cho Transfer Learning | [Xem bài viết →](02 - Choosing models for transfer learning.md) |
+| Demo Transfer Learning với FLAN-T5 | [Xem bài viết →](03 - Demo Transfer learning with FLAN-T5.md) |
+| Đánh Giá Kết Quả Transfer Learning | [Xem bài viết →](04 - Evaluating transfer learning outcomes.md) |
+| Demo Đánh Giá Bản Dịch | [Xem bài viết →](05 - Demo Evaluating translations.md) |
+| Giải Pháp Nâng Cao Dịch Thuật với Transfer Learning | [Xem bài viết →](06 - Solution Enhancing translation with transfer learning.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

@@ -1,4 +1,10 @@
-# 📂 Index — 01 - Introduction
+# 📂 Module: 01 - Introduction
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 01 - Introduction.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > [07-Fine-tune-pretrained-models](../../index.md) > [Fine-Tuning](../index.md) > **01 - Introduction**
 
@@ -15,11 +21,23 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Bắt Đầu Fine-tuning LLMs](01 - Beginning to fine-tune your LLMs.md)
-- [Tận Dụng Tối Đa Khóa Học](02 - Getting the most out of this course.md)
-- [Kiểm Tra Phiên Bản](03 - Version check.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Bắt Đầu Fine-tuning LLMs | [Xem bài viết →](01 - Beginning to fine-tune your LLMs.md) |
+| Tận Dụng Tối Đa Khóa Học | [Xem bài viết →](02 - Getting the most out of this course.md) |
+| Kiểm Tra Phiên Bản | [Xem bài viết →](03 - Version check.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

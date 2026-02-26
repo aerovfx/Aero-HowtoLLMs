@@ -1,4 +1,10 @@
-# 📂 Index — 15-Interpretability
+# 📂 Module: 15-Interpretability
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 15-Interpretability.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **15-Interpretability**
 
@@ -15,13 +21,25 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Khả Năng Diễn Giải Cơ Chế (Mechanistic Interpretability) Là Gì?](aero_LLM_01_What is mech interp (mechanistic interpretability).md)
-- [Mối Liên Hệ Giữa Diễn Giải Cơ Chế (Mechanistic Interpretability) và An Toàn AI](aero_LLM_02_How does mech interp relate to AI safety.md)
-- [Các Khái Niệm, Thuật Ngữ và Phương Pháp Trong Diễn Giải Cơ Chế (Mech Interp)](aero_LLM_03_Concepts and terms in mech interp.md)
-- [Lý Thuyết và Thực Nghiệm (Theoretical & Empirical Approaches) Trong Nghiên Cứu và Giảng Dạy Khả Năng Diễn Giải Cơ Chế](aero_LLM_04_Theoretical and empirical approaches in research and teaching.md)
-- [Những Lời Chỉ Trích Tổng Quát Về Diễn Giải Cơ Chế (Mechanistic Interpretability)](aero_LLM_05_General criticisms of mechanistic interpretability.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Khả Năng Diễn Giải Cơ Chế (Mechanistic Interpretability) Là Gì? | [Xem bài viết →](aero_LLM_01_What is mech interp (mechanistic interpretability).md) |
+| Mối Liên Hệ Giữa Diễn Giải Cơ Chế (Mechanistic Interpretability) và An Toàn AI | [Xem bài viết →](aero_LLM_02_How does mech interp relate to AI safety.md) |
+| Các Khái Niệm, Thuật Ngữ và Phương Pháp Trong Diễn Giải Cơ Chế (Mech Interp) | [Xem bài viết →](aero_LLM_03_Concepts and terms in mech interp.md) |
+| Lý Thuyết và Thực Nghiệm (Theoretical & Empirical Approaches) Trong Nghiên Cứu và Giảng Dạy Khả Năng Diễn Giải Cơ Chế | [Xem bài viết →](aero_LLM_04_Theoretical and empirical approaches in research and teaching.md) |
+| Những Lời Chỉ Trích Tổng Quát Về Diễn Giải Cơ Chế (Mechanistic Interpretability) | [Xem bài viết →](aero_LLM_05_General criticisms of mechanistic interpretability.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

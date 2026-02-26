@@ -1,4 +1,10 @@
-# 📂 Index — 18-RAG
+# 📂 Module: 18-RAG
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 18-RAG.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **18-RAG**
 
@@ -19,11 +25,24 @@
 
 [Advanced RAG with Vector Databases and Retrievers](Advanced RAG with Vector Databases and Retrievers/index.md)
 
-## 📄 Tài liệu trong mục này
 
-- [🏗️ LOCAL RAG STACK](FULL TEMPLATE: Local RAG với Ollama + Qdrant + FastAPI.md)
-- [🏗️ RAG IMPLEMENTATION TEMPLATE (0 → PROD)](RAG IMPLEMENTATION TEMPLATE.md)
-- [🚀 CASE STUDY: XÂY DỰNG HỆ RAG CHO HỆ THỐNG TRA CỨU TÀI LIỆU NỘI BỘ](rag_noibo.md)
+## 📄 Tài liệu chi tiết
+
+| Bài học | Liên kết |
+| :--- | :--- |
+| 🏗️ LOCAL RAG STACK | [Xem bài viết →](FULL TEMPLATE: Local RAG với Ollama + Qdrant + FastAPI.md) |
+| 🏗️ RAG IMPLEMENTATION TEMPLATE (0 → PROD) | [Xem bài viết →](RAG IMPLEMENTATION TEMPLATE.md) |
+| 🚀 CASE STUDY: XÂY DỰNG HỆ RAG CHO HỆ THỐNG TRA CỨU TÀI LIỆU NỘI BỘ | [Xem bài viết →](rag_noibo.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

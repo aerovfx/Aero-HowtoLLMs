@@ -1,4 +1,10 @@
-# 📂 Index — 23-Python-Flow-control
+# 📂 Module: 23-Python-Flow-control
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 23-Python-Flow-control.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **23-Python-Flow-control**
 
@@ -15,14 +21,26 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Nhập môn Python: Vòng lặp For và Kỹ thuật Lặp (For Loops)](aero_LLM_01_For loops.md)
-- [Nhập môn Python: Câu lệnh Điều kiện If-Else và Logic Nhị phân (If-Else Statements)](aero_LLM_02_If-else statements.md)
-- [Nhập môn Python: Kỹ thuật List Comprehension (Vòng lặp một dòng)](aero_LLM_03_List comprehension (single-line loops).md)
-- [Nhập môn Python: Kỹ thuật Khởi tạo Biến và Cấp phát Bộ nhớ (Initializing Variables)](aero_LLM_04_Initializing variables.md)
-- [Nhập môn Python: Hàm Enumerate và Kỹ thuật Đánh chỉ mục Tự động (Enumerate Iterables)](aero_LLM_05_Enumerate iterables.md)
-- [Nhập môn Python: Hàm Zip và Kỹ thuật Đồng bộ hóa Dữ liệu (Zip Multiple Iterables)](aero_LLM_06_Zip multiple iterables.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Nhập môn Python: Vòng lặp For và Kỹ thuật Lặp (For Loops) | [Xem bài viết →](aero_LLM_01_For loops.md) |
+| Nhập môn Python: Câu lệnh Điều kiện If-Else và Logic Nhị phân (If-Else Statements) | [Xem bài viết →](aero_LLM_02_If-else statements.md) |
+| Nhập môn Python: Kỹ thuật List Comprehension (Vòng lặp một dòng) | [Xem bài viết →](aero_LLM_03_List comprehension (single-line loops).md) |
+| Nhập môn Python: Kỹ thuật Khởi tạo Biến và Cấp phát Bộ nhớ (Initializing Variables) | [Xem bài viết →](aero_LLM_04_Initializing variables.md) |
+| Nhập môn Python: Hàm Enumerate và Kỹ thuật Đánh chỉ mục Tự động (Enumerate Iterables) | [Xem bài viết →](aero_LLM_05_Enumerate iterables.md) |
+| Nhập môn Python: Hàm Zip và Kỹ thuật Đồng bộ hóa Dữ liệu (Zip Multiple Iterables) | [Xem bài viết →](aero_LLM_06_Zip multiple iterables.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

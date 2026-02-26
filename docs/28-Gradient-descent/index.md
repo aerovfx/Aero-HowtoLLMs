@@ -1,4 +1,10 @@
-# 📂 Index — 28-Gradient-descent
+# 📂 Module: 28-Gradient-descent
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 28-Gradient-descent.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **28-Gradient-descent**
 
@@ -15,13 +21,25 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Học sâu: Tổng quan về Thuật toán Hạ giang (Gradient Descent)](aero_LLM_01_Overview of gradient descent.md)
-- [Học sâu: Vấn đề Cực trị Địa phương (Local Minima)](aero_LLM_02_What about local minima.md)
-- [Học sâu: Thực thi Hạ giang trong Không gian 1 Chiều (1D Gradient Descent)](aero_LLM_03_Gradient descent in 1D.md)
-- [Học sâu: Hạ giang trong Không gian 2 Chiều (2D Gradient Descent)](aero_LLM_04_Gradient descent in 2D.md)
-- [Học sâu: Thử thách Lập trình – Tốc độ học Cố định vs. Động (Fixed vs. Dynamic Learning Rate)](aero_LLM_05_CodeChallenge fixed vs. dynamic learning rate.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Học sâu: Tổng quan về Thuật toán Hạ giang (Gradient Descent) | [Xem bài viết →](aero_LLM_01_Overview of gradient descent.md) |
+| Học sâu: Vấn đề Cực trị Địa phương (Local Minima) | [Xem bài viết →](aero_LLM_02_What about local minima.md) |
+| Học sâu: Thực thi Hạ giang trong Không gian 1 Chiều (1D Gradient Descent) | [Xem bài viết →](aero_LLM_03_Gradient descent in 1D.md) |
+| Học sâu: Hạ giang trong Không gian 2 Chiều (2D Gradient Descent) | [Xem bài viết →](aero_LLM_04_Gradient descent in 2D.md) |
+| Học sâu: Thử thách Lập trình – Tốc độ học Cố định vs. Động (Fixed vs. Dynamic Learning Rate) | [Xem bài viết →](aero_LLM_05_CodeChallenge fixed vs. dynamic learning rate.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

@@ -1,4 +1,10 @@
-# 📂 Index — Fine-Tuning
+# 📂 Module: Fine-Tuning
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần Fine-Tuning.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > [07-Fine-tune-pretrained-models](../index.md) > **Fine-Tuning**
 
@@ -26,10 +32,23 @@
 [07 - Conclusion](07 - Conclusion/index.md)
 [Ex_Files_Fine_Tuning_for_LLMs](Ex_Files_Fine_Tuning_for_LLMs/index.md)
 
-## 📄 Tài liệu trong mục này
 
-- [Nghiên Cứu Về Fine-Tuning Large Language Models: Từ Transformer Đến LoRA](Fine-Tuning_Scientific_Article.md)
-- [Tài liệu tham khảo](references.md)
+## 📄 Tài liệu chi tiết
+
+| Bài học | Liên kết |
+| :--- | :--- |
+| Nghiên Cứu Về Fine-Tuning Large Language Models: Từ Transformer Đến LoRA | [Xem bài viết →](Fine-Tuning_Scientific_Article.md) |
+| Tài liệu tham khảo | [Xem bài viết →](references.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

@@ -1,4 +1,10 @@
-# 📂 Index — 29-Essence-deep-learning
+# 📂 Module: 29-Essence-deep-learning
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 29-Essence-deep-learning.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **29-Essence-deep-learning**
 
@@ -15,15 +21,27 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Học sâu: Perceptron và Kiến trúc Mạng Nơ-ron Nhân tạo (ANN)](aero_LLM_01_The perceptron and ANN architecture.md)
-- [Học sâu: Góc nhìn Hình học về Mạng Nơ-ron Nhân tạo (ANN)](aero_LLM_02_A geometric view of ANNs.md)
-- [Học sâu: Giải tích ANN Phần 1 – Lan truyền xuôi (Forward Propagation)](aero_LLM_03_ANN math part 1 (forward prop).md)
-- [Học sâu: Giải tích ANN Phần 2 – Sai số, Mất mát và Chi phí (Errors, Loss, Cost)](aero_LLM_04_ANN math part 2 (errors, loss, cost).md)
-- [Học sâu: Giải tích ANN Phần 3 – Lan truyền ngược (Backpropagation)](aero_LLM_05_ANN math part 3 (backprop).md)
-- [Học sâu: Thực thi Lan truyền xuôi trong PyTorch](aero_LLM_06_Forward pass in Pytorch.md)
-- [Học sâu: Thực thi Lan truyền ngược trong PyTorch](aero_LLM_07_Backprop in Pytorch.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Học sâu: Perceptron và Kiến trúc Mạng Nơ-ron Nhân tạo (ANN) | [Xem bài viết →](aero_LLM_01_The perceptron and ANN architecture.md) |
+| Học sâu: Góc nhìn Hình học về Mạng Nơ-ron Nhân tạo (ANN) | [Xem bài viết →](aero_LLM_02_A geometric view of ANNs.md) |
+| Học sâu: Giải tích ANN Phần 1 – Lan truyền xuôi (Forward Propagation) | [Xem bài viết →](aero_LLM_03_ANN math part 1 (forward prop).md) |
+| Học sâu: Giải tích ANN Phần 2 – Sai số, Mất mát và Chi phí (Errors, Loss, Cost) | [Xem bài viết →](aero_LLM_04_ANN math part 2 (errors, loss, cost).md) |
+| Học sâu: Giải tích ANN Phần 3 – Lan truyền ngược (Backpropagation) | [Xem bài viết →](aero_LLM_05_ANN math part 3 (backprop).md) |
+| Học sâu: Thực thi Lan truyền xuôi trong PyTorch | [Xem bài viết →](aero_LLM_06_Forward pass in Pytorch.md) |
+| Học sâu: Thực thi Lan truyền ngược trong PyTorch | [Xem bài viết →](aero_LLM_07_Backprop in Pytorch.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

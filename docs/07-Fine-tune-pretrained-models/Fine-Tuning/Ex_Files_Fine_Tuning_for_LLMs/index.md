@@ -1,4 +1,10 @@
-# 📂 Index — Ex_Files_Fine_Tuning_for_LLMs
+# 📂 Module: Ex_Files_Fine_Tuning_for_LLMs
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần Ex_Files_Fine_Tuning_for_LLMs.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > [07-Fine-tune-pretrained-models](../../index.md) > [Fine-Tuning](../index.md) > **Ex_Files_Fine_Tuning_for_LLMs**
 
@@ -21,4 +27,13 @@
 
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

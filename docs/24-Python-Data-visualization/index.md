@@ -1,4 +1,10 @@
-# 📂 Index — 24-Python-Data-visualization
+# 📂 Module: 24-Python-Data-visualization
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 24-Python-Data-visualization.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **24-Python-Data-visualization**
 
@@ -15,11 +21,23 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Nhập môn Python: Kỹ thuật Trực quan hóa Dữ liệu với Matplotlib (Plotting Dots and Lines)](aero_LLM_01_Plotting dots and lines.md)
-- [Nhập môn Python: Hình học và Cấu trúc Biểu đồ con (Subplot Geometry)](aero_LLM_02_Subplot geometry.md)
-- [Nhập môn Python: Kỹ thuật Tinh chỉnh và Thẩm mỹ Biểu đồ (Making Graphs Look Nice)](aero_LLM_03_Making graphs look nice.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Nhập môn Python: Kỹ thuật Trực quan hóa Dữ liệu với Matplotlib (Plotting Dots and Lines) | [Xem bài viết →](aero_LLM_01_Plotting dots and lines.md) |
+| Nhập môn Python: Hình học và Cấu trúc Biểu đồ con (Subplot Geometry) | [Xem bài viết →](aero_LLM_02_Subplot geometry.md) |
+| Nhập môn Python: Kỹ thuật Tinh chỉnh và Thẩm mỹ Biểu đồ (Making Graphs Look Nice) | [Xem bài viết →](aero_LLM_03_Making graphs look nice.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*

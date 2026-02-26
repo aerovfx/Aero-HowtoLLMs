@@ -1,4 +1,10 @@
-# 📂 Index — 03-Python-Indexing-and-slicing
+# 📂 Module: 03-Python-Indexing-and-slicing
+
+> **Tài liệu chuyên sâu và bài tập thuộc phần 03-Python-Indexing-and-slicing.**
+
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
 
 [Home](../README.md) > **03-Python-Indexing-and-slicing**
 
@@ -15,10 +21,22 @@
 
 ---
 
-## 📄 Tài liệu trong mục này
+## 📄 Tài liệu chi tiết
 
-- [Nhập môn Python: Kỹ thuật Chỉ mục Nâng cao (Advanced Indexing)](aero_LLM_01_Indexing.md)
-- [Nhập môn Python: Kỹ thuật Cắt lát Danh sách (Slicing)](aero_LLM_02_Slicing.md)
+| Bài học | Liên kết |
+| :--- | :--- |
+| Nhập môn Python: Kỹ thuật Chỉ mục Nâng cao (Advanced Indexing) | [Xem bài viết →](aero_LLM_01_Indexing.md) |
+| Nhập môn Python: Kỹ thuật Cắt lát Danh sách (Slicing) | [Xem bài viết →](aero_LLM_02_Slicing.md) |
+
 
 ---
-*Tự động cập nhật bởi Aero-Indexer*
+
+## 🤝 Liên hệ & Đóng góp
+
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
