@@ -30,7 +30,9 @@ Trong các mô hình ngôn ngữ hiện đại, dữ liệu văn bản phải đ
 
 Cho văn bản đầu vào:
 
+$$
 X = (c_1, c_2, \dots, c_n), \quad c_i \in \Sigma
+$$
 
 Tokenization thực hiện ánh xạ:
 
