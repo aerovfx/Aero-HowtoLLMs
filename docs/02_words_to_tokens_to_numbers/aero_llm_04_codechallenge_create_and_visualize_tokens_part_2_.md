@@ -63,7 +63,9 @@ Khoảng cách cosine giữa hai token:
 
 $$
 \text{cosine}(e_i, e_j)
-=======================
+$$
+
+$$
 \frac{e_i \cdot e_j}
 {|e_i||e_j|}
 $$
