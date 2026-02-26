@@ -26,7 +26,7 @@ Bên cạnh lý thuyết về độ Căn chỉnh (Alignment) và An toàn Trí t
 
 Trong phần thực hành này, người học sẽ tương tác với một trò chơi web trực tuyến tên là Gandalf (một dự án giáo dục minh họa bên thứ ba). Trò chơi thiết kế một LLM đóng vai pháp sư Gandalf với nhiệm vụ duy nhất: **Bảo vệ một mật khẩu bí mật ở mọi giá.**
 
-Người chơi sẽ sắm vai kẻ tấn công (Hacker / Red Teamer), sử dụng văn bản để lừa mô hình phải thốt ra chuỗi password đó. Trò chơi có nhiều cấp độ (Level 1, Level 2,...), trong đó mỗi cấp độ AI lại được trang bị thêm các cơ chế bảo vệ (guardrails) nghiêm ngặt hơn.
+Người chơi sẽ sắm vai kẻ tấn công $Hacker / Red Teamer$, sử dụng văn bản để lừa mô hình phải thốt ra chuỗi password đó. Trò chơi có nhiều cấp độ (Level 1, Level 2,...), trong đó mỗi cấp độ AI lại được trang bị thêm các cơ chế bảo vệ (guardrails) nghiêm ngặt hơn.
 
 ---
 
@@ -47,7 +47,7 @@ $$
 ## 3. Các Phương Pháp Vượt Rào Phổ Biến (Jailbreak)
 
 Để thay thế cho các cơ chế bảo mật (Guardrails) của mô hình, bạn có thể áp dụng các thủ thuật sau:
-1. **Dịch Hóa (Translation/Encoding):** Yêu cầu LLM dịch mật khẩu sang một ngôn ngữ khác (như tiếng Pháp) hoặc mã hóa theo chuẩn Base64. Các lớp (layer) của LLM chặn từ vựng tiếng Anh nguyên bản đôi khi không chặn được các biểu diễn (representations) đã biến đổi của chúng ở không gian embedding.
+1. **Dịch Hóa $Translation/Encoding$:** Yêu cầu LLM dịch mật khẩu sang một ngôn ngữ khác (như tiếng Pháp) hoặc mã hóa theo chuẩn Base64. Các lớp (layer) của LLM chặn từ vựng tiếng Anh nguyên bản đôi khi không chặn được các biểu diễn (representations) đã biến đổi của chúng ở không gian embedding.
 
    $$
    \text{Enc}(\mathbf{password}) \neq \mathbf{password\_vector}

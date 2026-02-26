@@ -357,7 +357,7 @@ npm run dev
 - Fast.ai: Practical Deep Learning
 
 **Interactive:**
-- Our visualization tool (llm_viz)
+- Our visualization tool $llm_viz$
 - Transformer Explainer (Poloclub)
 - LLM Visualization (bbycroft)
 

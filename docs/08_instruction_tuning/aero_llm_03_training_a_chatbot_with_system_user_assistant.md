@@ -45,17 +45,17 @@ Mục tiêu là giúp mô hình học cách làm theo hướng dẫn của ngư�
 ### 2.2. Biểu diễn dữ liệu
 
 Tập dữ liệu huấn luyện được mô hình hóa dưới dạng:
-
-[
+$$
 D = {(I_i, X_i, Y_i)}_{i=1}^{N}
-]
+$$
+
 
 Trong đó:
 
-* (I_i): câu lệnh
-* (X_i): ngữ cảnh
-* (Y_i): đầu ra mong muốn
-* (N): số mẫu dữ liệu
+* $I_i$: câu lệnh
+* $X_i$: ngữ cảnh
+* $Y_i$: đầu ra mong muốn
+* $N$: số mẫu dữ liệu
 
 ---
 
@@ -74,16 +74,16 @@ Cấu trúc này giúp mô hình hiểu rõ ngữ cảnh và vai trò trong giao
 ### 3.2. Biểu diễn toán học
 
 Một phiên hội thoại có thể biểu diễn như chuỗi:
-
-[
+$$
 C = (s, u_1, a_1, u_2, a_2, ..., u_T, a_T)
-]
+$$
+
 
 Trong đó:
 
-* (s): thông điệp hệ thống
-* (u_t): câu hỏi người dùng
-* (a_t): phản hồi của mô hình
+* $s$: thông điệp hệ thống
+* $u_t$: câu hỏi người dùng
+* $a_t$: phản hồi của mô hình
 
 ---
 
@@ -92,10 +92,10 @@ Trong đó:
 ### 4.1. Dự đoán token tiếp theo
 
 Mô hình học xác suất:
-
-[
+$$
 P(x_t | x_1, x_2, ..., x_{t-1})
-]
+$$
+
 
 Mục tiêu là tối đa hóa xác suất chuỗi đầu ra.
 
@@ -104,27 +104,27 @@ Mục tiêu là tối đa hóa xác suất chuỗi đầu ra.
 ### 4.2. Hàm mất mát Negative Log-Likelihood
 
 Hàm mất mát được sử dụng phổ biến:
-
-[
+$$
 \mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
-]
+$$
 
-Trong đó (x_{<t}) là các token trước thời điểm (t).
+
+Trong đó $x_{<t}$ là các token trước thời điểm $t$.
 
 ---
 
 ### 4.3. Tối ưu hóa bằng Gradient Descent
 
 Tham số mô hình được cập nhật theo:
-
-[
+$$
 \theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
-]
+$$
+
 
 Trong đó:
 
-* (\eta): tốc độ học
-* (\theta): tham số
+* $\eta$: tốc độ học
+* $\theta$: tham số
 
 ---
 
@@ -151,10 +151,10 @@ Dữ liệu → Tokenizer → LLM → Loss → Cập nhật tham số
 Hiệu năng chatbot thường được đo bằng:
 
 ### 6.1. Perplexity
-
-[
+$$
 PP = \exp\left(\frac{1}{T}\mathcal{L}\right)
-]
+$$
+
 
 Giá trị PP càng nhỏ thì mô hình càng tốt.
 

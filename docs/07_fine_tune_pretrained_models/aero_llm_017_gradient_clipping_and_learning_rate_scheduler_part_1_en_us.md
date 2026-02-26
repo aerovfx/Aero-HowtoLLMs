@@ -49,40 +49,40 @@ Mục tiêu nghiên cứu gồm:
 ### 2.1 Gradient Descent
 
 Quá trình cập nhật tham số trong học sâu được mô tả bởi:
-
-[
+$$
 \theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta_t)
-]
+$$
+
 
 Trong đó:
 
-* (\theta_t): tham số tại bước (t)
-* (\eta): learning rate
-* (L): hàm mất mát
-* (\nabla_\theta L): gradient
+* $\theta_t$: tham số tại bước $t$
+* $\eta$: learning rate
+* $L$: hàm mất mát
+* $\nabla_\theta L$: gradient
 
-Khi (|\nabla_\theta L|) quá lớn, cập nhật tham số trở nên không ổn định.
+Khi $|\nabla_\theta L|$ quá lớn, cập nhật tham số trở nên không ổn định.
 
 ---
 
 ### 2.2 Chuẩn của Gradient
 
 Chuẩn Euclid của gradient:
-
-[
+$$
 |\mathbf{g}|*2=\sqrt{\sum*{i=1}^{n}g_i^2}
-]
+$$
+
 
 Trong đó:
 
-* (\mathbf{g}): vector gradient
-* (g_i): phần tử thứ (i)
+* $\mathbf{g}$: vector gradient
+* $g_i$: phần tử thứ $i$
 
 Gradient explosion xảy ra khi:
-
-[
+$$
 |\mathbf{g}|_2 \gg 1
-]
+$$
+
 
 ---
 
@@ -100,31 +100,31 @@ Theo tài liệu , thay vì cắt từng phần tử riêng lẻ, toàn bộ vec
 
 #### 3.1.2 Công thức toán học
 
-Với ngưỡng (c), gradient sau clipping:
-
-[
+Với ngưỡng $c$, gradient sau clipping:
+$$
 \mathbf{g}_{clip}=
 \begin{cases}
 \mathbf{g} & \text{nếu } |\mathbf{g}|\le c\
 \frac{c}{|\mathbf{g}|}\mathbf{g} & \text{nếu } |\mathbf{g}|>c
 \end{cases}
-]
+$$
+
 
 Điều này đảm bảo:
-
-[
+$$
 |\mathbf{g}_{clip}|\le c
-]
+$$
+
 
 ---
 
 #### 3.1.3 Cập nhật tham số
 
 Sau clipping:
-
-[
+$$
 \theta_{t+1}=\theta_t-\eta \mathbf{g}_{clip}
-]
+$$
+
 
 Việc này giúp giới hạn bước nhảy của tham số.
 
@@ -143,40 +143,40 @@ Theo , việc duy trì learning rate cố định có thể làm giảm hiệu q
 #### 3.2.2 Warm-up
 
 Trong giai đoạn khởi động:
-
-[
+$$
 \eta_t=\eta_{max}\cdot\frac{t}{T_{warm}}
-]
+$$
+
 
 Trong đó:
 
-* (T_{warm}): số epoch warm-up
-* (\eta_{max}): learning rate cực đại
+* $T_{warm}$: số epoch warm-up
+* $\eta_{max}$: learning rate cực đại
 
 ---
 
 #### 3.2.3 Cosine Scheduler
 
 Hàm cosine decay:
-
-[
+$$
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min})\left(1+\cos\frac{\pi t}{T}\right)
-]
+$$
+
 
 Trong đó:
 
-* (T): tổng số epoch
-* (\eta_{min}): learning rate tối thiểu
+* $T$: tổng số epoch
+* $\eta_{min}$: learning rate tối thiểu
 
 ---
 
 #### 3.2.4 Linear Scheduler
 
 Giảm tuyến tính:
-
-[
+$$
 \eta_t=\eta_{max}\left(1-\frac{t}{T}\right)
-]
+$$
+
 
 ---
 
@@ -188,10 +188,10 @@ Quy trình huấn luyện:
 2. Áp dụng clipping
 3. Cập nhật learning rate
 4. Cập nhật tham số
-
-[
+$$
 \theta_{t+1}=\theta_t-\eta_t\cdot \mathbf{g}_{clip}
-]
+$$
+
 
 ---
 
@@ -206,10 +206,10 @@ Theo mô tả trong tài liệu , mô hình gồm:
 * SGD optimizer
 
 Loss function:
-
-[
+$$
 L=\sum_{i=1}^{n}w_i^2
-]
+$$
+
 
 ---
 

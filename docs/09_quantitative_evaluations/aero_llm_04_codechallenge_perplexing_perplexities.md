@@ -55,11 +55,11 @@ Log-likelihood trung bình:
 
 Entropy:
 
-H(p)
+H$p$
 =
 -
 \sum_x
-p(x)\log p(x)
+p$x$\log p$x$
 
 Cross-entropy thực nghiệm:
 
@@ -76,7 +76,7 @@ Cross-entropy thực nghiệm:
 
 PP
 =
-\exp(\hat{H})
+\exp$\hat{H}$
 =
 \exp
 \left(
@@ -145,7 +145,7 @@ Theo luật số lớn.
 
 Với chuỗi ngắn:
 
-Var(\hat{H})
+Var$\hat{H}$
 =
 \frac{\sigma^2}{T}
 
@@ -159,7 +159,7 @@ Perplexity không ổn định khi T nhỏ.
 
 Nếu entropy ước lượng:
 
-SE(H)
+SE$H$
 =
 \frac{\sigma}{\sqrt{T}}
 
@@ -167,13 +167,13 @@ Khoảng tin cậy 95%:
 
 \hat{H}
 \pm
-1.96 \cdot SE(H)
+1.96 \cdot SE$H$
 
 Từ đó:
 
 PP_{CI}
 =
-\exp(\hat{H} \pm 1.96 SE)
+\exp$\hat{H} \pm 1.96 SE$
 
 ⸻
 
@@ -181,7 +181,7 @@ PP_{CI}
 
 H(p,q)
 =
-H(p)
+H$p$
 +
 D_{KL}(p||q)
 
@@ -205,7 +205,7 @@ Trường hợp 1: Dự đoán đều
 
 Nếu:
 
-P(w) = \frac{1}{V}
+P$w$ = \frac{1}{V}
 
 Thì:
 
@@ -221,7 +221,7 @@ Trường hợp 2: Dự đoán hoàn hảo
 
 Nếu:
 
-P(w_t) = 1
+P$w_t$ = 1
 
 H = 0
 
@@ -233,7 +233,7 @@ Trường hợp 3: Sai hoàn toàn
 
 Nếu:
 
-P(w_t) \rightarrow 0
+P$w_t$ \rightarrow 0
 
 H \rightarrow \infty
 
@@ -249,8 +249,8 @@ z_t = W h_t
 
 P(w_t | context)
 =
-\frac{\exp(z_{t,w})}
-{\sum_j \exp(z_{t,j})}
+\frac{\exp$z_{t,w}$}
+{\sum_j \exp$z_{t,j}$}
 
 Cross-entropy loss:
 
@@ -258,7 +258,7 @@ Cross-entropy loss:
 =
 -
 \sum_t
-\log P(w_t)
+\log P$w_t$
 
 Perplexity:
 
@@ -295,7 +295,7 @@ Nhưng chất lượng hội thoại tốt hơn.
 Perplexity tối ưu hóa:
 
 \min_\theta
-D_{KL}(p||q_\theta)
+D_{KL}$p||q_\theta$
 
 Không tối ưu hóa:
 	•	Utility

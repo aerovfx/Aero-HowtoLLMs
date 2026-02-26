@@ -83,7 +83,7 @@ s = \frac{w_{max} - w_{min}}{2^b - 1}
 
 Giá trị lượng tử hóa:
 
-\hat{w} = \text{round}\left(\frac{w - w_{min}}{s}\right)
+\hat{w} = \text{round}\left$\frac{w - w_{min}}{s}\right$
 
 Giải lượng tử:
 
@@ -99,7 +99,7 @@ Sai số:
 
 Giả sử phân phối đều:
 
-Var(\epsilon) = \frac{s^2}{12}
+Var$\epsilon$ = \frac{s^2}{12}
 
 Khi giảm số bit b:
 	•	s tăng
@@ -146,7 +146,7 @@ Y = X\hat{W}
 
 Sai số lan truyền:
 
-\Delta Y = X(W - \hat{W})
+\Delta Y = X$W - \hat{W}$
 
 Nếu:
 
@@ -165,7 +165,7 @@ Thư viện bitsandbytes triển khai:
 
 NF4 giả định trọng số phân phối chuẩn:
 
-w \sim \mathcal{N}(0, \sigma^2)
+w \sim \mathcal{N}$0, \sigma^2$
 
 Mapping phi tuyến giúp giảm sai số so với lượng tử hóa tuyến tính.
 
@@ -185,7 +185,7 @@ Giảm bộ nhớ GPU đáng kể mà không cần huấn luyện lại toàn b�
 
 Perplexity:
 
-PP = \exp\left(- \frac{1}{N} \sum \log P(w_i)\right)
+PP = \exp\left$- \frac{1}{N} \sum \log P(w_i$\right)
 
 Sau lượng tử hóa:
 
@@ -203,7 +203,7 @@ Phụ thuộc kích thước mô hình.
 
 Phép nhân ma trận:
 
-O(n^3)
+O$n^3$
 
 Nhưng khi dùng int8:
 	•	Giảm băng thông bộ nhớ
@@ -218,7 +218,7 @@ Tốc độ thực tế tăng 1.5–2x trên GPU hỗ trợ INT8.
 
 Theo nghiên cứu scaling law của OpenAI:
 
-Loss(N) = A N^{-\alpha}
+Loss$N$ = A N^{-\alpha}
 
 Nếu lượng tử hóa làm tăng loss một lượng nhỏ \delta,
 thì có thể bù bằng tăng nhẹ số tham số N.

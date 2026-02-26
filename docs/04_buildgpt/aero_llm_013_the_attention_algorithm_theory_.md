@@ -47,21 +47,21 @@ Các tài liệu lý thuyết và giảng dạy về Attention đóng vai trò q
 ### 3.1. Công thức toán học
 
 Thuật toán Scaled Dot-Product Attention được định nghĩa như sau:
-
-[
+$$
 \text{Attention}(Q, K, V)
 =========================
 
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}} + M\right)V
-]
+$$
+
 
 Trong đó:
 
-* ( Q ): Ma trận Query
-* ( K ): Ma trận Key
-* ( V ): Ma trận Value
-* ( d_k ): Số chiều của vector Key
-* ( M ): Ma trận mask
+* $Q$: Ma trận Query
+* $K$: Ma trận Key
+* $V$: Ma trận Value
+* $d_k$: Số chiều của vector Key
+* $M$: Ma trận mask
 
 Công thức này là nền tảng cho mọi biến thể Attention trong Transformer.
 
@@ -69,11 +69,11 @@ Công thức này là nền tảng cho mọi biến thể Attention trong Transf
 
 ### 3.2. Sinh ma trận Q, K, V
 
-Giả sử đầu vào là ma trận embedding ( X ):
-
-[
+Giả sử đầu vào là ma trận embedding $X$:
+$$
 Q = XW_Q,\quad K = XW_K,\quad V = XW_V
-]
+$$
+
 
 với ( W_Q, W_K, W_V ) là các tham số học được.
 
@@ -84,14 +84,14 @@ Các ma trận này được huấn luyện trong quá trình tối ưu và giú
 ### 3.3. Cơ chế Causal Masking
 
 Trong mô hình sinh chuỗi, cần ngăn token nhìn thấy thông tin tương lai:
-
-[
+$$
 M_{ij} =
 \begin{cases}
 0, & j \le i \
 -\infty, & j > i
 \end{cases}
-]
+$$
+
 
 Mask này đảm bảo tính tự hồi quy và tránh rò rỉ thông tin.
 
@@ -114,13 +114,13 @@ Không tập trung vào benchmark thực nghiệm quy mô lớn mà nhấn mạn
 
 ### 4.1. Phân phối điểm Attention
 
-Tích vô hướng ( QK^T ) tạo ra ma trận điểm tương đồng. Khi không scale:
+Tích vô hướng $QK^T$ tạo ra ma trận điểm tương đồng. Khi không scale:
 
-* Phương sai tăng theo ( d_k ),
+* Phương sai tăng theo $d_k$,
 * Softmax dễ bị bão hòa,
 * Gradient suy giảm.
 
-Khi chia cho ( \sqrt{d_k} ):
+Khi chia cho $\sqrt{d_k}$:
 
 * Phân phối ổn định hơn,
 * Gradient mượt,
@@ -143,12 +143,12 @@ Cơ chế này cho phép mô hình điều chỉnh trọng tâm linh hoạt theo
 ### 4.3. Vai trò của Value
 
 Đầu ra được tính:
-
-[
+$$
 O = AV
-]
+$$
 
-Trong đó ( A ) là ma trận Attention.
+
+Trong đó $A$ là ma trận Attention.
 
 Kết quả cho thấy:
 
@@ -188,7 +188,7 @@ Cơ chế này cho phép truy xuất thông tin liên tục, khả vi.
 
 ### 5.2. Ý nghĩa thống kê của hệ số Scale
 
-Hệ số ( \sqrt{d_k} ):
+Hệ số $\sqrt{d_k}$:
 
 * Kiểm soát phương sai,
 * Tránh softmax bão hòa,
@@ -1332,7 +1332,7 @@ scaler.update()
 
 ---
 
-## 6. Learning Rate Schedule (Warmup + Cosine)
+## 6. Learning Rate Schedule $Warmup + Cosine$
 
 LLM 100M mà không warmup → dễ diverge.
 
@@ -1569,7 +1569,7 @@ Dưới đây là **hướng dẫn xây dựng LLM Inference Engine chuẩn nghi
 ✅ Batch inference
 ✅ Deployment nội bộ
 
-Phù hợp chạy trên GPU của **NVIDIA** (RTX/A100/H100).
+Phù hợp chạy trên GPU của **NVIDIA** $RTX/A100/H100$.
 
 ---
 
@@ -1610,7 +1610,7 @@ Không dùng cache → mỗi token phải recompute toàn bộ attention.
 | Cách        | Complexity |
 | ----------- | ---------- |
 | Không cache | O(n²)      |
-| Có cache    | O(n)       |
+| Có cache    | O$n$       |
 
 → LLM không cache = chạy rất chậm.
 
@@ -2072,7 +2072,7 @@ uvicorn api:app --host 0.0.0.0 --port 8000
 | RTX 4090 | ~150 tok/s |
 | A100     | ~300 tok/s |
 
-(KV Cache + FP16)
+$KV Cache + FP16$
 
 ---
 
@@ -2612,7 +2612,7 @@ Bắt buộc:
 | RTX 4090 | 50–100 |
 | A100     | 300+   |
 
-(streaming + KV)
+$streaming + KV$
 
 ---
 

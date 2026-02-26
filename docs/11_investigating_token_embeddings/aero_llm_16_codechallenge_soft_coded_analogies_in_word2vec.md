@@ -26,7 +26,7 @@ Các tiêu đề báo chí khoa học đại chúng thường sử dụng một 
 
 Hai kỳ phùng địch thủ thời tiền-Transformer là *GloVe* và *Word2Vec* nắm giữ hai cơ chế trích xuất ma trận (Factorization) khác biệt. 
 - **GloVe (Global Vectors):** Thiết lập mạng lưới phân giải ma trận đếm số lần quy tẩm cận kề tần suất từ vựng (Co-occurrence text mapping). Nó nắm trong tay cấu trúc vĩ mô toàn thể tài liệu.
-- **Word2Vec (CBoW / Skip-gram):** Thiết lập mô hình hồi quy trọng số nhắm vào việc điền từ còn thiếu giữa bộ vi mô khung cửa lưới (Context windows prediction). Việc mô phỏng chuỗi học tương tự quy luật Neural Networks hiện đại giúp Word2Vec bén nhạy triệt để với các quy luật giao thoa ngữ nghĩa học (Semantic relationships). 
+- **Word2Vec $CBoW / Skip-gram$:** Thiết lập mô hình hồi quy trọng số nhắm vào việc điền từ còn thiếu giữa bộ vi mô khung cửa lưới (Context windows prediction). Việc mô phỏng chuỗi học tương tự quy luật Neural Networks hiện đại giúp Word2Vec bén nhạy triệt để với các quy luật giao thoa ngữ nghĩa học (Semantic relationships). 
 
 Theo luận thuyết trên, khả năng thao túng phép Tương đồng Loại suy Toán học (Math analogies) của Word2Vec 300D được kỳ vọng phá vỡ ngưỡng cực hạn mà công cụ GloVe 50D để lại.
 

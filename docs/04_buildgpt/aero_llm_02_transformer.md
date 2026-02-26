@@ -227,7 +227,7 @@ Output: [batch_size, seq_len, vocab]    = [5, 8, 100000]
 
 **GELU (Gaussian Error Linear Unit):**
 $$\text{GELU}(x) = x \cdot \Phi(x)$$
-Trong đó Φ(x) là hàm phân phối chuẩn tích lũy.
+Trong đó Φ$x$ là hàm phân phối chuẩn tích lũy.
 
 **Ưu điểm của GELU trong LLMs:**
 - Mượt hơn ReLU (khả vi tại mọi điểm)

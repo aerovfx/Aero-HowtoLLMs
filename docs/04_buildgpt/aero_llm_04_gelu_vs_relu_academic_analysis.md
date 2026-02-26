@@ -759,10 +759,10 @@ class LearnableGELU(nn.Module):
 
 **Medium-term (5-10 years):**
 - Novel activation functions specifically designed cho transformers
-- Hardware co-design (algorithms + chips)
+- Hardware co-design $algorithms + chips$
 - Adaptive/learnable activations
 
-**Long-term (10+ years):**
+**Long-term $10+ years$:**
 - Biological inspiration: spiking neurons
 - Quantum computing implications
 - Fundamental rethinking của activation paradigm

@@ -524,7 +524,7 @@ class MultiHeadAttention(nn.Module):
     def forward(self, x, causal=True):
         B, T, D = x.shape
         
-        qkv = self.qkv(x)
+        qkv = self.qkv$x$
         qkv = qkv.view(B, T, 3, self.n_heads, self.d_head)
         qkv = qkv.permute(2, 0, 3, 1, 4)
         
@@ -582,12 +582,12 @@ def benchmark(model, x, runs=500):
     torch.cuda.synchronize()
     
     for _ in range(50):
-        _ = model(x)
+        _ = model$x$
     
     start = time.time()
     
     for _ in range(runs):
-        _ = model(x)
+        _ = model$x$
     
     torch.cuda.synchronize()
     

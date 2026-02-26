@@ -24,7 +24,7 @@ Bellman's Equation is a mathematical formula used in Reinforcement Learning to c
 
 Bellman's Equation can be written as:
 
-V(s) = max[ r + γ V(s') ]
+V$s$ = max[ r + γ V(s') ]
 
 where:
 

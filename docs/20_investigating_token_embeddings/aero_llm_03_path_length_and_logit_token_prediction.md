@@ -17,7 +17,7 @@
 # Đo Lường Độ Dài Đường Dẫn (Path Length) Sự Tương Quan Với Dự Đoán Token
 
 ## Tóm tắt (Abstract)
-Bên cạnh việc đo lường Góc dịch chuyển (Angle Rotations), độ lớn của sự dịch chuyển không gian vector có thể được định lượng hoá bằng Độ dài đường dẫn (Path Length) – chỉ số Euclidean distance đo trực tiếp khoảng cách mà vector nhận thêm khi qua khỏi một Block Transformer. Nghiên cứu thực nghiệm trên 4 phiên bản kiến trúc GPT-2 (Small, Medium, Large, XL) và đánh giá độ chênh lệch Path Length tại trạm trung chuyển cuối cùng (Tầng Penultimate $11 \to 12$). Đáng chú ý, ở cấu hình GPT-2 Small, mức độ tĩnh lặng (Path length ngắn) ở tầng cuối tỉ lệ nghịch với xác suất sinh từ chính xác (Logits for Next Token Prediction). Tuy nhiên, hiện tượng trượt dốc tuyến tính này từ chối lặp lại đồng nhất trên các mô hình siêu tham số lớn hơn (Medium/Large/XL), mở ra câu hỏi lớn về tính tương đối trong việc suy diễn cơ học LLM.
+Bên cạnh việc đo lường Góc dịch chuyển (Angle Rotations), độ lớn của sự dịch chuyển không gian vector có thể được định lượng hoá bằng Độ dài đường dẫn (Path Length) – chỉ số Euclidean distance đo trực tiếp khoảng cách mà vector nhận thêm khi qua khỏi một Block Transformer. Nghiên cứu thực nghiệm trên 4 phiên bản kiến trúc GPT-2 (Small, Medium, Large, XL) và đánh giá độ chênh lệch Path Length tại trạm trung chuyển cuối cùng (Tầng Penultimate $11 \to 12$). Đáng chú ý, ở cấu hình GPT-2 Small, mức độ tĩnh lặng (Path length ngắn) ở tầng cuối tỉ lệ nghịch với xác suất sinh từ chính xác (Logits for Next Token Prediction). Tuy nhiên, hiện tượng trượt dốc tuyến tính này từ chối lặp lại đồng nhất trên các mô hình siêu tham số lớn hơn $Medium/Large/XL$, mở ra câu hỏi lớn về tính tương đối trong việc suy diễn cơ học LLM.
 
 ---
 

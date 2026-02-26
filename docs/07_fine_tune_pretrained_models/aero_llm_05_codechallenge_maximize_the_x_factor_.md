@@ -43,10 +43,10 @@ Bên cạnh việc huấn luyện chuẩn trên dữ liệu lớn, tinh chỉnh 
 ### 2.1 Mô hình GPT-2
 
 GPT-2 là mô hình Transformer một chiều với kiến trúc tự hồi quy. Xác suất sinh chuỗi từ (x_1, x_2, ..., x_T) được mô hình hóa bởi:
-
-[
+$$
 P(x_1, ..., x_T)=\prod_{t=1}^{T} P(x_t|x_1,...,x_{t-1})
-]
+$$
+
 
 Mỗi bước sinh token phụ thuộc vào toàn bộ ngữ cảnh trước đó.
 
@@ -54,40 +54,40 @@ Mỗi bước sinh token phụ thuộc vào toàn bộ ngữ cảnh trước đ�
 
 ### 2.2 Biểu diễn Logit và Softmax
 
-Đầu ra của mô hình tại thời điểm (t) là vector logit:
-
-[
+Đầu ra của mô hình tại thời điểm $t$ là vector logit:
+$$
 \mathbf{z}_t = (z_1, z_2, ..., z_V)
-]
+$$
 
-với (V) là kích thước từ vựng.
+
+với $V$ là kích thước từ vựng.
 
 Xác suất được tính bằng hàm Softmax:
-
-[
+$$
 P(i|t)=\frac{e^{z_i}}{\sum_{j=1}^{V} e^{z_j}}
-]
+$$
+
 
 Log-probability:
-
-[
+$$
 \log P(i|t)= z_i - \log\left(\sum_{j=1}^{V} e^{z_j}\right)
-]
+$$
+
 
 ---
 
 ### 2.3 Độ đo KL Divergence
 
-KL Divergence đo khoảng cách giữa hai phân phối xác suất (P) và (Q):
-
-[
+KL Divergence đo khoảng cách giữa hai phân phối xác suất $P$ và $Q$:
+$$
 D_{KL}(P||Q)=\sum_{i} P(i)\log\frac{P(i)}{Q(i)}
-]
+$$
+
 
 Trong nghiên cứu này:
 
-* (P): phân phối mục tiêu (ưu tiên token chứa “X”)
-* (Q): phân phối dự đoán của mô hình
+* $P$: phân phối mục tiêu (ưu tiên token chứa “X”)
+* $Q$: phân phối dự đoán của mô hình
 
 ---
 
@@ -114,40 +114,40 @@ Cấu trúc mỗi block gồm:
 ### 3.2 Phân tích đầu ra mô hình
 
 Đầu ra của mô hình có dạng tensor:
-
-[
+$$
 O \in \mathbb{R}^{B \times T \times V}
-]
+$$
+
 
 Trong đó:
 
-* (B): Batch size
-* (T): Sequence length
-* (V): Vocabulary size
+* $B$: Batch size
+* $T$: Sequence length
+* $V$: Vocabulary size
 
 Ví dụ:
-
-[
+$$
 O \in \mathbb{R}^{4 \times 64 \times 50257}
-]
+$$
+
 
 ---
 
 ### 3.3 Kiểm tra phân phối đầu ra
 
 Tổng xác suất:
-
-[
+$$
 \sum_{i=1}^{V} P_i \neq 1
-]
+$$
+
 
 Suy ra đầu ra ban đầu là logit thô.
 
 Sau khi áp dụng:
-
-[
+$$
 \text{LogSoftmax}(z_i)=\log\frac{e^{z_i}}{\sum_j e^{z_j}}
-]
+$$
+
 
 Mới thu được phân phối hợp lệ.
 
@@ -158,16 +158,16 @@ Mới thu được phân phối hợp lệ.
 ### 3.4 Biến đổi dữ liệu
 
 Tensor 3 chiều được reshape thành:
-
-[
+$$
 \mathbb{R}^{(B \times T) \times V}
-]
+$$
+
 
 Cụ thể:
-
-[
+$$
 4 \times 64 \times 50257 \rightarrow 256 \times 50257
-]
+$$
+
 
 Nhằm phù hợp với hàm mất mát KL.
 
@@ -176,22 +176,22 @@ Nhằm phù hợp với hàm mất mát KL.
 ### 3.5 Hàm mất mát tùy chỉnh
 
 Hàm mất mát được thiết kế như sau:
-
-[
+$$
 \mathcal{L} = D_{KL}(P_{target}||Q_{model})
-]
+$$
+
 
 Trong đó:
-
-[
+$$
 P_{target}(i)=
 \begin{cases}
 \alpha & \text{nếu token chứa "X"} \
 \beta & \text{ngược lại}
 \end{cases}
-]
+$$
 
-với (\alpha > \beta).
+
+với $\alpha > \beta$.
 
 Mục tiêu là tăng xác suất token chứa “X”.
 
@@ -211,12 +211,12 @@ Mỗi vòng huấn luyện gồm:
 6. Cập nhật tham số
 
 Công thức cập nhật:
-
-[
+$$
 \theta_{t+1}=\theta_t - \eta\nabla_\theta \mathcal{L}
-]
+$$
 
-với (\eta) là learning rate.
+
+với $\eta$ là learning rate.
 
 ---
 
@@ -238,13 +238,13 @@ với (\eta) là learning rate.
 
 ### 4.2 Ảnh hưởng của Learning Rate
 
-#### Trường hợp (\eta = 10^{-6})
+#### Trường hợp $\eta = 10^{-6}$
 
 * Loss giảm: 6 → 2
 * Ít token chứa “X”
 * Văn bản còn tự nhiên
 
-#### Trường hợp (\eta = 10^{-4})
+#### Trường hợp $\eta = 10^{-4}$
 
 * Loss → 0.001
 * 100% token chứa “X”
@@ -257,16 +257,16 @@ Hiện tượng overfitting rõ rệt.
 ### 4.3 Đánh giá kết quả
 
 Chỉ số đánh giá:
-
-[
+$$
 R = \frac{Số\ token\ chứa\ X}{Tổng\ token}
-]
+$$
 
-Khi (\eta=10^{-4}):
 
-[
+Khi $\eta=10^{-4}$:
+$$
 R \approx 1
-]
+$$
+
 
 Cho thấy mô hình bị chi phối hoàn toàn bởi mục tiêu phụ.
 

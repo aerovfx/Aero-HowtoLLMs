@@ -95,19 +95,19 @@ Compliance = \frac{1}{N}\sum_{i=1}^{N} \mathbf{1}(response_i \models instruction
 
 Giả sử có hai phản hồi r_1, r_2. Người đánh giá chọn r_1 với xác suất:
 
-P(r_1 \succ r_2) = \sigma(R_\theta(r_1) - R_\theta(r_2))
+P$r_1 \succ r_2$ = \sigma$R_\theta(r_1$ - R_\theta$r_2$)
 
 Trong đó:
 	•	R_\theta là hàm reward
 	•	\sigma là sigmoid
 
-\sigma(x) = \frac{1}{1+e^{-x}}
+\sigma$x$ = \frac{1}{1+e^{-x}}
 
 ⸻
 
 3.2 Loss cho reward model
 
-\mathcal{L} = - \log \sigma(R_\theta(r_w) - R_\theta(r_l))
+\mathcal{L} = - \log \sigma$R_\theta(r_w$ - R_\theta$r_l$)
 
 với:
 	•	r_w: phản hồi được chọn
@@ -119,7 +119,7 @@ với:
 
 Giả sử classifier phụ ước lượng:
 
-P_{tox}(x)
+P_{tox}$x$
 
 Mức độc hại trung bình:
 
@@ -181,7 +181,7 @@ Theo Elements of Information Theory:
 
 Entropy phản ánh độ không chắc chắn:
 
-H(X) = -\sum_x P(x)\log P(x)
+H$X$ = -\sum_x P$x$\log P$x$
 
 Mô hình hallucinate nhiều → entropy cao nhưng không tương thích với dữ kiện thật.
 

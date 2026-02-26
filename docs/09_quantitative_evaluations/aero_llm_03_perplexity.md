@@ -43,13 +43,13 @@ Mục tiêu là tối đa hóa xác suất chuỗi văn bản trong tập kiểm
 
 2.1 Entropy (Shannon, 1948)
 
-Entropy của phân phối p(x):
+Entropy của phân phối p$x$:
 
-H(p)
+H$p$
 =
 -
 \sum_x
-p(x)\log p(x)
+p$x$\log p$x$
 
 Đơn vị: bits (log base 2) hoặc nats (log base e).
 
@@ -57,13 +57,13 @@ p(x)\log p(x)
 
 2.2 Cross-Entropy
 
-Nếu mô hình ước lượng phân phối q(x):
+Nếu mô hình ước lượng phân phối q$x$:
 
 H(p, q)
 =
 -
 \sum_x
-p(x)\log q(x)
+p$x$\log q$x$
 
 Trong thực nghiệm, ta dùng ước lượng:
 
@@ -81,7 +81,7 @@ Trong thực nghiệm, ta dùng ước lượng:
 Perplexity được định nghĩa là:
 
 PP =
-\exp(\hat{H})
+\exp$\hat{H}$
 
 Hoặc:
 
@@ -140,7 +140,7 @@ Khi đó:
 
 \hat{H} = -\log(0.2)
 
-PP = \exp(-\log 0.2) = \frac{1}{0.2} = 5
+PP = \exp$-\log 0.2$ = \frac{1}{0.2} = 5
 
 ⸻
 
@@ -170,7 +170,7 @@ z_t = W h_t
 
 P(w_t | context)
 =
-\text{softmax}(z_t)
+\text{softmax}$z_t$
 
 Cross-entropy loss:
 
@@ -227,11 +227,11 @@ Perplexity thực nghiệm:
 
 \hat{PP}
 =
-\exp(\hat{H})
+\exp$\hat{H}$
 
 Sai số chuẩn của entropy:
 
-SE(H)
+SE$H$
 =
 \frac{\sigma}{\sqrt{T}}
 
@@ -243,7 +243,7 @@ Khi T nhỏ → phương sai cao → PP không ổn định.
 
 H(p,q)
 =
-H(p)
+H$p$
 +
 D_{KL}(p||q)
 

@@ -73,7 +73,7 @@ Trước Transformer, RNN (Recurrent Neural Networks) và LSTM là chuẩn mực
 **Ý tưởng:** Thay vì xử lý tuần tự, hãy cho phép mỗi từ "nhìn" thấy tất cả các từ khác trong câu cùng một lúc và tự quyết định xem từ nào quan trọng với mình.
 
 ### Công thức Self-Attention
-Mỗi token được chiếu thành 3 vector: **Query (Q)**, **Key (K)**, **Value (V)**.
+Mỗi token được chiếu thành 3 vector: **Query $Q$**, **Key $K$**, **Value $V$**.
 
 $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$
 
@@ -81,7 +81,7 @@ $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right
 *   **K (Chìa khóa):** Tôi có thông tin gì để cung cấp?
 *   **V (Giá trị):** Nội dung thông tin của tôi là gì?
 *   **$QK^T$:** Tính độ tương đồng (score) giữa truy vấn và chìa khóa.
-*   **Softmax:** Chuẩn hóa score thành trọng số (tổng = 1).
+*   **Softmax:** Chuẩn hóa score thành trọng số $tổng = 1$.
 *   **Nhân với V:** Tổng hợp thông tin từ các từ quan trọng.
 
 ---

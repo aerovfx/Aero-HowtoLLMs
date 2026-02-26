@@ -58,11 +58,11 @@ n = 10
 
 Và:
 
-\sum_{i=1}^{10} \mathbf{1}(s_i = r) = 3
+\sum_{i=1}^{10} \mathbf{1}$s_i = r$ = 3
 
 Trong đó:
 
-\mathbf{1}(\cdot)
+\mathbf{1}$\cdot$
 
 là hàm chỉ thị.
 
@@ -96,7 +96,7 @@ P(t_i | t_{<i})
 
 Toàn chuỗi:
 
-P(T) = \prod_{i=1}^{m} P(t_i | t_{<i})
+P$T$ = \prod_{i=1}^{m} P(t_i | t_{<i})
 
 Mô hình không tối ưu cho phép toán đếm ký tự, mà tối ưu cho:
 
@@ -112,11 +112,11 @@ Tức là tối thiểu hóa cross-entropy giữa token dự đoán và token th
 
 Bài toán đếm yêu cầu:
 
-f(S) = \sum_{i=1}^{n} \mathbf{1}(s_i = r)
+f$S$ = \sum_{i=1}^{n} \mathbf{1}$s_i = r$
 
 Nhưng mô hình chỉ có:
 
-g(T) = \text{argmax}_{y} P(y | T)
+g$T$ = \text{argmax}_{y} P(y | T)
 
 Không có bước lặp tuần tự ở mức ký tự.
 
@@ -126,7 +126,7 @@ Không có bước lặp tuần tự ở mức ký tự.
 
 Embedding:
 
-E(t) \in \mathbb{R}^d
+E$t$ \in \mathbb{R}^d
 
 Thông tin về ký tự r nằm phân tán trong không gian:
 
@@ -140,7 +140,7 @@ Không tồn tại biến riêng biệt đếm số lần xuất hiện của r.
 
 Self-attention:
 
-\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Attention}(Q,K,V) = \text{softmax}\left$\frac{QK^T}{\sqrt{d_k}}\right$V
 
 Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng số học chính xác trên ký tự.
 
@@ -150,7 +150,7 @@ Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng s�
 
 Giả sử mô hình ước lượng xác suất:
 
-P(Y = k | S)
+P$Y = k | S$
 
 Trong đó:
 	•	Y: số lượng r
@@ -158,7 +158,7 @@ Trong đó:
 
 Do không huấn luyện trực tiếp cho nhiệm vụ đếm:
 
-P(Y=2) \approx P(Y=3)
+P$Y=2$ \approx P$Y=3$
 
 Nếu trong dữ liệu huấn luyện, mẫu “2” phổ biến hơn, mô hình có thể thiên lệch.
 
@@ -168,7 +168,7 @@ Nếu trong dữ liệu huấn luyện, mẫu “2” phổ biến hơn, mô hì
 
 Thuật toán truyền thống:
 
-O(n)
+O$n$
 
 Pseudo-code:
 
@@ -185,7 +185,7 @@ LLM không thực thi thuật toán tuần tự như vậy.
 
 Entropy của chuỗi ký tự:
 
-H(S) = - \sum_{c \in \Sigma} P(c)\log P(c)
+H$S$ = - \sum_{c \in \Sigma} P$c$\log P$c$
 
 LLM tối ưu hóa dự đoán token, không tối ưu hóa:
 
@@ -210,7 +210,7 @@ Nhưng vẫn không đảm bảo 100% chính xác vì không phải mô hình sy
 
 Ta có thể định nghĩa:
 
-h_\theta(S) \approx \sum_{i=1}^{n} \mathbf{1}(s_i = r)
+h_\theta$S$ \approx \sum_{i=1}^{n} \mathbf{1}$s_i = r$
 
 Với:
 
@@ -218,7 +218,7 @@ Với:
 
 Sai số kỳ vọng:
 
-\mathbb{E}[(h_\theta(S) - f(S))^2]
+\mathbb{E}[$h_\theta(S$ - f$S$)^2]
 
 Không được tối ưu trực tiếp trong huấn luyện LLM.
 

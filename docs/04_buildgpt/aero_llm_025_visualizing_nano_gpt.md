@@ -79,12 +79,12 @@ Quy trình bắt đầu từ:
 Quá trình này được thể hiện bằng phép cộng trực tiếp giữa token embedding và position embedding. 
 
 Biểu diễn toán học:
-
-[
+$$
 X = E_{token} + E_{pos}
-]
+$$
 
-trong đó (X) là vector đầu vào của mô hình.
+
+trong đó $X$ là vector đầu vào của mô hình.
 
 ---
 
@@ -107,9 +107,9 @@ Cấu trúc này được mô phỏng trực quan với từng bước xử lý 
 
 Trong mỗi khối Transformer, dữ liệu được biến đổi thành:
 
-* Query (Q)
-* Key (K)
-* Value (V)
+* Query $Q$
+* Key $K$
+* Value $V$
 
 Các vector này được tạo từ trọng số và bias tương ứng. 
 
@@ -128,11 +128,11 @@ Hiện tượng này được quan sát rõ trong giao diện trực quan.
 
 ### 4.3. Chiếu và Residual
 
-Sau softmax, attention output được nhân với V và ma trận chiếu (W_0), sau đó cộng với residual:
-
-[
+Sau softmax, attention output được nhân với V và ma trận chiếu $W_0$, sau đó cộng với residual:
+$$
 X' = X + \text{Attention}(X)
-]
+$$
+
 
 Quá trình này giúp duy trì thông tin ban đầu và ổn định huấn luyện. 
 
@@ -148,10 +148,10 @@ Sau attention, dữ liệu đi qua MLP gồm hai bước:
 Cấu trúc này giúp mô hình học biểu diễn phi tuyến phức tạp. 
 
 Biểu diễn:
-
-[
+$$
 Y = W_2(\text{GELU}(W_1(X)))
-]
+$$
+
 
 Kết quả tiếp tục được cộng với residual.
 
@@ -173,10 +173,10 @@ Tạo ra logits – các giá trị thô cho từng token.
 ### 6.2. Softmax và Sampling
 
 Logits được chuẩn hóa bằng softmax để tạo phân phối xác suất:
-
-[
+$$
 P(w_i) = \frac{e^{l_i}}{\sum_j e^{l_j}}
-]
+$$
+
 
 Từ đó, mô hình chọn token tiếp theo theo cách ngẫu nhiên hoặc xác định. 
 

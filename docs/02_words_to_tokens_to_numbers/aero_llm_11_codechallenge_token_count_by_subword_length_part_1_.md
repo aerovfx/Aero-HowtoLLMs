@@ -38,7 +38,7 @@ Tokenizer ánh xạ thành chuỗi token:
 
 T = (t_1, t_2, ..., t_m), \quad m \le n
 
-Mỗi token có độ dài subword \ell(t_i).
+Mỗi token có độ dài subword \ell$t_i$.
 
 ⸻
 
@@ -49,11 +49,11 @@ Mỗi token có độ dài subword \ell(t_i).
 Gọi:
 	•	V: tập từ vựng token
 	•	|V|: kích thước từ vựng
-	•	\ell(t): độ dài ký tự (hoặc byte) của token t
+	•	\ell$t$: độ dài ký tự (hoặc byte) của token t
 
 Phân bố xác suất theo độ dài:
 
-P(L = k) = \frac{|\{t \in V : \ell(t) = k\}|}{|V|}
+P$L = k$ = \frac{|\{t \in V : \ell$t$ = k\}|}{|V|}
 
 ⸻
 
@@ -61,7 +61,7 @@ P(L = k) = \frac{|\{t \in V : \ell(t) = k\}|}{|V|}
 
 Độ dài trung bình của token:
 
-\mathbb{E}[L] = \sum_{k=1}^{\infty} k \cdot P(L = k)
+\mathbb{E}[L] = \sum_{k=1}^{\infty} k \cdot P$L = k$
 
 Nếu phân bố lệch phải (right-skewed), phần lớn token sẽ có độ dài nhỏ (1–4 byte), nhưng tồn tại một số token dài hơn đại diện cho cụm từ phổ biến.
 
@@ -69,7 +69,7 @@ Nếu phân bố lệch phải (right-skewed), phần lớn token sẽ có độ
 
 2.3 Hàm phân bố tích lũy
 
-F(k) = P(L \le k)
+F$k$ = P$L \le k$
 
 Giúp đánh giá tỷ lệ token ngắn chiếm bao nhiêu phần trăm trong toàn bộ từ vựng.
 
@@ -84,7 +84,7 @@ Dựa trên dữ liệu đính kèm:
 
 Ta có thể xấp xỉ:
 
-P(L = k) \approx Ce^{-\lambda k}
+P$L = k$ \approx Ce^{-\lambda k}
 
 Trong đó:
 	•	C: hằng số chuẩn hóa
@@ -94,7 +94,7 @@ Chuẩn hóa:
 
 \sum_{k=1}^{\infty} Ce^{-\lambda k} = 1
 
-C = (1 - e^{-\lambda})
+C = $1 - e^{-\lambda}$
 
 ⸻
 
@@ -102,7 +102,7 @@ C = (1 - e^{-\lambda})
 
 Trong kiến trúc Transformer của OpenAI, self-attention có độ phức tạp:
 
-O(m^2)
+O$m^2$
 
 Trong đó m là số token sau khi token hóa.
 
@@ -125,7 +125,7 @@ Tokenizer tối ưu sẽ:
 
 Entropy của phân bố token:
 
-H(T) = - \sum_{t \in V} P(t)\log P(t)
+H$T$ = - \sum_{t \in V} P$t$\log P$t$
 
 Nếu token ngắn quá nhiều:
 	•	Entropy cao
@@ -144,7 +144,7 @@ Do đó BPE tối ưu cân bằng giữa hai yếu tố này.
 
 Tần suất token thường tuân theo luật Zipf:
 
-f(r) \propto \frac{1}{r^\alpha}
+f$r$ \propto \frac{1}{r^\alpha}
 
 Trong đó:
 	•	r: thứ hạng token
@@ -197,9 +197,9 @@ Phân tích cho thấy:
 
 m \sim \frac{n}{\mathbb{E}[L]}
 
-\text{Cost} \sim O(m^2)
+\text{Cost} \sim O$m^2$
 
-P(L=k) \sim e^{-\lambda k}
+P$L=k$ \sim e^{-\lambda k}
 
 Do đó, phân bố độ dài subword là yếu tố cốt lõi quyết định hiệu năng mô hình ngôn ngữ lớn.
 

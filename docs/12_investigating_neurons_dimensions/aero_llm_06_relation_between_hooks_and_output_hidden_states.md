@@ -28,7 +28,7 @@ Một trong những nguyên lý cốt lõi của kiến trúc Transformer là m�
 
 ## 2. Phương Pháp Thực Nghiệm (Methodology)
 
-### 2.1. Vị trí Cấy Hook (C_proj)
+### 2.1. Vị trí Cấy Hook $C_proj$
 Để lấy được "độ lệch" cuối cùng của mỗi phân đoạn, chúng ta cấy Hook vào lớp `c_proj` (output projection) của cả Attention và MLP. Đây là điểm cuối cùng trước khi các giá trị điều chỉnh được cộng ngược trở lại vào residual stream.
 
 ### 2.2. Quản lý Đồ thị Tính toán (Gradient Detachment)

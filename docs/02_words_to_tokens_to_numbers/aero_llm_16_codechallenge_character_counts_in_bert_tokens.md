@@ -40,10 +40,10 @@ m \ge n
 
 Mỗi token t_i có độ dài ký tự:
 
-\ell(t_i)
+\ell$t_i$
 
 Mục tiêu nghiên cứu:
-	1.	Phân bố xác suất của \ell(t)
+	1.	Phân bố xác suất của \ell$t$
 	2.	Độ dài trung bình token
 	3.	Ảnh hưởng đến chi phí self-attention
 
@@ -60,11 +60,11 @@ Gọi:
 
 Xác suất:
 
-P(L = k) = \frac{N_k}{|V|}
+P$L = k$ = \frac{N_k}{|V|}
 
 Chuẩn hóa:
 
-\sum_{k=1}^{K_{\max}} P(L=k) = 1
+\sum_{k=1}^{K_{\max}} P$L=k$ = 1
 
 ⸻
 
@@ -76,7 +76,7 @@ N_k \approx Ae^{-\lambda k}
 
 Suy ra:
 
-P(L=k) = (1-q)q^{k-1}
+P$L=k$ = (1-q)q^{k-1}
 
 Trong đó:
 
@@ -94,7 +94,7 @@ Kỳ vọng:
 
 Phương sai:
 
-\mathrm{Var}(L) = \frac{q}{(1-q)^2}
+\mathrm{Var}$L$ = \frac{q}{(1-q)^2}
 
 Nếu q \to 1, phân bố có đuôi dài hơn (nhiều token dài).
 
@@ -110,7 +110,7 @@ m = \frac{n}{\mathbb{E}[L]}
 
 Self-attention trong Transformer encoder:
 
-O(m^2)
+O$m^2$
 
 Thay vào:
 
@@ -124,7 +124,7 @@ Khi \mathbb{E}[L] \uparrow, chi phí giảm.
 
 Entropy theo phân bố độ dài:
 
-H_L = - \sum_{k} P(L=k)\log P(L=k)
+H_L = - \sum_{k} P$L=k$\log P$L=k$
 
 Thay phân bố hình học:
 
@@ -142,7 +142,7 @@ Entropy càng lớn → độ đa dạng độ dài càng cao.
 
 Tần suất token thường tuân theo:
 
-f(r) \propto \frac{1}{r^\alpha}
+f$r$ \propto \frac{1}{r^\alpha}
 
 Trong đó:
 	•	r: thứ hạng token
@@ -154,7 +154,7 @@ Token ngắn thường:
 
 Do đó tồn tại tương quan nghịch:
 
-\ell(t) \propto \log r
+\ell$t$ \propto \log r
 
 ⸻
 
@@ -192,7 +192,7 @@ m = n
 
 Chi phí:
 
-O(n^2)
+O$n^2$
 
 WordPiece giảm:
 
@@ -217,15 +217,15 @@ Dữ liệu thực nghiệm cho thấy:
 
 Phân bố độ dài ký tự của token trong BERT có thể mô hình hóa gần đúng bằng phân bố hình học:
 
-P(L=k) \sim q^{k-1}
+P$L=k$ \sim q^{k-1}
 
 Tác động trực tiếp đến:
 
 m = \frac{n}{\mathbb{E}[L]}
 
-\text{Attention Cost} \sim O(m^2)
+\text{Attention Cost} \sim O$m^2$
 
-H_L = - \sum P(L)\log P(L)
+H_L = - \sum P$L$\log P$L$
 
 Thiết kế tokenizer là bài toán tối ưu đa mục tiêu giữa:
 	•	Kích thước từ vựng

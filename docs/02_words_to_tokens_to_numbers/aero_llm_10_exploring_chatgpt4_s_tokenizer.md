@@ -63,7 +63,7 @@ Tần suất xuất hiện của cặp ký tự (a,b):
 
 Cặp được chọn để gộp:
 
-(a^*, b^*) = \arg\max_{(a,b)} \text{freq}(a,b)
+$a^*, b^*$ = \arg\max_{(a,b)} \text{freq}(a,b)
 
 Sau mỗi bước gộp, từ vựng được cập nhật:
 
@@ -112,10 +112,10 @@ T = (t_1, t_2, ..., t_m)
 
 \mathbf{X} =
 \begin{bmatrix}
-E(t_1) \\
-E(t_2) \\
+E$t_1$ \\
+E$t_2$ \\
 \vdots \\
-E(t_m)
+E$t_m$
 \end{bmatrix}
 \in \mathbb{R}^{m \times d}
 
@@ -143,7 +143,7 @@ P(t_i | t_1, ..., t_{i-1})
 
 Toàn bộ xác suất chuỗi:
 
-P(T) = \prod_{i=1}^{m} P(t_i | t_{<i})
+P$T$ = \prod_{i=1}^{m} P(t_i | t_{<i})
 
 Loss function huấn luyện:
 
@@ -152,7 +152,7 @@ Loss function huấn luyện:
 Tokenizer ảnh hưởng trực tiếp đến:
 	•	Độ dài chuỗi m
 	•	Phân phối xác suất
-	•	Độ phức tạp tính toán O(m^2) trong self-attention
+	•	Độ phức tạp tính toán O$m^2$ trong self-attention
 
 ⸻
 
@@ -172,7 +172,7 @@ Chi phí attention tăng nhanh khi m lớn.
 
 Entropy của hệ token:
 
-H(T) = - \sum_{t \in V} P(t)\log P(t)
+H$T$ = - \sum_{t \in V} P$t$\log P$t$
 
 Tokenizer tốt sẽ:
 	•	Giảm entropy
@@ -215,7 +215,7 @@ Tokenizer không chỉ là bước tiền xử lý, mà là thành phần quyế
 
 Về mặt toán học, tokenizer ảnh hưởng đến:
 
-m, \quad H(T), \quad \mathcal{L}, \quad O(m^2)
+m, \quad H$T$, \quad \mathcal{L}, \quad O$m^2$
 
 Do đó, việc tối ưu tokenizer có thể cải thiện cả hiệu suất lẫn chất lượng sinh ngôn ngữ của mô hình.
 

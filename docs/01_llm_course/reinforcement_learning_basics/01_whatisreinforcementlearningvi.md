@@ -126,7 +126,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 - **Công thức**:  
   - $G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V(s_{t+n})$.  
 - **Ví dụ**:  
-  - **TD(λ)**: Tổng hợp các n-step returns với trọng số $\lambda$.  
+  - **TD$λ$**: Tổng hợp các n-step returns với trọng số $\lambda$.  
 
 ---
 

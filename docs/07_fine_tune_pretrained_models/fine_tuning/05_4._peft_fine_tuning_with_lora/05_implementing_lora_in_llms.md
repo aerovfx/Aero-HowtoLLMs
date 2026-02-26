@@ -171,9 +171,9 @@ model.fit(tf_train, epochs=3)
 | Phương pháp | Tham số trainable | Tỷ lệ |
 |-------------|------------------|-------|
 | Full Fine-tune | ~247 triệu | 100% |
-| LoRA (r=4) | ~2.8 triệu | ~1.1% |
-| LoRA (r=8) | ~5.6 triệu | ~2.3% |
-| LoRA (r=16) | ~11.2 triệu | ~4.5% |
+| LoRA $r=4$ | ~2.8 triệu | ~1.1% |
+| LoRA $r=8$ | ~5.6 triệu | ~2.3% |
+| LoRA $r=16$ | ~11.2 triệu | ~4.5% |
 
 ### 4.2 Công Thức Tính Tham Số LoRA
 

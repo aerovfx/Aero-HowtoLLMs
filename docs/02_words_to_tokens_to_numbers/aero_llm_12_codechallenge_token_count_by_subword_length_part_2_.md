@@ -36,7 +36,7 @@ Với:
 
 m \le n
 
-Mỗi token t_i có độ dài \ell(t_i) tính theo byte hoặc ký tự Unicode.
+Mỗi token t_i có độ dài \ell$t_i$ tính theo byte hoặc ký tự Unicode.
 
 Phần 2 của dữ liệu thực nghiệm tập trung vào:
 	•	Phân bố chi tiết ở các độ dài lớn hơn
@@ -55,11 +55,11 @@ Gọi:
 
 Khi đó:
 
-P(L = k) = \frac{N_k}{|V|}
+P$L = k$ = \frac{N_k}{|V|}
 
 Và:
 
-\sum_{k=1}^{K_{\max}} P(L = k) = 1
+\sum_{k=1}^{K_{\max}} P$L = k$ = 1
 
 ⸻
 
@@ -71,11 +71,11 @@ N_k \approx Ae^{-\lambda k}
 
 Suy ra:
 
-P(L = k) = \frac{Ae^{-\lambda k}}{\sum_{j=1}^{K_{\max}} Ae^{-\lambda j}}
+P$L = k$ = \frac{Ae^{-\lambda k}}{\sum_{j=1}^{K_{\max}} Ae^{-\lambda j}}
 
 Chuẩn hóa:
 
-P(L = k) = (1 - e^{-\lambda}) e^{-\lambda (k-1)}
+P$L = k$ = $1 - e^{-\lambda}$ e^{-\lambda (k-1)}
 
 Đây là phân bố hình học rời rạc.
 
@@ -89,7 +89,7 @@ Kỳ vọng:
 
 Phương sai:
 
-\mathrm{Var}(L) = \frac{e^{-\lambda}}{(1 - e^{-\lambda})^2}
+\mathrm{Var}$L$ = \frac{e^{-\lambda}}{$1 - e^{-\lambda}$^2}
 
 Điều này cho thấy khi \lambda nhỏ:
 	•	Đuôi phân bố dài hơn
@@ -101,7 +101,7 @@ Phương sai:
 
 Tần suất token theo thứ hạng:
 
-f(r) \propto \frac{1}{r^\alpha}
+f$r$ \propto \frac{1}{r^\alpha}
 
 Trong đó:
 	•	r: thứ hạng
@@ -113,7 +113,7 @@ Kết hợp hai quan sát:
 
 Ta có mô hình kết hợp:
 
-P(t) \propto e^{-\beta \ell(t)} \cdot \frac{1}{r^\alpha}
+P$t$ \propto e^{-\beta \ell$t$} \cdot \frac{1}{r^\alpha}
 
 ⸻
 
@@ -127,7 +127,7 @@ m = \frac{n}{\mathbb{E}[L]}
 
 Self-attention có độ phức tạp:
 
-O(m^2)
+O$m^2$
 
 Thay vào:
 
@@ -143,11 +143,11 @@ Do đó:
 
 Entropy:
 
-H = - \sum_{t \in V} P(t) \log P(t)
+H = - \sum_{t \in V} P$t$ \log P$t$
 
 Thay mô hình mũ:
 
-H \approx - \sum_{k} P(L=k) \log P(L=k)
+H \approx - \sum_{k} P$L=k$ \log P$L=k$
 
 Với phân bố hình học:
 
@@ -177,7 +177,7 @@ Nếu đồ thị \log N_k theo k tuyến tính → xác nhận mô hình mũ.
 
 6.2 Kiểm định Chi-square
 
-\chi^2 = \sum_{k} \frac{(N_k - \hat{N}_k)^2}{\hat{N}_k}
+\chi^2 = \sum_{k} \frac{$N_k - \hat{N}_k$^2}{\hat{N}_k}
 
 So sánh với phân bố lý thuyết.
 
@@ -217,15 +217,15 @@ Phần 2 của dữ liệu thực nghiệm cho thấy:
 
 Phân bố độ dài subword có thể được mô hình hóa gần đúng bằng phân bố mũ rời rạc:
 
-P(L = k) \sim e^{-\lambda k}
+P$L = k$ \sim e^{-\lambda k}
 
 Tác động trực tiếp đến:
 
 m = \frac{n}{\mathbb{E}[L]}
 
-\text{Attention Cost} \sim O(m^2)
+\text{Attention Cost} \sim O$m^2$
 
-H = - \sum P(t)\log P(t)
+H = - \sum P$t$\log P$t$
 
 Do đó, thiết kế tokenizer là bài toán tối ưu đa mục tiêu giữa:
 	•	Độ dài chuỗi

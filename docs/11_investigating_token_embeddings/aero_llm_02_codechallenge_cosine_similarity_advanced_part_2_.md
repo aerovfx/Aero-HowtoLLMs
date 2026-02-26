@@ -62,7 +62,7 @@ Khi d \to \infty:
 
 Và phương sai:
 
-Var(\cos \theta) \approx \frac{1}{d}
+Var$\cos \theta$ \approx \frac{1}{d}
 
 Điều này giải thích vì sao trong embedding dimension lớn (512–4096), các vector ngẫu nhiên gần như trực giao.
 
@@ -90,7 +90,7 @@ Nếu:
 
 Cosine similarity giữa hai vector bất kỳ:
 
-\cos(\mathbf{x}, \mathbf{y})
+\cos$\mathbf{x}, \mathbf{y}$
 
 bị chi phối bởi thành phần chung theo hướng \mu.
 
@@ -110,15 +110,15 @@ Loại bỏ trung bình:
 
 Cho ma trận hiệp phương sai:
 
-\Sigma = \mathbb{E}[(\mathbf{x}-\mu)(\mathbf{x}-\mu)^T]
+\Sigma = \mathbb{E}[$\mathbf{x}-\mu$$\mathbf{x}-\mu$^T]
 
 Whitening:
 
-\mathbf{x}_{white} = \Sigma^{-1/2}(\mathbf{x}-\mu)
+\mathbf{x}_{white} = \Sigma^{-1/2}$\mathbf{x}-\mu$
 
 Khi đó:
 
-Cov(\mathbf{x}_{white}) = I
+Cov$\mathbf{x}_{white}$ = I
 
 Điều này giúp phân phối đồng đều hơn trong không gian.
 
@@ -130,8 +130,8 @@ Trong contrastive loss:
 
 \mathcal{L}_i =
 - \log
-\frac{\exp(\cos(\mathbf{z}_i,\mathbf{z}_j)/\tau)}
-{\sum_k \exp(\cos(\mathbf{z}_i,\mathbf{z}_k)/\tau)}
+\frac{\exp$\cos(\mathbf{z}_i,\mathbf{z}_j$/\tau)}
+{\sum_k \exp$\cos(\mathbf{z}_i,\mathbf{z}_k$/\tau)}
 
 Trong đó:
 	•	\tau: temperature
@@ -139,7 +139,7 @@ Trong đó:
 
 Khi \tau \to 0:
 
-\exp(\cos/\tau)
+\exp$\cos/\tau$
 
 khuếch đại sự khác biệt góc nhỏ.
 
@@ -150,15 +150,15 @@ khuếch đại sự khác biệt góc nhỏ.
 Giả sử embedding query q và document d:
 
 P(d|q) =
-\frac{\exp(\alpha \cos(q,d))}
-{\sum_j \exp(\alpha \cos(q,d_j))}
+\frac{\exp$\alpha \cos(q,d$)}
+{\sum_j \exp$\alpha \cos(q,d_j$)}
 
 Đây chính là softmax over cosine scores.
 
 Hàm log-likelihood:
 
 \mathcal{L} =
-\sum_i \log P(d_i|q_i)
+\sum_i \log P$d_i|q_i$
 
 ⸻
 
@@ -173,7 +173,7 @@ Gradient theo \mathbf{x}:
 \frac{\partial S}{\partial \mathbf{x}} =
 \frac{\mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}
 -
-\frac{(\mathbf{x}\cdot\mathbf{y})\mathbf{x}}
+\frac{$\mathbf{x}\cdot\mathbf{y}$\mathbf{x}}
 {\|\mathbf{x}\|^3\|\mathbf{y}\|}
 
 Gradient này gồm hai thành phần:
@@ -191,7 +191,7 @@ Theo Pattern Recognition and Machine Learning:
 Khoảng cách Bregman với entropy:
 
 D_\phi(p,q) =
-\phi(p) - \phi(q) - \nabla\phi(q)^T(p-q)
+\phi$p$ - \phi$q$ - \nabla\phi$q$^T(p-q)
 
 Cosine similarity không phải metric Bregman nhưng có thể xem như metric góc trên hypersphere:
 
@@ -212,7 +212,7 @@ Nếu vector chuẩn hóa:
 
 \mathbf{x} \cdot \mathbf{y}
 =
-\cos(\mathbf{x},\mathbf{y})
+\cos$\mathbf{x},\mathbf{y}$
 
 → tối ưu tính toán bằng Approximate Nearest Neighbor.
 

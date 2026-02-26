@@ -22,13 +22,13 @@
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 
-[Home](../index.md) > **07_fine_tune_pretrained_models**
+[Home]$../index.md$ > **07_fine_tune_pretrained_models**
 
 ---
 
 ### 🧭 Quick Navigation
 
-- [🏠 Cổng tài liệu](../index.md)
+- [🏠 Cổng tài liệu]$../index.md$
 - [📚 Module 01: LLM Course](../01_llm_course/index.md)
 - [🔢 Module 02: Tokenization](../02_words_to_tokens_to_numbers/index.md)
 - [🏗️ Module 04: Build GPT](../04_buildgpt/index.md)
@@ -39,7 +39,7 @@
 
 ## 📁 Thư mục con
 
-[Fine-Tuning](Fine-Tuning/index.md)
+[Fine-Tuning]$Fine-Tuning/index.md$
 
 
 ## 📄 Tài liệu chi tiết

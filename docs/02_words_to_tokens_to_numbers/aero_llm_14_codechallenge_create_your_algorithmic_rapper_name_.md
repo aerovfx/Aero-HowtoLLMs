@@ -54,7 +54,7 @@ N = a \times b \times c
 
 Nếu không bắt buộc hậu tố:
 
-N = a \times b \times (c + 1)
+N = a \times b \times $c + 1$
 
 ⸻
 
@@ -62,15 +62,15 @@ N = a \times b \times (c + 1)
 
 Thay vì chọn ngẫu nhiên đều, ta định nghĩa phân bố:
 
-P(p_i), \quad P(c_j), \quad P(m_k)
+P$p_i$, \quad P$c_j$, \quad P$m_k$
 
 Xác suất sinh một tên cụ thể:
 
-P(\text{Name}) = P(p_i) \cdot P(c_j) \cdot P(m_k)
+P$\text{Name}$ = P$p_i$ \cdot P$c_j$ \cdot P$m_k$
 
 Tổng xác suất:
 
-\sum_{i,j,k} P(p_i)P(c_j)P(m_k) = 1
+\sum_{i,j,k} P$p_i$P$c_j$P$m_k$ = 1
 
 ⸻
 
@@ -78,7 +78,7 @@ Tổng xác suất:
 
 Entropy đo mức độ đa dạng:
 
-H = - \sum_{n \in \mathcal{N}} P(n)\log P(n)
+H = - \sum_{n \in \mathcal{N}} P$n$\log P$n$
 
 Nếu phân bố đều:
 
@@ -96,7 +96,7 @@ S = (s_1, s_2, ..., s_n)
 
 Mô hình Markov bậc 1:
 
-P(S) = \prod_{i=1}^{n} P(s_i | s_{i-1})
+P$S$ = \prod_{i=1}^{n} P(s_i | s_{i-1})
 
 Điều này cho phép sinh tên mới dựa trên thống kê ký tự của tập huấn luyện.
 
@@ -114,7 +114,7 @@ Với:
 
 Self-attention:
 
-\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+\text{Attention}(Q,K,V) = \text{softmax}\left$\frac{QK^T}{\sqrt{d}}\right$V
 
 Khác biệt chính:
 	•	Thuật toán tổ hợp → quy tắc tường minh
@@ -126,7 +126,7 @@ Khác biệt chính:
 
 Giả sử ta định nghĩa hàm đánh giá:
 
-f(\text{Name}) \in \mathbb{R}
+f$\text{Name}$ \in \mathbb{R}
 
 Ví dụ dựa trên:
 	•	Độ hiếm từ
@@ -135,7 +135,7 @@ Ví dụ dựa trên:
 
 Bài toán tối ưu:
 
-\max_{\text{Name}} f(\text{Name})
+\max_{\text{Name}} f$\text{Name}$
 
 Có thể dùng thuật toán:
 	•	Beam search
@@ -156,9 +156,9 @@ Hoặc:
 
 Ví dụ cấu trúc xác suất:
 
-P(\text{Adj} + \text{Noun}) = \alpha
+P$\text{Adj} + \text{Noun}$ = \alpha
 
-P(\text{Title} + \text{Alias}) = 1 - \alpha
+P$\text{Title} + \text{Alias}$ = 1 - \alpha
 
 ⸻
 
@@ -216,7 +216,7 @@ Với:
 
 Và:
 
-P(\text{Name}) = \prod P(component)
+P$\text{Name}$ = \prod P(component)
 
 Kết hợp lý thuyết xác suất, entropy và mô hình ngôn ngữ cho phép xây dựng hệ sinh tên vừa đa dạng vừa có kiểm soát.
 

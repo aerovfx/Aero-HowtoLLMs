@@ -17,7 +17,7 @@
 # Toán học trong Học sâu: Cực trị và Chỉ số Cực trị (Min/Max & Argmin/Argmax)
 
 ## Tóm tắt (Abstract)
-Báo cáo này nghiên cứu về các phép toán tìm cực trị trong tập hợp dữ liệu đa chiều, tập trung vào sự phân biệt giữa giá trị cực trị (Min/Max) và vị trí của chúng (Argmin/Argmax). chúng ta phân tích cơ chế hoạt động của các phép toán này trên các trục (axes) khác nhau của một ma trận và ứng dụng thực tiễn của chúng trong việc giải mã kết quả dự đoán của các mạng nơ-ron phân loại. Nghiên cứu thực hiện đối chiếu kỹ thuật giữa NumPy và PyTorch, làm rõ tính năng tích hợp kết quả kép (giá trị và chỉ số) trong các hàm của PyTorch, giúp tối ưu hóa quy trình hậu xử lý dữ liệu trong các kiến trúc học sâu hiện đại.
+Báo cáo này nghiên cứu về các phép toán tìm cực trị trong tập hợp dữ liệu đa chiều, tập trung vào sự phân biệt giữa giá trị cực trị $Min/Max$ và vị trí của chúng $Argmin/Argmax$. chúng ta phân tích cơ chế hoạt động của các phép toán này trên các trục (axes) khác nhau của một ma trận và ứng dụng thực tiễn của chúng trong việc giải mã kết quả dự đoán của các mạng nơ-ron phân loại. Nghiên cứu thực hiện đối chiếu kỹ thuật giữa NumPy và PyTorch, làm rõ tính năng tích hợp kết quả kép (giá trị và chỉ số) trong các hàm của PyTorch, giúp tối ưu hóa quy trình hậu xử lý dữ liệu trong các kiến trúc học sâu hiện đại.
 
 ---
 
@@ -56,7 +56,7 @@ Trong NumPy, việc tìm giá trị và chỉ số là hai bước tách biệt 
 ### 4.2. PyTorch (Tiếp cận Tích hợp)
 PyTorch cung cấp một giải pháp tinh gọn và mạnh mẽ hơn. Khi gọi hàm `torch.min()` hoặc `torch.max()` trên một chiều cụ thể (dimension), thư viện sẽ trả về một đối tượng chứa đồng thời hai thuộc tính:
 - **`.values`**: Chứa các giá trị cực trị tìm được.
-- **`.indices`**: Chứa các vị trí (Argmin/Argmax) tương ứng.
+- **`.indices`**: Chứa các vị trí $Argmin/Argmax$ tương ứng.
 Sự tích hợp này giúp giảm bớt các dòng mã thừa và đảm bảo tính nhất quán giữa giá trị và vị trí trong các tensor quy mô lớn.
 
 ---

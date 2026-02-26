@@ -253,7 +253,7 @@ def gen_ids(n):
 
 ---
 
-# 8️⃣ app/ingest.py (Embedding + Index)
+# 8️⃣ app/ingest.py $Embedding + Index$
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -482,7 +482,7 @@ POST /ask?q=Quy trình hoàn tiền năm 2024?
 
 Khi dùng thật:
 
-✅ GPU Server (A10/A100)
+✅ GPU Server $A10/A100$
 ✅ Redis Cache
 ✅ Reranker local (bge-reranker)
 ✅ RBAC

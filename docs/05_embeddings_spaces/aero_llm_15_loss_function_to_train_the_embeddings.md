@@ -50,9 +50,9 @@ z_i = \mathbf{h}^T \mathbf{w}_i
 
 Xác suất:
 
-P(y=i) =
-\frac{\exp(z_i)}
-{\sum_{j=1}^{V} \exp(z_j)}
+P$y=i$ =
+\frac{\exp$z_i$}
+{\sum_{j=1}^{V} \exp$z_j$}
 
 ⸻
 
@@ -62,7 +62,7 @@ P(y=i) =
 =
 -
 \sum_{i=1}^{V}
-y_i \log P(y=i)
+y_i \log P$y=i$
 
 Vì y là one-hot:
 
@@ -83,7 +83,7 @@ Mục tiêu tối ưu:
 
 \frac{\partial \mathcal{L}}{\partial z_i}
 =
-P(y=i) - y_i
+P$y=i$ - y_i
 
 ⸻
 
@@ -103,7 +103,7 @@ Với token sai:
 
 \frac{\partial \mathcal{L}}{\partial \mathbf{e}_i}
 =
-P(i)\mathbf{h}
+P$i$\mathbf{h}
 
 Diễn giải hình học:
 	•	Embedding đúng được kéo gần \mathbf{h}
@@ -117,29 +117,29 @@ Trong Word2Vec:
 
 \mathcal{L}
 =
-\log \sigma(\mathbf{u}_c^T \mathbf{v}_w)
+\log \sigma$\mathbf{u}_c^T \mathbf{v}_w$
 +
 \sum_{k=1}^{K}
-\log \sigma(-\mathbf{u}_{n_k}^T \mathbf{v}_w)
+\log \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
 
 Trong đó:
 
-\sigma(x)
+\sigma$x$
 =
 \frac{1}{1+e^{-x}}
 
 Gradient theo tích vô hướng:
 
 \frac{d}{dx}
-\log \sigma(x)
+\log \sigma$x$
 =
-1 - \sigma(x)
+1 - \sigma$x$
 
 Phương pháp này giảm chi phí tính toán từ:
 
-O(V)
+O$V$
 \rightarrow
-O(K)
+O$K$
 
 ⸻
 
@@ -149,11 +149,11 @@ Cross-Entropy với softmax là hàm lồi theo logits:
 
 \frac{\partial^2 \mathcal{L}}{\partial z_i^2}
 =
-P(i)(1-P(i))
+P$i$(1-P(i))
 
 Ma trận Hessian:
 
-H = \text{diag}(P) - PP^T
+H = \text{diag}$P$ - PP^T
 
 H là bán xác định dương (positive semi-definite).
 
@@ -168,7 +168,7 @@ Cross-Entropy:
 H(p,q)
 =
 -
-\sum p(x)\log q(x)
+\sum p$x$\log q$x$
 
 Tối thiểu hoá Cross-Entropy tương đương với:
 
@@ -180,7 +180,7 @@ Vì:
 
 H(p,q)
 =
-H(p)
+H$p$
 +
 D_{KL}(p||q)
 
@@ -188,7 +188,7 @@ Trong đó:
 
 D_{KL}(p||q)
 =
-\sum p(x)\log\frac{p(x)}{q(x)}
+\sum p$x$\log\frac{p$x$}{q$x$}
 
 ⸻
 
@@ -209,7 +209,7 @@ Loss toàn chuỗi:
 -
 \sum_{t=1}^{T}
 \log
-P(x_t \mid x_{<t})
+P$x_t \mid x_{<t}$
 
 Gradient truyền ngược qua:
 	•	Unembedding
@@ -230,7 +230,7 @@ Giả sử:
 
 Sau nhiều bước:
 
-\mathbf{e}_w^{(t)}
+\mathbf{e}_w^{$t$}
 =
 \mathbf{e}_w^{(0)}
 -
@@ -252,7 +252,7 @@ Do tích lũy gradient nhiều hơn.
 
 Cosine similarity:
 
-\cos(\theta)
+\cos$\theta$
 =
 \frac{\mathbf{e}_a \cdot \mathbf{e}_b}
 {\|\mathbf{e}_a\|\|\mathbf{e}_b\|}

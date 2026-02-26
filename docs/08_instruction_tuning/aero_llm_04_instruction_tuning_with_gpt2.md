@@ -44,18 +44,18 @@ GPT-2 được xây dựng dựa trên kiến trúc Transformer với cơ chế 
 ### 2.2. Biểu diễn chuỗi đầu vào
 
 Chuỗi đầu vào được mã hóa thành các token:
-
-[
+$$
 X = (x_1, x_2, ..., x_T)
-]
+$$
+
 
 và được ánh xạ thành vector nhúng:
-
-[
+$$
 e_t = E(x_t)
-]
+$$
 
-Trong đó (E) là ma trận embedding.
+
+Trong đó $E$ là ma trận embedding.
 
 ---
 
@@ -64,16 +64,16 @@ Trong đó (E) là ma trận embedding.
 ### 3.1. Cấu trúc dữ liệu huấn luyện
 
 Dữ liệu được tổ chức dưới dạng:
-
-[
+$$
 D = {(I_i, Y_i)}_{i=1}^{N}
-]
+$$
+
 
 Trong đó:
 
-* (I_i): câu lệnh
-* (Y_i): phản hồi mong muốn
-* (N): số lượng mẫu
+* $I_i$: câu lệnh
+* $Y_i$: phản hồi mong muốn
+* $N$: số lượng mẫu
 
 Ví dụ:
 
@@ -87,10 +87,10 @@ Response: ...
 ### 3.2. Chuẩn hóa dữ liệu đầu vào
 
 Mỗi mẫu dữ liệu được chuyển thành chuỗi:
-
-[
+$$
 S_i = [BOS, I_i, SEP, Y_i, EOS]
-]
+$$
+
 
 Trong đó BOS, SEP, EOS là các token đặc biệt.
 
@@ -101,43 +101,43 @@ Trong đó BOS, SEP, EOS là các token đặc biệt.
 ### 4.1. Mô hình xác suất ngôn ngữ
 
 GPT-2 mô hình hóa xác suất chuỗi:
-
-[
+$$
 P(X) = \prod_{t=1}^{T} P(x_t | x_{<t})
-]
+$$
+
 
 ---
 
 ### 4.2. Hàm mất mát Cross-Entropy
 
 Hàm mất mát được sử dụng là:
-
-[
+$$
 \mathcal{L} = - \frac{1}{T} \sum_{t=1}^{T} y_t \log(\hat{y}_t)
-]
+$$
+
 
 Trong đó:
 
-* (y_t): nhãn thật
-* (\hat{y}_t): xác suất dự đoán
+* $y_t$: nhãn thật
+* $\hat{y}_t$: xác suất dự đoán
 
 ---
 
 ### 4.3. Thuật toán tối ưu Adam
 
 GPT-2 thường được huấn luyện với Adam:
-
-[
+$$
 m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t
-]
+$$
 
-[
+$$
 v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2
-]
+$$
 
-[
+$$
 \theta_t = \theta_{t-1} - \eta \frac{m_t}{\sqrt{v_t}+\epsilon}
-]
+$$
+
 
 ---
 
@@ -162,10 +162,10 @@ Dữ liệu → Tokenizer → GPT-2 → Loss → Adam → Cập nhật tham số
 ## 6. Đánh giá mô hình
 
 ### 6.1. Chỉ số Perplexity
-
-[
+$$
 PP = \exp(\mathcal{L})
-]
+$$
+
 
 ### 6.2. Độ chính xác theo nhiệm vụ
 
@@ -175,17 +175,17 @@ Mô hình được đánh giá trên các tập kiểm thử instruction.
 
 ## 7. Thực nghiệm minh họa
 
-Giả sử tập huấn luyện gồm (N=10.000) mẫu, sau 5 epoch huấn luyện, hàm mất mát hội tụ:
-
-[
+Giả sử tập huấn luyện gồm $N=10.000$ mẫu, sau 5 epoch huấn luyện, hàm mất mát hội tụ:
+$$
 \mathcal{L}_{final} \approx 1.95
-]
+$$
+
 
 Tương ứng:
-
-[
+$$
 PP \approx e^{1.95} \approx 7.03
-]
+$$
+
 
 ---
 

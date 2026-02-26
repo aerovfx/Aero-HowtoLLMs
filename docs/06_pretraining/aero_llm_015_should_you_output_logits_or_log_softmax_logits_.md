@@ -51,12 +51,12 @@ Mục tiêu của bài viết là:
 ### 2.1. Logits trong Mô Hình Ngôn Ngữ
 
 Giả sử mô hình sinh ra vector đầu ra:
-
-[
+$$
 z = (z_1, z_2, \dots, z_V)
-]
+$$
 
-trong đó (V) là kích thước từ vựng. Vector (z) được gọi là logits, đại diện cho độ tin cậy chưa chuẩn hóa của từng token.
+
+trong đó $V$ là kích thước từ vựng. Vector $z$ được gọi là logits, đại diện cho độ tin cậy chưa chuẩn hóa của từng token.
 
 Logits có thể mang giá trị bất kỳ trong tập số thực và chưa có ý nghĩa xác suất.
 
@@ -65,16 +65,16 @@ Logits có thể mang giá trị bất kỳ trong tập số thực và chưa c�
 ### 2.2. Softmax và Log-Softmax
 
 Phân phối xác suất được tính bằng hàm softmax:
-
-[
+$$
 P_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
-]
+$$
+
 
 Log-softmax được định nghĩa:
-
-[
+$$
 \log P_i = z_i - \log \sum_j e^{z_j}
-]
+$$
+
 
 Hàm log-softmax giúp tăng độ ổn định số học và thường được dùng trực tiếp trong loss function.
 
@@ -83,10 +83,10 @@ Hàm log-softmax giúp tăng độ ổn định số học và thường đượ
 ### 2.3. Cross-Entropy và Negative Log-Likelihood
 
 Trong huấn luyện mô hình ngôn ngữ, loss thường được tính bằng:
-
-[
+$$
 \mathcal{L} = - \log P_{target}
-]
+$$
+
 
 PyTorch thường kết hợp `LogSoftmax` và `NLLLoss` thành `CrossEntropyLoss`, cho phép truyền trực tiếp logits vào hàm loss.
 
@@ -99,10 +99,10 @@ Do đó, việc sử dụng logits hay log-softmax ảnh hưởng đến cách x
 ### 3.1. Mô Hình Xuất Log-Softmax
 
 Trong cách tiếp cận này, mô hình thực hiện:
-
-[
+$$
 \text{Output} = \log(\text{Softmax}(z))
-]
+$$
+
 
 ngay trong hàm `forward`.
 
@@ -135,7 +135,7 @@ Theo tài liệu, khi log-softmax được tính sẵn, temperature mặc địn
 
 ### 4.1. Mô Hình Xuất Logits
 
-Trong cách tiếp cận này, mô hình trả về trực tiếp vector (z) mà không áp dụng softmax.
+Trong cách tiếp cận này, mô hình trả về trực tiếp vector $z$ mà không áp dụng softmax.
 
 Việc chuẩn hóa được thực hiện bên ngoài mô hình, tùy theo mục đích sử dụng.
 
@@ -158,10 +158,10 @@ Theo tài liệu, việc quên bước này có thể dẫn đến lỗi huấn 
 ### 4.3. Linh Hoạt Trong Sinh Văn Bản
 
 Khi có logits, phân phối xác suất có thể được điều chỉnh bằng temperature:
-
-[
+$$
 P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
-]
+$$
+
 
 Trong đó:
 

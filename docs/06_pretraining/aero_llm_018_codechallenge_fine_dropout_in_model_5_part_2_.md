@@ -49,12 +49,12 @@ Tài liệu cung cấp một góc nhìn thực tiễn về đánh đổi giữa 
 ### 2.1. Next-Token Prediction in Language Models
 
 Trong huấn luyện LLMs, mục tiêu tiêu chuẩn là:
-
-[
+$$
 \mathcal{L} = -\sum_{t=1}^{T} \log P(x_t \mid x_{<t})
-]
+$$
 
-với (T) là độ dài chuỗi.
+
+với $T$ là độ dài chuỗi.
 
 Cách tiếp cận này cho phép mô hình học từ mọi vị trí trong chuỗi.
 
@@ -77,10 +77,10 @@ Việc kết hợp dropout với chiến lược loss ảnh hưởng đáng kể
 ### 3.1. Final-Token Loss Strategy
 
 Trong bài tập, hàm loss chỉ được tính tại token cuối:
-
-[
+$$
 \mathcal{L} = - \log P(x_T \mid x_{<T})
-]
+$$
+
 
 Thay vì flatten toàn bộ chuỗi, tác giả chỉ sử dụng:
 
@@ -94,10 +94,10 @@ Cách tiếp cận này được mô tả rõ trong tài liệu.
 ### 3.2. Log-Softmax Integration
 
 Do forward pass chỉ trả về logits, cần áp dụng log-softmax trước khi đưa vào loss:
-
-[
+$$
 \ell_i = z_i - \log \sum_j e^{z_j}
-]
+$$
+
 
 Trong PyTorch:
 
@@ -116,7 +116,7 @@ Tài liệu nhấn mạnh lỗi phổ biến:
 
 > Expected all tensors to be on the same device
 
-Lỗi xảy ra khi dữ liệu và mô hình nằm trên các thiết bị khác nhau (CPU/GPU). Việc đồng bộ thiết bị là điều kiện bắt buộc trong pipeline huấn luyện. 
+Lỗi xảy ra khi dữ liệu và mô hình nằm trên các thiết bị khác nhau $CPU/GPU$. Việc đồng bộ thiết bị là điều kiện bắt buộc trong pipeline huấn luyện. 
 
 ---
 
@@ -223,10 +223,10 @@ Tài liệu xác định hai nguyên nhân chính:
 #### (1) Reduced Training Signal
 
 Trước đây, mô hình học từ 256 token/chuỗi. Hiện tại, chỉ học từ 1 token:
-
-[
+$$
 \text{Signal reduction factor} \approx 256
-]
+$$
+
 
 Điều này làm giảm tốc độ học. 
 

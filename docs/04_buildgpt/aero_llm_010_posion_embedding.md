@@ -407,7 +407,7 @@ Mục tiêu là mô tả rõ ràng quy trình thực thi và khả năng tái l�
 ---
 
 ```text
-Algorithm 1: GPT-Forward(x)
+Algorithm 1: GPT-Forward$x$
 
 1:  for i = 1 → T do
 2:      e_tok ← E_tok[x_i]
@@ -415,11 +415,11 @@ Algorithm 1: GPT-Forward(x)
 4:      h_i ← e_tok + e_pos
 5:  end for
 
-6:  H ← LayerNorm(h)
+6:  H ← LayerNorm$h$
 
 7:  for each layer l do
-8:      H ← MLP_l(H)
-9:      H ← LayerNorm(H)
+8:      H ← MLP_l$H$
+9:      H ← LayerNorm$H$
 10: end for
 
 11: Z ← H · W_out
@@ -446,7 +446,7 @@ Algorithm 2: Training(D, η, B, E)
 1:  Initialize θ randomly
 2:  for epoch = 1 → E do
 3:      for batch (x, y) ∈ D do
-4:          Z ← GPT-Forward(x)
+4:          Z ← GPT-Forward$x$
 5:          L ← CrossEntropy(Z, y)
 6:          Compute ∇θL
 7:          θ ← θ − η∇θL
@@ -469,12 +469,12 @@ Algorithm 2: Training(D, η, B, E)
 ```text
 Algorithm 3: Generate(P, T, N)
 
-1:  x ← Tokenize(P)
+1:  x ← Tokenize$P$
 2:  for t = 1 → N do
-3:      Z ← GPT-Forward(x)
+3:      Z ← GPT-Forward$x$
 4:      z_t ← Z_last / T
-5:      p ← Softmax(z_t)
-6:      s ← Sample(p)
+5:      p ← Softmax$z_t$
+6:      s ← Sample$p$
 7:      x ← Append(x, s)
 8:  end for
 
@@ -519,7 +519,7 @@ class GPTEmbedding(nn.Module):
             T, device=x.device
         )
 
-        tok = self.token_emb(x)
+        tok = self.token_emb$x$
         pos = self.pos_emb(pos)
 
         return tok + pos
@@ -542,7 +542,7 @@ class FeedForward(nn.Module):
         )
 
     def forward(self, x):
-        return self.net(x)
+        return self.net$x$
 ```
 
 ---
@@ -569,7 +569,7 @@ class GPTBlock(nn.Module):
 
     def forward(self, x, mask):
 
-        h = self.ln1(x)
+        h = self.ln1$x$
 
         attn_out, _ = self.attn(
             h, h, h, attn_mask=mask
@@ -577,9 +577,9 @@ class GPTBlock(nn.Module):
 
         x = x + attn_out
 
-        h = self.ln2(x)
+        h = self.ln2$x$
 
-        x = x + self.ffn(h)
+        x = x + self.ffn$h$
 
         return x
 ```
@@ -635,7 +635,7 @@ class MiniGPT(nn.Module):
 
         B, T = x.shape
 
-        h = self.embed(x)
+        h = self.embed$x$
 
         mask = self.causal_mask(
             T, x.device
@@ -644,9 +644,9 @@ class MiniGPT(nn.Module):
         for block in self.blocks:
             h = block(h, mask)
 
-        h = self.ln_f(h)
+        h = self.ln_f$h$
 
-        logits = self.lm_head(h)
+        logits = self.lm_head$h$
 
         return logits
 ```
@@ -664,7 +664,7 @@ def train_step(
     y
 ):
 
-    logits = model(x)
+    logits = model$x$
 
     loss = loss_fn(
         logits.view(-1, logits.size(-1)),
@@ -748,7 +748,7 @@ def generate(
         device=device
     ).unsqueeze(0)
 
-    for _ in range(max_new):
+    for _ in range$max_new$:
 
         logits = model(ids)
 

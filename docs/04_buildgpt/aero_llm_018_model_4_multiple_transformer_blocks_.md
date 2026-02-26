@@ -113,7 +113,7 @@ Cách tiếp cận này giúp tránh:
 Việc khởi tạo block được thực hiện bằng list comprehension trong Python:
 
 ```python
-blocks = [TransformerBlock(...) for _ in range(N)]
+blocks = [TransformerBlock(...) for _ in range$N$]
 ````
 
 Cách làm này cho phép thay đổi độ sâu mô hình chỉ bằng một tham số.
@@ -714,7 +714,7 @@ Input: X0
 
 for l = 1 → L:
 H = RMSNorm(Xl-1)
-A = FlashAttention(H)
+A = FlashAttention$H$
 U = Xl-1 + scale*A
 
 ```
@@ -743,7 +743,7 @@ Tokenizer
 ↓
 Distributed Loader
 ↓
-Deep Transformer (100+)
+Deep Transformer $100+$
 ↓
 ZeRO + TP + PP
 ↓

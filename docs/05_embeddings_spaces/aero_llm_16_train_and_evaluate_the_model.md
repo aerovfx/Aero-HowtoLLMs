@@ -35,7 +35,7 @@ Trong đó:
 
 Quá trình huấn luyện nhằm tìm ra bộ tham số \theta^* sao cho hàm mất mát được tối thiểu hóa:
 
-\theta^* = \arg\min_\theta \mathcal{L}(\theta)
+\theta^* = \arg\min_\theta \mathcal{L}$\theta$
 
 ⸻
 
@@ -45,9 +45,9 @@ Quá trình huấn luyện nhằm tìm ra bộ tham số \theta^* sao cho hàm m
 
 Tùy theo loại bài toán, hàm mất mát được xác định khác nhau.
 
-(a) Hồi quy – Mean Squared Error (MSE)
+$a$ Hồi quy – Mean Squared Error (MSE)
 
-\mathcal{L}_{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+\mathcal{L}_{MSE} = \frac{1}{n} \sum_{i=1}^{n} $y_i - \hat{y}_i$^2
 
 Trong đó:
 	•	y_i là giá trị thực
@@ -55,9 +55,9 @@ Trong đó:
 
 ⸻
 
-(b) Phân loại – Cross Entropy Loss
+$b$ Phân loại – Cross Entropy Loss
 
-\mathcal{L}_{CE} = - \sum_{i=1}^{n} y_i \log(\hat{y}_i)
+\mathcal{L}_{CE} = - \sum_{i=1}^{n} y_i \log$\hat{y}_i$
 
 Cross-entropy có nguồn gốc từ lý thuyết thông tin của Shannon (1948).
 
@@ -67,7 +67,7 @@ Cross-entropy có nguồn gốc từ lý thuyết thông tin của Shannon (1948
 
 Thuật toán cập nhật tham số:
 
-\theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}(\theta_t)
+\theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}$\theta_t$
 
 Trong đó:
 	•	\eta là learning rate
@@ -78,8 +78,8 @@ Các biến thể:
 	•	Stochastic Gradient Descent (SGD)
 	•	Adam Optimizer:
 
-m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t
-v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2
+m_t = \beta_1 m_{t-1} + $1-\beta_1$g_t
+v_t = \beta_2 v_{t-1} + $1-\beta_2$g_t^2
 
 Adam được đề xuất bởi Kingma & Ba (2015).
 
@@ -118,13 +118,13 @@ Giải pháp:
 
 4.1 Bài toán Phân loại
 
-(a) Accuracy
+$a$ Accuracy
 
 Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
 
 ⸻
 
-(b) Precision & Recall
+$b$ Precision & Recall
 
 Precision = \frac{TP}{TP + FP}
 
@@ -132,13 +132,13 @@ Recall = \frac{TP}{TP + FN}
 
 ⸻
 
-(c) F1-score
+$c$ F1-score
 
 F1 = 2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}
 
 ⸻
 
-(d) ROC-AUC
+$d$ ROC-AUC
 
 Diện tích dưới đường cong ROC đo khả năng phân biệt hai lớp.
 
@@ -146,13 +146,13 @@ Diện tích dưới đường cong ROC đo khả năng phân biệt hai lớp.
 
 4.2 Bài toán Hồi quy
 
-(a) Mean Absolute Error (MAE)
+$a$ Mean Absolute Error (MAE)
 
 MAE = \frac{1}{n} \sum |y_i - \hat{y}_i|
 
-(b) R² Score
+$b$ R² Score
 
-R^2 = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}
+R^2 = 1 - \frac{\sum $y_i - \hat{y}_i$^2}{\sum $y_i - \bar{y}$^2}
 
 ⸻
 
@@ -172,7 +172,7 @@ CV = \frac{1}{k} \sum_{i=1}^{k} \mathcal{L}_i
 
 Huấn luyện và đánh giá mô hình không chỉ là quá trình kỹ thuật mà còn là bài toán tối ưu hóa thống kê. Sai lệch (bias) và phương sai (variance) đóng vai trò quan trọng:
 
-\mathbb{E}[(y - \hat{f}(x))^2] = Bias^2 + Variance + \sigma^2
+\mathbb{E}[$y - \hat{f}(x$)^2] = Bias^2 + Variance + \sigma^2
 
 Cân bằng bias-variance là chìa khóa xây dựng mô hình tổng quát hóa tốt.
 

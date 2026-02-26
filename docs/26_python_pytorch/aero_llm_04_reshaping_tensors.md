@@ -17,7 +17,7 @@
 # Nhập môn PyTorch: Kỹ thuật Tái cấu trúc và Biến đổi Hình dạng Tensor (Reshaping Tensors)
 
 ## Tóm tắt (Abstract)
-Báo cáo này nghiên cứu các phương thức thay đổi cấu trúc hình học của Tensor trong PyTorch mà không làm thay đổi nội dung dữ liệu bên trong. Chúng ta phân tích cơ chế chuyển vị (transpose), làm phẳng (flatten), và tái cấu trúc (reshape/view). Nghiên cứu đi sâu vào kỹ thuật sử dụng tham số `-1` để suy luận kích thước tự động và hàm `unsqueeze` để bổ sung các chiều đơn hình (singleton dimensions). Đây là những thao tác kỹ thuật cốt lõi để chuẩn bị dữ liệu đầu vào cho các lớp mạng nơ-ron, đảm bảo sự tương thích về mặt kích thước giữa các tầng kiến trúc khác nhau trong một mô hình LLM.
+Báo cáo này nghiên cứu các phương thức thay đổi cấu trúc hình học của Tensor trong PyTorch mà không làm thay đổi nội dung dữ liệu bên trong. Chúng ta phân tích cơ chế chuyển vị (transpose), làm phẳng (flatten), và tái cấu trúc $reshape/view$. Nghiên cứu đi sâu vào kỹ thuật sử dụng tham số `-1` để suy luận kích thước tự động và hàm `unsqueeze` để bổ sung các chiều đơn hình (singleton dimensions). Đây là những thao tác kỹ thuật cốt lõi để chuẩn bị dữ liệu đầu vào cho các lớp mạng nơ-ron, đảm bảo sự tương thích về mặt kích thước giữa các tầng kiến trúc khác nhau trong một mô hình LLM.
 
 ---
 

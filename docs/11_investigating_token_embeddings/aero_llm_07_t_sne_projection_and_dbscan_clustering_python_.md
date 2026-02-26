@@ -51,7 +51,7 @@ Cấu hình DBSCAN:
 Hệ thống sẽ dán các số nguyên ngẫu hình (Integer labels) cho các tụ điểm: *Group 0, Group 1...*
 Đặc biệt, hệ thống sinh ra điểm $\text{Label} = -1$ . Đây là các Outlier Noises (Trôi dạc cô độc). Ví dụ: Nếu chỉ có 2 chữ cái `[y, Y]` nằm gần nhau, nhưng vì `Min_samples = 3`, vòng tròn Epsilon không đủ dân số nên thuật toán hất bỏ chúng về lại nhóm phân ly.
 
-Sự lợi hại của DBScan đánh gục thuật toán *K-Means clustering* truyền thống vì nó không đòi hỏi kỹ sư phải "Đoán Mò Số Học" có sẵn định kiến quy mô bao nhiêu cụm (k). DBscan tự do giãn nở như màng bọt sinh học hễ thấy mật độ dầy sẽ lập tức khoanh tròn lại tổ chức cho ta.
+Sự lợi hại của DBScan đánh gục thuật toán *K-Means clustering* truyền thống vì nó không đòi hỏi kỹ sư phải "Đoán Mò Số Học" có sẵn định kiến quy mô bao nhiêu cụm $k$. DBscan tự do giãn nở như màng bọt sinh học hễ thấy mật độ dầy sẽ lập tức khoanh tròn lại tổ chức cho ta.
 
 ---
 

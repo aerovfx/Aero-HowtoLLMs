@@ -39,7 +39,7 @@ Trong đó:
 
 Hai tokenizer khác nhau \mathcal{T}_A và \mathcal{T}_B sẽ tạo ra hai biểu diễn khác nhau cho cùng một chuỗi đầu vào x:
 
-\mathcal{T}_A(x) \neq \mathcal{T}_B(x)
+\mathcal{T}_A$x$ \neq \mathcal{T}_B$x$
 
 Vấn đề đặt ra:
 Làm thế nào để ánh xạ chuỗi token từ không gian V_A^* sang V_B^* mà không mất thông tin?
@@ -54,7 +54,7 @@ Làm thế nào để ánh xạ chuỗi token từ không gian V_A^* sang V_B^* 
 
 Thuật toán tối đa hóa xác suất:
 
-\arg\max_{s_1,\dots,s_k} \prod_{i=1}^{k} P(s_i)
+\arg\max_{s_1,\dots,s_k} \prod_{i=1}^{k} P$s_i$
 
 ⸻
 
@@ -64,7 +64,7 @@ Thuật toán tối đa hóa xác suất:
 
 Quá trình lặp:
 
-(\alpha, \beta) = \arg\max_{(u,v)} \text{freq}(uv)
+$\alpha, \beta$ = \arg\max_{(u,v)} \text{freq}(uv)
 
 Sau đó thay thế cặp phổ biến nhất.
 
@@ -76,7 +76,7 @@ Sau đó thay thế cặp phổ biến nhất.
 
 Tối ưu hóa:
 
-\max_{V} \sum_{x \in D} \log \sum_{s \in \mathcal{S}(x)} \prod_{i} P(s_i)
+\max_{V} \sum_{x \in D} \log \sum_{s \in \mathcal{S}$x$} \prod_{i} P$s_i$
 
 ⸻
 
@@ -104,7 +104,7 @@ thì:
 
 Khi đó:
 
-\Phi(\mathcal{T}_A(x)) = \mathcal{T}_B(x)
+\Phi$\mathcal{T}_A(x$) = \mathcal{T}_B$x$
 
 ⸻
 
@@ -112,15 +112,15 @@ Khi đó:
 
 Nếu tokenizer không khả nghịch hoàn toàn, ta có sai số:
 
-\epsilon = d(\mathcal{D}_A(\mathcal{T}_A(x)), x)
+\epsilon = d$\mathcal{D}_A(\mathcal{T}_A(x$), x)
 
 Trong đó d là khoảng cách Levenshtein.
 
 Entropy trước và sau:
 
-H_A = - \sum p(t_i)\log p(t_i)
+H_A = - \sum p$t_i$\log p$t_i$
 
-H_B = - \sum p(u_j)\log p(u_j)
+H_B = - \sum p$u_j$\log p$u_j$
 
 Độ chênh entropy:
 
@@ -142,11 +142,11 @@ m_B = \frac{n}{\mathbb{E}[L_B]}
 
 Self-attention có độ phức tạp:
 
-O(m^2)
+O$m^2$
 
 Tỷ lệ chi phí:
 
-\frac{C_A}{C_B} = \left(\frac{m_A}{m_B}\right)^2
+\frac{C_A}{C_B} = \left$\frac{m_A}{m_B}\right$^2
 
 Nếu tokenizer B tạo token dài hơn:
 
@@ -159,9 +159,9 @@ Nếu tokenizer B tạo token dài hơn:
 
 Giả sử:
 
-\mathcal{T}_A(x) = (a_1, a_2, \dots, a_m)
+\mathcal{T}_A$x$ = $a_1, a_2, \dots, a_m$
 
-\mathcal{T}_B(x) = (b_1, b_2, \dots, b_k)
+\mathcal{T}_B$x$ = $b_1, b_2, \dots, b_k$
 
 Ta cần tìm ánh xạ căn chỉnh:
 
@@ -169,7 +169,7 @@ Ta cần tìm ánh xạ căn chỉnh:
 
 Tối ưu hóa:
 
-\min_{\pi} \sum_{i=1}^{m} d(\text{span}(a_i), \text{span}(b_{\pi(i)}))
+\min_{\pi} \sum_{i=1}^{m} d$\text{span}(a_i$, \text{span}$b_{\pi(i$}))
 
 Đây tương đương bài toán căn chỉnh chuỗi động (dynamic programming).
 
@@ -183,7 +183,7 @@ M \in \mathbb{R}^{|V_A| \times |V_B|}
 
 Trong đó:
 
-M_{ij} = P(b_j \mid a_i)
+M_{ij} = P$b_j \mid a_i$
 
 Nếu ánh xạ xác định:
 
@@ -227,7 +227,7 @@ Việc chuyển đổi giữa hai tokenizer có thể được mô hình hóa h�
 
 Sai số thông tin được đo bằng:
 
-\epsilon = d(\mathcal{D}_A(\mathcal{T}_A(x)), x)
+\epsilon = d$\mathcal{D}_A(\mathcal{T}_A(x$), x)
 
 Độ phức tạp tính toán phụ thuộc vào:
 

@@ -47,10 +47,10 @@ Tài liệu *Optimization Options* cung cấp một cái nhìn thực tiễn v�
 ### 2.1 Tiền huấn luyện trong LLM
 
 Tiền huấn luyện là quá trình huấn luyện mô hình trên tập dữ liệu lớn với mục tiêu dự đoán token tiếp theo:
-
-[
+$$
 \mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
-]
+$$
+
 
 Quá trình này yêu cầu:
 
@@ -61,16 +61,16 @@ Quá trình này yêu cầu:
 ### 2.2 Độ phức tạp tính toán
 
 Chi phí huấn luyện Transformer tỷ lệ xấp xỉ:
-
-[
+$$
 O(N \cdot L^2 \cdot d)
-]
+$$
+
 
 Trong đó:
 
-* (N): số token,
-* (L): độ dài chuỗi,
-* (d): chiều embedding.
+* $N$: số token,
+* $L$: độ dài chuỗi,
+* $d$: chiều embedding.
 
 Do đó, mọi cải tiến nhỏ đều có thể mang lại lợi ích đáng kể.
 
@@ -230,10 +230,10 @@ Giả sử:
 * 1 tỷ iteration,
 
 Tổng thời gian tiết kiệm:
-
-[
+$$
 0.05 \times 10^9 = 5 \times 10^7 \text{ giây} \approx 580 \text{ ngày}
-]
+$$
+
 
 ---
 

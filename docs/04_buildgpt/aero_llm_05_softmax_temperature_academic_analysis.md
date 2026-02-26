@@ -451,7 +451,7 @@ print(f"Logits range: {logits.min()} to {logits.max()}")
 - Difference: Only 1 unit
 - Not dramatically different
 
-**After Softmax (T=1):**
+**After Softmax $T=1$:**
 ```python
 probs = softmax(logits)
 print(f"P(token_max) = {probs.max():.4f}")
@@ -471,21 +471,21 @@ print(f"Ratio: {probs.max() / sorted(probs)[-2]:.2f}x")
 
 #### 3.4.1 Controlling "Creativity"
 
-**Low temperature (T = 0.7):**
+**Low temperature $T = 0.7$:**
 - **Behavior**: Deterministic, focused
 - **Distribution**: Peaked, confident
 - **Sampling**: Repeatedly picks high-probability tokens
 - **Text**: Coherent, predictable, "safe"
 - **Use cases**: Factual Q&A, code generation, formal writing
 
-**Medium temperature (T = 1.0):**
+**Medium temperature $T = 1.0$:**
 - **Behavior**: Balanced
 - **Distribution**: Standard Softmax
 - **Sampling**: Mix of high and moderate probabilities
 - **Text**: Natural, varied
 - **Use cases**: General conversation, creative writing
 
-**High temperature (T = 1.5):**
+**High temperature $T = 1.5$:**
 - **Behavior**: Exploratory, creative
 - **Distribution**: Flattened, uncertain
 - **Sampling**: Considers many token options
@@ -494,7 +494,7 @@ print(f"Ratio: {probs.max() / sorted(probs)[-2]:.2f}x")
 
 #### 3.4.2 Extreme Values (Educational)
 
-**Very low (T = 0.2):**
+**Very low $T = 0.2$:**
 ```python
 # Distribution extremely peaked
 probs_low = softmax(logits / 0.2)
@@ -505,7 +505,7 @@ probs_low = softmax(logits / 0.2)
 - Always picks argmax
 - No randomness
 
-**Very high (T = 10):**
+**Very high $T = 10$:**
 ```python
 # Distribution nearly uniform
 probs_high = softmax(logits / 10)
@@ -549,7 +549,7 @@ $$\log \sigma_T(\mathbf{z})_i = \frac{z_i}{T} - \log \sum_{j=1}^K e^{z_j/T}$$
 
 **Problem: Very small probabilities**
 
-Trong LLMs với large vocabularies (100K+ tokens):
+Trong LLMs với large vocabularies $100K+ tokens$:
 - Most tokens có probability **extremely close to 0**
 - Ví dụ: $P(\text{token}_i) = 1.23 \times 10^{-8}$
 

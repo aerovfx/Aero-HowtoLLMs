@@ -47,7 +47,7 @@ Trong các hệ này, Cosine Similarity là thước đo chuẩn để so sánh 
 
 Cho hai vector \mathbf{x}, \mathbf{y} \in \mathbb{R}^d:
 
-\text{cosine\_sim}(\mathbf{x}, \mathbf{y}) =
+\text{cosine\_sim}$\mathbf{x}, \mathbf{y}$ =
 \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|}
 
 Trong đó:
@@ -77,7 +77,7 @@ Trong embedding NLP, vector thường được chuẩn hóa:
 
 Khi đó:
 
-\text{cosine\_sim}(\mathbf{x}, \mathbf{y}) =
+\text{cosine\_sim}$\mathbf{x}, \mathbf{y}$ =
 \tilde{\mathbf{x}} \cdot \tilde{\mathbf{y}}
 
 ⸻
@@ -94,7 +94,7 @@ Nếu x_i, y_i \sim \mathcal{N}(0,1)
 
 \mathbb{E}[\mathbf{x} \cdot \mathbf{y}] = 0
 
-Var(\mathbf{x} \cdot \mathbf{y}) = d
+Var$\mathbf{x} \cdot \mathbf{y}$ = d
 
 Sau chuẩn hóa:
 
@@ -128,13 +128,13 @@ Do đó:
 
 Một embedding model ánh xạ văn bản t thành vector:
 
-f_\theta(t) \in \mathbb{R}^d
+f_\theta$t$ \in \mathbb{R}^d
 
 Xác suất chọn tài liệu d_i trong retrieval:
 
-P(d_i|q) =
-\frac{\exp(\alpha \cdot \cos(f(q), f(d_i)))}
-{\sum_j \exp(\alpha \cdot \cos(f(q), f(d_j)))}
+P$d_i|q$ =
+\frac{\exp$\alpha \cdot \cos(f(q$, f$d_i$))}
+{\sum_j \exp$\alpha \cdot \cos(f(q$, f$d_j$))}
 
 Trong đó:
 	•	\alpha là temperature scaling
@@ -149,7 +149,7 @@ Mutual information giữa hai vector embedding:
 
 I(X;Y) =
 \mathbb{E}\left[
-\log \frac{P(X,Y)}{P(X)P(Y)}
+\log \frac{P(X,Y)}{P$X$P$Y$}
 \right]
 
 Cosine similarity có thể xem như xấp xỉ thô của sự phụ thuộc tuyến tính giữa hai biến.
@@ -162,12 +162,12 @@ Trong contrastive learning (ví dụ SimCLR):
 
 \mathcal{L} =
 - \log
-\frac{\exp(\cos(\mathbf{x}_i,\mathbf{x}_j)/\tau)}
-{\sum_k \exp(\cos(\mathbf{x}_i,\mathbf{x}_k)/\tau)}
+\frac{\exp$\cos(\mathbf{x}_i,\mathbf{x}_j$/\tau)}
+{\sum_k \exp$\cos(\mathbf{x}_i,\mathbf{x}_k$/\tau)}
 
 Trong đó:
 	•	\tau là temperature
-	•	(\mathbf{x}_i,\mathbf{x}_j) là positive pair
+	•	$\mathbf{x}_i,\mathbf{x}_j$ là positive pair
 
 ⸻
 
@@ -182,7 +182,7 @@ Gradient theo \mathbf{x}:
 \frac{\partial S}{\partial \mathbf{x}} =
 \frac{\mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}
 -
-\frac{(\mathbf{x}\cdot\mathbf{y})\mathbf{x}}
+\frac{$\mathbf{x}\cdot\mathbf{y}$\mathbf{x}}
 {\|\mathbf{x}\|^3\|\mathbf{y}\|}
 
 Điều này cho thấy quá trình tối ưu sẽ:

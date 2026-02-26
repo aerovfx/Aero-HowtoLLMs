@@ -24,7 +24,7 @@ Bellman Equation là một công thức toán học được sử dụng trong h
 
 Bellman Equation có thể được viết như sau:
 
-V(s) = max₃ₑ [r + γ V(s')]
+V$s$ = max₃ₑ [r + γ V(s')]
 
 जह:
 

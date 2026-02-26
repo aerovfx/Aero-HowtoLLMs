@@ -62,7 +62,7 @@ Mỗi nhiệm vụ có hàm đánh giá riêng, nhưng điểm tổng hợp đư
 
 Với một đầu vào x, mô hình tham số \theta sinh xác suất:
 
-P_\theta(y|x) = \frac{\exp(z_y)}{\sum_{k=1}^K \exp(z_k)}
+P_\theta(y|x) = \frac{\exp$z_y$}{\sum_{k=1}^K \exp$z_k$}
 
 Trong đó:
 	•	z_k là logit
@@ -76,7 +76,7 @@ Trong đó:
 
 Với nhãn thật y:
 
-\mathcal{L}(\theta) = - \sum_{i=1}^N \log P_\theta(y_i | x_i)
+\mathcal{L}$\theta$ = - \sum_{i=1}^N \log P_\theta$y_i | x_i$
 
 Dưới dạng kỳ vọng:
 
@@ -84,13 +84,13 @@ Dưới dạng kỳ vọng:
 
 Tối thiểu hoá hàm này tương đương tối thiểu hoá KL divergence giữa phân phối thật và phân phối mô hình:
 
-D_{KL}(P_{data} || P_\theta)
+D_{KL}$P_{data} || P_\theta$
 
 ⸻
 
 3.3 Accuracy
 
-Acc = \frac{1}{N} \sum_{i=1}^N \mathbf{1}(\hat{y}_i = y_i)
+Acc = \frac{1}{N} \sum_{i=1}^N \mathbf{1}$\hat{y}_i = y_i$
 
 ⸻
 
@@ -161,17 +161,17 @@ Theo lý thuyết học thống kê trong:
 
 Sai số tổng quát:
 
-R(\theta) = \mathbb{E}_{(x,y)\sim P}[\ell(f_\theta(x), y)]
+R$\theta$ = \mathbb{E}_{(x,y)\sim P}[\ell$f_\theta(x$, y)]
 
 Sai số thực nghiệm:
 
-\hat{R}(\theta) = \frac{1}{N} \sum_{i=1}^N \ell(f_\theta(x_i), y_i)
+\hat{R}$\theta$ = \frac{1}{N} \sum_{i=1}^N \ell$f_\theta(x_i$, y_i)
 
 Bất đẳng thức tổng quát hóa:
 
-R(\theta) \le \hat{R}(\theta) + O\left(\sqrt{\frac{VC}{N}}\right)
+R$\theta$ \le \hat{R}$\theta$ + O\left$\sqrt{\frac{VC}{N}}\right$
 
-SuperGLUE có vai trò ước lượng gần đúng R(\theta).
+SuperGLUE có vai trò ước lượng gần đúng R$\theta$.
 
 ⸻
 

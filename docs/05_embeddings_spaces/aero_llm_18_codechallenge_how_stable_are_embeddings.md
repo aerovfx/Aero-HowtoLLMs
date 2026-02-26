@@ -47,7 +47,7 @@ Trên thực tế, các embedding không trùng khớp từng phần tử, nhưn
 
 Ban đầu:
 
-\mathbf{v}_w^{(0)} \sim \mathcal{N}(0, \sigma^2 I)
+\mathbf{v}_w^{(0)} \sim \mathcal{N}$0, \sigma^2 I$
 
 Các điểm xuất phát khác nhau dẫn đến nghiệm tối ưu khác nhau trong không gian phi lồi.
 
@@ -99,7 +99,7 @@ Phương pháp này thường được dùng trong nghiên cứu ổn định em
 
 Với mỗi từ w:
 
-sim(w) =
+sim$w$ =
 \frac{
 \mathbf{v}_w^{(1)} \cdot \mathbf{v}_w^{(2)}
 }{
@@ -109,7 +109,7 @@ sim(w) =
 Lấy trung bình trên toàn bộ từ vựng:
 
 \overline{sim} =
-\frac{1}{V} \sum_{w=1}^{V} sim(w)
+\frac{1}{V} \sum_{w=1}^{V} sim$w$
 
 ⸻
 
@@ -119,7 +119,7 @@ Lấy trung bình trên toàn bộ từ vựng:
 
 \mathcal{L} =
 - \sum_{(w,c)} \log
-\frac{\exp(\mathbf{v}_w^\top \mathbf{v}_c)}
+\frac{\exp$\mathbf{v}_w^\top \mathbf{v}_c$}
 {\sum_{c'} \exp(\mathbf{v}_w^\top \mathbf{v}_{c'})}
 
 Hàm mất mát này phụ thuộc vào tích vô hướng:
@@ -165,7 +165,7 @@ Khi d lớn:
 
 Theo phân tích bias–variance:
 
-\mathbb{E}[(y - \hat{f}(x))^2]
+\mathbb{E}[$y - \hat{f}(x$)^2]
 =
 Bias^2 + Variance + \sigma^2
 

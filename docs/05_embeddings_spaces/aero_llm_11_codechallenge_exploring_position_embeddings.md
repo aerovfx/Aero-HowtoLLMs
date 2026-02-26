@@ -47,9 +47,9 @@ Do đó, embedding vị trí cung cấp cấu trúc thứ tự cho mô hình.
 
 Trong Transformer ban đầu:
 
-\text{PE}(pos, 2i) = \sin\left(\frac{pos}{10000^{2i/d}}\right)
+\text{PE}(pos, 2i) = \sin\left$\frac{pos}{10000^{2i/d}}\right$
 
-\text{PE}(pos, 2i+1) = \cos\left(\frac{pos}{10000^{2i/d}}\right)
+\text{PE}(pos, 2i+1) = \cos\left$\frac{pos}{10000^{2i/d}}\right$
 
 Tính chất quan trọng:
 	•	Tạo ra phổ tần số đa dạng
@@ -102,18 +102,18 @@ Quan sát thực nghiệm:
 
 Độ tương đồng cosine giữa hai vị trí:
 
-\cos(\theta) =
+\cos$\theta$ =
 \frac{\mathbf{p}_t \cdot \mathbf{p}_s}
 {\|\mathbf{p}_t\| \|\mathbf{p}_s\|}
 
 Tính chất thực nghiệm:
-	•	\cos(\mathbf{p}_t, \mathbf{p}_{t+1}) cao
+	•	\cos$\mathbf{p}_t, \mathbf{p}_{t+1}$ cao
 	•	Giảm dần khi khoảng cách |t-s| tăng
 	•	Tạo cấu trúc liên tục (smooth manifold)
 
 Có thể mô hình hoá xấp xỉ:
 
-\cos(\mathbf{p}_t, \mathbf{p}_{t+k}) \approx e^{-\alpha k}
+\cos$\mathbf{p}_t, \mathbf{p}_{t+k}$ \approx e^{-\alpha k}
 
 với \alpha > 0.
 
@@ -147,8 +147,8 @@ với \mathbf{v} là vector hướng chính.
 
 \mathbf{C} =
 \frac{1}{L} \sum_{t=1}^{L}
-(\mathbf{p}_t - \bar{\mathbf{p}})
-(\mathbf{p}_t - \bar{\mathbf{p}})^T
+$\mathbf{p}_t - \bar{\mathbf{p}}$
+$\mathbf{p}_t - \bar{\mathbf{p}}$^T
 
 Trong đó:
 
@@ -183,7 +183,7 @@ Z = E + P
 Suy ra:
 
 QK^T =
-(E + P)W_QW_K^T(E + P)^T
+$E + P$W_QW_K^T$E + P$^T
 
 Khai triển:
 

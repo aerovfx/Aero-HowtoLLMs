@@ -18,7 +18,7 @@
 
 Mô hình GPT-2 được công bố bởi nhóm nghiên cứu tại OpenAI (Radford et al., 2019) dưới sự dẫn dắt của Alec Radford. GPT-2 dựa trên kiến trúc Transformer decoder-only và được huấn luyện theo mục tiêu mô hình hóa ngôn ngữ tự hồi quy:
 
-P(x) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+P$x$ = \prod_{t=1}^{T} P$x_t \mid x_{<t}$
 
 Trong đó:
 	•	x = (x_1, x_2, ..., x_T) là chuỗi token
@@ -40,7 +40,7 @@ GPT-2 Large có khoảng 1.5 tỷ tham số, với cấu hình điển hình:
 
 Trong mỗi tầng Transformer, attention được tính theo công thức:
 
-\text{Attention}(Q, K, V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
+\text{Attention}(Q, K, V) = \text{softmax} \left$\frac{QK^T}{\sqrt{d_k}} \right$V
 
 Trong đó:
 	•	Q = XW_Q
@@ -55,7 +55,7 @@ Multi-head attention được định nghĩa:
 
 Sau attention là tầng feed-forward:
 
-\text{MLP}(x) = \text{GELU}(xW_1 + b_1)W_2 + b_2
+\text{MLP}$x$ = \text{GELU}(xW_1 + b_1)W_2 + b_2
 
 Việc mở rộng chiều không gian lên 4 \times d_{model} giúp tăng khả năng biểu diễn phi tuyến.
 
@@ -91,7 +91,7 @@ Kết quả quan sát thực nghiệm cho thấy:
 
 Mục tiêu huấn luyện là tối thiểu hóa cross-entropy:
 
-\mathcal{L} = - \sum_{t=1}^{T} \log P_\theta (x_t \mid x_{<t})
+\mathcal{L} = - \sum_{t=1}^{T} \log P_\theta $x_t \mid x_{<t}$
 
 Trong instruction tuning, ta thường:
 	•	Nối instruction và response thành một chuỗi
@@ -100,7 +100,7 @@ Trong instruction tuning, ta thường:
 
 Khi đó:
 
-\mathcal{L}_{response} = - \sum_{t \in R} \log P_\theta (x_t \mid x_{<t})
+\mathcal{L}_{response} = - \sum_{t \in R} \log P_\theta $x_t \mid x_{<t}$
 
 với R là tập token thuộc response.
 
@@ -140,9 +140,9 @@ Instruction tuning sau này (ví dụ InstructGPT) bổ sung:
 
 Hàm mục tiêu trong RLHF:
 
-\max_\theta \mathbb{E}_{x \sim \pi_\theta} [ r(x) ]
+\max_\theta \mathbb{E}_{x \sim \pi_\theta} [ r$x$ ]
 
-Trong đó r(x) là reward model đánh giá chất lượng câu trả lời.
+Trong đó r$x$ là reward model đánh giá chất lượng câu trả lời.
 
 ⸻
 

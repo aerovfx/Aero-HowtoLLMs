@@ -24,7 +24,7 @@ Báo cáo này nghiên cứu về tổ hợp tuyến tính có trọng số, ph�
 ## 1. Cơ chế Hoạt động của Nơ-ron Nhân tạo
 
 Trong mạng nơ-ron, mỗi nút (node) được coi là một đơn vị xử lý thực hiện phép cộng có trọng số:
-- **Đầu vào (Inputs/Activations):** Đại diện cho dữ liệu thô hoặc tín hiệu từ các lớp trước đó.
+- **Đầu vào $Inputs/Activations$:** Đại diện cho dữ liệu thô hoặc tín hiệu từ các lớp trước đó.
 - **Trọng số (Weights):** Đại diện cho mức độ quan trọng hoặc cường độ kết nối giữa các nơ-ron. Một trọng số bằng 0 sẽ triệt tiêu hoàn toàn tầm ảnh hưởng của đầu vào tương ứng, trong khi trọng số có giá trị tuyệt đối lớn sẽ khuếch đại tín hiệu đó.
 - **Tổ hợp Tuyến tính:** Kết quả của phép toán là tổng các tích giữa từng đầu vào và trọng số tương ứng. Nếu mọi trọng số đều bằng $1/n$ (với $n$ là số đầu vào), phép toán này trở thành tính trung bình cộng đơn thuần.
 

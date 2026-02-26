@@ -26,16 +26,16 @@ Trong các mô hình phân loại và mô hình ngôn ngữ, hàm softmax đư�
 
 Trong bài toán phân loại nhiều lớp, mô hình xuất ra một vector logits:
 
-\mathbf{z} = (z_1, z_2, \dots, z_K)
+\mathbf{z} = $z_1, z_2, \dots, z_K$
 
 Softmax chuyển logits thành xác suất:
 
-\sigma(z_i)
+\sigma$z_i$
 =
-\frac{\exp(z_i)}
-{\sum_{j=1}^{K} \exp(z_j)}
+\frac{\exp$z_i$}
+{\sum_{j=1}^{K} \exp$z_j$}
 
-Tuy nhiên, khi z_i có độ lớn lớn (|z| >> 1), phép tính \exp(z_i) có thể gây lỗi số học.
+Tuy nhiên, khi z_i có độ lớn lớn (|z| >> 1), phép tính \exp$z_i$ có thể gây lỗi số học.
 
 ⸻
 
@@ -73,7 +73,7 @@ Ta có:
 
 Khi đó:
 
-\sigma(z_i)
+\sigma$z_i$
 =
 \frac{\infty}{\infty}
 
@@ -85,7 +85,7 @@ Khi đó:
 
 Để tránh overflow, ta trừ đi giá trị lớn nhất:
 
-\sigma(z_i)
+\sigma$z_i$
 =
 \frac{\exp(z_i - z_{max})}
 {\sum_j \exp(z_j - z_{max})}
@@ -106,20 +106,20 @@ Vì:
 
 Trong nhiều thư viện, ta dùng:
 
-\log \sigma(z_i)
+\log \sigma$z_i$
 =
 z_i
 -
 \log
 \left(
-\sum_j \exp(z_j)
+\sum_j \exp$z_j$
 \right)
 
 Áp dụng log-sum-exp:
 
 \log
 \left(
-\sum_j \exp(z_j)
+\sum_j \exp$z_j$
 \right)
 =
 z_{max}
@@ -138,13 +138,13 @@ Cross-entropy loss:
 \mathcal{L}
 =
 -
-\sum_i y_i \log \sigma(z_i)
+\sum_i y_i \log \sigma$z_i$
 
 Gradient:
 
 \frac{\partial \mathcal{L}}{\partial z_i}
 =
-\sigma(z_i) - y_i
+\sigma$z_i$ - y_i
 
 Nếu softmax không ổn định → gradient NaN → lan truyền lỗi qua backpropagation.
 
@@ -158,9 +158,9 @@ z_k \gg z_j
 
 Ta có:
 
-\sigma(z_k) \approx 1
+\sigma$z_k$ \approx 1
 \quad
-\sigma(z_j) \approx 0
+\sigma$z_j$ \approx 0
 
 Gradient:
 
@@ -214,10 +214,10 @@ Sau đó chia gradient cho S.
 
 Softmax có thể điều chỉnh bằng nhiệt độ T:
 
-\sigma(z_i)
+\sigma$z_i$
 =
-\frac{\exp(z_i/T)}
-{\sum_j \exp(z_j/T)}
+\frac{\exp$z_i/T$}
+{\sum_j \exp$z_j/T$}
 	•	T \rightarrow 0: phân phối sắc nét
 	•	T \rightarrow \infty: phân phối gần đều
 
@@ -253,7 +253,7 @@ Giải pháp cốt lõi:
 
 Đảm bảo:
 
-\sigma(z_i)
+\sigma$z_i$
 =
 \frac{\exp(z_i - z_{max})}
 {\sum_j \exp(z_j - z_{max})}

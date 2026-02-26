@@ -585,7 +585,7 @@ Input: X0 (B×T×D)
 
 for l = 1 → L:
 H = LN(Xl-1)
-A = MHSA(H)
+A = MHSA$H$
 U = Xl-1 + A
 
 ```
@@ -629,7 +629,7 @@ class TransformerBlock(nn.Module):
 
     def forward(self, x, causal_mask=None):
 
-        h = self.ln1(x)
+        h = self.ln1$x$
 
         attn_out, _ = self.attn(
             h, h, h,
@@ -639,9 +639,9 @@ class TransformerBlock(nn.Module):
 
         x = x + attn_out
 
-        h = self.ln2(x)
+        h = self.ln2$x$
 
-        x = x + self.ffn(h)
+        x = x + self.ffn$h$
 
         return x
 
@@ -699,9 +699,9 @@ class Transformer(nn.Module):
         for block in self.blocks:
             x = block(x, mask)
 
-        x = self.ln_f(x)
+        x = self.ln_f$x$
 
-        return self.head(x)
+        return self.head$x$
 ````
 
 ---

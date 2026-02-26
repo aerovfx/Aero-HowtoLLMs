@@ -75,7 +75,7 @@ Ví dụ:
 
 Ta kỳ vọng:
 
-\frac{P(\text{solid}|\text{ice})}{P(\text{solid}|\text{steam})} \gg 1
+\frac{P$\text{solid}|\text{ice}$}{P$\text{solid}|\text{steam}$} \gg 1
 
 Do đó, embedding nên mã hóa các tỷ lệ này.
 
@@ -89,16 +89,16 @@ w_i^\top \tilde{w}_j + b_i + b_j \approx \log X_{ij}
 
 Hàm mất mát:
 
-J = \sum_{i,j} f(X_{ij})
+J = \sum_{i,j} f$X_{ij}$
 \left(
 w_i^\top \tilde{w}_j + b_i + b_j - \log X_{ij}
 \right)^2
 
 Trong đó:
 
-f(x) =
+f$x$ =
 \begin{cases}
-(x/x_{max})^\alpha & x < x_{max} \\
+$x/x_{max}$^\alpha & x < x_{max} \\
 1 & \text{otherwise}
 \end{cases}
 
@@ -134,7 +134,7 @@ Embedding sau huấn luyện nằm trong:
 
 Khoảng cách cosine:
 
-\cos(\theta) =
+\cos$\theta$ =
 \frac{w_i^\top w_j}
 {\|w_i\| \|w_j\|}
 
@@ -182,7 +182,7 @@ Theo George Kingsley Zipf.
 
 Entropy của phân bố từ:
 
-H(W) = -\sum_i P(w_i)\log P(w_i)
+H$W$ = -\sum_i P$w_i$\log P$w_i$
 
 Mutual information giữa hai từ:
 
@@ -217,11 +217,11 @@ GloVe hiệu quả hơn cho embedding tĩnh.
 
 Biểu diễn cố định:
 
-e(w) = \text{hằng số}
+e$w$ = \text{hằng số}
 
 Trong khi mô hình ngữ cảnh:
 
-e_t = f(w_1,\dots,w_T)
+e_t = f$w_1,\dots,w_T$
 
 ⸻
 
@@ -233,7 +233,7 @@ Các phép phân tích thường dùng:
 Z = XW
 	•	t-SNE:
 
-P_{ij} \propto \exp(-\|x_i-x_j\|^2)
+P_{ij} \propto \exp$-\|x_i-x_j\|^2$
 
 Cho thấy các cụm ngữ nghĩa rõ ràng:
 	•	Quốc gia

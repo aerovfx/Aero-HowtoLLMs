@@ -327,7 +327,7 @@ Good Data
 
 Khi scale:
 
-✅ Hybrid Search (BM25 + Vector)
+✅ Hybrid Search $BM25 + Vector$
 ✅ Agentic RAG
 ✅ Graph RAG
 ✅ Memory Layer

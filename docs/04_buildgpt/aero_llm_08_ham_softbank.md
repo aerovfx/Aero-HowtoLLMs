@@ -29,10 +29,10 @@ Hàm Softmax là một thành phần cốt lõi trong các mô hình học sâu,
 ## 1. Giới thiệu
 
 Trong học sâu, Softmax thường được sử dụng để chuyển đổi vector logits thành phân phối xác suất. Cho vector đầu vào ( x = (x_1, x_2, ..., x_n) ), Softmax được định nghĩa như sau:
-
-[
+$$
 \text{Softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{n} e^{x_j}}
-]
+$$
+
 
 Hàm này đảm bảo rằng:
 
@@ -52,15 +52,15 @@ Softmax biến đổi các giá trị logits thành xác suất bằng hàm mũ.
 ### 2.2. Softmax với tham số nhiệt độ
 
 Phiên bản mở rộng của Softmax có dạng:
-
-[
+$$
 \text{Softmax}*T(x_i) = \frac{e^{x_i/T}}{\sum*{j=1}^{n} e^{x_j/T}}
-]
+$$
 
-Trong đó (T) là nhiệt độ:
+
+Trong đó $T$ là nhiệt độ:
 
 * (T < 1): Phân phối sắc nét (sharp), tập trung vào phần tử lớn nhất.
-* (T = 1): Softmax chuẩn.
+* $T = 1$: Softmax chuẩn.
 * (T > 1): Phân phối phẳng (smooth), tăng tính đa dạng.
 
 ### 2.3. Ổn định số học

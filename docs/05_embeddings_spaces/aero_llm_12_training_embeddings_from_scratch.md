@@ -81,21 +81,21 @@ Logits:
 
 Xác suất:
 
-P(y=i \mid w) =
-\frac{\exp(z_i)}
-{\sum_{j=1}^{V} \exp(z_j)}
+P$y=i \mid w$ =
+\frac{\exp$z_i$}
+{\sum_{j=1}^{V} \exp$z_j$}
 
 ⸻
 
 3.2 Hàm mất mát Cross-Entropy
 
-\mathcal{L} = -\sum_{i=1}^{V} y_i \log P(y=i)
+\mathcal{L} = -\sum_{i=1}^{V} y_i \log P$y=i$
 
 Với y_i là vector nhãn one-hot.
 
 Do đó:
 
-\mathcal{L} = -\log P(y = y_{\text{true}})
+\mathcal{L} = -\log P$y = y_{\text{true}}$
 
 ⸻
 
@@ -104,12 +104,12 @@ Do đó:
 Gradient theo logits:
 
 \frac{\partial \mathcal{L}}{\partial z_i}
-= P(y=i) - y_i
+= P$y=i$ - y_i
 
 Gradient theo embedding:
 
 \frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
-= \mathbf{W}^T ( \mathbf{p} - \mathbf{y})
+= \mathbf{W}^T $\mathbf{p} - \mathbf{y}$
 
 Gradient theo ma trận embedding:
 
@@ -137,14 +137,14 @@ Trong mô hình Skip-gram của Tomas Mikolov:
 Mục tiêu:
 
 \max \sum_{(w,c)}
-\log P(c \mid w)
+\log P$c \mid w$
 
 Với:
 
-P(c \mid w)
+P$c \mid w$
 =
-\frac{\exp(\mathbf{u}_c^T \mathbf{v}_w)}
-{\sum_{j=1}^{V} \exp(\mathbf{u}_j^T \mathbf{v}_w)}
+\frac{\exp$\mathbf{u}_c^T \mathbf{v}_w$}
+{\sum_{j=1}^{V} \exp$\mathbf{u}_j^T \mathbf{v}_w$}
 
 Trong đó:
 	•	\mathbf{v}_w: embedding trung tâm
@@ -153,10 +153,10 @@ Trong đó:
 Để giảm chi phí tính toán, Negative Sampling được sử dụng:
 
 \mathcal{L} =
-\log \sigma(\mathbf{u}_c^T \mathbf{v}_w)
+\log \sigma$\mathbf{u}_c^T \mathbf{v}_w$
 +
 \sum_{k=1}^{K}
-\log \sigma(-\mathbf{u}_{n_k}^T \mathbf{v}_w)
+\log \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
 
 ⸻
 
@@ -203,7 +203,7 @@ Token phổ biến thường có norm lớn hơn do được cập nhật nhiề
 
 7.2 Độ tương đồng cosine
 
-\cos(\theta)
+\cos$\theta$
 =
 \frac{
 \mathbf{e}_a \cdot \mathbf{e}_b
@@ -260,9 +260,9 @@ Các thuật toán tối ưu phổ biến:
 
 Ví dụ Adam cập nhật:
 
-m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t
+m_t = \beta_1 m_{t-1} + $1-\beta_1$g_t
 
-v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2
+v_t = \beta_2 v_{t-1} + $1-\beta_2$g_t^2
 
 \theta_t =
 \theta_{t-1}

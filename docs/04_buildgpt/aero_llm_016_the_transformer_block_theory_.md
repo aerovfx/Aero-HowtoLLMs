@@ -656,14 +656,14 @@ Quy trình xử lý:
 
 Input: X
 
-H1 = LN(X)
+H1 = LN$X$
 Q,K,V = Linear(H1)
 
 A = FlashAttention(Q,K,V, causal=True)
 
-U = X + W0(A)
+U = X + W0$A$
 
-H2 = LN(U)
+H2 = LN$U$
 F = MLP(H2)
 
 Y = U + F
@@ -706,14 +706,14 @@ class FlashTransformerBlock(nn.Module):
 
         B, T, D = x.shape
 
-        h = self.ln1(x)
+        h = self.ln1$x$
 
-        qkv = self.qkv(h)
+        qkv = self.qkv$h$
         qkv = qkv.view(B, T, 3,
                        self.n_heads,
                        self.d_head)
 
-        q, k, v = qkv.unbind(dim=2)
+        q, k, v = qkv.unbind$dim=2$
 
         attn = flash_attn_func(
             q, k, v,
@@ -724,9 +724,9 @@ class FlashTransformerBlock(nn.Module):
 
         x = x + self.proj(attn)
 
-        h = self.ln2(x)
+        h = self.ln2$x$
 
-        x = x + self.ffn(h)
+        x = x + self.ffn$h$
 
         return x
 ````
@@ -1043,7 +1043,7 @@ Chỉ tính attention cho token mới.
 
 Input: X, KV_cache
 
-H1 = RMSNorm(X)
+H1 = RMSNorm$X$
 
 QKV = Linear(H1)
 Q,K,V = Split(QKV)
@@ -1052,9 +1052,9 @@ K_cache, V_cache = UpdateCache(K, V)
 
 A = FlashAttention(Q, K_cache, V_cache)
 
-U = X + Proj(A)
+U = X + Proj$A$
 
-H2 = RMSNorm(U)
+H2 = RMSNorm$U$
 
 F = GatedMLP(H2)
 
@@ -1097,9 +1097,9 @@ class LLMBlock(nn.Module):
 
         B, T, D = x.shape
 
-        h = self.norm1(x)
+        h = self.norm1$x$
 
-        qkv = self.qkv(h)
+        qkv = self.qkv$h$
         qkv = qkv.view(B, T, 3, self.heads, self.d)
 
         q, k, v = qkv.unbind(2)
@@ -1114,9 +1114,9 @@ class LLMBlock(nn.Module):
 
         x = x + self.proj(attn)
 
-        h = self.norm2(x)
+        h = self.norm2$x$
 
-        gated = torch.silu(self.gate(h)) * self.up(h)
+        gated = torch.silu(self.gate(h)) * self.up$h$
 
         x = x + self.down(gated)
 
@@ -1140,15 +1140,15 @@ class LLMBlock(nn.Module):
 
 ### 7.2. Parallelism
 
-#### (a) Data Parallel
+#### $a$ Data Parallel
 
 * Chia batch
 
-#### (b) Tensor Parallel
+#### $b$ Tensor Parallel
 
 * Chia weight
 
-#### (c) Pipeline Parallel
+#### $c$ Pipeline Parallel
 
 * Chia layer
 

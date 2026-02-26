@@ -51,8 +51,8 @@ Trên bộ sinh khối FineWeb, ta trích lục $100$ chuỗi văn bản xoay qu
 Tiến hành chích xuất ma trận giá trị Activation tại đuôi Module $MLP$ hàm kích hoạt hàm `GELU`. 
 
 ### 3.2. Hiện Tượng Sập Mật Độ Nơ-ron (Extreme Sparsity Density)
-Bộ Dataset 200 điểm mẫu được phân tách theo tỷ lệ Test/Train (140/60).
-Sau khi huấn luyện mô hình Logistic kích hoạt mức phạt hằng số $C = 10$, mô hình sinh ra Dự báo (Accuracy / F1 Score) tuyệt đối $100\%$. 
+Bộ Dataset 200 điểm mẫu được phân tách theo tỷ lệ Test/Train $140/60$.
+Sau khi huấn luyện mô hình Logistic kích hoạt mức phạt hằng số $C = 10$, mô hình sinh ra Dự báo $Accuracy / F1 Score$ tuyệt đối $100\%$. 
 Viễn cảnh siêu phân giải hiện ra từ hệ số $B$:
 - Hệ số **Sparsity = 99.6%** (2987 trên 3000 Nơ-ron bị vô hiệu hóa triệt để có $\beta = 0$).
 - Hệ số **Density = 0.4%** (Chỉ duy trì $13$ tế bào Nơ-ron sống sót tham chiến).

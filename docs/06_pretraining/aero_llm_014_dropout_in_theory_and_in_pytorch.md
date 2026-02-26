@@ -47,19 +47,19 @@ This paper focuses on:
 
 ### 2.1. Basic Principle
 
-Given an activation vector ( h \in \mathbb{R}^n ), dropout applies a random mask:
-
-[
+Given an activation vector $h \in \mathbb{R}^n$, dropout applies a random mask:
+$$
 m_i \sim \text{Bernoulli}(1-p)
-]
+$$
 
-[
+$$
 \tilde{h}_i = m_i h_i
-]
+$$
 
-where ( p ) is the dropout probability.
 
-Each unit is independently set to zero with probability ( p ), resulting in a randomly thinned network at each iteration.
+where $p$ is the dropout probability.
+
+Each unit is independently set to zero with probability $p$, resulting in a randomly thinned network at each iteration.
 
 ---
 
@@ -82,10 +82,10 @@ By preventing any single neuron from dominating prediction, dropout encou18_rage
 ### 3.1. Reduction of Activation Mass
 
 When dropout is applied, the expected sum of activations decreases:
-
-[
+$$
 \mathbb{E}[\sum_i \tilde{h}_i] = (1-p)\sum_i h_i
-]
+$$
+
 
 This reduction may negatively affect downstream operations such as Softmax.
 
@@ -94,14 +94,14 @@ This reduction may negatively affect downstream operations such as Softmax.
 ### 3.2. Inverted Dropout Scaling
 
 To compensate, modern frameworks use inverted dropout:
-
-[
+$$
 \tilde{h}_i =
 \begin{cases}
 \frac{h_i}{1-p}, & \text{if } m_i = 1 \
 0, & \text{otherwise}
 \end{cases}
-]
+$$
+
 
 This preserves the expected activation magnitude during training.
 
@@ -203,10 +203,10 @@ Repeated execution of dropout yields different masks, confirming its probabilist
 ### 6.2. Preservation of Activation Sum
 
 With inverted dropout, the sum of activations remains approximately constant:
-
-[
+$$
 \sum x \approx \sum \tilde{x}
-]
+$$
+
 
 Without scaling, this sum decreases significantly, degrading performance. 
 

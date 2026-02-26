@@ -23,7 +23,7 @@ Phương pháp Thấu kính Logit (Logit Lens) cung cấp một giải pháp đ�
 
 ## 1. Mở Đầu (Introduction)
 Kiến trúc tiêu chuẩn của một mô hình Transformer (như GPT) bao gồm:
-1. Tầng Embedding (Token + Positional).
+1. Tầng Embedding $Token + Positional$.
 2. Chuỗi các khối Transformer Blocks (nơi thực hiện self-attention và feed-forward).
 3. Tầng Unembedding (Thường là một ma trận tuyến tính - LM Head) để phóng chiếu vector đầu ra vào không gian Từ vựng (Vocabulary space).
 

@@ -28,7 +28,7 @@ Nghiên cứu này phân tích vai trò của ma trận Query (WQ) trong cơ ch�
 
 ## 1. Giới thiệu (Introduction)
 
-Cơ chế self-attention là nền tảng của các mô hình Transformer, trong đó ba thành phần chính là Query (Q), Key (K) và Value (V). Trong các nghiên cứu truyền thống, ba thành phần này thường được xem là không thể tách rời.
+Cơ chế self-attention là nền tảng của các mô hình Transformer, trong đó ba thành phần chính là Query $Q$, Key $K$ và Value $V$. Trong các nghiên cứu truyền thống, ba thành phần này thường được xem là không thể tách rời.
 
 Tuy nhiên, tài liệu *CodeChallenge: Do We Really Need Q?* đề xuất một hướng tiếp cận mới: can thiệp trực tiếp vào trọng số Q để đánh giá vai trò nhân quả của nó trong quá trình suy luận của mô hình. Phương pháp này thuộc lĩnh vực *causal mechanistic interpretability* 
 
@@ -39,17 +39,17 @@ Tuy nhiên, tài liệu *CodeChallenge: Do We Really Need Q?* đề xuất một
 ### 2.1. Self-Attention trong Transformer
 
 Cơ chế attention được mô tả bằng công thức:
-
-[
+$$
 Attention(Q, K, V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-]
+$$
+
 
 Trong đó:
 
-* (Q): Query matrix
-* (K): Key matrix
-* (V): Value matrix
-* (d_k): số chiều vector khóa
+* $Q$: Query matrix
+* $K$: Key matrix
+* $V$: Value matrix
+* $d_k$: số chiều vector khóa
 
 Q đóng vai trò xác định vị trí cần tập trung thông tin từ K và V.
 

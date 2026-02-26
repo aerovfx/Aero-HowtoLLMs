@@ -32,7 +32,7 @@ Mục tiêu là tìm tham số \theta tối ưu:
 
 \theta^* = \arg\min_\theta \mathbb{E}_{(x,y)\sim D}
 \left[
-\mathcal{L}(f_\theta(x), y)
+\mathcal{L}$f_\theta(x$, y)
 \right]
 
 Đánh giá định lượng nhằm ước lượng kỳ vọng này thông qua tập kiểm tra hữu hạn.
@@ -45,15 +45,15 @@ Mục tiêu là tìm tham số \theta tối ưu:
 
 Với tập test gồm n mẫu:
 
-\hat{R}(\theta)
+\hat{R}$\theta$
 =
 \frac{1}{n}
 \sum_{i=1}^{n}
-\mathcal{L}(f_\theta(x_i), y_i)
+\mathcal{L}$f_\theta(x_i$, y_i)
 
 Theo luật số lớn:
 
-\hat{R}(\theta) \rightarrow R(\theta)
+\hat{R}$\theta$ \rightarrow R$\theta$
 \quad
 \text{khi}
 \quad
@@ -63,7 +63,7 @@ n \rightarrow \infty
 
 2.2 Các chỉ số phổ biến
 
-(a) Accuracy
+$a$ Accuracy
 
 Accuracy =
 \frac{TP + TN}
@@ -73,21 +73,21 @@ Nhược điểm: mất cân bằng lớp (class imbalance).
 
 ⸻
 
-(b) Cross-Entropy
+$b$ Cross-Entropy
 
 \mathcal{L}_{CE}
 =
 - \sum_{i=1}^{n}
-y_i \log(\hat{y}_i)
+y_i \log$\hat{y}_i$
 
 Liên hệ với entropy của Shannon:
 
-H(p) =
-- \sum p(x)\log p(x)
+H$p$ =
+- \sum p$x$\log p$x$
 
 ⸻
 
-(c) BLEU Score (dịch máy)
+$c$ BLEU Score (dịch máy)
 
 BLEU =
 BP \cdot
@@ -103,7 +103,7 @@ Trong đó:
 
 ⸻
 
-(d) ROUGE Score (tóm tắt văn bản)
+$d$ ROUGE Score (tóm tắt văn bản)
 
 ROUGE-N =
 \frac{
@@ -175,7 +175,7 @@ Sai số chuẩn:
 
 SE =
 \sqrt{
-\frac{\hat{p}(1-\hat{p})}{n}
+\frac{\hat{p}$1-\hat{p}$}{n}
 }
 
 Khoảng tin cậy 95%:
@@ -192,11 +192,11 @@ Giả sử:
 
 Score_{auto}
 =
-g(f_\theta)
+g$f_\theta$
 
 Score_{human}
 =
-h(f_\theta)
+h$f_\theta$
 
 Ta quan tâm đến tương quan:
 
@@ -213,7 +213,7 @@ Sai số tổng quát:
 
 \mathbb{E}
 \left[
-(y - \hat{f}(x))^2
+$y - \hat{f}(x$)^2
 \right]
 =
 Bias^2
@@ -266,10 +266,10 @@ CV =
 
 Lấy mẫu lại:
 
-\hat{R}^{(b)} =
+\hat{R}^{$b$} =
 \frac{1}{n}
 \sum_{i=1}^{n}
-\mathcal{L}(f_\theta(x_i^{(b)}), y_i^{(b)})
+\mathcal{L}$f_\theta(x_i^{(b$}), y_i^{$b$})
 
 ⸻
 
@@ -281,7 +281,7 @@ Score_{final}
 =
 \alpha Score_{auto}
 +
-(1-\alpha) Score_{human}
+$1-\alpha$ Score_{human}
 
 ⸻
 
@@ -305,9 +305,9 @@ Nhưng cũng tồn tại:
 
 Đánh giá định lượng là công cụ thiết yếu nhưng không toàn diện. Về bản chất, nó là ước lượng thống kê của rủi ro tổng quát hóa:
 
-\hat{R}(\theta)
+\hat{R}$\theta$
 \approx
-R(\theta)
+R$\theta$
 
 Để đánh giá AI một cách đáng tin cậy, cần:
 	•	Phân tích thống kê nghiêm ngặt

@@ -27,7 +27,7 @@ Dưới đây là các điểm cốt lõi trong bối cảnh rộng hơn:
 *   **Hệ thống dựa trên quy tắc (Rule-based):** Đây là giai đoạn khởi đầu, nơi các mô hình tuân theo các luật lệ nghiêm ngặt do lập trình viên đặt ra (ví dụ: "nếu thấy từ này, hãy làm điều kia"). Chúng tạo nền móng nhưng rất cứng nhắc và thiếu linh hoạt,.
 *   **Mô hình thống kê (Statistical Models):** Bước chuyển dịch sang việc sử dụng xác suất để diễn giải ngôn ngữ. Thay vì các luật lệ cố định, mô hình bắt đầu tính toán khả năng xuất hiện của từ, mang lại độ chính xác cao hơn,.
 *   **Học máy & Mạng thần kinh (Machine Learning & Neural Networks):** Một bước đột phá lớn khi thuật toán có thể tự học từ dữ liệu. Việc giới thiệu mạng thần kinh (mô phỏng cấu trúc não bộ) giúp AI bắt đầu xử lý và tạo ra ngôn ngữ giống con người hơn,.
-*   **Học sâu quy mô lớn (Deep Learning/LLMs):** Đây là đỉnh cao hiện tại (như GPT, Gemini). Nhờ sử dụng các mạng thần kinh sâu và tập dữ liệu khổng lồ, chúng không chỉ xử lý từ ngữ mà còn hiểu được **ngữ cảnh, các ẩn ý tinh tế và sắc thái** phức tạp, vượt xa khả năng của các mô hình NLP truyền thống,,.
+*   **Học sâu quy mô lớn $Deep Learning/LLMs$:** Đây là đỉnh cao hiện tại (như GPT, Gemini). Nhờ sử dụng các mạng thần kinh sâu và tập dữ liệu khổng lồ, chúng không chỉ xử lý từ ngữ mà còn hiểu được **ngữ cảnh, các ẩn ý tinh tế và sắc thái** phức tạp, vượt xa khả năng của các mô hình NLP truyền thống,,.
 
 Sự tiến hóa này đã mở ra những khả năng chưa từng có, như việc AI có thể viết code, làm thơ hoặc dịch thuật trôi chảy.
 

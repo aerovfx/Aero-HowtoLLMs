@@ -34,7 +34,7 @@ x \in \Sigma^*
 
 thành chuỗi token:
 
-\mathcal{T}(x) = (t_1, t_2, \dots, t_m)
+\mathcal{T}$x$ = $t_1, t_2, \dots, t_m$
 
 Tuy nhiên, đặc điểm của ngôn ngữ (morphology, hệ chữ viết, khoảng trắng) ảnh hưởng mạnh đến:
 	•	Độ dài trung bình của token
@@ -118,17 +118,17 @@ R_{\text{ZH}} = 1.5
 
 Chi phí attention:
 
-C = O(m^2) = O\left(\left(\frac{n}{R}\right)^2\right)
+C = O$m^2$ = O\left$\left(\frac{n}{R}\right$^2\right)
 
 Tỷ lệ chi phí:
 
 \frac{C_{\text{ZH}}}{C_{\text{EN}}}
 =
-\left(\frac{R_{\text{EN}}}{R_{\text{ZH}}}\right)^2
+\left$\frac{R_{\text{EN}}}{R_{\text{ZH}}}\right$^2
 
 Nếu R_{\text{EN}} = 4, R_{\text{ZH}} = 2:
 
-= \left(\frac{4}{2}\right)^2 = 4
+= \left$\frac{4}{2}\right$^2 = 4
 
 Tiếng Trung tốn gấp 4 lần chi phí attention cho cùng số ký tự.
 
@@ -140,11 +140,11 @@ Theo lý thuyết của Claude Shannon:
 
 Entropy ký tự:
 
-H_c = -\sum p(c)\log p(c)
+H_c = -\sum p$c$\log p$c$
 
 Entropy token:
 
-H_t = -\sum p(t)\log p(t)
+H_t = -\sum p$t$\log p$t$
 
 Bảo toàn thông tin:
 
@@ -169,7 +169,7 @@ mBERT dùng chung từ vựng ~110k token cho nhiều ngôn ngữ.
 
 Phân bố token không đồng đều:
 
-p_{\text{lang}}(t) \neq \text{uniform}
+p_{\text{lang}}$t$ \neq \text{uniform}
 
 Ngôn ngữ có ít dữ liệu → ít token chuyên biệt.
 
@@ -179,7 +179,7 @@ Ngôn ngữ có ít dữ liệu → ít token chuyên biệt.
 
 Bài toán:
 
-\min_{V} \sum_{\ell} \alpha_\ell \left(\frac{n_\ell}{R_\ell}\right)^2 + \lambda |V|
+\min_{V} \sum_{\ell} \alpha_\ell \left$\frac{n_\ell}{R_\ell}\right$^2 + \lambda |V|
 
 Trong đó:
 	•	\ell: ngôn ngữ
@@ -192,15 +192,15 @@ Trong đó:
 
 Gọi:
 
-P_\ell(L=k)
+P_\ell$L=k$
 
 Kỳ vọng:
 
-\mathbb{E}_\ell[L] = \sum_k k P_\ell(L=k)
+\mathbb{E}_\ell[L] = \sum_k k P_\ell$L=k$
 
 Ngôn ngữ chắp dính có:
 
-\text{Var}(L) \uparrow
+\text{Var}$L$ \uparrow
 
 vì từ dài bị chia thành nhiều subword không đều.
 
@@ -214,7 +214,7 @@ Transformer:
 
 Thay m = \frac{n}{R}:
 
-\text{Cost} = O\left(\frac{n^2}{R^2} d\right)
+\text{Cost} = O\left$\frac{n^2}{R^2} d\right$
 
 Ngôn ngữ có R nhỏ làm tăng:
 	•	Bộ nhớ GPU
@@ -227,11 +227,11 @@ Ngôn ngữ có R nhỏ làm tăng:
 
 Nếu số hậu tố trung bình mỗi từ là k:
 
-|w| \sim O(k)
+|w| \sim O$k$
 
 Tokenizer tối ưu sẽ cố gắng học các đơn vị có xác suất cao:
 
-\arg\max_{s} P(s)
+\arg\max_{s} P$s$
 
 Trong ngôn ngữ chắp dính, xác suất hậu tố phân tán → khó đạt nén cao.
 
@@ -262,7 +262,7 @@ R = \frac{n}{m}
 
 n H_c \approx m H_t
 
-\text{Cost} = O\left(\frac{n^2}{R^2}\right)
+\text{Cost} = O\left$\frac{n^2}{R^2}\right$
 
 Ngôn ngữ có compression ratio thấp sẽ chịu chi phí tính toán cao hơn trong Transformer.
 

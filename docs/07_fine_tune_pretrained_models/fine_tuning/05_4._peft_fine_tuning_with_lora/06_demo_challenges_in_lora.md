@@ -24,7 +24,7 @@ Trong bài hướng dẫn thực hành này, chúng ta sẽ thực hiện các t
 
 ### 1.1 Mục Tiêu
 
-- Khám phá ảnh hưởng của rank (r) lên hiệu suất
+- Khám phá ảnh hưởng của rank $r$ lên hiệu suất
 - Khám phá ảnh hưởng của batch size lên quá trình huấn luyện
 - Tìm cấu hình tối ưu cho tác vụ dịch thuật
 
@@ -32,7 +32,7 @@ Trong bài hướng dẫn thực hành này, chúng ta sẽ thực hiện các t
 
 | Tham số | Giá trị thử nghiệm |
 |---------|--------------------|
-| Rank (r) | 1, 4, 16 |
+| Rank $r$ | 1, 4, 16 |
 | Batch Size | 8, 64, 128 |
 
 Tổng cộng: 3 × 3 = 9 lần huấn luyện

@@ -81,7 +81,7 @@
 
 ## Tóm tắt
 
-Bài viết này trình bày phân tích toàn diện về các phương pháp lấy mẫu token (decoding strategies) trong text generation của Large Language Models (LLMs). Nghiên cứu tập trung vào bốn phương pháp chính: Multinomial Sampling, Greedy Decoding, Top-K Sampling, và Top-P (Nucleus) Sampling. Thông qua phân tích toán học, so sánh thực nghiệm, và đánh giá trên các use cases khác nhau, bài viết làm rõ trade-offs giữa determinism và stochasticity, diversity và quality, creativity và accuracy. Kết quả cho thấy không có "best" method universally—lựa chọn optimal phụ thuộc vào application context, từ factual Q&A (greedy/low temperature) đến creative writing (top-p/high diversity). Nghiên cứu cũng đề cập đến fundamental challenge của LLMs: balancing between hallucination risk và output diversity.
+Bài viết này trình bày phân tích toàn diện về các phương pháp lấy mẫu token (decoding strategies) trong text generation của Large Language Models (LLMs). Nghiên cứu tập trung vào bốn phương pháp chính: Multinomial Sampling, Greedy Decoding, Top-K Sampling, và Top-P (Nucleus) Sampling. Thông qua phân tích toán học, so sánh thực nghiệm, và đánh giá trên các use cases khác nhau, bài viết làm rõ trade-offs giữa determinism và stochasticity, diversity và quality, creativity và accuracy. Kết quả cho thấy không có "best" method universally—lựa chọn optimal phụ thuộc vào application context, từ factual Q&A (greedy/low temperature) đến creative writing $top-p/high diversity$. Nghiên cứu cũng đề cập đến fundamental challenge của LLMs: balancing between hallucination risk và output diversity.
 
 **Từ khóa:** Token Sampling, Decoding Strategies, Greedy Search, Top-K Sampling, Nucleus Sampling, Text Generation, Large Language Models, Stochastic Decoding
 
@@ -504,7 +504,7 @@ Equivalent to greedy decoding!
 **Advantages:**
 - ✓ Controls exploration: prevents very low-prob tokens
 - ✓ Maintains diversity: multiple options available
-- ✓ Simple hyperparameter (K)
+- ✓ Simple hyperparameter $K$
 - ✓ Computationally efficient (top-K is fast operation)
 
 **Disadvantages:**
@@ -680,7 +680,7 @@ Reason: Model uncertain, should explore options
 
 **Comparison:**
 
-| Confidence | Distribution | Top-K (K=5) | Top-P (P=0.9) |
+| Confidence | Distribution | Top-K $K=5$ | Top-P $P=0.9$ |
 |------------|--------------|-------------|---------------|
 | High | Peaked | 5 tokens (overkill) | 1-2 tokens ✓ |
 | Low | Flat | 5 tokens (too few) | 8-12 tokens ✓ |
@@ -695,7 +695,7 @@ Reason: Model uncertain, should explore options
 - ✓ Greedy-like khi model confident
 - ✓ Exploratory khi model uncertain
 - ✓ Principled: based on cumulative probability
-- ✓ One hyperparameter (P) works across contexts
+- ✓ One hyperparameter $P$ works across contexts
 
 **Disadvantages:**
 - ✗ Slightly more complex to implement
@@ -816,22 +816,22 @@ $$\text{logits} \xrightarrow{/T} \text{scaled logits} \xrightarrow{\text{Softmax
 
 **Examples:**
 
-**Low temp (T=0.7) + Greedy:**
+**Low temp $T=0.7$ + Greedy:**
 - Very deterministic
 - Sharp distribution → same token always
 - Use for: Factual Q&A
 
-**Low temp (T=0.7) + Top-P(0.9):**
+**Low temp $T=0.7$ + Top-P(0.9):**
 - Mostly deterministic
 - Small nucleus
 - Use for: Technical writing
 
-**High temp (T=1.2) + Top-P(0.95):**
+**High temp $T=1.2$ + Top-P(0.95):**
 - Very exploratory
 - Large nucleus
 - Use for: Creative fiction
 
-**High temp (T=1.5) + Multinomial:**
+**High temp $T=1.5$ + Multinomial:**
 - Maximum diversity
 - Risk of incoherence
 - Use for: Experimental generation
@@ -1627,7 +1627,7 @@ for T in temperatures:
 **Guidelines:**
 - Small K (1-10): Conservative, focused
 - Medium K (20-50): Balanced
-- Large K (100+): Exploratory
+- Large K $100+$: Exploratory
 - K=1: Equivalent to greedy
 
 **Selection criteria:**
@@ -1983,7 +1983,7 @@ Multinomial | Low        | None         | Maximum   | Research
 - Retrieval-augmented generation mainstream
 - Novel decoding paradigms
 
-**Long-term (5+ years):**
+**Long-term $5+ years$:**
 - Fundamental advances beyond next-token prediction
 - Reasoning-aware generation
 - Verified factuality

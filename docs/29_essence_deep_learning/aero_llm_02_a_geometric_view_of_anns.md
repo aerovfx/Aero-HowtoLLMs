@@ -17,7 +17,7 @@
 # Học sâu: Góc nhìn Hình học về Mạng Nơ-ron Nhân tạo (ANN)
 
 ## Tóm tắt (Abstract)
-Báo cáo này nghiên cứu về cách tiếp cận hình học để thấu hiểu cơ chế vận hành của mạng nơ-ron nhân tạo (ANN) và mô hình Perceptron. chúng ta phân tích các khái niệm về không gian đặc trưng (feature space), nơi mỗi quan sát được đại diện như một điểm tọa độ, và các siêu phẳng phân tách (separating hyperplanes) đóng vai trò là ranh giới quyết định (decision boundary). Nghiên cứu cũng thực hiện phân biệt giữa các loại dự đoán rời rạc (categorical/binary) và dự đoán liên tục (numeric/continuous), đồng thời giải mã cách mô hình chuyển đổi từ các đầu vào đa chiều sang các kết quả dự đoán có ý nghĩa trong thế giới thực.
+Báo cáo này nghiên cứu về cách tiếp cận hình học để thấu hiểu cơ chế vận hành của mạng nơ-ron nhân tạo (ANN) và mô hình Perceptron. chúng ta phân tích các khái niệm về không gian đặc trưng (feature space), nơi mỗi quan sát được đại diện như một điểm tọa độ, và các siêu phẳng phân tách (separating hyperplanes) đóng vai trò là ranh giới quyết định (decision boundary). Nghiên cứu cũng thực hiện phân biệt giữa các loại dự đoán rời rạc $categorical/binary$ và dự đoán liên tục $numeric/continuous$, đồng thời giải mã cách mô hình chuyển đổi từ các đầu vào đa chiều sang các kết quả dự đoán có ý nghĩa trong thế giới thực.
 
 ---
 
@@ -45,11 +45,11 @@ Mục tiêu của việc huấn luyện mạng nơ-ron là tìm ra một ranh gi
 
 Mạng nơ-ron có thể được thiết kế để đưa ra hai loại kết quả chính tùy thuộc vào bản chất của bài toán:
 
-### 3.1. Dự đoán Rời rạc (Discrete/Categorical)
+### 3.1. Dự đoán Rời rạc $Discrete/Categorical$
 - **Đặc điểm:** Kết quả thuộc về các nhóm cố định (ví dụ: Đỗ/Trượt, Chó/Mèo, Tích cực/Tiêu cực).
 - **Hình học:** Được đại diện bởi việc băm nhỏ không gian đặc trưng thành các vùng riêng biệt bởi các siêu phẳng.
 
-### 3.2. Dự đoán Liên tục (Numeric/Continuous)
+### 3.2. Dự đoán Liên tục $Numeric/Continuous$
 - **Đặc điểm:** Kết quả là một con số thực trên một dải giá trị (ví dụ: điểm thi từ 0-100%, giá nhà, nhiệt độ).
 - **Hình học:** Đòi hỏi thêm một trục tọa độ thứ ba (hoặc n+1) để biểu diễn giá trị dự đoán. Thay vì chỉ phân tách không gian, mô hình lúc này cố gắng tìm một "bề mặt" (surface) sao cho khoảng cách từ các điểm dữ liệu thực tế đến bề mặt đó là nhỏ nhất.
 

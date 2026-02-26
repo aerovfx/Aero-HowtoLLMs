@@ -47,15 +47,15 @@ Mục tiêu: so sánh hai mô hình M_1 và M_2.
 
 Với mô hình tự hồi quy:
 
-P(a_i \mid c) = \prod_{t=1}^{T_i} P(w_t \mid c, w_{<t})
+P$a_i \mid c$ = \prod_{t=1}^{T_i} P$w_t \mid c, w_{<t}$
 
 Để tránh tràn số:
 
-\log P(a_i \mid c) = \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{<t})
+\log P$a_i \mid c$ = \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{<t}$
 
 Trong thực tế, ta tính:
 
-Score(a_i) = \frac{1}{T_i^\alpha} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{<t})
+Score$a_i$ = \frac{1}{T_i^\alpha} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{<t}$
 
 Trong đó:
 	•	\alpha = 1 → chuẩn hoá trung bình
@@ -67,19 +67,19 @@ Trong đó:
 
 Transformer tính xác suất thông qua:
 
-h_t = \text{Transformer}(c, w_{<t})
+h_t = \text{Transformer}$c, w_{<t}$
 
 Sau đó:
 
-P(w_t) = \text{softmax}(Wh_t)
+P$w_t$ = \text{softmax}$Wh_t$
 
 Trong đó:
 
-\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
+\text{softmax}$z_i$ = \frac{e^{z_i}}{\sum_j e^{z_j}}
 
 Self-attention:
 
-Attention(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+Attention(Q,K,V) = \text{softmax}\left$\frac{QK^T}{\sqrt{d_k}}\right$V
 
 ⸻
 
@@ -92,7 +92,7 @@ Giả sử:
 
 Sai số chuẩn:
 
-SE_i = \sqrt{\frac{\hat{p}_i (1-\hat{p}_i)}{N}}
+SE_i = \sqrt{\frac{\hat{p}_i $1-\hat{p}_i$}{N}}
 
 Kiểm định z:
 
@@ -135,7 +135,7 @@ Chuẩn hoá:
 
 Perplexity:
 
-PP = \exp\left(- \frac{1}{N} \sum \log P(w_i)\right)
+PP = \exp\left$- \frac{1}{N} \sum \log P(w_i$\right)
 
 HellaSwag đo khả năng phân biệt nhiều chuỗi hoàn chỉnh.
 
@@ -149,11 +149,11 @@ Accuracy_{\text{HellaSwag}} thấp
 
 Theo luật scaling:
 
-Loss(N) = A N^{-\alpha} + B
+Loss$N$ = A N^{-\alpha} + B
 
 Accuracy thường tăng theo:
 
-Accuracy(N) \approx C - D N^{-\beta}
+Accuracy$N$ \approx C - D N^{-\beta}
 
 Khi N tăng → performance tiệm cận trần.
 
@@ -172,7 +172,7 @@ Các lỗi phổ biến:
 
 Expected Calibration Error (ECE):
 
-ECE = \sum_{m=1}^{M} \frac{|B_m|}{n} |acc(B_m) - conf(B_m)|
+ECE = \sum_{m=1}^{M} \frac{|B_m|}{n} |acc$B_m$ - conf$B_m$|
 
 Mô hình tốt không chỉ cần accuracy cao mà còn:
 

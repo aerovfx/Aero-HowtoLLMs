@@ -45,7 +45,7 @@ $$
 Việc thiết lập những hàm biên dịch đồng quy mô cho mô hình Embeddings gặp phải rào cản chí mạng là "Sự Di Động" (Dynamism) của mô hình hóa. 
 
 ### Rào cản Kiến trúc Attention so với Từ vựng tĩnh
-- **Mô Hình Tĩnh (Word2Vec / GloVe):** Sở hữu kết cấu lưới một-đối-một cứng rắn, "Trái táo" mãi mãi là 1 điểm ảnh Euclidean không đổi ở tọa độ tuyệt đối.
+- **Mô Hình Tĩnh $Word2Vec / GloVe$:** Sở hữu kết cấu lưới một-đối-một cứng rắn, "Trái táo" mãi mãi là 1 điểm ảnh Euclidean không đổi ở tọa độ tuyệt đối.
 - **Mô Hình Động Theo Ngữ Cảnh (Transformer / GPT / BERT):** "Trái táo" khi kết hợp cùng chuỗi hội thoại về "Apple M2" và "Apple Pie" sẽ bị bẻ cong thành các ma trận nhúng biến dị dựa trên ma trận tỷ trọng lưới lưu ý (Attention weights remapping). 
 
 Do đó, vector nhúng trong Transformer không bao giờ là bất di bất dịch, chúng sẽ trượt đi, uốn lượn tại dòng Residual Stream để lấp đầy sự nhiễu loạn ngẫu nhiên của các nút Sampling có nhiệt độ (Softmax Sampling with Temperature T).

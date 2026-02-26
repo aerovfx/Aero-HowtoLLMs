@@ -44,24 +44,24 @@ Bài viết tập trung phân tích:
 ### **2.1. Dot Product trong Attention**
 
 Trong cơ chế self-attention, điểm tương đồng giữa Query và Key được tính bằng:
-
-[
+$$
 A = QK^T
-]
+$$
 
-Mỗi phần tử của (A) là tích vô hướng của hai vector có chiều (d).
 
-Nếu các phần tử của (Q) và (K) có phân phối chuẩn với phương sai bằng 1, thì phương sai của tích vô hướng xấp xỉ:
+Mỗi phần tử của $A$ là tích vô hướng của hai vector có chiều $d$.
 
-[
+Nếu các phần tử của $Q$ và $K$ có phân phối chuẩn với phương sai bằng 1, thì phương sai của tích vô hướng xấp xỉ:
+$$
 Var(QK^T) \approx d
-]
+$$
+
 
 Do đó, độ lệch chuẩn xấp xỉ:
-
-[
+$$
 \sigma \approx \sqrt{d}
-]
+$$
+
 
 
 
@@ -70,12 +70,12 @@ Do đó, độ lệch chuẩn xấp xỉ:
 ### **2.2. Softmax và Độ Nhạy Số Học**
 
 Hàm Softmax được định nghĩa:
-
-[
+$$
 Softmax(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
-]
+$$
 
-Khi (z_i) lớn, hàm mũ làm cho một số phần tử chiếm ưu thế tuyệt đối, dẫn đến:
+
+Khi $z_i$ lớn, hàm mũ làm cho một số phần tử chiếm ưu thế tuyệt đối, dẫn đến:
 
 * Hiện tượng bão hòa,
 * Gradient gần bằng 0,
@@ -87,11 +87,11 @@ Theo tài liệu, đây là nguyên nhân chính khiến logits cần được k
 
 ### **2.3. Scaling trong Attention**
 
-Để giảm phương sai của (QK^T), Transformer áp dụng phép chia:
-
-[
+Để giảm phương sai của $QK^T$, Transformer áp dụng phép chia:
+$$
 A_{scaled} = \frac{QK^T}{\sqrt{d}}
-]
+$$
+
 
 Phép scaling này đưa độ lệch chuẩn của ma trận attention về xấp xỉ 1, giúp Softmax hoạt động trong vùng ổn định. 
 
@@ -101,20 +101,20 @@ Phép scaling này đưa độ lệch chuẩn của ma trận attention về x�
 
 ### **3.1. Thí Nghiệm 1: Ma Trận Ngẫu Nhiên**
 
-Hai ma trận (Q, K \in \mathbb{R}^{50 \times 50}) được sinh từ phân phối Gaussian chuẩn.
+Hai ma trận $Q, K \in \mathbb{R}^{50 \times 50}$ được sinh từ phân phối Gaussian chuẩn.
 
 Các đại lượng được tính:
 
-* (\sigma(Q)),
-* (\sigma(K)),
-* (\sigma(QK^T)),
-* (\sqrt{50}).
+* $\sigma(Q$),
+* $\sigma(K$),
+* $\sigma(QK^T$),
+* $\sqrt{50}$.
 
 Kết quả cho thấy:
-
-[
+$$
 \sigma(QK^T) \approx \sqrt{50} \approx 7
-]
+$$
+
 
 
 
@@ -122,12 +122,12 @@ Kết quả cho thấy:
 
 ### **3.2. Thí Nghiệm 2: Thay Đổi Chiều Không Gian**
 
-Ma trận có kích thước (50 \times n), với (n) từ 2 đến 100.
+Ma trận có kích thước $50 \times n$, với $n$ từ 2 đến 100.
 
 Mỗi lần lặp, tính:
 
-* Độ lệch chuẩn của (QK^T),
-* Giá trị (\sqrt{n}).
+* Độ lệch chuẩn của $QK^T$,
+* Giá trị $\sqrt{n}$.
 
 Hai đại lượng này được so sánh bằng biểu đồ.
 
@@ -139,8 +139,8 @@ Kết quả cho thấy sự trùng khớp gần như hoàn hảo giữa lý thuy
 
 Thí nghiệm này so sánh:
 
-1. Softmax của (QK^T),
-2. Softmax của (\frac{QK^T}{\sqrt{d}}),
+1. Softmax của $QK^T$,
+2. Softmax của $\frac{QK^T}{\sqrt{d}}$,
 3. Negative log-softmax tương ứng.
 
 Các giá trị được trực quan hóa bằng scatter plot.
@@ -166,9 +166,9 @@ Các giá trị này được biểu diễn bằng histogram với trục y ở 
 
 Kết quả cho thấy:
 
-* (\sigma(Q) \approx 1),
-* (\sigma(K) \approx 1),
-* (\sigma(QK^T) \approx \sqrt{d}).
+* $\sigma(Q$ \approx 1),
+* $\sigma(K$ \approx 1),
+* $\sigma(QK^T$ \approx \sqrt{d}).
 
 Điều này chứng minh rằng nhân ma trận làm tăng phương sai theo chiều không gian. 
 
@@ -228,11 +228,11 @@ Nó là thành phần không thể thiếu trong Transformer.
 
 ### **5.3. Liên Hệ Với Temperature Sampling**
 
-Scaling trong attention có vai trò tương tự tham số temperature (T):
-
-[
+Scaling trong attention có vai trò tương tự tham số temperature $T$:
+$$
 P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
-]
+$$
+
 
 Cả hai đều điều chỉnh độ “sắc nét” của phân phối. 
 
@@ -255,7 +255,7 @@ Do đó, kết quả mang tính minh họa nhiều hơn tổng quát.
 
 Bài viết đã phân tích các vấn đề scaling số học trong mô hình học sâu và cơ chế attention. Các kết luận chính gồm:
 
-1. Nhân ma trận làm tăng phương sai theo (\sqrt{d}).
+1. Nhân ma trận làm tăng phương sai theo $\sqrt{d}$.
 2. Scaling là cần thiết để ổn định Softmax.
 3. Không scaling dẫn đến phân phối xác suất cực đoan.
 4. Layer Norm giúp kiểm soát biên độ activation.

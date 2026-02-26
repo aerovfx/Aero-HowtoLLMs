@@ -82,13 +82,13 @@ Với:
 
 2.3 Softmax
 
-P(y=i \mid \mathbf{h})
+P$y=i \mid \mathbf{h}$
 =
 \frac{
-\exp(z_i)
+\exp$z_i$
 }{
 \sum_{j=1}^{V}
-\exp(z_j)
+\exp$z_j$
 }
 
 ⸻
@@ -102,7 +102,7 @@ P(y=i \mid \mathbf{h})
 -
 \sum_{t=1}^{L}
 \log
-P(y_t \mid x_{<t})
+P$y_t \mid x_{<t}$
 
 Trung bình trên batch:
 
@@ -119,7 +119,7 @@ Trung bình trên batch:
 
 Gọi:
 
-\mathbf{p} = \text{softmax}(\mathbf{z})
+\mathbf{p} = \text{softmax}$\mathbf{z}$
 
 Gradient theo logits:
 
@@ -132,7 +132,7 @@ Gradient theo embedding:
 \frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
 =
 \mathbf{W}
-(\mathbf{p} - \mathbf{y})
+$\mathbf{p} - \mathbf{y}$
 
 Cập nhật:
 
@@ -175,7 +175,7 @@ Gradient embedding:
 -
 \eta
 \mathbf{W}
-(\mathbf{p}-\mathbf{y})
+$\mathbf{p}-\mathbf{y}$
 
 Khi token dự đoán đúng:
 
@@ -193,7 +193,7 @@ Khi sai:
 
 Cosine similarity:
 
-\cos(\theta)
+\cos$\theta$
 =
 \frac{
 \mathbf{e}_a \cdot \mathbf{e}_b
@@ -212,29 +212,29 @@ Qua huấn luyện:
 
 Trong Skip-gram:
 
-P(c \mid w)
+P$c \mid w$
 =
 \frac{
-\exp(\mathbf{u}_c^T \mathbf{v}_w)
+\exp$\mathbf{u}_c^T \mathbf{v}_w$
 }{
 \sum_{j=1}^{V}
-\exp(\mathbf{u}_j^T \mathbf{v}_w)
+\exp$\mathbf{u}_j^T \mathbf{v}_w$
 }
 
 Tối ưu:
 
 \max
 \sum_{(w,c)}
-\log P(c \mid w)
+\log P$c \mid w$
 
 Negative Sampling:
 
 \mathcal{L}
 =
-\log \sigma(\mathbf{u}_c^T \mathbf{v}_w)
+\log \sigma$\mathbf{u}_c^T \mathbf{v}_w$
 +
 \sum_{k=1}^{K}
-\log \sigma(-\mathbf{u}_{n_k}^T \mathbf{v}_w)
+\log \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
 
 Mô hình embedding hiện đại có thể xem như mở rộng của cơ chế này trong không gian sâu (deep contextual space).
 
@@ -263,9 +263,9 @@ Embedding ảnh hưởng trực tiếp đến attention scores:
 
 QK^T
 =
-(\mathbf{E}+\mathbf{P})W_Q
+$\mathbf{E}+\mathbf{P}$W_Q
 W_K^T
-(\mathbf{E}+\mathbf{P})^T
+$\mathbf{E}+\mathbf{P}$^T
 
 Do đó embedding không chỉ là bảng tra cứu mà là nền tảng cấu trúc toàn bộ mô hình.
 
@@ -308,13 +308,13 @@ m_t
 =
 \beta_1 m_{t-1}
 +
-(1-\beta_1) g_t
+$1-\beta_1$ g_t
 
 v_t
 =
 \beta_2 v_{t-1}
 +
-(1-\beta_2) g_t^2
+$1-\beta_2$ g_t^2
 
 \theta_t
 =

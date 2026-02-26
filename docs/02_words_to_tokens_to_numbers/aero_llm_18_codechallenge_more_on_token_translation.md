@@ -56,7 +56,7 @@ Trong đó:
 
 Khi tokenizer khả nghịch:
 
-\mathcal{D}_A(\mathcal{T}_A(x)) = x
+\mathcal{D}_A$\mathcal{T}_A(x$) = x
 
 Tuy nhiên, trong thực tế có thể xuất hiện chuẩn hóa Unicode hoặc xử lý khoảng trắng gây sai số.
 
@@ -86,7 +86,7 @@ Nếu mỗi bước có sai số nhỏ nhưng lặp nhiều lần, sai số tíc
 
 Thay vì ánh xạ xác định, ta định nghĩa phân bố xác suất:
 
-P(b_j \mid a_i)
+P$b_j \mid a_i$
 
 Tạo thành ma trận:
 
@@ -110,11 +110,11 @@ Trong đó:
 
 Giả sử embedding của token:
 
-e(a_i), \quad e(b_j)
+e$a_i$, \quad e$b_j$
 
 Sai số chuyển đổi:
 
-\delta_i = \| e(a_i) - \sum_j M_{ij} e(b_j) \|_2
+\delta_i = \| e$a_i$ - \sum_j M_{ij} e$b_j$ \|_2
 
 Sai số trung bình:
 
@@ -158,7 +158,7 @@ b_j \leftrightarrow [u_j, v_j)
 
 Bài toán căn chỉnh trở thành:
 
-\text{match}(a_i, b_j) \iff [s_i, e_i) \cap [u_j, v_j) \neq \emptyset
+\text{match}$a_i, b_j$ \iff [s_i, e_i) \cap [u_j, v_j) \neq \emptyset
 
 Có thể xây dựng ánh xạ nhiều-nhiều.
 
@@ -172,7 +172,7 @@ Nếu:
 
 Thuật toán căn chỉnh span có thể thực hiện trong:
 
-O(m + k)
+O$m + k$
 
 vì chỉ cần quét hai con trỏ.
 
@@ -186,11 +186,11 @@ O(mk)
 
 Entropy của phân bố token:
 
-H(V) = - \sum_{t \in V} p(t)\log p(t)
+H$V$ = - \sum_{t \in V} p$t$\log p$t$
 
 Chuyển tokenizer làm thay đổi phân bố:
 
-\Delta H = |H(V_A) - H(V_B)|
+\Delta H = |H$V_A$ - H$V_B$|
 
 Theo Claude Shannon (1948), entropy đo lượng thông tin trung bình trên mỗi token.
 

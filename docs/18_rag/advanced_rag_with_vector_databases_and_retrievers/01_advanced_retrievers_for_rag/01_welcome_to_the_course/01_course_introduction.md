@@ -247,8 +247,8 @@ results = bm25.get_scores(query.split())
 
 | Metric | Công thức | Mô tả |
 |--------|----------|--------|
-| Precision@K | TP/(TP+FP) | Tỷ lệ relevant trong K kết quả |
-| Recall@K | TP/(TP+FN) | Tỷ lệ retrieved relevant |
+| Precision@K | TP/$TP+FP$ | Tỷ lệ relevant trong K kết quả |
+| Recall@K | TP/$TP+FN$ | Tỷ lệ retrieved relevant |
 | MAP | $\frac{1}{m}\sum_{i=1}^{m} \frac{1}{n_i}\sum_{j=1}^{n_i} P(i,j)$ | Mean Average Precision |
 | NDCG | $\frac{DCG}{IDCG}$ | Normalized Discounted Cumulative Gain |
 

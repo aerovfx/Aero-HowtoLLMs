@@ -17,7 +17,7 @@
 # Cắt bỏ Tiệm cận các Neurons MLP trên cơ sở Thống kê (Statistics-based Lesioning of MLP Neurons)
 
 ## Tóm tắt (Abstract)
-Báo cáo này giới thiệu một phương pháp luận tiên tiến để xử lý "Sự bùng nổ chiều" của khối MLP trong các LLM bằng cách sử dụng thống kê suy diễn. Thay vì dựa trên các đặc tính mô tả đơn thuần, nghiên cứu sử dụng phép thử T-test trên một tập dữ liệu độc lập (Him/Her sentences) để xác định các neurons có phản ứng đặc hiệu với giới tính. Những neurons này sau đó được "cắt bỏ" (lesioned) có mục tiêu trong một tác vụ dự đoán token bị che khuất (masked token prediction). Kết quả thực nghiệm trên mô hình BERT chứng minh rằng việc vô hiệu hóa chỉ một nhóm nhỏ các neurons được chọn lọc theo thống kê có thể làm suy yếu khả năng nhận dạng ngữ pháp của mô hình, đồng thời cung cấp các bằng chứng thực nghiệm về tính phân tách chức năng của MLP neurons.
+Báo cáo này giới thiệu một phương pháp luận tiên tiến để xử lý "Sự bùng nổ chiều" của khối MLP trong các LLM bằng cách sử dụng thống kê suy diễn. Thay vì dựa trên các đặc tính mô tả đơn thuần, nghiên cứu sử dụng phép thử T-test trên một tập dữ liệu độc lập $Him/Her sentences$ để xác định các neurons có phản ứng đặc hiệu với giới tính. Những neurons này sau đó được "cắt bỏ" (lesioned) có mục tiêu trong một tác vụ dự đoán token bị che khuất (masked token prediction). Kết quả thực nghiệm trên mô hình BERT chứng minh rằng việc vô hiệu hóa chỉ một nhóm nhỏ các neurons được chọn lọc theo thống kê có thể làm suy yếu khả năng nhận dạng ngữ pháp của mô hình, đồng thời cung cấp các bằng chứng thực nghiệm về tính phân tách chức năng của MLP neurons.
 
 ---
 

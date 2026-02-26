@@ -1579,7 +1579,7 @@ def generate_adaptive(model, input_ids, confidence_threshold=0.8):
 4. Default: sampling **without replacement**
 
 **Requirements:**
-- Input: `torch.Tensor` (not list/array)
+- Input: `torch.Tensor` $not list/array$
 - Dtype: Float (not integer)
 - Values: Non-negative
 - Sum: Must be positive
@@ -2047,7 +2047,7 @@ if __name__ == "__main__":
 
 **Replacement:** Whether sampled items can be selected again
 
-**Sampling:** Randomly selecting element(s) from distribution
+**Sampling:** Randomly selecting element$s$ from distribution
 
 **Softmax:** Function converting logits to probability distribution
 

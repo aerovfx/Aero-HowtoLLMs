@@ -228,7 +228,7 @@ Rating: 5/5
 
 **Business Metrics:**
 - Retention rate
-- Engagement (msgs/user/day)
+- Engagement $msgs/user/day$
 - Revenue (subscriptions, API usage)
 
 ---

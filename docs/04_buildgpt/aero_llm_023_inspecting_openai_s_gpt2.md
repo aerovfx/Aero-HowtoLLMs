@@ -104,10 +104,10 @@ Cấu trúc này giúp duy trì ổn định gradient và tăng khả năng bi�
 ### 4.1. Gộp ma trận QKV
 
 Trong GPT-2, ba ma trận Query, Key và Value không được lưu riêng lẻ mà được gộp trong một ma trận duy nhất có kích thước:
-
-[
+$$
 768 \times 2304 = 768 \times (3 \times 768)
-]
+$$
+
 
 Cách thiết kế này giúp:
 
@@ -121,11 +121,11 @@ Cách thiết kế này giúp:
 
 ### 4.2. Ma trận chiếu (Projection Matrix)
 
-Sau khi tính attention, kết quả được nhân với ma trận chiếu (W_0) kích thước:
-
-[
+Sau khi tính attention, kết quả được nhân với ma trận chiếu $W_0$ kích thước:
+$$
 768 \times 768
-]
+$$
+
 
 Ma trận này giúp tổng hợp thông tin từ các head attention khác nhau.
 

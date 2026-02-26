@@ -17,7 +17,7 @@
 # Thử Thách Lập Trình (Code Challenge): Khảo Sát Số Chiều Hiệu Quả Trên Pythia 2.8B
 
 ## Tóm tắt (Abstract)
-Thực nghiệm này mở rộng ranh giới phân tích số chiều hiệu quả (Effective Dimensionality) từ tập kích hoạt PCA & SVD sang một LLM ở quy mô tỷ tham số: Mô hình **Pythia 2.8B** (họ EleutherAI). Thông qua việc đánh giá tỷ lệ phần trăm số chiều tối đa (Percent of maximum possible dimensionality) tại 2 mốc phương sai $95\%$ và $99\%$ thay vì đong đếm số lượng components thô, nghiên cứu phát hiện ra sự tương phản kịch tính giữa việc mô hình xử lý văn bản tự nhiên (Tiếng Anh phức tạp) so với ngôn ngữ lập trình thuần túy (HTML/CSS).
+Thực nghiệm này mở rộng ranh giới phân tích số chiều hiệu quả (Effective Dimensionality) từ tập kích hoạt PCA & SVD sang một LLM ở quy mô tỷ tham số: Mô hình **Pythia 2.8B** (họ EleutherAI). Thông qua việc đánh giá tỷ lệ phần trăm số chiều tối đa (Percent of maximum possible dimensionality) tại 2 mốc phương sai $95\%$ và $99\%$ thay vì đong đếm số lượng components thô, nghiên cứu phát hiện ra sự tương phản kịch tính giữa việc mô hình xử lý văn bản tự nhiên (Tiếng Anh phức tạp) so với ngôn ngữ lập trình thuần túy $HTML/CSS$.
 
 ---
 

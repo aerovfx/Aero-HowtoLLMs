@@ -18,7 +18,7 @@
 
 ## Tóm tắt
 
-Các chiều trong không gian nhúng của hệ mô hình tự hồi quy lớn (Autoregressive LLMs) thường được gán cho một tính chất thần bí khi mà các nhà khoa học có thể cộng trừ các đại lượng định danh để tìm các góc độ ngữ pháp (VD: Vector Tương lai - Vector Quá khứ = Trục thời gian). Bài báo khoa học này chứng minh tầm ảnh hưởng của thao tác Chuẩn hóa hình học (Normalization) đối chiếu khả năng sàng lọc tín hiệu với một bộ lọc thô sơ trong quá trình làm nét "Trục ngữ nghĩa tuyến tính" của cụm nhúng.
+Các chiều trong không gian nhúng của hệ mô hình tự hồi quy lớn (Autoregressive LLMs) thường được gán cho một tính chất thần bí khi mà các nhà khoa học có thể cộng trừ các đại lượng định danh để tìm các góc độ ngữ pháp $VD: Vector Tương lai - Vector Quá khứ = Trục thời gian$. Bài báo khoa học này chứng minh tầm ảnh hưởng của thao tác Chuẩn hóa hình học (Normalization) đối chiếu khả năng sàng lọc tín hiệu với một bộ lọc thô sơ trong quá trình làm nét "Trục ngữ nghĩa tuyến tính" của cụm nhúng.
 
 ---
 

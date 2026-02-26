@@ -48,7 +48,7 @@ Trong Word2Vec (Mikolov et al., 2013), mục tiêu là tối đa hóa xác suấ
 
 Với softmax:
 
-P(c|w) = \frac{\exp(\mathbf{v}_c^\top \mathbf{v}_w)}{\sum_{c'} \exp(\mathbf{v}_{c'}^\top \mathbf{v}_w)}
+P(c|w) = \frac{\exp$\mathbf{v}_c^\top \mathbf{v}_w$}{\sum_{c'} \exp(\mathbf{v}_{c'}^\top \mathbf{v}_w)}
 
 Hàm mất mát:
 
@@ -65,7 +65,7 @@ Gradient theo vector trung tâm:
 
 Cập nhật:
 
-\mathbf{v}_w^{(t+1)} = \mathbf{v}_w^{(t)} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{v}_w}
+\mathbf{v}_w^{$t+1$} = \mathbf{v}_w^{$t$} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{v}_w}
 
 Trong đó \eta là learning rate.
 
@@ -77,7 +77,7 @@ Trong đó \eta là learning rate.
 
 Độ tương tự thường dùng cosine similarity:
 
-\cos(\theta) = \frac{\mathbf{v}_a \cdot \mathbf{v}_b}
+\cos$\theta$ = \frac{\mathbf{v}_a \cdot \mathbf{v}_b}
 {||\mathbf{v}_a|| \, ||\mathbf{v}_b||}
 
 Khi huấn luyện:
@@ -94,7 +94,7 @@ Giả sử tại bước t:
 
 Vector dịch chuyển theo hướng giảm loss. Tổng quát:
 
-\mathbf{v}^{(T)} = \mathbf{v}^{(0)} - \eta \sum_{t=0}^{T-1} \nabla \mathcal{L}^{(t)}
+\mathbf{v}^{$T$} = \mathbf{v}^{(0)} - \eta \sum_{t=0}^{T-1} \nabla \mathcal{L}^{$t$}
 
 Điều này cho thấy embedding cuối cùng là tích lũy của toàn bộ lịch sử gradient.
 
@@ -150,7 +150,7 @@ Giúp tránh:
 
 Sai số kỳ vọng:
 
-\mathbb{E}[(y - \hat{f}(x))^2]
+\mathbb{E}[$y - \hat{f}(x$)^2]
 =
 Bias^2 + Variance + \sigma^2
 

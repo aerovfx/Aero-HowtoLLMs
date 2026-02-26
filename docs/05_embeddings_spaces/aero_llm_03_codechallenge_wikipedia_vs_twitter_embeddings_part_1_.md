@@ -57,11 +57,11 @@ Mục tiêu: so sánh E_{wiki} và E_{twitter}.
 
 Theo luật Zipf:
 
-f(r) \propto \frac{1}{r^\alpha}
+f$r$ \propto \frac{1}{r^\alpha}
 
 Trong đó:
 	•	r: thứ hạng
-	•	f(r): tần suất
+	•	f$r$: tần suất
 
 Ta ước lượng:
 
@@ -74,7 +74,7 @@ Twitter có:
 
 Entropy từ vựng:
 
-H = -\sum_i P(w_i)\log P(w_i)
+H = -\sum_i P$w_i$\log P$w_i$
 
 Thường:
 
@@ -108,13 +108,13 @@ w_i^\top w_j \approx \log X_{ij}
 
 Embedding:
 
-E(w) \in \mathbb{R}^d
+E$w$ \in \mathbb{R}^d
 
 Khoảng cách cosine:
 
 \text{sim}(i,j) =
-\frac{E(w_i)^\top E(w_j)}
-{\|E(w_i)\| \|E(w_j)\|}
+\frac{E$w_i$^\top E$w_j$}
+{\|E$w_i$\| \|E$w_j$\|}
 
 ⸻
 
@@ -122,11 +122,11 @@ Khoảng cách cosine:
 
 Giả sử:
 
-\Delta(w) = \| E_{wiki}(w) - E_{twitter}(w) \|_2
+\Delta$w$ = \| E_{wiki}$w$ - E_{twitter}$w$ \|_2
 
 Nếu:
 
-\Delta(w) \gg 0
+\Delta$w$ \gg 0
 
 → từ có ngữ nghĩa khác nhau theo miền.
 
@@ -144,7 +144,7 @@ Xét biến ngẫu nhiên:
 
 Mutual information:
 
-I(W;D) = \sum_{w,d} P(w,d)\log\frac{P(w,d)}{P(w)P(d)}
+I(W;D) = \sum_{w,d} P(w,d)\log\frac{P(w,d)}{P$w$P$d$}
 
 Nếu:
 
@@ -189,11 +189,11 @@ Sai số:
 
 Tăng theo khoảng cách phân bố:
 
-D_{KL}(P_{wiki} \| P_{twitter})
+D_{KL}$P_{wiki} \| P_{twitter}$
 
 Với:
 
-D_{KL}(P\|Q) = \sum_i P(i)\log\frac{P(i)}{Q(i)}
+D_{KL}$P\|Q$ = \sum_i P$i$\log\frac{P$i$}{Q$i$}
 
 ⸻
 
@@ -224,7 +224,7 @@ Embedding đầu vào cho mô hình như BERT hoặc GPT chịu ảnh hưởng m
 Self-attention:
 
 \text{Attention}(Q,K,V)=
-\text{softmax}\left(\frac{QK^\top}{\sqrt{d}}\right)V
+\text{softmax}\left$\frac{QK^\top}{\sqrt{d}}\right$V
 
 Nếu embedding nhiễu:
 
@@ -250,7 +250,7 @@ Ta định nghĩa:
 \bar{\Delta} =
 \frac{1}{|V|}
 \sum_{w\in V}
-\Delta(w)
+\Delta$w$
 
 ⸻
 

@@ -40,78 +40,78 @@ Theo tài liệu , các biểu đồ trực quan đóng vai trò quan trọng tr
 ### 2.1. Hàm mất mát trong mô hình sinh
 
 Với tập dữ liệu:
-
-[
+$$
 \mathcal{D}={(x_i,y_i)}_{i=1}^{N}
-]
+$$
+
 
 Hàm mất mát cross-entropy:
-
-[
+$$
 \mathcal{L}
 ===========
 
 -\frac{1}{N}\sum_{i=1}^{N}
 \log P(y_i|x_i;\theta)
-]
+$$
 
-Trong đó (\theta) là tham số mô hình.
+
+Trong đó $\theta$ là tham số mô hình.
 
 Mục tiêu huấn luyện:
-
-[
+$$
 \theta^*=\arg\min_\theta \mathcal{L}
-]
+$$
+
 
 ---
 
 ### 2.2. Gradient Descent với tham số đóng băng
 
 Quy tắc cập nhật:
-
-[
+$$
 \theta_{t+1}
 ============
 
 \theta_t-\eta\nabla_\theta\mathcal{L}
-]
+$$
+
 
 Với tham số bị đóng băng:
-
-[
+$$
 \nabla_{\theta_f}\mathcal{L}=0
-]
+$$
+
 
 Suy ra:
-
-[
+$$
 \theta_f^{(t+1)}=\theta_f^{(t)}
-]
+$$
+
 
 ---
 
 ### 2.3. Chuẩn ma trận trọng số
 
 Cho ma trận trọng số attention:
-
-[
+$$
 W_t\in\mathbb{R}^{m\times n}
-]
+$$
 
-Hiệu tại bước (t):
 
-[
+Hiệu tại bước $t$:
+$$
 \Delta W_t=W_t-W_{t-1}
-]
+$$
+
 
 Chuẩn Frobenius:
-
-[
+$$
 |\Delta W_t|_F
 ==============
 
 \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n}(\Delta W_{ij})^2}
-]
+$$
+
 
 Chuẩn này phản ánh mức độ thay đổi của mô hình theo thời gian.
 
@@ -127,10 +127,10 @@ Theo mô tả trong tài liệu , hai mô hình được huấn luyện song son
 * **Model B**: Đóng băng phần lớn trọng số, chỉ fine-tuning một số lớp attention.
 
 Hai mô hình có cùng:
-
-[
+$$
 \theta_A^{(0)}=\theta_B^{(0)}
-]
+$$
+
 
 và cùng thứ tự dữ liệu.
 
@@ -138,23 +138,23 @@ và cùng thứ tự dữ liệu.
 
 ### 3.2. Trực quan hóa loss
 
-Loss tại epoch (k):
-
-[
+Loss tại epoch $k$:
+$$
 \mathcal{L}_k^{(A)},\quad
 \mathcal{L}_k^{(B)}
-]
+$$
+
 
 Vẽ:
 
-* Biểu đồ đường: (\mathcal{L}_k) theo (k),
-* Biểu đồ scatter: ((\mathcal{L}_k^{(B)},\mathcal{L}_k^{(A)})).
+* Biểu đồ đường: $\mathcal{L}_k$ theo $k$,
+* Biểu đồ scatter: $(\mathcal{L}_k^{(B$},\mathcal{L}_k^{$A$})).
 
 Đường chuẩn:
-
-[
+$$
 y=x
-]
+$$
+
 
 dùng để đánh giá sự tương đồng.
 
@@ -164,36 +164,36 @@ dùng để đánh giá sự tương đồng.
 
 Gọi:
 
-* (S): tập token phổ biến,
-* (G=(g_1,\dots,g_M)): chuỗi sinh.
+* $S$: tập token phổ biến,
+* $G=(g_1,\dots,g_M$): chuỗi sinh.
 
 Tỷ lệ:
-
-[
+$$
 p=\frac{1}{M}\sum_{i=1}^{M}\mathbf{1}(g_i\in S)
-]
+$$
+
 
 So sánh trước và sau huấn luyện:
-
-[
+$$
 \Delta p = p_{post}-p_{pre}
-]
+$$
+
 
 ---
 
 ### 3.4. Đo thời gian huấn luyện
 
 Tổng thời gian:
-
-[
+$$
 T=\sum_{k=1}^{K}t_k
-]
+$$
+
 
 Tỷ lệ tiết kiệm:
-
-[
+$$
 r=\frac{T_{train}-T_{freeze}}{T_{train}}
-]
+$$
+
 
 ---
 
@@ -207,16 +207,16 @@ Theo kết quả trong tài liệu :
 * Mô hình freeze giảm chậm hơn.
 
 Ví dụ:
-
-[
+$$
 \mathcal{L}_{freeze}: 3.78 \rightarrow 2.65
-]
+$$
+
 
 Trong khi:
-
-[
+$$
 \mathcal{L}_{train}: \text{giảm mạnh hơn}
-]
+$$
+
 
 Điều này cho thấy mô hình huấn luyện toàn phần học nhanh hơn.
 
@@ -224,11 +224,11 @@ Trong khi:
 
 ### 4.2. Biểu đồ Scatter Loss
 
-Các điểm dữ liệu nằm dưới đường (y=x):
-
-[
+Các điểm dữ liệu nằm dưới đường $y=x$:
+$$
 \mathcal{L}^{(B)}>\mathcal{L}^{(A)}
-]
+$$
+
 
 ⇒ mô hình freeze thường có loss cao hơn.
 
@@ -239,18 +239,18 @@ Một số điểm trên đường chéo phản ánh giai đoạn đầu huấn 
 ### 4.3. Phân bố token sinh
 
 Kết quả cho thấy:
-
-[
+$$
 \Delta p_A>0,\quad \Delta p_B>0
-]
+$$
+
 
 Cả hai mô hình đều học được phong cách dữ liệu.
 
 Tuy nhiên, trong một số lần thử:
-
-[
+$$
 p_B>p_A
-]
+$$
+
 
 Hiện tượng này được giải thích bởi tính ngẫu nhiên của sampling .
 
@@ -259,24 +259,24 @@ Hiện tượng này được giải thích bởi tính ngẫu nhiên của samp
 ### 4.4. Chuẩn thay đổi trọng số
 
 Quan sát:
-
-[
+$$
 |\Delta W_t|_F
-]
+$$
+
 
 * Lớn ở giai đoạn đầu,
 * Giảm mạnh sau vài epoch,
 * Tăng chậm về sau.
 
 Mô hình freeze có:
-
-[
+$$
 |\Delta W_t^{(B)}|_F
 
 >
 
 |\Delta W_t^{(A)}|_F
-]
+$$
+
 
 cho thấy các lớp còn trainable phải “gánh” phần lớn quá trình học .
 
@@ -285,17 +285,17 @@ cho thấy các lớp còn trainable phải “gánh” phần lớn quá trình
 ### 4.5. Thời gian tính toán
 
 Theo tài liệu:
-
-[
+$$
 T_{freeze}\approx 89s,\quad
 T_{train}\approx 120s
-]
+$$
+
 
 Tỷ lệ tiết kiệm:
-
-[
+$$
 r\approx 25%
-]
+$$
+
 
 Mặc dù không quá lớn, lợi ích sẽ tăng mạnh với mô hình lớn hơn.
 
@@ -309,10 +309,10 @@ Trong bài tập 5, chiến lược được đảo ngược:
 * Đóng băng attention tầng cao.
 
 Kết quả:
-
-[
+$$
 \mathcal{L}_A \approx \mathcal{L}_B
-]
+$$
+
 
 Các đường loss gần như trùng nhau .
 
@@ -327,16 +327,16 @@ Các đường loss gần như trùng nhau .
 ### 6.1. Ý nghĩa của loss trong mô hình sinh
 
 Trong mô hình phân loại:
-
-[
+$$
 \min \mathcal{L}\Rightarrow \max \text{accuracy}
-]
+$$
+
 
 Nhưng trong mô hình sinh:
-
-[
+$$
 \min \mathcal{L} \not\Rightarrow \max \text{quality}
-]
+$$
+
 
 Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên.
 
@@ -345,10 +345,10 @@ Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên.
 ### 6.2. Tính ổn định huấn luyện
 
 Mô hình freeze có:
-
-[
+$$
 Var(\mathcal{L}_B)<Var(\mathcal{L}_A)
-]
+$$
+
 
 ⇒ ổn định hơn ở giai đoạn đầu.
 
@@ -374,10 +374,10 @@ Phương pháp trong nghiên cứu phù hợp cho:
 * Huấn luyện nhanh mô hình thử nghiệm.
 
 Đặc biệt hiệu quả khi:
-
-[
+$$
 N_{data}\ll P_{model}
-]
+$$
+
 
 (ví dụ: ít dữ liệu, nhiều tham số).
 

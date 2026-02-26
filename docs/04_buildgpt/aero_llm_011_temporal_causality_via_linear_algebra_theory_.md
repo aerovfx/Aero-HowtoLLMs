@@ -465,7 +465,7 @@ Phần này trình bày:
 ---
 
 ```text
-Algorithm 4: Generate-Causal-Mask(T)
+Algorithm 4: Generate-Causal-Mask$T$
 
 1:  Initialize M as matrix of size T × T
 
@@ -513,11 +513,11 @@ Algorithm 4: Generate-Causal-Mask(T)
 Algorithm 5: Causal-Attention(Q, K, V, M)
 
 1:  S ← Q × Kᵀ
-2:  S ← S / sqrt(d)
+2:  S ← S / sqrt$d$
 
 3:  S ← S + M
 
-4:  A ← softmax(S)
+4:  A ← softmax$S$
 
 5:  O ← A × V
 
@@ -733,7 +733,7 @@ def demo():
 
     attn = CausalAttention(D, H)
 
-    out, w = attn(x)
+    out, w = attn$x$
 
     print("Output:", out.shape)
     print("Weights:", w.shape)

@@ -30,7 +30,7 @@ Trong lập trình, hàm là một tập hợp các dòng mã được thiết k
 
 ## 2. Cơ chế Đầu vào và Đầu ra
 
-### 2.1. Tham số Đầu vào (Parameters/Inputs)
+### 2.1. Tham số Đầu vào $Parameters/Inputs$
 Hàm nhận dữ liệu thông qua các dấu ngoặc đơn `()`. 
 - **Ví dụ:** Hàm `sum(danh_sách)` nhận một danh sách số và trả về tổng của chúng.
 - **Ràng buộc kiểu:** Mỗi hàm yêu cầu loại dữ liệu cụ thể. Việc truyền một chuỗi ký tự (`str`) vào hàm `sum()` sẽ gây ra lỗi `TypeError` vì toán tử cộng (`+`) bị quá tải (overloaded) và không thể xử lý hỗn hợp số và chữ theo cách thông thường.

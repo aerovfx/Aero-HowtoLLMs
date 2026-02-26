@@ -26,10 +26,10 @@ Trong huấn luyện mô hình ngôn ngữ hiện đại, đặc biệt là các
 
 Huấn luyện mô hình ngôn ngữ tự hồi quy (autoregressive language model) yêu cầu tối ưu xác suất:
 
-P(x_1, x_2, \dots, x_T)
+P$x_1, x_2, \dots, x_T$
 =
 \prod_{t=1}^{T}
-P(x_t \mid x_{<t})
+P$x_t \mid x_{<t}$
 
 Trong đó:
 	•	x_t: token tại vị trí t
@@ -49,7 +49,7 @@ Data loader có nhiệm vụ:
 
 Giả sử văn bản sau khi token hóa:
 
-\mathbf{s} = (t_1, t_2, \dots, t_N)
+\mathbf{s} = $t_1, t_2, \dots, t_N$
 
 với:
 
@@ -63,11 +63,11 @@ t_i \in \{1,2,\dots,V\}
 
 Với độ dài ngữ cảnh cố định L, ta tạo:
 
-\mathbf{x}^{(i)} =
-(t_i, t_{i+1}, \dots, t_{i+L-1})
+\mathbf{x}^{$i$} =
+$t_i, t_{i+1}, \dots, t_{i+L-1}$
 
-\mathbf{y}^{(i)} =
-(t_{i+1}, t_{i+2}, \dots, t_{i+L})
+\mathbf{y}^{$i$} =
+$t_{i+1}, t_{i+2}, \dots, t_{i+L}$
 
 Tức là target là phiên bản dịch trái của input.
 
@@ -78,7 +78,7 @@ Mục tiêu tối ưu:
 -
 \sum_{t=1}^{L}
 \log
-P(t_{i+t} \mid t_i,\dots,t_{i+t-1})
+P$t_{i+t} \mid t_i,\dots,t_{i+t-1}$
 
 ⸻
 
@@ -98,7 +98,7 @@ Loss trung bình:
 =
 \frac{1}{B}
 \sum_{b=1}^{B}
-\mathcal{L}^{(b)}
+\mathcal{L}^{$b$}
 
 ⸻
 
@@ -128,8 +128,8 @@ Do đó, data loader phải đảm bảo cung cấp batch đủ lớn nhưng kh�
 
 Tạo các mẫu huấn luyện với bước trượt 1:
 
-(t_1,\dots,t_L),
-(t_2,\dots,t_{L+1}),
+$t_1,\dots,t_L$,
+$t_2,\dots,t_{L+1}$,
 \dots
 
 Ưu điểm:
@@ -144,8 +144,8 @@ Nhược điểm:
 
 Chia thành các đoạn độc lập:
 
-(t_1,\dots,t_L),
-(t_{L+1},\dots,t_{2L})
+$t_1,\dots,t_L$,
+$t_{L+1},\dots,t_{2L}$
 
 Ưu điểm:
 	•	Nhanh
@@ -179,7 +179,7 @@ Sử dụng memory-mapped file:
 Trong huấn luyện SGD:
 
 \theta \leftarrow
-\theta - \eta \nabla_\theta \mathcal{L}(x_i)
+\theta - \eta \nabla_\theta \mathcal{L}$x_i$
 
 Để đảm bảo ước lượng không chệch:
 
@@ -228,7 +228,7 @@ g_t = \nabla_\theta \mathcal{L}_{batch}
 
 Phương sai:
 
-\text{Var}(g_t)
+\text{Var}$g_t$
 =
 \frac{\sigma^2}{B}
 

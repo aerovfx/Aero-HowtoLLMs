@@ -17,7 +17,7 @@
 # Phân Tích Sự Phân Cụm và Tương Đồng Biểu Diễn (RSA) Trong Ma Trận Q và K
 
 ## Tóm tắt (Abstract)
-Nghiên cứu này chuyển hướng từ việc khảo sát sự nhất quán của một token đích mang các ngữ cảnh khác nhau sang việc đánh giá cách mô hình ngôn ngữ (như GPT-2 Medium) mã hóa các từ đích riêng biệt (thuộc 3 nhóm ngữ nghĩa) dưới cùng một ngữ cảnh chung. Thông qua hai chỉ số quan trọng là **Chỉ số Chọn lọc Phân nhóm (Selectivity Index)** và **Phân tích Tương đồng Biểu diễn (Representational Similarity Analysis - RSA)** đối với ma trận truy vấn (Q) và khóa (K), báo cáo chứng minh một điều mạnh mẽ: không gian học được của trí tuệ nhân tạo có xu hướng gom cụm định hướng từ vựng (grouping category) và các cách thức chia sẻ tính tương đồng biểu diễn tại mạng cấu trúc Q và K là đồng dạng đến kinh ngạc.
+Nghiên cứu này chuyển hướng từ việc khảo sát sự nhất quán của một token đích mang các ngữ cảnh khác nhau sang việc đánh giá cách mô hình ngôn ngữ (như GPT-2 Medium) mã hóa các từ đích riêng biệt (thuộc 3 nhóm ngữ nghĩa) dưới cùng một ngữ cảnh chung. Thông qua hai chỉ số quan trọng là **Chỉ số Chọn lọc Phân nhóm (Selectivity Index)** và **Phân tích Tương đồng Biểu diễn (Representational Similarity Analysis - RSA)** đối với ma trận truy vấn $Q$ và khóa $K$, báo cáo chứng minh một điều mạnh mẽ: không gian học được của trí tuệ nhân tạo có xu hướng gom cụm định hướng từ vựng (grouping category) và các cách thức chia sẻ tính tương đồng biểu diễn tại mạng cấu trúc Q và K là đồng dạng đến kinh ngạc.
 
 ---
 

@@ -51,33 +51,33 @@ Mỗi tầng gồm:
 * Residual Connection
 
 Công thức Attention:
-
-[
+$$
 \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-]
+$$
+
 
 Trong đó:
 
-* (Q): Query
-* (K): Key
-* (V): Value
-* (d_k): kích thước vector
+* $Q$: Query
+* $K$: Key
+* $V$: Value
+* $d_k$: kích thước vector
 
 ---
 
 ### 2.2 Lớp MLP trong BERT
 
 Mỗi encoder layer chứa mạng MLP hai tầng:
-
-[
+$$
 \text{MLP}(x)=W_2 \cdot \sigma(W_1 x + b_1)+b_2
-]
+$$
+
 
 Trong đó:
 
 * (W_1,W_2): ma trận trọng số
 * (b_1,b_2): bias
-* (\sigma): hàm kích hoạt (GELU)
+* $\sigma$: hàm kích hoạt (GELU)
 
 MLP giúp ánh xạ dữ liệu sang không gian đặc trưng phi tuyến.
 
@@ -86,16 +86,16 @@ MLP giúp ánh xạ dữ liệu sang không gian đặc trưng phi tuyến.
 ### 2.3 Hàm mất mát phân loại
 
 Bài toán phân loại nhị phân sử dụng hàm Cross-Entropy:
-
-[
+$$
 L=-\frac{1}{N}\sum_{i=1}^{N} \left[y_i\log(p_i)+(1-y_i)\log(1-p_i)\right]
-]
+$$
+
 
 Trong đó:
 
-* (y_i): nhãn thật
-* (p_i): xác suất dự đoán
-* (N): số mẫu
+* $y_i$: nhãn thật
+* $p_i$: xác suất dự đoán
+* $N$: số mẫu
 
 ---
 
@@ -127,10 +127,10 @@ Chiến lược huấn luyện:
   * Classifier head
 
 Điều kiện đóng băng:
-
-[
+$$
 \text{requires_grad}=False
-]
+$$
+
 
 Việc này giúp:
 
@@ -143,29 +143,29 @@ Việc này giúp:
 ### 3.3 Tỷ lệ tham số huấn luyện
 
 Số tham số được tính:
-
-[
+$$
 P_{total}=\sum_i |W_i|
-]
+$$
 
-[
+$$
 P_{trainable}=\sum_{j \in T}|W_j|
-]
+$$
 
-[
+$$
 R=\frac{P_{trainable}}{P_{total}}
-]
+$$
+
 
 Trong đó:
 
-* (T): tập tham số được huấn luyện
-* (R): tỷ lệ trainable
+* $T$: tập tham số được huấn luyện
+* $R$: tỷ lệ trainable
 
 Kết quả cho thấy:
-
-[
+$$
 R \approx 0.5
-]
+$$
+
 
 Tức khoảng 50% tham số được cập nhật.
 
@@ -174,16 +174,16 @@ Tức khoảng 50% tham số được cập nhật.
 ### 3.4 Quy trình huấn luyện
 
 Mô hình được huấn luyện trong 300 batch:
-
-[
+$$
 \theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta)
-]
+$$
+
 
 Trong đó:
 
-* (\theta): tham số mô hình
-* (\eta): learning rate
-* (L): hàm mất mát
+* $\theta$: tham số mô hình
+* $\eta$: learning rate
+* $L$: hàm mất mát
 
 Sau mỗi 10 batch, tiến hành đánh giá tập kiểm tra.
 
@@ -194,10 +194,10 @@ Sau mỗi 10 batch, tiến hành đánh giá tập kiểm tra.
 ### 4.1 Độ chính xác
 
 Độ chính xác được tính:
-
-[
+$$
 Accuracy=\frac{TP+TN}{TP+TN+FP+FN}
-]
+$$
+
 
 Kết quả trung bình:
 
@@ -214,10 +214,10 @@ Theo báo cáo trong tài liệu , độ chính xác dao động mạnh trong gi
 ### 4.2 Hàm mất mát
 
 Loss giảm theo thời gian:
-
-[
+$$
 L_t \downarrow \quad \text{khi } t \uparrow
-]
+$$
+
 
 Tuy nhiên xuất hiện dao động do:
 

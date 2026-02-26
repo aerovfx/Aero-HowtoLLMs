@@ -44,66 +44,66 @@ Mục tiêu nghiên cứu:
 ### 2.1. Mô hình ngôn ngữ tự hồi quy
 
 Cho chuỗi token mã nguồn:
-
-[
+$$
 X=(x_1,x_2,\dots,x_n)
-]
+$$
+
 
 Xác suất sinh chuỗi:
-
-[
+$$
 P(X)=\prod_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
-]
+$$
 
-Trong đó (\theta) là tham số mô hình.
+
+Trong đó $\theta$ là tham số mô hình.
 
 Bài toán hoàn thành mã:
-
-[
+$$
 x_{n+1}=\arg\max_x P(x\mid X)
-]
+$$
+
 
 ---
 
 ### 2.2. Hàm mất mát huấn luyện
 
 Quá trình fine-tuning tối ưu hàm cross-entropy:
-
-[
+$$
 \mathcal{L}(\theta)
 ===================
 
 -\frac{1}{N}\sum_{i=1}^{N}\log P(y_i\mid x_i;\theta)
-]
+$$
+
 
 Mục tiêu:
-
-[
+$$
 \theta^*=\arg\min_\theta \mathcal{L}(\theta)
-]
+$$
+
 
 ---
 
 ### 2.3. Tối ưu hóa AdamW
 
 Theo tài liệu , bộ tối ưu AdamW được sử dụng:
-
-[
+$$
 m_t=\beta_1 m_{t-1}+(1-\beta_1)g_t
-]
+$$
 
-[
+$$
 v_t=\beta_2 v_{t-1}+(1-\beta_2)g_t^2
-]
+$$
 
-[
+$$
 \theta_{t+1}=\theta_t-\eta\frac{m_t}{\sqrt{v_t}+\epsilon}-\lambda\theta_t
-]
+$$
+
 
 Trong đó:
 
-* (g_t=\nabla_\theta\mathcal{L}_t),
-* (\lambda): hệ số weight decay.
+* $g_t=\nabla_\theta\mathcal{L}_t$,
+* $\lambda$: hệ số weight decay.
 
 ---
 
@@ -119,12 +119,12 @@ Dữ liệu bao gồm các đoạn mã Python xử lý giải tích:
 * Đồ thị hàm số.
 
 Tập dữ liệu:
-
-[
+$$
 \mathcal{D}={x_1,x_2,\dots,x_N}
-]
+$$
 
-với mỗi (x_i) là một cell code.
+
+với mỗi $x_i$ là một cell code.
 
 ---
 
@@ -139,12 +139,12 @@ Theo tài liệu gốc :
 * Số epoch: tự do lựa chọn.
 
 Tổng số token xử lý:
-
-[
+$$
 M = N\times L
-]
+$$
 
-với (L=128).
+
+với $L=128$.
 
 ---
 
@@ -159,26 +159,26 @@ Quy trình gồm:
 5. Đánh giá sau huấn luyện.
 
 Mô hình ban đầu:
-
-[
+$$
 \theta^{(0)}
-]
+$$
+
 
 Sau huấn luyện:
-
-[
+$$
 \theta^{(T)}=\theta^{(0)}-\sum_{t=1}^{T}\eta\nabla_\theta\mathcal{L}_t
-]
+$$
+
 
 ---
 
 ### 3.4. Instruction Tuning và giới hạn mô hình
 
 Tài liệu  chỉ ra rằng CodeGen chưa được instruction tuning. Do đó:
-
-[
+$$
 P(\text{code}|\text{text prompt}) \text{ thấp}
-]
+$$
+
 
 Nếu không huấn luyện bổ sung.
 
@@ -189,32 +189,32 @@ Nếu không huấn luyện bổ sung.
 ### 4.1. Sinh chuỗi tuần tự
 
 Với prompt ban đầu:
-
-[
+$$
 X_0=(x_1,\dots,x_k)
-]
+$$
+
 
 Mô hình sinh:
-
-[
+$$
 x_{k+1}\sim P(x|X_0)
-]
+$$
+
 
 Cập nhật:
-
-[
+$$
 X_{t+1}=X_t\oplus x_{t+1}
-]
+$$
+
 
 ---
 
 ### 4.2. Temperature Sampling
 
 Xác suất sau chuẩn hóa:
-
-[
+$$
 p_i=\frac{\exp(z_i/T)}{\sum_j\exp(z_j/T)}
-]
+$$
+
 
 Trong đó:
 
@@ -226,10 +226,10 @@ Trong đó:
 ### 4.3. Ví dụ sinh mã
 
 Mô hình sinh các biểu thức như:
-
-[
+$$
 f(x)=10\sin(x^2)
-]
+$$
+
 
 Sau đó ánh xạ sang SymPy:
 
@@ -257,41 +257,41 @@ Theo , đánh giá chủ yếu mang tính định tính:
 
 Có thể mở rộng bằng:
 
-#### (a) Tỷ lệ mã hợp lệ
-
-[
+#### $a$ Tỷ lệ mã hợp lệ
+$$
 R=\frac{1}{M}\sum_{i=1}^{M}f(x_i)
-]
+$$
+
 
 với:
-
-[
+$$
 f(x)=
 \begin{cases}
 1,& \text{chạy được}\
 0,& \text{lỗi}
 \end{cases}
-]
+$$
+
 
 ---
 
-#### (b) Perplexity
-
-[
+#### $b$ Perplexity
+$$
 \text{PPL}=\exp\left(\frac{1}{N}\sum_{i=1}^{N}\mathcal{L}_i\right)
-]
+$$
+
 
 PPL thấp ⇒ mô hình dự đoán tốt.
 
 ---
 
-#### (c) Độ tương đồng cú pháp
+#### $c$ Độ tương đồng cú pháp
 
 Dùng AST similarity:
-
-[
+$$
 S=\frac{|AST_{gen}\cap AST_{ref}|}{|AST_{ref}|}
-]
+$$
+
 
 ---
 
@@ -304,10 +304,10 @@ Theo tài liệu :
 * Mã sinh có hình thức tương tự dữ liệu gốc.
 
 Quan sát:
-
-[
+$$
 \mathcal{L}*{initial}>\mathcal{L}*{final}
-]
+$$
+
 
 Cho thấy mô hình hội tụ.
 
@@ -324,10 +324,10 @@ So với văn bản tự nhiên:
 * Cấu trúc nghiêm ngặt.
 
 Tỷ lệ đa dạng thấp:
-
-[
+$$
 r=\frac{N_{unique}}{N_{total}}\ll1
-]
+$$
+
 
 ⇒ học nhanh nhưng dễ overfit.
 
@@ -336,10 +336,10 @@ r=\frac{N_{unique}}{N_{total}}\ll1
 ### 7.2. Vai trò của instruction tuning
 
 Nếu áp dụng instruction tuning:
-
-[
+$$
 P(\text{code}|\text{text})\uparrow
-]
+$$
+
 
 Giúp mô hình hiểu yêu cầu người dùng.
 
@@ -363,10 +363,10 @@ Phương pháp này có thể ứng dụng trong:
 * Sinh mã mô phỏng khoa học.
 
 Đặc biệt phù hợp khi:
-
-[
+$$
 N_{data}\ \text{nhỏ},\quad P_{model}\ \text{vừa}
-]
+$$
+
 
 ---
 

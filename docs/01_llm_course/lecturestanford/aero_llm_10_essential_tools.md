@@ -40,7 +40,7 @@
 
 ### [MLC LLM](https://github.com/mlc-ai/mlc-llm)
 *   **Đặc điểm:** Giải pháp triển khai LLM đa nền tảng (Universal Deployment).
-*   **Ứng dụng:** Chạy LLM trên Mobile (iOS/Android), Web Browser (WebGPU), và các thiết bị Edge.
+*   **Ứng dụng:** Chạy LLM trên Mobile $iOS/Android$, Web Browser (WebGPU), và các thiết bị Edge.
 
 ---
 

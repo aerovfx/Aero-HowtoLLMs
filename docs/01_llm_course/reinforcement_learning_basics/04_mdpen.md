@@ -16,19 +16,19 @@
 <!-- Aero-Navigation-End -->
 First, MDPs are used to model decision-making problems where outcomes depend probabilistically on the current state. They are central to reinforcement learning because they provide a framework for agents to make optimal decisions in uncertain environments.
 
-Alright, so let's break it down. An MDP is typically defined by five elements: the set of states (S), the set of actions (A), the transition probabilities (P(s,a)), the reward function (R(s,a)), and the discount factor (γ). Let me write that down:
+Alright, so let's break it down. An MDP is typically defined by five elements: the set of states $S$, the set of actions $A$, the transition probabilities (P(s,a)), the reward function (R(s,a)), and the discount factor $γ$. Let me write that down:
 
-- **States (S)**: These are the different situations or environments the agent might encounter. For example, in a game, states could represent positions on a board.
+- **States $S$**: These are the different situations or environments the agent might encounter. For example, in a game, states could represent positions on a board.
   
-- **Actions (A)**: These are the possible moves or decisions an agent can make from any given state. Continuing with the game example, actions could be moving pieces or making strategic choices.
+- **Actions $A$**: These are the possible moves or decisions an agent can make from any given state. Continuing with the game example, actions could be moving pieces or making strategic choices.
 
 - **Transition Probabilities (P(s,a))**: This represents the probability of transitioning from one state to another when a specific action is taken. Mathematically, P(s', s, a) denotes the probability of moving to state s' from state s upon taking action a.
 
 - **Reward Function (R(s,a))**: This function assigns a numerical reward to each possible state-action pair. It quantifies how good or bad it is for the agent to take an action in a particular state. R(s,a) could be +1 for winning a game, -1 for losing, etc.
 
-- **Discount Factor (γ)**: A parameter that determines the importance of future rewards relative to immediate ones. It's usually between 0 and 1. For example, γ = 0.9 means that future rewards are valued at 90% of their face value.
+- **Discount Factor $γ$**: A parameter that determines the importance of future rewards relative to immediate ones. It's usually between 0 and 1. For example, γ = 0.9 means that future rewards are valued at 90% of their face value.
 
-Now, how do these elements come together? In reinforcement learning, an agent interacts with its environment by taking actions in states and receiving rewards based on the transitions and outcomes. The goal is for the agent to learn a policy (π) that maximizes the cumulative reward over time.
+Now, how do these elements come together? In reinforcement learning, an agent interacts with its environment by taking actions in states and receiving rewards based on the transitions and outcomes. The goal is for the agent to learn a policy $π$ that maximizes the cumulative reward over time.
 
 A policy π: S → A is a function that takes a state and returns the probability distribution of actions to take from that state. Sometimes policies are deterministic, meaning they select one action with certainty, or stochastic, selecting actions probabilistically.
 
@@ -42,7 +42,7 @@ $$
 
 Where $R_t$ is the reward received at time t.
 
-To find the optimal policy, we often need to evaluate the value of a given policy. The value function V(s) for a state s under a policy π is defined as the expected cumulative reward starting from state s and following policy π thereafter:
+To find the optimal policy, we often need to evaluate the value of a given policy. The value function V$s$ for a state s under a policy π is defined as the expected cumulative reward starting from state s and following policy π thereafter:
 
 
 $$
@@ -102,14 +102,14 @@ In summary, MDPs provide a formal structure for reinforcement learning problems.
 An **MDP (Markov Decision Process)** is a mathematical framework used to model decision-making processes in environments where outcomes are uncertain. It is central to reinforcement learning, providing a structured approach for agents to make optimal decisions.
 
 ### Components of an MDP:
-1. **States (S):** The set of possible situations or contexts the agent can encounter.
-2. **Actions (A):** The set of possible decisions or actions the agent can take in any given state.
+1. **States $S$:** The set of possible situations or contexts the agent can encounter.
+2. **Actions $A$:** The set of possible decisions or actions the agent can take in any given state.
 3. **Transition Probabilities (P(s,a)):** The probabilities of moving from one state to another when a specific action is taken.
 4. **Reward Function (R(s,a)):** A function that assigns rewards to each state-action pair, indicating how good or bad taking an action in a state is.
-5. **Discount Factor (γ):** A parameter (0 ≤ γ ≤ 1) that determines the weight of future rewards compared to immediate ones.
+5. **Discount Factor $γ$:** A parameter (0 ≤ γ ≤ 1) that determines the weight of future rewards compared to immediate ones.
 
 ### Objective:
-The goal for the agent is to learn a policy (π), which maps states to actions, maximizing the expected cumulative reward over time.
+The goal for the agent is to learn a policy $π$, which maps states to actions, maximizing the expected cumulative reward over time.
 
 ### Key Equations and Concepts:
 

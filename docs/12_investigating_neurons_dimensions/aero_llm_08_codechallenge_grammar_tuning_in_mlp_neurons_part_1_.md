@@ -30,7 +30,7 @@ Một câu hỏi trung tâm trong Diễn giải học là: Các LLM có sở h�
 Trong một khối Transformer:
 - **Lớp Attention:** Đóng vai trò tích hợp ngữ cảnh từ các token xung quanh (ai đang làm gì cho ai).
 - **Lớp MLP:** Đóng vai trò nhận diện các thuộc tính nội tại của token (đây là một vật thể hay một hành động).
-Đặc biệt, lớp mở rộng (C_FC) tăng số chiều lên gấp 4 lần (từ 768 lên 3072 trong GPT-2 Small), tạo ra một không gian rộng lớn để mô hình phân tách các khái niệm ngữ nghĩa và ngữ pháp.
+Đặc biệt, lớp mở rộng $C_FC$ tăng số chiều lên gấp 4 lần (từ 768 lên 3072 trong GPT-2 Small), tạo ra một không gian rộng lớn để mô hình phân tách các khái niệm ngữ nghĩa và ngữ pháp.
 
 ---
 

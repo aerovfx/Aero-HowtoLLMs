@@ -160,7 +160,7 @@ Output
 ```
 
 **Benefits:**
-- ✅ Efficient: Only ~12.5% params active (2/16 experts)
+- ✅ Efficient: Only ~12.5% params active $2/16 experts$
 - ✅ Specialized: Each expert learns different patterns
 - ✅ Scalable: Easy to add more experts
 

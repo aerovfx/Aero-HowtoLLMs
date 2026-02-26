@@ -720,15 +720,15 @@ Dưới đây là phần **Pseudocode + PyTorch Implementation cho Causal FlashA
 
 FlashAttention là kỹ thuật tính toán attention theo từng block nhằm:
 
-* Tránh lưu ma trận (QK^T),
+* Tránh lưu ma trận $QK^T$,
 * Giảm bộ nhớ từ (O(T^2)) xuống (O(Td)),
 * Tăng tốc độ trên GPU.
 
 Trong bối cảnh autoregressive LLM, FlashAttention được kết hợp với **causal constraint** để đảm bảo:
-
-[
+$$
 j > i \Rightarrow \text{masked}
-]
+$$
+
 
 Phần này trình bày:
 
@@ -746,14 +746,14 @@ Phần này trình bày:
 
 **Input**
 
-* Query: ( Q \in \mathbb{R}^{T \times d} )
-* Key: ( K \in \mathbb{R}^{T \times d} )
-* Value: ( V \in \mathbb{R}^{T \times d} )
-* Block size: ( B )
+* Query: $Q \in \mathbb{R}^{T \times d}$
+* Key: $K \in \mathbb{R}^{T \times d}$
+* Value: $V \in \mathbb{R}^{T \times d}$
+* Block size: $B$
 
 **Output**
 
-* Output: ( O \in \mathbb{R}^{T \times d} )
+* Output: $O \in \mathbb{R}^{T \times d}$
 
 ---
 
@@ -816,18 +816,18 @@ Algorithm 6: Causal-FlashAttention(Q, K, V, B)
 ## C.3. Softmax Online
 
 FlashAttention dùng công thức:
-
-[
+$$
 m_i = \max(m_{i-1}, s_i)
-]
+$$
 
-[
+$$
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
-]
+$$
 
-[
+$$
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
-]
+$$
+
 
 Giúp:
 

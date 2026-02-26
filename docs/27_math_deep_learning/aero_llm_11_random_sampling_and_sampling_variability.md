@@ -51,7 +51,7 @@ Biến thiên trong dữ liệu đến từ ba nguồn chính:
 ## 4. Thực nghiệm Mô phỏng và Phân tích Trực quan
 
 Nghiên cứu thực hiện lấy mẫu ngẫu nhiên từ một "quần thể giả lập" trong Python:
-- **Kịch bản mẫu nhỏ (n=5):** Kết quả trung bình mẫu biến động cực mạnh (từ cực thấp đến cực cao so với trung bình quần thể), dẫn đến sai số ước lượng lên tới 300%.
+- **Kịch bản mẫu nhỏ $n=5$:** Kết quả trung bình mẫu biến động cực mạnh (từ cực thấp đến cực cao so với trung bình quần thể), dẫn đến sai số ước lượng lên tới 300%.
 - **Kịch bản mẫu lớn (n=15 và hơn thế nữa):** Biểu đồ histogram cho thấy phân phối trung bình mẫu co hẹp đáng kể xung quanh giá trị thực. Khoảng biến thiên giảm từ [-4, 6] xuống còn [-2, 2].
 - **Kết luận thực nghiệm:** Kích thước mẫu càng lớn, khả năng đại diện của dữ liệu càng cao, giúp ngăn chặn hiện tượng quá khớp (overfitting) và tăng tính tổng quát hóa (generalization) cho mô hình AI.
 

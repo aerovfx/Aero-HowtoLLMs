@@ -62,7 +62,7 @@ Giả sử tập dữ liệu huấn luyện D.
 
 WordPiece tối đa hóa:
 
-\mathcal{L} = \sum_{w \in D} \log P(w)
+\mathcal{L} = \sum_{w \in D} \log P$w$
 
 Trong đó một từ w được phân rã thành:
 
@@ -70,7 +70,7 @@ w = (t_1, t_2, ..., t_k)
 
 Xác suất:
 
-P(w) = \prod_{i=1}^{k} P(t_i)
+P$w$ = \prod_{i=1}^{k} P$t_i$
 
 Thuật toán chọn phép gộp làm tăng likelihood nhiều nhất.
 
@@ -100,11 +100,11 @@ Gọi:
 
 Phân bố:
 
-P(t) = \frac{\text{count}(t)}{\sum_{t' \in V} \text{count}(t')}
+P$t$ = \frac{\text{count}$t$}{\sum_{t' \in V} \text{count}(t')}
 
 Entropy:
 
-H = - \sum_{t \in V} P(t)\log P(t)
+H = - \sum_{t \in V} P$t$\log P$t$
 
 ⸻
 
@@ -116,11 +116,11 @@ m = \alpha n
 
 Self-attention trong Transformer encoder:
 
-O(m^2)
+O$m^2$
 
 Do đó:
 
-O((\alpha n)^2)
+O$(\alpha n$^2)
 
 Tokenization ảnh hưởng trực tiếp đến chi phí tính toán.
 
@@ -161,11 +161,11 @@ E_{\text{total}} = E_{\text{token}} + E_{\text{position}} + E_{\text{segment}}
 
 BERT huấn luyện bằng cách che một số token:
 
-P(t_i | T_{\setminus i})
+P$t_i | T_{\setminus i}$
 
 Loss:
 
-\mathcal{L}_{MLM} = - \sum_{i \in M} \log P(t_i | T_{\setminus i})
+\mathcal{L}_{MLM} = - \sum_{i \in M} \log P$t_i | T_{\setminus i}$
 
 Trong đó M là tập token bị mask.
 
@@ -218,15 +218,15 @@ Giảm vấn đề OOV (Out-of-Vocabulary).
 
 Tokenization trong BERT dựa trên WordPiece có thể được mô hình hóa:
 
-\max \sum_{w \in D} \log \prod_{i=1}^{k} P(t_i)
+\max \sum_{w \in D} \log \prod_{i=1}^{k} P$t_i$
 
 Ảnh hưởng trực tiếp đến:
 
 m = \alpha n
 
-\text{Attention Cost} = O(m^2)
+\text{Attention Cost} = O$m^2$
 
-H = - \sum P(t)\log P(t)
+H = - \sum P$t$\log P$t$
 
 Do đó, thiết kế tokenizer là bài toán tối ưu đa mục tiêu giữa:
 	•	Khả năng tổng quát hóa
