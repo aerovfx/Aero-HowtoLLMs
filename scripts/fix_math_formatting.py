@@ -2,17 +2,16 @@ import os
 import re
 
 def fix_content_structure(content):
-    # 1. Loại bỏ các khối code block markdown bao ngoài (```md ... ```)
-    # Chúng ta quét toàn bộ file và nếu thấy cấu trúc này bao quanh phần lớn nội dung, ta bóc nó ra.
+    # 1. Loại bỏ các khối ```md và ``` bao ngoài
     lines = content.split('\n')
-    if len(lines) > 10: # Chỉ xử lý file đủ lớn
-        # Kiểm tra xem có dấu đóng mở ```md / ``` rải rác không
-        new_lines = []
-        for line in lines:
-            if line.strip() in ['```md', '```']:
-                continue
-            new_lines.append(line)
-        content = '\n'.join(new_lines)
+    new_lines = []
+    # Chỉ xóa nếu dòng đó đúng bằng ```md hoặc ``` và không có dấu hiệu là code block thực sự (như có nội dung bên cạnh)
+    for line in lines:
+        s = line.strip()
+        if s == '```md' or s == '```':
+            continue
+        new_lines.append(line)
+    content = '\n'.join(new_lines)
 
     # 2. Xóa bỏ các tham chiếu rác :contentReference[oaicite:...]
     content = re.sub(r':contentReference\[oaicite:\d+\]\{index=\d+\}', '', content)
@@ -25,13 +24,12 @@ def fix_content_structure(content):
 def fix_math_ultra_clean(content):
     content = fix_content_structure(content)
 
-    # Xử lý theo dòng để tránh lỗi regex matching nhầm vào bên trong $$
     lines = content.split('\n')
     new_lines = []
     in_math_block = False
     math_buffer = []
     
-    for i, line in enumerate(lines):
+    for line in lines:
         stripped = line.strip()
         if stripped == '$$':
             if not in_math_block:
@@ -39,8 +37,34 @@ def fix_math_ultra_clean(content):
                 math_buffer = []
             else:
                 in_math_block = False
-                # Dọn dẹp nội dung toán học: ghép thành 1 dòng, xóa khoảng trắng thừa
-                formula = " ".join([l.strip() for l in math_buffer if l.strip()])
+                
+                # Xử lý nội dung bên trong $$
+                # 1. Loại bỏ các dòng trống
+                clean_lines = [l.strip() for l in math_buffer if l.strip()]
+                
+                # 2. Kết nối các dòng: 
+                # Nếu một dòng kết thúc bằng \\ thì giữ nguyên xuống dòng (cho cases, v.v.)
+                # Nếu không, nối bằng khoảng trắng
+                final_formula_lines = []
+                current_segment = []
+                for l in clean_lines:
+                    current_segment.append(l)
+                    if l.endswith('\\\\') or l.endswith('\\'):
+                        # Nếu kết thúc bằng \ hoặc \\, ta coi như kết thúc một dòng logic trong LaTeX
+                        # Lưu ý: GitHub LaTeX dùng \\ cho xuống dòng trong cases
+                        # Ta chuẩn hóa: nếu là \ thì đổi thành \\
+                        line_text = " ".join(current_segment)
+                        if line_text.endswith('\\') and not line_text.endswith('\\\\'):
+                            line_text += '\\'
+                        final_formula_lines.append(line_text)
+                        current_segment = []
+                
+                if current_segment:
+                    final_formula_lines.append(" ".join(current_segment))
+                
+                formula = "\n".join(final_formula_lines)
+                
+                # Sửa lỗi dấu bằng ASCII
                 formula = re.sub(r'={3,}', '=', formula)
                 
                 # Đảm bảo có dòng trống TRƯỚC khối $$
@@ -50,8 +74,6 @@ def fix_math_ultra_clean(content):
                 new_lines.append('$$')
                 new_lines.append(formula)
                 new_lines.append('$$')
-                
-                # Đảm bảo có dòng trống SAU khối $$ (sẽ được thêm ở vòng lặp sau hoặc cuối)
                 new_lines.append('')
                 math_buffer = []
         else:
@@ -60,11 +82,9 @@ def fix_math_ultra_clean(content):
             else:
                 new_lines.append(line)
     
-    # Ghép lại và dọn dẹp dòng trống trùng lặp
     content = '\n'.join(new_lines)
     content = re.sub(r'\n{3,}', '\n\n', content)
     
-    # Sửa lỗi chính tả
     content = content.replace("Ave18_rage", "Average")
     
     return content
