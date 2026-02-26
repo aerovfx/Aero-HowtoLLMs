@@ -52,7 +52,9 @@ The Time Machine by H. G. Wells
 
 Sau xử lý có thể thành:
 
+$$
 \text{"the"}, \text{"time"}, \text{"machine"}, \text{"by"}, \text{"h"}, \text{"g"}, \text{"wells"}
+$$
 
 ---
 
