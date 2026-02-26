@@ -34,7 +34,7 @@ Biểu diễn từ (word representation) là nền tảng của nhiều hệ th�
 
 Mục tiêu là xây dựng ánh xạ:
 
-E: V \rightarrow \mathbb{R}^d
+E: V \rightarrow $\mathbb${R}^d
 
 Trong đó:
 	•	V: tập từ vựng
@@ -50,15 +50,21 @@ Giả sử một corpus có tổng số từ T.
 
 Định nghĩa:
 
+$$
 X_{ij} = \text{số lần từ } w_j \text{ xuất hiện trong cửa sổ ngữ cảnh của } w_i
+$$
 
 Tổng số lần xuất hiện của w_i:
 
-X_i = \sum_j X_{ij}
+$$
+X_i = $\sum$_j X_{ij}
+$$
 
 Xác suất đồng xuất hiện:
 
+$$
 P_{ij} = \frac{X_{ij}}{X_i}
+$$
 
 ⸻
 
@@ -69,13 +75,22 @@ Pennington et al. (2014) lập luận rằng tỷ lệ xác suất đồng xuấ
 \frac{P_{ik}}{P_{jk}}
 
 Ví dụ:
-	•	i = ice
-	•	j = steam
-	•	k = solid
+
+$$
+•	i = ice
+$$
+
+$$
+•	j = steam
+$$
+
+$$
+•	k = solid
+$$
 
 Ta kỳ vọng:
 
-\frac{P$\text{solid}\mid \text{ice}$}{P$\text{solid}\mid \text{steam}$} \gg 1
+\frac{$P(\text{solid}\mid \text{ice})$}{$P(\text{solid}\mid \text{steam})$} \gg 1
 
 Do đó, embedding nên mã hóa các tỷ lệ này.
 
@@ -85,13 +100,21 @@ Do đó, embedding nên mã hóa các tỷ lệ này.
 
 GloVe tìm vector w_i và \tilde{w}_j sao cho:
 
-w_i^\top \tilde{w}_j + b_i + b_j \approx \log X_{ij}
+$$
+w_i^\top \tilde{w}_j + b_i + b_j $\approx$ $\log$ X_{ij}
+$$
 
 Hàm mất mát:
 
-J = \sum_{i,j} f$X_{ij}$
-\left(
-w_i^\top \tilde{w}_j + b_i + b_j - \log X_{ij}
+$$
+J = $\sum$_{i,j} f$X_{ij}$
+$$
+
+$$
+$\le$ft(
+$$
+
+w_i^\top \tilde{w}_j + b_i + b_j - $\log$ X_{ij}
 \right)^2
 
 Trong đó:
@@ -112,17 +135,21 @@ Thường:
 
 PMI được định nghĩa:
 
-PMI(i,j) = \log \frac{P_{ij}}{P_i P_j}
+$$
+PMI(i,j) = $\log$ \frac{P_{ij}}{P_i P_j}
+$$
 
 Levy & Goldberg (2014) chỉ ra rằng Word2Vec với negative sampling xấp xỉ phân rã ma trận:
 
-PMI(i,j) - \log k
+PMI(i,j) - $\log$ k
 
 GloVe gần tương đương với việc factorize ma trận log-count.
 
 Do đó:
 
-w_i^\top \tilde{w}_j \approx PMI(i,j)
+$$
+w_i^\top \tilde{w}_j $\approx$ PMI(i,j)
+$$
 
 ⸻
 
@@ -130,7 +157,7 @@ w_i^\top \tilde{w}_j \approx PMI(i,j)
 
 Embedding sau huấn luyện nằm trong:
 
-\mathbb{R}^d
+$\mathbb${R}^d
 
 Khoảng cách cosine:
 
@@ -146,11 +173,15 @@ Phản ánh độ tương đồng ngữ nghĩa.
 
 Một tính chất nổi bật:
 
-w_{king} - w_{man} + w_{woman} \approx w_{queen}
+$$
+w_{king} - w_{man} + w_{woman} $\approx$ w_{queen}
+$$
 
 Điều này có thể diễn giải:
 
-(w_{king} - w_{man}) \approx (w_{queen} - w_{woman})
+$$
+(w_{king} - w_{man}) $\approx$ (w_{queen} - w_{woman})
+$$
 
 Cho thấy tồn tại các hướng ngữ nghĩa trong không gian vector.
 
@@ -160,19 +191,23 @@ Cho thấy tồn tại các hướng ngữ nghĩa trong không gian vector.
 
 Ma trận đồng xuất hiện:
 
-X \in \mathbb{R}^{|V| \times |V|}
+X \in $\mathbb${R}^{|V| \times |V|}
 
 Phân rã SVD:
 
+$$
 X = U \Sigma V^\top
+$$
 
 Embedding tương đương với chọn:
 
+$$
 W = U_d \Sigma_d^{1/2}
+$$
 
 Phổ trị riêng thường tuân theo luật Zipf:
 
-\lambda_r \propto \frac{1}{r^\beta}
+\lambda_r $\propto$ \frac{1}{r^\beta}
 
 Theo George Kingsley Zipf.
 
@@ -182,15 +217,21 @@ Theo George Kingsley Zipf.
 
 Entropy của phân bố từ:
 
-H$W$ = -\sum_i P$w_i$\log P$w_i$
+$$
+H$W$ = -$\sum$_i $P(w_i)$\log $P(w_i)$
+$$
 
 Mutual information giữa hai từ:
 
-I(i;j) = \sum_{i,j} P_{ij} \log \frac{P_{ij}}{P_i P_j}
+$$
+I(i;j) = $\sum$_{i,j} P_{ij} $\log$ \frac{P_{ij}}{P_i P_j}
+$$
 
 GloVe học embedding sao cho:
 
-w_i^\top w_j \approx I(i;j)
+$$
+w_i^\top w_j $\approx$ I(i;j)
+$$
 
 ⸻
 
@@ -221,7 +262,9 @@ e$w$ = \text{hằng số}
 
 Trong khi mô hình ngữ cảnh:
 
+$$
 e_t = f$w_1,\dots,w_T$
+$$
 
 ⸻
 
@@ -230,10 +273,13 @@ e_t = f$w_1,\dots,w_T$
 Các phép phân tích thường dùng:
 	•	PCA:
 
+$$
 Z = XW
+$$
+
 	•	t-SNE:
 
-P_{ij} \propto \exp$-\\mid x_i-x_j\\mid^2$
+P_{ij} $\propto$ \exp$-\\mid x_i-x_j\\mid^2$
 
 Cho thấy các cụm ngữ nghĩa rõ ràng:
 	•	Quốc gia
@@ -246,7 +292,9 @@ Cho thấy các cụm ngữ nghĩa rõ ràng:
 
 GloVe dựa trên nguyên lý:
 
-w_i^\top w_j \approx \log X_{ij}
+$$
+w_i^\top w_j $\approx$ $\log$ X_{ij}
+$$
 
 Embedding học được:
 	•	Cấu trúc tuyến tính

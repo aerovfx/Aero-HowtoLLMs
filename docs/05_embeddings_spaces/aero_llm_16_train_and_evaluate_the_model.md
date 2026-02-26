@@ -35,7 +35,9 @@ Trong đó:
 
 Quá trình huấn luyện nhằm tìm ra bộ tham số \theta^* sao cho hàm mất mát được tối thiểu hóa:
 
-\theta^* = \arg\min_\theta \mathcal{L}$\theta$
+$$
+\theta^{\ast} = \arg\min_\theta $\mathcal${L}$\theta$
+$$
 
 ⸻
 
@@ -47,7 +49,9 @@ Tùy theo loại bài toán, hàm mất mát được xác định khác nhau.
 
 $a$ Hồi quy – Mean Squared Error (MSE)
 
-\mathcal{L}_{MSE} = \frac{1}{n} \sum_{i=1}^{n} $y_i - \hat{y}_i$^2
+$$
+$\mathcal${L}_{MSE} = \frac{1}{n} $\sum$_{i=1}^{n} $y_i - \hat{y}_i$^2
+$$
 
 Trong đó:
 	•	y_i là giá trị thực
@@ -57,7 +61,9 @@ Trong đó:
 
 $b$ Phân loại – Cross Entropy Loss
 
-\mathcal{L}_{CE} = - \sum_{i=1}^{n} y_i \log$\hat{y}_i$
+$$
+$\mathcal${L}_{CE} = - $\sum$_{i=1}^{n} y_i $\log$$\hat{y}_i$
+$$
 
 Cross-entropy có nguồn gốc từ lý thuyết thông tin của Shannon (1948).
 
@@ -67,19 +73,26 @@ Cross-entropy có nguồn gốc từ lý thuyết thông tin của Shannon (1948
 
 Thuật toán cập nhật tham số:
 
-\theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}$\theta_t$
+$$
+\theta_{t+1} = \theta_t - \eta $\nabla$_\theta $\mathcal${L}$\theta_t$
+$$
 
 Trong đó:
 	•	\eta là learning rate
-	•	\nabla_\theta \mathcal{L} là gradient
+	•	$\nabla$_\theta $\mathcal${L} là gradient
 
 Các biến thể:
 	•	Batch Gradient Descent
 	•	Stochastic Gradient Descent (SGD)
 	•	Adam Optimizer:
 
+$$
 m_t = \beta_1 m_{t-1} + $1-\beta_1$g_t
+$$
+
+$$
 v_t = \beta_2 v_{t-1} + $1-\beta_2$g_t^2
+$$
 
 Adam được đề xuất bởi Kingma & Ba (2015).
 
@@ -104,11 +117,15 @@ Overfitting
 
 Mô hình học quá sát dữ liệu huấn luyện:
 
-\mathcal{L}_{train} \ll \mathcal{L}_{test}
+$\mathcal${L}_{train} \ll $\mathcal${L}_{test}
 
 Giải pháp:
 	•	Regularization:
-\mathcal{L}_{reg} = \mathcal{L} + \lambda ||\theta||^2
+
+$$
+$\mathcal${L}_{reg} = $\mathcal${L} + \lambda ||\theta||^2
+$$
+
 	•	Dropout
 	•	Early stopping
 
@@ -148,11 +165,15 @@ Diện tích dưới đường cong ROC đo khả năng phân biệt hai lớp.
 
 $a$ Mean Absolute Error (MAE)
 
-MAE = \frac{1}{n} \sum |y_i - \hat{y}_i|
+$$
+MAE = \frac{1}{n} $\sum$ |y_i - \hat{y}_i|
+$$
 
 $b$ R² Score
 
-R^2 = 1 - \frac{\sum $y_i - \hat{y}_i$^2}{\sum $y_i - \bar{y}$^2}
+$$
+R^2 = 1 - \frac{$\sum$ $y_i - \hat{y}_i$^2}{$\sum$ $y_i - \bar{y}$^2}
+$$
 
 ⸻
 
@@ -164,7 +185,9 @@ Trong quá trình huấn luyện:
 	•	Sử dụng confusion matrix
 	•	Cross-validation:
 
-CV = \frac{1}{k} \sum_{i=1}^{k} \mathcal{L}_i
+$$
+CV = \frac{1}{k} $\sum$_{i=1}^{k} $\mathcal${L}_i
+$$
 
 ⸻
 
@@ -172,7 +195,9 @@ CV = \frac{1}{k} \sum_{i=1}^{k} \mathcal{L}_i
 
 Huấn luyện và đánh giá mô hình không chỉ là quá trình kỹ thuật mà còn là bài toán tối ưu hóa thống kê. Sai lệch (bias) và phương sai (variance) đóng vai trò quan trọng:
 
-\mathbb{E}[$y - \hat{f}(x$)^2] = Bias^2 + Variance + \sigma^2
+$$
+$\mathbb${E}[$y - \hat{f}(x$)^2] = Bias^2 + Variance + \sigma^2
+$$
 
 Cân bằng bias-variance là chìa khóa xây dựng mô hình tổng quát hóa tốt.
 

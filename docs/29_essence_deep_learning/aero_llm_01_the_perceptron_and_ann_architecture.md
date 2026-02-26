@@ -31,7 +31,13 @@ Perceptron là "tế bào" cơ bản của mọi kiến trúc học sâu. Nó ho
 Về bản chất toán học, Perceptron thực hiện phép tính **tích vô hướng** giữa véc-tơ đầu vào $x$ và véc-tơ trọng số $w$:
 
 $$
-y = x^T w = \sum_{i=1}^{n} x_i w_i
+
+$$
+
+y = x^T w = $\sum$_{i=1}^{n} x_i w_i
+
+$$
+
 $$
 
 ---

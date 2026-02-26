@@ -31,7 +31,13 @@ Trong các mô hình ngôn ngữ hiện đại, dữ liệu văn bản phải đ
 Cho văn bản đầu vào:
 
 $$
+
+$$
+
 X = (c_1, c_2, \dots, c_n), \quad c_i \in \Sigma
+
+$$
+
 $$
 
 Tokenization thực hiện ánh xạ:
@@ -100,19 +106,37 @@ Mục tiêu:
 Sau khi tách theo khoảng trắng:
 
 $$
+
+$$
+
 X = (w_1, w_2, \dots, w_T)
+
+$$
+
 $$
 
 Số lượng token:
 
 $$
-T \leq n
+
+$$
+
+T $\le$q n
+
+$$
+
 $$
 
 Tần suất xuất hiện của từ $w$:
 
 $$
-f(w) = \sum_{i=1}^{T} \mathbf{1}(w_i = w)
+
+$$
+
+f(w) = $\sum$_{i=1}^{T} \mathbf{1}(w_i = w)
+
+$$
+
 $$
 
 ---
@@ -122,7 +146,13 @@ $$
 Tập từ vựng:
 
 $$
-V = { w \mid f(w) \geq \delta }
+
+$$
+
+V = { w \mid f(w) $\ge$q \delta }
+
+$$
+
 $$
 
 với $\delta$ là ngưỡng tối thiểu.
@@ -146,13 +176,19 @@ $$
 Token $w_i$ được biểu diễn:
 
 $$
-x_i \in \mathbb{R}^{M}
+x_i \in $\mathbb${R}^{M}
 $$
 
 với:
 
 $$
+
+$$
+
 x_{ij} = \begin{cases} 1 & \text{nếu } j = id(w_i) \\ 0 & \text{ngược lại} \end{cases}
+
+$$
+
 $$
 
 Nhược điểm:
@@ -167,25 +203,37 @@ Nhược điểm:
 Embedding matrix:
 
 $$
-E \in \mathbb{R}^{M \times d}
+E \in $\mathbb${R}^{M \times d}
 $$
 
 Vector embedding:
 
 $$
+
+$$
+
 e_i = E^T x_i
+
+$$
+
 $$
 
 Do đó:
 
 $$
-e_i \in \mathbb{R}^{d}
+e_i \in $\mathbb${R}^{d}
 $$
 
 Khoảng cách cosine:
 
 $$
+
+$$
+
 \cos(e_i, e_j) = \frac{e_i \cdot e_j}{|e_i||e_j|}
+
+$$
+
 $$
 
 Giúp đo mức độ tương đồng ngữ nghĩa.
@@ -197,25 +245,49 @@ Giúp đo mức độ tương đồng ngữ nghĩa.
 Theo mô hình tự hồi quy:
 
 $$
-P(X) = \prod_{t=1}^{T} P(w_t \mid w_{\lt t})
+
+$$
+
+P(X) = $\prod$_{t=1}^{T} P(w_t \mid w_{\lt t})
+
+$$
+
 $$
 
 Mạng Transformer tính:
 
 $$
+
+$$
+
 Z = \text{Transformer}(e_1, \dots, e_T)
+
+$$
+
 $$
 
 Logits:
 
 $$
+
+$$
+
 z_t = W_{out} h_t
+
+$$
+
 $$
 
 Softmax:
 
 $$
-P(w_t = j \mid w_{\lt t}) = \frac{\exp(z_{tj})} {\sum_{k=1}^{M} \exp(z_{tk})}
+
+$$
+
+P(w_t = j \mid w_{\lt t}) = \frac{\exp(z_{tj})} {$\sum$_{k=1}^{M} \exp(z_{tk})}
+
+$$
+
 $$
 
 ---
@@ -225,7 +297,7 @@ $$
 Self-attention:
 
 $$
-\mathcal{O}(T^2 d)
+$\mathcal${O}(T^2 d)
 $$
 
 Nếu văn bản dài như *The Time Machine* (~30,000 từ), chi phí tăng theo bình phương độ dài chuỗi.
@@ -243,7 +315,13 @@ Do đó, tokenization tối ưu giúp:
 Entropy của tập từ:
 
 $$
-H(W) = - \sum_{w \in V} P(w) \log P(w)
+
+$$
+
+H(W) = - $\sum$_{w \in V} P(w) $\log$ P(w)
+
+$$
+
 $$
 
 Với:
@@ -255,7 +333,7 @@ $$
 Nếu phân bố Zipf:
 
 $$
-f(w_r) \propto \frac{1}{r}
+f(w_r) $\propto$ \frac{1}{r}
 $$
 
 trong đó $r$ là thứ hạng tần suất.
@@ -280,7 +358,13 @@ Giải pháp: Byte Pair Encoding (BPE).
 Tập hợp phân rã:
 
 $$
+
+$$
+
 w = s_1 s_2 \dots s_k
+
+$$
+
 $$
 
 với $s_i \in V_{subword}$
@@ -321,7 +405,7 @@ Thông qua ví dụ *The Time Machine*, ta thấy:
 Toàn bộ quá trình có thể được mô hình hóa:
 
 $$
-\Sigma^{\ast} \xrightarrow{\tau} V^{\ast} \xrightarrow{E} \mathbb{R}^{T \times d}
+\Sigma^{\ast} \xrightarrow{\tau} V^{\ast} \xrightarrow{E} $\mathbb${R}^{T \times d}
 $$
 
 đóng vai trò nền tảng cho mọi mô hình Transformer hiện đại.

@@ -32,7 +32,11 @@ Theo quy tắc chuỗi:
 
 P(w_1^T)
 =
-\prod_{t=1}^{T}
+
+$$
+$\prod$_{t=1}^{T}
+$$
+
 P(w_t | w_1^{t-1})
 
 Mục tiêu là tối đa hóa xác suất chuỗi văn bản trong tập kiểm tra.
@@ -48,7 +52,7 @@ Entropy của phân phối p$x$:
 H$p$
 =
 -
-\sum_x
+$\sum$_x
 p$x$\log p$x$
 
 Đơn vị: bits (log base 2) hoặc nats (log base e).
@@ -62,7 +66,7 @@ Nếu mô hình ước lượng phân phối q$x$:
 H(p, q)
 =
 -
-\sum_x
+$\sum$_x
 p$x$\log q$x$
 
 Trong thực nghiệm, ta dùng ước lượng:
@@ -71,8 +75,12 @@ Trong thực nghiệm, ta dùng ước lượng:
 =
 -
 \frac{1}{T}
-\sum_{t=1}^{T}
-\log P_\theta(w_t | w_1^{t-1})
+
+$$
+$\sum$_{t=1}^{T}
+$$
+
+$\log$ P_\theta(w_t | w_1^{t-1})
 
 ⸻
 
@@ -87,11 +95,19 @@ Hoặc:
 
 PP =
 \exp
-\left(
+
+$$
+$\le$ft(
+$$
+
 -
 \frac{1}{T}
-\sum_{t=1}^{T}
-\log P(w_t | w_1^{t-1})
+
+$$
+$\sum$_{t=1}^{T}
+$$
+
+$\log$ P(w_t | w_1^{t-1})
 \right)
 
 Nếu log base 2:
@@ -116,15 +132,21 @@ Ví dụ:
 
 Log-likelihood trung bình:
 
-\ell
+$\ell$
 =
 \frac{1}{T}
-\sum_{t=1}^{T}
-\log P(w_t | w_1^{t-1})
+
+$$
+$\sum$_{t=1}^{T}
+$$
+
+$\log$ P(w_t | w_1^{t-1})
 
 Khi đó:
 
-PP = e^{-\ell}
+$$
+PP = e^{-$\ell$}
+$$
 
 Giảm perplexity ⇔ tăng log-likelihood.
 
@@ -134,13 +156,19 @@ Giảm perplexity ⇔ tăng log-likelihood.
 
 Giả sử mô hình dự đoán xác suất trung bình:
 
-P(w_t | context) = 0.2
+$$
+P(w_t  \mid  context) = 0.2
+$$
 
 Khi đó:
 
-\hat{H} = -\log(0.2)
+$$
+\hat{H} = -$\log$(0.2)
+$$
 
-PP = \exp$-\log 0.2$ = \frac{1}{0.2} = 5
+$$
+PP = \exp$-$\log$ 0.2$ = \frac{1}{0.2} = 5
+$$
 
 ⸻
 
@@ -166,7 +194,9 @@ Data\ sparsity
 
 Với mạng nơ-ron:
 
+$$
 z_t = W h_t
+$$
 
 P(w_t | context)
 =
@@ -174,18 +204,22 @@ P(w_t | context)
 
 Cross-entropy loss:
 
-\mathcal{L}
+$\mathcal${L}
 =
 -
-\sum_t
-\log P(w_t | context)
+$\sum$_t
+$\log$ P(w_t | context)
 
 Perplexity:
 
 PP =
 \exp
-\left(
-\frac{\mathcal{L}}{T}
+
+$$
+$\le$ft(
+$$
+
+\frac{$\mathcal${L}}{T}
 \right)
 
 ⸻
@@ -255,7 +289,9 @@ PP
 
 Perplexity tối thiểu khi:
 
+$$
 q = p
+$$
 
 ⸻
 
@@ -281,7 +317,9 @@ Perplexity có thể tăng nhưng chất lượng hội thoại tốt hơn.
 
 Perplexity là thước đo toán học chặt chẽ dựa trên entropy và likelihood:
 
+$$
 PP = e^{H}
+$$
 
 Nó cung cấp:
 	•	Đánh giá định lượng chuẩn hóa

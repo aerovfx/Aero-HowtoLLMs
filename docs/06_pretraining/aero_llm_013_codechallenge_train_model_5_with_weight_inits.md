@@ -130,7 +130,10 @@ Trong bài tập 2, tác giả yêu cầu:
 Dữ liệu được trích xuất bằng:
 
 ```python
+
+$$
 weights = model.blocks[i].attn.qkv.weight.detach().cpu()
+$$
 
 ---
 

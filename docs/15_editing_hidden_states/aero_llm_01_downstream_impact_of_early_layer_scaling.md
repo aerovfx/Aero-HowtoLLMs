@@ -47,7 +47,7 @@ Trong đó $\\mid\cdot\\mid_F$ là chuẩn Frobenius của ma trận. Nếu $\De
 ## 3. Khảo Sát Tác Động Hạ Nguồn (Analysis)
 
 ### 3.1. Sự Hiện Diện Của Sai Lệch (The Divergence)
-Đồ thị biểu diễn sai biệt cho thấy tại các tầng trước can thiệp (Embedding, Layer 0, Layer 1), $\Delta \approx 0$. Ngay tại Layer 2, giá trị này nhảy vọt. Đáng chú ý, từ Layer 3 trở đi, $\Delta$ liên tục tăng trưởng một cách phi tuyến. Điều này bác bỏ giả thuyết về việc mô hình có thể "tự chữa lành" hoàn toàn sự co giãn tín hiệu chỉ bằng các lớp Normalization hạ nguồn.
+Đồ thị biểu diễn sai biệt cho thấy tại các tầng trước can thiệp (Embedding, Layer 0, Layer 1), $\Delta $\approx$ 0$. Ngay tại Layer 2, giá trị này nhảy vọt. Đáng chú ý, từ Layer 3 trở đi, $\Delta$ liên tục tăng trưởng một cách phi tuyến. Điều này bác bỏ giả thuyết về việc mô hình có thể "tự chữa lành" hoàn toàn sự co giãn tín hiệu chỉ bằng các lớp Normalization hạ nguồn.
 
 ### 3.2. Hiện Tượng Token Đầu Tiên (The First Token Quirk)
 Một phát hiện thực nghiệm quan trọng: Nếu bao gồm cả Token đầu tiên trong phân tích, giá trị sai biệt $\Delta$ sẽ bùng nổ vượt tầm kiểm soát (tăng vọt một bậc độ lớn - Order of magnitude). Hiện tượng này xảy ra do Token đầu tiên thường mang các đặc tính khởi tạo hoặc dấu hiệu phân đoạn (BOS) có biên độ cực lớn. Khuyến nghị nghiên cứu: Luôn loại bỏ Token đầu tiên khỏi các tác vụ đo lường nhân quả để tránh nhiễu hệ thống.

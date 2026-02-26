@@ -59,7 +59,9 @@ Ta muốn đo mức gần nhau giữa P và Q.
 
 Phân kỳ KL:
 
-D_{KL}$P \\mid  Q$ = \sum_x P$x$\log \frac{P$x$}{Q$x$}
+$$
+D_{KL}$P \\mid  Q$ = $\sum$_x $P(x)$\log \frac{$P(x)$}{Q$x$}
+$$
 
 Vấn đề:
 	•	Không đối xứng
@@ -109,7 +111,9 @@ Giá trị gần 1 → phân phối gần nhau.
 
 Văn bản được ánh xạ vào không gian embedding:
 
+$$
 x_i = f_{\text{LM}}$text_i$
+$$
 
 Trong đó f_{\text{LM}} là encoder từ Transformer của Ashish Vaswani et al.
 
@@ -119,7 +123,9 @@ Trong đó f_{\text{LM}} là encoder từ Transformer của Ashish Vaswani et al
 
 Không gian embedding được phân cụm (k-means):
 
-\min \sum_{i=1}^{N} ||x_i - c_{z_i}||^2
+$$
+\min $\sum$_{i=1}^{N} ||x_i - c_{z_i}||^2
+$$
 
 Sau đó ước lượng phân phối rời rạc trên các cluster.
 
@@ -129,7 +135,9 @@ Sau đó ước lượng phân phối rời rạc trên các cluster.
 
 Perplexity:
 
-PP = \exp\left$- \frac{1}{N} \sum \log P(w_i$\right)
+$$
+PP = \exp$\le$ft$- \frac{1}{N} $\sum$ $\log$ P(w_i$\right)
+$$
 
 Perplexity:
 	•	Đo chất lượng token-level
@@ -144,7 +152,10 @@ MAUVE:
 8. Phân tích hình học
 
 Giả sử:
-	•	P = Q
+
+$$
+•	P = Q
+$$
 
 → Với mọi \lambda:
 

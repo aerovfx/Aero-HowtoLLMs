@@ -475,7 +475,11 @@ interface ScalingExperiment {
 ### **Accessibility:**
 
 ```typescript
+
+$$
 const A11Y_FEATURES = {
+$$
+
   keyboard: true,
   screenReader: true,
   reducedMotion: true,

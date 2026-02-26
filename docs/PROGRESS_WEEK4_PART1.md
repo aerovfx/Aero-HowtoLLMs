@@ -56,10 +56,22 @@ More intuitive naming that shows these are part of the routing mechanism!
 Router now pre-calculates expert grid dimensions:
 ```typescript
 const expertsPerRow = 4;
+
+$$
 const expertW = C * cell * 0.8;
+$$
+
+$$
 const expertSpacingX = expertW + margin * 3;
+$$
+
+$$
 const gridWidth = expertsPerRow * expertSpacingX;
+$$
+
+$$
 const gridCenterX = attnLeftX - gridWidth / 2 - margin * 4;
+$$
 
 This ensures router is ALWAYS centered above the expert grid regardless of expert sizes!
 
@@ -108,8 +120,15 @@ $$
    ```typescript
    // Pseudo-code:
    if (expertIsInTopK(i)) {
-       expFcWeight.highlight = routingProbability[i];
-       expOut.highlight = routingProbability[i];
+
+$$
+expFcWeight.highlight = routingProbability[i];
+$$
+
+$$
+expOut.highlight = routingProbability[i];
+$$
+
    } else {
        expFcWeight.opacity = 0.3;  // Inactive/dimmed
        expOut.opacity = 0.3;
@@ -134,7 +153,11 @@ $$
 
 #### Lines 652-662: Router Weight
 ```typescript
+
+$$
 let gateWeight = mk({
+$$
+
     t: 'w', cx: C, cz: 1, cy: numExperts, y: y,
     xM: gridCenterX, zM: 0,  // ← CENTERED
     // ...
@@ -144,7 +167,11 @@ let gateWeight = mk({
 
 #### Lines 674-685: Router Scores
 ```typescript
+
+$$
 let gateScores = mk({
+$$
+
     t: 'i', cx: T, cz: B, cy: numExperts, y: y,
     xM: gridCenterX, zM: 0,  // ← CENTERED
     // ...
@@ -154,7 +181,11 @@ let gateScores = mk({
 
 #### Lines 687-697: Router Softmax (Top-K)
 ```typescript
+
+$$
 let gateSoftmax = mk({
+$$
+
     t: 'i', cx: T, cz: B, cy: numExperts, y: y,
     xM: gridCenterX, zM: 0,  // ← CENTERED
     // ...
@@ -233,13 +264,28 @@ let gateSoftmax = mk({
 1. **Add color coding logic**
    ```typescript
    // In expert loop:
-   const isActive = i < shape.expertsActive;  // Top-2 for GPT-4
+
+$$
+const isActive = i < shape.expertsActive;  // Top-2 for GPT-4
+$$
+
    
-   expFcWeight.highlight = isActive ? 0.5 : 0;
-   expFcWeight.opacity = isActive ? 1.0 : 0.4;
+$$
+expFcWeight.highlight = isActive ? 0.5 : 0;
+$$
+
+$$
+expFcWeight.opacity = isActive ? 1.0 : 0.4;
+$$
+
    
-   expOut.highlight = isActive ? 0.5 : 0;
-   expOut.opacity = isActive ? 1.0 : 0.4;
+$$
+expOut.highlight = isActive ? 0.5 : 0;
+$$
+
+$$
+expOut.opacity = isActive ? 1.0 : 0.4;
+$$
 
 2. **Create routing line helper function**
    ```typescript

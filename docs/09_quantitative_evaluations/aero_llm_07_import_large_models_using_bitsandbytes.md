@@ -63,7 +63,7 @@ Memory = 28GB
 
 Lượng tử hóa là ánh xạ:
 
-w \in \mathbb{R} \rightarrow \hat{w} \in \mathbb{Z}_k
+w \in $\mathbb${R} \rightarrow \hat{w} \in $\mathbb${Z}_k
 
 Trong đó:
 	•	k = 2^b
@@ -85,11 +85,15 @@ s = \frac{w_{max} - w_{min}}{2^b - 1}
 
 Giá trị lượng tử hóa:
 
-\hat{w} = \text{round}\left$\frac{w - w_{min}}{s}\right$
+$$
+\hat{w} = \text{round}$\le$ft$\frac{w - w_{min}}{s}\right$
+$$
 
 Giải lượng tử:
 
-w \approx s \hat{w} + w_{min}
+$$
+w $\approx$ s \hat{w} + w_{min}
+$$
 
 ⸻
 
@@ -97,7 +101,9 @@ w \approx s \hat{w} + w_{min}
 
 Sai số:
 
+$$
 \epsilon = w - \hat{w}
+$$
 
 Giả sử phân phối đều:
 
@@ -140,15 +146,21 @@ Giảm:
 
 Transformer sử dụng:
 
+$$
 Y = XW
+$$
 
 Sau lượng tử hóa:
 
+$$
 Y = X\hat{W}
+$$
 
 Sai số lan truyền:
 
+$$
 \Delta Y = X$W - \hat{W}$
+$$
 
 Nếu:
 
@@ -167,7 +179,7 @@ Thư viện bitsandbytes triển khai:
 
 NF4 giả định trọng số phân phối chuẩn:
 
-w \sim \mathcal{N}$0, \sigma^2$
+w \sim $\mathcal${N}$0, \sigma^2$
 
 Mapping phi tuyến giúp giảm sai số so với lượng tử hóa tuyến tính.
 
@@ -176,8 +188,14 @@ Mapping phi tuyến giúp giảm sai số so với lượng tử hóa tuyến t�
 6. Tích hợp với Hugging Face Transformers
 
 Hệ sinh thái của Hugging Face hỗ trợ:
-	•	load_in_8bit=True
-	•	load_in_4bit=True
+
+$$
+•	load_in_8bit=True
+$$
+
+$$
+•	load_in_4bit=True
+$$
 
 Giảm bộ nhớ GPU đáng kể mà không cần huấn luyện lại toàn bộ mô hình.
 
@@ -187,15 +205,23 @@ Giảm bộ nhớ GPU đáng kể mà không cần huấn luyện lại toàn b�
 
 Perplexity:
 
-PP = \exp\left$- \frac{1}{N} \sum \log P(w_i$\right)
+$$
+PP = \exp$\le$ft$- \frac{1}{N} $\sum$ $\log$ P(w_i$\right)
+$$
 
 Sau lượng tử hóa:
 
 PP_{quant} = PP_{fp32} + \delta
 
 Trong thực nghiệm:
-	•	8-bit: \delta \approx 1\% - 3\%
-	•	4-bit: \delta \approx 3\% - 8\%
+
+$$
+•	8-bit: \delta $\approx$ 1\% - 3\%
+$$
+
+$$
+•	4-bit: \delta $\approx$ 3\% - 8\%
+$$
 
 Phụ thuộc kích thước mô hình.
 
@@ -205,7 +231,7 @@ Phụ thuộc kích thước mô hình.
 
 Phép nhân ma trận:
 
-O$n^3$
+$O(n^3)$
 
 Nhưng khi dùng int8:
 	•	Giảm băng thông bộ nhớ

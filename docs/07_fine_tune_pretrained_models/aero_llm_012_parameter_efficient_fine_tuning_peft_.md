@@ -49,13 +49,25 @@ Mục tiêu của PEFT là:
 Cho chuỗi token:
 
 $$
+
+$$
+
 X=(x_1,x_2,\dots,x_n)
+
+$$
+
 $$
 
 Xác suất sinh:
 
 $$
-P(X)=\prod_{i=1}^{n}P(x_i \mid x_1,\dots,x_{i-1};\theta)
+
+$$
+
+P(X)=$\prod$_{i=1}^{n}P(x_i \mid x_1,\dots,x_{i-1};\theta)
+
+$$
+
 $$
 
 Trong đó $\theta$ là tập tham số của mô hình.
@@ -67,13 +79,25 @@ Trong đó $\theta$ là tập tham số của mô hình.
 Với hàm mất mát cross-entropy:
 
 $$
-\mathcal{L}(\theta) = -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i \mid x_i;\theta)
+
+$$
+
+$\mathcal${L}(\theta) = -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P(y_i \mid x_i;\theta)
+
+$$
+
 $$
 
 Cập nhật bằng gradient descent:
 
 $$
-\theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}
+
+$$
+
+\theta_{t+1} = \theta_t-\eta$\nabla$_\theta$\mathcal${L}
+
+$$
+
 $$
 
 Toàn bộ tham số đều được cập nhật.
@@ -85,7 +109,13 @@ Toàn bộ tham số đều được cập nhật.
 Trong PEFT, tham số được chia:
 
 $$
+
+$$
+
 \theta = (\theta_f, \theta_t)
+
+$$
+
 $$
 
 với:
@@ -96,7 +126,13 @@ với:
 Điều kiện:
 
 $$
-\nabla_{\theta_f}\mathcal{L}=0
+
+$$
+
+$\nabla$_{\theta_f}$\mathcal${L}=0
+
+$$
+
 $$
 
 Chỉ $\theta_t$ được cập nhật.
@@ -130,8 +166,8 @@ $$
 
 Trong đó:
 
-* $W_{down}\in\mathbb{R}^{d\times r}$,
-* $W_{up}\in\mathbb{R}^{r\times d}$,
+* $W_{down}\in$\mathbb${R}^{d\times r}$,
+* $W_{up}\in$\mathbb${R}^{r\times d}$,
 * $r \ll d$.
 
 Cấu trúc giống autoencoder nén–giải nén.
@@ -163,7 +199,7 @@ $$
 Cho trọng số gốc:
 
 $$
-W\in\mathbb{R}^{m\times n}
+W\in$\mathbb${R}^{m\times n}
 $$
 
 LoRA biểu diễn:
@@ -175,7 +211,7 @@ $$
 với:
 
 $$
-B\in\mathbb{R}^{m\times r},\quad A\in\mathbb{R}^{r\times n}
+B\in$\mathbb${R}^{m\times r},\quad A\in$\mathbb${R}^{r\times n}
 $$
 
 và $r\ll \min(m,n$).
@@ -198,7 +234,10 @@ $$
 
 Ví dụ:
 
+$$
 * $m=n=1000$,
+$$
+
 * $r=100$:
 
 $$
@@ -211,32 +250,27 @@ $$
 
 #### 4.3.1. Cơ chế
 
-Thêm vector tiền tố $P$:
+Thêm vector tiền tố $$P(:
 
-$$
+)$$
 X' = [P; X]
-$$
 
+$$
 với:
-
-$$
-P\in\mathbb{R}^{k\times d}
 $$
 
+P\in$\mathbb${R}^{k\times d}
+
+$$
 Đầu vào attention:
+$$
 
 $$
 Q,K,V = (X'W_Q,X'W_K,X'W_V)
 $$
 
-Chỉ $P$ được huấn luyện.
-
----
-
-#### 4.3.2. Số tham số
-
 $$
-P_{prefix}=kd
+Chỉ $$P( được huấn luyện. --- #### 4.3.2. Số tham số )$$ P_{prefix}=kd
 $$
 
 Rất nhỏ so với toàn mô hình.
@@ -250,13 +284,25 @@ Rất nhỏ so với toàn mô hình.
 Chỉ huấn luyện bias:
 
 $$
+
+$$
+
 y = Wx + b
+
+$$
+
 $$
 
 Cập nhật:
 
 $$
-b_{t+1}=b_t-\eta\nabla_b\mathcal{L}
+
+$$
+
+b_{t+1}=b_t-\eta$\nabla$_b$\mathcal${L}
+
+$$
+
 $$
 
 Giữ nguyên $W$.
@@ -293,7 +339,13 @@ $$
 Thời gian huấn luyện:
 
 $$
-T_{peft}\approx rT_{full}
+
+$$
+
+T_{peft}$\approx$ rT_{full}
+
+$$
+
 $$
 
 ---
@@ -329,7 +381,13 @@ $$
 Thông thường:
 
 $$
-Acc_{peft}\le Acc_{full}
+
+$$
+
+Acc_{peft}$\le$ Acc_{full}
+
+$$
+
 $$
 
 nhưng:

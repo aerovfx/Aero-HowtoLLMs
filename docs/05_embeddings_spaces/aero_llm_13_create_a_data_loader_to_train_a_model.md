@@ -26,10 +26,14 @@ Trong huấn luyện mô hình ngôn ngữ hiện đại, đặc biệt là các
 
 Huấn luyện mô hình ngôn ngữ tự hồi quy (autoregressive language model) yêu cầu tối ưu xác suất:
 
-P$x_1, x_2, \dots, x_T$
+$P(x_1, x_2, \dots, x_T)$
 =
-\prod_{t=1}^{T}
-P$x_t \mid x_{\lt t}$
+
+$$
+$\prod$_{t=1}^{T}
+$$
+
+$P(x_t \mid x_{\lt t})$
 
 Trong đó:
 	•	x_t: token tại vị trí t
@@ -49,7 +53,9 @@ Data loader có nhiệm vụ:
 
 Giả sử văn bản sau khi token hóa:
 
+$$
 \mathbf{s} = $t_1, t_2, \dots, t_N$
+$$
 
 với:
 
@@ -73,12 +79,16 @@ Tức là target là phiên bản dịch trái của input.
 
 Mục tiêu tối ưu:
 
-\mathcal{L}
+$\mathcal${L}
 =
 -
-\sum_{t=1}^{L}
-\log
-P$t_{i+t} \mid t_i,\dots,t_{i+t-1}$
+
+$$
+$\sum$_{t=1}^{L}
+$$
+
+$\log$
+$P(t_{i+t} \mid t_i,\dots,t_{i+t-1})$
 
 ⸻
 
@@ -88,17 +98,21 @@ P$t_{i+t} \mid t_i,\dots,t_{i+t-1}$
 
 Với batch size B, ta có tensor:
 
-X \in \mathbb{R}^{B \times L}
+X \in $\mathbb${R}^{B \times L}
 
-Y \in \mathbb{R}^{B \times L}
+Y \in $\mathbb${R}^{B \times L}
 
 Loss trung bình:
 
-\mathcal{L}_{batch}
+$\mathcal${L}_{batch}
 =
 \frac{1}{B}
-\sum_{b=1}^{B}
-\mathcal{L}^{$b$}
+
+$$
+$\sum$_{b=1}^{B}
+$$
+
+$\mathcal${L}^{$b$}
 
 ⸻
 
@@ -162,11 +176,11 @@ Nhược điểm:
 
 Với tập dữ liệu lớn (hàng tỷ token), ta lưu dưới dạng mảng nhị phân:
 
-\mathbf{D} \in \mathbb{N}^{N}
+\mathbf{D} \in $\mathbb${N}^{N}
 
 Sử dụng memory-mapped file:
 
-\text{mmap}: \mathbb{N}^{N} \rightarrow \text{RAM (lazy loading)}
+\text{mmap}: $\mathbb${N}^{N} \rightarrow \text{RAM (lazy loading)}
 
 Điều này cho phép:
 	•	Không load toàn bộ vào RAM
@@ -178,14 +192,17 @@ Sử dụng memory-mapped file:
 
 Trong huấn luyện SGD:
 
-\theta \leftarrow
-\theta - \eta \nabla_\theta \mathcal{L}$x_i$
+$$
+\theta $\le$ftarrow
+$$
+
+\theta - \eta $\nabla$_\theta $\mathcal${L}$x_i$
 
 Để đảm bảo ước lượng không chệch:
 
-\mathbb{E}[\nabla_\theta \mathcal{L}_{batch}]
+$\mathbb${E}[$\nabla$_\theta $\mathcal${L}_{batch}]
 =
-\nabla_\theta \mathcal{L}_{true}
+$\nabla$_\theta $\mathcal${L}_{true}
 
 Cần xáo trộn dữ liệu ngẫu nhiên.
 
@@ -214,7 +231,11 @@ Sau đó đi vào self-attention:
 \text{Attention}(Q,K,V)
 =
 \text{softmax}
-\left(
+
+$$
+$\le$ft(
+$$
+
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
 
@@ -224,7 +245,9 @@ Sau đó đi vào self-attention:
 
 Giả sử gradient ước lượng:
 
-g_t = \nabla_\theta \mathcal{L}_{batch}
+$$
+g_t = $\nabla$_\theta $\mathcal${L}_{batch}
+$$
 
 Phương sai:
 
@@ -248,7 +271,7 @@ Batch nhỏ:
 
 Sắp xếp dữ liệu theo độ khó:
 
-\mathcal{D}_1 \subset \mathcal{D}_2 \subset \dots
+$\mathcal${D}_1 \subset $\mathcal${D}_2 \subset \dots
 
 Giúp hội tụ nhanh hơn.
 
@@ -264,10 +287,10 @@ Khi chuỗi ngắn hơn L, có thể ghép nhiều chuỗi vào một block đ�
 
 Với K GPU:
 
-\mathcal{D}
+$\mathcal${D}
 =
 \bigcup_{k=1}^{K}
-\mathcal{D}_k
+$\mathcal${D}_k
 
 Mỗi GPU xử lý phần riêng, đảm bảo không trùng lặp.
 

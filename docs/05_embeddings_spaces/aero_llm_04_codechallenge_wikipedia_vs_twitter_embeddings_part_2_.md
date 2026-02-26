@@ -24,7 +24,7 @@ Trong nghiên cứu xử lý ngôn ngữ tự nhiên (NLP), các mô hình embed
 
 ## 1. Giới thiệu
 
-Word embedding ánh xạ mỗi từ $w$ vào một vector $\mathbf{v}_w \in \mathbb{R}^d$, trong đó:
+Word embedding ánh xạ mỗi từ $w$ vào một vector $\mathbf{v}_w \in $\mathbb${R}^d$, trong đó:
 
 $$
 f: w \rightarrow \mathbf{v}_w
@@ -60,13 +60,19 @@ Trong đó:
 - $\\mid\mathbf{v}_i\\mid$ là chuẩn Euclid:
 
 $$
-\|\mathbf{v}_i\| = \sqrt{\sum_{k=1}^{d} v_{ik}^2}
+
+$$
+
+\|\mathbf{v}_i\| = \sqrt{$\sum$_{k=1}^{d} v_{ik}^2}
+
+$$
+
 $$
 
 Cosine similarity nằm trong khoảng:
 
 $$
--1 \leq \text{cosine} \leq 1
+-1 $\le$q \text{cosine} $\le$q 1
 $$
 
 Quan sát thực nghiệm cho thấy trong một số cặp từ, embedding từ Twitter cho giá trị cosine cao hơn so với embedding từ Wikipedia, phản ánh tính ngữ cảnh gần gũi hơn trong văn bản mạng xã hội.
@@ -90,7 +96,13 @@ Lý do:
 Giả sử tồn tại một ma trận quay trực giao $\mathbf{R}$:
 
 $$
-\mathbf{v}_w^{(twitter)} \approx \mathbf{R} \mathbf{v}_w^{(wiki)}
+
+$$
+
+\mathbf{v}_w^{(twitter)} $\approx$ \mathbf{R} \mathbf{v}_w^{(wiki)}
+
+$$
+
 $$
 
 Khi đó, tọa độ khác nhau nhưng cấu trúc tương đối có thể vẫn được bảo toàn.
@@ -107,7 +119,7 @@ Giả sử ta có tập $n$ từ trong câu:
 
 > “The quick brown fox jumps over the lazy dog”
 
-Ta xây dựng ma trận tương đồng $S \in \mathbb{R}^{n \times n}$:
+Ta xây dựng ma trận tương đồng $S \in $\mathbb${R}^{n \times n}$:
 
 $$
 S_{ij} = \text{cosine}(\mathbf{v}_i, \mathbf{v}_j)
@@ -132,13 +144,13 @@ $$
 Sau đó tính hệ số tương quan Pearson:
 
 $$
-r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})} {\sqrt{\sum (x_i - \bar{x})^2} \sqrt{\sum (y_i - \bar{y})^2}}
+r = \frac{$\sum$ (x_i - \bar{x})(y_i - \bar{y})} {\sqrt{$\sum$ (x_i - \bar{x})^2} \sqrt{$\sum$ (y_i - \bar{y})^2}}
 $$
 
 Nếu:
 
-- $r \approx 1$: Hai không gian có cấu trúc quan hệ tương đồng cao.
-- $r \approx 0$: Cấu trúc khác biệt.
+- $r $\approx$ 1$: Hai không gian có cấu trúc quan hệ tương đồng cao.
+- $r $\approx$ 0$: Cấu trúc khác biệt.
 - $r < 0$: Quan hệ nghịch đảo.
 
 ---

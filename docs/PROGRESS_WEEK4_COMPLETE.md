@@ -32,7 +32,10 @@
 
 ```typescript
 // Grid-aware positioning
+
+$$
 const gridCenterX = attnLeftX - gridWidth / 2 - margin * 4;
+$$
 
 // All router blocks use xM (center)
 gateWeight: xM: gridCenterX
@@ -64,16 +67,34 @@ $$
 
 ```typescript
 // Determine expert activation status
+
+$$
 const topK = shape.expertsActive || 2;  // GPT-4: Top-2
+$$
+
+$$
 const isLikelyActive = i < topK;
+$$
 
 // Active experts: Highlighted & full opacity
+
+$$
 expFcWeight.highlight = isLikelyActive ? 0.3 : 0;
+$$
+
+$$
 expFcWeight.opacity = isLikelyActive ? 1.0 : 0.5;
+$$
 
 // Same for outputs
+
+$$
 expOut.highlight = isLikelyActive ? 0.3 : 0;
+$$
+
+$$
 expOut.opacity = isLikelyActive ? 1.0 : 0.5;
+$$
 
 **Visual distinction:**
 
@@ -183,8 +204,14 @@ Legend:
 2. **Dynamic Highlighting**
    ```typescript
    // Update based on actual token routing (if data available)
-   const actualRouting = getRoutingProbabilities(tokenIdx);
-   expert.highlight = actualRouting[expertIdx];
+
+$$
+const actualRouting = getRoutingProbabilities(tokenIdx);
+$$
+
+$$
+expert.highlight = actualRouting[expertIdx];
+$$
 
 3. **hover Tooltips**
    ```typescript
@@ -208,7 +235,10 @@ Legend:
    ```typescript
    // Track usage over time
    expertHeatmap[i] = accumulatedUsage / totalTokens;
-   expert.backgroundColor = heatmapColor(expertHeatmap[i]);
+
+$$
+expert.backgroundColor = heatmapColor(expertHeatmap[i]);
+$$
 
 ---
 

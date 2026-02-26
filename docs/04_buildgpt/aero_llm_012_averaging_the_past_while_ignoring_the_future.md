@@ -34,10 +34,16 @@ Các mô hình ngôn ngữ hiện đại như Transformer hoạt động dựa t
 
 ### 2.1. Trung bình hóa thông tin quá khứ
 
-Giả sử tồn tại một vector kích hoạt $x \in \mathbb{R}^T$, biểu diễn thông tin tại các thời điểm trong quá khứ. Một vector trọng số $w \in \mathbb{R}^T$ được sử dụng để tính tổng có trọng số:
+Giả sử tồn tại một vector kích hoạt $x \in $\mathbb${R}^T$, biểu diễn thông tin tại các thời điểm trong quá khứ. Một vector trọng số $w \in $\mathbb${R}^T$ được sử dụng để tính tổng có trọng số:
 
 $$
-y = \sum_{i=1}^{T} w_i x_i
+
+$$
+
+y = $\sum$_{i=1}^{T} w_i x_i
+
+$$
+
 $$
 
 Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng đều, dẫn đến trung bình cộng của các giá trị quá khứ. Tuy nhiên, cách tiếp cận này không phản ánh mức độ quan trọng khác nhau giữa các thời điểm. 
@@ -49,7 +55,13 @@ Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng 
 Để đảm bảo tổng trọng số bằng 1 và ổn định số học, hàm softmax được sử dụng:
 
 $$
-w_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
+
+$$
+
+w_i = \frac{e^{z_i}}{$\sum$_j e^{z_j}}
+
+$$
+
 $$
 
 Trong đó $z_i$ là logit ban đầu. Softmax có đặc tính:
@@ -79,13 +91,25 @@ các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò r
 Để giải quyết vấn đề trên, các vị trí tương lai được gán giá trị:
 
 $$
-z_i = -\infty
+
+$$
+
+z_i = -$\infty$
+
+$$
+
 $$
 
 Khi đó:
 
 $$
-e^{-\infty} = 0
+
+$$
+
+e^{-$\infty$} = 0
+
+$$
+
 $$
 
 Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đảm bảo không ảnh hưởng đến kết quả. Đây là nền tảng toán học của causal masking. 
@@ -96,10 +120,16 @@ Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đ�
 
 ### 3.1. Xây dựng ma trận nhân quả
 
-Ma trận mask $M \in \mathbb{R}^{T \times T}$ được định nghĩa như sau:
+Ma trận mask $M \in $\mathbb${R}^{T \times T}$ được định nghĩa như sau:
 
 $$
-M_{ij} = \begin{cases} 0, & j \leq i \\ -\infty, & j > i \end{cases}
+
+$$
+
+M_{ij} = \begin{cases} 0, & j $\le$q i \\ -$\infty$, & j > i \end{cases}
+
+$$
+
 $$
 
 Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. 
@@ -111,7 +141,13 @@ Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn v�
 Trong cơ chế self-attention, điểm số được tính bằng:
 
 $$
+
+$$
+
 S = \frac{QK^T}{\sqrt{d_k}}
+
+$$
+
 $$
 
 Sau đó áp dụng mask:
@@ -273,7 +309,7 @@ Bài báo này tập trung phân tích cơ sở lý thuyết và thực nghiệm
 Causal attention tiêu chuẩn yêu cầu tính toán:
 
 $$
-QK^T \in \mathbb{R}^{T \times T}
+QK^T \in $\mathbb${R}^{T \times T}
 $$
 
 dẫn đến:
@@ -333,15 +369,33 @@ $$
 FlashAttention sử dụng softmax tích lũy:
 
 $$
+
+$$
+
 m_i = \max(m_{i-1}, s_i)
+
 $$
 
 $$
+
+$$
+
+$$
+
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
+
 $$
 
 $$
+
+$$
+
+$$
+
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
+
+$$
+
 $$
 
 Cách này cho phép tính softmax mà không cần lưu toàn bộ logits.
@@ -445,7 +499,13 @@ Giảm phụ thuộc vào full attention.
 Xấp xỉ softmax:
 
 $$
-\text{Attention}(Q,K,V) \approx \phi(Q)\phi(K)^TV
+
+$$
+
+\text{Attention}(Q,K,V) $\approx$ \phi(Q)\phi(K)^TV
+
+$$
+
 $$
 
 Độ phức tạp:
@@ -652,14 +712,14 @@ Phần này trình bày:
 
 **Input**
 
-* Query: $Q \in \mathbb{R}^{T \times d}$
-* Key: $K \in \mathbb{R}^{T \times d}$
-* Value: $V \in \mathbb{R}^{T \times d}$
+* Query: $Q \in $\mathbb${R}^{T \times d}$
+* Key: $K \in $\mathbb${R}^{T \times d}$
+* Value: $V \in $\mathbb${R}^{T \times d}$
 * Block size: $B$
 
 **Output**
 
-* Output: $O \in \mathbb{R}^{T \times d}$
+* Output: $O \in $\mathbb${R}^{T \times d}$
 
 ---
 
@@ -723,15 +783,33 @@ Algorithm 6: Causal-FlashAttention(Q, K, V, B)
 FlashAttention dùng công thức:
 
 $$
+
+$$
+
 m_i = \max(m_{i-1}, s_i)
+
 $$
 
 $$
+
+$$
+
+$$
+
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
+
 $$
 
 $$
+
+$$
+
+$$
+
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
+
+$$
+
 $$
 
 Giúp:
@@ -761,7 +839,11 @@ def causal_flash_attention(
     Q,
     K,
     V,
-    block_size=128
+
+$$
+block_size=128
+$$
+
 ):
     """
     Naive causal FlashAttention (educational).
@@ -775,10 +857,17 @@ def causal_flash_attention(
         O: (B, T, D)
     """
 
-    B, T, D = Q.shape
-    device = Q.device
+$$
+B, T, D = Q.shape
+$$
 
-    O = torch.zeros_like(Q)
+$$
+device = Q.device
+$$
+
+$$
+O = torch.zeros_like(Q)
+$$
 
     scale = 1.0 / math.sqrt(D)
 
@@ -786,50 +875,103 @@ def causal_flash_attention(
 
         for i in range(0, T, block_size):
 
-            qi = Q[b, i:i+block_size]      # (Bi, D)
-            oi = torch.zeros_like(qi)
+$$
+qi = Q[b, i:i+block_size]      # (Bi, D)
+$$
 
-            mi = torch.full(
+$$
+oi = torch.zeros_like(qi)
+$$
+
+$$
+mi = torch.full(
+$$
+
                 (qi.size(0),),
                 -float("inf"),
-                device=device
+
+$$
+device=device
+$$
+
             )
 
-            li = torch.zeros(
+$$
+li = torch.zeros(
+$$
+
                 qi.size(0),
-                device=device
+
+$$
+device=device
+$$
+
             )
 
             for j in range(0, i+block_size, block_size):
 
-                kj = K[b, j:j+block_size]
-                vj = V[b, j:j+block_size]
+$$
+kj = K[b, j:j+block_size]
+$$
 
-                S = qi @ kj.T * scale
+$$
+vj = V[b, j:j+block_size]
+$$
+
+$$
+S = qi @ kj.T * scale
+$$
 
                 # Causal mask inside block
-                q_pos = torch.arange(
+
+$$
+q_pos = torch.arange(
+$$
+
                     i, i+qi.size(0),
-                    device=device
+
+$$
+device=device
+$$
+
                 ).unsqueeze(1)
 
-                k_pos = torch.arange(
+$$
+k_pos = torch.arange(
+$$
+
                     j, j+kj.size(0),
-                    device=device
+
+$$
+device=device
+$$
+
                 ).unsqueeze(0)
 
-                mask = k_pos > q_pos
+$$
+mask = k_pos > q_pos
+$$
 
-                S = S.masked_fill(
+$$
+S = S.masked_fill(
+$$
+
                     mask,
                     -float("inf")
                 )
 
-                mij = torch.max(S, dim=1).values
+$$
+mij = torch.max(S, dim=1).values
+$$
 
-                mi_new = torch.maximum(mi, mij)
+$$
+mi_new = torch.maximum(mi, mij)
+$$
 
-                P = torch.exp(
+$$
+P = torch.exp(
+$$
+
                     S - mi_new.unsqueeze(1)
                 )
 
@@ -843,9 +985,14 @@ def causal_flash_attention(
                     + P @ vj
                 )
 
-                mi = mi_new
+$$
+mi = mi_new
+$$
 
-            O[b, i:i+block_size] = (
+$$
+O[b, i:i+block_size] = (
+$$
+
                 oi / li.unsqueeze(1)
             )
 
@@ -861,32 +1008,57 @@ class CausalFlashAttention(torch.nn.Module):
     def __init__(
         self,
         d_model,
-        block_size=128
+
+$$
+block_size=128
+$$
+
     ):
         super().__init__()
 
-        self.block_size = block_size
+$$
+self.block_size = block_size
+$$
 
-        self.qkv = torch.nn.Linear(
+$$
+self.qkv = torch.nn.Linear(
+$$
+
             d_model,
             3 * d_model,
-            bias=False
+
+$$
+bias=False
+$$
+
         )
 
-        self.proj = torch.nn.Linear(
+$$
+self.proj = torch.nn.Linear(
+$$
+
             d_model,
             d_model
         )
 
     def forward(self, x):
 
-        B, T, D = x.shape
+$$
+B, T, D = x.shape
+$$
 
-        qkv = self.qkv(x)
+$$
+qkv = self.qkv(x)
+$$
 
-        Q, K, V = qkv.chunk(3, dim=-1)
+$$
+Q, K, V = qkv.chunk(3, dim=-1)
+$$
 
-        out = causal_flash_attention(
+$$
+out = causal_flash_attention(
+$$
+
             Q, K, V,
             self.block_size
         )
@@ -905,19 +1077,34 @@ class FlashGPTBlock(torch.nn.Module):
     def __init__(
         self,
         d_model,
-        block_size=128
+
+$$
+block_size=128
+$$
+
     ):
         super().__init__()
 
-        self.ln1 = torch.nn.LayerNorm(d_model)
-        self.ln2 = torch.nn.LayerNorm(d_model)
+$$
+self.ln1 = torch.nn.LayerNorm(d_model)
+$$
 
-        self.attn = CausalFlashAttention(
+$$
+self.ln2 = torch.nn.LayerNorm(d_model)
+$$
+
+$$
+self.attn = CausalFlashAttention(
+$$
+
             d_model,
             block_size
         )
 
-        self.ffn = torch.nn.Sequential(
+$$
+self.ffn = torch.nn.Sequential(
+$$
+
             torch.nn.Linear(d_model, 4*d_model),
             torch.nn.GELU(),
             torch.nn.Linear(4*d_model, d_model)
@@ -925,13 +1112,21 @@ class FlashGPTBlock(torch.nn.Module):
 
     def forward(self, x):
 
-        h = self.ln1(x)
+$$
+h = self.ln1(x)
+$$
 
-        x = x + self.attn(h)
+$$
+x = x + self.attn(h)
+$$
 
-        h = self.ln2(x)
+$$
+h = self.ln2(x)
+$$
 
-        x = x + self.ffn(h)
+$$
+x = x + self.ffn(h)
+$$
 
         return x
 
@@ -948,14 +1143,25 @@ def demo():
     T = 512
     D = 256
 
-    x = torch.randn(B, T, D).cuda()
+$$
+x = torch.randn(B, T, D).cuda()
+$$
 
-    model = FlashGPTBlock(
+$$
+model = FlashGPTBlock(
+$$
+
         D,
-        block_size=128
+
+$$
+block_size=128
+$$
+
     ).cuda()
 
-    y = model(x)
+$$
+y = model(x)
+$$
 
     print("Output:", y.shape)
 
@@ -991,7 +1197,11 @@ def flash_attn_forward(q, k, v):
 
     return flash_attn_func(
         q, k, v,
-        causal=True
+
+$$
+causal=True
+$$
+
     )
 
 Ưu điểm:

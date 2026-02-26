@@ -27,7 +27,11 @@ Như đã đề cập ở Phần Dẫn nhập, nếu Cấu trúc Đọc Quan sá
 Cú pháp tổng quát của Phẫu thuật Forward Hook:
 ```python
 def my_hook(module, inputs, output):
-    modified_output = output.clone()
+
+$$
+modified_output = output.clone()
+$$
+
     # [Inject, Zero-out, hay Scale tùy ý]
     return modified_output
 Khi Pytorch quét thấy Hook ném một Object mới về, nó sẽ ép đè lên Biến $\text{output}$ nguyên mẫu nếu hai Object này có Dimensions tuyệt đối khớp nhau. Sự ép đè này mở ra quyền năng sinh-sát đối với bất kỳ Token hay Mạch Activation nào.

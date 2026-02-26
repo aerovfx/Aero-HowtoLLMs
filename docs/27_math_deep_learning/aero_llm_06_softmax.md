@@ -23,7 +23,7 @@ Báo cáo này nghiên cứu về hàm Softmax, một phép biến đổi phi tu
 
 ## 1. Cơ sở Toán học: Số mũ Tự nhiên ($e$)
 
-Hàm Softmax dựa trên hằng số Euler $e \approx 2.718$. Hai đặc tính của hàm số mũ $e^x$ quyết định tính khả thi của Softmax:
+Hàm Softmax dựa trên hằng số Euler $e $\approx$ 2.718$. Hai đặc tính của hàm số mũ $e^x$ quyết định tính khả thi của Softmax:
 - **Tính Dương tuyệt đối:** $e^x$ luôn lớn hơn 0 với mọi giá trị $x$ (ngay cả khi $x$ âm). Điều này đảm bảo xác suất đầu ra không bao giờ bị âm.
 - **Tốc độ Tăng trưởng:** Hàm số mũ khuếch đại các giá trị lớn và thu nhỏ các giá trị nhỏ một cách nhanh chóng, tạo ra sự phân tách rõ rệt giữa các lớp đối tượng.
 
@@ -34,7 +34,13 @@ Hàm Softmax dựa trên hằng số Euler $e \approx 2.718$. Hai đặc tính c
 Giả sử có một tập hợp các số thực $z$, hàm Softmax cho phần tử thứ $i$ được định nghĩa là:
 
 $$
-\sigma(z)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}
+
+$$
+
+\sigma(z)_i = \frac{e^{z_i}}{$\sum$_{j=1}^K e^{z_j}}
+
+$$
+
 $$
 
 - **Tử số:** Chuyển đổi giá trị thô sang không gian số mũ.

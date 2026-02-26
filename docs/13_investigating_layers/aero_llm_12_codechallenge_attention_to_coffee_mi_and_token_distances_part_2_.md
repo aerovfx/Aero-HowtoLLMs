@@ -17,14 +17,14 @@
 # Thử Thách Lập Trình (Code Challenge): MI Và Khoảng Cách Token (Phần 2)
 
 ## Tóm tắt (Abstract)
-Thực nghiệm này nâng cấp khảo sát về tác động của khoảng cách vật lý giữa hai từ giống nhau ("coffee") đối với Mutual Information (MI), mở rộng trên toàn bộ biểu đồ 48 Layers của GPT-2 XL. Quá trình tính toán diễn ra song song trên cả biến thể nhánh $Attention$ và mạng $MLP$. Thông qua việc kết hợp các tiêu chuẩn kiểm định mạnh như *T-tests độc lập*, *Chuyển đổi Fisher Z-Transform cho hệ số tương quan*, và *Hiệu chỉnh đa so sánh FDR (False Discovery Rate/Bonferroni)*, báo cáo vạch ra ranh giới rẽ nhánh rõ rệt giữa nhiệm vụ dung nạp bối cảnh mở rộng của Attention và cơ chế nhớ tĩnh của MLP. 
+Thực nghiệm này nâng cấp khảo sát về tác động của khoảng cách vật lý giữa hai từ giống nhau ("coffee") đối với Mutual Information (MI), mở rộng trên toàn bộ biểu đồ 48 Layers của GPT-2 XL. Quá trình tính toán diễn ra song song trên cả biến thể nhánh $Attention$ và mạng $ML$P(. Thông qua việc kết hợp các tiêu chuẩn kiểm định mạnh như *T-tests độc lập*, *Chuyển đổi Fisher Z-Transform cho hệ số tương quan*, và *Hiệu chỉnh đa so sánh FDR (False Discovery Rate/Bonferroni)*, báo cáo vạch ra ranh giới rẽ nhánh rõ rệt giữa nhiệm vụ dung nạp bối cảnh mở rộng của Attention và cơ chế nhớ tĩnh của MLP. 
 
 ---
 
 ## 1. Mở Đầu (Introduction)
 Ở Phần 1, chúng ta đã chứng minh cơ bản tại Layer 3: Hai từ cùng gốc đứng càng xa nhau thì thông tin chia sẻ nội bộ của chúng càng nghèo nàn. Tuy nhiên, kiến trúc máy học LLM là một hành trình đi dần vào chiều sâu (depth propagation). Phần 2 đặt ra hai giải pháp nâng cao hơn: 
 1. Diễn giải sự thay đổi hiệu ứng khoảng cách này xuyên qua 48 Transformer blocks.
-2. Đối chiếu trực diện vai trò tạo lập liên kết (M.I) giữa hạt nhân truy vấn song song ($Attention\ C\_proj$) và hạt nhân tuyến tính xử lý hàm tiến ($MLP\ C\_proj$).
+2. Đối chiếu trực diện vai trò tạo lập liên kết (M.I) giữa hạt nhân truy vấn song song ()$Attention\ C\_proj$) và hạt nhân tuyến tính xử lý hàm tiến ($MLP\ C\_proj$).
 
 ---
 
@@ -51,11 +51,11 @@ Kiểm tra Z-score này trên Phân phối tích lũy chuẩn (Normal CDF) sẽ 
 
 ### 3.1. Sự Trỗi Dậy Của Attention Chống Lại MLP
 Biểu đồ *Average M.I Profile* trình bày một khuynh hướng lôi cuốn:
-- **Tầng Nông (Early Layers):** Cơ chế $MLP$ chứa M.I cao hơn so với $Attention$. Giai đoạn đầu, MLP bám sát vào định nghĩa thô của từ tĩnh, bảo toàn bộ nhớ về mặt khái niệm độc lập. Do đó các Token giống nhau "tương thông" thông tin rất lớn.
-- **Tầng Sâu (Deep Layers):** Quỹ đạo $Attention$ đi lên tiệm cận trên, kéo mức trung bình chia sẻ M.I ngày một mạnh, trái ngược với $MLP$ rơi rớt cắm mỏ và đi ngang rập khuôn. Lý giải cơ học: Càng chìm sâu, Attention bị áp lực phải kết nối "ngữ cảnh vĩ mô". Để có thể đoán từ tiếp theo, nó phải lôi kéo lịch sử chồng chéo từ cực xa $\to$ nó chủ động làm giàu thông tin cho mọi liên kết cặp của chữ "coffee". 
+- **Tầng Nông (Early Layers):** Cơ chế $ML$P( chứa M.I cao hơn so với )$Attention$. Giai đoạn đầu, MLP bám sát vào định nghĩa thô của từ tĩnh, bảo toàn bộ nhớ về mặt khái niệm độc lập. Do đó các Token giống nhau "tương thông" thông tin rất lớn.
+- **Tầng Sâu (Deep Layers):** Quỹ đạo $Attention$ đi lên tiệm cận trên, kéo mức trung bình chia sẻ M.I ngày một mạnh, trái ngược với $ML$P( rơi rớt cắm mỏ và đi ngang rập khuôn. Lý giải cơ học: Càng chìm sâu, Attention bị áp lực phải kết nối "ngữ cảnh vĩ mô". Để có thể đoán từ tiếp theo, nó phải lôi kéo lịch sử chồng chéo từ cực xa )$\to$ nó chủ động làm giàu thông tin cho mọi liên kết cặp của chữ "coffee". 
 
 ### 3.2. Chênh Lệch Tương Quan Nghịch Biến (Kendall Correlation Stats)
-Khuynh hướng khoảng cách xa sinh ra MI yếu luôn đạt biểu số Correlation Negative (Xoay quanh khoảng $-0.5$). Biểu đồ Z-value cho thấy sự phân ly rõ rệt: $Attention$ xử lý vấn đề token xa nhau mượt mà và linh động hơn nhiều so với hệ tĩnh tại $MLP$ sau Tầng thứ 10. 
+Khuynh hướng khoảng cách xa sinh ra MI yếu luôn đạt biểu số Correlation Negative (Xoay quanh khoảng $-0.5$). Biểu đồ Z-value cho thấy sự phân ly rõ rệt: $Attention$ xử lý vấn đề token xa nhau mượt mà và linh động hơn nhiều so với hệ tĩnh tại $ML$P( sau Tầng thứ 10. 
 
 ### 3.3. So Sánh Thuật Toán Thủ Công Và Scikit-Learn
 Thực hiện chạy toàn bộ hệ quy trình với nhân KDE Scikit-learn (Mất tầm khoảng 2 phút do Data Cặp nhỏ). So sánh trực quan đối chứng cho thấy: Các sai khác về đồ thị Laminar hoàn toàn mang tính chất tịnh tiến vô hại. Mọi tỷ lệ tương đối (Relative Values) giữa các không gian được bảo toàn tuyệt đối, gia cố thêm niềm tin rằng thuật toán tính Histogram MI Manual là giải pháp thay thế hoàn hảo cho tập dữ liệu Big Data.
@@ -63,7 +63,7 @@ Thực hiện chạy toàn bộ hệ quy trình với nhân KDE Scikit-learn (M�
 ---
 
 ## 4. Kết Luận
-Bằng việc triển khai kiểm định độ lệch cực đỉnh và đo lường khoảng cách từ định hạng, tính năng Mutual Information là một trạm radar nhạy bén để bắt sóng cơ học lõi: $MLP$ đóng khuôn khái niệm ở tầng cao, còn $Attention$ đan kết mạng nhện vĩ mô dải dài tít tận đáy phễu.
+Bằng việc triển khai kiểm định độ lệch cực đỉnh và đo lường khoảng cách từ định hạng, tính năng Mutual Information là một trạm radar nhạy bén để bắt sóng cơ học lõi: )$ML$P( đóng khuôn khái niệm ở tầng cao, còn )$Attention$ đan kết mạng nhện vĩ mô dải dài tít tận đáy phễu.
 
 ---
 

@@ -26,7 +26,7 @@ Hàm mất mát (loss function) đóng vai trò trung tâm trong quá trình hu�
 
 Embedding ánh xạ token rời rạc sang không gian liên tục:
 
-\mathbf{E} \in \mathbb{R}^{V \times d}
+\mathbf{E} \in $\mathbb${R}^{V \times d}
 
 Với:
 	•	V: kích thước từ vựng
@@ -46,34 +46,48 @@ Vector của token w:
 
 Logits:
 
+$$
 z_i = \mathbf{h}^T \mathbf{w}_i
+$$
 
 Xác suất:
 
-P$y=i$ =
+$P(y=i)$ =
 \frac{\exp$z_i$}
-{\sum_{j=1}^{V} \exp$z_j$}
+
+$$
+{$\sum$_{j=1}^{V} \exp$z_j$}
+$$
 
 ⸻
 
 2.2 Hàm mất mát
 
-\mathcal{L}
+$\mathcal${L}
 =
 -
-\sum_{i=1}^{V}
-y_i \log P$y=i$
+
+$$
+$\sum$_{i=1}^{V}
+$$
+
+$$
+y_i $\log$ $P(y=i)$
+$$
 
 Vì y là one-hot:
 
-\mathcal{L}
+$\mathcal${L}
 =
 -
-\log P(y = y_{true})
+
+$$
+$\log$ P(y = y_{true})
+$$
 
 Mục tiêu tối ưu:
 
-\min_\theta \mathcal{L}
+\min_\theta $\mathcal${L}
 
 ⸻
 
@@ -81,9 +95,9 @@ Mục tiêu tối ưu:
 
 3.1 Gradient theo logits
 
-\frac{\partial \mathcal{L}}{\partial z_i}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ z_i}
 =
-P$y=i$ - y_i
+$P(y=i)$ - y_i
 
 ⸻
 
@@ -91,19 +105,21 @@ P$y=i$ - y_i
 
 Với weight tying \mathbf{W} = \mathbf{E}^T:
 
+$$
 z_i = \mathbf{h}^T \mathbf{e}_i
+$$
 
 Gradient theo embedding token đúng y:
 
-\frac{\partial \mathcal{L}}{\partial \mathbf{e}_y}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{e}_y}
 =
 (P(y) - 1)\mathbf{h}
 
 Với token sai:
 
-\frac{\partial \mathcal{L}}{\partial \mathbf{e}_i}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{e}_i}
 =
-P$i$\mathbf{h}
+$P(i)$\mathbf{h}
 
 Diễn giải hình học:
 	•	Embedding đúng được kéo gần \mathbf{h}
@@ -115,12 +131,16 @@ Diễn giải hình học:
 
 Trong Word2Vec:
 
-\mathcal{L}
+$\mathcal${L}
 =
-\log \sigma$\mathbf{u}_c^T \mathbf{v}_w$
+$\log$ \sigma$\mathbf{u}_c^T \mathbf{v}_w$
 +
-\sum_{k=1}^{K}
-\log \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
+
+$$
+$\sum$_{k=1}^{K}
+$$
+
+$\log$ \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
 
 Trong đó:
 
@@ -131,15 +151,15 @@ Trong đó:
 Gradient theo tích vô hướng:
 
 \frac{d}{dx}
-\log \sigma$x$
+$\log$ \sigma$x$
 =
 1 - \sigma$x$
 
 Phương pháp này giảm chi phí tính toán từ:
 
-O$V$
+$O(V)$
 \rightarrow
-O$K$
+$O(K)$
 
 ⸻
 
@@ -147,13 +167,13 @@ O$K$
 
 Cross-Entropy với softmax là hàm lồi theo logits:
 
-\frac{\partial^2 \mathcal{L}}{\partial z_i^2}
+\frac{$\partial$^2 $\mathcal${L}}{$\partial$ z_i^2}
 =
-P$i$(1-P(i))
+$P(i)$(1-P(i))
 
 Ma trận Hessian:
 
-H = \text{diag}$P$ - PP^T
+H = \text{diag}$$P( - PP^T
 
 H là bán xác định dương (positive semi-definite).
 
@@ -168,7 +188,7 @@ Cross-Entropy:
 H(p,q)
 =
 -
-\sum p$x$\log q$x$
+$\sum$ p)$x$\log q$x$
 
 Tối thiểu hoá Cross-Entropy tương đương với:
 
@@ -188,7 +208,7 @@ Trong đó:
 
 D_{KL}(p||q)
 =
-\sum p$x$\log\frac{p$x$}{q$x$}
+$\sum$ p$x$\log\frac{p$x$}{q$x$}
 
 ⸻
 
@@ -204,12 +224,16 @@ Trong mô hình như GPT-2:
 
 Loss toàn chuỗi:
 
-\mathcal{L}
+$\mathcal${L}
 =
 -
-\sum_{t=1}^{T}
-\log
-P$x_t \mid x_{\lt t}$
+
+$$
+$\sum$_{t=1}^{T}
+$$
+
+$\log$
+$P(x_t \mid x_{\lt t})$
 
 Gradient truyền ngược qua:
 	•	Unembedding
@@ -226,7 +250,7 @@ Giả sử:
 
 \Delta \mathbf{e}
 =
--\eta \nabla_{\mathbf{e}}\mathcal{L}
+-\eta $\nabla$_{\mathbf{e}}$\mathcal${L}
 
 Sau nhiều bước:
 
@@ -235,9 +259,13 @@ Sau nhiều bước:
 \mathbf{e}_w^{(0)}
 -
 \eta
-\sum_{k=1}^{t}
-\nabla_{\mathbf{e}_w}
-\mathcal{L}_k
+
+$$
+$\sum$_{k=1}^{t}
+$$
+
+$\nabla$_{\mathbf{e}_w}
+$\mathcal${L}_k
 
 Token xuất hiện thường xuyên:
 

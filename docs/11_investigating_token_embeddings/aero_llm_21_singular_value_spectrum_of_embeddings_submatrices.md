@@ -24,15 +24,21 @@ Singular Value Decomposition (SVD - Phân rã giá trị suy biến) là một t
 
 ## 1. Cơ Sở Của Phân Rã Giá Trị Suy Biến (SVD)
 
-Mô hình SVD phát biểu rằng bất kỳ ma trận chữ nhật nào cũng có thể được phân giải một cách hoàn chỉnh (Decomposition) vào một tổ hợp của ba ma trận đặc thù. Giả sử tập hợp embeddings của một cụm $N$ tokens ngôn ngữ tạo nên một ma trận hỗn hợp $E \in \mathbb{R}^{N \times D}$. Ma trận này được bóc tách:
+Mô hình SVD phát biểu rằng bất kỳ ma trận chữ nhật nào cũng có thể được phân giải một cách hoàn chỉnh (Decomposition) vào một tổ hợp của ba ma trận đặc thù. Giả sử tập hợp embeddings của một cụm $N$ tokens ngôn ngữ tạo nên một ma trận hỗn hợp $E \in $\mathbb${R}^{N \times D}$. Ma trận này được bóc tách:
 
 $$
+
+$$
+
 E = U \Sigma V^T
+
+$$
+
 $$
 
 ### Cấu Trúc Ba Ma Trận
 - **$U$ (Orthogonal row matrix - Dữ liệu hướng token):** Cung cấp các vector nền tảng trực giao trong không gian $N$, điều hướng dòng chú ý hàng tự do. Ở bài toán tìm trục không gian, $U$ không phải là đối tượng nghiên cứu.
-- **$\Sigma$ (Diagonal matrix - Ma trận Giá trị Suy biến):** Là một ma trận đường chéo $\Sigma \in \mathbb{R}^{N \times D}$ mà các giá trị trên đường chéo $\sigma_i$ (Singular values) được gọi tắt là phổ tín hiệu, sắp xếp giảm dần $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_k$. Những giá trị $\sigma$ mang năng lượng cao chứa phần lớn đại lượng phương sai mô hình.
+- **$\Sigma$ (Diagonal matrix - Ma trận Giá trị Suy biến):** Là một ma trận đường chéo $\Sigma \in $\mathbb${R}^{N \times D}$ mà các giá trị trên đường chéo $\sigma_i$ (Singular values) được gọi tắt là phổ tín hiệu, sắp xếp giảm dần $\sigma_1 $\ge$ \sigma_2 $\ge$ \dots $\ge$ \sigma_k$. Những giá trị $\sigma$ mang năng lượng cao chứa phần lớn đại lượng phương sai mô hình.
 - **$V^T$ (Tập Trục Cơ Sở Chuyển vị - Basis Vector Space):** Là ma trận chứa các vector độc lập tuyến tính, mỗi hàng là một chiều biến cố trực giao ở vùng nhúng chiều (embeddings dimensions) gốc của ma trận. Chúng cung cấp véc-tơ nền tối ưu (Optimal Basis Vectors).
 
 ---
@@ -55,7 +61,13 @@ Ngược lại với ma trận chứa các tokens rời rạc (Ví dụ tập to
 Trước khi đẩy khối embeddings $E$ vào buồng SVD, dữ liệu bắt buộc cần phải được trừ đi trung bình chung (mean-centered cross dimensions) để các đỉnh vector bắt rễ quanh tọa độ $0$:
 
 $$
+
+$$
+
 \bar{E} = E - \mu_E
+
+$$
+
 $$
 
 Do hệ quả của phép dịch tâm học máy tuyến tính, Rank (hạng) của ma trận sẽ giảm đi 1 bậc, dẫn đến điểm phần tử trị số suy biến cuối cùng của mảng phổ luôn luôn trượt bằng 0 ($\sigma_N = 0$).

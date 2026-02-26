@@ -40,7 +40,7 @@ Trong các hệ embedding hiện đại, cosine similarity được ưu tiên do
 Cho hai vector:
 
 $$
-\mathbf{x}, \mathbf{y} \in \mathbb{R}^d
+\mathbf{x}, \mathbf{y} \in $\mathbb${R}^d
 $$
 
 Cosine similarity được định nghĩa:
@@ -52,11 +52,23 @@ $$
 Trong đó:
 
 $$
-\mathbf{x} \cdot \mathbf{y} = \sum_{i=1}^{d} x_i y_i
+
+$$
+
+\mathbf{x} \cdot \mathbf{y} = $\sum$_{i=1}^{d} x_i y_i
+
 $$
 
 $$
-\|\mathbf{x}\| = \sqrt{\sum_{i=1}^{d} x_i^2}
+
+$$
+
+$$
+
+\|\mathbf{x}\| = \sqrt{$\sum$_{i=1}^{d} x_i^2}
+
+$$
+
 $$
 
 ### 2.1 Diễn giải hình học
@@ -108,17 +120,35 @@ $$
 Cho hai biến ngẫu nhiên $X, Y$, hệ số tương quan Pearson:
 
 $$
+
+$$
+
 \rho_{X,Y} = \frac{\text{Cov}(X,Y)} {\sigma_X \sigma_Y}
+
+$$
+
 $$
 
 Trong đó:
 
 $$
-\text{Cov}(X,Y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})
+
+$$
+
+\text{Cov}(X,Y) = \frac{1}{n} $\sum$_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})
+
 $$
 
 $$
-\sigma_X = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2}
+
+$$
+
+$$
+
+\sigma_X = \sqrt{\frac{1}{n} $\sum$_{i=1}^{n} (x_i - \bar{x})^2}
+
+$$
+
 $$
 
 ---
@@ -128,11 +158,23 @@ $$
 Giả sử ta chuẩn hóa vector bằng cách trừ trung bình:
 
 $$
+
+$$
+
 \tilde{x}_i = x_i - \bar{x}
+
 $$
 
 $$
+
+$$
+
+$$
+
 \tilde{y}_i = y_i - \bar{y}
+
+$$
+
 $$
 
 Khi đó:
@@ -160,19 +202,25 @@ Như vậy:
 Giả sử:
 
 $$
-E \in \mathbb{R}^{|V| \times d}
+E \in $\mathbb${R}^{|V| \times d}
 $$
 
 với mỗi từ:
 
 $$
-\mathbf{v}_w \in \mathbb{R}^d
+\mathbf{v}_w \in $\mathbb${R}^d
 $$
 
 Độ tương đồng ngữ nghĩa giữa hai từ:
 
 $$
+
+$$
+
 \text{sim}(w_i,w_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
+
+$$
+
 $$
 
 ---
@@ -182,7 +230,7 @@ $$
 Cho tập $n$ từ:
 
 $$
-X \in \mathbb{R}^{n \times d}
+X \in $\mathbb${R}^{n \times d}
 $$
 
 Ma trận cosine similarity:
@@ -194,7 +242,7 @@ $$
 Nếu ta vector hóa phần tam giác trên của $S$ và tính tương quan giữa hai mô hình embedding khác nhau:
 
 $$
-r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})} {\sqrt{\sum (x_i - \bar{x})^2} \sqrt{\sum (y_i - \bar{y})^2}}
+r = \frac{$\sum$ (x_i - \bar{x})(y_i - \bar{y})} {\sqrt{$\sum$ (x_i - \bar{x})^2} \sqrt{$\sum$ (y_i - \bar{y})^2}}
 $$
 
 Ta thu được mức độ tương đồng cấu trúc (Representational Similarity Analysis).
@@ -236,10 +284,10 @@ Trong không gian cao chiều:
 Giả sử:
 
 $$
-\mathbf{x},\mathbf{y} \sim \mathcal{N}(0,I_d)
+\mathbf{x},\mathbf{y} \sim $\mathcal${N}(0,I_d)
 $$
 
-Khi $d \to \infty$:
+Khi $d \to $\infty$$:
 
 $$
 \text{cosine}(\mathbf{x},\mathbf{y}) \to 0
@@ -265,7 +313,13 @@ $$
 $$
 
 $$
-\text{Euclid} \leftrightarrow \text{Cosine} \quad (\text{khi chuẩn hóa})
+
+$$
+
+\text{Euclid} $\le$ftrightarrow \text{Cosine} \quad (\text{khi chuẩn hóa})
+
+$$
+
 $$
 
 Hiểu rõ mối quan hệ này giúp ta phân tích chính xác cấu trúc không gian embedding và đánh giá sự tương đồng giữa các mô hình ngôn ngữ.

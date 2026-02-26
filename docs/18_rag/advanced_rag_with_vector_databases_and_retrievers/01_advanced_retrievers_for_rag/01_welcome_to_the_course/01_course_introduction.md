@@ -53,13 +53,25 @@ from langchain.retrievers import MultiQueryRetriever
 from langchain.chat_models import ChatOpenAI
 
 # Tạo multi-query retriever
+
+$$
 retriever = MultiQueryRetriever.from_llm(
+$$
+
     vectorstore.as_retriever(),
-    llm=ChatOpenAI(temperature=0)
+
+$$
+llm=ChatOpenAI(temperature=0)
+$$
+
 )
 
 # Truy xuất với nhiều query
+
+$$
 docs = retriever.get_relevant_documents(
+$$
+
     "What are the main benefits of exercise?"
 )
 
@@ -77,7 +89,11 @@ from langchain.retrievers import SelfQueryRetriever
 from langchain.chains.query_constructor.base import AttributeInfo
 
 # Định nghĩa metadata fields
+
+$$
 metadata_field_info = [
+$$
+
     AttributeInfo(
         name="source",
         description="The source of the document",
@@ -91,11 +107,19 @@ metadata_field_info = [
 ]
 
 # Tạo self-query retriever
+
+$$
 retriever = SelfQueryRetriever.from_llm(
+$$
+
     ChatOpenAI(temperature=0),
     vectorstore,
     metadata_field_info,
-    document_contents="Academic papers"
+
+$$
+document_contents="Academic papers"
+$$
+
 )
 
 ### 2.3 Parent-Document Retriever
@@ -108,15 +132,35 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 
 # Tạo text splitters cho parent và child documents
+
+$$
 parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000)
+$$
+
+$$
 child_splitter = RecursiveCharacterTextSplitter(chunk_size=400)
+$$
 
 # Tạo retriever
+
+$$
 retriever = ParentDocumentRetriever(
+$$
+
     vectorstores=[Chroma(...)],
-    docstore=InMemoryStore(),
-    parent_splitter=parent_splitter,
-    child_splitter=child_splitter
+
+$$
+docstore=InMemoryStore(),
+$$
+
+$$
+parent_splitter=parent_splitter,
+$$
+
+$$
+child_splitter=child_splitter
+$$
+
 )
 
 ## 3. Cơ Sở Dữ Liệu Vector
@@ -131,15 +175,28 @@ import numpy as np
 
 # Tạo index
 dimension = 128
+
+$$
 index = faiss.IndexFlatL2(dimension)
+$$
 
 # Thêm vectors
+
+$$
 vectors = np.random.random((10000, dimension)).astype('float32')
+$$
+
 index.add(vectors)
 
 # Tìm kiếm
+
+$$
 query = np.random.random((1, dimension)).astype('float32')
+$$
+
+$$
 distances, indices = index.search(query, k=10)
+$$
 
 **Ưu điểm:**
 - Tìm kiếm nhanh với nhiều chiều
@@ -154,10 +211,16 @@ ChromaDB là vector database mã nguồn mở được thiết kế cho AI appli
 import chromadb
 
 # Khởi tạo client
+
+$$
 client = chromadb.Client()
+$$
 
 # Tạo collection
+
+$$
 collection = client.create_collection("documents")
+$$
 
 # Thêm documents
 collection.add(
@@ -167,9 +230,19 @@ collection.add(
 )
 
 # Query
+
+$$
 results = collection.query(
-    query_texts=["Search query"],
-    n_results=2
+$$
+
+$$
+query_texts=["Search query"],
+$$
+
+$$
+n_results=2
+$$
+
 )
 
 ### 3.3 So Sánh FAISS vs ChromaDB
@@ -189,7 +262,13 @@ results = collection.query(
 HNSW là thuật toán graph-based cho tìm kiếm gần đúng:
 
 $$
-\text{Time Complexity} = O(\log N)
+
+$$
+
+\text{Time Complexity} = O($\log$ N)
+
+$$
+
 $$
 
 ```python
@@ -197,14 +276,26 @@ import hnswlib
 
 # Khởi tạo HNSW index
 dimension = 128
-max_elements = 10000
 
+$$
+max_elements = 10000
+$$
+
+$$
 index = hnswlib.Index(space='l2', dim=dimension)
+$$
 
 # Cấu hình
 index.init_params(
-    max_elements=max_elements,
-    ef_construction=200,
+
+$$
+max_elements=max_elements,
+$$
+
+$$
+ef_construction=200,
+$$
+
     M=16
 )
 
@@ -212,7 +303,10 @@ index.init_params(
 index.add_items(vectors, ids)
 
 # Tìm kiếm
+
+$$
 labels, distances = index.knn_query(query, k=10)
+$$
 
 **Đặc điểm:**
 - **ef_construction**: Tham số ảnh hưởng đến chất lượng index
@@ -230,13 +324,21 @@ corpus = [
     "Doc 2 content",
     "Doc 3 content"
 ]
-tokenized_corpus = [doc.split() for doc in corpus]
 
+$$
+tokenized_corpus = [doc.split() for doc in corpus]
+$$
+
+$$
 bm25 = BM25Okapi(tokenized_corpus)
+$$
 
 # Query
 query = "search query"
+
+$$
 results = bm25.get_scores(query.split())
+$$
 
 ## 5. Đánh Giá Retrieval
 
@@ -244,9 +346,9 @@ results = bm25.get_scores(query.split())
 
 | Metric | Công thức | Mô tả |
 |--------|----------|--------|
-| Precision@K | TP/$TP+FP$ | Tỷ lệ relevant trong K kết quả |
-| Recall@K | TP/$TP+FN$ | Tỷ lệ retrieved relevant |
-| MAP | $\frac{1}{m}\sum_{i=1}^{m} \frac{1}{n_i}\sum_{j=1}^{n_i} P(i,j)$ | Mean Average Precision |
+| Precision@K | TP/$TP+F$P( | Tỷ lệ relevant trong K kết quả |
+| Recall@K | TP/)$TP+FN$ | Tỷ lệ retrieved relevant |
+| MAP | $\frac{1}{m}$\sum$_{i=1}^{m} \frac{1}{n_i}$\sum$_{j=1}^{n_i} P(i,j)$ | Mean Average Precision |
 | NDCG | $\frac{DCG}{IDCG}$ | Normalized Discounted Cumulative Gain |
 
 ### 5.2 Evaluation Framework
@@ -261,8 +363,15 @@ from ragas.metrics import (
 )
 
 # Đánh giá RAG
+
+$$
 results = evaluate(
-    dataset=eval_dataset,
+$$
+
+$$
+dataset=eval_dataset,
+$$
+
     metrics=[
         faithfulness,
         answer_relevancy,
@@ -283,24 +392,53 @@ from langchain.embeddings import OpenAIEmbeddings
 import gradio as gr
 
 # Tạo vector store
+
+$$
 vectorstore = Chroma.from_documents(
-    documents=texts,
-    embedding=OpenAIEmbeddings()
+$$
+
+$$
+documents=texts,
+$$
+
+$$
+embedding=OpenAIEmbeddings()
+$$
+
 )
 
 # Tạo chain
+
+$$
 qa_chain = RetrievalQA.from_chain_type(
-    llm=ChatOpenAI(),
-    chain_type="stuff",
-    retriever=vectorstore.as_retriever()
+$$
+
+$$
+llm=ChatOpenAI(),
+$$
+
+$$
+chain_type="stuff",
+$$
+
+$$
+retriever=vectorstore.as_retriever()
+$$
+
 )
 
 # Tạo Gradio interface
 def answer_question(query):
     return qa_chain.run(query)
 
+$$
 demo = gr.Interface(
-    fn=answer_question,
+$$
+
+$$
+fn=answer_question,
+$$
+
     inputs="text",
     outputs="text"
 )

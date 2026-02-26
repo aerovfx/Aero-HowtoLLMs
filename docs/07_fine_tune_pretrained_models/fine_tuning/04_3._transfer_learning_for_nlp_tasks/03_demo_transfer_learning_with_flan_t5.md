@@ -33,7 +33,7 @@ Transfer learning là kỹ thuật cho phép sử dụng kiến thức từ mộ
 ### 1.2 Lợi Ích
 
 $$
-\text{Efficiency} \propto \frac{\text{Pre-trained Knowledge}}{\text{New Task Data}}
+\text{Efficiency} $\propto$ \frac{\text{Pre-trained Knowledge}}{\text{New Task Data}}
 $$
 
 - Giảm thời gian huấn luyện
@@ -51,9 +51,17 @@ $$
 # Tải tokenizer và mô hình
 from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM
 
+$$
 model_name = "google/flan-t5-base"
+$$
+
+$$
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+$$
+
+$$
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
+$$
 
 ### 2.2 Tải Dữ Liệu
 
@@ -61,7 +69,10 @@ model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
 from datasets import load_dataset
 
 # Tải tập dữ liệu OPUS-100 (Anh - Tây Ban Nha)
+
+$$
 dataset = load_dataset("Helsinki-NLP/opus-100", "en-es")
+$$
 
 ### 2.3 Tiền Xử Lý Dữ Liệu
 
@@ -73,12 +84,23 @@ def preprocess_function(examples):
     targets = [ex for ex in examples["es"]]
     
     # Tokenize inputs
-    model_inputs = tokenizer(inputs, max_length=128, truncation=True, padding="max_length")
+
+$$
+model_inputs = tokenizer(inputs, max_length=128, truncation=True, padding="max_length")
+$$
+
     
     # Tokenize targets
-    labels = tokenizer(targets, max_length=128, truncation=True, padding="max_length")
+
+$$
+labels = tokenizer(targets, max_length=128, truncation=True, padding="max_length")
+$$
+
     
-    model_inputs["labels"] = labels["input_ids"]
+$$
+model_inputs["labels"] = labels["input_ids"]
+$$
+
     
     return model_inputs
 
@@ -86,11 +108,27 @@ def preprocess_function(examples):
 
 ```python
 # Chuyển đổi sang TensorFlow
+
+$$
 tf_train = train_dataset.to_tf_dataset(
-    columns=["input_ids", "decoder_input_ids", "attention_mask"],
-    label_cols=["labels"],
-    batch_size=64,
-    shuffle=True
+$$
+
+$$
+columns=["input_ids", "decoder_input_ids", "attention_mask"],
+$$
+
+$$
+label_cols=["labels"],
+$$
+
+$$
+batch_size=64,
+$$
+
+$$
+shuffle=True
+$$
+
 )
 
 ## 3. Transfer Learning trong Thực Tế
@@ -100,7 +138,10 @@ tf_train = train_dataset.to_tf_dataset(
 ```python
 # Freeze embedding, encoder, decoder
 for layer in model.layers[:3]:
-    layer.trainable = False
+
+$$
+layer.trainable = False
+$$
 
 # Chỉ train lớp dense cuối
 model.summary()
@@ -115,14 +156,25 @@ model.summary()
 ```python
 # Compile model
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+
+$$
+optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
+$$
+
+$$
+loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+$$
+
 )
 
 # Huấn luyện
 model.fit(
     tf_train,
-    validation_data=tf_test,
+
+$$
+validation_data=tf_test,
+$$
+
     epochs=3
 )
 
@@ -146,20 +198,42 @@ model.fit(
 ```python
 def translate(text):
     # Tạo prompt
-    prompt = f"translate English to Spanish: {text}"
+
+$$
+prompt = f"translate English to Spanish: {text}"
+$$
+
     
     # Tokenize
-    inputs = tokenizer(prompt, return_tensors="tf")
+
+$$
+inputs = tokenizer(prompt, return_tensors="tf")
+$$
+
     
     # Generate
-    outputs = model.generate(**inputs, max_length=128)
+
+$$
+outputs = model.generate(**inputs, max_length=128)
+$$
+
     
     # Decode
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+$$
+return tokenizer.decode(outputs[0], skip_special_tokens=True)
+$$
 
 # Ví dụ
+
+$$
 input_text = "Bird, you don't have to be super brave all the time."
+$$
+
+$$
 translation = translate(input_text)
+$$
+
 print(f"Input: {input_text}")
 print(f"Translation: {translation}")
 

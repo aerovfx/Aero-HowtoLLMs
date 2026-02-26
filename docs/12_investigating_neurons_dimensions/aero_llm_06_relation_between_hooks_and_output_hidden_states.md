@@ -41,7 +41,7 @@ Khi mô hình không ở chế độ `eval()`, các tensor trích xuất qua Hoo
 ## 3. Kết Quả Thực Nghiệm: Tái cấu trúc Hoạt hóa
 
 ### 3.1. Sự bảo tồn Tín hiệu (Laminar Correlation)
-Đồ thị phân tán giữa đầu ra của Tầng 10 và Tầng 11 cho thấy sự tương quan cực mạnh ($r \approx 1.0$). Điều này khẳng định rằng Hidden State không bị thay đổi hoàn toàn sau mỗi Transformer Block mà chỉ bị biến đổi nhẹ.
+Đồ thị phân tán giữa đầu ra của Tầng 10 và Tầng 11 cho thấy sự tương quan cực mạnh ($r $\approx$ 1.0$). Điều này khẳng định rằng Hidden State không bị thay đổi hoàn toàn sau mỗi Transformer Block mà chỉ bị biến đổi nhẹ.
 
 ### 3.2. Công thức Tái cấu trúc (The Reconstruction Formula)
 Giá trị hoạt hóa của Tầng $L+1$ có thể được dự đoán chính xác tuyệt đối bằng công thức:

@@ -66,14 +66,34 @@ Mô hình này được gọi là "zero-layer transformer" vì thiếu các kh�
 class Model1(nn.Module):
     def __init__(self, vocab_size, embed_dim):
         super().__init__()
-        self.embeddings = nn.Embedding(vocab_size, embed_dim)
-        self.gelu = nn.GELU()
-        self.final_layer = nn.Linear(embed_dim, vocab_size)
+
+$$
+self.embeddings = nn.Embedding(vocab_size, embed_dim)
+$$
+
+$$
+self.gelu = nn.GELU()
+$$
+
+$$
+self.final_layer = nn.Linear(embed_dim, vocab_size)
+$$
+
     
     def forward(self, tokens):
-        x = self.embeddings(tokens)
-        x = self.gelu(x)
-        logits = self.final_layer(x)
+
+$$
+x = self.embeddings(tokens)
+$$
+
+$$
+x = self.gelu(x)
+$$
+
+$$
+logits = self.final_layer(x)
+$$
+
         return logits
 
 ---
@@ -131,7 +151,13 @@ Kết quả: Token cuối cùng mang thông tin tổng hợp từ toàn bộ chu
 **Hàm Softmax:**
 
 $$
-\text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{V} e^{x_j}}
+
+$$
+
+\text{softmax}(x_i) = \frac{e^{x_i}}{$\sum$_{j=1}^{V} e^{x_j}}
+
+$$
+
 $$
 
 **Đặc điểm:**
@@ -162,22 +188,46 @@ Không phải lựa chọn ngẫu nhiên đều, mà là **lấy mẫu xác su�
 ### 4.4 Thuật Toán Sinh Token Tự Hồi Quy
 
 ```python
+
+$$
 def generate(self, tokens, n_new_tokens=30):
+$$
+
     for _ in range(n_new_tokens):
         # Bước 1: Feedforward
-        x = self(tokens)  # [batch, seq_len, vocab_size]
+
+$$
+x = self(tokens)  # [batch, seq_len, vocab_size]
+$$
+
         
         # Bước 2: Trích xuất token cuối cùng
-        final_logits = x[:, -1, :]  # [batch, vocab_size]
+
+$$
+final_logits = x[:, -1, :]  # [batch, vocab_size]
+$$
+
         
         # Bước 3: Softmax
-        probs = torch.softmax(final_logits, dim=-1)
+
+$$
+probs = torch.softmax(final_logits, dim=-1)
+$$
+
         
         # Bước 4: Lấy mẫu
-        next_token = torch.multinomial(probs, num_samples=1)
+
+$$
+next_token = torch.multinomial(probs, num_samples=1)
+$$
+
         
         # Bước 5: Nối token mới
-        tokens = torch.cat([tokens, next_token], dim=1)
+
+$$
+tokens = torch.cat([tokens, next_token], dim=1)
+$$
+
     
     return tokens
 
@@ -204,8 +254,14 @@ def generate(self, tokens, n_new_tokens=30):
    - Làm mượt quá trình học
 
 **Cấu trúc tensor:**
+
+$$
 Input:  [batch_size, seq_len]           = [5, 8]
+$$
+
+$$
 Output: [batch_size, seq_len, vocab]    = [5, 8, 100000]
+$$
 
 ### 5.2 So Sánh `nn.Embedding` vs `nn.Linear`
 
@@ -248,10 +304,16 @@ GELU(x) = x * Φ(x)            # Mượt, xác suất
 **Quy trình:**
 ```python
 # Bước 1: Text → Token list
+
+$$
 tokens_list = tokenizer.encode(text)  # List[int]
+$$
 
 # Bước 2: List → PyTorch Tensor
+
+$$
 tokens_tensor = torch.tensor(tokens_list)  # Tensor
+$$
 
 # Lý do: PyTorch functions yêu cầu tensor inputs
 
@@ -341,7 +403,9 @@ Cách tiếp cận "5 models" trong khóa học:
    - Layer normalization
    - Residual connections
 
+$$
 **Nguyên tắc:** Mỗi model = Previous model + New components
+$$
 
 ### 8.2 Phương Pháp Giảng Dạy
 
@@ -406,21 +470,54 @@ Nghiên cứu này cung cấp:
 ### A.1 Model Definition
 ```python
 class Model1(nn.Module):
-    def __init__(self, vocab_size=100000, embed_dim=64):
+
+$$
+def __init__(self, vocab_size=100000, embed_dim=64):
+$$
+
         super().__init__()
-        self.embeddings = nn.Embedding(vocab_size, embed_dim)
-        self.gelu = nn.GELU()
-        self.final_layer = nn.Linear(embed_dim, vocab_size)
+
+$$
+self.embeddings = nn.Embedding(vocab_size, embed_dim)
+$$
+
+$$
+self.gelu = nn.GELU()
+$$
+
+$$
+self.final_layer = nn.Linear(embed_dim, vocab_size)
+$$
 
 ### A.2 Generation Method
 ```python
+
+$$
 def generate(self, tokens, n_new_tokens=30):
+$$
+
     for _ in range(n_new_tokens):
-        x = self(tokens)
-        final_logits = x[:, -1, :]
-        probs = torch.softmax(final_logits, dim=-1)
-        next_token = torch.multinomial(probs, num_samples=1)
-        tokens = torch.cat([tokens, next_token], dim=1)
+
+$$
+x = self(tokens)
+$$
+
+$$
+final_logits = x[:, -1, :]
+$$
+
+$$
+probs = torch.softmax(final_logits, dim=-1)
+$$
+
+$$
+next_token = torch.multinomial(probs, num_samples=1)
+$$
+
+$$
+tokens = torch.cat([tokens, next_token], dim=1)
+$$
+
     return tokens
 
 ---

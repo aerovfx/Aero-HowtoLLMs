@@ -58,8 +58,14 @@ Lớp mô hình được mở rộng thêm tham số `device` để đảm bảo
 Ví dụ:
 
 ```python
+
+$$
 self.device = device
+$$
+
+$$
 tensor = torch.arange(..., device=self.device)
+$$
 
 Cách thiết kế này giúp mã nguồn linh hoạt và ổn định hơn khi chuyển đổi giữa các thiết bị.
 

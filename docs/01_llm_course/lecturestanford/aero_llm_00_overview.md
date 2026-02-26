@@ -83,7 +83,7 @@ ChatGPT ✅
 
 ## Chương 4: Autoregressive & Tokenization
 
-**Autoregressive:** P$x$ = ∏ P(xᵢ | x₁...xᵢ₋₁)  
+**Autoregressive:** $P(x)$ = ∏ P(xᵢ | x₁...xᵢ₋₁)  
 **Tokenization:** BPE, ~100K vocab  
 **Issues:** Numbers, indentation, non-English
 

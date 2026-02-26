@@ -28,7 +28,7 @@ Cosine Similarity là một trong những thước đo cốt lõi trong xử lý
 
 1. Giới thiệu
 
-Trong NLP hiện đại, văn bản được ánh xạ sang vector trong không gian \mathbb{R}^d thông qua embedding models. Các tổ chức như:
+Trong NLP hiện đại, văn bản được ánh xạ sang vector trong không gian $\mathbb${R}^d thông qua embedding models. Các tổ chức như:
 	•	OpenAI
 	•	Google Research
 	•	Meta AI
@@ -45,7 +45,7 @@ Trong các hệ này, Cosine Similarity là thước đo chuẩn để so sánh 
 
 2. Định nghĩa Cosine Similarity
 
-Cho hai vector \mathbf{x}, \mathbf{y} \in \mathbb{R}^d:
+Cho hai vector \mathbf{x}, \mathbf{y} \in $\mathbb${R}^d:
 
 \text{cosine\_sim}$\mathbf{x}, \mathbf{y}$ =
 \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|}
@@ -53,10 +53,15 @@ Cho hai vector \mathbf{x}, \mathbf{y} \in \mathbb{R}^d:
 Trong đó:
 	•	Tích vô hướng:
 
-\mathbf{x} \cdot \mathbf{y} = \sum_{i=1}^{d} x_i y_i
+$$
+\mathbf{x} \cdot \mathbf{y} = $\sum$_{i=1}^{d} x_i y_i
+$$
+
 	•	Chuẩn Euclid:
 
-\|\mathbf{x}\| = \sqrt{\sum_{i=1}^{d} x_i^2}
+$$
+\|\mathbf{x}\| = \sqrt{$\sum$_{i=1}^{d} x_i^2}
+$$
 
 ⸻
 
@@ -90,15 +95,19 @@ Trong không gian chiều cao d \gg 1:
 
 Theo lý thuyết xác suất:
 
-Nếu x_i, y_i \sim \mathcal{N}(0,1)
+Nếu x_i, y_i \sim $\mathcal${N}(0,1)
 
-\mathbb{E}[\mathbf{x} \cdot \mathbf{y}] = 0
+$$
+$\mathbb${E}[\mathbf{x} \cdot \mathbf{y}] = 0
+$$
 
 Var$\mathbf{x} \cdot \mathbf{y}$ = d
 
 Sau chuẩn hóa:
 
-\mathbb{E}[\cos \theta] \approx 0
+$$
+$\mathbb${E}[\cos \theta] $\approx$ 0
+$$
 
 Hiện tượng này gọi là concentration of measure.
 
@@ -128,13 +137,13 @@ Do đó:
 
 Một embedding model ánh xạ văn bản t thành vector:
 
-f_\theta$t$ \in \mathbb{R}^d
+f_\theta$t$ \in $\mathbb${R}^d
 
 Xác suất chọn tài liệu d_i trong retrieval:
 
-P$d_i\mid q$ =
+$P(d_i\mid q)$ =
 \frac{\exp$\alpha \cdot \cos(f(q$, f$d_i$))}
-{\sum_j \exp$\alpha \cdot \cos(f(q$, f$d_j$))}
+{$\sum$_j \exp$\alpha \cdot \cos(f(q$, f$d_j$))}
 
 Trong đó:
 	•	\alpha là temperature scaling
@@ -148,8 +157,12 @@ Theo Elements of Information Theory:
 Mutual information giữa hai vector embedding:
 
 I(X;Y) =
-\mathbb{E}\left[
-\log \frac{P(X,Y)}{P$X$P$Y$}
+
+$$
+$\mathbb${E}$\le$ft[
+$$
+
+$\log$ \frac{P(X,Y)}{$P(X)$$P(Y)$}
 \right]
 
 Cosine similarity có thể xem như xấp xỉ thô của sự phụ thuộc tuyến tính giữa hai biến.
@@ -160,10 +173,13 @@ Cosine similarity có thể xem như xấp xỉ thô của sự phụ thuộc tu
 
 Trong contrastive learning (ví dụ SimCLR):
 
-\mathcal{L} =
-- \log
+$$
+$\mathcal${L} =
+$$
+
+- $\log$
 \frac{\exp$\cos(\mathbf{x}_i,\mathbf{x}_j$/\tau)}
-{\sum_k \exp$\cos(\mathbf{x}_i,\mathbf{x}_k$/\tau)}
+{$\sum$_k \exp$\cos(\mathbf{x}_i,\mathbf{x}_k$/\tau)}
 
 Trong đó:
 	•	\tau là temperature
@@ -179,7 +195,10 @@ S = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}
 
 Gradient theo \mathbf{x}:
 
-\frac{\partial S}{\partial \mathbf{x}} =
+$$
+\frac{$\partial$ S}{$\partial$ \mathbf{x}} =
+$$
+
 \frac{\mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}
 -
 \frac{$\mathbf{x}\cdot\mathbf{y}$\mathbf{x}}

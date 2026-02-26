@@ -46,7 +46,9 @@ Vấn đề không nằm ở “kiến thức” mà ở cách mô hình xử l�
 
 Chuỗi ký tự:
 
+$$
 S = (s_1, s_2, ..., s_n)
+$$
 
 Với:
 
@@ -58,7 +60,9 @@ n = 10
 
 Và:
 
-\sum_{i=1}^{10} \mathbf{1}$s_i = r$ = 3
+$$
+$\sum$_{i=1}^{10} \mathbf{1}$s_i = r$ = 3
+$$
 
 Trong đó:
 
@@ -72,7 +76,9 @@ là hàm chỉ thị.
 
 LLMs không xử lý ở mức ký tự mà theo token:
 
+$$
 T = (t_1, t_2, ..., t_m)
+$$
 
 Ví dụ (minh họa):
 
@@ -96,11 +102,13 @@ P(t_i | t_{<i})
 
 Toàn chuỗi:
 
-P$T$ = \prod_{i=1}^{m} P(t_i | t_{<i})
+$P(T)$ = $\prod$_{i=1}^{m} P(t_i | t_{<i})
 
 Mô hình không tối ưu cho phép toán đếm ký tự, mà tối ưu cho:
 
-\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i | t_{<i})
+$$
+$\mathcal${L} = - $\sum$_{i=1}^{m} $\log$ P(t_i  \mid  t_{\lt i})
+$$
 
 Tức là tối thiểu hóa cross-entropy giữa token dự đoán và token thật.
 
@@ -112,7 +120,9 @@ Tức là tối thiểu hóa cross-entropy giữa token dự đoán và token th
 
 Bài toán đếm yêu cầu:
 
-f$S$ = \sum_{i=1}^{n} \mathbf{1}$s_i = r$
+$$
+f$S$ = $\sum$_{i=1}^{n} \mathbf{1}$s_i = r$
+$$
 
 Nhưng mô hình chỉ có:
 
@@ -126,7 +136,7 @@ Không có bước lặp tuần tự ở mức ký tự.
 
 Embedding:
 
-E$t$ \in \mathbb{R}^d
+E$t$ \in $\mathbb${R}^d
 
 Thông tin về ký tự r nằm phân tán trong không gian:
 
@@ -140,7 +150,9 @@ Không tồn tại biến riêng biệt đếm số lần xuất hiện của r.
 
 Self-attention:
 
-\text{Attention}(Q,K,V) = \text{softmax}\left$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
+\text{Attention}(Q,K,V) = \text{softmax}$\le$ft$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
 
 Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng số học chính xác trên ký tự.
 
@@ -150,7 +162,7 @@ Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng s�
 
 Giả sử mô hình ước lượng xác suất:
 
-P$Y = k \mid  S$
+$P(Y = k \mid  S)$
 
 Trong đó:
 	•	Y: số lượng r
@@ -158,7 +170,7 @@ Trong đó:
 
 Do không huấn luyện trực tiếp cho nhiệm vụ đếm:
 
-P$Y=2$ \approx P$Y=3$
+$P(Y=2)$ $\approx$ $P(Y=3)$
 
 Nếu trong dữ liệu huấn luyện, mẫu “2” phổ biến hơn, mô hình có thể thiên lệch.
 
@@ -168,7 +180,7 @@ Nếu trong dữ liệu huấn luyện, mẫu “2” phổ biến hơn, mô hì
 
 Thuật toán truyền thống:
 
-O$n$
+$O(n)$
 
 Pseudo-code:
 
@@ -185,7 +197,9 @@ LLM không thực thi thuật toán tuần tự như vậy.
 
 Entropy của chuỗi ký tự:
 
-H$S$ = - \sum_{c \in \Sigma} P$c$\log P$c$
+$$
+H$S$ = - $\sum$_{c \in \Sigma} $P(c)$\log $P(c)$
+$$
 
 LLM tối ưu hóa dự đoán token, không tối ưu hóa:
 
@@ -210,7 +224,9 @@ Nhưng vẫn không đảm bảo 100% chính xác vì không phải mô hình sy
 
 Ta có thể định nghĩa:
 
-h_\theta$S$ \approx \sum_{i=1}^{n} \mathbf{1}$s_i = r$
+$$
+h_\theta$S$ $\approx$ $\sum$_{i=1}^{n} \mathbf{1}$s_i = r$
+$$
 
 Với:
 
@@ -218,7 +234,7 @@ Với:
 
 Sai số kỳ vọng:
 
-\mathbb{E}[$h_\theta(S$ - f$S$)^2]
+$\mathbb${E}[$h_\theta(S$ - f$S$)^2]
 
 Không được tối ưu trực tiếp trong huấn luyện LLM.
 
@@ -243,7 +259,7 @@ Sai số đếm ký tự có thể giải thích bởi:
 
 \text{Token-level modeling} \neq \text{Character-level counting}
 
-\min \mathcal{L}_{\text{cross-entropy}} \not\Rightarrow \min \mathcal{L}_{\text{counting}}
+\min $\mathcal${L}_{\text{cross-entropy}} \not\Rightarrow \min $\mathcal${L}_{\text{counting}}
 
 Do đó, nhiệm vụ tưởng chừng đơn giản lại không phù hợp tự nhiên với mục tiêu tối ưu của LLM.
 

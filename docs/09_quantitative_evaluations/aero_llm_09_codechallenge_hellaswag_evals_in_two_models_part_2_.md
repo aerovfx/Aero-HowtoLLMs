@@ -47,15 +47,19 @@ Mục tiêu: so sánh hai mô hình M_1 và M_2.
 
 Với mô hình tự hồi quy:
 
-P$a_i \mid c$ = \prod_{t=1}^{T_i} P$w_t \mid c, w_{\lt t}$
+$P(a_i \mid c)$ = $\prod$_{t=1}^{T_i} $P(w_t \mid c, w_{\lt t})$
 
 Để tránh tràn số:
 
-\log P$a_i \mid c$ = \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
+$$
+$\log$ $P(a_i \mid c)$ = $\sum$_{t=1}^{T_i} $\log$ $P(w_t \mid c, w_{\lt t})$
+$$
 
 Trong thực tế, ta tính:
 
-Score$a_i$ = \frac{1}{T_i^\alpha} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
+$$
+Score$a_i$ = \frac{1}{T_i^\alpha} $\sum$_{t=1}^{T_i} $\log$ $P(w_t \mid c, w_{\lt t})$
+$$
 
 Trong đó:
 	•	\alpha = 1 → chuẩn hoá trung bình
@@ -67,19 +71,25 @@ Trong đó:
 
 Transformer tính xác suất thông qua:
 
+$$
 h_t = \text{Transformer}$c, w_{\lt t}$
+$$
 
 Sau đó:
 
-P$w_t$ = \text{softmax}$Wh_t$
+$P(w_t)$ = \text{softmax}$Wh_t$
 
 Trong đó:
 
-\text{softmax}$z_i$ = \frac{e^{z_i}}{\sum_j e^{z_j}}
+$$
+\text{softmax}$z_i$ = \frac{e^{z_i}}{$\sum$_j e^{z_j}}
+$$
 
 Self-attention:
 
-Attention(Q,K,V) = \text{softmax}\left$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
+Attention(Q,K,V) = \text{softmax}$\le$ft$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
 
 ⸻
 
@@ -92,11 +102,15 @@ Giả sử:
 
 Sai số chuẩn:
 
+$$
 SE_i = \sqrt{\frac{\hat{p}_i $1-\hat{p}_i$}{N}}
+$$
 
 Kiểm định z:
 
+$$
 z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{SE_1^2 + SE_2^2}}
+$$
 
 Nếu:
 
@@ -113,13 +127,24 @@ Nếu không chuẩn hoá:
 	•	Mô hình ưu tiên đáp án ngắn
 
 Giả sử hai đáp án:
-	•	T_1 = 5
-	•	T_2 = 20
+
+$$
+•	T_1 = 5
+$$
+
+$$
+•	T_2 = 20
+$$
 
 Nếu xác suất token trung bình như nhau:
 
-\sum_{t=1}^{5} \log p = -10
-\sum_{t=1}^{20} \log p = -40
+$$
+$\sum$_{t=1}^{5} $\log$ p = -10
+$$
+
+$$
+$\sum$_{t=1}^{20} $\log$ p = -40
+$$
 
 Không chuẩn hoá → chọn chuỗi ngắn
 Chuẩn hoá:
@@ -135,7 +160,9 @@ Chuẩn hoá:
 
 Perplexity:
 
-PP = \exp\left$- \frac{1}{N} \sum \log P(w_i$\right)
+$$
+PP = \exp$\le$ft$- \frac{1}{N} $\sum$ $\log$ P(w_i$\right)
+$$
 
 HellaSwag đo khả năng phân biệt nhiều chuỗi hoàn chỉnh.
 
@@ -153,7 +180,9 @@ Loss$N$ = A N^{-\alpha} + B
 
 Accuracy thường tăng theo:
 
-Accuracy$N$ \approx C - D N^{-\beta}
+$$
+Accuracy$N$ $\approx$ C - D N^{-\beta}
+$$
 
 Khi N tăng → performance tiệm cận trần.
 
@@ -172,11 +201,15 @@ Các lỗi phổ biến:
 
 Expected Calibration Error (ECE):
 
-ECE = \sum_{m=1}^{M} \frac{|B_m|}{n} |acc$B_m$ - conf$B_m$|
+$$
+ECE = $\sum$_{m=1}^{M} \frac{|B_m|}{n} |acc$B_m$ - conf$B_m$|
+$$
 
 Mô hình tốt không chỉ cần accuracy cao mà còn:
 
-acc \approx conf
+$$
+acc $\approx$ conf
+$$
 
 ⸻
 

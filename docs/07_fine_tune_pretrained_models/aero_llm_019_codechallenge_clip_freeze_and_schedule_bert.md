@@ -66,7 +66,13 @@ $$
 Với:
 
 $$
-\nabla_{\theta_{freeze}}L=0
+
+$$
+
+$\nabla$_{\theta_{freeze}}L=0
+
+$$
+
 $$
 
 ⇒ các tham số bị đóng băng không cập nhật.
@@ -78,11 +84,23 @@ $$
 Quy trình cập nhật:
 
 $$
+
+$$
+
 \theta_{t+1}=\theta_t-\eta_t\mathbf{g}_t
+
 $$
 
 $$
-\mathbf{g}*t=\nabla*\theta L(\theta_t)
+
+$$
+
+$$
+
+\mathbf{g}*t=$\nabla$*\theta L(\theta_t)
+
+$$
+
 $$
 
 ---
@@ -99,7 +117,13 @@ Theo , mô hình được cấu hình:
 Tỷ lệ tham số:
 
 $$
-R=\frac{|\theta_{train}|}{|\theta_{total}|}\approx 0.5
+
+$$
+
+R=\frac{|\theta_{train}|}{|\theta_{total}|}$\approx$ 0.5
+
+$$
+
 $$
 
 ---
@@ -117,7 +141,7 @@ $$
 Đảm bảo:
 
 $$
-|\mathbf{g}'|\le c
+|\mathbf{g}'|$\le$ c
 $$
 
 ---
@@ -125,7 +149,13 @@ $$
 #### 3.2.2 Ảnh hưởng tới cập nhật
 
 $$
+
+$$
+
 \theta_{t+1}=\theta_t-\eta_t\mathbf{g}'
+
+$$
+
 $$
 
 Giúp hạn chế gradient explosion.
@@ -137,7 +167,13 @@ Giúp hạn chế gradient explosion.
 #### 3.3.1 Warm-up
 
 $$
-\eta_t=\eta_{max}\frac{t}{T_{warm}},\quad t\le T_{warm}
+
+$$
+
+\eta_t=\eta_{max}\frac{t}{T_{warm}},\quad t$\le$ T_{warm}
+
+$$
+
 $$
 
 ---
@@ -145,7 +181,13 @@ $$
 #### 3.3.2 Linear Decay
 
 $$
-\eta_t=\eta_{max}\left(1-\frac{t}{T_{sched}}\right)
+
+$$
+
+\eta_t=\eta_{max}$\le$ft(1-\frac{t}{T_{sched}}\right)
+
+$$
+
 $$
 
 Trong đó:
@@ -154,7 +196,9 @@ $$
 T_{sched}>T_{train}
 $$
 
+$$
 để tránh $\eta_t=0$.
+$$
 
 ---
 
@@ -172,7 +216,13 @@ Quy trình huấn luyện:
 Phương trình tổng quát:
 
 $$
+
+$$
+
 \theta_{t+1}= \theta_t- \eta_t \frac{c}{\max(|\mathbf{g}_t|,c)}\mathbf{g}_t
+
+$$
+
 $$
 
 ---
@@ -201,7 +251,13 @@ Theo dõi:
 Cross-Entropy:
 
 $$
-L=-\sum_{i=1}^{N}y_i\log(p_i)
+
+$$
+
+L=-$\sum$_{i=1}^{N}y_i$\log$(p_i)
+
+$$
+
 $$
 
 Quan sát:
@@ -241,7 +297,13 @@ Hai lớp được theo dõi:
 Chuẩn gradient:
 
 $$
-G_t=|\nabla W_t|
+
+$$
+
+G_t=|$\nabla$ W_t|
+
+$$
+
 $$
 
 Quan sát:
@@ -290,7 +352,13 @@ Theo , clipping sớm có thể:
 Giải pháp:
 
 $$
-c(t)= \begin{cases} \infty & t\lt T_0\ 1 & t\ge T_0 \end{cases}
+
+$$
+
+c(t)= \begin{cases} $\infty$ & t\lt T_0\ 1 & t$\ge$ T_0 \end{cases}
+
+$$
+
 $$
 
 (Delayed clipping)
@@ -310,7 +378,7 @@ Ba kỹ thuật phối hợp:
 Tác động tổng hợp:
 
 $$
-Stability\propto f(F,C,S)
+Stability$\propto$ f(F,C,S)
 $$
 
 ---

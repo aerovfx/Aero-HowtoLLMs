@@ -96,7 +96,7 @@ Dựa trên các tài liệu, **Softmax** là một hàm toán học đóng vai 
 Dưới đây là vai trò của Softmax trong bối cảnh kỹ thuật rộng hơn:
 
 *   **Chuyển đổi Logits:** Đầu ra thô của các lớp mạng thần kinh là **Logits** — các con số vô hướng có thể là âm hoặc dương tùy ý. Softmax sử dụng hàm mũ ($e^x$) để biến tất cả thành số dương, sau đó chia cho tổng để đảm bảo toàn bộ giá trị cộng lại bằng 1 (100%),.
-*   **Vai trò trong Attention (Sự chú ý):** Trong lớp Attention, Softmax quyết định mức độ "quan tâm" của token hiện tại đối với các token trong quá khứ. Nó phối hợp với **Mặt nạ nhân quả** (gán giá trị $-\infty$ cho các vị trí tương lai). Vì $e^{-\infty} \approx 0$, Softmax giúp triệt tiêu hoàn toàn thông tin từ tương lai, đảm bảo mô hình không "nhìn trộm" đáp án,.
+*   **Vai trò trong Attention (Sự chú ý):** Trong lớp Attention, Softmax quyết định mức độ "quan tâm" của token hiện tại đối với các token trong quá khứ. Nó phối hợp với **Mặt nạ nhân quả** (gán giá trị $-$\infty$$ cho các vị trí tương lai). Vì $e^{-$\infty$} $\approx$ 0$, Softmax giúp triệt tiêu hoàn toàn thông tin từ tương lai, đảm bảo mô hình không "nhìn trộm" đáp án,.
 *   **Thúc đẩy sự thưa thớt (Sparsity):** Hàm số mũ trong Softmax có xu hướng khuếch đại các giá trị lớn nhất và nén các giá trị nhỏ xuống gần bằng 0. Điều này giúp mô hình đưa ra quyết định dứt khoát hơn thay vì phân vân giữa quá nhiều lựa chọn "nhạt nhòa",.
 
 Sau khi có được xác suất từ Softmax, chúng ta không nhất thiết phải luôn chọn từ có xác suất cao nhất (Greedy). 

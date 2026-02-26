@@ -49,13 +49,17 @@ Phương pháp này được phổ biến rộng rãi trong kiến trúc Transfo
 
 Giả sử:
 	•	Câu đầu vào:
+
+$$
 X = (x_1, x_2, ..., x_n)
+$$
+
 	•	Tập chỉ số các token bị che:
 M \subset \{1, 2, ..., n\}
 
 Mô hình học xác suất có điều kiện:
 
-P$x_i \mid X_{\setminus M}$
+$P(x_i \mid X_{\setminus M})$
 
 Trong đó X_{\setminus M} là chuỗi đầu vào đã thay các vị trí trong M bằng [MASK].
 
@@ -67,10 +71,16 @@ Trong đó X_{\setminus M} là chuỗi đầu vào đã thay các vị trí tron
 
 Nếu có N token bị che:
 
-Accuracy = \frac{1}{N} \sum_{i \in M} \mathbf{1}$\hat{x}_i = x_i$
+$$
+Accuracy = \frac{1}{N} $\sum$_{i \in M} \mathbf{1}$\hat{x}_i = x_i$
+$$
 
 Trong đó:
-	•	\hat{x}_i = \arg\max P$x_i \mid X_{\setminus M}$
+
+$$
+•	\hat{x}_i = \arg\max $P(x_i \mid X_{\setminus M})$
+$$
+
 	•	\mathbf{1}$\cdot$ là hàm chỉ báo
 
 ⸻
@@ -79,7 +89,9 @@ Trong đó:
 
 Trong thực tế, ta thường sử dụng Top-k accuracy:
 
-Top\text{-}k = \frac{1}{N} \sum_{i \in M} \mathbf{1}$x_i \in \text{Top-}k(\hat{P}_i$)
+$$
+Top\text{-}k = \frac{1}{N} $\sum$_{i \in M} \mathbf{1}$x_i \in \text{Top-}k(\hat{P}_i$)
+$$
 
 Điều này đặc biệt quan trọng khi:
 	•	Từ vựng lớn (30k–100k tokens)
@@ -91,7 +103,9 @@ Top\text{-}k = \frac{1}{N} \sum_{i \in M} \mathbf{1}$x_i \in \text{Top-}k(\hat{P
 
 4.1 Cross-Entropy Loss
 
-\mathcal{L} = - \frac{1}{N} \sum_{i \in M} \log P$x_i \mid X_{\setminus M}$
+$$
+$\mathcal${L} = - \frac{1}{N} $\sum$_{i \in M} $\log$ $P(x_i \mid X_{\setminus M})$
+$$
 
 Cross-entropy đo mức “bất ngờ” của mô hình trước dữ liệu thực.
 
@@ -101,11 +115,15 @@ Cross-entropy đo mức “bất ngờ” của mô hình trước dữ liệu t
 
 Perplexity được định nghĩa:
 
-PP = e^{\mathcal{L}}
+$$
+PP = e^{$\mathcal${L}}
+$$
 
 Hoặc:
 
-PP = \exp\left$- \frac{1}{N} \sum_{i=1}^{N} \log P(x_i$ \right)
+$$
+PP = \exp$\le$ft$- \frac{1}{N} $\sum$_{i=1}^{N} $\log$ P(x_i$ \right)
+$$
 
 Perplexity càng thấp → mô hình càng tốt.
 
@@ -123,7 +141,7 @@ Ví dụ:
 
 Giả sử mô hình dự đoán đúng nhưng với xác suất thấp:
 
-P$x_i$ = 0.51
+$P(x_i)$ = 0.51
 
 → Accuracy = 100%
 → Cross-entropy cao
@@ -177,7 +195,9 @@ Accuracy có thể giảm mạnh dù mô hình vẫn tốt về mặt xác suấ
 
 Kiến trúc Transformer do Ashish Vaswani et al. đề xuất có cơ chế self-attention:
 
-Attention(Q,K,V) = \text{softmax}\left$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
+Attention(Q,K,V) = \text{softmax}$\le$ft$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
 
 MLM tận dụng self-attention hai chiều để dự đoán token bị che.
 
@@ -205,11 +225,13 @@ Khoảng tin cậy 95%:
 
 MLM (BERT) vs Autoregressive (GPT):
 
-P(x_1,...,x_n) = \prod_{t=1}^{n} P$x_t \mid x_{\lt t}$
+$$
+P(x_1,...,x_n) = $\prod$_{t=1}^{n} $P(x_t \mid x_{\lt t})$
+$$
 
 Khác với:
 
-P$x_i \mid X_{\setminus M}$
+$P(x_i \mid X_{\setminus M})$
 
 Do đó accuracy trong MLM không tương đương trực tiếp với perplexity trong GPT.
 

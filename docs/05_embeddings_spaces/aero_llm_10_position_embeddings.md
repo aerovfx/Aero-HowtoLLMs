@@ -27,7 +27,13 @@ Kiến trúc Transformer không có cơ chế tuần tự nội tại như RNN, 
 Trong Transformer, self-attention chỉ dựa trên:
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V
+
+$$
+
+\text{Attention}(Q,K,V) = \text{softmax}$\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)V
+
+$$
+
 $$
 
 Cơ chế này không chứa thông tin về vị trí thứ tự của token.
@@ -52,11 +58,23 @@ sẽ có tập embedding giống nhau (chỉ khác thứ tự).
 Trong bài báo Transformer gốc (Vaswani et al., 2017), positional encoding được định nghĩa:
 
 $$
-PE_{(pos,2k)} = \sin\left( \frac{pos}{10000^{2k/d}} \right)
+
+$$
+
+PE_{(pos,2k)} = \sin$\le$ft( \frac{pos}{10000^{2k/d}} \right)
+
 $$
 
 $$
-PE_{(pos,2k+1)} = \cos\left( \frac{pos}{10000^{2k/d}} \right)
+
+$$
+
+$$
+
+PE_{(pos,2k+1)} = \cos$\le$ft( \frac{pos}{10000^{2k/d}} \right)
+
+$$
+
 $$
 
 Trong đó:
@@ -74,13 +92,25 @@ Trong đó:
 Ta có:
 
 $$
+
+$$
+
 \omega_k = \frac{1}{10000^{2k/d}}
+
+$$
+
 $$
 
 Do đó:
 
 $$
+
+$$
+
 PE(pos,k) = \sin(\omega_k pos) \quad \text{hoặc} \quad \cos(\omega_k pos)
+
+$$
+
 $$
 
 Tần số thay đổi theo cấp số nhân → cho phép mô hình biểu diễn cả:
@@ -118,13 +148,19 @@ Trong đó:
 Khi đó:
 
 $$
+
+$$
+
 Z = V + P
+
+$$
+
 $$
 
 với:
 
 $$
-V, P \in \mathbb{R}^{n \times d}
+V, P \in $\mathbb${R}^{n \times d}
 $$
 
 ---
@@ -134,7 +170,7 @@ $$
 Trong [GPT-2](chatgpt://generic-entity?number=2) và [BERT](chatgpt://generic-entity?number=3), positional embeddings thường được học trực tiếp:
 
 $$
-P \in \mathbb{R}^{L_{max} \times d}
+P \in $\mathbb${R}^{L_{max} \times d}
 $$
 
 với $L_{max}$ là độ dài tối đa.
@@ -142,7 +178,13 @@ với $L_{max}$ là độ dài tối đa.
 Khi đó:
 
 $$
+
+$$
+
 \mathbf{p}_i = P[i]
+
+$$
+
 $$
 
 Ưu điểm:
@@ -167,23 +209,47 @@ $$
 Self-attention tính:
 
 $$
+
+$$
+
 Q = ZW_Q
+
 $$
 
 $$
+
+$$
+
+$$
+
 K = ZW_K
+
+$$
+
 $$
 
 Tích vô hướng:
 
 $$
+
+$$
+
 QK^T = (V + P)W_Q ((V + P)W_K)^T
+
+$$
+
 $$
 
 Khai triển:
 
 $$
+
+$$
+
 = VW_QW_K^TV^T + VW_QW_K^TP^T + PW_QW_K^TV^T + PW_QW_K^TP^T
+
+$$
+
 $$
 
 Cho thấy attention bao gồm:
@@ -199,7 +265,13 @@ Cho thấy attention bao gồm:
 Một số mô hình hiện đại sử dụng vị trí tương đối:
 
 $$
+
+$$
+
 \text{Attention}_{ij} = \frac{ Q_i K_j^T + b_{i-j} }{ \sqrt{d} }
+
+$$
+
 $$
 
 Trong đó $b_{i-j}$ phụ thuộc vào khoảng cách giữa vị trí.

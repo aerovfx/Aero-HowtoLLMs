@@ -29,8 +29,8 @@ Trong Transformer, embedding của một token tại vị trí t được biểu
 \mathbf{z}_t = \mathbf{e}_t + \mathbf{p}_t
 
 Trong đó:
-	•	\mathbf{e}_t \in \mathbb{R}^d: embedding ngữ nghĩa của token
-	•	\mathbf{p}_t \in \mathbb{R}^d: embedding vị trí
+	•	\mathbf{e}_t \in $\mathbb${R}^d: embedding ngữ nghĩa của token
+	•	\mathbf{p}_t \in $\mathbb${R}^d: embedding vị trí
 	•	d: số chiều embedding
 
 Vấn đề cốt lõi: self-attention là bất biến theo hoán vị (permutation invariant). Nếu không có embedding vị trí, mô hình không phân biệt được:
@@ -47,9 +47,13 @@ Do đó, embedding vị trí cung cấp cấu trúc thứ tự cho mô hình.
 
 Trong Transformer ban đầu:
 
-\text{PE}(pos, 2i) = \sin\left$\frac{pos}{10000^{2i/d}}\right$
+$$
+\text{PE}(pos, 2i) = \sin$\le$ft$\frac{pos}{10000^{2i/d}}\right$
+$$
 
-\text{PE}(pos, 2i+1) = \cos\left$\frac{pos}{10000^{2i/d}}\right$
+$$
+\text{PE}(pos, 2i+1) = \cos$\le$ft$\frac{pos}{10000^{2i/d}}\right$
+$$
 
 Tính chất quan trọng:
 	•	Tạo ra phổ tần số đa dạng
@@ -62,7 +66,7 @@ Tính chất quan trọng:
 
 Trong GPT-2, embedding vị trí được học như một ma trận tham số:
 
-\mathbf{P} \in \mathbb{R}^{L \times d}
+\mathbf{P} \in $\mathbb${R}^{L \times d}
 
 Với:
 	•	L: chiều dài tối đa chuỗi
@@ -74,11 +78,13 @@ Vector vị trí tại t:
 
 Các vector này được tối ưu thông qua gradient descent:
 
-\mathbf{P} \leftarrow \mathbf{P} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{P}}
+$$
+\mathbf{P} $\le$ftarrow \mathbf{P} - \eta \frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{P}}
+$$
 
 Trong đó:
 	•	\eta: learning rate
-	•	\mathcal{L}: hàm mất mát
+	•	$\mathcal${L}: hàm mất mát
 
 ⸻
 
@@ -88,7 +94,9 @@ Trong đó:
 
 Chuẩn L2 của embedding vị trí:
 
-\|\mathbf{p}_t\|_2 = \sqrt{\sum_{i=1}^{d} p_{t,i}^2}
+$$
+\|\mathbf{p}_t\|_2 = \sqrt{$\sum$_{i=1}^{d} p_{t,i}^2}
+$$
 
 Quan sát thực nghiệm:
 	•	Chuẩn tương đối ổn định theo vị trí
@@ -113,7 +121,9 @@ Tính chất thực nghiệm:
 
 Có thể mô hình hoá xấp xỉ:
 
-\cos$\mathbf{p}_t, \mathbf{p}_{t+k}$ \approx e^{-\alpha k}
+$$
+\cos$\mathbf{p}_t, \mathbf{p}_{t+k}$ $\approx$ e^{-\alpha k}
+$$
 
 với \alpha > 0.
 
@@ -123,19 +133,25 @@ với \alpha > 0.
 
 Xét vector sai phân:
 
+$$
 \Delta_t = \mathbf{p}_{t+1} - \mathbf{p}_t
+$$
 
 Nếu embedding có cấu trúc tuyến tính, ta kỳ vọng:
 
-\Delta_t \approx \Delta_{t+1}
+$$
+\Delta_t $\approx$ \Delta_{t+1}
+$$
 
 Thực nghiệm cho thấy:
 	•	Các \Delta_t gần song song nhau
-	•	Embedding vị trí gần như nằm trên một quỹ đạo tuyến tính trong không gian \mathbb{R}^d
+	•	Embedding vị trí gần như nằm trên một quỹ đạo tuyến tính trong không gian $\mathbb${R}^d
 
 Điều này gợi ý:
 
-\mathbf{p}_t \approx \mathbf{p}_0 + t\mathbf{v}
+$$
+\mathbf{p}_t $\approx$ \mathbf{p}_0 + t\mathbf{v}
+$$
 
 với \mathbf{v} là vector hướng chính.
 
@@ -146,17 +162,25 @@ với \mathbf{v} là vector hướng chính.
 5.1 Ma trận hiệp phương sai
 
 \mathbf{C} =
-\frac{1}{L} \sum_{t=1}^{L}
+
+$$
+\frac{1}{L} $\sum$_{t=1}^{L}
+$$
+
 $\mathbf{p}_t - \bar{\mathbf{p}}$
 $\mathbf{p}_t - \bar{\mathbf{p}}$^T
 
 Trong đó:
 
-\bar{\mathbf{p}} = \frac{1}{L} \sum_{t=1}^{L} \mathbf{p}_t
+$$
+\bar{\mathbf{p}} = \frac{1}{L} $\sum$_{t=1}^{L} \mathbf{p}_t
+$$
 
 Giải bài toán trị riêng:
 
+$$
 \mathbf{C}\mathbf{v}_i = \lambda_i \mathbf{v}_i
+$$
 
 5.2 Kết quả thực nghiệm
 	•	Thành phần chính thứ nhất (PC1) tương quan mạnh với chỉ số vị trí.
@@ -170,20 +194,32 @@ Giải bài toán trị riêng:
 Self-attention:
 
 \text{Attention}(Q,K,V) =
-\text{softmax}\left(
+
+$$
+\text{softmax}$\le$ft(
+$$
+
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
 
 Với:
 
+$$
 Q = ZW_Q, \quad
+$$
+
+$$
 K = ZW_K, \quad
+$$
+
+$$
 Z = E + P
+$$
 
 Suy ra:
 
 QK^T =
-$E + P$W_QW_K^T$E + P$^T
+$E + $P(W_QW_K^T)$E + P$^T
 
 Khai triển:
 
@@ -210,7 +246,9 @@ Các phương pháp này mã hoá khoảng cách tương đối thay vì vị tr
 
 Embedding vị trí học được trong GPT-2 có đặc tính:
 
-\mathbf{p}_t \approx \mathbf{a} + t\mathbf{b} + \epsilon_t
+$$
+\mathbf{p}_t $\approx$ \mathbf{a} + t\mathbf{b} + \epsilon_t
+$$
 
 với nhiễu nhỏ \epsilon_t.
 

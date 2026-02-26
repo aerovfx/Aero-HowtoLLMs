@@ -183,7 +183,9 @@ Con số này rất nhỏ so với hàng trăm triệu hoặc hàng tỷ tham s�
 
 Khác với toàn mô hình, trong Layer Norm:
 
+$$
 * Số weight = số bias.
+$$
 
 Nguyên nhân là mỗi chiều embedding có đúng một tham số scale và một tham số shift 
 

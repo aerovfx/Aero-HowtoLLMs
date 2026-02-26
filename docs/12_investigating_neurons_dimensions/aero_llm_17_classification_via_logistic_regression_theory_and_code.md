@@ -31,13 +31,25 @@ Hồi quy Logistic được sử dụng khi biến phụ thuộc (Dependent Vari
 Mô hình hồi quy được thiết lập để dự đoán log-odds (logarit của tỷ lệ xác suất):
 
 $$
-\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1x_1 + \dots + \beta_nx_n
+
+$$
+
+$\log$$\le$ft(\frac{p}{1-p}\right) = \beta_0 + \beta_1x_1 + \dots + \beta_nx_n
+
+$$
+
 $$
 
 Chuyển đổi để tìm xác suất $p$:
 
 $$
+
+$$
+
 p = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_1 + \dots)}}
+
+$$
+
 $$
 
 Hàm này (hàm Sigmoid) nén mọi giá trị đầu vào vào khoảng $(0, 1)$, phù hợp với định nghĩa của xác suất.

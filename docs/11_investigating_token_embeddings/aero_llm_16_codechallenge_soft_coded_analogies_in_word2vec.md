@@ -47,11 +47,19 @@ Lệnh: `Tree` so với `Leaf`  $\approx$ `?` so với `Petal`. Trực giác sin
 Đội ngũ máy học trả về kết quả mờ mịt: Top ứng cử viên lộn xộn các từ `Willow Tree` (Cây Liễu).
 
 **Kiểm định 2 - Đảo chiều trục:**
+
+$$
 Lệnh: `Leaf` so với `Tree` $\approx$ `Petal` so với `Flower`.
+$$
+
 Biên độ dự báo của mạng lưới từ vựng trượt dốc. Không có bất kỳ bóng dáng một đại lượng từ vựng nào nằm trong Top 10 chạm tới logic ý niệm. 
 
 **Kiểm định 3 - Logic Giải Phẫu Người:**
+
+$$
 Lệnh: `Finger` so với `Hand` $\approx$ `?` so với `Foot`. Đáp án chuẩn hóa là `Toe` (Ngón chân).
+$$
+
 Mô hình toán học mớm lại từ `Pinky` (Ngón út) trôi nổi trong không gian nhiễu vector.
 
 ---

@@ -49,19 +49,27 @@ Trong bối cảnh này, hai công cụ nổi bật là:
 2.1 Định nghĩa
 
 Giả sử:
-	•	P$x$: phân phối dữ liệu thật
+	•	$P(x)$: phân phối dữ liệu thật
 	•	Q$x$: phân phối sinh từ mô hình
 
 Khi đó, Kullback–Leibler Divergence được định nghĩa:
 
-D_{KL}(P || Q) = \sum_{x} P$x$ \log \frac{P$x$}{Q$x$}
+$$
+D_{KL}(P || Q) = $\sum$_{x} $P(x)$ $\log$ \frac{$P(x)$}{Q$x$}
+$$
 
 Nếu phân phối liên tục:
 
-D_{KL}(P || Q) = \int P$x$ \log \frac{P$x$}{Q$x$} dx
+$$
+D_{KL}(P || Q) = \int $P(x)$ $\log$ \frac{$P(x)$}{Q$x$} dx
+$$
 
 2.2 Diễn giải
-	•	D_{KL} = 0 khi P = Q
+
+$$
+•	D_{KL} = 0 khi P = Q
+$$
+
 	•	D_{KL} > 0 khi hai phân phối khác nhau
 	•	Không đối xứng:
 D_{KL}(P || Q) \neq D_{KL}(Q || P)
@@ -70,11 +78,13 @@ D_{KL}(P || Q) \neq D_{KL}(Q || P)
 
 Cross-entropy:
 
-H(P, Q) = - \sum_x P$x$ \log Q$x$
+$$
+H(P, Q) = - $\sum$_x $P(x)$ $\log$ Q$x$
+$$
 
 Ta có:
 
-D_{KL}(P||Q) = H(P,Q) - H$P$
+D_{KL}(P||Q) = H(P,Q) - H$$P(
 
 Perplexity:
 
@@ -100,7 +110,7 @@ MAUVE xây dựng đường cong giữa hai phân phối:
 
 Bằng cách xét họ phân phối hỗn hợp:
 
-R_\alpha = \alpha P + $1-\alpha$Q
+R_\alpha = \alpha P + )$1-\alpha$Q
 
 Sau đó tính:
 
@@ -113,7 +123,9 @@ D_{KL}$Q \mid \mid R_\alpha$
 
 MAUVE được định nghĩa dựa trên diện tích dưới đường cong:
 
+$$
 \text{MAUVE} = \int_0^1 f$\alpha$ d\alpha
+$$
 
 Trong đó f$\alpha$ phản ánh trade-off giữa hai hướng KL.
 
@@ -142,11 +154,15 @@ Giả sử có mô hình M, với mỗi câu hỏi có 4 đáp án a_i.
 
 Xác suất lựa chọn:
 
-P(a_i | context) = \frac{\exp$\log p_\theta(a_i$)}{\sum_j \exp$\log p_\theta(a_j$)}
+$$
+P(a_i  \mid  context) = \frac{\exp$\log p_\theta(a_i$)}{$\sum$_j \exp$\log p_\theta(a_j$)}
+$$
 
 Accuracy:
 
-Acc = \frac{1}{N} \sum_{i=1}^N \mathbf{1}$\hat{y}_i = y_i$
+$$
+Acc = \frac{1}{N} $\sum$_{i=1}^N \mathbf{1}$\hat{y}_i = y_i$
+$$
 
 Song song, ta tính MAUVE giữa:
 	•	Tập văn bản đúng
@@ -176,15 +192,21 @@ MAUVE^{large} = 0.78
 
 Trong không gian xác suất, mỗi mô hình tương ứng với một điểm trên simplex:
 
-\sum_i p_i = 1
+$$
+$\sum$_i p_i = 1
+$$
 
 KL divergence tương ứng với khoảng cách Bregman:
 
-D_\phi(p,q) = \phi$p$ - \phi$q$ - \nabla\phi$q$^\top (p-q)
+$$
+D_\phi(p,q) = \phi$p$ - \phi$q$ - $\nabla$\phi$q$^\top (p-q)
+$$
 
 với:
 
-\phi$p$ = \sum_i p_i \log p_i
+$$
+\phi$p$ = $\sum$_i p_i $\log$ p_i
+$$
 
 MAUVE khai thác toàn bộ cấu trúc hình học thay vì chỉ một hướng chiếu như KL.
 

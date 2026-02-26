@@ -81,11 +81,24 @@ Aggregation
    const expertH = (C * cell + margin) * 2;   // Height per expert
    
    for (let i = 0; i < numExperts; i++) {
-       const row = Math.floor(i / expertsPerRow);
-       const col = i % expertsPerRow;
+
+$$
+const row = Math.floor(i / expertsPerRow);
+$$
+
+$$
+const col = i % expertsPerRow;
+$$
+
        
-       const expertX = baseX + col * expertW;
-       const expertY = baseY + row * expertH;
+$$
+const expertX = baseX + col * expertW;
+$$
+
+$$
+const expertY = baseY + row * expertH;
+$$
+
        
        // Create expert blocks at (expertX, expertY)
    }
@@ -174,19 +187,38 @@ const expertGrid = {
 };
 
 for (let i = 0; i < moeBlock.experts.length; i++) {
-    const row = Math.floor(i / expertGrid.cols);
-    const col = i % expertGrid.cols;
+
+$$
+const row = Math.floor(i / expertGrid.cols);
+$$
+
+$$
+const col = i % expertGrid.cols;
+$$
+
     
-    const expertX = expertGrid.baseX + col * expertGrid.cellW;
-    const expertY = expertGrid.baseY + row * expertGrid.cellH;
+$$
+const expertX = expertGrid.baseX + col * expertGrid.cellW;
+$$
+
+$$
+const expertY = expertGrid.baseY + row * expertGrid.cellH;
+$$
+
     
-    let expFcWeight = mk({
+$$
+let expFcWeight = mk({
+$$
+
         // ... existing code ...
         x: expertX,  // NEW: Position in grid
         y: expertY,
     });
     
-    let expOut = mk({
+$$
+let expOut = mk({
+$$
+
         // ... existing code ...
         x: expertX,
         y: expertY + compact_height,
@@ -197,7 +229,11 @@ for (let i = 0; i < moeBlock.experts.length; i++) {
 
 ```typescript
 // Add router block with visual connection indicator
+
+$$
 let routerBlock = mk({
+$$
+
     t: 'i',
     cx: numExperts,
     cy: T,
@@ -220,14 +256,29 @@ function drawExpertRouting(
     topKIndices: number[],
     probabilities: number[]
 ) {
-    const routerCenter = getBlockCenter(routerBlock);
+
+$$
+const routerCenter = getBlockCenter(routerBlock);
+$$
+
     
     experts.forEach((expert, idx) => {
-        const isActive = topKIndices.includes(idx);
-        const prob = probabilities[idx] || 0;
+
+$$
+const isActive = topKIndices.includes(idx);
+$$
+
+$$
+const prob = probabilities[idx] || 0;
+$$
+
         
         if (isActive) {
-            const expertCenter = getBlockCenter(expert);
+
+$$
+const expertCenter = getBlockCenter(expert);
+$$
+
             drawRoutingLine(
                 state.render,
                 routerCenter,
@@ -241,7 +292,11 @@ function drawExpertRouting(
         }
         
         // Highlight expert block
-        expert.highlight = isActive ? prob : 0;
+
+$$
+expert.highlight = isActive ? prob : 0;
+$$
+
     });
 }
 
@@ -251,7 +306,11 @@ function drawExpertRouting(
 
 ### Color Scheme:
 ```typescript
+
+$$
 const MoE_COLORS = {
+$$
+
     ROUTER: '#667eea',           // Blue-purple
     ACTIVE_EXPERT: '#10a37f',    // OpenAI green
     INACTIVE_EXPERT: '#6e6e80',  // Gray

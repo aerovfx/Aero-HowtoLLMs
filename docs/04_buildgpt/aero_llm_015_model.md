@@ -48,7 +48,13 @@ Mục tiêu của bài báo này là:
 Đầu vào của mô hình là chuỗi token được ánh xạ thành embedding:
 
 $$
+
+$$
+
 X = E_{token} + E_{pos}
+
+$$
+
 $$
 
 Trong đó:
@@ -65,7 +71,13 @@ Position embedding cho phép mô hình nhận biết thứ tự chuỗi.
 Attention trong mô hình được định nghĩa:
 
 $$
-\text{Attention}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+
+$$
+
+\text{Attention}(Q,K,V)= \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d}}\right)V
+
+$$
+
 $$
 
 Trong đó:
@@ -83,10 +95,16 @@ Hệ số $\sqrt{d}$ giúp ổn định giá trị softmax.
 Mô hình sử dụng causal mask để đảm bảo tính tự hồi quy:
 
 $$
-M_{ij}= \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
+
 $$
 
-Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-\infty$. 
+M_{ij}= \begin{cases} 0 & j $\le$ i \\ -$\infty$ & j > i \end{cases}
+
+$$
+
+$$
+
+Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-$\infty$$. 
 
 ---
 
@@ -101,7 +119,13 @@ $$
 Sau đó, đầu ra attention được cộng trở lại:
 
 $$
+
+$$
+
 Y = X + \text{Attention}(\hat{X})
+
+$$
+
 $$
 
 Cấu trúc residual giúp:
@@ -134,7 +158,7 @@ Unembedding được chia sẻ trọng số với embedding (weight tying).
 Các ma trận trọng số:
 
 $$
-W_Q, W_K, W_V, W_0 \in \mathbb{R}^{d \times d}
+W_Q, W_K, W_V, W_0 \in $\mathbb${R}^{d \times d}
 $$
 
 Không sử dụng bias cho QKV, do LayerNorm đã xử lý dịch chuyển phân phối. 
@@ -219,7 +243,7 @@ Với trọng số khởi tạo ngẫu nhiên:
 Giá trị cross-entropy loss xấp xỉ lý thuyết:
 
 $$
-\log(|V|)
+$\log$(|V|)
 $$
 
 Cho thấy mô hình chưa học được thông tin ngôn ngữ. 
@@ -421,7 +445,7 @@ Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh x�
 Quan hệ thực nghiệm:
 
 $$
-\text{Capacity} \propto L \times d^2
+\text{Capacity} $\propto$ L \times d^2
 $$
 
 với $L$ là số block, $d$ là embedding dimension.
@@ -449,13 +473,25 @@ Mỗi block làm giàu thêm không gian biểu diễn.
 Mỗi block thực hiện:
 
 $$
+
+$$
+
 f_l(x) = x + g_l(x)
+
+$$
+
 $$
 
 Chuỗi block tạo thành:
 
 $$
+
+$$
+
 f(x)=f_L\circ \dots \circ f_1(x)
+
+$$
+
 $$
 
 Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh mẽ.
@@ -467,7 +503,13 @@ Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh 
 Residual connection cho phép:
 
 $$
-\frac{\partial L}{\partial x} \approx 1 + \epsilon
+
+$$
+
+\frac{$\partial$ L}{$\partial$ x} $\approx$ 1 + \epsilon
+
+$$
+
 $$
 
 Giúp tránh hiện tượng vanishing gradient khi tăng độ sâu.
@@ -510,15 +552,35 @@ Mỗi block gồm:
 Input: X0 (B×T×D)
 
 for l = 1 → L:
+
+$$
 H = LN(Xl-1)
+$$
+
+$$
 A = MHSA$H$
+$$
+
+$$
 U = Xl-1 + A
+$$
 
+$$
 Z = LN(U)
-F = FFN(Z)
-Xl = U + F
+$$
 
+$$
+F = FFN(Z)
+$$
+
+$$
+Xl = U + F
+$$
+
+$$
 Y = X_L
+$$
+
 return Y
 
 ````
@@ -537,34 +599,68 @@ class TransformerBlock(nn.Module):
     def __init__(self, d_model, n_heads, d_ff):
         super().__init__()
 
-        self.ln1 = nn.LayerNorm(d_model)
-        self.ln2 = nn.LayerNorm(d_model)
+$$
+self.ln1 = nn.LayerNorm(d_model)
+$$
 
-        self.attn = nn.MultiheadAttention(
-            d_model, n_heads, batch_first=True
+$$
+self.ln2 = nn.LayerNorm(d_model)
+$$
+
+$$
+self.attn = nn.MultiheadAttention(
+$$
+
+$$
+d_model, n_heads, batch_first=True
+$$
+
         )
 
-        self.ffn = nn.Sequential(
+$$
+self.ffn = nn.Sequential(
+$$
+
             nn.Linear(d_model, d_ff),
             nn.GELU(),
             nn.Linear(d_ff, d_model)
         )
 
-    def forward(self, x, causal_mask=None):
+$$
+def forward(self, x, causal_mask=None):
+$$
 
-        h = self.ln1$x$
+$$
+h = self.ln1$x$
+$$
 
-        attn_out, _ = self.attn(
+$$
+attn_out, _ = self.attn(
+$$
+
             h, h, h,
-            attn_mask=causal_mask,
-            need_weights=False
+
+$$
+attn_mask=causal_mask,
+$$
+
+$$
+need_weights=False
+$$
+
         )
 
-        x = x + attn_out
+$$
+x = x + attn_out
+$$
 
-        h = self.ln2$x$
+$$
+h = self.ln2$x$
+$$
 
-        x = x + self.ffn$h$
+$$
+x = x + self.ffn$h$
+$$
 
         return x
 
@@ -579,33 +675,58 @@ class Transformer(nn.Module):
 
         super().__init__()
 
-        self.token_emb = nn.Embedding(
+$$
+self.token_emb = nn.Embedding(
+$$
+
             vocab_size, d_model
         )
 
-        self.pos_emb = nn.Embedding(
+$$
+self.pos_emb = nn.Embedding(
+$$
+
             max_len, d_model
         )
 
-        self.blocks = nn.ModuleList([
+$$
+self.blocks = nn.ModuleList([
+$$
+
             TransformerBlock(
                 d_model, n_heads, d_ff
             )
             for _ in range(n_layers)
         ])
 
-        self.ln_f = nn.LayerNorm(d_model)
+$$
+self.ln_f = nn.LayerNorm(d_model)
+$$
 
-        self.head = nn.Linear(
-            d_model, vocab_size, bias=False
+$$
+self.head = nn.Linear(
+$$
+
+$$
+d_model, vocab_size, bias=False
+$$
+
         )
 
     def forward(self, idx):
 
-        B, T = idx.shape
+$$
+B, T = idx.shape
+$$
 
-        pos = torch.arange(
-            T, device=idx.device
+$$
+pos = torch.arange(
+$$
+
+$$
+T, device=idx.device
+$$
+
         )
 
         x = (
@@ -613,15 +734,23 @@ class Transformer(nn.Module):
             + self.pos_emb(pos)
         )
 
-        mask = torch.triu(
+$$
+mask = torch.triu(
+$$
+
             torch.ones(T, T),
             diagonal=1
         ).bool().to(idx.device)
 
         for block in self.blocks:
-            x = block(x, mask)
 
-        x = self.ln_f$x$
+$$
+x = block(x, mask)
+$$
+
+$$
+x = self.ln_f$x$
+$$
 
         return self.head$x$
 ````

@@ -66,7 +66,9 @@ $$
 \mathbf{y} = \mathbf{W}_n \cdots \mathbf{W}_2 \mathbf{W}_1 \mathbf{x} = \mathbf{W}_{\text{combined}} \mathbf{x}
 $$
 
-Trong đó $\mathbf{W}_{\text{combined}} = \prod_{i=1}^{n} \mathbf{W}_i$
+$$
+Trong đó $\mathbf{W}_{\text{combined}} = $\prod$_{i=1}^{n} \mathbf{W}_i$
+$$
 
 Do đó, hàm kích hoạt phi tuyến là **absolutely essential** để neural networks có thể học các hàm phức tạp và phi tuyến.
 
@@ -101,7 +103,7 @@ Câu hỏi trung tâm:
 **Công thức toán học:**
 
 $$
-\text{ReLU}(x) = \max(0, x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}
+\text{ReLU}(x) = \max(0, x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x $\le$q 0 \end{cases}
 $$
 
 **Triển khai NumPy:**
@@ -136,7 +138,7 @@ $$
 **Công thức exact (sử dụng Error Function):**
 
 $$
-\text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
+\text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}$\le$ft[1 + \text{erf}$\le$ft(\frac{x}{\sqrt{2}}\right)\right]
 $$
 
 Trong đó:
@@ -146,7 +148,13 @@ Trong đó:
 **Error Function:**
 
 $$
+
+$$
+
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt
+
+$$
+
 $$
 
 **Đặc điểm của erf:**
@@ -168,7 +176,7 @@ def gelu_exact(x):
 Do chi phí tính toán của error function, các tác giả đề xuất approximation:
 
 $$
-\text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
+\text{GELU}(x) $\approx$ 0.5x$\le$ft[1 + \tanh$\le$ft(\sqrt{\frac{2}{\pi}}$\le$ft(x + 0.044715x^3\right)\right)\right]
 $$
 
 **Triển khai Python:**
@@ -191,8 +199,14 @@ def gelu_approx(x):
 
 **Numerical derivative:**
 ```python
+
+$$
 dx = x[1] - x[0]  # Spacing giữa các điểm
+$$
+
+$$
 dgelu_dx = torch.diff(gelu_output) / dx
+$$
 
 ### 2.3 So Sánh Trực Quan
 
@@ -289,22 +303,47 @@ import time
 
 **Code snippet:**
 ```python
+
+$$
 x_vals = np.linspace(-3, 3, 101)
+$$
+
+$$
 relu_out = relu(x_vals)
+$$
+
+$$
 gelu_exact_out = gelu_exact(x_vals)
+$$
+
+$$
 gelu_approx_out = gelu_approx(x_vals)
+$$
 
 # Correlation
+
+$$
 corr = np.corrcoef(gelu_exact_out, gelu_approx_out)[0,1]
+$$
+
 print(f"Correlation: {corr:.6f}")  # ≈ 1.000000
 
 #### 3.2.2 Exercise 2: Derivatives
 
 **Numerical derivatives:**
 ```python
+
+$$
 dx = x_vals[1] - x_vals[0]
+$$
+
+$$
 drelu = torch.diff(F.relu(x_torch)) / dx
+$$
+
+$$
 dgelu = torch.diff(F.gelu(x_torch)) / dx
+$$
 
 **Key observations:**
 
@@ -327,11 +366,20 @@ dgelu = torch.diff(F.gelu(x_torch)) / dx
 **Verification:**
 ```python
 # Function-based
+
+$$
 out_func = F.relu(x)
+$$
 
 # Class-based
+
+$$
 relu_class = nn.ReLU()
+$$
+
+$$
 out_class = relu_class(x)
+$$
 
 # Check equivalence
 assert torch.allclose(out_func, out_class)
@@ -342,9 +390,18 @@ assert torch.allclose(out_func, out_class)
 
 **Experimental setup:**
 ```python
+
+$$
 n_samples = 1_000_000
+$$
+
+$$
 n_reps = 100
+$$
+
+$$
 x = torch.randn(n_samples)  # Normal distribution
+$$
 
 **CPU Results (PyTorch implementations):**
 
@@ -364,8 +421,14 @@ x = torch.randn(n_samples)  # Normal distribution
 
 **Critical implementation detail:**
 ```python
+
+$$
 device = torch.device('cuda')
+$$
+
+$$
 x = x.to(device)
+$$
 
 # IMPORTANT: Synchronize for accurate timing
 torch.cuda.synchronize()
@@ -432,7 +495,13 @@ $$
 GELU có thể được hiểu như stochastic regularizer:
 
 $$
-\text{GELU}(x) = x \cdot \mathbb{1}_{X \sim \mathcal{N}(0,1)}(X < x)
+
+$$
+
+\text{GELU}(x) = x \cdot $\mathbb${1}_{X \sim $\mathcal${N}(0,1)}(X < x)
+
+$$
+
 $$
 
 Nghĩa là: "multiply input by Bernoulli variable dependent on input"
@@ -488,9 +557,19 @@ GELU approx: ~8 operations (tanh, polynomial)
 **ReLU's zeroing property:**
 ```python
 # ReLU creates sparse activations
+
+$$
 x = torch.randn(1000)
+$$
+
+$$
 relu_out = F.relu(x)
+$$
+
+$$
 sparsity = (relu_out == 0).sum().item() / 1000
+$$
+
 # sparsity ≈ 50% (vì normal distribution)
 
 **Benefits cho Computer Vision:**
@@ -501,8 +580,15 @@ sparsity = (relu_out == 0).sum().item() / 1000
 
 **GELU không có property này:**
 ```python
+
+$$
 gelu_out = F.gelu(x)
+$$
+
+$$
 sparsity = (gelu_out == 0).sum().item() / 1000
+$$
+
 # sparsity ≈ 0% (no exact zeros)
 
 #### 4.2.4 Subtle Improvements
@@ -592,9 +678,19 @@ import torch.nn as nn
 class TransformerFFN(nn.Module):
     def __init__(self, d_model, d_ff):
         super().__init__()
-        self.fc1 = nn.Linear(d_model, d_ff)
-        self.gelu = nn.GELU()  # Use class for clarity
-        self.fc2 = nn.Linear(d_ff, d_model)
+
+$$
+self.fc1 = nn.Linear(d_model, d_ff)
+$$
+
+$$
+self.gelu = nn.GELU()  # Use class for clarity
+$$
+
+$$
+self.fc2 = nn.Linear(d_ff, d_model)
+$$
+
     
     def forward(self, x):
         return self.fc2(self.gelu(self.fc1(x)))
@@ -617,8 +713,15 @@ class TransformerFFN(nn.Module):
 class ConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels):
         super().__init__()
-        self.conv = nn.Conv2d(in_channels, out_channels, 3, padding=1)
-        self.relu = nn.ReLU(inplace=True)  # inplace for memory efficiency
+
+$$
+self.conv = nn.Conv2d(in_channels, out_channels, 3, padding=1)
+$$
+
+$$
+self.relu = nn.ReLU(inplace=True)  # inplace for memory efficiency
+$$
+
     
     def forward(self, x):
         return self.relu(self.conv(x))
@@ -637,7 +740,11 @@ class HybridModel(nn.Module):
     def __init__(self):
         super().__init__()
         # Early layers: ReLU (speed)
-        self.early_layers = nn.Sequential(
+
+$$
+self.early_layers = nn.Sequential(
+$$
+
             nn.Linear(input_dim, 512),
             nn.ReLU(),
             nn.Linear(512, 512),
@@ -645,14 +752,20 @@ class HybridModel(nn.Module):
         )
         
         # Deep layers: GELU (quality)
-        self.deep_layers = nn.Sequential(
+
+$$
+self.deep_layers = nn.Sequential(
+$$
+
             nn.Linear(512, 512),
             nn.GELU(),
             nn.Linear(512, 512),
             nn.GELU(),
         )
         
-        self.output = nn.Linear(512, num_classes)
+$$
+self.output = nn.Linear(512, num_classes)
+$$
 
 **Rationale:**
 - Balance speed và quality
@@ -735,7 +848,11 @@ $$
 class LearnableGELU(nn.Module):
     def __init__(self):
         super().__init__()
-        self.alpha = nn.Parameter(torch.ones(1))
+
+$$
+self.alpha = nn.Parameter(torch.ones(1))
+$$
+
     
     def forward(self, x):
         return F.gelu(self.alpha * x)
@@ -918,66 +1035,150 @@ def gelu_approx_torch(x):
 # Visualization Function
 def plot_activations():
     """Plot activation functions and their derivatives"""
-    x = np.linspace(-3, 3, 101)
-    x_torch = torch.linspace(-3, 3, 101)
+
+$$
+x = np.linspace(-3, 3, 101)
+$$
+
+$$
+x_torch = torch.linspace(-3, 3, 101)
+$$
+
     
     # Compute activations
-    relu_out = relu(x)
-    gelu_exact_out = gelu_exact(x)
-    gelu_approx_out = gelu_approx(x)
+
+$$
+relu_out = relu(x)
+$$
+
+$$
+gelu_exact_out = gelu_exact(x)
+$$
+
+$$
+gelu_approx_out = gelu_approx(x)
+$$
+
     
     # Compute derivatives
-    dx = x_torch[1] - x_torch[0]
-    drelu = torch.diff(F.relu(x_torch)) / dx
-    dgelu = torch.diff(F.gelu(x_torch)) / dx
+
+$$
+dx = x_torch[1] - x_torch[0]
+$$
+
+$$
+drelu = torch.diff(F.relu(x_torch)) / dx
+$$
+
+$$
+dgelu = torch.diff(F.gelu(x_torch)) / dx
+$$
+
     
     # Create figure
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
     
     # Plot activations
-    ax1.plot(x, relu_out, label='ReLU', linewidth=2)
-    ax1.plot(x, gelu_exact_out, label='GELU Exact', linewidth=2)
+
+$$
+ax1.plot(x, relu_out, label='ReLU', linewidth=2)
+$$
+
+$$
+ax1.plot(x, gelu_exact_out, label='GELU Exact', linewidth=2)
+$$
+
     ax1.plot(x[::3], gelu_approx_out[::3], 'o', 
              label='GELU Approx', markersize=4)
     ax1.axhline(y=0, color='k', linestyle='--', alpha=0.3)
     ax1.axvline(x=0, color='k', linestyle='--', alpha=0.3)
-    ax1.set_xlabel('x', fontsize=12)
-    ax1.set_ylabel('f(x)', fontsize=12)
-    ax1.set_title('Activation Functions', fontsize=14)
+
+$$
+ax1.set_xlabel('x', fontsize=12)
+$$
+
+$$
+ax1.set_ylabel('f(x)', fontsize=12)
+$$
+
+$$
+ax1.set_title('Activation Functions', fontsize=14)
+$$
+
     ax1.legend(fontsize=10)
     ax1.grid(True, alpha=0.3)
     
     # Plot derivatives
-    x_deriv = x_torch[:-1].numpy()
-    ax2.plot(x_deriv, drelu.numpy(), label='ReLU derivative', linewidth=2)
-    ax2.plot(x_deriv, dgelu.numpy(), label='GELU derivative', linewidth=2)
+
+$$
+x_deriv = x_torch[:-1].numpy()
+$$
+
+$$
+ax2.plot(x_deriv, drelu.numpy(), label='ReLU derivative', linewidth=2)
+$$
+
+$$
+ax2.plot(x_deriv, dgelu.numpy(), label='GELU derivative', linewidth=2)
+$$
+
     ax2.axhline(y=0, color='k', linestyle='--', alpha=0.3)
     ax2.axvline(x=0, color='k', linestyle='--', alpha=0.3)
-    ax2.set_xlabel('x', fontsize=12)
-    ax2.set_ylabel("f'(x)", fontsize=12)
-    ax2.set_title('Derivatives', fontsize=14)
+
+$$
+ax2.set_xlabel('x', fontsize=12)
+$$
+
+$$
+ax2.set_ylabel("f'(x)", fontsize=12)
+$$
+
+$$
+ax2.set_title('Derivatives', fontsize=14)
+$$
+
     ax2.legend(fontsize=10)
     ax2.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('activation_comparison.png', dpi=300, bbox_inches='tight')
+
+$$
+plt.savefig('activation_comparison.png', dpi=300, bbox_inches='tight')
+$$
+
     plt.show()
     
     # Compute correlation
-    corr = np.corrcoef(gelu_exact_out, gelu_approx_out)[0, 1]
+
+$$
+corr = np.corrcoef(gelu_exact_out, gelu_approx_out)[0, 1]
+$$
+
     print(f"Correlation between exact and approx: {corr:.6f}")
 
 # Benchmarking Function
+
+$$
 def benchmark_activations(device='cpu', n_samples=1000000, n_reps=100):
+$$
+
     """Benchmark activation function performance"""
-    x = torch.randn(n_samples, device=device)
+
+$$
+x = torch.randn(n_samples, device=device)
+$$
+
     
     results = {}
     
     # Test ReLU
     if device == 'cuda':
         torch.cuda.synchronize()
-    start = time.time()
+
+$$
+start = time.time()
+$$
+
     for _ in range(n_reps):
         _ = F.relu(x)
     if device == 'cuda':
@@ -987,9 +1188,17 @@ def benchmark_activations(device='cpu', n_samples=1000000, n_reps=100):
     # Test GELU exact
     if device == 'cuda':
         torch.cuda.synchronize()
-    start = time.time()
+
+$$
+start = time.time()
+$$
+
     for _ in range(n_reps):
-        _ = gelu_exact_torch(x)
+
+$$
+_ = gelu_exact_torch(x)
+$$
+
     if device == 'cuda':
         torch.cuda.synchronize()
     results['GELU Exact'] = time.time() - start
@@ -997,9 +1206,17 @@ def benchmark_activations(device='cpu', n_samples=1000000, n_reps=100):
     # Test GELU approx
     if device == 'cuda':
         torch.cuda.synchronize()
-    start = time.time()
+
+$$
+start = time.time()
+$$
+
     for _ in range(n_reps):
-        _ = gelu_approx_torch(x)
+
+$$
+_ = gelu_approx_torch(x)
+$$
+
     if device == 'cuda':
         torch.cuda.synchronize()
     results['GELU Approx'] = time.time() - start
@@ -1007,7 +1224,11 @@ def benchmark_activations(device='cpu', n_samples=1000000, n_reps=100):
     # Test F.gelu
     if device == 'cuda':
         torch.cuda.synchronize()
-    start = time.time()
+
+$$
+start = time.time()
+$$
+
     for _ in range(n_reps):
         _ = F.gelu(x)
     if device == 'cuda':
@@ -1027,14 +1248,22 @@ if __name__ == "__main__":
     
     # Benchmark CPU
     print("\n2. Benchmarking on CPU...")
-    cpu_results = benchmark_activations(device='cpu')
+
+$$
+cpu_results = benchmark_activations(device='cpu')
+$$
+
     for func, time_taken in cpu_results.items():
         print(f"   {func}: {time_taken:.4f} seconds")
     
     # Benchmark GPU (if available)
     if torch.cuda.is_available():
         print("\n3. Benchmarking on GPU...")
-        gpu_results = benchmark_activations(device='cuda')
+
+$$
+gpu_results = benchmark_activations(device='cuda')
+$$
+
         for func, time_taken in gpu_results.items():
             print(f"   {func}: {time_taken:.4f} seconds")
     else:
@@ -1050,7 +1279,11 @@ if __name__ == "__main__":
 import torch.nn as nn
 
 class SimpleNet(nn.Module):
-    def __init__(self, use_gelu=False):
+
+$$
+def __init__(self, use_gelu=False):
+$$
+
         super().__init__()
         self.fc1 = nn.Linear(784, 512)
         self.fc2 = nn.Linear(512, 256)
@@ -1058,27 +1291,59 @@ class SimpleNet(nn.Module):
         
         # Choose activation
         if use_gelu:
-            self.activation = nn.GELU()
+
+$$
+self.activation = nn.GELU()
+$$
+
         else:
-            self.activation = nn.ReLU()
+
+$$
+self.activation = nn.ReLU()
+$$
+
     
     def forward(self, x):
-        x = self.activation(self.fc1(x))
-        x = self.activation(self.fc2(x))
-        x = self.fc3(x)
+
+$$
+x = self.activation(self.fc1(x))
+$$
+
+$$
+x = self.activation(self.fc2(x))
+$$
+
+$$
+x = self.fc3(x)
+$$
+
         return x
 
 # Create models
+
+$$
 model_relu = SimpleNet(use_gelu=False)
+$$
+
+$$
 model_gelu = SimpleNet(use_gelu=True)
+$$
 
 **Example 2: Custom activation module**
 ```python
 class CustomGELU(nn.Module):
     """Custom GELU implementation with learnable parameter"""
-    def __init__(self, approximate=False):
+
+$$
+def __init__(self, approximate=False):
+$$
+
         super().__init__()
-        self.approximate = approximate
+
+$$
+self.approximate = approximate
+$$
+
     
     def forward(self, x):
         if self.approximate:
@@ -1087,8 +1352,14 @@ class CustomGELU(nn.Module):
             return F.gelu(x)
 
 # Usage
+
+$$
 custom_gelu = CustomGELU(approximate=True)
+$$
+
+$$
 output = custom_gelu(torch.randn(10, 512))
+$$
 
 ---
 
@@ -1099,19 +1370,37 @@ output = custom_gelu(torch.randn(10, 512))
 **Definition:**
 
 $$
+
+$$
+
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt
+
+$$
+
 $$
 
 **Properties:**
 1. $\text{erf}(-x) = -\text{erf}(x)$ (odd function)
 2. $\text{erf}(0) = 0$
-3. $\lim_{x \to \infty} \text{erf}(x) = 1$
-4. $\lim_{x \to -\infty} \text{erf}(x) = -1$
+
+$$
+3. $\lim_{x \to $\infty$} \text{erf}(x) = 1$
+$$
+
+$$
+4. $\lim_{x \to -$\infty$} \text{erf}(x) = -1$
+$$
 
 **Series expansion:**
 
 $$
-\text{erf}(x) = \frac{2}{\sqrt{\pi}} \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{n!(2n+1)}
+
+$$
+
+\text{erf}(x) = \frac{2}{\sqrt{\pi}} $\sum$_{n=0}^{$\infty$} \frac{(-1)^n x^{2n+1}}{n!(2n+1)}
+
+$$
+
 $$
 
 ### B.2 GELU Derivation
@@ -1119,25 +1408,37 @@ $$
 **Starting point:** Stochastic regularization
 
 $$
-\mathbb{E}[x \cdot \mathbb{1}_{X \sim \mathcal{N}(0,1)}(X < x)]
+$\mathbb${E}[x \cdot $\mathbb${1}_{X \sim $\mathcal${N}(0,1)}(X < x)]
 $$
 
 **CDF của standard normal:**
 
 $$
-\Phi(x) = P(X \leq x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^x e^{-t^2/2} dt
+
+$$
+
+\Phi(x) = P(X $\le$q x) = \frac{1}{\sqrt{2\pi}} \int_{-$\infty$}^x e^{-t^2/2} dt
+
+$$
+
 $$
 
 **Relationship với error function:**
 
 $$
-\Phi(x) = \frac{1}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
+
+$$
+
+\Phi(x) = \frac{1}{2}$\le$ft[1 + \text{erf}$\le$ft(\frac{x}{\sqrt{2}}\right)\right]
+
+$$
+
 $$
 
 **Therefore:**
 
 $$
-\text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
+\text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}$\le$ft[1 + \text{erf}$\le$ft(\frac{x}{\sqrt{2}}\right)\right]
 $$
 
 ### B.3 Approximation Derivation
@@ -1149,15 +1450,23 @@ $$
 **Known relationship:**
 
 $$
-\text{erf}(x) \approx \tanh\left(\sqrt{\frac{\pi}{2}} x + \alpha x^3\right)
+
 $$
 
-**Optimal $\alpha$:** Through empirical fitting, $\alpha \approx 0.044715$
+\text{erf}(x) $\approx$ \tanh$\le$ft(\sqrt{\frac{\pi}{2}} x + \alpha x^3\right)
+
+$$
+
+$$
+
+$$
+**Optimal $\alpha$:** Through empirical fitting, $\alpha $\approx$ 0.044715$
+$$
 
 **Final approximation:**
 
 $$
-\text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
+\text{GELU}(x) $\approx$ 0.5x$\le$ft[1 + \tanh$\le$ft(\sqrt{\frac{2}{\pi}}$\le$ft(x + 0.044715x^3\right)\right)\right]
 $$
 
 ---

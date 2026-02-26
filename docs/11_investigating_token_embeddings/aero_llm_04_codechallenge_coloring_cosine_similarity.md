@@ -27,7 +27,13 @@ Trí não con người là một cỗ máy nhận diện phổ thị giác (Visu
 Khác với khoảng cách hai chiều, Độ Lớn Kích Thước (Vector Magnitude / L2-Norm) của một Embeddings vector (Khoảng cách điểm đó tính từ lõi $0$ của Không gian học) được tính bằng hàm Sum of Squares:
 
 $$
-\|v\| = \sqrt{\sum_{i=1}^{D} v_i^2}
+
+$$
+
+\|v\| = \sqrt{$\sum$_{i=1}^{D} v_i^2}
+
+$$
+
 $$
 
 Với BERT, sự biến vi mô phân tử chỉ nằm tản mác từ dải $[0.8, 1.6]$.

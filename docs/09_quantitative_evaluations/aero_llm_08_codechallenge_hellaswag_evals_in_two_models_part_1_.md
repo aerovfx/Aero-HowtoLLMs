@@ -45,11 +45,13 @@ Mục tiêu: chọn đáp án có xác suất cao nhất theo mô hình.
 
 Với mô hình tự hồi quy (autoregressive), xác suất của một đáp án được tính:
 
-P$a_i \mid c$ = \prod_{t=1}^{T_i} P$w_t \mid c, w_{\lt t}$
+$P(a_i \mid c)$ = $\prod$_{t=1}^{T_i} $P(w_t \mid c, w_{\lt t})$
 
 Trong thực nghiệm, ta dùng log để tránh underflow:
 
-\log P$a_i \mid c$ = \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
+$$
+$\log$ $P(a_i \mid c)$ = $\sum$_{t=1}^{T_i} $\log$ $P(w_t \mid c, w_{\lt t})$
+$$
 
 ⸻
 
@@ -61,7 +63,9 @@ Nếu dùng tổng log-likelihood trực tiếp:
 
 Do đó cần chuẩn hoá:
 
-Score$a_i$ = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
+$$
+Score$a_i$ = \frac{1}{T_i} $\sum$_{t=1}^{T_i} $\log$ $P(w_t \mid c, w_{\lt t})$
+$$
 
 Đây là ave18_rage log-probability.
 
@@ -69,11 +73,15 @@ Score$a_i$ = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
 
 4. Quy tắc chọn đáp án
 
+$$
 \hat{a} = \arg\max_{a_i} Score$a_i$
+$$
 
 Accuracy được tính:
 
-Accuracy = \frac{1}{N} \sum_{j=1}^{N} \mathbf{1}$\hat{a}^{(j$} = a_{\text{true}}^{$j$})
+$$
+Accuracy = \frac{1}{N} $\sum$_{j=1}^{N} \mathbf{1}$\hat{a}^{(j$} = a_{\text{true}}^{$j$})
+$$
 
 Baseline ngẫu nhiên:
 
@@ -97,7 +105,9 @@ SE = \sqrt{\frac{\hat{p}$1-\hat{p}$}{N}}
 
 Kiểm định sự khác biệt:
 
+$$
 z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{SE_1^2 + SE_2^2}}
+$$
 
 Nếu:
 
@@ -111,7 +121,9 @@ Nếu:
 
 Transformer sử dụng cơ chế:
 
-Attention(Q,K,V) = \text{softmax}\left$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
+Attention(Q,K,V) = \text{softmax}$\le$ft$\frac{QK^T}{\sqrt{d_k}}\right$V
+$$
 
 Cơ chế này giúp mô hình:
 	•	Theo dõi quan hệ dài hạn
@@ -124,7 +136,9 @@ Cơ chế này giúp mô hình:
 
 Perplexity đo khả năng dự đoán token kế tiếp:
 
-PP = \exp\left$- \frac{1}{N} \sum \log P(w_i$\right)
+$$
+PP = \exp$\le$ft$- \frac{1}{N} $\sum$ $\log$ P(w_i$\right)
+$$
 
 Trong khi HellaSwag đo:
 	•	So sánh chuỗi hoàn chỉnh
@@ -174,7 +188,9 @@ Mô hình có thể:
 
 Đo calibration:
 
-ECE = \sum_{m=1}^{M} \frac{|B_m|}{n} |acc$B_m$ - conf$B_m$|
+$$
+ECE = $\sum$_{m=1}^{M} \frac{|B_m|}{n} |acc$B_m$ - conf$B_m$|
+$$
 
 ⸻
 

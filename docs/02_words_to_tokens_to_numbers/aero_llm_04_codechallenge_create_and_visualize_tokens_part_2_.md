@@ -29,7 +29,7 @@ Bài viết này mở rộng phân tích quá trình tạo và trực quan hóa 
 Trong mô hình Transformer, token không chỉ là ID số nguyên mà là:
 
 $$
-t_i \rightarrow e_i \in \mathbb{R}^d
+t_i \rightarrow e_i \in $\mathbb${R}^d
 $$
 
 Không gian embedding có thể xem như một đa tạp (manifold) cao chiều, trong đó:
@@ -50,25 +50,37 @@ Việc trực quan hóa giúp ta hiểu:
 Giả sử từ vựng có kích thước $N$, embedding dimension $d$:
 
 $$
-E \in \mathbb{R}^{N \times d}
+E \in $\mathbb${R}^{N \times d}
 $$
 
 Mỗi token là một điểm:
 
 $$
-e_i \in \mathbb{R}^d
+e_i \in $\mathbb${R}^d
 $$
 
 Khoảng cách cosine giữa hai token:
 
 $$
+
+$$
+
 \text{cosine}(e_i, e_j) = \frac{e_i \cdot e_j} {|e_i||e_j|}
+
+$$
+
 $$
 
 Nếu:
 
 $$
-\text{cosine}(e_i, e_j) \approx 1
+
+$$
+
+\text{cosine}(e_i, e_j) $\approx$ 1
+
+$$
+
 $$
 
 → Hai token gần nhau về ngữ nghĩa.
@@ -107,7 +119,13 @@ Không gian embedding ban đầu bị biến đổi phi tuyến.
 Attention matrix:
 
 $$
-A = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)
+
+$$
+
+A = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)
+
+$$
+
 $$
 
 Phần tử:
@@ -119,7 +137,13 @@ $$
 Tính chất:
 
 $$
-\sum_j A_{ij} = 1
+
+$$
+
+$\sum$_j A_{ij} = 1
+
+$$
+
 $$
 
 Ma trận $A$ có thể trực quan hóa dưới dạng heatmap:
@@ -151,7 +175,13 @@ Trị riêng lớn phản ánh:
 Chiếu embedding:
 
 $$
+
+$$
+
 E_{proj} = E W_k
+
+$$
+
 $$
 
 với $W_k$ chứa $k$ vector riêng lớn nhất.
@@ -169,17 +199,35 @@ $$
 Trong đó:
 
 $$
-P_{ij} = \frac {\exp(-|x_i - x_j|^2 / 2\sigma^2)} {\sum_{k,l} \exp(-|x_k - x_l|^2 / 2\sigma^2)}
+
+$$
+
+P_{ij} = \frac {\exp(-|x_i - x_j|^2 / 2\sigma^2)} {$\sum$_{k,l} \exp(-|x_k - x_l|^2 / 2\sigma^2)}
+
 $$
 
 $$
-Q_{ij} = \frac {(1 + |y_i - y_j|^2)^{-1}} {\sum_{k,l}(1 + |y_k - y_l|^2)^{-1}}
+
+$$
+
+$$
+
+Q_{ij} = \frac {(1 + |y_i - y_j|^2)^{-1}} {$\sum$_{k,l}(1 + |y_k - y_l|^2)^{-1}}
+
+$$
+
 $$
 
 Mục tiêu:
 
 $$
-D_{KL}(P|Q) = \sum_{i,j} P_{ij} \log \frac{P_{ij}}{Q_{ij}}
+
+$$
+
+D_{KL}(P|Q) = $\sum$_{i,j} P_{ij} $\log$ \frac{P_{ij}}{Q_{ij}}
+
+$$
+
 $$
 
 Kết quả:
@@ -216,7 +264,13 @@ Quan sát thực nghiệm:
 GPT tối ưu:
 
 $$
-P(x) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t})
+
+$$
+
+P(x) = $\prod$_{t=1}^{T} P(x_t  \mid  x_{\lt t})
+
+$$
+
 $$
 
 Logits:
@@ -228,7 +282,13 @@ $$
 Softmax:
 
 $$
-P(x_t  \mid  x_{\lt t}) = \frac {\exp(z_t W_{out})} {\sum_j \exp(z_j W_{out})}
+
+$$
+
+P(x_t  \mid  x_{\lt t}) = \frac {\exp(z_t W_{out})} {$\sum$_j \exp(z_j W_{out})}
+
+$$
+
 $$
 
 Việc trực quan hóa logits cho thấy:
@@ -243,7 +303,7 @@ Việc trực quan hóa logits cho thấy:
 Self-attention:
 
 $$
-\mathcal{O}(L T^2 d)
+$\mathcal${O}(L T^2 d)
 $$
 
 Visualization chi phí:
@@ -264,7 +324,7 @@ Từ góc nhìn đại số tuyến tính:
 Toàn bộ Transformer có thể xem như:
 
 $$
-f: \mathbb{R}^{T \times d} \to \mathbb{R}^{T \times d}
+f: $\mathbb${R}^{T \times d} \to $\mathbb${R}^{T \times d}
 $$
 
 Việc trực quan hóa giúp:

@@ -36,7 +36,7 @@ Trong PyTorch, việc huấn luyện mô hình được lặp lại qua các k�
 ## 2. Đối chứng với Giải tích
 
 Nghiên cứu thực hiện tối ưu hóa hàm số $f(x) = 3x^2 - 2x + 3$ để minh chứng cơ chế học:
-- **Lời giải giải tích:** Bằng cách tính đạo hàm $f'(x) = 6x - 2$ và đặt bằng 0, ta tìm được điểm cực tiểu chính xác tại $x = 1/3 \approx 0.333$.
+- **Lời giải giải tích:** Bằng cách tính đạo hàm $f'(x) = 6x - 2$ và đặt bằng 0, ta tìm được điểm cực tiểu chính xác tại $x = 1/3 $\approx$ 0.333$.
 - **Thực nghiệm PyTorch:** Sau 80 kỷ nguyên huấn luyện, mô hình khởi tạo tại $x = -1$ đã hội tụ về giá trị $\approx 0.32$.
 - **Phân tích:** Dù không đạt đến con số tuyệt đối do các yếu tố như tốc độ học và số lượng vòng lặp, nhưng kết quả cho thấy mô hình đã di chuyển chuẩn xác về phía cực tiểu toàn cục của hàm số.
 

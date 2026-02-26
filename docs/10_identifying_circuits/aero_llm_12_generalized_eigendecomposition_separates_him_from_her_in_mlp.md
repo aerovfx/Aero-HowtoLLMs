@@ -54,7 +54,11 @@ Phép toán này biến hóa Rank $52 \xrightarrow{Inflate} 63$ (Full Rank). Lú
 Khi GED hoàn tất, hệ số Trị Riêng (Eigenvalues) được sắp xếp từ cao xuống thấp. Top 1 Eigenvalue cho thấy có một Vectơ đặc biệt (Eigenvector) mà khi dữ liệu chiếu vào:
 - Nó Tràn Đầy Năng lượng (Tạo Max Variance) khi dữ liệu mang chữ $HIM$.
 - Nó Triệt Tiêu Năng lượng (Chìm nghỉm thành Zero Variance) khi dữ liệu mang chữ $HER$.
+
+$$
 (Và khi đảo $\mathbf{S=Her}, \mathbf{R=Him}$, ta lại thấy điều ngược lại hoạt động song song).
+$$
+
 Do không có điều kiện ràng buộc Trực Giao (Orthogonality), Vectơ tìm thấy đã "thẩm thấu lách mình" một cách uyển chuyển theo dọc chiều Phân Lớp Giới Tính chứ không bị ép xoay 90 độ cứng ngắc như PCA.
 
 ### 3.2. Hiệu Ứng Loại Cừu Khỏi Bầy Xói (Sentence Contrast Validation)

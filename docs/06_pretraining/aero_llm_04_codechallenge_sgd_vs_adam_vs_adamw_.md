@@ -93,7 +93,13 @@ Thí nghiệm được thực hiện trong 150 epoch.
 SGD cập nhật tham số theo công thức:
 
 $$
-w_{t+1} = w_t - \eta \nabla L(w_t)
+
+$$
+
+w_{t+1} = w_t - \eta $\nabla$ L(w_t)
+
+$$
+
 $$
 
 Trong đó $\eta$ là learning rate.
@@ -136,11 +142,23 @@ Adam kết hợp:
 Hai thống kê được duy trì:
 
 $$
+
+$$
+
 m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t
+
 $$
 
 $$
+
+$$
+
+$$
+
 v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2
+
+$$
+
 $$
 
 ---
@@ -176,7 +194,13 @@ Sự “chậm” của Adam là một ưu điểm trong các bài toán thực 
 AdamW tách biệt weight decay khỏi gradient:
 
 $$
+
+$$
+
 w_{t+1} = w_t - \eta \hat{g}_t - \eta \lambda w_t
+
+$$
+
 $$
 
 Điều này giúp regularization hoạt động hiệu quả hơn.
@@ -212,7 +236,13 @@ Do khả năng kiểm soát overfitting tốt hơn.
 Gradient accumulation là kỹ thuật cộng dồn gradient qua nhiều bước mà không reset:
 
 $$
-g_{total} = \sum_{i=1}^{k} g_i
+
+$$
+
+g_{total} = $\sum$_{i=1}^{k} g_i
+
+$$
+
 $$
 
 Kỹ thuật này mô phỏng batch size lớn trên phần cứng hạn chế. 

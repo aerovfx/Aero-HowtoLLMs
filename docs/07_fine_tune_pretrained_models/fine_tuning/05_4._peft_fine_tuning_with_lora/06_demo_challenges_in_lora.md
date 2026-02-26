@@ -48,37 +48,77 @@ import time
 
 # Tham số thử nghiệm
 ranks = [1, 4, 16]
+
+$$
 batch_sizes = [8, 64, 128]
+$$
 
 ### 2.2 Hàm Thử Nghiệm
 
 ```python
+
+$$
 def run_experiment(rank, batch_size, epochs=2):
+$$
+
     """Chạy thử nghiệm với rank và batch size cụ thể"""
     
     # Tải model
-    model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+
+$$
+model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+$$
+
     
     # Áp dụng LoRA với rank cụ thể
-    model = apply_lora(model, rank=rank)
+
+$$
+model = apply_lora(model, rank=rank)
+$$
+
     
     # Freeze các lớp gốc
     for layer in model.layers[:3]:
-        layer.trainable = False
+
+$$
+layer.trainable = False
+$$
+
     
     # Chuẩn bị dữ liệu với batch size
-    train_dataset = prepare_dataset(batch_size=batch_size)
+
+$$
+train_dataset = prepare_dataset(batch_size=batch_size)
+$$
+
     
     # Compile
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+
+$$
+optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
+$$
+
+$$
+loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+$$
+
     )
     
     # Huấn luyện và đo thời gian
-    start_time = time.time()
-    history = model.fit(train_dataset, epochs=epochs)
-    training_time = time.time() - start_time
+
+$$
+start_time = time.time()
+$$
+
+$$
+history = model.fit(train_dataset, epochs=epochs)
+$$
+
+$$
+training_time = time.time() - start_time
+$$
+
     
     return {
         'rank': rank,
@@ -94,8 +134,15 @@ def run_experiment(rank, batch_size, epochs=2):
 results = []
 for rank in ranks:
     for batch_size in batch_sizes:
-        print(f"Running: rank={rank}, batch_size={batch_size}")
-        result = run_experiment(rank, batch_size)
+
+$$
+print(f"Running: rank={rank}, batch_size={batch_size}")
+$$
+
+$$
+result = run_experiment(rank, batch_size)
+$$
+
         results.append(result)
 
 ## 3. Kết Quả
@@ -121,7 +168,7 @@ for rank in ranks:
 **Mô hình toán học:**
 
 $$
-L_{final} \propto \frac{1}{r}
+L_{final} $\propto$ \frac{1}{r}
 $$
 
 Trong đó $L_{final}$ là loss cuối cùng.
@@ -136,7 +183,7 @@ Trong đó $L_{final}$ là loss cuối cùng.
 **Mô hình toán học:**
 
 $$
-\text{Time} \propto \frac{1}{\text{Batch Size}}
+\text{Time} $\propto$ \frac{1}{\text{Batch Size}}
 $$
 
 **Nhận xét:**

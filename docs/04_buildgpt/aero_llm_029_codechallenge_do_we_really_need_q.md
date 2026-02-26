@@ -41,7 +41,13 @@ Tuy nhiên, tài liệu *CodeChallenge: Do We Really Need Q?* đề xuất một
 Cơ chế attention được mô tả bằng công thức:
 
 $$
-Attention(Q, K, V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
+Attention(Q, K, V) = softmax$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
 $$
 
 Trong đó:

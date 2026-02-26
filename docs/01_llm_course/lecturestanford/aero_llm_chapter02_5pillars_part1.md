@@ -91,14 +91,32 @@
 **1. Multi-Head Attention:**
 ```python
 # Pseudo-code
+
+$$
 def multi_head_attention(x, num_heads=8):
+$$
+
     # Split into multiple heads
-    Q, K, V = split_heads(x, num_heads)
+
+$$
+Q, K, V = split_heads(x, num_heads)
+$$
+
     
     # Scaled dot-product attention
-    scores = (Q @ K.T) / sqrt(d_k)
-    attn = softmax(scores)
-    output = attn @ V
+
+$$
+scores = (Q @ K.T) / sqrt(d_k)
+$$
+
+$$
+attn = softmax(scores)
+$$
+
+$$
+output = attn @ V
+$$
+
     
     # Concat and project
     return concat_heads(output)
@@ -126,11 +144,22 @@ def multi_head_attention(x, num_heads=8):
 def rope(x, positions):
     # Rotate pairs of dimensions
     freqs = 1.0 / (10000 ** (arange(0, d, 2) / d))
-    angles = positions[:, None] * freqs[None, :]
+
+$$
+angles = positions[:, None] * freqs[None, :]
+$$
+
     
     # Apply rotation
-    cos, sin = cos(angles), sin(angles)
-    x_rotated = rotate_half(x)
+
+$$
+cos, sin = cos(angles), sin(angles)
+$$
+
+$$
+x_rotated = rotate_half(x)
+$$
+
     return x * cos + x_rotated * sin
 
 #### **C. Mixture of Experts (MoE)**
@@ -147,7 +176,11 @@ Top-K (k=2) ──→ Select 2 highest scores
 │ Expert4│ Expert5│ Expert6│ Expert7│
 └────────┴────────┴────────┴────────┘
   ↓
+
+$$
 Weighted sum = w₀·E₀(x) + w₁·E₁(x)
+$$
+
   ↓
 Output
 
@@ -200,7 +233,11 @@ def cross_entropy_loss(logits, targets):
     targets: [batch, seq_len]
     """
     # Softmax to get probabilities
-    probs = softmax(logits, dim=-1)
+
+$$
+probs = softmax(logits, dim=-1)
+$$
+
     
     # Negative log likelihood
     loss = -log(probs[range(len(targets)), targets])
@@ -222,12 +259,25 @@ lr = 6e-4  # learning rate
 beta1 = 0.9
 beta2 = 0.95
 epsilon = 1e-8
+
+$$
 weight_decay = 0.1
+$$
 
 # Update rule
+
+$$
 m = beta1 * m + (1 - beta1) * grad
+$$
+
+$$
 v = beta2 * v + (1 - beta2) * grad**2
+$$
+
+$$
 update = lr * m / (sqrt(v) + epsilon)
+$$
+
 params -= update
 
 #### **B. AdamW (Modern LLMs)**
@@ -246,10 +296,17 @@ params -= update
 
 **Cosine Decay with Warmup:**
 Warmup (0-2000 steps):
-  lr = base_lr * (step / warmup_steps)
+
+$$
+lr = base_lr * (step / warmup_steps)
+$$
 
 Cosine Decay:
-  lr = min_lr + 0.5 * (max_lr - min_lr) * 
+
+$$
+lr = min_lr + 0.5 * (max_lr - min_lr) *
+$$
+
        (1 + cos(π * (step - warmup) / total_steps))
 
 **GPT-3 Schedule:**
@@ -262,7 +319,11 @@ Cosine Decay:
 
 ```python
 # Prevent gradient explosion
+
+$$
 max_grad_norm = 1.0
+$$
+
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
 
 ### **Mixed Precision Training**
@@ -271,9 +332,17 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
 ```python
 from torch.cuda.amp import autocast
 
+$$
 with autocast(dtype=torch.bfloat16):
-    logits = model(inputs)
-    loss = criterion(logits, targets)
+$$
+
+$$
+logits = model(inputs)
+$$
+
+$$
+loss = criterion(logits, targets)
+$$
 
 scaler.scale(loss).backward()
 scaler.step(optimizer)
@@ -342,11 +411,18 @@ Clean Training Data
 **Perplexity-based filtering:**
 ```python
 # Train small model on high-quality data
+
+$$
 ref_model = train_tiny_gpt(wikipedia + books)
+$$
 
 # Filter web data
 for doc in web_crawl:
-    perplexity = ref_model.perplexity(doc)
+
+$$
+perplexity = ref_model.perplexity(doc)
+$$
+
     if perplexity < threshold:  # e.g., 1000
         keep(doc)
 
@@ -361,10 +437,16 @@ for doc in web_crawl:
 ```python
 # Generate math problems
 prompt = "Generate 100 algebra word problems with step-by-step solutions"
+
+$$
 synthetic_data = gpt4.generate(prompt)
+$$
 
 # Filter for quality
+
+$$
 high_quality = filter_by_correctness(synthetic_data)
+$$
 
 ### **Data Privacy & Ethics**
 

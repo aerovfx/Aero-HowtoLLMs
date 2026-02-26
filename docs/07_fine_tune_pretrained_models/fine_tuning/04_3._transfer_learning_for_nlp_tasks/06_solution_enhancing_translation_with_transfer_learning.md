@@ -45,7 +45,9 @@ Trong bài học này, chúng ta sẽ xem xét giải pháp cho bài tập nâng
 # Tải tập dữ liệu WMT16 (Đức - Anh)
 from datasets import load_dataset
 
+$$
 dataset = load_dataset("wmt16", "de-en", split="train[:1%]")
+$$
 
 ### 2.2 Bước 2: Tiền Xử Lý
 
@@ -53,8 +55,14 @@ dataset = load_dataset("wmt16", "de-en", split="train[:1%]")
 from transformers import AutoTokenizer
 
 # Tải tokenizer
+
+$$
 model_name = "google/flan-t5-base"
+$$
+
+$$
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+$$
 
 def preprocess_function(examples):
     # Lấy câu tiếng Đức và tiếng Anh
@@ -62,25 +70,54 @@ def preprocess_function(examples):
     targets = [ex['en'] for ex in examples['translation']]
     
     # Tokenize
-    model_inputs = tokenizer(inputs, max_length=128, truncation=True, padding="max_length")
-    labels = tokenizer(targets, max_length=128, truncation=True, padding="max_length")
+
+$$
+model_inputs = tokenizer(inputs, max_length=128, truncation=True, padding="max_length")
+$$
+
+$$
+labels = tokenizer(targets, max_length=128, truncation=True, padding="max_length")
+$$
+
     
-    model_inputs["labels"] = labels["input_ids"]
+$$
+model_inputs["labels"] = labels["input_ids"]
+$$
+
     
     return model_inputs
 
 # Áp dụng tiền xử lý
+
+$$
 processed_dataset = dataset.map(preprocess_function, batched=True)
+$$
 
 ### 2.3 Bước 3: Tạo TensorFlow Dataset
 
 ```python
 # Chuyển đổi sang TensorFlow
+
+$$
 tf_train = processed_dataset["train"].to_tf_dataset(
-    columns=["input_ids", "decoder_input_ids", "attention_mask"],
-    label_cols=["labels"],
-    batch_size=32,
-    shuffle=True
+$$
+
+$$
+columns=["input_ids", "decoder_input_ids", "attention_mask"],
+$$
+
+$$
+label_cols=["labels"],
+$$
+
+$$
+batch_size=32,
+$$
+
+$$
+shuffle=True
+$$
+
 )
 
 ### 2.4 Bước 4: Tải và Cấu Hình Mô Hình
@@ -89,25 +126,42 @@ tf_train = processed_dataset["train"].to_tf_dataset(
 from transformers import TFAutoModelForSeq2SeqLM
 
 # Tải mô hình
+
+$$
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
+$$
 
 # Freeze các lớp đầu
 for layer in model.layers[:3]:
-    layer.trainable = False
+
+$$
+layer.trainable = False
+$$
 
 ### 2.5 Bước 5: Huấn Luyện
 
 ```python
 # Compile
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+
+$$
+optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
+$$
+
+$$
+loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+$$
+
 )
 
 # Huấn luyện
 model.fit(
     tf_train,
-    validation_data=tf_test,
+
+$$
+validation_data=tf_test,
+$$
+
     epochs=3
 )
 
@@ -119,25 +173,54 @@ model.fit(
 from nltk.translate.bleu_score import sentence_bleu
 
 # Lấy một batch từ test set
+
+$$
 batch = next(iter(test_dataset))
+$$
 
 # Dịch và đánh giá
+
+$$
 bleu_scores = []
+$$
+
 for i in range(batch_size):
     # Decode reference
-    reference = tokenizer.decode(batch['labels'][i], skip_special_tokens=True)
+
+$$
+reference = tokenizer.decode(batch['labels'][i], skip_special_tokens=True)
+$$
+
     
     # Generate translation
-    inputs = tokenizer.decode(batch['input_ids'][i], skip_special_tokens=True)
-    outputs = model.generate(tokenizer(inputs, return_tensors="tf")["input_ids"])
-    hypothesis = tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+$$
+inputs = tokenizer.decode(batch['input_ids'][i], skip_special_tokens=True)
+$$
+
+$$
+outputs = model.generate(tokenizer(inputs, return_tensors="tf")["input_ids"])
+$$
+
+$$
+hypothesis = tokenizer.decode(outputs[0], skip_special_tokens=True)
+$$
+
     
     # Tính BLEU
-    score = sentence_bleu([reference.split()], hypothesis.split())
+
+$$
+score = sentence_bleu([reference.split()], hypothesis.split())
+$$
+
     bleu_scores.append(score)
 
 # Trung bình BLEU
+
+$$
 avg_bleu = sum(bleu_scores) / len(bleu_scores)
+$$
+
 print(f"Average BLEU Score: {avg_bleu:.4f}")
 
 ### 3.2 Kết Quả
@@ -166,7 +249,13 @@ Một điểm quan trọng trong bài tập này là chúng ta đang dịch từ
 ### 4.2 Mô Hình Toán Học
 
 $$
-\text{BLEU}_{\text{avg}} = \frac{1}{N} \sum_{i=1}^{N} \text{BLEU}(ref_i, hyp_i)
+
+$$
+
+\text{BLEU}_{\text{avg}} = \frac{1}{N} $\sum$_{i=1}^{N} \text{BLEU}(ref_i, hyp_i)
+
+$$
+
 $$
 
 Trong đó:

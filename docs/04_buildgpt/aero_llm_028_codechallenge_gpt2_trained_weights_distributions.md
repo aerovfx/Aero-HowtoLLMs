@@ -48,7 +48,13 @@ Các tài liệu được sử dụng trong nghiên cứu này trình bày chi t
 Trong attention đơn đầu, đầu ra được tính như sau:
 
 $$
-Attention(Q,K,V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
+Attention(Q,K,V) = softmax$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
 $$
 
 Trong đó:
@@ -61,11 +67,23 @@ Trong đó:
 Multi-head attention chia không gian embedding thành nhiều đầu (heads):
 
 $$
+
+$$
+
 head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)
+
 $$
 
 $$
+
+$$
+
+$$
+
 MultiHead = Concat(head_1,...,head_h)W^O
+
+$$
+
 $$
 
 Cách tiếp cận này cho phép mô hình học đồng thời nhiều mối quan hệ ngữ cảnh khác nhau.
@@ -75,7 +93,7 @@ Cách tiếp cận này cho phép mô hình học đồng thời nhiều mối q
 Trong GPT-2, các ma trận (W_Q, W_K, W_V) được gộp thành một ma trận duy nhất:
 
 $$
-C_{attn} \in \mathbb{R}^{d \times 3d}
+C_{attn} \in $\mathbb${R}^{d \times 3d}
 $$
 
 Giúp giảm chi phí bộ nhớ và tăng tốc truy xuất.

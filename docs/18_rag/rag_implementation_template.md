@@ -118,7 +118,9 @@ Filter + Rerank hiệu quả
 
 ### Rule
 
+$$
 👉 Không metadata = RAG yếu
+$$
 
 ---
 
@@ -134,9 +136,16 @@ Filter + Rerank hiệu quả
 ### Config
 
 ```python
+
+$$
 embedding_dim = 3072
+$$
+
 metric = "cosine"
+
+$$
 top_k = 20
+$$
 
 ### Optimize
 
@@ -159,13 +168,23 @@ Filter → Similarity Search → Rerank → Top N
 ### Example
 
 ```python
+
+$$
 docs = vector.search(
+$$
+
     query,
     filter={"year":2025},
-    top_k=20
+
+$$
+top_k=20
+$$
+
 )
 
+$$
 reranked = rerank(docs, query)[:5]
+$$
 
 ### Reranker
 
@@ -245,7 +264,9 @@ GET /status
 ✅ Audit log
 ✅ PII Masking
 
+$$
 ➡️ Thiếu = không lên production
+$$
 
 ---
 

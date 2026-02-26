@@ -47,7 +47,13 @@ Tài liệu thực nghiệm được trích dẫn từ bài hướng dẫn lập
 Cho văn bản đầu vào:
 
 $$
+
+$$
+
 X = (x_1, x_2, \dots, x_n)
+
+$$
+
 $$
 
 Trong đó $x_i$ là các token sau khi mã hóa.
@@ -55,16 +61,28 @@ Trong đó $x_i$ là các token sau khi mã hóa.
 Mô hình học xác suất có điều kiện:
 
 $$
-P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, \dots, x_{i-1})
+
+$$
+
+P(X) = $\prod$_{i=1}^{n} P(x_i \mid x_1, \dots, x_{i-1})
+
+$$
+
 $$
 
 Quá trình tokenization chuyển văn bản sang dãy chỉ số số nguyên:
 
 $$
-T = (t_1, t_2, \dots, t_n)
+
 $$
 
-với $t_i \in \mathbb{N}$.
+T = (t_1, t_2, \dots, t_n)
+
+$$
+
+$$
+
+với $t_i \in $\mathbb${N}$.
 
 ---
 
@@ -75,7 +93,13 @@ Fine-tuning là quá trình cập nhật tham số mô hình trên tập dữ li
 Hàm mất mát phổ biến là Cross-Entropy:
 
 $$
-\mathcal{L} = - \frac{1}{N} \sum_{i=1}^{N} \log P(y_i \mid x_i)
+
+$$
+
+$\mathcal${L} = - \frac{1}{N} $\sum$_{i=1}^{N} $\log$ P(y_i \mid x_i)
+
+$$
+
 $$
 
 Trong đó:
@@ -87,7 +111,7 @@ Trong đó:
 Mục tiêu là:
 
 $$
-\min_{\theta} \mathcal{L}(\theta)
+\min_{\theta} $\mathcal${L}(\theta)
 $$
 
 với $\theta$ là tham số mô hình.
@@ -106,7 +130,13 @@ Hai tập văn bản:
 Sau tokenization, ta thu được hai tập token:
 
 $$
+
+$$
+
 T_A = (t_1^A, \dots, t_{n_A}^A), \quad T_E = (t_1^E, \dots, t_{n_E}^E)
+
+$$
+
 $$
 
 ---
@@ -116,7 +146,13 @@ $$
 Chỉ giữ lại token có độ dài ≥ 3 ký tự:
 
 $$
-T'_i = \begin{cases} t_i, & \text{nếu } |decode(t_i)| \ge 3 \\ -1, & \text{ngược lại} \end{cases}
+
+$$
+
+T'_i = \begin{cases} t_i, & \text{nếu } |decode(t_i)| $\ge$ 3 \\ -1, & \text{ngược lại} \end{cases}
+
+$$
+
 $$
 
 Các token có giá trị (-1) bị loại bỏ.
@@ -130,7 +166,13 @@ Mục tiêu: giảm nhiễu do dấu câu và ký tự đơn.
 Với tập token đã lọc (T'), ta tính tần suất:
 
 $$
-f(w) = \sum_{i=1}^{N} \mathbf{1}(T'_i = w)
+
+$$
+
+f(w) = $\sum$_{i=1}^{N} \mathbf{1}(T'_i = w)
+
+$$
+
 $$
 
 Trong đó:
@@ -142,7 +184,13 @@ $$
 Chọn 100 token có (f(w)) lớn nhất:
 
 $$
+
+$$
+
 S_{100} = {w_1, \dots, w_{100}}
+
+$$
+
 $$
 
 ---
@@ -152,13 +200,25 @@ $$
 Cho dãy token sinh ra:
 
 $$
+
+$$
+
 G = (g_1, g_2, \dots, g_M)
+
+$$
+
 $$
 
 Tỷ lệ token thuộc tập phổ biến:
 
 $$
-p = \frac{1}{M} \sum_{i=1}^{M} \mathbf{1}(g_i \in S_{100})
+
+$$
+
+p = \frac{1}{M} $\sum$_{i=1}^{M} \mathbf{1}(g_i \in S_{100})
+
+$$
+
 $$
 
 Áp dụng cho:
@@ -234,7 +294,13 @@ Xét trước (pre) và sau (post) fine-tuning.
 Trước fine-tuning:
 
 $$
-p_{AA} \approx p_{AE} \approx p_{EA} \approx p_{EE}
+
+$$
+
+p_{AA} $\approx$ p_{AE} $\approx$ p_{EA} $\approx$ p_{EE}
+
+$$
+
 $$
 
 Sau fine-tuning:
@@ -273,7 +339,13 @@ Có thể mở rộng bằng:
 * Độ đo perplexity:
 
 $$
-\text{PPL} = \exp\left(\frac{1}{N}\sum_{i=1}^{N} \mathcal{L}_i\right)
+
+$$
+
+\text{PPL} = \exp$\le$ft(\frac{1}{N}$\sum$_{i=1}^{N} $\mathcal${L}_i\right)
+
+$$
+
 $$
 
 * Embedding similarity:

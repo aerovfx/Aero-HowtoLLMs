@@ -30,9 +30,17 @@ Thay vì khai khởi một ma trận số nguyên thủy Gaussian giả lập, n
 Một hàm Shuffling vector hóa như sau bẻ gãy mọi quy luật học tập gradient:
 ```python
 # Giả lập Flatten & ngẫu nhiên xóc lại (Shuffle coordinates in-place)
+
+$$
 E_flat = E.flatten()
+$$
+
 np.random.shuffle(E_flat)
+
+$$
 E_randomized = E_flat.reshape(E.shape)
+$$
+
 Từ thời khắc sự đảo chiều kết thúc, tất cả các Tokenizer (kể từ "King" hay "Purple") đều gắn liền một mảng Vector 768 chiều không bao chứa bất kỳ vi hạt ý niệm ngữ nghĩa (Semantic properties) nào. Mọi liên kết bị tước đoạt triệt để, chúng hiện thân dưới dạng Nhiễu Trắng (White Noise).
 
 ---

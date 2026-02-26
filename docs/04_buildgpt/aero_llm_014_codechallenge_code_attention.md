@@ -48,14 +48,20 @@ Mục tiêu của nghiên cứu này là phân tích quá trình trên dưới g
 Scaled Dot-Product Attention được định nghĩa:
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V
+
+$$
+
+\text{Attention}(Q,K,V) = \text{softmax}$\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)V
+
+$$
+
 $$
 
 Trong đó:
 
-- $Q \in \mathbb{R}^{T \times d}$: Query,
-- $K \in \mathbb{R}^{T \times d}$: Key,
-- $V \in \mathbb{R}^{T \times d}$: Value,
+- $Q \in $\mathbb${R}^{T \times d}$: Query,
+- $K \in $\mathbb${R}^{T \times d}$: Key,
+- $V \in $\mathbb${R}^{T \times d}$: Value,
 - $d_k$: số chiều của vector Key.
 
 Công thức này cho phép mô hình tính toán mức độ liên quan giữa các token. 
@@ -106,10 +112,16 @@ Token được sinh ngẫu nhiên và ánh xạ sang embedding thông qua ma tr�
 Ba ma trận Q, K, V được xây dựng bằng các lớp tuyến tính:
 
 $$
-Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+
 $$
 
-với $W_Q, W_K, W_V \in \mathbb{R}^{d \times d}$.
+Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+
+$$
+
+$$
+
+với $W_Q, W_K, W_V \in $\mathbb${R}^{d \times d}$.
 
 Cách tiếp cận này phản ánh đúng kiến trúc Transformer chuẩn. 
 
@@ -349,20 +361,32 @@ MHA là nền tảng cho các mô hình như BERT, GPT và LLaMA.
 Multi-Head Attention được định nghĩa:
 
 $$
+
+$$
+
 \text{MHA}(Q,K,V) = \text{Concat}(h_1,\dots,h_H)W_O
+
+$$
+
 $$
 
 với:
 
 $$
+
+$$
+
 h_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
+
+$$
+
 $$
 
 Trong đó:
 
 - $H$: số head,
 - $W_i^Q, W_i^K, W_i^V$: ma trận chiếu,
-- $W_O$: ma trận đầu ra.
+- $W_$O(: ma trận đầu ra.
 
 Mỗi head học một không gian biểu diễn riêng biệt.
 
@@ -370,7 +394,7 @@ Mỗi head học một không gian biểu diễn riêng biệt.
 
 ### 2.2. Phân rã Không gian Đặc trưng
 
-Với embedding dimension $d$:
+Với embedding dimension )$d$:
 
 $$
 d_{head} = \frac{d}{H}
@@ -394,7 +418,13 @@ Cách chia này giúp:
 Trong mô hình tự hồi quy, mỗi head đều áp dụng causal mask:
 
 $$
-M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
+
+$$
+
+M_{ij} = \begin{cases} 0 & j $\le$ i \\ -$\infty$ & j > i \end{cases}
+
+$$
+
 $$
 
 Mask này đảm bảo không rò rỉ thông tin tương lai.
@@ -434,15 +464,34 @@ Input: X ∈ R^(B×T×d)
 Output: Y ∈ R^(B×T×d)
 
 for each head i in H:
+
+$$
 Qi = X · WQi
+$$
+
+$$
 Ki = X · WKi
+$$
+
+$$
 Vi = X · WVi
+$$
 
+$$
 Ai = softmax(Qi Ki^T / sqrt(dh) + Mask)
-Hi = Ai · Vi
+$$
 
+$$
+Hi = Ai · Vi
+$$
+
+$$
 H = concat(H1,...,HH)
+$$
+
+$$
 Y = H · WO
+$$
 
 ````
 
@@ -459,36 +508,97 @@ class MultiHeadAttention(nn.Module):
     def __init__(self, d_model, n_heads):
         super().__init__()
         
-        assert d_model % n_heads == 0
+$$
+assert d_model % n_heads == 0
+$$
+
         
-        self.d_model = d_model
-        self.n_heads = n_heads
-        self.d_head = d_model // n_heads
+$$
+self.d_model = d_model
+$$
+
+$$
+self.n_heads = n_heads
+$$
+
+$$
+self.d_head = d_model // n_heads
+$$
+
         
-        self.qkv = nn.Linear(d_model, 3 * d_model)
-        self.out = nn.Linear(d_model, d_model)
+$$
+self.qkv = nn.Linear(d_model, 3 * d_model)
+$$
+
+$$
+self.out = nn.Linear(d_model, d_model)
+$$
+
         
-    def forward(self, x, causal=True):
-        B, T, D = x.shape
+$$
+def forward(self, x, causal=True):
+$$
+
+$$
+B, T, D = x.shape
+$$
+
         
-        qkv = self.qkv$x$
-        qkv = qkv.view(B, T, 3, self.n_heads, self.d_head)
-        qkv = qkv.permute(2, 0, 3, 1, 4)
+$$
+qkv = self.qkv$x$
+$$
+
+$$
+qkv = qkv.view(B, T, 3, self.n_heads, self.d_head)
+$$
+
+$$
+qkv = qkv.permute(2, 0, 3, 1, 4)
+$$
+
         
-        q, k, v = qkv[0], qkv[1], qkv[2]
+$$
+q, k, v = qkv[0], qkv[1], qkv[2]
+$$
+
         
-        scores = torch.matmul(q, k.transpose(-2, -1))
-        scores /= self.d_head ** 0.5
+$$
+scores = torch.matmul(q, k.transpose(-2, -1))
+$$
+
+$$
+scores /= self.d_head ** 0.5
+$$
+
         
         if causal:
-            mask = torch.tril(torch.ones(T, T, device=x.device))
-            scores = scores.masked_fill(mask == 0, -1e9)
+
+$$
+mask = torch.tril(torch.ones(T, T, device=x.device))
+$$
+
+$$
+scores = scores.masked_fill(mask == 0, -1e9)
+$$
+
         
-        attn = F.softmax(scores, dim=-1)
-        out = torch.matmul(attn, v)
+$$
+attn = F.softmax(scores, dim=-1)
+$$
+
+$$
+out = torch.matmul(attn, v)
+$$
+
         
-        out = out.transpose(1, 2).contiguous()
-        out = out.view(B, T, D)
+$$
+out = out.transpose(1, 2).contiguous()
+$$
+
+$$
+out = out.view(B, T, D)
+$$
+
         
         return self.out(out)
 ````
@@ -531,7 +641,10 @@ def benchmark(model, x, runs=500):
     for _ in range(50):
         _ = model$x$
     
-    start = time.time()
+$$
+start = time.time()
+$$
+
     
     for _ in range(runs):
         _ = model$x$

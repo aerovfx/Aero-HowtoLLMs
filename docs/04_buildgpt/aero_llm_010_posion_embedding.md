@@ -45,7 +45,7 @@ Mục tiêu của bài báo là phân tích có hệ thống các kỹ thuật n
 Trong GPT, mỗi token được ánh xạ thành vector thông qua embedding:
 
 $$
-E_{tok} \in \mathbb{R}^{V \times d}
+E_{tok} \in $\mathbb${R}^{V \times d}
 $$
 
 với $V$ là kích thước từ vựng, $d$ là chiều embedding.
@@ -53,7 +53,7 @@ với $V$ là kích thước từ vựng, $d$ là chiều embedding.
 Position embedding được định nghĩa:
 
 $$
-E_{pos} \in \mathbb{R}^{L \times d}
+E_{pos} \in $\mathbb${R}^{L \times d}
 $$
 
 với $L$ là độ dài chuỗi tối đa.
@@ -61,7 +61,13 @@ với $L$ là độ dài chuỗi tối đa.
 Biểu diễn đầu vào:
 
 $$
+
+$$
+
 X = E_{tok}(w_i) + E_{pos}(i)
+
+$$
+
 $$
 
 Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự mà không cần kiến trúc hồi quy.
@@ -125,7 +131,13 @@ Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với
 Trong suy luận:
 
 $$
-p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
+
+$$
+
+p_i = \frac{\exp(z_i / T)}{$\sum$_j \exp(z_j / T)}
+
+$$
+
 $$
 
 - $T < 1$: sinh văn bản quyết định hơn,
@@ -173,7 +185,13 @@ Scaled Logits
 Loss lý thuyết của mô hình ngẫu nhiên:
 
 $$
-\mathcal{L}_{theory} = \log(V)
+
+$$
+
+$\mathcal${L}_{theory} = $\log$(V)
+
+$$
+
 $$
 
 với (V) là vocab size.
@@ -200,7 +218,7 @@ Chỉ sử dụng cửa sổ ngữ cảnh gần nhất (sliding window) để gi
 
 Khi khởi tạo ngẫu nhiên, loss thực nghiệm:
 
-* Gần bằng (\log(V)),
+* Gần bằng ($\log$(V)),
 * Phù hợp với dự đoán lý thuyết.
 
 Điều này xác nhận mô hình được cài đặt đúng.
@@ -435,9 +453,9 @@ Algorithm 2: Training(D, η, B, E)
 ```text
 Algorithm 3: Generate(P, T, N)
 
-1:  x ← Tokenize$P$
+1:  x ← Tokenize$$P(
 2:  for t = 1 → N do
-3:      Z ← GPT-Forward$x$
+3:      Z ← GPT-Forward)$x$
 4:      z_t ← Z_last / T
 5:      p ← Softmax$z_t$
 6:      s ← Sample$p$
@@ -467,24 +485,43 @@ class GPTEmbedding(nn.Module):
     def __init__(self, vocab_size, max_len, d_model):
         super().__init__()
 
-        self.token_emb = nn.Embedding(
+$$
+self.token_emb = nn.Embedding(
+$$
+
             vocab_size, d_model
         )
 
-        self.pos_emb = nn.Embedding(
+$$
+self.pos_emb = nn.Embedding(
+$$
+
             max_len, d_model
         )
 
     def forward(self, x):
 
-        B, T = x.shape
+$$
+B, T = x.shape
+$$
 
-        pos = torch.arange(
-            T, device=x.device
+$$
+pos = torch.arange(
+$$
+
+$$
+T, device=x.device
+$$
+
         )
 
-        tok = self.token_emb$x$
-        pos = self.pos_emb(pos)
+$$
+tok = self.token_emb$x$
+$$
+
+$$
+pos = self.pos_emb(pos)
+$$
 
         return tok + pos
 
@@ -498,7 +535,10 @@ class FeedForward(nn.Module):
     def __init__(self, d_model):
         super().__init__()
 
-        self.net = nn.Sequential(
+$$
+self.net = nn.Sequential(
+$$
+
             nn.Linear(d_model, 4 * d_model),
             nn.GELU(),
             nn.Linear(4 * d_model, d_model)
@@ -514,34 +554,68 @@ class FeedForward(nn.Module):
 ```python
 class GPTBlock(nn.Module):
 
-    def __init__(self, d_model, heads, dropout=0.1):
+$$
+def __init__(self, d_model, heads, dropout=0.1):
+$$
+
         super().__init__()
 
-        self.ln1 = nn.LayerNorm(d_model)
-        self.ln2 = nn.LayerNorm(d_model)
+$$
+self.ln1 = nn.LayerNorm(d_model)
+$$
 
-        self.attn = nn.MultiheadAttention(
+$$
+self.ln2 = nn.LayerNorm(d_model)
+$$
+
+$$
+self.attn = nn.MultiheadAttention(
+$$
+
             d_model,
             heads,
-            dropout=dropout,
-            batch_first=True
+
+$$
+dropout=dropout,
+$$
+
+$$
+batch_first=True
+$$
+
         )
 
-        self.ffn = FeedForward(d_model)
+$$
+self.ffn = FeedForward(d_model)
+$$
 
     def forward(self, x, mask):
 
-        h = self.ln1$x$
+$$
+h = self.ln1$x$
+$$
 
-        attn_out, _ = self.attn(
-            h, h, h, attn_mask=mask
+$$
+attn_out, _ = self.attn(
+$$
+
+$$
+h, h, h, attn_mask=mask
+$$
+
         )
 
-        x = x + attn_out
+$$
+x = x + attn_out
+$$
 
-        h = self.ln2$x$
+$$
+h = self.ln2$x$
+$$
 
-        x = x + self.ffn$h$
+$$
+x = x + self.ffn$h$
+$$
 
         return x
 
@@ -562,52 +636,91 @@ class MiniGPT(nn.Module):
     ):
         super().__init__()
 
-        self.embed = GPTEmbedding(
+$$
+self.embed = GPTEmbedding(
+$$
+
             vocab_size, max_len, d_model
         )
 
-        self.blocks = nn.ModuleList([
+$$
+self.blocks = nn.ModuleList([
+$$
+
             GPTBlock(d_model, heads)
             for _ in range(layers)
         ])
 
-        self.ln_f = nn.LayerNorm(d_model)
+$$
+self.ln_f = nn.LayerNorm(d_model)
+$$
 
-        self.lm_head = nn.Linear(
+$$
+self.lm_head = nn.Linear(
+$$
+
             d_model,
             vocab_size,
-            bias=False
+
+$$
+bias=False
+$$
+
         )
 
         # Weight tying
-        self.lm_head.weight = \
+
+$$
+self.lm_head.weight = \
+$$
+
             self.embed.token_emb.weight
 
-        self.max_len = max_len
+$$
+self.max_len = max_len
+$$
 
     def causal_mask(self, T, device):
 
         return torch.triu(
-            torch.ones(T, T, device=device),
+
+$$
+torch.ones(T, T, device=device),
+$$
+
             diagonal=1
         ).bool()
 
     def forward(self, x):
 
-        B, T = x.shape
+$$
+B, T = x.shape
+$$
 
-        h = self.embed$x$
+$$
+h = self.embed$x$
+$$
 
-        mask = self.causal_mask(
+$$
+mask = self.causal_mask(
+$$
+
             T, x.device
         )
 
         for block in self.blocks:
-            h = block(h, mask)
 
-        h = self.ln_f$h$
+$$
+h = block(h, mask)
+$$
 
-        logits = self.lm_head$h$
+$$
+h = self.ln_f$h$
+$$
+
+$$
+logits = self.lm_head$h$
+$$
 
         return logits
 
@@ -624,9 +737,14 @@ def train_step(
     y
 ):
 
-    logits = model$x$
+$$
+logits = model$x$
+$$
 
-    loss = loss_fn(
+$$
+loss = loss_fn(
+$$
+
         logits.view(-1, logits.size(-1)),
         y.view(-1)
     )
@@ -652,12 +770,21 @@ def train(
 
     model.to(device)
 
-    optimizer = torch.optim.AdamW(
+$$
+optimizer = torch.optim.AdamW(
+$$
+
         model.parameters(),
-        lr=lr
+
+$$
+lr=lr
+$$
+
     )
 
-    loss_fn = nn.CrossEntropyLoss()
+$$
+loss_fn = nn.CrossEntropyLoss()
+$$
 
     for epoch in range(epochs):
 
@@ -665,10 +792,18 @@ def train(
 
         for x, y in dataloader:
 
-            x = x.to(device)
-            y = y.to(device)
+$$
+x = x.to(device)
+$$
 
-            loss = train_step(
+$$
+y = y.to(device)
+$$
+
+$$
+loss = train_step(
+$$
+
                 model,
                 optimizer,
                 loss_fn,
@@ -693,37 +828,71 @@ def generate(
     model,
     tokenizer,
     prompt,
-    max_new=200,
+
+$$
+max_new=200,
+$$
+
     temperature=1.0
 ):
 
     model.eval()
 
-    device = next(model.parameters()).device
+$$
+device = next(model.parameters()).device
+$$
 
-    ids = torch.tensor(
+$$
+ids = torch.tensor(
+$$
+
         tokenizer.encode(prompt),
-        device=device
+
+$$
+device=device
+$$
+
     ).unsqueeze(0)
 
     for _ in range$max_new$:
 
-        logits = model(ids)
+$$
+logits = model(ids)
+$$
 
-        next_logits = logits[:, -1]
+$$
+next_logits = logits[:, -1]
+$$
 
-        next_logits /= temperature
+$$
+next_logits /= temperature
+$$
 
-        probs = torch.softmax(
-            next_logits, dim=-1
+$$
+probs = torch.softmax(
+$$
+
+$$
+next_logits, dim=-1
+$$
+
         )
 
-        next_id = torch.multinomial(
+$$
+next_id = torch.multinomial(
+$$
+
             probs, 1
         )
 
-        ids = torch.cat(
-            [ids, next_id], dim=1
+$$
+ids = torch.cat(
+$$
+
+$$
+[ids, next_id], dim=1
+$$
+
         )
 
     return tokenizer.decode(

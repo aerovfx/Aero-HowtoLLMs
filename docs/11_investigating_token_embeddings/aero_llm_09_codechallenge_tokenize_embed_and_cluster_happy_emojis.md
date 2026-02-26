@@ -37,7 +37,13 @@ Vì một Emoji (giả sử Cười) bị cắt rách thành tổ hợp $K$ toke
 Để có được một đại lượng Embeddings duy nhất $\vec{E}_{\text{emoji}}$ nhằm tính toán khoảng cách vector từ hoặc tương quan góc (Cosine Similarity), phương án nền móng là tính Trung bình cộng vector (Vector Average / Mean Pooling):
 
 $$
-\vec{E}_{\text{emoji}} = \frac{1}{K} \sum_{i=1}^{K} \vec{e}_i
+
+$$
+
+\vec{E}_{\text{emoji}} = \frac{1}{K} $\sum$_{i=1}^{K} \vec{e}_i
+
+$$
+
 $$
 
 Bằng cách tạo một ma trận hỗn hợp $N \times 768$ chiều (giả sử chọn tập $N=32$ Emojis), toàn bộ đám mây cảm xúc đã được định chuẩn hóa lên không gian nơ-ron bậc cao của khối lượng Transformers.

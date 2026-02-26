@@ -49,8 +49,14 @@ Truy cập: colab.research.google.com
 from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM
 
 # Tải tokenizer và model
+
+$$
 tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
+$$
+
+$$
 model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
+$$
 
 **Lưu ý về warnings:**
 - Warning về xác thực HuggingFace là bình thường
@@ -71,14 +77,27 @@ Việc prompt một LLM luôn gồm 4 bước:
 prompt = "summarize: Studies show that eating carrots help improve vision..."
 
 # Tokenize
-inputs = tokenizer(prompt, return_tensors="tf", max_length=512, 
-                    truncation=True, padding=True)
+
+$$
+inputs = tokenizer(prompt, return_tensors="tf", max_length=512,
+$$
+
+$$
+truncation=True, padding=True)
+$$
 
 # Generate
+
+$$
 outputs = model.generate(inputs.input_ids, max_length=50)
+$$
 
 # Decode
+
+$$
 summary = tokenizer.decode(outputs[0])
+$$
+
 print(summary)
 
 **Kết quả:** "eat carrots" - một bản tóm tắt ngắn gọn
@@ -90,14 +109,27 @@ print(summary)
 prompt = "translate English to Spanish: cheese is delicious"
 
 # Tokenize
-inputs = tokenizer(prompt, return_tensors="tf", max_length=512, 
-                    truncation=True, padding=True)
+
+$$
+inputs = tokenizer(prompt, return_tensors="tf", max_length=512,
+$$
+
+$$
+truncation=True, padding=True)
+$$
 
 # Generate
+
+$$
 outputs = model.generate(inputs.input_ids, max_length=40)
+$$
 
 # Decode
+
+$$
 translation = tokenizer.decode(outputs[0])
+$$
+
 print(translation)
 
 ### 3. Trả Lời Câu Hỏi (Question Answering)
@@ -107,17 +139,32 @@ print(translation)
 context = "The Great Wall of China is over 13,000 miles long."
 question = "question: How long is the Great Wall of China?"
 
+$$
 prompt = context + " " + question
+$$
 
 # Tokenize
-inputs = tokenizer(prompt, return_tensors="tf", max_length=512, 
-                    truncation=True, padding=True)
+
+$$
+inputs = tokenizer(prompt, return_tensors="tf", max_length=512,
+$$
+
+$$
+truncation=True, padding=True)
+$$
 
 # Generate
+
+$$
 outputs = model.generate(inputs.input_ids, max_length=50)
+$$
 
 # Decode
+
+$$
 answer = tokenizer.decode(outputs[0])
+$$
+
 print(answer)
 
 **Kết quả:** "It's over 13,000 miles long."

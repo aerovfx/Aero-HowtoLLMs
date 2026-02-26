@@ -28,7 +28,9 @@ Trong một LLM như GPT-2, văn bản đầu vào được mã hóa thành các
 
 Bằng cách chạy một lượt lan truyền xuôi (forward pass), ta có thể kích hoạt tùy chọn xuất trạng thái ẩn:
 
+$$
 `output_hidden_states = True`
+$$
 
 Trong GPT-2 nhỏ, tính toán này sẽ trả ra 13 ten-xơ (tensors), bao gồm:
 1 đầu ra từ Lớp Nhúng (Embeddings layer).
@@ -53,7 +55,7 @@ $$
 R^2 = \text{Corr}(X, Y)^2
 $$
 
-Hai đại lượng $X$ và $Y$ hoàn toàn không tương quan sẽ có $R^2 \approx 0$. Ngược lại, nếu chúng giống hệt, kết quả trả về 1 (hoặc 100%).
+Hai đại lượng $X$ và $Y$ hoàn toàn không tương quan sẽ có $R^2 $\approx$ 0$. Ngược lại, nếu chúng giống hệt, kết quả trả về 1 (hoặc 100%).
 
 - Lớp nhúng (Embeddings) và Khối transformer kết quả (Layer cuối) có rất ít sự hiệp biến so với các blocks khác. 
 - Giữa khối Transformer trung gian, có sự chia sẻ phương sai khá mật thiết. Vectơ embedding thay đổi qua mỗi block, nhưng không đột biến. Có sự tinh chỉnh từ từ, làm cấu trúc giống như chiếc "cánh chim" nở rộng ra dần.

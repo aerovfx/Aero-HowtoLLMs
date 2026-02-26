@@ -76,9 +76,13 @@ Result: "The cat sat on the mat"
 
 ### **1. Perplexity**
 
-PPL = exp(-1/N ∑ log P(xᵢ | context))
+$$
+PPL = exp(-1/N ∑ log P(xᵢ  \mid  context))
+$$
 
+$$
 **Lower = Better**
+$$
 
 | Model | PPL (WikiText) |
 |-------|----------------|

@@ -32,7 +32,7 @@ Trong các mô hình Transformer sinh văn bản, mỗi token được ánh xạ
 Mỗi token $t$ có vector embedding:
 
 $$
-\mathbf{v}_t \in \mathbb{R}^{768}
+\mathbf{v}_t \in $\mathbb${R}^{768}
 $$
 
 Phân tích cosine similarity giữa các vector này giúp hiểu cấu trúc ngữ nghĩa nội tại của mô hình.
@@ -44,7 +44,7 @@ Phân tích cosine similarity giữa các vector này giúp hiểu cấu trúc n
 Cho hai vector:
 
 $$
-\mathbf{x}, \mathbf{y} \in \mathbb{R}^d
+\mathbf{x}, \mathbf{y} \in $\mathbb${R}^d
 $$
 
 Định nghĩa:
@@ -56,17 +56,29 @@ $$
 Trong đó:
 
 $$
-\mathbf{x} \cdot \mathbf{y} = \sum_{i=1}^{d} x_i y_i
+
+$$
+
+\mathbf{x} \cdot \mathbf{y} = $\sum$_{i=1}^{d} x_i y_i
+
 $$
 
 $$
-\|\mathbf{x}\| = \sqrt{\sum_{i=1}^{d} x_i^2}
+
+$$
+
+$$
+
+\|\mathbf{x}\| = \sqrt{$\sum$_{i=1}^{d} x_i^2}
+
+$$
+
 $$
 
 Giá trị nằm trong khoảng:
 
 $$
--1 \leq \text{cosine} \leq 1
+-1 $\le$q \text{cosine} $\le$q 1
 $$
 
 ---
@@ -88,7 +100,7 @@ $$
 Nếu ma trận embedding:
 
 $$
-E \in \mathbb{R}^{|V| \times d}
+E \in $\mathbb${R}^{|V| \times d}
 $$
 
 Sau khi chuẩn hóa từng hàng:
@@ -112,7 +124,13 @@ $$
 Với token index $i$:
 
 $$
+
+$$
+
 \mathbf{v}_i = E[i]
+
+$$
+
 $$
 
 Trong GPT-2, embedding đầu vào và embedding đầu ra thường được chia sẻ trọng số (weight tying):
@@ -158,23 +176,41 @@ Do cấu trúc ngữ nghĩa gần nhau.
 Giả sử hai vector ngẫu nhiên:
 
 $$
-\mathbf{x},\mathbf{y} \sim \mathcal{N}(0,I_d)
+\mathbf{x},\mathbf{y} \sim $\mathcal${N}(0,I_d)
 $$
 
-Khi $d \to \infty$:
+Khi $d \to $\infty$$:
 
-$$
-\mathbb{E}[\text{cosine}] = 0
 $$
 
 $$
-\text{Var}(\text{cosine}) \approx \frac{1}{d}
+
+$\mathbb${E}[\text{cosine}] = 0
+
+$$
+
+$$
+
+$$
+
+$$
+
+\text{Var}(\text{cosine}) $\approx$ \frac{1}{d}
+
+$$
+
 $$
 
 Với $d = 768$:
 
 $$
-\text{Var} \approx \frac{1}{768}
+
+$$
+
+\text{Var} $\approx$ \frac{1}{768}
+
+$$
+
 $$
 
 Do đó:
@@ -189,7 +225,13 @@ Do đó:
 Trong GPT-2, xác suất token tiếp theo:
 
 $$
+
+$$
+
 P(w_t  \mid  h_t) = \text{softmax}(W_{out} h_t)
+
+$$
+
 $$
 
 Nếu weight tying:
@@ -201,13 +243,25 @@ $$
 Khi đó:
 
 $$
+
+$$
+
 z_i = \mathbf{v}_i \cdot h_t
+
+$$
+
 $$
 
 Softmax:
 
 $$
-P(w_i) = \frac{e^{\mathbf{v}_i \cdot h_t}} {\sum_j e^{\mathbf{v}_j \cdot h_t}}
+
+$$
+
+P(w_i) = \frac{e^{\mathbf{v}_i \cdot h_t}} {$\sum$_j e^{\mathbf{v}_j \cdot h_t}}
+
+$$
+
 $$
 
 Như vậy:
@@ -217,7 +271,13 @@ Như vậy:
 Nếu chuẩn hóa:
 
 $$
+
+$$
+
 \mathbf{v}_i \cdot h_t = \|\mathbf{v}_i\| \|h_t\| \cos\theta
+
+$$
+
 $$
 
 Do đó cosine similarity trực tiếp ảnh hưởng đến xác suất dự đoán.
@@ -229,7 +289,7 @@ Do đó cosine similarity trực tiếp ảnh hưởng đến xác suất dự �
 Cho tập $n$ token:
 
 $$
-X \in \mathbb{R}^{n \times d}
+X \in $\mathbb${R}^{n \times d}
 $$
 
 Ma trận cosine:
@@ -281,7 +341,7 @@ Cosine similarity trong GPT-2:
 Về bản chất:
 
 $$
-\text{Prediction} \propto \exp(\|\mathbf{v}\|\|h\|\cos\theta)
+\text{Prediction} $\propto$ \exp(\|\mathbf{v}\|\|h\|\cos\theta)
 $$
 
 Do đó góc giữa vector đóng vai trò quyết định.

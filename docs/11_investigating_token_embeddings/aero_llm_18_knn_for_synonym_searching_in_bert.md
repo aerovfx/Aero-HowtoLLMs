@@ -43,7 +43,13 @@ Không gian tọa độ của mảng Embeddings ma trận BERT sở hữu $D=768
 Lấy gốc từ định lý tam giác vuông trong không gian $N$-chiều, Euclidean đo đạc chiều dài thật sự của sợi dây nối giữa mũi tên vector token $\vec{v}$ và token mục tiêu $\vec{w}$:
 
 $$
-\delta(\vec{v}, \vec{w}) = \sqrt{\sum_{i=1}^{D} (v_i - w_i)^2}
+
+$$
+
+\delta(\vec{v}, \vec{w}) = \sqrt{$\sum$_{i=1}^{D} (v_i - w_i)^2}
+
+$$
+
 $$
 
 Chuẩn Euclidean thể hiện tính tách biệt tuyệt đối (absolute spatial magnitude) của thông tin.

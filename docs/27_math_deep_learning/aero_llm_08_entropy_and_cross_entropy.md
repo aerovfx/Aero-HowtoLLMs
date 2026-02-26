@@ -26,7 +26,7 @@ Báo cáo này nghiên cứu về lý thuyết thông tin trong học sâu, tậ
 Trong lý thuyết thông tin, Entropy không đại diện cho sự hỗn loạn vật lý mà đại diện cho lượng thông tin hoặc độ khó dự đoán của một biến ngẫu nhiên.
 - **Nguyên lý cực đại:** Entropy đạt giá trị cao nhất khi xác suất các sự kiện là tương đương nhau (ví dụ $p=0.5$ trong tung đồng xu), vì khi đó chúng ta hoàn toàn không biết kết quả nào sẽ xảy ra.
 - **Nguyên lý cực tiểu:** Khi một sự kiện trở nên chắc chắn ($p=0$ hoặc $p=1$), sự bất ngờ biến mất và Entropy tiến về 0.
-- **Công thức:** $H(x) = -\sum p(x) \log p(x)$. Dấu âm giúp đảm bảo giá trị Entropy luôn dương vì logarit của xác suất (từ 0 đến 1) luôn âm.
+- **Công thức:** $H(x) = -$\sum$ p(x) $\log$ p(x)$. Dấu âm giúp đảm bảo giá trị Entropy luôn dương vì logarit của xác suất (từ 0 đến 1) luôn âm.
 
 ---
 
@@ -44,7 +44,13 @@ Cross-Entropy là công cụ để so sánh hai phân phối xác suất khác n
 Đối với các bài toán phân loại nhị phân (có/không, mèo/chó), công thức Cross-Entropy được đơn giản hóa thành:
 
 $$
-BCE = -[p \log(q) + (1-p) \log(1-q)]
+
+$$
+
+BCE = -[p $\log$(q) + (1-p) $\log$(1-q)]
+
+$$
+
 $$
 
 Trong thực tế học sâu, vì $p$ thường chỉ bằng 0 hoặc 1, công thức này lại càng đơn giản hơn: nó chỉ đơn thuần là giá trị âm logarit của xác suất mà mô hình gán cho lớp đúng. Nếu mô hình càng tự tin vào lớp đúng, giá trị mất mát (loss) càng nhỏ.

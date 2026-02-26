@@ -32,7 +32,7 @@ Giả sử:
 Ma trận embedding:
 
 $$
-E \in \mathbb{R}^{V \times d}
+E \in $\mathbb${R}^{V \times d}
 $$
 
 Số tham số của embedding:
@@ -44,13 +44,25 @@ $$
 Nếu dùng word-level tokenization:
 
 $$
-V \approx 500,000
+
+$$
+
+V $\approx$ 500,000
+
+$$
+
 $$
 
 Nếu dùng BPE:
 
 $$
-V \approx 30,000 - 50,000
+
+$$
+
+V $\approx$ 30,000 - 50,000
+
+$$
+
 $$
 
 Giảm số tham số đáng kể:
@@ -71,13 +83,25 @@ $$
 Trong kiến trúc Transformer, chuỗi token được ánh xạ sang embedding:
 
 $$
+
+$$
+
 x_i = E(t_i)
+
+$$
+
 $$
 
 Sau đó được đưa vào cơ chế Attention:
 
 $$
-\text{Attention}(Q, K, V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V
+
+$$
+
+\text{Attention}(Q, K, V) = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} \right) V
+
+$$
+
 $$
 
 Việc sử dụng BPE giúp:
@@ -115,7 +139,7 @@ $$
 Thời gian huấn luyện phụ thuộc vào:
 
 $$
-\mathcal{O}(T \cdot L \cdot d^2)
+$\mathcal${O}(T \cdot L \cdot d^2)
 $$
 
 Trong đó:

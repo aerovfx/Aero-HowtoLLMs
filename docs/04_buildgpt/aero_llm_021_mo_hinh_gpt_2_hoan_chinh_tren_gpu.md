@@ -113,7 +113,13 @@ X_{out} = X + \text{Attention}(\text{LN}(X))
 $$
 
 $$
+
+$$
+
 Y = X_{out} + \text{MLP}(\text{LN}(X_{out}))
+
+$$
+
 $$
 
 Cấu trúc này giúp ổn định quá trình huấn luyện và hạn chế hiện tượng gradient biến mất 
@@ -170,7 +176,10 @@ Mỗi giá trị logit biểu diễn xác suất tiềm năng của token tiếp
 Mô hình sử dụng biến `device` để điều phối việc chạy trên GPU:
 
 ```python
+
+$$
 device = torch.device("cuda")
+$$
 
 Việc đảm bảo tất cả tensor và mô hình nằm trên cùng thiết bị là điều kiện bắt buộc để tránh lỗi thực thi 
 
@@ -187,7 +196,10 @@ Nguyên nhân xuất phát từ việc tensor tạo bằng `torch.arange` mặc 
 Giải pháp:
 
 ```python
+
+$$
 torch.arange(..., device=device)
+$$
 
 ---
 
@@ -212,7 +224,13 @@ Kết quả ban đầu cho thấy mô hình có khoảng:
 Do embedding và unembedding dùng chung trọng số, số tham số thực tế được điều chỉnh:
 
 $$
-163M - 38M \approx 124M
+
+$$
+
+163M - 38M $\approx$ 124M
+
+$$
+
 $$
 
 Do đó, mô hình có khoảng 124 triệu tham số huấn luyện thực sự 

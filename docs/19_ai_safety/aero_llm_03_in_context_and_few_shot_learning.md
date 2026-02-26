@@ -41,7 +41,13 @@ Tại sao một mô hình chỉ dựa vào tĩnh số học (frozen parameters) 
 Quá trình ICL thực chất là thao tác nhân ma trận Key ($K$) và Query ($Q$) để truy xuất Token được lặp lại trong Prompt. Attention Score được biểu thị là:
 
 $$
-A = \text{Softmax}\left( \frac{x W_Q W_K^T x^T}{\sqrt{d_k}} \right)
+
+$$
+
+A = \text{Softmax}$\le$ft( \frac{x W_Q W_K^T x^T}{\sqrt{d_k}} \right)
+
+$$
+
 $$
 
 ### 2.2 Đầu Cảm Ứng (Induction Heads)
@@ -50,7 +56,7 @@ Cơ chế cốt lõi chịu trách nhiệm cho in-context learning là "Inductio
 2. Sao chép đặc trưng của $[B]$ và di chuyển thông tin này tới vị trí $[A]$ hiện tại thông qua ma trận Value ($V$).
 
 $$
-\text{Output}_{\text{induction}} = \text{Softmax}\left( \frac{q W_Q W_K^T k^T}{\sqrt{d}} \right) v W_V W_O
+\text{Output}_{\text{induction}} = \text{Softmax}$\le$ft( \frac{q W_Q W_K^T k^T}{\sqrt{d}} \right) v W_V W_O
 $$
 
 Thuật toán trên giải thích việc mô hình có thể giải các bài toán few-shot learning bằng cách ghi nhớ "quy luật tương ứng" từ các ví dụ $shot$ trước thay vì hiểu logic chiều sâu.

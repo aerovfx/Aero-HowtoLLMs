@@ -30,9 +30,15 @@ f_\theta : X \rightarrow Y
 
 Mục tiêu là tìm tham số \theta tối ưu:
 
-\theta^* = \arg\min_\theta \mathbb{E}_{(x,y)\sim D}
-\left[
-\mathcal{L}$f_\theta(x$, y)
+$$
+\theta^{\ast} = \arg\min_\theta $\mathbb${E}_{(x,y)\sim D}
+$$
+
+$$
+$\le$ft[
+$$
+
+$\mathcal${L}$f_\theta(x$, y)
 \right]
 
 Đánh giá định lượng nhằm ước lượng kỳ vọng này thông qua tập kiểm tra hữu hạn.
@@ -48,8 +54,12 @@ Với tập test gồm n mẫu:
 \hat{R}$\theta$
 =
 \frac{1}{n}
-\sum_{i=1}^{n}
-\mathcal{L}$f_\theta(x_i$, y_i)
+
+$$
+$\sum$_{i=1}^{n}
+$$
+
+$\mathcal${L}$f_\theta(x_i$, y_i)
 
 Theo luật số lớn:
 
@@ -57,7 +67,7 @@ Theo luật số lớn:
 \quad
 \text{khi}
 \quad
-n \rightarrow \infty
+n \rightarrow $\infty$
 
 ⸻
 
@@ -75,15 +85,15 @@ Nhược điểm: mất cân bằng lớp (class imbalance).
 
 $b$ Cross-Entropy
 
-\mathcal{L}_{CE}
+$\mathcal${L}_{CE}
 =
-- \sum_{i=1}^{n}
-y_i \log$\hat{y}_i$
+- $\sum$_{i=1}^{n}
+y_i $\log$$\hat{y}_i$
 
 Liên hệ với entropy của Shannon:
 
 H$p$ =
-- \sum p$x$\log p$x$
+- $\sum$ p$x$\log p$x$
 
 ⸻
 
@@ -92,9 +102,16 @@ $c$ BLEU Score (dịch máy)
 BLEU =
 BP \cdot
 \exp
-\left(
-\sum_{n=1}^{N}
-w_n \log p_n
+
+$$
+$\le$ft(
+$$
+
+$$
+$\sum$_{n=1}^{N}
+$$
+
+w_n $\log$ p_n
 \right)
 
 Trong đó:
@@ -107,11 +124,11 @@ $d$ ROUGE Score (tóm tắt văn bản)
 
 ROUGE-N =
 \frac{
-\sum_{gram_n \in Reference}
+$\sum$_{gram_n \in Reference}
 Count_{match}
 }
 {
-\sum_{gram_n \in Reference}
+$\sum$_{gram_n \in Reference}
 Count
 }
 
@@ -154,7 +171,9 @@ D_{train} \neq D_{test}
 
 thì:
 
-\hat{R}_{test} \not\approx R_{real}
+$$
+\hat{R}_{test} \not$\approx$ R_{real}
+$$
 
 ⸻
 
@@ -162,7 +181,10 @@ thì:
 
 Giả sử có k mô hình thử nghiệm:
 
-\max_{1 \le i \le k}
+$$
+\max_{1 $\le$ i $\le$ k}
+$$
+
 \hat{R}_i
 
 Khi k lớn, xác suất chọn mô hình overfit vào test tăng theo bất đẳng thức Hoeffding.
@@ -211,8 +233,12 @@ Nếu \rho thấp → chỉ số tự động không phản ánh đúng chất l
 
 Sai số tổng quát:
 
-\mathbb{E}
-\left[
+$\mathbb${E}
+
+$$
+$\le$ft[
+$$
+
 $y - \hat{f}(x$)^2
 \right]
 =
@@ -257,7 +283,11 @@ Do contamination dữ liệu huấn luyện.
 
 CV =
 \frac{1}{k}
-\sum_{i=1}^{k}
+
+$$
+$\sum$_{i=1}^{k}
+$$
+
 \hat{R}_i
 
 ⸻
@@ -268,8 +298,12 @@ Lấy mẫu lại:
 
 \hat{R}^{$b$} =
 \frac{1}{n}
-\sum_{i=1}^{n}
-\mathcal{L}$f_\theta(x_i^{(b$}), y_i^{$b$})
+
+$$
+$\sum$_{i=1}^{n}
+$$
+
+$\mathcal${L}$f_\theta(x_i^{(b$}), y_i^{$b$})
 
 ⸻
 
@@ -306,7 +340,11 @@ Nhưng cũng tồn tại:
 Đánh giá định lượng là công cụ thiết yếu nhưng không toàn diện. Về bản chất, nó là ước lượng thống kê của rủi ro tổng quát hóa:
 
 \hat{R}$\theta$
-\approx
+
+$$
+$\approx$
+$$
+
 R$\theta$
 
 Để đánh giá AI một cách đáng tin cậy, cần:

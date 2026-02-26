@@ -36,22 +36,40 @@ Khung toán học của RSA trải qua 3 bước cốt lõi:
 
 ### 2.1 Ma trận Khoảng Cách / Tương Quan Cục Bộ (Similarity Matrices)
 
-Cho ma trận nhúng $E_1 \in \mathbb{R}^{N \times D_1}$ từ mô hình 1 (Ví dụ Word2Vec kích thước $D_1 = 300$) và $E_2 \in \mathbb{R}^{N \times D_2}$ từ mô hình 2 (GPT, kích thước $D_2 = 768$), với $N$ là số lượng token ngôn ngữ chung giữa hai mô hình (phải đồng nhất thứ tự token).
+Cho ma trận nhúng $E_1 \in $\mathbb${R}^{N \times D_1}$ từ mô hình 1 (Ví dụ Word2Vec kích thước $D_1 = 300$) và $E_2 \in $\mathbb${R}^{N \times D_2}$ từ mô hình 2 (GPT, kích thước $D_2 = 768$), với $N$ là số lượng token ngôn ngữ chung giữa hai mô hình (phải đồng nhất thứ tự token).
 
 Bước đầu tiên, RSA tính toán các Ma trận Tương quan nội bộ (viết tắt là Representational Similarity Matrix - RSM) cho từng không gian chiều:
 
 $$
+
+$$
+
 S_1 = \text{CosineSimilarity}(E_1)
+
 $$
 
 $$
+
+$$
+
+$$
+
 S_2 = \text{CosineSimilarity}(E_2)
+
+$$
+
 $$
 
 Trong đó, mỗi phần tử $S(i, j)$ được cho bằng công thức nội tích ma trận Gram đã chuẩn hóa:
 
 $$
+
+$$
+
 S(i,j) = \frac{e_i \cdot e_j}{\|e_i\| \|e_j\|}
+
+$$
+
 $$
 
 Kết quả thu được là 2 ma trận vuông đối xứng kích thước $N \times N$, độc lập hoàn toàn với chiều không gian ban đầu $D_1$ hay $D_2$.
@@ -61,11 +79,23 @@ Kết quả thu được là 2 ma trận vuông đối xứng kích thước $N 
 Vì các ma trận $S_1$ và $S_2$ là đối xứng qua đường chéo $S(i,j) = S(j,i)$, và các giá trị trên đường chéo luôn bằng 1 ($S(i,i) = 1$), việc tính toán trên toàn bộ ma trận sẽ dẫn đến hiện tượng bơm phồng tương quan (inflation artifact). Do đó, ta chỉ trích xuất các thành phần không bị trùng lặp ở nửa trên tam giác (upper triangular part):
 
 $$
+
+$$
+
 \vec{v}_1 = \{ S_1(i, j) \mid i \lt  j \}
+
 $$
 
 $$
+
+$$
+
+$$
+
 \vec{v}_2 = \{ S_2(i, j) \mid i \lt  j \}
+
+$$
+
 $$
 
 Số lượng các phần tử duy nhất sau khi bung ra là $\frac{N(N-1)}{2}$.
@@ -75,7 +105,7 @@ Số lượng các phần tử duy nhất sau khi bung ra là $\frac{N(N-1)}{2}$
 Bước cuối cùng là áp dụng hệ số Tương quan bình phương Pearson (hoặc Spearman rank correlation) giữa hai vector $\vec{v}_1$ và $\vec{v}_2$:
 
 $$
-\rho = \frac{\sum (\vec{v}_1 - \mu_{\vec{v}_1})(\vec{v}_2 - \mu_{\vec{v}_2})}{\sigma_{\vec{v}_1} \sigma_{\vec{v}_2}}
+\rho = \frac{$\sum$ (\vec{v}_1 - \mu_{\vec{v}_1})(\vec{v}_2 - \mu_{\vec{v}_2})}{\sigma_{\vec{v}_1} \sigma_{\vec{v}_2}}
 $$
 
 Nếu $\rho$ tiến sát tới 1, ta kết luận rằng bất chấp việc được huấn luyện ở những nguồn dữ liệu khác nhau với số lượng lớp nơ-ron khác nhau, hai mô hình này sử dụng cùng một cấu trúc hình học tương quan để bảo toàn ngữ nghĩa từ vựng.
@@ -84,7 +114,7 @@ Nếu $\rho$ tiến sát tới 1, ta kết luận rằng bất chấp việc đ�
 
 ## 3. Ứng Dụng Khai Thác Độ Dư Thừa Của Neural Network
 
-Trong tài liệu đính kèm, RSA được khai thác ở một biến thể thú vị: thay vì so sánh hai mô hình độc lập, ta so sánh nội bộ hai ma trận chia cắt từ một cụm nhúng đơn điệu. Bằng cách tách một ma trận 300 chiều thành hai khối 150 chiều D-chẵn (Even dimensions) và D-lẻ (Odd dimensions), chúng ta thu được sự tương đồng mã hóa $\rho \approx 0.8$. Sự lệch pha còn lại ($\sim 20\%$) tạo nên một lượng thông tin không đối xứng (Unique internal coding) bên cạnh phần dư thừa đặc trưng.
+Trong tài liệu đính kèm, RSA được khai thác ở một biến thể thú vị: thay vì so sánh hai mô hình độc lập, ta so sánh nội bộ hai ma trận chia cắt từ một cụm nhúng đơn điệu. Bằng cách tách một ma trận 300 chiều thành hai khối 150 chiều D-chẵn (Even dimensions) và D-lẻ (Odd dimensions), chúng ta thu được sự tương đồng mã hóa $\rho $\approx$ 0.8$. Sự lệch pha còn lại ($\sim 20\%$) tạo nên một lượng thông tin không đối xứng (Unique internal coding) bên cạnh phần dư thừa đặc trưng.
 
 Việc đánh giá sự tương quan dư thừa (representational redundancy) giúp tối ưu bài toán nén và cắt bớt mô hình (Model Pruning) nhằm tăng tốc quá trình suy luận mà không giảm hiệu suất diễn giải của hệ thống trí tuệ.
 

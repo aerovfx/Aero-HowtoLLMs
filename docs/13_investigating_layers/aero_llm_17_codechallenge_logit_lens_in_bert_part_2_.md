@@ -32,13 +32,19 @@ Nghiên cứu này thiết lập **Bản nguyên tắc chuẩn** để soi Logit
 ## 2. Phương Pháp Chỉnh Vị (Methodology Corrections)
 
 ### 2.1. Phép Sai Lầm Phân Chiếu Vô Hướng (The Incorrect Dot-Product Approach)
-Sử dụng tầng ẩn áp chót (Layer 22/24), nếu ta trích bóc thô lỗ đoạn mã trọng số `model.predictions.decoder.weight` ra để nhân ma trận, token được dự giải mã trả về kết quả ảo giác (Hallucination) dưới dạng "hash", "wives" và Z-score chìm thảm bại xuống đáy rãnh ($Z \approx 3$). Nguyên nhân đến từ việc dòng vector kia đã lọt sổ khâu bù trừ phi tuyến Gelu và LayerNorm, làm méo mó các vector khoảng cách (Distance alignment).
+Sử dụng tầng ẩn áp chót (Layer 22/24), nếu ta trích bóc thô lỗ đoạn mã trọng số `model.predictions.decoder.weight` ra để nhân ma trận, token được dự giải mã trả về kết quả ảo giác (Hallucination) dưới dạng "hash", "wives" và Z-score chìm thảm bại xuống đáy rãnh ($Z $\approx$ 3$). Nguyên nhân đến từ việc dòng vector kia đã lọt sổ khâu bù trừ phi tuyến Gelu và LayerNorm, làm méo mó các vector khoảng cách (Distance alignment).
 
 ### 2.2. Phép Đúng Đắn: Đẩy Qua Tổng Mô-Đun Đầu Bảng (Full-Module Forwarding)
 Công thức Logits Lens chân thực của mô hình BERT bắt buộc phải đẩy vector ẩn $L_i$ đi qua toàn bộ khối module kiến trúc cuối cùng thay vì tự thực hiện phép nhân nháp:
 
 $$
+
+$$
+
 \text{Logits}_{L_i} = \text{model.predictions}(\text{Hidden\_States}_{L_i})
+
+$$
+
 $$
 
 Khi thao tác đúng, kết quả lập tức đồng bộ. Ở Layer 22, phương pháp đẩy Module cho ra Z-score khổng lồ lên tới $\approx 25$ đến $30\ \sigma$, và từ đoán giải mã xuất hiện chính xác đáng kinh ngạc. 

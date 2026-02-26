@@ -43,7 +43,7 @@ Mỗi loại bài toán đòi hỏi một thước đo sai số khác nhau:
 
 ### 2.2. Entropy chéo (Cross-Entropy)
 - **Ứng dụng:** Dùng cho dự đoán phân loại nhị phân hoặc đa lớp (ví dụ: xác suất mắc bệnh).
-- **Công thức:** $L = -(y \log(\hat{y}) + (1-y) \log(1-\hat{y}))$
+- **Công thức:** $L = -(y $\log$(\hat{y}) + (1-y) $\log$(1-\hat{y}))$
 - **Đặc điểm:** Phạt nặng những dự đoán sai với độ tự tin cao. Dấu âm giúp chuyển đổi các giá trị logarit âm thành một giá trị mất mát dương dễ diễn giải.
 
 ---
@@ -55,7 +55,13 @@ Một sự nhầm lẫn phổ biến là coi Loss và Cost là một, nhưng ch�
 - **Cost (Chi phí - $J$):** Là **trung bình cộng** của tất cả các giá trị Loss trên toàn bộ tập dữ liệu (hoặc một lô dữ liệu - batch).
 
 $$
-J(w) = \frac{1}{N} \sum_{i=1}^{N} L_i
+
+$$
+
+J(w) = \frac{1}{N} $\sum$_{i=1}^{N} L_i
+
+$$
+
 $$
 
 Việc tối ưu hóa dựa trên Cost giúp mô hình có cái nhìn tổng quát về toàn bộ dữ liệu, tránh hiện tượng quá khớp (overfitting) nếu chỉ nhìn vào từng mẫu riêng lẻ.

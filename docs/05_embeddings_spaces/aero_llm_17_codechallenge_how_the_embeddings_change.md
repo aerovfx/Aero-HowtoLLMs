@@ -24,9 +24,9 @@ Biểu diễn từ (word embeddings) là nền tảng của các mô hình xử 
 
 1. Giới thiệu
 
-Embeddings ánh xạ mỗi từ w thành một vector trong không gian \mathbb{R}^d:
+Embeddings ánh xạ mỗi từ w thành một vector trong không gian $\mathbb${R}^d:
 
-E: w \rightarrow \mathbf{v}_w \in \mathbb{R}^d
+E: w \rightarrow \mathbf{v}_w \in $\mathbb${R}^d
 
 Mục tiêu của huấn luyện là điều chỉnh các vector này sao cho:
 	•	Các từ có ngữ nghĩa tương tự nằm gần nhau
@@ -34,7 +34,9 @@ Mục tiêu của huấn luyện là điều chỉnh các vector này sao cho:
 
 Ví dụ nổi tiếng:
 
-\mathbf{v}_{king} - \mathbf{v}_{man} + \mathbf{v}_{woman} \approx \mathbf{v}_{queen}
+$$
+\mathbf{v}_{king} - \mathbf{v}_{man} + \mathbf{v}_{woman} $\approx$ \mathbf{v}_{queen}
+$$
 
 ⸻
 
@@ -44,15 +46,17 @@ Ví dụ nổi tiếng:
 
 Trong Word2Vec (Mikolov et al., 2013), mục tiêu là tối đa hóa xác suất từ ngữ cảnh c xuất hiện quanh từ trung tâm w:
 
-\max \prod_{(w,c)\in D} P(c|w)
+\max $\prod$_{(w,c)\in D} P(c|w)
 
 Với softmax:
 
-P(c|w) = \frac{\exp$\mathbf{v}_c^\top \mathbf{v}_w$}{\sum_{c'} \exp(\mathbf{v}_{c'}^\top \mathbf{v}_w)}
+P(c|w) = \frac{\exp$\mathbf{v}_c^\top \mathbf{v}_w$}{$\sum$_{c'} \exp(\mathbf{v}_{c'}^\top \mathbf{v}_w)}
 
 Hàm mất mát:
 
-\mathcal{L} = - \sum_{(w,c)} \log P(c|w)
+$$
+$\mathcal${L} = - $\sum$_{(w,c)} $\log$ P(c \mid w)
+$$
 
 ⸻
 
@@ -60,12 +64,17 @@ Hàm mất mát:
 
 Gradient theo vector trung tâm:
 
-\frac{\partial \mathcal{L}}{\partial \mathbf{v}_w}
-= \sum_{c'} P(c'|w)\mathbf{v}_{c'} - \mathbf{v}_c
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{v}_w}
+
+$$
+= $\sum$_{c'} P(c' \mid w)\mathbf{v}_{c'} - \mathbf{v}_c
+$$
 
 Cập nhật:
 
-\mathbf{v}_w^{$t+1$} = \mathbf{v}_w^{$t$} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{v}_w}
+$$
+\mathbf{v}_w^{$t+1$} = \mathbf{v}_w^{$t$} - \eta \frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{v}_w}
+$$
 
 Trong đó \eta là learning rate.
 
@@ -90,11 +99,15 @@ Khi huấn luyện:
 
 Giả sử tại bước t:
 
-\Delta \mathbf{v} = -\eta \nabla \mathcal{L}
+$$
+\Delta \mathbf{v} = -\eta $\nabla$ $\mathcal${L}
+$$
 
 Vector dịch chuyển theo hướng giảm loss. Tổng quát:
 
-\mathbf{v}^{$T$} = \mathbf{v}^{(0)} - \eta \sum_{t=0}^{T-1} \nabla \mathcal{L}^{$t$}
+$$
+\mathbf{v}^{$T$} = \mathbf{v}^{(0)} - \eta $\sum$_{t=0}^{T-1} $\nabla$ $\mathcal${L}^{$t$}
+$$
 
 Điều này cho thấy embedding cuối cùng là tích lũy của toàn bộ lịch sử gradient.
 
@@ -109,7 +122,11 @@ Trong kiến trúc Transformer (Vaswani et al., 2017), embedding được cộng
 Self-attention:
 
 Attention(Q,K,V) =
-\text{softmax}\left(
+
+$$
+\text{softmax}$\le$ft(
+$$
+
 \frac{QK^\top}{\sqrt{d_k}}
 \right)V
 
@@ -130,7 +147,7 @@ Dựa trên bài Code Challenge:
 
 Điều kiện hội tụ:
 
-||\nabla \mathcal{L}|| \rightarrow 0
+||$\nabla$ $\mathcal${L}|| \rightarrow 0
 
 ⸻
 
@@ -138,7 +155,9 @@ Dựa trên bài Code Challenge:
 
 Thêm L2 regularization:
 
-\mathcal{L}_{reg} = \mathcal{L} + \lambda ||\mathbf{v}||^2
+$$
+$\mathcal${L}_{reg} = $\mathcal${L} + \lambda ||\mathbf{v}||^2
+$$
 
 Giúp tránh:
 	•	Vector phình to vô hạn
@@ -150,7 +169,7 @@ Giúp tránh:
 
 Sai số kỳ vọng:
 
-\mathbb{E}[$y - \hat{f}(x$)^2]
+$\mathbb${E}[$y - \hat{f}(x$)^2]
 =
 Bias^2 + Variance + \sigma^2
 

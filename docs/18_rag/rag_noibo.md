@@ -101,7 +101,11 @@ Mỗi chunk gắn:
 #### Phase 1: Retrieve
 
 ```python
+
+$$
 top_k = 20
+$$
+
 filter = {year:2024, project:"X"}
 
 #### Phase 2: Rerank (Cross-Encoder)
@@ -144,7 +148,10 @@ User hỏi:
 
 Hệ thống xử lý:
 
+$$
 1️⃣ Filter: year=2024, project=X
+$$
+
 2️⃣ Retrieve: 20 chunk
 3️⃣ Rerank: top 5
 4️⃣ LLM tổng hợp

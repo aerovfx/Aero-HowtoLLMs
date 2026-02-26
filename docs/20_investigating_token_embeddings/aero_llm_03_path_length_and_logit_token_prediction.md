@@ -33,7 +33,13 @@ Giả thuyết đặt ra: Ở các trạm biến áp cuối cùng trước khi r
 Giả định Vector trích xuất của token ở mốc Layer $L_i$ là $x$ và ở Layer $L_{i+1}$ kế tiếp là $y$. Khoảng cách tịnh tiến Path Length là hiệu số độ dài Norm của chúng:
 
 $$
-\text{Path Length} = \|y - x\| = \sqrt{\sum (y_i - x_i)^2}
+
+$$
+
+\text{Path Length} = \|y - x\| = \sqrt{$\sum$ (y_i - x_i)^2}
+
+$$
+
 $$
 
 Trong code diễn dịch, tham số này được khởi chạy qua phép trừ trực tiếp Tensor và tính toán chuẩn Normalize 2 (`torch.norm`).
@@ -51,7 +57,7 @@ Bản đồ phân tán lũy kế hiển thị một sự gia tăng tuyến tính
 ### 3.2. Điểm Mù Của Sự Sao Chép Tương Quan (The Replication Nuance)
 Mô hình GPT-2 Small ném ra một kết quả tương quan nghịch (Negative Correlation) tuyệt đẹp: Path Length ở chặng $11 \to 12$ càng xấp xỉ 0 thì Logits của chữ được phát ngôn ra càng mang trọng lượng lớn. Nghĩa vụ lý luận rất rõ: Nếu mô hình không cần phải xê dịch nhiều ở khúc chót, nó cực kỳ tự tin vào đáp án của mình.
 Mặc dù vậy, hệ quy chiếu này gãy vỡ phũ phàng khi quét qua 3 bản thể cao cấp hơn (Medium, Large, XL):
-- Biểu đồ phân tán (Scatter Plot) nát ra thành các cụm nhiễu, Correlation bốc hơi ($r \approx 0$).
+- Biểu đồ phân tán (Scatter Plot) nát ra thành các cụm nhiễu, Correlation bốc hơi ($r $\approx$ 0$).
 - Dù vậy, nó không chối bỏ hoàn toàn sự hữu ích của giả thuyết Path Length. Ở những ma trận đa tầng với sức chứa lớn như XL, "sự tự tin" không chỉ thể hiện qua một vector phẳng, mà có thể do các cơ chế song song (Parallel Head Operations) đong đếm và khỏa lấp nhiễu lệch đi nhau. 
 
 ---

@@ -40,7 +40,13 @@ $$
 Federated learning cho phép huấn luyện mô hình trên nhiều thiết bị hoặc máy chủ phi tập trung:
 
 $$
-\theta_{global} = \sum_{k=1}^{K} w_k \cdot \theta_k
+
+$$
+
+\theta_{global} = $\sum$_{k=1}^{K} w_k \cdot \theta_k
+
+$$
+
 $$
 
 **Lợi ích:**
@@ -142,7 +148,7 @@ Triển khai mô hình trên thiết bị edge:
 ### 5.1 Scaling Laws
 
 $$
-\text{Performance} \propto N^\alpha \cdot D^\beta \cdot C^\gamma
+\text{Performance} $\propto$ N^\alpha \cdot D^\beta \cdot C^\gamma
 $$
 
 Trong đó:

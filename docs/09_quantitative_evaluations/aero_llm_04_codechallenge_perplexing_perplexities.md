@@ -38,16 +38,24 @@ Xác suất toàn chuỗi:
 
 P(w_1^T)
 =
-\prod_{t=1}^{T}
+
+$$
+$\prod$_{t=1}^{T}
+$$
+
 P(w_t | w_1^{t-1})
 
 Log-likelihood trung bình:
 
-\ell
+$\ell$
 =
 \frac{1}{T}
-\sum_{t=1}^{T}
-\log P(w_t | w_1^{t-1})
+
+$$
+$\sum$_{t=1}^{T}
+$$
+
+$\log$ P(w_t | w_1^{t-1})
 
 ⸻
 
@@ -58,7 +66,7 @@ Entropy:
 H$p$
 =
 -
-\sum_x
+$\sum$_x
 p$x$\log p$x$
 
 Cross-entropy thực nghiệm:
@@ -67,8 +75,12 @@ Cross-entropy thực nghiệm:
 =
 -
 \frac{1}{T}
-\sum_{t=1}^{T}
-\log P(w_t | context)
+
+$$
+$\sum$_{t=1}^{T}
+$$
+
+$\log$ P(w_t | context)
 
 ⸻
 
@@ -79,16 +91,26 @@ PP
 \exp$\hat{H}$
 =
 \exp
-\left(
+
+$$
+$\le$ft(
+$$
+
 -
 \frac{1}{T}
-\sum_{t=1}^{T}
-\log P(w_t | context)
+
+$$
+$\sum$_{t=1}^{T}
+$$
+
+$\log$ P(w_t | context)
 \right)
 
 Hoặc:
 
-PP = e^{-\ell}
+$$
+PP = e^{-$\ell$}
+$$
 
 ⸻
 
@@ -119,8 +141,12 @@ Vì:
 
 PP =
 \exp
-\left(
-\frac{\mathcal{L}}{T}
+
+$$
+$\le$ft(
+$$
+
+\frac{$\mathcal${L}}{T}
 \right)
 
 Nếu T thay đổi → PP thay đổi.
@@ -193,7 +219,9 @@ PP
 
 Tối thiểu khi:
 
+$$
 q = p
+$$
 
 ⸻
 
@@ -205,13 +233,17 @@ Trường hợp 1: Dự đoán đều
 
 Nếu:
 
-P$w$ = \frac{1}{V}
+$P(w)$ = \frac{1}{V}
 
 Thì:
 
-H = \log V
+$$
+H = $\log$ V
+$$
 
+$$
 PP = V
+$$
 
 → Perplexity bằng kích thước từ vựng.
 
@@ -221,7 +253,7 @@ Trường hợp 2: Dự đoán hoàn hảo
 
 Nếu:
 
-P$w_t$ = 1
+$P(w_t)$ = 1
 
 H = 0
 
@@ -233,11 +265,11 @@ Trường hợp 3: Sai hoàn toàn
 
 Nếu:
 
-P$w_t$ \rightarrow 0
+$P(w_t)$ \rightarrow 0
 
-H \rightarrow \infty
+H \rightarrow $\infty$
 
-PP \rightarrow \infty
+PP \rightarrow $\infty$
 
 ⸻
 
@@ -245,28 +277,34 @@ PP \rightarrow \infty
 
 Trong mô hình neural:
 
+$$
 z_t = W h_t
+$$
 
 P(w_t | context)
 =
 \frac{\exp$z_{t,w}$}
-{\sum_j \exp$z_{t,j}$}
+{$\sum$_j \exp$z_{t,j}$}
 
 Cross-entropy loss:
 
-\mathcal{L}
+$\mathcal${L}
 =
 -
-\sum_t
-\log P$w_t$
+$\sum$_t
+$\log$ $P(w_t)$
 
 Perplexity:
 
 PP
 =
 \exp
-\left(
-\frac{\mathcal{L}}{T}
+
+$$
+$\le$ft(
+$$
+
+\frac{$\mathcal${L}}{T}
 \right)
 
 ⸻
@@ -312,7 +350,9 @@ Khi một chỉ số trở thành mục tiêu tối ưu, nó có thể mất đi
 
 Perplexity là:
 
+$$
 PP = e^{H}
+$$
 
 Một thước đo chặt chẽ dựa trên lý thuyết thông tin.
 

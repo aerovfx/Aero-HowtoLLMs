@@ -70,13 +70,21 @@ Token IDs → [nn.Embedding] → Dense Vectors → [Transformer Blocks]
 
 **nn.Embedding:**
 ```python
+
+$$
 e = nn.Embedding(num_embeddings=5000, embedding_dim=70)
+$$
+
 # Cú pháp: (vocab_size, embed_dim)
 # Thứ tự: INPUT → OUTPUT
 
 **nn.Linear:**
 ```python
+
+$$
 l = nn.Linear(in_features=70, out_features=5000)
+$$
+
 # Cú pháp: (embed_dim, vocab_size)
 # Thứ tự: INPUT → OUTPUT (nhưng đảo ngược so với Embedding)
 
@@ -144,7 +152,10 @@ len(dir(l))  # > 100 attributes
 **Cách 1: Implicit indexing**
 ```python
 # Lấy embedding vector cho token index 14
+
+$$
 vector = e(torch.tensor([14]))  # Shape: [1, 70]
+$$
 
 **Đặc điểm:**
 - Cú pháp đơn giản, trực quan
@@ -155,21 +166,37 @@ vector = e(torch.tensor([14]))  # Shape: [1, 70]
 
 **Cách 1: Direct weight access (FAILS)**
 ```python
+
+$$
 vector = l(14)  # TypeError: forward() missing required argument
+$$
+
 **Lý do:** `nn.Linear` không support direct integer indexing.
 
 **Cách 2: Manual weight indexing (WORKS)**
 ```python
+
+$$
 vector = l.weight[14]  # Shape: [70]
+$$
 
 **Cách 3: One-hot encoding emulation (MATHEMATICALLY EQUIVALENT)**
 ```python
 # Tạo one-hot vector
+
+$$
 one_hot = torch.zeros(5000)
+$$
+
+$$
 one_hot[14] = 1.0
+$$
 
 # Matrix multiplication
+
+$$
 vector = one_hot @ l.weight  # Shape: [70]
+$$
 
 **Giải thích toán học:**
 
@@ -200,7 +227,11 @@ Trong đó:
 
 **nn.Embedding (Normal Distribution):**
 ```python
+
+$$
 e = nn.Embedding(5000, 70)
+$$
+
 # Default: Normal(μ=0, σ=1)
 
 **Đặc điểm phân phối:**
@@ -211,7 +242,11 @@ e = nn.Embedding(5000, 70)
 
 **nn.Linear (Uniform Distribution):**
 ```python
+
+$$
 l = nn.Linear(70, 5000)
+$$
+
 # Default: Uniform(-k, k) where k = sqrt(1/in_features)
 
 **Đặc điểm phân phối:**
@@ -263,7 +298,10 @@ $$
 **Expected Statistics:**
 ```python
 import math
+
+$$
 k = math.sqrt(1/70)  # k ≈ 0.1195
+$$
 
 # Uniform distribution [-k, k]
 # Expected mean: 0
@@ -288,11 +326,22 @@ print(f"Actual std: {l.weight.std():.4f}")
 class Embedding(Module):
     def __init__(self, num_embeddings, embedding_dim, ...):
         super(Embedding, self).__init__()
-        self.num_embeddings = num_embeddings
-        self.embedding_dim = embedding_dim
+
+$$
+self.num_embeddings = num_embeddings
+$$
+
+$$
+self.embedding_dim = embedding_dim
+$$
+
         
         # KEY LINE: Creates weight matrix
-        self.weight = Parameter(
+
+$$
+self.weight = Parameter(
+$$
+
             torch.empty((num_embeddings, embedding_dim))
         )
         self.reset_parameters()
@@ -302,18 +351,37 @@ class Embedding(Module):
 **Trích xuất từ PyTorch source:**
 ```python
 class Linear(Module):
-    def __init__(self, in_features, out_features, bias=True):
+
+$$
+def __init__(self, in_features, out_features, bias=True):
+$$
+
         super(Linear, self).__init__()
-        self.in_features = in_features
-        self.out_features = out_features
+
+$$
+self.in_features = in_features
+$$
+
+$$
+self.out_features = out_features
+$$
+
         
         # KEY LINE: Creates weight matrix
-        self.weight = Parameter(
+
+$$
+self.weight = Parameter(
+$$
+
             torch.empty((out_features, in_features))
         )
         
         if bias:
-            self.bias = Parameter(torch.empty(out_features))
+
+$$
+self.bias = Parameter(torch.empty(out_features))
+$$
+
         else:
             self.register_parameter('bias', None)
 
@@ -347,33 +415,57 @@ def embedding_forward(input_ids, weight):
     # input_ids: [batch_size] hoặc [batch_size, seq_len]
     # weight: [vocab_size, embed_dim]
     
-    output = weight[input_ids]  # Advanced indexing
+$$
+output = weight[input_ids]  # Advanced indexing
+$$
+
     return output
 
 **Ví dụ:**
 ```python
+
+$$
 input_ids = torch.tensor([14, 27, 103])  # 3 tokens
+$$
+
+$$
 output = e(input_ids)  # Shape: [3, 70]
+$$
+
 # Equivalent to: weight[[14, 27, 103], :]
 
 #### 5.1.2 nn.Linear Forward (for unembedding)
 
 **Pseudocode:**
 ```python
+
+$$
 def linear_forward(input, weight, bias=None):
+$$
+
     # input: [batch_size, in_features]
     # weight: [out_features, in_features]
     # output: [batch_size, out_features]
     
-    output = input @ weight.T  # Matrix multiply with transpose
+$$
+output = input @ weight.T  # Matrix multiply with transpose
+$$
+
     if bias is not None:
         output += bias
     return output
 
 **Ví dụ:**
 ```python
+
+$$
 hidden = torch.randn(3, 70)  # 3 samples, 70 dims
+$$
+
+$$
 logits = l(hidden)  # Shape: [3, 5000]
+$$
+
 # Equivalent to: hidden @ l.weight.T + l.bias
 
 ### 5.2 Mathematical Operations
@@ -383,11 +475,20 @@ logits = l(hidden)  # Shape: [3, 5000]
 **Embedding operation có thể được viết lại:**
 ```python
 # Standard embedding
+
+$$
 output = e(torch.tensor([14]))
+$$
 
 # Equivalent one-hot multiplication
+
+$$
 one_hot = F.one_hot(torch.tensor([14]), num_classes=5000).float()
+$$
+
+$$
 output_equiv = one_hot @ e.weight
+$$
 
 assert torch.allclose(output, output_equiv)
 
@@ -427,15 +528,29 @@ Linear:       Dense Vector → Logits over Vocab
 **nn.Embedding:**
 ```python
 # Batch lookup: Very efficient
+
+$$
 input_ids = torch.randint(0, 5000, (32, 512))  # [batch, seq]
+$$
+
+$$
 output = e(input_ids)  # [32, 512, 70]
+$$
+
 # Operation: Simple indexing, O(batch × seq)
 
 **nn.Linear:**
 ```python
 # Batch matrix multiplication
+
+$$
 hidden = torch.randn(32, 512, 70)  # [batch, seq, hidden]
+$$
+
+$$
 logits = l(hidden)  # [32, 512, 5000]
+$$
+
 # Operation: GEMM, O(batch × seq × hidden × vocab)
 
 **Performance consideration:**
@@ -454,7 +569,11 @@ logits = l(hidden)  # [32, 512, 5000]
 **Embedding-specific:**
 ```python
 # Sparse gradients: Only update accessed embeddings
+
+$$
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+$$
+
 # Only rows corresponding to input tokens get gradient updates
 
 **Linear:**
@@ -477,8 +596,14 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
 **Ví dụ:**
 ```python
+
+$$
 token_embedding = nn.Embedding(vocab_size, hidden_dim, padding_idx=0)
+$$
+
+$$
 position_embedding = nn.Embedding(max_seq_len, hidden_dim)
+$$
 
 ### 7.2 Khi Nào Dùng nn.Linear
 
@@ -491,9 +616,18 @@ position_embedding = nn.Embedding(max_seq_len, hidden_dim)
 
 **Ví dụ:**
 ```python
+
+$$
 unembedding = nn.Linear(hidden_dim, vocab_size, bias=False)
+$$
+
+$$
 ffn = nn.Linear(hidden_dim, ffn_dim)
+$$
+
+$$
 query_proj = nn.Linear(hidden_dim, head_dim)
+$$
 
 ### 7.3 Weight Tying (Liên kết Trọng Số)
 
@@ -502,11 +636,21 @@ query_proj = nn.Linear(hidden_dim, head_dim)
 class TransformerLM(nn.Module):
     def __init__(self, vocab_size, hidden_dim):
         super().__init__()
-        self.embedding = nn.Embedding(vocab_size, hidden_dim)
-        self.unembedding = nn.Linear(hidden_dim, vocab_size, bias=False)
+
+$$
+self.embedding = nn.Embedding(vocab_size, hidden_dim)
+$$
+
+$$
+self.unembedding = nn.Linear(hidden_dim, vocab_size, bias=False)
+$$
+
         
         # WEIGHT TYING: Share weights
-        self.unembedding.weight = self.embedding.weight
+
+$$
+self.unembedding.weight = self.embedding.weight
+$$
 
 **Lợi ích:**
 - Giảm 50% số parameters
@@ -525,12 +669,24 @@ class TransformerLM(nn.Module):
 **Problem:**
 ```python
 # WRONG
+
+$$
 e = nn.Embedding(70, 5000)  # Swapped!
+$$
+
+$$
 l = nn.Linear(5000, 70)      # Swapped!
+$$
 
 # CORRECT
+
+$$
 e = nn.Embedding(5000, 70)   # (vocab, embed)
+$$
+
+$$
 l = nn.Linear(70, 5000)      # (in, out)
+$$
 
 **Solution:** Always double-check parameter order and verify với `.weight.shape`.
 
@@ -538,24 +694,46 @@ l = nn.Linear(70, 5000)      # (in, out)
 
 **Problem:**
 ```python
+
+$$
 l = nn.Linear(70, 5000)
+$$
+
+$$
 vector = l(14)  # TypeError!
+$$
 
 **Solution:**
 ```python
 # Option 1: Direct weight access
+
+$$
 vector = l.weight[14]
+$$
 
 # Option 2: Use as intended
+
+$$
 hidden = torch.randn(1, 70)
+$$
+
+$$
 logits = l(hidden)
+$$
 
 ### 8.3 Initialization Mismatch
 
 **Problem:**
 ```python
+
+$$
 e = nn.Embedding(5000, 70)  # Normal distribution
+$$
+
+$$
 l = nn.Linear(70, 5000)     # Uniform distribution
+$$
+
 # Different initializations may cause training issues
 
 **Solution:**
@@ -640,25 +818,50 @@ PyTorch (và các frameworks khác) cung cấp multiple interfaces cho cùng m�
 import torch
 import torch.nn as nn
 
+$$
 vocab_size = 5000
-embed_dim = 70
+$$
 
+$$
+embed_dim = 70
+$$
+
+$$
 e = nn.Embedding(vocab_size, embed_dim)
+$$
+
+$$
 l = nn.Linear(embed_dim, vocab_size)
+$$
 
 ### A.2 Equivalence Demonstration
 ```python
 # Method 1: Embedding
 idx = 14
+
+$$
 emb_output = e(torch.tensor([idx]))
+$$
 
 # Method 2: Linear with one-hot
+
+$$
 one_hot = torch.zeros(vocab_size)
+$$
+
+$$
 one_hot[idx] = 1.0
+$$
+
+$$
 lin_output = one_hot @ l.weight
+$$
 
 # Method 3: Direct indexing
+
+$$
 direct = l.weight[idx]
+$$
 
 # All should be equivalent (except shape)
 
@@ -667,13 +870,30 @@ direct = l.weight[idx]
 class TiedModel(nn.Module):
     def __init__(self, vocab_size, embed_dim):
         super().__init__()
-        self.embed = nn.Embedding(vocab_size, embed_dim)
-        self.linear = nn.Linear(embed_dim, vocab_size, bias=False)
-        self.linear.weight = self.embed.weight  # Tie weights
+
+$$
+self.embed = nn.Embedding(vocab_size, embed_dim)
+$$
+
+$$
+self.linear = nn.Linear(embed_dim, vocab_size, bias=False)
+$$
+
+$$
+self.linear.weight = self.embed.weight  # Tie weights
+$$
+
         
     def forward(self, input_ids):
-        embedded = self.embed(input_ids)
-        logits = self.linear(embedded)
+
+$$
+embedded = self.embed(input_ids)
+$$
+
+$$
+logits = self.linear(embedded)
+$$
+
         return logits
 
 ---

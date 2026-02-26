@@ -31,7 +31,7 @@ Mẫu phân tích không được để ngẫu nhiên. Chúng ta tiến hành m�
 2. Nhóm **Nội thất (Furniture):** *chair, sofa, couch, desk,...*
 3. Nhóm **Hoa Quả (Fruit):** *apple, banana, kiwi, peach,...*
 
-Hệ ma trận cục bộ (Sub-matrices) được tạo ra cho cả 2 phía sẽ là $M_{50D} \in \mathbb{R}^{20 \times 50}$ và $M_{300D} \in \mathbb{R}^{20 \times 300}$. Mặc dù hai ma trận này không có cùng một hệ giải tích cơ bản, tuy nhiên, ma trận Tương quan Cosine giữa 20 từ ghép cặp (tương tác tự thân) lại luôn luôn trả về chung một kích thước là $20 \times 20$. Đây chính là "Cây cầu nối RSA".
+Hệ ma trận cục bộ (Sub-matrices) được tạo ra cho cả 2 phía sẽ là $M_{50D} \in $\mathbb${R}^{20 \times 50}$ và $M_{300D} \in $\mathbb${R}^{20 \times 300}$. Mặc dù hai ma trận này không có cùng một hệ giải tích cơ bản, tuy nhiên, ma trận Tương quan Cosine giữa 20 từ ghép cặp (tương tác tự thân) lại luôn luôn trả về chung một kích thước là $20 \times 20$. Đây chính là "Cây cầu nối RSA".
 
 ---
 
@@ -63,7 +63,10 @@ Phương sai độ lệch vi phân của 50D cũng tản mác dữ dội hơn, t
 
 Sử dụng chuỗi hàm liên hợp:
 1. `t-SNE(perplexity=5...)` làm bứt gãy sự liên kế giả để hình thành hạt.
+
+$$
 2. `DBSCAN(epsilon=0.5, min_samples=2)` khóa hạt nhân vi mô tạo chuỗi liên hợp ranh giới.
+$$
 
 Ngạc nhiên thay, dù cho 300D có chỉ số kháng nhiễu CSI đỉnh cao hơn, nhưng thuật toán cấu trúc DBSCAN trên **cả 50D và 300D đều chia ra đúng 3 mảng cụm nội thất - không gian - trái cây giống hệt nhau.**
 Tùy vào hạt giống ngẫu nhiên (Random Initializations), đôi khi từ "*Kiwi*" lại bị văng khỏi mảng trái cây và rơi vào lõi Vũ trụ, hoặc chìm vào Độc lập phân lập (Ungrouped Outliers). Sự hỗn loạn nhẹ này chứng thực một chân lý: Các thuật toán t-SNE hoạt động dựa theo quy luật Láng giềng t-Student không quan tâm tới chuẩn khoảng cách xa tuyến tính, do đó không bị lung lay bởi kích thước đa chiều mà dựa vào sức mạnh quy hội cấu trúc cục bộ.

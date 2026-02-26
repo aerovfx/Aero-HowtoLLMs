@@ -43,7 +43,13 @@ Mục tiêu tối thượng của Mech Interp là **hiểu cách thức biểu d
 Khái niệm "Diễn giải" có thể được minh hoạ một cách trực quan qua mô hình Hồi quy Tuyến tính cơ bản. Giả sử ta dự đoán kiến thức về LLM của học sinh ($y$) dựa trên số giờ tự học ($x$):
 
 $$
+
+$$
+
 y = \beta_0 + \beta_1 x + \epsilon
+
+$$
+
 $$
 
 Trong phương trình siêu đơn giản này, ta hoàn toàn có thể "diễn giải cơ chế" của nó:

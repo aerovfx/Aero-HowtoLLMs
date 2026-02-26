@@ -71,7 +71,13 @@ To mitigate these issues, modern architectures employ:
 Let a neuron output be defined as:
 
 $$
-y = \sum_{i=1}^{n} w_i x_i
+
+$$
+
+y = $\sum$_{i=1}^{n} w_i x_i
+
+$$
+
 $$
 
 Assuming inputs $x_i$ and weights $w_i$ are independent random variables with zero mean, the variance of $y$ is:
@@ -89,7 +95,13 @@ During backpropagation, gradients are multiplied by weight matrices. If weight v
 Proper initialization ensures that:
 
 $$
-\mathbb{E}[|\nabla L|] \approx \text{constant}
+
+$$
+
+$\mathbb${E}[|$\nabla$ L|] $\approx$ \text{constant}
+
+$$
+
 $$
 
 across layers.
@@ -103,7 +115,7 @@ across layers.
 Weights are sampled from:
 
 $$
-w \sim \mathcal{N}(0, \sigma^2)
+w \sim $\mathcal${N}(0, \sigma^2)
 $$
 
 If $\sigma$ is too large, numerical instability occurs. If too small, learning stagnates. The instructional material demonstrates that large variance leads to exploding activations .
@@ -150,7 +162,10 @@ init.normal_(layer.weight, mean=0.0, std=0.02)
 init.xavier_normal_(layer.weight)
 
 # Kaiming initialization
+
+$$
 init.kaiming_uniform_(layer.weight, nonlinearity='relu')
+$$
 
 These functions modify tensors in-place, as indicated by the underscore suffix.
 
@@ -177,7 +192,13 @@ Residual connections facilitate gradient flow and reduce sensitivity to initiali
 In Transformer attention:
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
+\text{Attention}(Q,K,V) = \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
 $$
 
 The scaling factor $\sqrt{d_k}$ prevents excessive variance.

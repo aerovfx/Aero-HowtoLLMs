@@ -30,7 +30,7 @@ Sau khi đã thu thập được ma trận hoạt hóa thô ở Phần 1, thách
 
 ### 2.1. Kiểm định T-test và Hiệu chỉnh Đa so sánh
 - **Phép thử:** Sử dụng `scipy.stats.ttest_1samp` trên giá trị hiệu số (difference scores) giữa hoạt hóa danh từ và động từ. Đây là cách tiếp cận tương đương với paired t-test nhằm cô lập biến số nơ-ron.
-- **Hiệu chỉnh Bonferroni:** Với 3072 nơ-ron được kiểm định đồng thời, ngưỡng ý nghĩa $\alpha = 0.05$ là quá lỏng lẻo. Ngưỡng mới được thiết lập là $\alpha_{adj} = 0.05 / 3072 \approx 1.6 \times 10^{-5}$ để kiểm soát tỷ lệ lỗi loại I.
+- **Hiệu chỉnh Bonferroni:** Với 3072 nơ-ron được kiểm định đồng thời, ngưỡng ý nghĩa $\alpha = 0.05$ là quá lỏng lẻo. Ngưỡng mới được thiết lập là $\alpha_{adj} = 0.05 / 3072 $\approx$ 1.6 \times 10^{-5}$ để kiểm soát tỷ lệ lỗi loại I.
 
 ### 2.2. Phân loại Nơ-ron
 - **T-value dương:** Nơ-ron kích hoạt mạnh hơn đáng kể cho Danh từ.

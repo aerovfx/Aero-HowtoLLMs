@@ -49,7 +49,13 @@ Các tài liệu lý thuyết và giảng dạy về Attention đóng vai trò q
 Thuật toán Scaled Dot-Product Attention được định nghĩa như sau:
 
 $$
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}} + M\right)V
+
+$$
+
+\text{Attention}(Q, K, V) = \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}} + M\right)V
+
+$$
+
 $$
 
 Trong đó:
@@ -69,7 +75,13 @@ Công thức này là nền tảng cho mọi biến thể Attention trong Transf
 Giả sử đầu vào là ma trận embedding $X$:
 
 $$
+
+$$
+
 Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+
+$$
+
 $$
 
 với ( W_Q, W_K, W_V ) là các tham số học được.
@@ -83,7 +95,13 @@ Các ma trận này được huấn luyện trong quá trình tối ưu và giú
 Trong mô hình sinh chuỗi, cần ngăn token nhìn thấy thông tin tương lai:
 
 $$
-M_{ij} = \begin{cases} 0, & j \le i \\ -\infty, & j > i \end{cases}
+
+$$
+
+M_{ij} = \begin{cases} 0, & j $\le$ i \\ -$\infty$, & j > i \end{cases}
+
+$$
+
 $$
 
 Mask này đảm bảo tính tự hồi quy và tránh rò rỉ thông tin.
@@ -138,7 +156,13 @@ Cơ chế này cho phép mô hình điều chỉnh trọng tâm linh hoạt theo
 Đầu ra được tính:
 
 $$
+
+$$
+
 O = AV
+
+$$
+
 $$
 
 Trong đó $A$ là ma trận Attention.
@@ -347,7 +371,10 @@ Algorithm: Multi-Head Attention
 
 Input:
     X ∈ R^(n × d_model)
-    h = number of heads
+
+$$
+h = number of heads
+$$
 
 Output:
     Y ∈ R^(n × d_model)
@@ -395,7 +422,10 @@ class ScaledDotProductAttention(nn.Module):
     def __init__(self):
         super().__init__()
 
-    def forward(self, Q, K, V, mask=None):
+$$
+def forward(self, Q, K, V, mask=None):
+$$
+
         """
         Args:
             Q: (batch, heads, seq_len, d_k)
@@ -408,23 +438,40 @@ class ScaledDotProductAttention(nn.Module):
             attention: (batch, heads, seq_len, seq_len)
         """
 
-        d_k = Q.size(-1)
+$$
+d_k = Q.size(-1)
+$$
 
         # 1. Similarity scores
-        scores = torch.matmul(Q, K.transpose(-2, -1))
+
+$$
+scores = torch.matmul(Q, K.transpose(-2, -1))
+$$
 
         # 2. Scaling
-        scores = scores / math.sqrt(d_k)
+
+$$
+scores = scores / math.sqrt(d_k)
+$$
 
         # 3. Masking (optional)
         if mask is not None:
-            scores = scores.masked_fill(mask == 0, -1e9)
+
+$$
+scores = scores.masked_fill(mask == 0, -1e9)
+$$
 
         # 4. Softmax
-        attention = F.softmax(scores, dim=-1)
+
+$$
+attention = F.softmax(scores, dim=-1)
+$$
 
         # 5. Weighted sum
-        output = torch.matmul(attention, V)
+
+$$
+output = torch.matmul(attention, V)
+$$
 
         return output, attention
 
@@ -442,29 +489,58 @@ class MultiHeadAttention(nn.Module):
     def __init__(self, d_model, num_heads):
         super().__init__()
 
-        assert d_model % num_heads == 0
+$$
+assert d_model % num_heads == 0
+$$
 
-        self.d_model = d_model
-        self.num_heads = num_heads
-        self.d_k = d_model // num_heads
+$$
+self.d_model = d_model
+$$
+
+$$
+self.num_heads = num_heads
+$$
+
+$$
+self.d_k = d_model // num_heads
+$$
 
         # Linear projections
-        self.W_Q = nn.Linear(d_model, d_model)
-        self.W_K = nn.Linear(d_model, d_model)
-        self.W_V = nn.Linear(d_model, d_model)
 
-        self.W_O = nn.Linear(d_model, d_model)
+$$
+self.W_Q = nn.Linear(d_model, d_model)
+$$
 
-        self.attention = ScaledDotProductAttention()
+$$
+self.W_K = nn.Linear(d_model, d_model)
+$$
+
+$$
+self.W_V = nn.Linear(d_model, d_model)
+$$
+
+$$
+self.W_O = nn.Linear(d_model, d_model)
+$$
+
+$$
+self.attention = ScaledDotProductAttention()
+$$
 
     def split_heads(self, x):
         """
         (batch, seq_len, d_model)
         → (batch, heads, seq_len, d_k)
         """
-        batch_size = x.size(0)
 
-        x = x.view(
+$$
+batch_size = x.size(0)
+$$
+
+$$
+x = x.view(
+$$
+
             batch_size,
             -1,
             self.num_heads,
@@ -479,9 +555,13 @@ class MultiHeadAttention(nn.Module):
         → (batch, seq_len, d_model)
         """
 
-        batch_size = x.size(0)
+$$
+batch_size = x.size(0)
+$$
 
-        x = x.transpose(1, 2)
+$$
+x = x.transpose(1, 2)
+$$
 
         return x.contiguous().view(
             batch_size,
@@ -489,7 +569,10 @@ class MultiHeadAttention(nn.Module):
             self.d_model
         )
 
-    def forward(self, X, mask=None):
+$$
+def forward(self, X, mask=None):
+$$
+
         """
         Args:
             X: (batch, seq_len, d_model)
@@ -497,23 +580,50 @@ class MultiHeadAttention(nn.Module):
         """
 
         # 1. Linear projections
-        Q = self.W_Q(X)
-        K = self.W_K(X)
-        V = self.W_V(X)
+
+$$
+Q = self.W_Q(X)
+$$
+
+$$
+K = self.W_K(X)
+$$
+
+$$
+V = self.W_V(X)
+$$
 
         # 2. Split heads
-        Q = self.split_heads(Q)
-        K = self.split_heads(K)
-        V = self.split_heads(V)
+
+$$
+Q = self.split_heads(Q)
+$$
+
+$$
+K = self.split_heads(K)
+$$
+
+$$
+V = self.split_heads(V)
+$$
 
         # 3. Attention
-        output, attention = self.attention(Q, K, V, mask)
+
+$$
+output, attention = self.attention(Q, K, V, mask)
+$$
 
         # 4. Combine heads
-        output = self.combine_heads(output)
+
+$$
+output = self.combine_heads(output)
+$$
 
         # 5. Final projection
-        output = self.W_O(output)
+
+$$
+output = self.W_O(output)
+$$
 
         return output, attention
 
@@ -529,7 +639,9 @@ def generate_causal_mask(seq_len, device):
     Create causal mask for decoder
     """
 
-    mask = torch.tril(torch.ones(seq_len, seq_len))
+$$
+mask = torch.tril(torch.ones(seq_len, seq_len))
+$$
 
     return mask.to(device)
 
@@ -538,8 +650,14 @@ def generate_causal_mask(seq_len, device):
 Sử dụng:
 
 ```python
+
+$$
 mask = generate_causal_mask(seq_len, X.device)
+$$
+
+$$
 mask = mask.unsqueeze(0).unsqueeze(1)
+$$
 
 ---
 
@@ -550,19 +668,41 @@ mask = mask.unsqueeze(0).unsqueeze(1)
 ```python
 def main():
 
-    batch_size = 2
-    seq_len = 10
-    d_model = 512
-    num_heads = 8
+$$
+batch_size = 2
+$$
 
-    X = torch.randn(batch_size, seq_len, d_model)
+$$
+seq_len = 10
+$$
 
-    mha = MultiHeadAttention(d_model, num_heads)
+$$
+d_model = 512
+$$
 
-    mask = generate_causal_mask(seq_len, X.device)
-    mask = mask.unsqueeze(0).unsqueeze(1)
+$$
+num_heads = 8
+$$
 
-    output, attention = mha(X, mask)
+$$
+X = torch.randn(batch_size, seq_len, d_model)
+$$
+
+$$
+mha = MultiHeadAttention(d_model, num_heads)
+$$
+
+$$
+mask = generate_causal_mask(seq_len, X.device)
+$$
+
+$$
+mask = mask.unsqueeze(0).unsqueeze(1)
+$$
+
+$$
+output, attention = mha(X, mask)
+$$
 
     print("Output shape:", output.shape)
     print("Attention shape:", attention.shape)
@@ -670,24 +810,56 @@ Trong hướng dẫn này, ta gộp vào một file để dễ chạy.
 class Config:
 
     # Data
-    data_path = "data.txt"
-    block_size = 128
+
+$$
+data_path = "data.txt"
+$$
+
+$$
+block_size = 128
+$$
 
     # Model
-    vocab_size = 5000
-    d_model = 256
-    num_heads = 8
-    num_layers = 4
+
+$$
+vocab_size = 5000
+$$
+
+$$
+d_model = 256
+$$
+
+$$
+num_heads = 8
+$$
+
+$$
+num_layers = 4
+$$
+
     dropout = 0.1
 
     # Training
-    batch_size = 32
+
+$$
+batch_size = 32
+$$
+
     lr = 3e-4
-    max_epochs = 10
-    eval_interval = 200
+
+$$
+max_epochs = 10
+$$
+
+$$
+eval_interval = 200
+$$
 
     # System
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+
+$$
+device = "cuda" if torch.cuda.is_available() else "cpu"
+$$
 
 ---
 
@@ -698,14 +870,20 @@ Dùng để demo nhanh, dễ tái lập.
 ```python
 class CharTokenizer:
 
-    def __init__(self, text, vocab_size=5000):
+$$
+def __init__(self, text, vocab_size=5000):
+$$
 
-        chars = sorted(list(set(text)))
+$$
+chars = sorted(list(set(text)))
+$$
 
         self.stoi = {c: i for i, c in enumerate(chars)}
         self.itos = {i: c for i, c in enumerate(chars)}
 
-        self.vocab_size = len(chars)
+$$
+self.vocab_size = len(chars)
+$$
 
     def encode(self, text):
         return [self.stoi[c] for c in text]
@@ -722,16 +900,26 @@ class TextDataset(torch.utils.data.Dataset):
 
     def __init__(self, data, block_size):
 
-        self.data = data
-        self.block_size = block_size
+$$
+self.data = data
+$$
+
+$$
+self.block_size = block_size
+$$
 
     def __len__(self):
         return len(self.data) - self.block_size
 
     def __getitem__(self, idx):
 
-        x = self.data[idx:idx + self.block_size]
-        y = self.data[idx + 1:idx + self.block_size + 1]
+$$
+x = self.data[idx:idx + self.block_size]
+$$
+
+$$
+y = self.data[idx + 1:idx + self.block_size + 1]
+$$
 
         return torch.tensor(x), torch.tensor(y)
 
@@ -749,7 +937,10 @@ class FeedForward(nn.Module):
     def __init__(self, d_model, dropout):
         super().__init__()
 
-        self.net = nn.Sequential(
+$$
+self.net = nn.Sequential(
+$$
+
             nn.Linear(d_model, 4 * d_model),
             nn.GELU(),
             nn.Linear(4 * d_model, d_model),
@@ -769,25 +960,52 @@ class DecoderBlock(nn.Module):
     def __init__(self, d_model, num_heads, dropout):
         super().__init__()
 
-        self.attn = nn.MultiheadAttention(
+$$
+self.attn = nn.MultiheadAttention(
+$$
+
             d_model,
             num_heads,
-            dropout=dropout,
-            batch_first=True
+
+$$
+dropout=dropout,
+$$
+
+$$
+batch_first=True
+$$
+
         )
 
-        self.ffn = FeedForward(d_model, dropout)
+$$
+self.ffn = FeedForward(d_model, dropout)
+$$
 
-        self.ln1 = nn.LayerNorm(d_model)
-        self.ln2 = nn.LayerNorm(d_model)
+$$
+self.ln1 = nn.LayerNorm(d_model)
+$$
+
+$$
+self.ln2 = nn.LayerNorm(d_model)
+$$
 
     def forward(self, x, mask):
 
-        attn_out, _ = self.attn(x, x, x, attn_mask=mask)
-        x = self.ln1(x + attn_out)
+$$
+attn_out, _ = self.attn(x, x, x, attn_mask=mask)
+$$
 
-        ffn_out = self.ffn(x)
-        x = self.ln2(x + ffn_out)
+$$
+x = self.ln1(x + attn_out)
+$$
+
+$$
+ffn_out = self.ffn(x)
+$$
+
+$$
+x = self.ln2(x + ffn_out)
+$$
 
         return x
 
@@ -801,17 +1019,26 @@ class MiniLLM(nn.Module):
     def __init__(self, config):
         super().__init__()
 
-        self.token_emb = nn.Embedding(
+$$
+self.token_emb = nn.Embedding(
+$$
+
             config.vocab_size,
             config.d_model
         )
 
-        self.pos_emb = nn.Embedding(
+$$
+self.pos_emb = nn.Embedding(
+$$
+
             config.block_size,
             config.d_model
         )
 
-        self.blocks = nn.ModuleList([
+$$
+self.blocks = nn.ModuleList([
+$$
+
             DecoderBlock(
                 config.d_model,
                 config.num_heads,
@@ -820,39 +1047,72 @@ class MiniLLM(nn.Module):
             for _ in range(config.num_layers)
         ])
 
-        self.ln_f = nn.LayerNorm(config.d_model)
+$$
+self.ln_f = nn.LayerNorm(config.d_model)
+$$
 
-        self.head = nn.Linear(
+$$
+self.head = nn.Linear(
+$$
+
             config.d_model,
             config.vocab_size,
-            bias=False
+
+$$
+bias=False
+$$
+
         )
 
-        self.block_size = config.block_size
+$$
+self.block_size = config.block_size
+$$
 
     def forward(self, idx):
 
-        B, T = idx.shape
+$$
+B, T = idx.shape
+$$
 
-        tok = self.token_emb(idx)
+$$
+tok = self.token_emb(idx)
+$$
 
-        pos = self.pos_emb(
-            torch.arange(T, device=idx.device)
+$$
+pos = self.pos_emb(
+$$
+
+$$
+torch.arange(T, device=idx.device)
+$$
+
         )
 
-        x = tok + pos
+$$
+x = tok + pos
+$$
 
-        mask = torch.triu(
+$$
+mask = torch.triu(
+$$
+
             torch.ones(T, T),
             diagonal=1
         ).bool().to(idx.device)
 
         for block in self.blocks:
-            x = block(x, mask)
 
-        x = self.ln_f(x)
+$$
+x = block(x, mask)
+$$
 
-        logits = self.head(x)
+$$
+x = self.ln_f(x)
+$$
+
+$$
+logits = self.head(x)
+$$
 
         return logits
 
@@ -867,12 +1127,21 @@ class MiniLLM(nn.Module):
 ```python
 def setup_optimizer(model, config):
 
-    optimizer = torch.optim.AdamW(
+$$
+optimizer = torch.optim.AdamW(
+$$
+
         model.parameters(),
-        lr=config.lr
+
+$$
+lr=config.lr
+$$
+
     )
 
-    loss_fn = nn.CrossEntropyLoss()
+$$
+loss_fn = nn.CrossEntropyLoss()
+$$
 
     return optimizer, loss_fn
 
@@ -891,12 +1160,22 @@ def estimate_loss(model, loader, loss_fn, device):
 
     for x, y in loader:
 
-        x = x.to(device)
-        y = y.to(device)
+$$
+x = x.to(device)
+$$
 
-        logits = model(x)
+$$
+y = y.to(device)
+$$
 
-        loss = loss_fn(
+$$
+logits = model(x)
+$$
+
+$$
+loss = loss_fn(
+$$
+
             logits.view(-1, logits.size(-1)),
             y.view(-1)
         )
@@ -915,7 +1194,10 @@ def estimate_loss(model, loader, loss_fn, device):
 ```python
 def train(model, train_loader, val_loader, config):
 
-    optimizer, loss_fn = setup_optimizer(
+$$
+optimizer, loss_fn = setup_optimizer(
+$$
+
         model, config
     )
 
@@ -927,12 +1209,22 @@ def train(model, train_loader, val_loader, config):
 
         for x, y in train_loader:
 
-            x = x.to(config.device)
-            y = y.to(config.device)
+$$
+x = x.to(config.device)
+$$
 
-            logits = model(x)
+$$
+y = y.to(config.device)
+$$
 
-            loss = loss_fn(
+$$
+logits = model(x)
+$$
+
+$$
+loss = loss_fn(
+$$
+
                 logits.view(-1, logits.size(-1)),
                 y.view(-1)
             )
@@ -941,9 +1233,14 @@ def train(model, train_loader, val_loader, config):
             loss.backward()
             optimizer.step()
 
-            if step % config.eval_interval == 0:
+$$
+if step % config.eval_interval == 0:
+$$
 
-                val_loss = estimate_loss(
+$$
+val_loss = estimate_loss(
+$$
+
                     model,
                     val_loader,
                     loss_fn,
@@ -970,43 +1267,84 @@ def main():
     import torch
     import torch.nn as nn
 
-    config = Config()
+$$
+config = Config()
+$$
 
     # Load data
     with open(config.data_path) as f:
-        text = f.read()
 
-    tokenizer = CharTokenizer(text)
+$$
+text = f.read()
+$$
 
-    data = tokenizer.encode(text)
+$$
+tokenizer = CharTokenizer(text)
+$$
 
-    split = int(0.9 * len(data))
+$$
+data = tokenizer.encode(text)
+$$
 
-    train_data = data[:split]
-    val_data = data[split:]
+$$
+split = int(0.9 * len(data))
+$$
 
-    train_ds = TextDataset(
+$$
+train_data = data[:split]
+$$
+
+$$
+val_data = data[split:]
+$$
+
+$$
+train_ds = TextDataset(
+$$
+
         train_data,
         config.block_size
     )
 
-    val_ds = TextDataset(
+$$
+val_ds = TextDataset(
+$$
+
         val_data,
         config.block_size
     )
 
-    train_loader = torch.utils.data.DataLoader(
+$$
+train_loader = torch.utils.data.DataLoader(
+$$
+
         train_ds,
-        batch_size=config.batch_size,
-        shuffle=True
+
+$$
+batch_size=config.batch_size,
+$$
+
+$$
+shuffle=True
+$$
+
     )
 
-    val_loader = torch.utils.data.DataLoader(
+$$
+val_loader = torch.utils.data.DataLoader(
+$$
+
         val_ds,
-        batch_size=config.batch_size
+
+$$
+batch_size=config.batch_size
+$$
+
     )
 
-    model = MiniLLM(config)
+$$
+model = MiniLLM(config)
+$$
 
     train(
         model,
@@ -1028,26 +1366,41 @@ def main():
 
 ```python
 @torch.no_grad()
+
+$$
 def generate(model, tokenizer, prompt, max_new=200):
+$$
 
     model.eval()
 
-    ids = torch.tensor(
+$$
+ids = torch.tensor(
+$$
+
         tokenizer.encode(prompt)
     ).unsqueeze(0)
 
     for _ in range(max_new):
 
-        logits = model(ids[:, -model.block_size:])
+$$
+logits = model(ids[:, -model.block_size:])
+$$
 
-        probs = torch.softmax(
+$$
+probs = torch.softmax(
+$$
+
             logits[:, -1],
             dim=-1
         )
 
-        next_id = torch.multinomial(probs, 1)
+$$
+next_id = torch.multinomial(probs, 1)
+$$
 
-        ids = torch.cat([ids, next_id], dim=1)
+$$
+ids = torch.cat([ids, next_id], dim=1)
+$$
 
     return tokenizer.decode(ids[0].tolist())
 
@@ -1056,7 +1409,11 @@ def generate(model, tokenizer, prompt, max_new=200):
 Sử dụng:
 
 ```python
+
+$$
 text = generate(model, tokenizer, "Hello")
+$$
+
 print(text)
 
 ---
@@ -1155,26 +1512,64 @@ Tổng params ≈ 90M – 110M.
 class Config:
 
     # Data
-    data_path = "data.txt"
-    block_size = 512
+
+$$
+data_path = "data.txt"
+$$
+
+$$
+block_size = 512
+$$
 
     # Model (100M scale)
-    vocab_size = 32000
-    d_model = 768
-    num_heads = 12
-    num_layers = 12
+
+$$
+vocab_size = 32000
+$$
+
+$$
+d_model = 768
+$$
+
+$$
+num_heads = 12
+$$
+
+$$
+num_layers = 12
+$$
+
     dropout = 0.1
 
     # Training
-    batch_size = 16        # giảm để fit VRAM
+
+$$
+batch_size = 16        # giảm để fit VRAM
+$$
+
     lr = 2e-4
-    max_epochs = 5
-    eval_interval = 500
+
+$$
+max_epochs = 5
+$$
+
+$$
+eval_interval = 500
+$$
 
     # Optimization
-    weight_decay = 0.01
-    grad_clip = 1.0
-    warmup_steps = 2000
+
+$$
+weight_decay = 0.01
+$$
+
+$$
+grad_clip = 1.0
+$$
+
+$$
+warmup_steps = 2000
+$$
 
     # System
     device = "cuda"
@@ -1193,17 +1588,35 @@ class DecoderBlock(nn.Module):
     def __init__(self, d_model, num_heads, dropout):
         super().__init__()
 
-        self.ln1 = nn.LayerNorm(d_model)
-        self.ln2 = nn.LayerNorm(d_model)
+$$
+self.ln1 = nn.LayerNorm(d_model)
+$$
 
-        self.attn = nn.MultiheadAttention(
+$$
+self.ln2 = nn.LayerNorm(d_model)
+$$
+
+$$
+self.attn = nn.MultiheadAttention(
+$$
+
             d_model,
             num_heads,
-            dropout=dropout,
-            batch_first=True
+
+$$
+dropout=dropout,
+$$
+
+$$
+batch_first=True
+$$
+
         )
 
-        self.ffn = nn.Sequential(
+$$
+self.ffn = nn.Sequential(
+$$
+
             nn.Linear(d_model, 4*d_model),
             nn.GELU(),
             nn.Linear(4*d_model, d_model),
@@ -1213,13 +1626,28 @@ class DecoderBlock(nn.Module):
     def forward(self, x, mask):
 
         # Pre-LN Attention
-        h = self.ln1(x)
-        attn_out, _ = self.attn(h, h, h, attn_mask=mask)
-        x = x + attn_out
+
+$$
+h = self.ln1(x)
+$$
+
+$$
+attn_out, _ = self.attn(h, h, h, attn_mask=mask)
+$$
+
+$$
+x = x + attn_out
+$$
 
         # Pre-LN FFN
-        h = self.ln2(x)
-        x = x + self.ffn(h)
+
+$$
+h = self.ln2(x)
+$$
+
+$$
+x = x + self.ffn(h)
+$$
 
         return x
 
@@ -1256,7 +1684,10 @@ spm_train \
 ### 📌 Thêm AMP
 
 ```python
+
+$$
 scaler = torch.cuda.amp.GradScaler()
+$$
 
 ---
 
@@ -1265,9 +1696,14 @@ scaler = torch.cuda.amp.GradScaler()
 ```python
 with torch.cuda.amp.autocast():
 
-    logits = model(x)
+$$
+logits = model(x)
+$$
 
-    loss = loss_fn(
+$$
+loss = loss_fn(
+$$
+
         logits.view(-1, logits.size(-1)),
         y.view(-1)
     )
@@ -1299,10 +1735,20 @@ LLM 100M mà không warmup → dễ diverge.
 ```python
 from transformers import get_cosine_schedule_with_warmup
 
+$$
 scheduler = get_cosine_schedule_with_warmup(
+$$
+
     optimizer,
-    num_warmup_steps=config.warmup_steps,
-    num_training_steps=total_steps
+
+$$
+num_warmup_steps=config.warmup_steps,
+$$
+
+$$
+num_training_steps=total_steps
+$$
+
 )
 
 ---
@@ -1325,18 +1771,26 @@ Giải pháp: accumulate gradient.
 ### 📌 Thêm vào Config
 
 ```python
+
+$$
 accum_steps = 4
+$$
 
 ---
 
 ### 📌 Training Loop
 
 ```python
+
+$$
 loss = loss / config.accum_steps
+$$
 
 scaler.scale(loss).backward()
 
+$$
 if step % config.accum_steps == 0:
+$$
 
     scaler.step(optimizer)
     scaler.update()
@@ -1367,7 +1821,10 @@ from torch.utils.checkpoint import checkpoint
 Trong forward:
 
 ```python
+
+$$
 x = checkpoint(block, x, mask)
+$$
 
 ---
 
@@ -1555,9 +2012,11 @@ Không dùng cache → mỗi token phải recompute toàn bộ attention.
 | Cách        | Complexity |
 | ----------- | ---------- |
 | Không cache | O(n²)      |
-| Có cache    | O$n$       |
+| Có cache    | $O(n)$       |
 
+$$
 → LLM không cache = chạy rất chậm.
+$$
 
 ---
 
@@ -1579,63 +2038,127 @@ class CachedAttention(nn.Module):
     def __init__(self, d_model, num_heads):
         super().__init__()
 
-        self.num_heads = num_heads
-        self.d_k = d_model // num_heads
+$$
+self.num_heads = num_heads
+$$
 
-        self.q_proj = nn.Linear(d_model, d_model)
-        self.k_proj = nn.Linear(d_model, d_model)
-        self.v_proj = nn.Linear(d_model, d_model)
-        self.out_proj = nn.Linear(d_model, d_model)
+$$
+self.d_k = d_model // num_heads
+$$
+
+$$
+self.q_proj = nn.Linear(d_model, d_model)
+$$
+
+$$
+self.k_proj = nn.Linear(d_model, d_model)
+$$
+
+$$
+self.v_proj = nn.Linear(d_model, d_model)
+$$
+
+$$
+self.out_proj = nn.Linear(d_model, d_model)
+$$
 
     def split(self, x):
-        B, T, C = x.shape
 
-        x = x.view(
+$$
+B, T, C = x.shape
+$$
+
+$$
+x = x.view(
+$$
+
             B, T, self.num_heads, self.d_k
         )
 
         return x.transpose(1, 2)
 
-    def forward(self, x, cache=None):
+$$
+def forward(self, x, cache=None):
+$$
 
         B, T, _ = x.shape
 
-        Q = self.split(self.q_proj(x))
-        K = self.split(self.k_proj(x))
-        V = self.split(self.v_proj(x))
+$$
+Q = self.split(self.q_proj(x))
+$$
+
+$$
+K = self.split(self.k_proj(x))
+$$
+
+$$
+V = self.split(self.v_proj(x))
+$$
 
         # Append cache
         if cache is not None:
 
-            K = torch.cat([cache["k"], K], dim=2)
-            V = torch.cat([cache["v"], V], dim=2)
+$$
+K = torch.cat([cache["k"], K], dim=2)
+$$
 
-        scores = torch.matmul(
+$$
+V = torch.cat([cache["v"], V], dim=2)
+$$
+
+$$
+scores = torch.matmul(
+$$
+
             Q, K.transpose(-2, -1)
         ) / math.sqrt(self.d_k)
 
-        mask = torch.tril(
+$$
+mask = torch.tril(
+$$
+
             torch.ones(
                 scores.size(-1),
                 scores.size(-1),
-                device=x.device
+
+$$
+device=x.device
+$$
+
             )
         )
 
-        scores = scores.masked_fill(
+$$
+scores = scores.masked_fill(
+$$
+
             mask == 0, -1e9
         )
 
-        attn = torch.softmax(scores, dim=-1)
+$$
+attn = torch.softmax(scores, dim=-1)
+$$
 
-        out = torch.matmul(attn, V)
+$$
+out = torch.matmul(attn, V)
+$$
 
-        out = out.transpose(1, 2).contiguous()
-        out = out.view(B, T, -1)
+$$
+out = out.transpose(1, 2).contiguous()
+$$
 
-        out = self.out_proj(out)
+$$
+out = out.view(B, T, -1)
+$$
 
-        new_cache = {
+$$
+out = self.out_proj(out)
+$$
+
+$$
+new_cache = {
+$$
+
             "k": K.detach(),
             "v": V.detach()
         }
@@ -1651,35 +2174,62 @@ class CachedAttention(nn.Module):
 ```python
 class InferenceBlock(nn.Module):
 
-    def __init__(self, d_model, heads, dropout=0):
+$$
+def __init__(self, d_model, heads, dropout=0):
+$$
+
         super().__init__()
 
-        self.ln1 = nn.LayerNorm(d_model)
-        self.ln2 = nn.LayerNorm(d_model)
+$$
+self.ln1 = nn.LayerNorm(d_model)
+$$
 
-        self.attn = CachedAttention(
+$$
+self.ln2 = nn.LayerNorm(d_model)
+$$
+
+$$
+self.attn = CachedAttention(
+$$
+
             d_model, heads
         )
 
-        self.ffn = nn.Sequential(
+$$
+self.ffn = nn.Sequential(
+$$
+
             nn.Linear(d_model, 4*d_model),
             nn.GELU(),
             nn.Linear(4*d_model, d_model)
         )
 
-    def forward(self, x, cache=None):
+$$
+def forward(self, x, cache=None):
+$$
 
-        h = self.ln1(x)
+$$
+h = self.ln1(x)
+$$
 
-        attn_out, new_cache = self.attn(
+$$
+attn_out, new_cache = self.attn(
+$$
+
             h, cache
         )
 
-        x = x + attn_out
+$$
+x = x + attn_out
+$$
 
-        h = self.ln2(x)
+$$
+h = self.ln2(x)
+$$
 
-        x = x + self.ffn(h)
+$$
+x = x + self.ffn(h)
+$$
 
         return x, new_cache
 
@@ -1693,17 +2243,26 @@ class InferenceLLM(nn.Module):
     def __init__(self, config):
         super().__init__()
 
-        self.token_emb = nn.Embedding(
+$$
+self.token_emb = nn.Embedding(
+$$
+
             config.vocab_size,
             config.d_model
         )
 
-        self.pos_emb = nn.Embedding(
+$$
+self.pos_emb = nn.Embedding(
+$$
+
             config.block_size,
             config.d_model
         )
 
-        self.blocks = nn.ModuleList([
+$$
+self.blocks = nn.ModuleList([
+$$
+
             InferenceBlock(
                 config.d_model,
                 config.num_heads
@@ -1711,42 +2270,77 @@ class InferenceLLM(nn.Module):
             for _ in range(config.num_layers)
         ])
 
-        self.ln_f = nn.LayerNorm(config.d_model)
+$$
+self.ln_f = nn.LayerNorm(config.d_model)
+$$
 
-        self.head = nn.Linear(
+$$
+self.head = nn.Linear(
+$$
+
             config.d_model,
             config.vocab_size,
-            bias=False
+
+$$
+bias=False
+$$
+
         )
 
-        self.block_size = config.block_size
+$$
+self.block_size = config.block_size
+$$
 
-    def forward(self, idx, caches=None):
+$$
+def forward(self, idx, caches=None):
+$$
 
-        B, T = idx.shape
+$$
+B, T = idx.shape
+$$
 
         if caches is None:
             caches = [None] * len(self.blocks)
 
-        tok = self.token_emb(idx)
+$$
+tok = self.token_emb(idx)
+$$
 
-        pos = self.pos_emb(
-            torch.arange(T, device=idx.device)
+$$
+pos = self.pos_emb(
+$$
+
+$$
+torch.arange(T, device=idx.device)
+$$
+
         )
 
-        x = tok + pos
+$$
+x = tok + pos
+$$
 
-        new_caches = []
+$$
+new_caches = []
+$$
 
         for block, cache in zip(
             self.blocks, caches
         ):
-            x, cache = block(x, cache)
+
+$$
+x, cache = block(x, cache)
+$$
+
             new_caches.append(cache)
 
-        x = self.ln_f(x)
+$$
+x = self.ln_f(x)
+$$
 
-        logits = self.head(x)
+$$
+logits = self.head(x)
+$$
 
         return logits, new_caches
 
@@ -1760,41 +2354,78 @@ class InferenceLLM(nn.Module):
 def sample_logits(
     logits,
     temperature=1.0,
-    top_k=50,
-    top_p=0.9
+
+$$
+top_k=50,
+$$
+
+$$
+top_p=0.9
+$$
+
 ):
 
-    logits = logits / temperature
+$$
+logits = logits / temperature
+$$
 
     # Top-k
     if top_k > 0:
-        v, _ = torch.topk(logits, top_k)
+
+$$
+v, _ = torch.topk(logits, top_k)
+$$
+
         logits[logits < v[:, [-1]]] = -1e9
 
     # Top-p
     if top_p < 1.0:
 
-        sorted_logits, sorted_idx = torch.sort(
-            logits, descending=True
+$$
+sorted_logits, sorted_idx = torch.sort(
+$$
+
+$$
+logits, descending=True
+$$
+
         )
 
-        probs = torch.softmax(
-            sorted_logits, dim=-1
+$$
+probs = torch.softmax(
+$$
+
+$$
+sorted_logits, dim=-1
+$$
+
         )
 
-        cum = torch.cumsum(probs, dim=-1)
+$$
+cum = torch.cumsum(probs, dim=-1)
+$$
 
-        mask = cum > top_p
+$$
+mask = cum > top_p
+$$
+
         mask[:, 1:] = mask[:, :-1]
         mask[:, 0] = False
 
-        sorted_logits[mask] = -1e9
+$$
+sorted_logits[mask] = -1e9
+$$
 
-        logits = torch.gather(
+$$
+logits = torch.gather(
+$$
+
             sorted_logits, 1, sorted_idx.argsort()
         )
 
-    probs = torch.softmax(logits, dim=-1)
+$$
+probs = torch.softmax(logits, dim=-1)
+$$
 
     return torch.multinomial(probs, 1)
 
@@ -1808,41 +2439,75 @@ def generate_stream(
     model,
     tokenizer,
     prompt,
-    max_new=200,
+
+$$
+max_new=200,
+$$
+
     temp=0.8,
-    top_k=40,
-    top_p=0.9
+
+$$
+top_k=40,
+$$
+
+$$
+top_p=0.9
+$$
+
 ):
 
     model.eval()
 
-    device = next(model.parameters()).device
+$$
+device = next(model.parameters()).device
+$$
 
-    ids = torch.tensor(
+$$
+ids = torch.tensor(
+$$
+
         tokenizer.encode(prompt),
-        device=device
+
+$$
+device=device
+$$
+
     ).unsqueeze(0)
 
-    caches = None
+$$
+caches = None
+$$
 
     for _ in range(max_new):
 
-        logits, caches = model(
+$$
+logits, caches = model(
+$$
+
             ids[:, -1:], caches
         )
 
-        next_logits = logits[:, -1]
+$$
+next_logits = logits[:, -1]
+$$
 
-        next_id = sample_logits(
+$$
+next_id = sample_logits(
+$$
+
             next_logits,
             temp,
             top_k,
             top_p
         )
 
-        ids = torch.cat([ids, next_id], dim=1)
+$$
+ids = torch.cat([ids, next_id], dim=1)
+$$
 
-        token = tokenizer.decode(
+$$
+token = tokenizer.decode(
+$$
 
 $$
 next_id.item()
@@ -1861,9 +2526,16 @@ for token in generate_stream(
     model,
     tokenizer,
     "Xin chào",
-    max_new=200
+
+$$
+max_new=200
+$$
+
 ):
-    print(token, end="", flush=True)
+
+$$
+print(token, end="", flush=True)
+$$
 
 👉 Xuất text realtime.
 
@@ -1877,39 +2549,64 @@ def batch_generate(
     model,
     tokenizer,
     prompts,
-    max_new=100
+
+$$
+max_new=100
+$$
+
 ):
 
-    device = next(model.parameters()).device
+$$
+device = next(model.parameters()).device
+$$
 
     encoded = [
         tokenizer.encode(p) for p in prompts
     ]
 
-    max_len = max(len(x) for x in encoded)
+$$
+max_len = max(len(x) for x in encoded)
+$$
 
     padded = [
         x + [0]*(max_len-len(x))
         for x in encoded
     ]
 
-    ids = torch.tensor(
-        padded, device=device
+$$
+ids = torch.tensor(
+$$
+
+$$
+padded, device=device
+$$
+
     )
 
-    caches = None
+$$
+caches = None
+$$
 
     for _ in range(max_new):
 
-        logits, caches = model(
+$$
+logits, caches = model(
+$$
+
             ids[:, -1:], caches
         )
 
-        next_id = torch.argmax(
+$$
+next_id = torch.argmax(
+$$
+
             logits[:, -1], dim=-1
         )
 
-        ids = torch.cat(
+$$
+ids = torch.cat(
+$$
+
             [ids, next_id.unsqueeze(1)],
             dim=1
         )
@@ -1941,7 +2638,10 @@ def batch_generate(
 ### Torch Compile
 
 ```python
+
+$$
 model = torch.compile(model)
+$$
 
 (PyTorch ≥ 2.0)
 
@@ -1952,7 +2652,10 @@ model = torch.compile(model)
 ### FP16 / BF16
 
 ```python
+
+$$
 model = model.half()
+$$
 
 Hoặc:
 
@@ -1977,7 +2680,9 @@ import bitsandbytes as bnb
 ```python
 from fastapi import FastAPI
 
+$$
 app = FastAPI()
+$$
 
 @app.post("/generate")
 def generate_api(prompt: str):
@@ -2125,16 +2830,31 @@ chat_backend/
 ```python
 class Config:
 
-    model_path = "mini_llm.pt"
+$$
+model_path = "mini_llm.pt"
+$$
 
-    max_context = 2048
-    max_new_tokens = 512
+$$
+max_context = 2048
+$$
+
+$$
+max_new_tokens = 512
+$$
 
     temperature = 0.8
-    top_k = 40
-    top_p = 0.9
 
-    max_sessions = 10000
+$$
+top_k = 40
+$$
+
+$$
+top_p = 0.9
+$$
+
+$$
+max_sessions = 10000
+$$
 
     device = "cuda"
 
@@ -2149,10 +2869,15 @@ class Config:
 ```python
 class ChatMemory:
 
-    def __init__(self, max_len=20):
+$$
+def __init__(self, max_len=20):
+$$
 
         self.store = {}
-        self.max_len = max_len
+
+$$
+self.max_len = max_len
+$$
 
     def get(self, session_id):
 
@@ -2161,7 +2886,10 @@ class ChatMemory:
     def add(self, session_id, role, content):
 
         if session_id not in self.store:
-            self.store[session_id] = []
+
+$$
+self.store[session_id] = []
+$$
 
         self.store[session_id].append({
             "role": role,
@@ -2196,7 +2924,10 @@ class PromptBuilder:
             else:
                 prompt += f"Assistant: {msg['content']}\n"
 
-        prompt += f"User: {user_input}\n"
+$$
+prompt += f"User: {user_input}\n"
+$$
+
         prompt += "Assistant:"
 
         return prompt
@@ -2216,9 +2947,17 @@ class ChatEngine:
 
     def __init__(self, model, tokenizer, config):
 
-        self.model = model
-        self.tokenizer = tokenizer
-        self.config = config
+$$
+self.model = model
+$$
+
+$$
+self.tokenizer = tokenizer
+$$
+
+$$
+self.config = config
+$$
 
     @torch.no_grad()
     def generate(self, prompt):
@@ -2227,10 +2966,23 @@ class ChatEngine:
             self.model,
             self.tokenizer,
             prompt,
-            max_new=self.config.max_new_tokens,
-            temp=self.config.temperature,
-            top_k=self.config.top_k,
-            top_p=self.config.top_p
+
+$$
+max_new=self.config.max_new_tokens,
+$$
+
+$$
+temp=self.config.temperature,
+$$
+
+$$
+top_k=self.config.top_k,
+$$
+
+$$
+top_p=self.config.top_p
+$$
+
         )
 
 ---
@@ -2246,11 +2998,21 @@ from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 import uuid
 
+$$
 app = FastAPI()
+$$
 
+$$
 memory = ChatMemory()
+$$
+
+$$
 builder = PromptBuilder()
+$$
+
+$$
 engine = None   # init in main()
+$$
 
 ---
 
@@ -2260,18 +3022,31 @@ engine = None   # init in main()
 @app.post("/chat")
 async def chat(request: dict):
 
-    session_id = request.get("session_id")
+$$
+session_id = request.get("session_id")
+$$
 
     if session_id is None:
-        session_id = str(uuid.uuid4())
 
-    user_msg = request["message"]
+$$
+session_id = str(uuid.uuid4())
+$$
 
-    history = memory.get(session_id)
+$$
+user_msg = request["message"]
+$$
 
-    prompt = builder.build(history, user_msg)
+$$
+history = memory.get(session_id)
+$$
 
-    generator = engine.generate(prompt)
+$$
+prompt = builder.build(history, user_msg)
+$$
+
+$$
+generator = engine.generate(prompt)
+$$
 
     def stream():
 
@@ -2288,8 +3063,15 @@ async def chat(request: dict):
 
     return StreamingResponse(
         stream(),
-        media_type="text/plain",
-        headers={"X-Session-ID": session_id}
+
+$$
+media_type="text/plain",
+$$
+
+$$
+headers={"X-Session-ID": session_id}
+$$
+
     )
 
 ---
@@ -2319,7 +3101,11 @@ Xin chào! Tôi có thể giúp gì cho bạn hôm nay...
 ---
 
 ```python
+
+$$
 API_KEYS = {
+$$
+
     "abc123": "user1",
     "xyz456": "user2"
 }
@@ -2331,7 +3117,10 @@ def verify_key(key):
 Trong endpoint:
 
 ```python
+
+$$
 key = request.headers.get("x-api-key")
+$$
 
 if not verify_key(key):
     raise HTTPException(401)
@@ -2347,7 +3136,9 @@ if not verify_key(key):
 ```python
 import asyncio
 
+$$
 request_queue = asyncio.Queue()
+$$
 
 ---
 
@@ -2358,7 +3149,9 @@ async def worker():
 
     while True:
 
-        task = await request_queue.get()
+$$
+task = await request_queue.get()
+$$
 
         await process(task)
 
@@ -2383,17 +3176,27 @@ async def websocket(ws: WebSocket):
 
     await ws.accept()
 
-    session_id = str(uuid.uuid4())
+$$
+session_id = str(uuid.uuid4())
+$$
 
     while True:
 
-        msg = await ws.receive_text()
+$$
+msg = await ws.receive_text()
+$$
 
-        history = memory.get(session_id)
+$$
+history = memory.get(session_id)
+$$
 
-        prompt = builder.build(history, msg)
+$$
+prompt = builder.build(history, msg)
+$$
 
-        gen = engine.generate(prompt)
+$$
+gen = engine.generate(prompt)
+$$
 
         answer = ""
 
@@ -2420,15 +3223,25 @@ def main():
 
     global engine
 
-    config = Config()
+$$
+config = Config()
+$$
 
-    model = load_model(config.model_path)
-    tokenizer = load_tokenizer()
+$$
+model = load_model(config.model_path)
+$$
+
+$$
+tokenizer = load_tokenizer()
+$$
 
     model.to(config.device)
     model.eval()
 
-    engine = ChatEngine(
+$$
+engine = ChatEngine(
+$$
+
         model,
         tokenizer,
         config

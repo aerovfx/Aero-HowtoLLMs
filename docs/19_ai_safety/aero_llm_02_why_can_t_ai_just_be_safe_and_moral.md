@@ -55,7 +55,13 @@ Mạng lưới neuron của mô hình lưu trữ kiến thức và hành vi qua 
 Trạng thái đầu ra của mô hình được biểu diễn dưới dạng bảo tồn qua ma trận trọng số:
 
 $$
-h_{out} = \text{LayerNorm}(h_{in} + \sum_{i=1}^{H} \text{Head}_i(h_{in}))
+
+$$
+
+h_{out} = \text{LayerNorm}(h_{in} + $\sum$_{i=1}^{H} \text{Head}_i(h_{in}))
+
+$$
+
 $$
 
 Nếu chúng ta có thể cô lập được ma trận $\text{Head}_i$ chuyên biệt quản lý các giá trị "từ chối phản hồi tiêu cực" (Refusal heads), ta có thể can thiệp trực tiếp để tăng cường vĩnh viễn tính năng an toàn này mà không phụ thuộc vào System Prompt.
@@ -64,7 +70,13 @@ Nếu chúng ta có thể cô lập được ma trận $\text{Head}_i$ chuyên b
 Bằng cách sử dụng ống kính Logit Lens, ta có thể đánh giá xác suất phân phối của mô hình trước khi token xuất ra thực sự:
 
 $$
+
+$$
+
 p(x | h_l) = \text{Softmax}(W_U h_l)
+
+$$
+
 $$
 
 Qua phương trình này, chúng ta đo lường sự chênh lệch phân phối (Kullback-Leibler divergence) giữa hành vi bình thường và hành vi vượt rào đạo đức, từ đó xây dựng trạm phản ứng nhanh (anomaly detection) ở lớp trung gian $l$.

@@ -49,7 +49,11 @@ Trong đó:
 
 ```python
 # Ví dụ few-shot cho tác vụ tóm tắt
+
+$$
 few_shot_examples = """
+$$
+
 summarize: The quick brown fox jumps over the lazy dog. The dog was not amused by the fox's antics.
 The fox jumped over the dog who was not happy.
 
@@ -67,7 +71,11 @@ Kết quả thu được:
 
 ```python
 # Ví dụ few-shot cho tác vụ dịch Anh - Tây Ban Nha
+
+$$
 translation_examples = """
+$$
+
 translate English to Spanish: Hello, how are you?
 Hola, ¿cómo estás?
 
@@ -91,7 +99,7 @@ translate English to Spanish: Cheese is delicious
 Hiệu quả của few-shot learning có thể được biểu diễn:
 
 $$
-P(y \mid x, \text{ví dụ}) = \frac{1}{Z} \sum_{i=1}^{n} w_i \cdot \text{sim}(x, x_i) \cdot P(y \mid x_i)
+P(y \mid x, \text{ví dụ}) = \frac{1}{Z} $\sum$_{i=1}^{n} w_i \cdot \text{sim}(x, x_i) \cdot P(y \mid x_i)
 $$
 
 Trong đó:
@@ -115,7 +123,11 @@ Kỹ thuật few-shot learning có thể áp dụng cho:
 
 ```python
 # Few-shot cho QA
+
+$$
 qa_examples = """
+$$
+
 Context: The Great Wall of China is over 13,000 miles long.
 Question: How long is the Great Wall of China?
 Answer: Over 13,000 miles.

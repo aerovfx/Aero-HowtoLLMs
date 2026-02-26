@@ -18,10 +18,14 @@
 
 Mô hình GPT-2 được công bố bởi nhóm nghiên cứu tại OpenAI (Radford et al., 2019) dưới sự dẫn dắt của Alec Radford. GPT-2 dựa trên kiến trúc Transformer decoder-only và được huấn luyện theo mục tiêu mô hình hóa ngôn ngữ tự hồi quy:
 
-P$x$ = \prod_{t=1}^{T} P$x_t \mid x_{\lt t}$
+$P(x)$ = $\prod$_{t=1}^{T} $P(x_t \mid x_{\lt t})$
 
 Trong đó:
-	•	x = (x_1, x_2, ..., x_T) là chuỗi token
+
+$$
+•	x = (x_1, x_2, ..., x_T) là chuỗi token
+$$
+
 	•	x_{<t} là các token trước thời điểm t
 
 Instruction tuning mở rộng cách tiếp cận này bằng cách huấn luyện mô hình trên dữ liệu gồm cặp (instruction, response), nhằm tối ưu khả năng tuân thủ yêu cầu người dùng.
@@ -40,22 +44,37 @@ GPT-2 Large có khoảng 1.5 tỷ tham số, với cấu hình điển hình:
 
 Trong mỗi tầng Transformer, attention được tính theo công thức:
 
-\text{Attention}(Q, K, V) = \text{softmax} \left$\frac{QK^T}{\sqrt{d_k}} \right$V
+$$
+\text{Attention}(Q, K, V) = \text{softmax} $\le$ft$\frac{QK^T}{\sqrt{d_k}} \right$V
+$$
 
 Trong đó:
-	•	Q = XW_Q
-	•	K = XW_K
-	•	V = XW_V
+
+$$
+•	Q = XW_Q
+$$
+
+$$
+•	K = XW_K
+$$
+
+$$
+•	V = XW_V
+$$
 
 Multi-head attention được định nghĩa:
 
+$$
 \text{MultiHead}(Q,K,V) = \text{Concat}(head_1,...,head_h)W_O
+$$
 
 2.2. Khối MLP
 
 Sau attention là tầng feed-forward:
 
+$$
 \text{MLP}$x$ = \text{GELU}(xW_1 + b_1)W_2 + b_2
+$$
 
 Việc mở rộng chiều không gian lên 4 \times d_{model} giúp tăng khả năng biểu diễn phi tuyến.
 
@@ -75,13 +94,17 @@ Giả sử:
 
 Tổng số token:
 
-N_Q = \sum_{i=1}^{n} Q_i
+$$
+N_Q = $\sum$_{i=1}^{n} Q_i
+$$
 
-N_A = \sum_{i=1}^{n} A_i
+$$
+N_A = $\sum$_{i=1}^{n} A_i
+$$
 
 Kết quả quan sát thực nghiệm cho thấy:
 
-\mathbb{E}[A_i] \gg \mathbb{E}[Q_i]
+$\mathbb${E}[A_i] \gg $\mathbb${E}[Q_i]
 
 Điều này dẫn đến mất cân bằng trong gradient khi tối ưu hóa.
 
@@ -91,7 +114,9 @@ Kết quả quan sát thực nghiệm cho thấy:
 
 Mục tiêu huấn luyện là tối thiểu hóa cross-entropy:
 
-\mathcal{L} = - \sum_{t=1}^{T} \log P_\theta $x_t \mid x_{\lt t}$
+$$
+$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P_\theta $x_t \mid x_{\lt t}$
+$$
 
 Trong instruction tuning, ta thường:
 	•	Nối instruction và response thành một chuỗi
@@ -100,7 +125,9 @@ Trong instruction tuning, ta thường:
 
 Khi đó:
 
-\mathcal{L}_{response} = - \sum_{t \in R} \log P_\theta $x_t \mid x_{\lt t}$
+$$
+$\mathcal${L}_{response} = - $\sum$_{t \in R} $\log$ P_\theta $x_t \mid x_{\lt t}$
+$$
 
 với R là tập token thuộc response.
 
@@ -122,7 +149,7 @@ Vì response dài hơn nhiều so với instruction:
 
 Nếu độ dài tối đa là T_{max}:
 
-|Q| + |A| \le T_{max}
+|Q| + |A| $\le$ T_{max}
 
 Với GPT-2:
 
@@ -140,7 +167,7 @@ Instruction tuning sau này (ví dụ InstructGPT) bổ sung:
 
 Hàm mục tiêu trong RLHF:
 
-\max_\theta \mathbb{E}_{x \sim \pi_\theta} [ r$x$ ]
+\max_\theta $\mathbb${E}_{x \sim \pi_\theta} [ r$x$ ]
 
 Trong đó r$x$ là reward model đánh giá chất lượng câu trả lời.
 
@@ -152,7 +179,9 @@ Trong đó r$x$ là reward model đánh giá chất lượng câu trả lời.
 
 Với 1.5B tham số:
 
-\text{Memory} \approx 6 - 12 \text{ GB (FP16)}
+$$
+\text{Memory} $\approx$ 6 - 12 \text{ GB (FP16)}
+$$
 
 Gradient accumulation thường được sử dụng:
 
@@ -166,7 +195,9 @@ Thông thường:
 
 Với warmup:
 
+$$
 \eta_t = \eta_{max} \cdot \frac{t}{T_{warmup}}
+$$
 
 ⸻
 
@@ -178,7 +209,7 @@ Instruction tuning cho GPT-2 Large cho thấy:
 	•	Masking loss là quyết định thiết kế quan trọng
 	•	Chi phí tính toán tăng theo:
 
-\mathcal{O}(L \cdot T^2 \cdot d_{model})
+$\mathcal${O}(L \cdot T^2 \cdot d_{model})
 
 Do self-attention có độ phức tạp bậc hai theo chiều dài chuỗi.
 

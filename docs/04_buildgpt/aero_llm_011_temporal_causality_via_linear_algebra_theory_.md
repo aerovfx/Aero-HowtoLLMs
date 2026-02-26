@@ -44,7 +44,13 @@ Mục tiêu của bài báo này là:
 Cơ chế attention tiêu chuẩn được định nghĩa:
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+
+$$
+
+\text{Attention}(Q,K,V) = \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d}}\right)V
+
+$$
+
 $$
 
 trong đó:
@@ -81,12 +87,18 @@ Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và
 Một cách trực quan, sự tích hợp thông tin quá khứ có thể biểu diễn bằng vector:
 
 $$
+
+$$
+
 a = (a_1, a_2, ..., a_T)
+
+$$
+
 $$
 
 với:
 
-- $a_i > 0$ nếu $i \leq t$,
+- $a_i > 0$ nếu $i $\le$q t$,
 - $a_i = 0$ nếu $i > t$.
 
 Tuy nhiên, vector này chưa được chuẩn hóa và không phù hợp cho tính toán số học ổn định.
@@ -100,7 +112,13 @@ Tuy nhiên, vector này chưa được chuẩn hóa và không phù hợp cho t�
 Softmax được định nghĩa:
 
 $$
-\text{softmax}(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}
+
+$$
+
+\text{softmax}(x_i) = \frac{e^{x_i}}{$\sum$_j e^{x_j}}
+
+$$
+
 $$
 
 Nếu một phần tử có giá trị bằng 0:
@@ -118,19 +136,37 @@ Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suấ
 Theo tài liệu tham khảo , để đảm bảo xác suất bằng 0, ta đặt:
 
 $$
-x_i = -\infty \quad \text{với } i > t
+
+$$
+
+x_i = -$\infty$ \quad \text{với } i > t
+
+$$
+
 $$
 
 vì:
 
 $$
-\lim_{x \to -\infty} e^x = 0
+
+$$
+
+\lim_{x \to -$\infty$} e^x = 0
+
+$$
+
 $$
 
 Do đó:
 
 $$
-\text{softmax}(-\infty) = 0
+
+$$
+
+\text{softmax}(-$\infty$) = 0
+
+$$
+
 $$
 
 Giải pháp này đảm bảo tương lai hoàn toàn bị loại bỏ.
@@ -155,13 +191,19 @@ Cách tiếp cận này mang lại:
 Thay vì vector riêng lẻ, causal attention được biểu diễn bằng ma trận:
 
 $$
-M \in \mathbb{R}^{T \times T}
+M \in $\mathbb${R}^{T \times T}
 $$
 
 với:
 
 $$
-M_{ij} = \begin{cases} 0 & \text{nếu } j \le i \\ -\infty & \text{nếu } j > i \end{cases}
+
+$$
+
+M_{ij} = \begin{cases} 0 & \text{nếu } j $\le$ i \\ -$\infty$ & \text{nếu } j > i \end{cases}
+
+$$
+
 $$
 
 Ma trận này có dạng tam giác dưới.
@@ -173,7 +215,13 @@ Ma trận này có dạng tam giác dưới.
 Công thức attention mở rộng:
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d}} + M \right)V
+
+$$
+
+\text{Attention}(Q,K,V) = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d}} + M \right)V
+
+$$
+
 $$
 
 Trong đó $M$ đóng vai trò loại bỏ tương tác với tương lai.
@@ -399,7 +447,7 @@ Phần này trình bày:
 
 **Output:**
 
-- Ma trận mask: $M \in \mathbb{R}^{T \times T}$
+- Ma trận mask: $M \in $\mathbb${R}^{T \times T}$
 
 ---
 
@@ -426,7 +474,11 @@ Algorithm 4: Generate-Causal-Mask$T$
 ### Giải thích
 
 * Phần tử ( M_{ij} = 0 ): cho phép attention,
-* Phần tử ( M_{ij} = -\infty ): chặn attention,
+
+$$
+* Phần tử ( M_{ij} = -$\infty$ ): chặn attention,
+$$
+
 * Dạng tam giác dưới đảm bảo tính nhân quả.
 
 ---
@@ -437,14 +489,14 @@ Algorithm 4: Generate-Causal-Mask$T$
 
 **Input:**
 
-* Query: ( Q \in \mathbb{R}^{T \times d} )
-* Key: ( K \in \mathbb{R}^{T \times d} )
-* Value: ( V \in \mathbb{R}^{T \times d} )
-* Mask: ( M \in \mathbb{R}^{T \times T} )
+* Query: ( Q \in $\mathbb${R}^{T \times d} )
+* Key: ( K \in $\mathbb${R}^{T \times d} )
+* Value: ( V \in $\mathbb${R}^{T \times d} )
+* Mask: ( M \in $\mathbb${R}^{T \times T} )
 
 **Output:**
 
-* Output: ( O \in \mathbb{R}^{T \times d} )
+* Output: ( O \in $\mathbb${R}^{T \times d} )
 
 ---
 
@@ -482,7 +534,11 @@ import torch
 ---
 
 ```python
+
+$$
 def generate_causal_mask(T, device=None):
+$$
+
     """
     Generate causal attention mask.
 
@@ -494,13 +550,19 @@ def generate_causal_mask(T, device=None):
         mask (Tensor): (T, T) boolean mask
     """
 
-    mask = torch.triu(
+$$
+mask = torch.triu(
+$$
+
         torch.ones(T, T),
         diagonal=1
     )
 
     if device is not None:
-        mask = mask.to(device)
+
+$$
+mask = mask.to(device)
+$$
 
     return mask.bool()
 
@@ -532,23 +594,36 @@ Trong thực tế, mask thường được biểu diễn bằng giá trị âm l
 ### B.5.1. Mask dạng Float
 
 ```python
+
+$$
 def generate_causal_logit_mask(T, device=None):
+$$
+
     """
     Generate causal mask with -inf values.
     """
 
-    mask = torch.triu(
+$$
+mask = torch.triu(
+$$
+
         torch.ones(T, T),
         diagonal=1
     )
 
-    mask = mask.masked_fill(
+$$
+mask = mask.masked_fill(
+$$
+
         mask == 1,
         float("-inf")
     )
 
     if device is not None:
-        mask = mask.to(device)
+
+$$
+mask = mask.to(device)
+$$
 
     return mask
 
@@ -559,7 +634,10 @@ def generate_causal_logit_mask(T, device=None):
 Dùng trực tiếp cho:
 
 ```python
+
+$$
 scores = scores + mask
+$$
 
 ---
 
@@ -575,23 +653,40 @@ class CausalAttention(torch.nn.Module):
     def __init__(self, d_model, num_heads):
         super().__init__()
 
-        self.attn = torch.nn.MultiheadAttention(
+$$
+self.attn = torch.nn.MultiheadAttention(
+$$
+
             d_model,
             num_heads,
-            batch_first=True
+
+$$
+batch_first=True
+$$
+
         )
 
     def forward(self, x):
 
         B, T, _ = x.shape
 
-        mask = generate_causal_mask(
+$$
+mask = generate_causal_mask(
+$$
+
             T, x.device
         )
 
-        out, weights = self.attn(
+$$
+out, weights = self.attn(
+$$
+
             x, x, x,
-            attn_mask=mask
+
+$$
+attn_mask=mask
+$$
+
         )
 
         return out, weights
@@ -600,8 +695,13 @@ class CausalAttention(torch.nn.Module):
 
 ### Lưu ý
 
+$$
 * `attn_mask=True` → bị chặn,
+$$
+
+$$
 * `attn_mask=False` → cho phép.
+$$
 
 ---
 
@@ -623,11 +723,20 @@ def generate_incremental_mask(
     Mask for KV-cache decoding.
     """
 
-    total = past_len + current_len
+$$
+total = past_len + current_len
+$$
 
-    mask = torch.triu(
+$$
+mask = torch.triu(
+$$
+
         torch.ones(current_len, total),
-        diagonal=1 + past_len
+
+$$
+diagonal=1 + past_len
+$$
+
     )
 
     return mask.bool().to(device)
@@ -659,11 +768,17 @@ def demo():
     D = 64
     H = 4
 
-    x = torch.randn(B, T, D)
+$$
+x = torch.randn(B, T, D)
+$$
 
-    attn = CausalAttention(D, H)
+$$
+attn = CausalAttention(D, H)
+$$
 
-    out, w = attn$x$
+$$
+out, w = attn$x$
+$$
 
     print("Output:", out.shape)
     print("Weights:", w.shape)

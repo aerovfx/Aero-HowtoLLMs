@@ -37,7 +37,13 @@ Người chơi sẽ sắm vai kẻ tấn công $Hacker / Red Teamer$, sử dụn
 Khi lên các level cao, AI được huấn luyện theo phương pháp chối từ (Refusal training). Chúng ta có thể diễn giải nó qua biểu diễn toán học theo Mechanistic Interpretability như sau:
 
 $$
-p(\text{password} | \text{context}) \approx 0
+
+$$
+
+p(\text{password} | \text{context}) $\approx$ 0
+
+$$
+
 $$
 
 Để vượt qua, kẻ tấn công sẽ áp dụng thiết kế Prompt Injection phức tạp. Thay vì ép mô hình tiết lộ trực tiếp, hacker sẽ thiết lập một ngữ cảnh hóa vai (role-playing) hoặc giải thuật để khiến xác suất $p(\text{password})$ sinh ra từ hậu cảnh (background distribution) tăng lên mạnh mẽ, ép các "Refusal heads" (các vùng chú ý dùng để từ chối) không được kích hoạt.

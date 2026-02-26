@@ -32,7 +32,7 @@ Dữ liệu đào tạo được đổi khẩu vị bằng cách không copy-pas
 ### 2.1. Kiến Trúc Thu Thập Ma Trận Đa Tầng (Multi-layer Hooks)
 Ta thiết lập một vòng lặp FOR khổng lồ quét qua toàn bộ Layer $L \in \{0 \dots n\}$.
 1. Thu nhận Dữ liệu thô (Input): Chọn ngẫu nhiên $10,240$ Tokens $\to$ Định dạng thành khối Tensor Kích thước `[10, 1024]`.
-2. Trích xuất Activations: Tại mỗi Layer $L$, móc Hook thu thập giá trị xuất ra từ cổng $MLP$ nội tại. Dữ liệu mảng Đầu tiên (Zero-th Token) thường chứa các hiện tượng khởi bào hỗn loạn cực đoan (Unusual Outliers) do cơ chế Context Loading, nên bắt buộc bị cắt bỏ (Slicing out token $[0]$).
+2. Trích xuất Activations: Tại mỗi Layer $L$, móc Hook thu thập giá trị xuất ra từ cổng $ML$P( nội tại. Dữ liệu mảng Đầu tiên (Zero-th Token) thường chứa các hiện tượng khởi bào hỗn loạn cực đoan (Unusual Outliers) do cơ chế Context Loading, nên bắt buộc bị cắt bỏ (Slicing out token )$[0]$).
 
 ### 2.2. Huấn Luyện Cục Bộ (Per-layer SAE Training)
 Tại duy nhất mỗi Tầng $L$:

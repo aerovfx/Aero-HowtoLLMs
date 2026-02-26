@@ -35,7 +35,13 @@ Nghiên cứu can thiệp tiến hành sửa đổi, thao túng cấu trúc giá
 Ví dụ: Thay thế activation $h_l$ bằng một giá trị cố định hoặc một vector nhiễu $\epsilon$:
 
 $$
+
+$$
+
 h'_l = h_l + \epsilon
+
+$$
+
 $$
 
 Việc theo dõi xem kết quả thay đổi này ảnh hưởng đến vector đầu ra (output behavior) thế nào tạo ra **bằng chứng nhân quả (Causal evidence)** nhằm khẳng định sự tham gia của node đó vào vi mạch tổng thể.

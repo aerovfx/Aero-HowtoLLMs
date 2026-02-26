@@ -37,7 +37,7 @@ $$
 \text{Threshold } (T) = \text{Median}(S_{\text{upper-triangular}}) + \sigma(S_{\text{upper-triangular}})
 $$
 
-Tất cả những điểm $S(i, j) < T$ hoàn toàn bị thay thế bằng mặt nạ nhị phân câm (Binary mask $= 0$). Chỉ những kết nối siêu cường ($S(i, j) \geq T$) được lộ diện trong mạng lý tưởng, chuyển hóa tập hợp vector rối rắm (Dense matrix) thành Cấu trúc thưa thớt logic (Sparse matrix). Đừng quên ép hàm đường chéo chính (Diagonal tự tương quan) bằng 0.
+Tất cả những điểm $S(i, j) < T$ hoàn toàn bị thay thế bằng mặt nạ nhị phân câm (Binary mask $= 0$). Chỉ những kết nối siêu cường ($S(i, j) $\ge$q T$) được lộ diện trong mạng lý tưởng, chuyển hóa tập hợp vector rối rắm (Dense matrix) thành Cấu trúc thưa thớt logic (Sparse matrix). Đừng quên ép hàm đường chéo chính (Diagonal tự tương quan) bằng 0.
 
 ---
 
@@ -52,23 +52,41 @@ $$
 \Delta \theta = \frac{2\pi}{N}
 $$
 
-Dải Vector Pha Góc (Phase Angles): $\theta \in \left[ 0, ~ 2\pi - \Delta \theta \right]$. *Tại sao lại kết thúc ở $2\pi - \Delta \theta$? Vì kết thúc đúng tại $2\pi$ tương ứng góc $360^\circ$ sẽ gây ra sự tự chèn lớp đè lên điểm đếm gốc số $0$.*
+Dải Vector Pha Góc (Phase Angles): $\theta \in $\le$ft[ 0, ~ 2\pi - \Delta \theta \right]$. *Tại sao lại kết thúc ở $2\pi - \Delta \theta$? Vì kết thúc đúng tại $2\pi$ tương ứng góc $360^\circ$ sẽ gây ra sự tự chèn lớp đè lên điểm đếm gốc số $0$.*
 
 Từ đó, hoành độ vi phân hiển thị ra tọa độ 2D của mỗi Token Node:
 
 $$
+
+$$
+
 x_i = \cos(\theta_i)
+
 $$
 
 $$
+
+$$
+
+$$
+
 y_i = \sin(\theta_i)
+
+$$
+
 $$
 
 ### 2.2 Quy Hoạch Bậc Kết Nối (Degree Size Scaling):
 Trong Graph Theory, "Sức hút" của một đỉnh vòng (Node Size) được tính bằng Bậc (Degree) - Tức là số lượng cạnh liên đới dính vào nó. Ở bài toán này, Đám mây cỡ hạt được quy định thông qua việc Đếm tần số vượt ngưỡng $T$ (Suprathreshold counts) của một Vector hàng:
 
 $$
-\text{DotSize}_i \propto 3 \times \sqrt{\sum_{j=1}^{N} \mathbb{I}(S(i, j) \geq T)}
+
+$$
+
+\text{DotSize}_i $\propto$ 3 \times \sqrt{$\sum$_{j=1}^{N} $\mathbb${I}(S(i, j) $\ge$q T)}
+
+$$
+
 $$
 
 *(Chuyển biến tỷ lệ thu phóng căn bậc hai giúp phân tán hình ảnh hài hòa và êm mắt).*

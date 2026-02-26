@@ -34,7 +34,9 @@ x \in \Sigma^*
 
 thành chuỗi token:
 
-\mathcal{T}$x$ = $t_1, t_2, \dots, t_m$
+$$
+$\mathcal${T}$x$ = $t_1, t_2, \dots, t_m$
+$$
 
 Tỷ lệ nén của tokenizer phản ánh mức độ giảm số đơn vị biểu diễn khi chuyển từ ký tự sang token.
 
@@ -58,11 +60,15 @@ Nếu R > 1, tokenization đạt hiệu ứng nén.
 
 Gọi L_i là số ký tự trong token t_i.
 
-\bar{L} = \frac{1}{m} \sum_{i=1}^{m} L_i
+$$
+\bar{L} = \frac{1}{m} $\sum$_{i=1}^{m} L_i
+$$
 
 Ta có:
 
-n = \sum_{i=1}^{m} L_i
+$$
+n = $\sum$_{i=1}^{m} L_i
+$$
 
 Suy ra:
 
@@ -74,23 +80,31 @@ Tỷ lệ nén chính là độ dài ký tự trung bình trên mỗi token.
 
 3. Phân tích Xác suất
 
-Gọi P$L=k$ là xác suất token có độ dài k.
+$$
+Gọi $P(L=k)$ là xác suất token có độ dài k.
+$$
 
 Kỳ vọng:
 
-\mathbb{E}[L] = \sum_{k} k P$L=k$
+$$
+$\mathbb${E}[L] = $\sum$_{k} k $P(L=k)$
+$$
 
 Tỷ lệ nén trung bình:
 
-R = \mathbb{E}[L]
+$$
+R = $\mathbb${E}[L]
+$$
 
 Nếu phân bố độ dài tuân theo phân bố hình học:
 
-P$L=k$ = (1-q)q^{k-1}
+$P(L=k)$ = (1-q)q^{k-1}
 
 thì:
 
-\mathbb{E}[L] = \frac{1}{1-q}
+$$
+$\mathbb${E}[L] = \frac{1}{1-q}
+$$
 
 ⸻
 
@@ -98,19 +112,27 @@ thì:
 
 Theo lý thuyết của Claude Shannon (1948), entropy của nguồn ký tự:
 
-H_c = -\sum_{c \in \Sigma} p$c$\log p$c$
+$$
+H_c = -$\sum$_{c \in \Sigma} p$c$\log p$c$
+$$
 
 Entropy trên token:
 
-H_t = -\sum_{t \in V} p$t$\log p$t$
+$$
+H_t = -$\sum$_{t \in V} p$t$\log p$t$
+$$
 
 Tỷ lệ nén lý thuyết tối ưu:
 
+$$
 R_{\text{opt}} = \frac{H_c}{H_t}
+$$
 
 Nếu tokenizer tối ưu theo nghĩa thông tin, thì:
 
-m H_t \approx n H_c
+$$
+m H_t $\approx$ n H_c
+$$
 
 ⸻
 
@@ -118,11 +140,13 @@ m H_t \approx n H_c
 
 Trong kiến trúc Transformer:
 
-\text{Cost} = O$m^2$
+\text{Cost} = $O(m^2)$
 
 Thay m = \frac{n}{R}:
 
-\text{Cost} = O\left$\left(\frac{n}{R}\right$^2\right)
+$$
+\text{Cost} = O$\le$ft$\left(\frac{n}{R}\right$^2\right)
+$$
 
 Do đó:
 	•	R \uparrow \Rightarrow chi phí giảm theo bình phương.
@@ -140,7 +164,7 @@ Ví dụ:
 
 Tối ưu xác suất chuỗi subword:
 
-\arg\max_{s_1,\dots,s_k} \prod_i P$s_i$
+\arg\max_{s_1,\dots,s_k} $\prod$_i $P(s_i)$
 
 Có xu hướng tạo token trung bình 3–5 ký tự.
 
@@ -172,7 +196,7 @@ Giả sử kích thước từ vựng |V|.
 
 Dung lượng embedding:
 
-W \in \mathbb{R}^{|V| \times d}
+W \in $\mathbb${R}^{|V| \times d}
 
 Tổng tham số:
 
@@ -180,7 +204,9 @@ Tổng tham số:
 
 Bài toán tối ưu đa mục tiêu:
 
-\min_{V} \left$\frac{n}{R} \right$^2 + \lambda |V|
+$$
+\min_{V} $\le$ft$\frac{n}{R} \right$^2 + \lambda |V|
+$$
 
 Trong đó:
 	•	Thành phần đầu: chi phí attention
@@ -191,13 +217,19 @@ Trong đó:
 8. Phân tích Tỷ lệ Nén Thực nghiệm
 
 Trong thực tế:
-	•	Văn bản tiếng Anh: R \approx 3-4
+
+$$
+•	Văn bản tiếng Anh: R $\approx$ 3-4
+$$
+
 	•	Văn bản có nhiều ký tự Unicode: R thấp hơn
 	•	Ngôn ngữ chắp dính (agglutinative): R biến thiên mạnh
 
 Do đó:
 
+$$
 R = f$\text{ngôn ngữ}, \mid V\mid, thuật toán$
+$$
 
 ⸻
 
@@ -222,15 +254,21 @@ Sự cân bằng này giải thích vì sao các hệ như Google và OpenAI ch�
 
 Tỷ lệ nén trong tokenization được xác định bởi:
 
-R = \frac{n}{m} = \mathbb{E}[L]
+$$
+R = \frac{n}{m} = $\mathbb${E}[L]
+$$
 
 Ảnh hưởng trực tiếp đến:
 
-\text{Attention Cost} = O\left$\left(\frac{n}{R}\right$^2\right)
+$$
+\text{Attention Cost} = O$\le$ft$\left(\frac{n}{R}\right$^2\right)
+$$
 
 Và chịu ràng buộc bởi:
 
-m H_t \approx n H_c
+$$
+m H_t $\approx$ n H_c
+$$
 
 Tokenization có thể được xem như bước nén thông tin có kiểm soát nhằm tối ưu hóa hiệu năng và chi phí tính toán của mô hình ngôn ngữ.
 

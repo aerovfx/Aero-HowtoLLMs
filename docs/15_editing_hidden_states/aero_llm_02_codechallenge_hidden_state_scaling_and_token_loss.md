@@ -43,7 +43,7 @@ Thay vì hard-code một layer duy nhất, chúng ta xây dựng hệ thống Ho
 ## 3. Kết Quả Thực Nghiệm (Results & Analysis)
 
 ### 3.1. Sự Tĩnh Lặng Toàn Cục (Global Suppression)
-Khi scale Layer 2 với hệ số 0.6, đồ thị Logits cho thấy một sự sụt giảm biên độ đồng loạt (Global downward shift) trên toàn bộ dải từ vựng. Mặc dù cường độ tín hiệu giảm mạnh, mối tương quan (Correlation) giữa Logits sạch và Logits bị can thiệp vẫn duy trì ở mức cực cao ($r \approx 0.995$). Điều này chứng tỏ cấu trúc tương đối giữa các từ vẫn được bảo toàn.
+Khi scale Layer 2 với hệ số 0.6, đồ thị Logits cho thấy một sự sụt giảm biên độ đồng loạt (Global downward shift) trên toàn bộ dải từ vựng. Mặc dù cường độ tín hiệu giảm mạnh, mối tương quan (Correlation) giữa Logits sạch và Logits bị can thiệp vẫn duy trì ở mức cực cao ($r $\approx$ 0.995$). Điều này chứng tỏ cấu trúc tương đối giữa các từ vẫn được bảo toàn.
 
 ### 3.2. Nghịch lý Giảm Loss (The Loss Paradox)
 Một phát hiện thú vị là khi scale lớp sớm, vị trí của token " curious" trong danh sách Top-10 dự đoán lại tăng lên so với mô hình gốc. 

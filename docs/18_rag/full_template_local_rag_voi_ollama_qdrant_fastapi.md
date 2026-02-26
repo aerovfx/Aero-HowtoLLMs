@@ -120,10 +120,22 @@ requests
 # 4️⃣ .env
 
 ```env
+
+$$
 QDRANT_URL=http://localhost:6333
+$$
+
+$$
 COLLECTION_NAME=local_18_rag
+$$
+
+$$
 OLLAMA_URL=http://localhost:11434
+$$
+
+$$
 LLM_MODEL=llama3
+$$
 
 ---
 
@@ -135,15 +147,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+$$
 QDRANT_URL = os.getenv("QDRANT_URL")
+$$
+
+$$
 COLLECTION = os.getenv("COLLECTION_NAME")
+$$
 
+$$
 OLLAMA_URL = os.getenv("OLLAMA_URL")
-LLM_MODEL = os.getenv("LLM_MODEL")
+$$
 
+$$
+LLM_MODEL = os.getenv("LLM_MODEL")
+$$
+
+$$
 CHUNK_SIZE = 500
+$$
+
 OVERLAP = 80
+
+$$
 TOP_K = 5
+$$
 
 ---
 
@@ -154,25 +182,46 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
 from .config import QDRANT_URL, COLLECTION
 
+$$
 client = QdrantClient(url=QDRANT_URL)
+$$
 
 def init_collection(dim):
 
-    names = [c.name for c in client.get_collections().collections]
+$$
+names = [c.name for c in client.get_collections().collections]
+$$
 
     if COLLECTION not in names:
         client.create_collection(
-            collection_name=COLLECTION,
-            vectors_config=VectorParams(
-                size=dim,
-                distance=Distance.COSINE
+
+$$
+collection_name=COLLECTION,
+$$
+
+$$
+vectors_config=VectorParams(
+$$
+
+$$
+size=dim,
+$$
+
+$$
+distance=Distance.COSINE
+$$
+
             )
         )
 
 def upsert(vectors, payloads, ids):
 
     client.upsert(
-        collection_name=COLLECTION,
+
+$$
+collection_name=COLLECTION,
+$$
+
         points=[
             {
                 "id": ids[i],
@@ -186,9 +235,19 @@ def upsert(vectors, payloads, ids):
 def search(qvec, limit):
 
     return client.search(
-        collection_name=COLLECTION,
-        query_vector=qvec,
-        limit=limit
+
+$$
+collection_name=COLLECTION,
+$$
+
+$$
+query_vector=qvec,
+$$
+
+$$
+limit=limit
+$$
+
     )
 
 ---
@@ -201,26 +260,40 @@ import tiktoken
 from pypdf import PdfReader
 from .config import CHUNK_SIZE, OVERLAP
 
+$$
 tokenizer = tiktoken.get_encoding("cl100k_base")
+$$
 
 def load_pdf(path):
 
-    reader = PdfReader(path)
+$$
+reader = PdfReader(path)
+$$
+
     text = ""
 
     for p in reader.pages:
-        text += p.extract_text() + "\n"
+
+$$
+text += p.extract_text() + "\n"
+$$
 
     return text
 
 def chunk_text(text):
 
-    tokens = tokenizer.encode(text)
+$$
+tokens = tokenizer.encode(text)
+$$
 
     chunks = []
 
     for i in range(0, len(tokens), CHUNK_SIZE - OVERLAP):
-        chunk = tokens[i:i + CHUNK_SIZE]
+
+$$
+chunk = tokens[i:i + CHUNK_SIZE]
+$$
+
         chunks.append(tokenizer.decode(chunk))
 
     return chunks
@@ -239,20 +312,33 @@ from sentence_transformers import SentenceTransformer
 from .utils import load_pdf, chunk_text, gen_ids
 from .vector import init_collection, upsert
 
+$$
 model = SentenceTransformer("all-MiniLM-L6-v2")
+$$
+
+$$
 EMBED_DIM = 384
+$$
 
 def embed(texts):
 
     return model.encode(texts).tolist()
 
+$$
 def ingest_pdf(path, metadata={}):
+$$
 
-    text = load_pdf(path)
+$$
+text = load_pdf(path)
+$$
 
-    chunks = chunk_text(text)
+$$
+chunks = chunk_text(text)
+$$
 
-    vectors = embed(chunks)
+$$
+vectors = embed(chunks)
+$$
 
     payloads = [
         {
@@ -262,7 +348,9 @@ def ingest_pdf(path, metadata={}):
         for i in range(len(chunks))
     ]
 
-    ids = gen_ids(len(chunks))
+$$
+ids = gen_ids(len(chunks))
+$$
 
     init_collection(EMBED_DIM)
 
@@ -281,7 +369,9 @@ from .vector import search
 from .config import TOP_K, OLLAMA_URL, LLM_MODEL
 from sentence_transformers import SentenceTransformer
 
+$$
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+$$
 
 def embed_query(q):
 
@@ -289,7 +379,10 @@ def embed_query(q):
 
 def call_ollama(prompt):
 
-    res = requests.post(
+$$
+res = requests.post(
+$$
+
         f"{OLLAMA_URL}/api/generate",
         json={
             "model": LLM_MODEL,
@@ -302,15 +395,22 @@ def call_ollama(prompt):
 
 def ask(question):
 
-    qvec = embed_query(question)
+$$
+qvec = embed_query(question)
+$$
 
-    docs = search(qvec, TOP_K)
+$$
+docs = search(qvec, TOP_K)
+$$
 
     context = "\n".join(
         [d.payload["text"] for d in docs]
     )
 
-    prompt = f"""
+$$
+prompt = f"""
+$$
+
 You are an internal assistant.
 Only use the context below.
 
@@ -323,7 +423,9 @@ Question:
 Answer:
 """
 
-    answer = call_ollama(prompt)
+$$
+answer = call_ollama(prompt)
+$$
 
     sources = [d.id for d in docs]
 
@@ -343,17 +445,26 @@ import shutil
 from .ingest import ingest_pdf
 from .18_rag import ask
 
+$$
 app = FastAPI(title="Local RAG System")
+$$
 
 @app.post("/upload")
-async def upload(file: UploadFile = File(...)):
 
-    path = f"data/{file.filename}"
+$$
+async def upload(file: UploadFile = File(...)):
+$$
+
+$$
+path = f"data/{file.filename}"
+$$
 
     with open(path, "wb") as f:
         shutil.copyfileobj(file.file, f)
 
-    n = ingest_pdf(path)
+$$
+n = ingest_pdf(path)
+$$
 
     return {"indexed_chunks": n}
 
@@ -400,7 +511,9 @@ POST /upload
 
 ### Hỏi AI
 
+$$
 POST /ask?q=Quy trình hoàn tiền năm 2024?
+$$
 
 ---
 
@@ -667,7 +780,9 @@ RTX 3060 12GB
 | Trả lời chậm   | Không GPU   |
 | Crash          | VRAM thiếu  |
 
+$$
 👉 80% lỗi = thiếu RAM.
+$$
 
 ---
 

@@ -27,13 +27,19 @@ Trong các mô hình ngôn ngữ hiện đại như [GPT-2](chatgpt://generic-en
 Giả sử ta có chuỗi văn bản:
 
 $$
-\mathcal{T} = (w_1, w_2, ..., w_n)
+
+$$
+
+$\mathcal${T} = (w_1, w_2, ..., w_n)
+
+$$
+
 $$
 
 Bộ tokenizer thực hiện ánh xạ:
 
 $$
-\tau: \mathcal{V}_{text} \rightarrow \mathcal{V}_{token}
+\tau: $\mathcal${V}_{text} \rightarrow $\mathcal${V}_{token}
 $$
 
 Trong đó:
@@ -54,11 +60,17 @@ $$
 Mỗi token $t_i$ được biểu diễn ban đầu dưới dạng vector one-hot:
 
 $$
-\mathbf{x}_i \in \mathbb{R}^{|V|}
+\mathbf{x}_i \in $\mathbb${R}^{|V|}
 $$
 
 $$
+
+$$
+
 x_{ij} = \begin{cases} 1 & \text{nếu } j = t_i \\ 0 & \text{ngược lại} \end{cases}
+
+$$
+
 $$
 
 Đây là không gian rất cao chiều và không hiệu quả về mặt tính toán.
@@ -70,7 +82,7 @@ $$
 Ta định nghĩa ma trận embedding:
 
 $$
-E \in \mathbb{R}^{|V| \times d}
+E \in $\mathbb${R}^{|V| \times d}
 $$
 
 Trong đó:
@@ -87,7 +99,13 @@ $$
 Do $\mathbf{x}_i$ là one-hot, nên:
 
 $$
+
+$$
+
 \mathbf{v}_i = E_{t_i}
+
+$$
+
 $$
 
 Tức là lấy hàng thứ $t_i$ của ma trận embedding.
@@ -105,11 +123,23 @@ $$
 Trong đó $\mathbf{p}_i$ là positional encoding:
 
 $$
-PE_{(pos,2k)} = \sin\left(\frac{pos}{10000^{2k/d}}\right)
+
+$$
+
+PE_{(pos,2k)} = \sin$\le$ft(\frac{pos}{10000^{2k/d}}\right)
+
 $$
 
 $$
-PE_{(pos,2k+1)} = \cos\left(\frac{pos}{10000^{2k/d}}\right)
+
+$$
+
+$$
+
+PE_{(pos,2k+1)} = \cos$\le$ft(\frac{pos}{10000^{2k/d}}\right)
+
+$$
+
 $$
 
 Điều này giúp mô hình nhận biết thứ tự chuỗi.
@@ -133,7 +163,13 @@ Phản ánh mức độ tương đồng ngữ nghĩa.
 Trong nhiều mô hình, quan hệ tuyến tính có thể xuất hiện:
 
 $$
-\mathbf{v}_{king} - \mathbf{v}_{man} + \mathbf{v}_{woman} \approx \mathbf{v}_{queen}
+
+$$
+
+\mathbf{v}_{king} - \mathbf{v}_{man} + \mathbf{v}_{woman} $\approx$ \mathbf{v}_{queen}
+
+$$
+
 $$
 
 Điều này cho thấy không gian embedding học được cấu trúc ngữ nghĩa tuyến tính.
@@ -145,23 +181,47 @@ $$
 Trong mô hình tự hồi quy như GPT-2, hàm mất mát là:
 
 $$
-\mathcal{L} = - \sum_{t=1}^{T} \log P(w_t  \mid  w_{\lt t})
+
+$$
+
+$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P(w_t  \mid  w_{\lt t})
+
+$$
+
 $$
 
 Với:
 
 $$
+
+$$
+
 P(w_t  \mid  w_{\lt t}) = \text{softmax}(W_o h_t)
+
 $$
 
 $$
-\text{softmax}(z_i) = \frac{e^{z_i}} {\sum_{j=1}^{|V|} e^{z_j}}
+
+$$
+
+$$
+
+\text{softmax}(z_i) = \frac{e^{z_i}} {$\sum$_{j=1}^{|V|} e^{z_j}}
+
+$$
+
 $$
 
 Gradient lan truyền ngược để cập nhật ma trận embedding:
 
 $$
-E \leftarrow E - \eta \nabla_E \mathcal{L}
+
+$$
+
+E $\le$ftarrow E - \eta $\nabla$_E $\mathcal${L}
+
+$$
+
 $$
 
 Trong đó $\eta$ là learning rate.
@@ -173,7 +233,7 @@ Trong đó $\eta$ là learning rate.
 Giả sử:
 
 $$
-X \in \mathbb{R}^{n \times d}
+X \in $\mathbb${R}^{n \times d}
 $$
 
 Ma trận hiệp phương sai:
@@ -215,19 +275,43 @@ Giúp tăng ổn định khi tính attention và cosine similarity.
 Self-attention tính:
 
 $$
+
+$$
+
 Q = XW_Q
+
 $$
 
 $$
+
+$$
+
+$$
+
 K = XW_K
+
 $$
 
 $$
+
+$$
+
+$$
+
 V = XW_V
+
 $$
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V
+
+$$
+
+$$
+
+\text{Attention}(Q,K,V) = \text{softmax}$\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)V
+
+$$
+
 $$
 
 Embedding ban đầu đóng vai trò nền tảng cho toàn bộ phép biến đổi này.

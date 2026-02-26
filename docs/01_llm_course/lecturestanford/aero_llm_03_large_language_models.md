@@ -69,7 +69,7 @@ Làm sao chọn từ tiếp theo từ phân phối xác suất do mô hình dự
 *   **Sampling (Lấy mẫu ngẫu nhiên):** Chọn từ dựa trên xác suất (có tính ngẫu nhiên).
     *   **Temperature (Nhiệt độ):**
         *   $T \to 0$: Trở về Greedy (chính xác, ít sáng tạo).
-        *   $T \to \infty$: Phân phối phẳng (rất sáng tạo nhưng dễ nói nhảm).
+        *   $T \to $\infty$$: Phân phối phẳng (rất sáng tạo nhưng dễ nói nhảm).
     *   **Top-k Sampling:** Chỉ chọn trong K từ có xác suất cao nhất.
     *   **Top-p (Nucleus) Sampling:** Chỉ chọn trong nhóm từ có tổng xác suất tích lũy đạt ngưỡng P (ví dụ 0.9). *Phổ biến nhất hiện nay.*
 

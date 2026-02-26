@@ -38,12 +38,18 @@ W_{new} = W_{original} + \Delta W
 $$
 
 $$
+
+$$
+
 \Delta W = A \times B
+
+$$
+
 $$
 
 Trong đó:
-- $W_{original} \in \mathbb{R}^{d \times k}$
-- $A \in \mathbb{R}^{r \times k}$, $B \in \mathbb{R}^{d \times r}$
+- $W_{original} \in $\mathbb${R}^{d \times k}$
+- $A \in $\mathbb${R}^{r \times k}$, $B \in $\mathbb${R}^{d \times r}$
 - $r \ll \min(d, k)$ (rank thấp)
 
 ## 2. Triển Khai Chi Tiết
@@ -58,9 +64,17 @@ Trong đó:
 ```python
 from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM
 
+$$
 model_name = "google/flan-t5-base"
+$$
+
+$$
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+$$
+
+$$
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
+$$
 
 ### 2.3 Tạo Lớp LoRA Adapter
 
@@ -70,56 +84,125 @@ import tensorflow as tf
 class LoraAdapter(tf.keras.layers.Layer):
     def __init__(self, rank=4, **kwargs):
         super(LoraAdapter, self).__init__(**kwargs)
-        self.rank = rank
+
+$$
+self.rank = rank
+$$
+
     
     def build(self, input_shape):
         # Tạo ma trận A và B với rank thấp
-        self.A = self.add_weight(
-            name="lora_A",
-            shape=(input_shape[-1], self.rank),
-            initializer="glorot_uniform",
-            trainable=True
+
+$$
+self.A = self.add_weight(
+$$
+
+$$
+name="lora_A",
+$$
+
+$$
+shape=(input_shape[-1], self.rank),
+$$
+
+$$
+initializer="glorot_uniform",
+$$
+
+$$
+trainable=True
+$$
+
         )
-        self.B = self.add_weight(
-            name="lora_B",
-            shape=(self.rank, input_shape[-1]),
+
+$$
+self.B = self.add_weight(
+$$
+
+$$
+name="lora_B",
+$$
+
+$$
+shape=(self.rank, input_shape[-1]),
+$$
+
             initializer="zeros",
-            trainable=True
+
+$$
+trainable=True
+$$
+
         )
         super(LoraAdapter, self).build(input_shape)
     
     def call(self, inputs):
         # Tính toán: A × B × input
-        lora_output = tf.matmul(tf.matmul(inputs, self.A), self.B)
+
+$$
+lora_output = tf.matmul(tf.matmul(inputs, self.A), self.B)
+$$
+
         return inputs + lora_output
 
 ### 2.4 Tích Hợp LoRA vào Mô Hình
 
 ```python
 class LoraDenseLayer(tf.keras.layers.Layer):
-    def __init__(self, original_layer, rank=4, **kwargs):
+
+$$
+def __init__(self, original_layer, rank=4, **kwargs):
+$$
+
         super(LoraDenseLayer, self).__init__(**kwargs)
-        self.original_layer = original_layer
-        self.lora_adapter = LoraAdapter(rank=rank)
+
+$$
+self.original_layer = original_layer
+$$
+
+$$
+self.lora_adapter = LoraAdapter(rank=rank)
+$$
+
     
     def call(self, inputs):
         # Lấy output từ lớp gốc
-        original_output = self.original_layer(inputs)
+
+$$
+original_output = self.original_layer(inputs)
+$$
+
         # Thêm output từ LoRA
-        lora_output = self.lora_adapter(inputs)
+
+$$
+lora_output = self.lora_adapter(inputs)
+$$
+
         return original_output + lora_output
 
 ### 2.5 Thay Thế Các Lớp Dense
 
 ```python
 # Thay thế các lớp dense trong model
+
+$$
 def apply_lora_to_model(model, rank=4):
+$$
+
     for layer in model.layers:
         if isinstance(layer, tf.keras.layers.Dense):
             # Thay thế bằng LoraDenseLayer
-            lora_layer = LoraDenseLayer(layer, rank=rank)
+
+$$
+lora_layer = LoraDenseLayer(layer, rank=rank)
+$$
+
             # Cập nhật cấu trúc model
-            layer.trainable = False
+
+$$
+layer.trainable = False
+$$
+
     return model
 
 ## 3. Ví Dụ Hoàn Chỉnh
@@ -130,38 +213,76 @@ def apply_lora_to_model(model, rank=4):
 # Tải dữ liệu WMT16
 from datasets import load_dataset
 
+$$
 dataset = load_dataset("wMT16", "de-en", split="train[:1%]")
+$$
 
 # Tiền xử lý
 def preprocess(examples):
     inputs = ["translate German to English: " + ex['de'] for ex in examples['translation']]
     targets = [ex['en'] for ex in examples['translation']]
     
-    model_inputs = tokenizer(inputs, max_length=128, truncation=True)
-    labels = tokenizer(targets, max_length=128, truncation=True)
+$$
+model_inputs = tokenizer(inputs, max_length=128, truncation=True)
+$$
+
+$$
+labels = tokenizer(targets, max_length=128, truncation=True)
+$$
+
     
-    model_inputs["labels"] = labels["input_ids"]
+$$
+model_inputs["labels"] = labels["input_ids"]
+$$
+
     return model_inputs
 
+$$
 dataset = dataset.map(preprocess, batched=True)
+$$
 
 # Chuyển sang TensorFlow
+
+$$
 tf_train = dataset.to_tf_dataset(
-    columns=["input_ids", "attention_mask"],
-    label_cols=["labels"],
-    batch_size=16
+$$
+
+$$
+columns=["input_ids", "attention_mask"],
+$$
+
+$$
+label_cols=["labels"],
+$$
+
+$$
+batch_size=16
+$$
+
 )
 
 # Áp dụng LoRA
+
+$$
 model = apply_lora_to_model(model, rank=4)
+$$
 
 # Compile và huấn luyện
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+
+$$
+optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
+$$
+
+$$
+loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+$$
+
 )
 
+$$
 model.fit(tf_train, epochs=3)
+$$
 
 ## 4. Phân Tích Hiệu Quả
 

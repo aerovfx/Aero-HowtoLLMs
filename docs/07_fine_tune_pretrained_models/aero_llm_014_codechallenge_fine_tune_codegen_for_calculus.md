@@ -46,13 +46,25 @@ Mục tiêu nghiên cứu:
 Cho chuỗi token mã nguồn:
 
 $$
+
+$$
+
 X=(x_1,x_2,\dots,x_n)
+
+$$
+
 $$
 
 Xác suất sinh chuỗi:
 
 $$
-P(X)=\prod_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
+
+$$
+
+P(X)=$\prod$_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
+
+$$
+
 $$
 
 Trong đó $\theta$ là tham số mô hình.
@@ -60,7 +72,13 @@ Trong đó $\theta$ là tham số mô hình.
 Bài toán hoàn thành mã:
 
 $$
+
+$$
+
 x_{n+1}=\arg\max_x P(x\mid X)
+
+$$
+
 $$
 
 ---
@@ -70,13 +88,25 @@ $$
 Quá trình fine-tuning tối ưu hàm cross-entropy:
 
 $$
-\mathcal{L}(\theta) = -\frac{1}{N}\sum_{i=1}^{N}\log P(y_i\mid x_i;\theta)
+
+$$
+
+$\mathcal${L}(\theta) = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P(y_i\mid x_i;\theta)
+
+$$
+
 $$
 
 Mục tiêu:
 
 $$
-\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
+
+$$
+
+\theta^{\ast}=\arg\min_\theta $\mathcal${L}(\theta)
+
+$$
+
 $$
 
 ---
@@ -86,20 +116,41 @@ $$
 Theo tài liệu , bộ tối ưu AdamW được sử dụng:
 
 $$
+
+$$
+
 m_t=\beta_1 m_{t-1}+(1-\beta_1)g_t
+
 $$
 
 $$
+
+$$
+
+$$
+
 v_t=\beta_2 v_{t-1}+(1-\beta_2)g_t^2
+
 $$
 
 $$
+
+$$
+
+$$
+
 \theta_{t+1}=\theta_t-\eta\frac{m_t}{\sqrt{v_t}+\epsilon}-\lambda\theta_t
+
+$$
+
 $$
 
 Trong đó:
 
-* $g_t=\nabla_\theta\mathcal{L}_t$,
+$$
+* $g_t=$\nabla$_\theta$\mathcal${L}_t$,
+$$
+
 * $\lambda$: hệ số weight decay.
 
 ---
@@ -118,7 +169,13 @@ Dữ liệu bao gồm các đoạn mã Python xử lý giải tích:
 Tập dữ liệu:
 
 $$
-\mathcal{D}={x_1,x_2,\dots,x_N}
+
+$$
+
+$\mathcal${D}={x_1,x_2,\dots,x_N}
+
+$$
+
 $$
 
 với mỗi $x_i$ là một cell code.
@@ -138,7 +195,13 @@ Theo tài liệu gốc :
 Tổng số token xử lý:
 
 $$
+
+$$
+
 M = N\times L
+
+$$
+
 $$
 
 với $L=128$.
@@ -164,7 +227,13 @@ $$
 Sau huấn luyện:
 
 $$
-\theta^{(T)}=\theta^{(0)}-\sum_{t=1}^{T}\eta\nabla_\theta\mathcal{L}_t
+
+$$
+
+\theta^{(T)}=\theta^{(0)}-$\sum$_{t=1}^{T}\eta$\nabla$_\theta$\mathcal${L}_t
+
+$$
+
 $$
 
 ---
@@ -188,7 +257,13 @@ Nếu không huấn luyện bổ sung.
 Với prompt ban đầu:
 
 $$
+
+$$
+
 X_0=(x_1,\dots,x_k)
+
+$$
+
 $$
 
 Mô hình sinh:
@@ -200,7 +275,13 @@ $$
 Cập nhật:
 
 $$
+
+$$
+
 X_{t+1}=X_t\oplus x_{t+1}
+
+$$
+
 $$
 
 ---
@@ -210,7 +291,13 @@ $$
 Xác suất sau chuẩn hóa:
 
 $$
-p_i=\frac{\exp(z_i/T)}{\sum_j\exp(z_j/T)}
+
+$$
+
+p_i=\frac{\exp(z_i/T)}{$\sum$_j\exp(z_j/T)}
+
+$$
+
 $$
 
 Trong đó:
@@ -256,7 +343,13 @@ Có thể mở rộng bằng:
 #### $a$ Tỷ lệ mã hợp lệ
 
 $$
-R=\frac{1}{M}\sum_{i=1}^{M}f(x_i)
+
+$$
+
+R=\frac{1}{M}$\sum$_{i=1}^{M}f(x_i)
+
+$$
+
 $$
 
 với:
@@ -270,7 +363,13 @@ $$
 #### $b$ Perplexity
 
 $$
-\text{PPL}=\exp\left(\frac{1}{N}\sum_{i=1}^{N}\mathcal{L}_i\right)
+
+$$
+
+\text{PPL}=\exp$\le$ft(\frac{1}{N}$\sum$_{i=1}^{N}$\mathcal${L}_i\right)
+
+$$
+
 $$
 
 PPL thấp ⇒ mô hình dự đoán tốt.
@@ -298,7 +397,7 @@ Theo tài liệu :
 Quan sát:
 
 $$
-\mathcal{L}*{initial}>\mathcal{L}*{final}
+$\mathcal${L}*{initial}>$\mathcal${L}*{final}
 $$
 
 Cho thấy mô hình hội tụ.

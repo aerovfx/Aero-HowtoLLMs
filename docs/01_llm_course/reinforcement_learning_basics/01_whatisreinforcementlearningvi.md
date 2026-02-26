@@ -83,12 +83,12 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
   - $P(s'\mid s, a)$: Xác suất chuyển từ trạng thái $s$ sang $s'$ khi thực hiện hành động $a$.  
   - $R(s, a, s')$: Phần thưởng nhận được.  
   - $\gamma$: Hệ số chiết khấu (discount factor).  
-- **Mục tiêu**: Tìm **policy** $\pi(a\mid s)$ tối ưu để tối đa tổng phần thưởng kỳ vọng $\mathbb{E}[\sum \gamma^t R_t]$.
+- **Mục tiêu**: Tìm **policy** $\pi(a\mid s)$ tối ưu để tối đa tổng phần thưởng kỳ vọng $\mathbb{E}[$\sum$ \gamma^t R_t]$.
 
 ---
 
 ### **2. Dynamic Programming (DP)**  
-**Vai trò**: Giải MDP khi biết **đầy đủ mô hình môi trường** (biết $P$ và $R$).  
+**Vai trò**: Giải MDP khi biết **đầy đủ mô hình môi trường** (biết $$P( và )$R$).  
 - **Phương pháp**:  
   - **Policy Iteration**:  
     1. **Policy Evaluation**: Tính giá trị $V^\pi(s)$ của policy hiện tại.  
@@ -102,7 +102,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 ### **3. Monte Carlo (MC) Methods**  
 **Vai trò**: Ước lượng giá trị $V(s)$ hoặc $Q(s, a)$ bằng cách **lấy mẫu toàn bộ tập kết (episode)**.  
 - **Đặc điểm**:  
-  - **Model-free**: Không cần biết $P$ và $R$.  
+  - **Model-free**: Không cần biết $$P( và )$R$.  
   - **Chỉ áp dụng cho episodic tasks** (có điểm kết thúc).  
   - **High variance** do phụ thuộc vào một trajectory cụ thể.  
 - **Ví dụ**:  
@@ -114,7 +114,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 ### **4. Temporal Difference (TD) Methods**  
 **Vai trò**: Kết hợp ý tưởng của DP và MC, cập nhật giá trị **từng bước (online)** thay vì đợi kết thúc episode.  
 - **Phương pháp**:  
-  - **TD(0)**: Cập nhật $V(s) \leftarrow V(s) + \alpha [R + \gamma V(s') - V(s)]$.  
+  - **TD(0)**: Cập nhật $V(s) $\le$ftarrow V(s) + \alpha [R + \gamma V(s') - V(s)]$.  
   - **SARSA (On-policy)**: Cập nhật Q-value dựa trên $(s, a, r, s', a')$.  
   - **Q-Learning (Off-policy)**: Cập nhật Q-value dựa trên $\max_{a'} Q(s', a')$.  
 - **Ưu điểm**: Hiệu quả hơn MC (giảm variance), áp dụng cho non-episodic tasks.  
@@ -170,7 +170,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 ### **10. REINFORCE**  
 **Vai trò**: Policy gradient method cơ bản, tối ưu policy trực tiếp bằng cách **tăng xác suất các hành động mang lại phần thưởng cao**.  
 - **Công thức**:  
-  - $\nabla J(\theta) \approx \mathbb{E}[\sum_t \nabla_\theta \log \pi(a_t\mid s_t; \theta) G_t]$.  
+  - $\nabla J(\theta) $\approx$ $\mathbb${E}[$\sum$_t $\nabla$_\theta $\log$ \pi(a_t\mid s_t; \theta) G_t]$.  
 - **Đặc điểm**:  
   - **High variance** do sử dụng Monte Carlo returns $G_t$.  
   - Không cần value function (chỉ policy network).  
@@ -183,7 +183,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
   - **Actor**: Cập nhật policy $\pi(a\mid s; \theta)$.  
   - **Critic**: Ước lượng value function $V(s; \phi)$ để tính **advantage** $A(s, a) = Q(s, a) - V(s)$.  
 - **Công thức cập nhật**:  
-  - $\nabla J(\theta) \approx \mathbb{E}[\nabla_\theta \log \pi(a\mid s; \theta) \cdot A(s, a)]$.  
+  - $\nabla J(\theta) $\approx$ $\mathbb${E}[$\nabla$_\theta $\log$ \pi(a\mid s; \theta) \cdot A(s, a)]$.  
 - **Ưu điểm**: Hiệu quả hơn REINFORCE nhờ advantage function.  
 
 ---

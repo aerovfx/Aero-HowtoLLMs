@@ -26,7 +26,7 @@ Bài viết này trình bày quy trình xây dựng một mô hình học embedd
 
 Embedding là ánh xạ từ không gian rời rạc sang không gian vector liên tục:
 
-f: \{1,\dots,V\} \rightarrow \mathbb{R}^d
+f: \{1,\dots,V\} \rightarrow $\mathbb${R}^d
 
 Trong đó:
 	•	V: kích thước từ vựng
@@ -34,7 +34,7 @@ Trong đó:
 
 Ma trận embedding:
 
-\mathbf{E} \in \mathbb{R}^{V \times d}
+\mathbf{E} \in $\mathbb${R}^{V \times d}
 
 Vector của token w:
 
@@ -52,14 +52,14 @@ Xét mô hình đơn giản cho bài toán next-token prediction.
 
 Token đầu vào:
 
-\mathbf{x} \in \mathbb{R}^{B \times L}
+\mathbf{x} \in $\mathbb${R}^{B \times L}
 
 Sau embedding:
 
 \mathbf{H} =
 \mathbf{E}[\mathbf{x}]
 \in
-\mathbb{R}^{B \times L \times d}
+$\mathbb${R}^{B \times L \times d}
 
 ⸻
 
@@ -75,19 +75,23 @@ Logits:
 \mathbf{b}
 
 Với:
-	•	\mathbf{W} \in \mathbb{R}^{d \times V}
-	•	\mathbf{b} \in \mathbb{R}^{V}
+	•	\mathbf{W} \in $\mathbb${R}^{d \times V}
+	•	\mathbf{b} \in $\mathbb${R}^{V}
 
 ⸻
 
 2.3 Softmax
 
-P$y=i \mid \mathbf{h}$
+$P(y=i \mid \mathbf{h})$
 =
 \frac{
 \exp$z_i$
 }{
-\sum_{j=1}^{V}
+
+$$
+$\sum$_{j=1}^{V}
+$$
+
 \exp$z_j$
 }
 
@@ -97,21 +101,32 @@ P$y=i \mid \mathbf{h}$
 
 3.1 Cross-Entropy
 
-\mathcal{L}
+$\mathcal${L}
 =
 -
-\sum_{t=1}^{L}
-\log
-P$y_t \mid x_{\lt t}$
+
+$$
+$\sum$_{t=1}^{L}
+$$
+
+$\log$
+$P(y_t \mid x_{\lt t})$
 
 Trung bình trên batch:
 
-\mathcal{L}_{batch}
+$\mathcal${L}_{batch}
 =
 \frac{1}{BL}
-\sum_{b=1}^{B}
-\sum_{t=1}^{L}
-\mathcal{L}_{b,t}
+
+$$
+$\sum$_{b=1}^{B}
+$$
+
+$$
+$\sum$_{t=1}^{L}
+$$
+
+$\mathcal${L}_{b,t}
 
 ⸻
 
@@ -123,13 +138,13 @@ Gọi:
 
 Gradient theo logits:
 
-\frac{\partial \mathcal{L}}{\partial \mathbf{z}}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{z}}
 =
 \mathbf{p} - \mathbf{y}
 
 Gradient theo embedding:
 
-\frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{e}_w}
 =
 \mathbf{W}
 $\mathbf{p} - \mathbf{y}$
@@ -137,11 +152,15 @@ $\mathbf{p} - \mathbf{y}$
 Cập nhật:
 
 \mathbf{E}[w]
-\leftarrow
+
+$$
+$\le$ftarrow
+$$
+
 \mathbf{E}[w]
 -
 \eta
-\frac{\partial \mathcal{L}}{\partial \mathbf{E}[w]}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{E}[w]}
 
 ⸻
 
@@ -179,9 +198,15 @@ $\mathbf{p}-\mathbf{y}$
 
 Khi token dự đoán đúng:
 
-\mathbf{p} \approx \mathbf{y}
+$$
+\mathbf{p} $\approx$ \mathbf{y}
+$$
+
 \Rightarrow
-\Delta \mathbf{e}_w \approx 0
+
+$$
+\Delta \mathbf{e}_w $\approx$ 0
+$$
 
 Khi sai:
 	•	Embedding dịch chuyển về phía vector đúng
@@ -212,29 +237,37 @@ Qua huấn luyện:
 
 Trong Skip-gram:
 
-P$c \mid w$
+$P(c \mid w)$
 =
 \frac{
 \exp$\mathbf{u}_c^T \mathbf{v}_w$
 }{
-\sum_{j=1}^{V}
+
+$$
+$\sum$_{j=1}^{V}
+$$
+
 \exp$\mathbf{u}_j^T \mathbf{v}_w$
 }
 
 Tối ưu:
 
 \max
-\sum_{(w,c)}
-\log P$c \mid w$
+$\sum$_{(w,c)}
+$\log$ $P(c \mid w)$
 
 Negative Sampling:
 
-\mathcal{L}
+$\mathcal${L}
 =
-\log \sigma$\mathbf{u}_c^T \mathbf{v}_w$
+$\log$ \sigma$\mathbf{u}_c^T \mathbf{v}_w$
 +
-\sum_{k=1}^{K}
-\log \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
+
+$$
+$\sum$_{k=1}^{K}
+$$
+
+$\log$ \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
 
 Mô hình embedding hiện đại có thể xem như mở rộng của cơ chế này trong không gian sâu (deep contextual space).
 
@@ -255,7 +288,11 @@ Self-attention:
 \text{Attention}(Q,K,V)
 =
 \text{softmax}
-\left(
+
+$$
+$\le$ft(
+$$
+
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
 
@@ -277,7 +314,7 @@ Xét ma trận embedding:
 
 \mathbf{E}
 \in
-\mathbb{R}^{V \times d}
+$\mathbb${R}^{V \times d}
 
 Ma trận hiệp phương sai:
 

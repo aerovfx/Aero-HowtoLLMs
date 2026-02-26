@@ -33,7 +33,7 @@ Hầu hết các tokenizer (như của GPT-2/Neo) coi " Apple" và "Apple" là h
 - **Quy trình:** Lấy 100 danh từ phổ biến, đo hoạt hóa nơ-ron MLP ở Tầng 9 cho cả hai định dạng (có và không có dấu cách).
 
 ### 2.2. Quan sát Sơ bộ
-Đồ thị phân tán cho thấy sự tương quan cực cao ($r \approx 0.99$). Mặc dù là hai thực thể toán học khác nhau, mô hình đã học được cách xử lý chúng gần như đồng nhất. Các nơ-ron chủ yếu nằm trên đường chéo chính, chỉ có một vài trường hợp ngoại lệ (outliers) bộc lộ sự nhạy cảm đặc biệt với ký tự trắng đầu tiên.
+Đồ thị phân tán cho thấy sự tương quan cực cao ($r $\approx$ 0.99$). Mặc dù là hai thực thể toán học khác nhau, mô hình đã học được cách xử lý chúng gần như đồng nhất. Các nơ-ron chủ yếu nằm trên đường chéo chính, chỉ có một vài trường hợp ngoại lệ (outliers) bộc lộ sự nhạy cảm đặc biệt với ký tự trắng đầu tiên.
 
 ---
 

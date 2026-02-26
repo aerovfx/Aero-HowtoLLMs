@@ -60,13 +60,25 @@ Hai chỉ số chính được sử dụng để đánh giá:
 1. **Độ chính xác phân loại (Accuracy):**
 
 $$
-\text{Acc} = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}(\arg\max C(x_i) = y_i)
+
+$$
+
+\text{Acc} = \frac{1}{N} $\sum$_{i=1}^{N} $\mathbb${1}(\arg\max C(x_i) = y_i)
+
+$$
+
 $$
 
 2. **Hàm mất mát Cross-Entropy (Log-Loss):**
 
 $$
-\mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} y_i \log(\hat{y}_i)
+
+$$
+
+$\mathcal${L} = -\frac{1}{N} $\sum$_{i=1}^{N} y_i $\log$(\hat{y}_i)
+
+$$
+
 $$
 
 ---
@@ -100,7 +112,13 @@ $$
 Tại giai đoạn đầu huấn luyện ($t=0$), bộ phân loại BERT gặp khó khăn trong việc phân biệt văn bản sinh từ hai mô hình, độ chính xác dao động quanh mức ngẫu nhiên:
 
 $$
-\text{Acc}_{t=0} \approx 0.5
+
+$$
+
+\text{Acc}_{t=0} $\approx$ 0.5
+
+$$
+
 $$
 
 Khi quá trình tinh chỉnh tiến triển, văn bản sinh bắt đầu mang các đặc trưng phong cách rõ rệt hơn, dẫn đến độ chính xác tăng nhanh:
@@ -116,7 +134,7 @@ $$
 Quan hệ giữa Loss của mô hình phân loại trên văn bản sinh và số bước huấn luyện:
 
 $$
-\frac{\partial \mathcal{L}_{cls}}{\partial t} < 0
+\frac{$\partial$ $\mathcal${L}_{cls}}{$\partial$ t} < 0
 $$
 
 Điều này xác nhận rằng mô hình sinh đang thực sự "di chuyển" trong không gian đặc trưng về phía vùng dữ liệu của Alice hoặc Edgar.

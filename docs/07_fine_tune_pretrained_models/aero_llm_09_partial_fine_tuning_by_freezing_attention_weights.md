@@ -66,7 +66,13 @@ $$
 Điều này dẫn đến việc bỏ qua tính toán gradient cho các tham số đó trong quá trình lan truyền ngược (backpropagation):
 
 $$
-\frac{\partial \mathcal{L}}{\partial W_{attention}} = 0
+
+$$
+
+\frac{$\partial$ $\mathcal${L}}{$\partial$ W_{attention}} = 0
+
+$$
+
 $$
 
 ---
@@ -101,8 +107,14 @@ Trong bài toán đóng băng Attention, tỷ lệ này thường dao động qu
 1. Nạp mô hình tiền huấn luyện.
 2. Duyệt qua tất cả các tham số (`named_parameters`).
 3. Kiểm tra tên tham số (`"attn"` hoặc `"embed"`).
+
+$$
 4. Thiết lập `requires_grad = False` cho các tham số trùng khớp.
+$$
+
+$$
 5. Khởi tạo Optimizer (chỉ nạp các tham số có `requires_grad = True`).
+$$
 
 ---
 
@@ -122,7 +134,13 @@ Theo dữ liệu từ , kết quả thống kê cho thấy:
 Mặc dù đóng băng một phần quan trọng của mô hình, đồ thị hàm mất mát ($\mathcal{L}$) vẫn cho thấy xu hướng giảm ổn định:
 
 $$
-\lim_{t \to \infty} \mathcal{L}(t) = \mathcal{L}_{min}
+
+$$
+
+\lim_{t \to $\infty$} $\mathcal${L}(t) = $\mathcal${L}_{min}
+
+$$
+
 $$
 
 Đặc biệt, việc đóng băng Attention giúp giảm hiện tượng "catastrophic forgetting" (quên kiến thức cũ), vì các cấu trúc ngôn ngữ cơ bản trong Attention được giữ nguyên.

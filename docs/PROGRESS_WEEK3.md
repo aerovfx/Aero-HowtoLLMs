@@ -42,22 +42,50 @@ Expert 1  ←─ y += height
 ```typescript
 // Expert Grid Parameters
 const expertsPerRow = 4;                    // 4 experts per row
+
+$$
 const row = Math.floor(i / expertsPerRow);  // Row: 0 or 1
+$$
+
+$$
 const col = i % expertsPerRow;              // Col: 0,1,2,3
+$$
 
 // Compact sizing
+
+$$
 const expertW = C * cell * 0.8;             // 80% of original width
+$$
+
 const expertH = (h + C) * cell + margin * 2; // Height for weight + output
+
+$$
 const spacingX = expertW + margin * 3;      //  Horizontal spacing
+$$
+
+$$
 const spacingY = expertH + margin * 2;      // Vertical spacing
+$$
 
 // Grid base position (to the left of attention layers)
+
+$$
 const gridBaseX = attnLeftX - (expertsPerRow * spacingX);
+$$
+
+$$
 const gridBaseY = y + row * spacingY;
+$$
 
 // Individual expert position
+
+$$
 const expertX = gridBaseX + col * spacingX;
+$$
+
+$$
 const expertY = gridBaseY;
+$$
 
 ### **Per-Expert Visualization:**
 
@@ -121,11 +149,22 @@ y += C * cell + margin;  // After output block
 **2. Added grid position calculation**
 ```typescript
 // NEW: Grid math
-const row = Math.floor(i / 4);
-const col = i % 4;
 
+$$
+const row = Math.floor(i / 4);
+$$
+
+$$
+const col = i % 4;
+$$
+
+$$
 const expertX = gridBaseX + col * spacingX;
+$$
+
+$$
 const expertY = gridBaseY + row * spacingY;
+$$
 
 **3. Updated final Y position**
 ```typescript
@@ -182,8 +221,14 @@ y: expertY,   // Grid row position
 
 4. **Color Coding** ⏳
    ```typescript
-   expert.highlight = isTopK ? routingProb : 0;
-   expert.color = isTopK ? ACTIVE_GREEN : INACTIVE_GRAY;
+
+$$
+expert.highlight = isTopK ? routingProb : 0;
+$$
+
+$$
+expert.color = isTopK ? ACTIVE_GREEN : INACTIVE_GRAY;
+$$
 
 5. **Animation** ⏳
    - Token flow through selected experts

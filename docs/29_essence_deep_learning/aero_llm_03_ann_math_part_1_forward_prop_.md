@@ -27,7 +27,13 @@ Lan truyền xuôi là quá trình dữ liệu đi từ trái sang phải qua m�
 1. **Thành phần Tuyến tính:** Tính tổng có trọng số của các đầu vào, bao gồm cả thành phần định kiến (bias).
 
 $$
+
+$$
+
 z = x^T w + b
+
+$$
+
 $$
 
 Trong đó, $b$ có thể được hấp thụ vào tích vô hướng bằng cách thêm một hằng số 1 vào véc-tơ đầu vào.

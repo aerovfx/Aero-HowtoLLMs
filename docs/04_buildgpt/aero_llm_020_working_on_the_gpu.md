@@ -106,7 +106,10 @@ Tuy chi phí này không lớn, nhưng cần được cân nhắc trong các h�
 Trong PyTorch, thiết bị thường được xác định như sau:
 
 ```python
+
+$$
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+$$
 
 Cách tiếp cận này cho phép mã chạy linh hoạt trên cả CPU và GPU.
 
@@ -117,8 +120,14 @@ Cách tiếp cận này cho phép mã chạy linh hoạt trên cả CPU và GPU.
 Việc chuyển dữ liệu và mô hình sang GPU sử dụng phương thức `.to()`:
 
 ```python
+
+$$
 model = model.to(device)
+$$
+
+$$
 data = data.to(device)
+$$
 
 Phương thức này chỉ áp dụng cho đối tượng PyTorch, không dùng cho list hay NumPy array 
 
@@ -129,7 +138,10 @@ Phương thức này chỉ áp dụng cho đối tượng PyTorch, không dùng 
 Ngoài việc chuyển từ CPU, dữ liệu có thể được tạo trực tiếp trên GPU:
 
 ```python
+
+$$
 tensor = torch.randn(100, device=device)
+$$
 
 Cách này giúp giảm chi phí truyền dữ liệu.
 
@@ -154,12 +166,18 @@ Giải pháp là đảm bảo mọi tensor và mô hình cùng nằm trên một
 Để xử lý bằng NumPy hoặc Matplotlib, tensor phải được chuyển về CPU:
 
 ```python
+
+$$
 output = output.detach().cpu()
+$$
 
 Với tensor vô hướng, có thể dùng:
 
 ```python
+
+$$
 value = tensor.item()
+$$
 
 ---
 

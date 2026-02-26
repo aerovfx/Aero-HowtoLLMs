@@ -30,15 +30,21 @@ BERT (Bidirectional Encoder Representations from Transformers) là mô hình Tra
 
 Chuỗi đầu vào:
 
+$$
 S = (w_1, w_2, ..., w_n)
+$$
 
 Được ánh xạ thành chuỗi token:
 
+$$
 T = (t_1, t_2, ..., t_m)
+$$
 
 Với:
 
-m \ge n
+$$
+m $\ge$ n
+$$
 
 Do một từ có thể bị tách thành nhiều subword.
 
@@ -62,15 +68,19 @@ Giả sử tập dữ liệu huấn luyện D.
 
 WordPiece tối đa hóa:
 
-\mathcal{L} = \sum_{w \in D} \log P$w$
+$$
+$\mathcal${L} = $\sum$_{w \in D} $\log$ $P(w)$
+$$
 
 Trong đó một từ w được phân rã thành:
 
+$$
 w = (t_1, t_2, ..., t_k)
+$$
 
 Xác suất:
 
-P$w$ = \prod_{i=1}^{k} P$t_i$
+$P(w)$ = $\prod$_{i=1}^{k} $P(t_i)$
 
 Thuật toán chọn phép gộp làm tăng likelihood nhiều nhất.
 
@@ -100,11 +110,13 @@ Gọi:
 
 Phân bố:
 
-P$t$ = \frac{\text{count}$t$}{\sum_{t' \in V} \text{count}(t')}
+$P(t)$ = \frac{\text{count}$t$}{$\sum$_{t' \in V} \text{count}(t')}
 
 Entropy:
 
-H = - \sum_{t \in V} P$t$\log P$t$
+$$
+H = - $\sum$_{t \in V} $P(t)$\log $P(t)$
+$$
 
 ⸻
 
@@ -116,11 +128,11 @@ m = \alpha n
 
 Self-attention trong Transformer encoder:
 
-O$m^2$
+$O(m^2)$
 
 Do đó:
 
-O$(\alpha n$^2)
+$O((\alpha n)$^2)
 
 Tokenization ảnh hưởng trực tiếp đến chi phí tính toán.
 
@@ -140,11 +152,11 @@ Tối ưu	Theo corpus	Theo tần suất thuần
 
 Mỗi token được ánh xạ:
 
-E: V \rightarrow \mathbb{R}^d
+E: V \rightarrow $\mathbb${R}^d
 
 Chuỗi token tạo thành ma trận:
 
-X \in \mathbb{R}^{m \times d}
+X \in $\mathbb${R}^{m \times d}
 
 BERT cộng thêm:
 	•	Positional embedding
@@ -160,11 +172,13 @@ E_{\text{total}} = E_{\text{token}} + E_{\text{position}} + E_{\text{segment}}
 
 BERT huấn luyện bằng cách che một số token:
 
-P$t_i \mid  T_{\setminus i}$
+$P(t_i \mid  T_{\setminus i})$
 
 Loss:
 
-\mathcal{L}_{MLM} = - \sum_{i \in M} \log P$t_i \mid  T_{\setminus i}$
+$$
+$\mathcal${L}_{MLM} = - $\sum$_{i \in M} $\log$ $P(t_i \mid  T_{\setminus i})$
+$$
 
 Trong đó M là tập token bị mask.
 
@@ -182,11 +196,13 @@ Tokenization tối ưu hóa sự cân bằng giữa:
 
 Bài toán tối ưu:
 
-\min_{V} \left( \mathbb{E}[m] + \lambda |V| \right)
+$$
+\min_{V} $\le$ft( $\mathbb${E}[m] + \lambda |V| \right)
+$$
 
 Với:
 	•	\lambda: hệ số điều chỉnh
-	•	\mathbb{E}[m]: số token trung bình
+	•	$\mathbb${E}[m]: số token trung bình
 
 ⸻
 
@@ -217,15 +233,19 @@ Giảm vấn đề OOV (Out-of-Vocabulary).
 
 Tokenization trong BERT dựa trên WordPiece có thể được mô hình hóa:
 
-\max \sum_{w \in D} \log \prod_{i=1}^{k} P$t_i$
+$$
+\max $\sum$_{w \in D} $\log$ $\prod$_{i=1}^{k} $P(t_i)$
+$$
 
 Ảnh hưởng trực tiếp đến:
 
 m = \alpha n
 
-\text{Attention Cost} = O$m^2$
+\text{Attention Cost} = $O(m^2)$
 
-H = - \sum P$t$\log P$t$
+$$
+H = - $\sum$ $P(t)$\log $P(t)$
+$$
 
 Do đó, thiết kế tokenizer là bài toán tối ưu đa mục tiêu giữa:
 	•	Khả năng tổng quát hóa

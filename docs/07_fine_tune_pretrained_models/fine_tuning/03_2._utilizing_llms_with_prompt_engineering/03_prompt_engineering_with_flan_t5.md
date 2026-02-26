@@ -38,8 +38,15 @@ Cho tóm tắt văn bản, chúng ta sẽ cho FLAN-T5 một đoạn văn bản v
 
 **Các bước thực hiện:**
 1. Đặt prompt (ví dụ: "Summarize the following article about carrots")
+
+$$
 2. Tokenize với `return_tensors="tf"` để xuất TensorFlow tensors
+$$
+
+$$
 3. Giới hạn độ dài với `max_length=512`
+$$
+
 4. Sử dụng `model.generate()` để tạo đầu ra
 5. Decode kết quả với tokenizer
 

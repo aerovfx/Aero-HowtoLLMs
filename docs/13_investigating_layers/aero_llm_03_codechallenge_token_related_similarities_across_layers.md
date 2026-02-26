@@ -35,7 +35,7 @@ Thông qua thử thách lập trình này, ta sẽ:
 ### 2.1. Mã Hóa Hàm Khảo Sát Lớp Động (Dynamic Layer Scanning)
 Sử dụng bộ công cụ PyTorch, ta xây dựng một hàm lặp để quét và trích xuất điểm kết nối:
 1. Xác định vị trí Index của Token mục tiêu linh hoạt ứng với các câu có độ dài ngắn khác nhau.
-2. Tại mỗi tầng `l` $(1 \le l \le 48)$, vector hàm kích hoạt tương ứng cho "Target" và một token ngẫu nhiên "Non-target" kế trước nó sẽ được tách bạch.
+2. Tại mỗi tầng `l` $(1 $\le$ l $\le$ 48)$, vector hàm kích hoạt tương ứng cho "Target" và một token ngẫu nhiên "Non-target" kế trước nó sẽ được tách bạch.
 3. Kích thước mong đợi trong GPT-2 XL sau khi tách $Q, K, V$ sẽ là $\sim \text{Seq} \times 1600 \times 3$.
 
 ### 2.2. Đo Lường Phương Sai Nhóm (Variance Calculation)
@@ -53,7 +53,7 @@ Tiếp tục ứng dụng Matrix Mask $(\text{size} = 4800 \times 4800)$ để b
 Việc ghim Plotting các phân phối Cosine xuyên không gian đa lớp mang về một góc nhìn thị giác giống quang phổ:
 
 1. **Hiệu ứng thu hẹp phân cực (Convergence to Zero):**
-   - Rất ấn tượng, ở các tầng nông (early layers), Cosine Similarity giữa các block có tính tụ tập rất mạnh bám sát miền hội tụ cao $(\approx 1.0/-1.0)$.
+   - Rất ấn tượng, ở các tầng nông (early layers), Cosine Similarity giữa các block có tính tụ tập rất mạnh bám sát miền hội tụ cao $($\approx$ 1.0/-1.0)$.
    - Càng trượt sâu xuống những block cuối (deeper into the model), phân bố bị là phẳng đi và thu trọng tâm dần về mức $0$.
 
 2. **Lý giải về mặt Cơ Học (Mechanistic Reason):** 

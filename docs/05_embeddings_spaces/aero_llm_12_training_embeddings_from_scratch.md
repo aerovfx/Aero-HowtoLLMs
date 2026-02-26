@@ -33,11 +33,11 @@ Trong đó:
 
 Embedding ánh xạ token sang không gian liên tục:
 
-f: \{1,\dots,V\} \rightarrow \mathbb{R}^d
+f: \{1,\dots,V\} \rightarrow $\mathbb${R}^d
 
 Ma trận embedding:
 
-\mathbf{E} \in \mathbb{R}^{V \times d}
+\mathbf{E} \in $\mathbb${R}^{V \times d}
 
 Vector embedding của token w:
 
@@ -51,13 +51,20 @@ Vector embedding của token w:
 
 Token w có thể biểu diễn bằng vector one-hot:
 
-\mathbf{x} \in \mathbb{R}^V
+\mathbf{x} \in $\mathbb${R}^V
 
 với:
 
+$$
 x_i =
+$$
+
 \begin{cases}
+
+$$
 1 & \text{nếu } i = w \\
+$$
+
 0 & \text{ngược lại}
 \end{cases}
 
@@ -81,21 +88,28 @@ Logits:
 
 Xác suất:
 
-P$y=i \mid w$ =
+$P(y=i \mid w)$ =
 \frac{\exp$z_i$}
-{\sum_{j=1}^{V} \exp$z_j$}
+
+$$
+{$\sum$_{j=1}^{V} \exp$z_j$}
+$$
 
 ⸻
 
 3.2 Hàm mất mát Cross-Entropy
 
-\mathcal{L} = -\sum_{i=1}^{V} y_i \log P$y=i$
+$$
+$\mathcal${L} = -$\sum$_{i=1}^{V} y_i $\log$ $P(y=i)$
+$$
 
 Với y_i là vector nhãn one-hot.
 
 Do đó:
 
-\mathcal{L} = -\log P$y = y_{\text{true}}$
+$$
+$\mathcal${L} = -$\log$ $P(y = y_{\text{true}})$
+$$
 
 ⸻
 
@@ -103,25 +117,34 @@ Do đó:
 
 Gradient theo logits:
 
-\frac{\partial \mathcal{L}}{\partial z_i}
-= P$y=i$ - y_i
+\frac{$\partial$ $\mathcal${L}}{$\partial$ z_i}
+
+$$
+= $P(y=i)$ - y_i
+$$
 
 Gradient theo embedding:
 
-\frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{e}_w}
 = \mathbf{W}^T $\mathbf{p} - \mathbf{y}$
 
 Gradient theo ma trận embedding:
 
-\frac{\partial \mathcal{L}}{\partial \mathbf{E}[w]}
-= \frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{E}[w]}
+
+$$
+= \frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{e}_w}
+$$
 
 Cập nhật bằng gradient descent:
 
-\mathbf{E}[w] \leftarrow
+$$
+\mathbf{E}[w] $\le$ftarrow
+$$
+
 \mathbf{E}[w]
 - \eta
-\frac{\partial \mathcal{L}}{\partial \mathbf{E}[w]}
+\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{E}[w]}
 
 Trong đó:
 	•	\eta: learning rate
@@ -136,15 +159,18 @@ Trong mô hình Skip-gram của Tomas Mikolov:
 
 Mục tiêu:
 
-\max \sum_{(w,c)}
-\log P$c \mid w$
+\max $\sum$_{(w,c)}
+$\log$ $P(c \mid w)$
 
 Với:
 
-P$c \mid w$
+$P(c \mid w)$
 =
 \frac{\exp$\mathbf{u}_c^T \mathbf{v}_w$}
-{\sum_{j=1}^{V} \exp$\mathbf{u}_j^T \mathbf{v}_w$}
+
+$$
+{$\sum$_{j=1}^{V} \exp$\mathbf{u}_j^T \mathbf{v}_w$}
+$$
 
 Trong đó:
 	•	\mathbf{v}_w: embedding trung tâm
@@ -152,11 +178,18 @@ Trong đó:
 
 Để giảm chi phí tính toán, Negative Sampling được sử dụng:
 
-\mathcal{L} =
-\log \sigma$\mathbf{u}_c^T \mathbf{v}_w$
+$$
+$\mathcal${L} =
+$$
+
+$\log$ \sigma$\mathbf{u}_c^T \mathbf{v}_w$
 +
-\sum_{k=1}^{K}
-\log \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
+
+$$
+$\sum$_{k=1}^{K}
+$$
+
+$\log$ \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
 
 ⸻
 
@@ -172,15 +205,27 @@ Self-attention:
 \text{Attention}(Q,K,V)
 =
 \text{softmax}
-\left(
+
+$$
+$\le$ft(
+$$
+
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
 
 Với:
 
+$$
 Q = ZW_Q, \quad
+$$
+
+$$
 K = ZW_K, \quad
+$$
+
+$$
 V = ZW_V
+$$
 
 Embedding ảnh hưởng trực tiếp đến attention scores.
 
@@ -193,7 +238,11 @@ Embedding ảnh hưởng trực tiếp đến attention scores.
 \|\mathbf{e}_w\|
 =
 \sqrt{
-\sum_{i=1}^{d}
+
+$$
+$\sum$_{i=1}^{d}
+$$
+
 e_{w,i}^2
 }
 
@@ -220,7 +269,11 @@ Ví dụ quan hệ tuyến tính nổi tiếng:
 \mathbf{e}_{\text{man}}
 +
 \mathbf{e}_{\text{woman}}
-\approx
+
+$$
+$\approx$
+$$
+
 \mathbf{e}_{\text{queen}}
 
 ⸻
@@ -229,7 +282,7 @@ Ví dụ quan hệ tuyến tính nổi tiếng:
 
 Xét ma trận embedding:
 
-\mathbf{E} \in \mathbb{R}^{V \times d}
+\mathbf{E} \in $\mathbb${R}^{V \times d}
 
 Ma trận hiệp phương sai:
 
@@ -260,11 +313,18 @@ Các thuật toán tối ưu phổ biến:
 
 Ví dụ Adam cập nhật:
 
+$$
 m_t = \beta_1 m_{t-1} + $1-\beta_1$g_t
+$$
 
+$$
 v_t = \beta_2 v_{t-1} + $1-\beta_2$g_t^2
+$$
 
+$$
 \theta_t =
+$$
+
 \theta_{t-1}
 -
 \eta

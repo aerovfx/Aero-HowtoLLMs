@@ -59,17 +59,34 @@ import numpy as np
 
 # Tạo index với exact search
 dimension = 128
+
+$$
 index = faiss.IndexFlatL2(dimension)  # L2 distance
+$$
+
 # Hoặc
+
+$$
 index = faiss.IndexFlatIP(dimension)   # Inner product (cosine)
+$$
 
 # Thêm vectors
+
+$$
 vectors = np.random.random((10000, dimension)).astype('float32')
+$$
+
 index.add(vectors)
 
 # Tìm kiếm
+
+$$
 query = np.random.random((5, dimension)).astype('float32')
+$$
+
+$$
 distances, indices = index.search(query, k=10)
+$$
 
 **Đặc điểm:**
 - Độ chính xác tuyệt đối
@@ -82,8 +99,13 @@ distances, indices = index.search(query, k=10)
 # Tạo IVF index
 nlist = 100  # Số clusters
 
+$$
 quantizer = faiss.IndexFlatL2(dimension)
+$$
+
+$$
 index = faiss.IndexIVFFlat(quantizer, dimension, nlist)
+$$
 
 # Train trước khi add
 index.train(vectors)
@@ -93,7 +115,10 @@ index.add(vectors)
 
 # Tìm kiếm
 index.nprobe = 10  # Số clusters cần tìm
+
+$$
 distances, indices = index.search(query, k=10)
+$$
 
 **Đặc điểm:**
 - Nhanh hơn Flat với large datasets
@@ -105,7 +130,10 @@ distances, indices = index.search(query, k=10)
 ```python
 # Tạo HNSW index
 dimension = 128
+
+$$
 index = faiss.IndexHNSWFlat(dimension, 32)  # 32 = M parameter
+$$
 
 # Cấu hình
 index.hnsw.efConstruction = 200  # Xây dựng
@@ -113,11 +141,14 @@ index.hnsw.efSearch = 50        # Tìm kiếm
 
 # Add và search
 index.add(vectors)
+
+$$
 distances, indices = index.search(query, k=10)
+$$
 
 **Đặc điểm:**
 - Graph-based navigation
-- Time: $O(\log N)$
+- Time: $O($\log$ N)$
 - Memory: $O(N \cdot M)$
 
 ### 2.5 LSH (Locality-Sensitive Hashing)
@@ -127,9 +158,15 @@ distances, indices = index.search(query, k=10)
 dimension = 128
 nbits = 32  # Số bits cho mỗi hash
 
+$$
 index = faiss.IndexLSH(dimension, nbits)
+$$
+
 index.add(vectors)
+
+$$
 distances, indices = index.search(query, k=10)
+$$
 
 **Đặc điểm:**
 - Hash-based approximate search
@@ -143,12 +180,20 @@ distances, indices = index.search(query, k=10)
 m = 8           # Số sub-vectors
 nbits = 8        # Bits per sub-vector
 
+$$
 quantizer = faiss.IndexFlatL2(dimension)
+$$
+
+$$
 index = faiss.IndexIVFPQ(quantizer, dimension, nlist, m, nbits)
+$$
 
 index.train(vectors)
 index.add(vectors)
+
+$$
 distances, indices = index.search(query, k=10)
+$$
 
 **Đặc điểm:**
 - Compression cao
@@ -213,7 +258,11 @@ from pymilvus import connections, Collection
 connections.connect("default", host="localhost", port="19530")
 
 # Tạo collection
+
+$$
 collection = Collection("FAISS_Collection")
+$$
+
 collection.create_schema(
     fields=[
         {"name": "id", "type": "INT"},
@@ -225,15 +274,26 @@ collection.create_schema(
 
 ```python
 # Milvus hỗ trợ nhiều FAISS indexes
+
+$$
 index_params = {
+$$
+
     "index_type": "IVF_FLAT",
     "metric_type": "L2",
     "params": {"nlist": 128}
 }
 
 collection.create_index(
-    field_name="embedding",
-    index_params=index_params
+
+$$
+field_name="embedding",
+$$
+
+$$
+index_params=index_params
+$$
+
 )
 
 ## 5. Khi Nào Sử Dụng
@@ -248,7 +308,11 @@ collection.create_index(
 
 ```python
 # Use case: Production với hiệu suất cao
+
+$$
 index = faiss.IndexHNSWFlat(dimension, 32)
+$$
+
 index.hnsw.efSearch = 100
 
 ### 5.2 Chọn ChromaDB Khi:
@@ -261,9 +325,19 @@ index.hnsw.efSearch = 100
 
 ```python
 # Use case: Development với LangChain
+
+$$
 vectorstore = Chroma.from_documents(
-    documents=texts,
-    embedding=OpenAIEmbeddings()
+$$
+
+$$
+documents=texts,
+$$
+
+$$
+embedding=OpenAIEmbeddings()
+$$
+
 )
 
 ### 5.3 Decision Tree
@@ -291,22 +365,34 @@ Start
 import faiss
 
 # Chuyển sang GPU
+
+$$
 gpu_index = faiss.index_cpu_to_gpu(
+$$
+
     faiss.StandardGpuResources(),
     0,  # GPU ID
     index  # CPU index
 )
 
 # Search trên GPU
+
+$$
 distances, indices = gpu_index.search(query, k=10)
+$$
 
 ### 6.2 ChromaDB với Metadata Filtering
 
 ```python
 import chromadb
 
+$$
 client = chromadb.Client()
+$$
+
+$$
 collection = client.create_collection("documents")
+$$
 
 # Add với metadata
 collection.add(
@@ -317,9 +403,19 @@ collection.add(
 )
 
 # Query với filter
+
+$$
 results = collection.query(
-    query_texts=["search query"],
-    n_results=2,
+$$
+
+$$
+query_texts=["search query"],
+$$
+
+$$
+n_results=2,
+$$
+
     where={"source": "blog"}
 )
 

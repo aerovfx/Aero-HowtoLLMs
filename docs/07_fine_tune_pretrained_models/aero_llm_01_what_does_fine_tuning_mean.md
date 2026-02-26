@@ -45,7 +45,13 @@ Tài liệu *Optimization Options* cung cấp một cái nhìn thực tiễn v�
 Tiền huấn luyện là quá trình huấn luyện mô hình trên tập dữ liệu lớn với mục tiêu dự đoán token tiếp theo:
 
 $$
-\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t  \mid  x_{\lt t})
+
+$$
+
+$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P(x_t  \mid  x_{\lt t})
+
+$$
+
 $$
 
 Quá trình này yêu cầu:
@@ -218,7 +224,13 @@ Giả sử:
 Tổng thời gian tiết kiệm:
 
 $$
-0.05 \times 10^9 = 5 \times 10^7 \text{ giây} \approx 580 \text{ ngày}
+
+$$
+
+0.05 \times 10^9 = 5 \times 10^7 \text{ giây} $\approx$ 580 \text{ ngày}
+
+$$
+
 $$
 
 ---

@@ -68,7 +68,10 @@ Cách tổ chức này cho phép lặp qua các mô hình một cách hệ thố
 Tổng số tham số được tính bằng cách lặp qua `model.parameters()`:
 
 ```python
+
+$$
 total = sum(p.numel() for p in model.parameters())
+$$
 
 Phương pháp này cho phép đếm chính xác toàn bộ tham số có thể huấn luyện. 
 
@@ -107,7 +110,13 @@ Trong đó, GPT-2 Small có khoảng 124 triệu tham số, được xem là nh�
 Bài tập cho thấy mô hình “Model 5” tự xây dựng có khoảng 163 triệu tham số. Sau khi trừ đi lớp unembedding (~38 triệu), số còn lại trùng khớp với GPT-2 Small:
 
 $$
-163M - 38M \approx 124M
+
+$$
+
+163M - 38M $\approx$ 124M
+
+$$
+
 $$
 
 Kết quả này chứng minh rằng hai mô hình có kiến trúc tương đương. 
@@ -145,7 +154,13 @@ Việc trích xuất và so sánh hai ma trận cho thấy hệ số tương qua
 Trong một lớp tuyến tính:
 
 $$
+
+$$
+
 y = Wx + b
+
+$$
+
 $$
 
 Trong đó:

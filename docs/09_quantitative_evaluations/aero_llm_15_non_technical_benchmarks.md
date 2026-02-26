@@ -85,7 +85,9 @@ Truth\ Rate = \frac{\text{số câu trả lời đúng}}{\text{tổng số câu 
 
 Đánh giá khả năng tuân thủ yêu cầu phức tạp:
 
-Compliance = \frac{1}{N}\sum_{i=1}^{N} \mathbf{1}(response_i \models instruction_i)
+$$
+Compliance = \frac{1}{N}$\sum$_{i=1}^{N} \mathbf{1}(response_i \models instruction_i)
+$$
 
 ⸻
 
@@ -95,7 +97,7 @@ Compliance = \frac{1}{N}\sum_{i=1}^{N} \mathbf{1}(response_i \models instruction
 
 Giả sử có hai phản hồi r_1, r_2. Người đánh giá chọn r_1 với xác suất:
 
-P$r_1 \succ r_2$ = \sigma$R_\theta(r_1$ - R_\theta$r_2$)
+$P(r_1 \succ r_2)$ = \sigma$R_\theta(r_1$ - R_\theta$r_2$)
 
 Trong đó:
 	•	R_\theta là hàm reward
@@ -107,7 +109,9 @@ Trong đó:
 
 3.2 Loss cho reward model
 
-\mathcal{L} = - \log \sigma$R_\theta(r_w$ - R_\theta$r_l$)
+$$
+$\mathcal${L} = - $\log$ \sigma$R_\theta(r_w$ - R_\theta$r_l$)
+$$
 
 với:
 	•	r_w: phản hồi được chọn
@@ -123,7 +127,9 @@ P_{tox}$x$
 
 Mức độc hại trung bình:
 
-Toxicity = \mathbb{E}[P_{tox}(response)]
+$$
+Toxicity = $\mathbb${E}[P_{tox}(response)]
+$$
 
 So sánh giữa các phiên bản mô hình:
 
@@ -139,7 +145,9 @@ Giả sử:
 	•	C_i là claim thứ i
 	•	V_i \in \{0,1\} là verified
 
-FactScore = \frac{\sum_{i=1}^{K} V_i}{K}
+$$
+FactScore = \frac{$\sum$_{i=1}^{K} V_i}{K}
+$$
 
 ⸻
 
@@ -163,15 +171,21 @@ D_{KL}(P_{human} || P_{model})
 
 Giả sử có m tiêu chí:
 
+$$
 S = (s_1, s_2, ..., s_m)
+$$
 
 Điểm tổng hợp:
 
-Score_{overall} = \sum_{i=1}^{m} w_i s_i
+$$
+Score_{overall} = $\sum$_{i=1}^{m} w_i s_i
+$$
 
 với:
 
-\sum_{i=1}^{m} w_i = 1
+$$
+$\sum$_{i=1}^{m} w_i = 1
+$$
 
 ⸻
 
@@ -181,7 +195,9 @@ Theo Elements of Information Theory:
 
 Entropy phản ánh độ không chắc chắn:
 
-H$X$ = -\sum_x P$x$\log P$x$
+$$
+H$X$ = -$\sum$_x $P(x)$\log $P(x)$
+$$
 
 Mô hình hallucinate nhiều → entropy cao nhưng không tương thích với dữ kiện thật.
 

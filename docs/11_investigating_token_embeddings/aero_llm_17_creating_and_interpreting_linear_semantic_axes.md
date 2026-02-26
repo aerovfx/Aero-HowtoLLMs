@@ -64,7 +64,7 @@ Khi tiến hành chấm điểm (Cosine similarity mapping) một "Trục ranh g
 - **Chuẩn Cự ly Chữ cái:** Từ vựng yêu cầu $> 2$  letters.
 - **Biểu thức chính quy (Alphanumeric Mask):** Chỉ những mảng kí tự hoàn toàn cấu tạo từ chữ hệ ABC.
 
-Bộ lọc này quét qua ma trận từ nhúng $E \in \mathbb{R}^{V \times D}$ (với $V=3.000.000$). Kết quả loại bỏ đến $70\%$ khối lượng vocab của Word2vec chỉ chứa rác thông tin (noise artifacts). Mảng rút lõi giúp tăng tốc đạo hàm bộ nhớ trên $E_{filtered}$, cho phép $\text{CosSim}(\vec{v}_{\text{axis}}, E_{filtered}^T)$ tìm trúng những vạch đích từ vựng ("pass performance", "yesterday") nằm đúng phổ âm của trục mà không dính bẫy ngẫu nhiên (false positive correlation).
+Bộ lọc này quét qua ma trận từ nhúng $E \in $\mathbb${R}^{V \times D}$ (với $V=3.000.000$). Kết quả loại bỏ đến $70\%$ khối lượng vocab của Word2vec chỉ chứa rác thông tin (noise artifacts). Mảng rút lõi giúp tăng tốc đạo hàm bộ nhớ trên $E_{filtered}$, cho phép $\text{CosSim}(\vec{v}_{\text{axis}}, E_{filtered}^T)$ tìm trúng những vạch đích từ vựng ("pass performance", "yesterday") nằm đúng phổ âm của trục mà không dính bẫy ngẫu nhiên (false positive correlation).
 
 ---
 

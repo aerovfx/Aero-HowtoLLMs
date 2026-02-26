@@ -30,7 +30,11 @@ Python xem toàn bộ câu văn là **một chuỗi ký tự liên tục duy nh�
 
 ```python
 sentence = "The quick brown fox jumps"
+
+$$
 words = sentence.split()
+$$
+
 print(words)
 # ['The', 'quick', 'brown', 'fox', 'jumps']
 print(len(words))   # 5 từ
@@ -39,8 +43,14 @@ print(len(words))   # 5 từ
 - **Tùy chỉnh delimiter:** Truyền ký tự phân cách vào `.split(delimiter)`.
 
 ```python
+
+$$
 csv_line = "Hanoi,Saigon,Danang"
+$$
+
+$$
 cities = csv_line.split(',')   # ['Hanoi', 'Saigon', 'Danang']
+$$
 
 ### 1.2. Thống kê Từng Đơn vị Từ
 
@@ -125,8 +135,15 @@ print(raw.rstrip())    # '  Hello World'  — chỉ cắt phải
 ### 4.3. Thay thế chuỗi con
 
 ```python
+
+$$
 text = "I love deep_learning and NLP!"
+$$
+
+$$
 cleaned = text.replace("_", " ").replace("!", "")
+$$
+
 print(cleaned)   # 'I love deep learning and NLP'
 
 ### 4.4. Kiểm tra nội dung chuỗi
@@ -157,7 +174,10 @@ print("  ".isspace())    # True — toàn khoảng trắng
 
 ```python
 multiline = "Line 1\nLine 2\nLine 3"
+
+$$
 lines = multiline.split('\n')   # ['Line 1', 'Line 2', 'Line 3']
+$$
 
 ---
 
@@ -171,11 +191,23 @@ import string
 def preprocess_text(text):
     """Làm sạch văn bản cho NLP pipeline."""
     # 1. Chuyển về chữ thường
-    text = text.lower()
+
+$$
+text = text.lower()
+$$
+
     # 2. Loại bỏ khoảng trắng đầu cuối
-    text = text.strip()
+
+$$
+text = text.strip()
+$$
+
     # 3. Tách từ
-    words = text.split()
+
+$$
+words = text.split()
+$$
+
     # 4. Loại bỏ dấu câu khỏi từng từ
     words = [w.strip(string.punctuation) for w in words]
     # 5. Loại bỏ token rỗng
@@ -183,7 +215,11 @@ def preprocess_text(text):
     return words
 
 raw = "  Hello, World! This is Deep Learning.  "
+
+$$
 tokens = preprocess_text(raw)
+$$
+
 print(tokens)
 # ['hello', 'world', 'this', 'is', 'deep', 'learning']
 

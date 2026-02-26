@@ -126,18 +126,24 @@ $$
 **Property 1: Strict Positivity**
 
 $$
-e^x > 0 \quad \forall x \in \mathbb{R}
+e^x > 0 \quad \forall x \in $\mathbb${R}
 $$
 
 **Ý nghĩa:**
 - $e^x$ không bao giờ negative
-- Khi $x \to -\infty$, $e^x \to 0^+$ (tiến đến 0 nhưng không bao giờ bằng 0)
-- Khi $x \to +\infty$, $e^x \to +\infty$
+- Khi $x \to -$\infty$$, $e^x \to 0^+$ (tiến đến 0 nhưng không bao giờ bằng 0)
+- Khi $x \to +$\infty$$, $e^x \to +$\infty$$
 
 **Property 2: Non-linear Growth**
 
 $$
+
+$$
+
 \frac{d}{dx}e^x = e^x
+
+$$
+
 $$
 
 **Hành vi:**
@@ -164,8 +170,13 @@ Observation:
 import numpy as np
 import matplotlib.pyplot as plt
 
+$$
 x = np.linspace(-3, 3, 100)
+$$
+
+$$
 y = np.exp(x)
+$$
 
 plt.plot(x, y, linewidth=2)
 plt.axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -188,7 +199,13 @@ plt.grid(True, alpha=0.3)
 **Mathematical definition:**
 
 $$
-\sigma(\mathbf{z})_i = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
+
+$$
+
+\sigma(\mathbf{z})_i = \frac{e^{z_i}}{$\sum$_{j=1}^{K} e^{z_j}}
+
+$$
+
 $$
 
 Trong đó:
@@ -199,7 +216,13 @@ Trong đó:
 **Vectorized form:**
 
 $$
-\sigma(\mathbf{z}) = \frac{\exp(\mathbf{z})}{\sum \exp(\mathbf{z})}
+
+$$
+
+\sigma(\mathbf{z}) = \frac{\exp(\mathbf{z})}{$\sum$ \exp(\mathbf{z})}
+
+$$
+
 $$
 
 **NumPy implementation:**
@@ -214,7 +237,11 @@ def softmax(z):
     Returns:
         Probability distribution, shape (n,)
     """
-    exp_z = np.exp(z)
+
+$$
+exp_z = np.exp(z)
+$$
+
     return exp_z / np.sum(exp_z)
 
 #### 2.2.2 Example Computation
@@ -240,7 +267,7 @@ $$
 **Step 3: Normalize**
 
 $$
-\sigma(\mathbf{z}) = \left[\frac{7.39}{11.22}, \frac{2.72}{11.22}, \frac{1.11}{11.22}\right] = [0.659, 0.242, 0.099]
+\sigma(\mathbf{z}) = $\le$ft[\frac{7.39}{11.22}, \frac{2.72}{11.22}, \frac{1.11}{11.22}\right] = [0.659, 0.242, 0.099]
 $$
 
 **Verification:**
@@ -259,7 +286,13 @@ Một hàm $P(X)$ là probability function nếu thỏa mãn hai điều kiện:
 **Condition 1: Non-negativity**
 
 $$
-P(x) \geq 0 \quad \forall x
+
+$$
+
+P(x) $\ge$q 0 \quad \forall x
+
+$$
+
 $$
 
 **Condition 2: Normalization**
@@ -267,13 +300,25 @@ $$
 Cho discrete events:
 
 $$
-\sum_{x} P(x) = 1
+
+$$
+
+$\sum$_{x} P(x) = 1
+
+$$
+
 $$
 
 Cho continuous events:
 
 $$
-\int_{-\infty}^{\infty} P(x) \, dx = 1
+
+$$
+
+\int_{-$\infty$}^{$\infty$} P(x) \, dx = 1
+
+$$
+
 $$
 
 #### 2.3.2 Softmax Thỏa Mãn Probability Axioms
@@ -284,27 +329,45 @@ $$
 
 **Part 1: Non-negativity**
 
-Cho bất kỳ $z_i \in \mathbb{R}$:
+Cho bất kỳ $z_i \in $\mathbb${R}$:
 - Numerator: $e^{z_i} > 0$ (exponential always positive)
 - Denominator: $\sum_{j=1}^K e^{z_j} > 0$ (sum of positives is positive)
-- Therefore: $\sigma(\mathbf{z})_i = \frac{e^{z_i}}{\sum_j e^{z_j}} > 0$ ✓
+- Therefore: $\sigma(\mathbf{z})_i = \frac{e^{z_i}}{$\sum$_j e^{z_j}} > 0$ ✓
 
 **Part 2: Normalization**
 
 $$
-\sum_{i=1}^K \sigma(\mathbf{z})_i = \sum_{i=1}^K \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}
+
+$$
+
+$\sum$_{i=1}^K \sigma(\mathbf{z})_i = $\sum$_{i=1}^K \frac{e^{z_i}}{$\sum$_{j=1}^K e^{z_j}}
+
+$$
+
 $$
 
 Factor out constant denominator:
 
 $$
-= \frac{1}{\sum_{j=1}^K e^{z_j}} \sum_{i=1}^K e^{z_i}
+
+$$
+
+= \frac{1}{$\sum$_{j=1}^K e^{z_j}} $\sum$_{i=1}^K e^{z_i}
+
+$$
+
 $$
 
 Numerator equals denominator:
 
 $$
-= \frac{\sum_{i=1}^K e^{z_i}}{\sum_{j=1}^K e^{z_j}} = 1
+
+$$
+
+= \frac{$\sum$_{i=1}^K e^{z_i}}{$\sum$_{j=1}^K e^{z_j}} = 1
+
+$$
+
 $$
 
 ✓
@@ -333,7 +396,7 @@ Probabilities:            [0.0001, 0.0336, 0.0017, 0.9645, 0.0002]
 **Softmax with temperature parameter $T$:**
 
 $$
-\sigma_T(\mathbf{z})_i = \frac{e^{z_i/T}}{\sum_{j=1}^{K} e^{z_j/T}} = \frac{\exp(z_i/T)}{\sum_{j=1}^K \exp(z_j/T)}
+\sigma_T(\mathbf{z})_i = \frac{e^{z_i/T}}{$\sum$_{j=1}^{K} e^{z_j/T}} = \frac{\exp(z_i/T)}{$\sum$_{j=1}^K \exp(z_j/T)}
 $$
 
 **Notation:**
@@ -344,14 +407,26 @@ $$
 Khi exponent phức tạp, sử dụng $\exp(\cdot)$ thay vì $e^{(\cdot)}$:
 
 $$
-\sigma_T(\mathbf{z})_i = \frac{\exp(z_i/T)}{\sum_j \exp(z_j/T)}
+
+$$
+
+\sigma_T(\mathbf{z})_i = \frac{\exp(z_i/T)}{$\sum$_j \exp(z_j/T)}
+
+$$
+
 $$
 
 #### 3.1.2 Behavior với Different Temperature Values
 **Case 1: T = 1 (Standard)**
 
 $$
-\sigma_1(\mathbf{z}) = \frac{e^{z_i}}{\sum_j e^{z_j}}
+
+$$
+
+\sigma_1(\mathbf{z}) = \frac{e^{z_i}}{$\sum$_j e^{z_j}}
+
+$$
+
 $$
 
 - Normal Softmax
@@ -359,7 +434,13 @@ $$
 **Case 2: T > 1 (High Temperature)**
 
 $$
-\sigma_T(\mathbf{z}) = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}} \quad \text{with } T > 1
+
+$$
+
+\sigma_T(\mathbf{z}) = \frac{e^{z_i/T}}{$\sum$_j e^{z_j/T}} \quad \text{with } T > 1
+
+$$
+
 $$
 
 **Effect:**
@@ -370,7 +451,13 @@ $$
 **Case 3: T < 1 (Low Temperature)**
 
 $$
-\sigma_T(\mathbf{z}) = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}} \quad \text{with } T < 1
+
+$$
+
+\sigma_T(\mathbf{z}) = \frac{e^{z_i/T}}{$\sum$_j e^{z_j/T}} \quad \text{with } T < 1
+
+$$
+
 $$
 
 **Effect:**
@@ -381,7 +468,13 @@ $$
 **Case 4: T → 0 (Zero Temperature Limit)**
 
 $$
+
+$$
+
 \lim_{T \to 0} \sigma_T(\mathbf{z}) = \text{one-hot}(\arg\max \mathbf{z})
+
+$$
+
 $$
 
 **Effect:**
@@ -391,7 +484,13 @@ $$
 **Case 5: T → ∞ (Infinite Temperature Limit)**
 
 $$
-\lim_{T \to \infty} \sigma_T(\mathbf{z}) = \text{uniform}(K)
+
+$$
+
+\lim_{T \to $\infty$} \sigma_T(\mathbf{z}) = \text{uniform}(K)
+
+$$
+
 $$
 
 **Effect:**
@@ -443,7 +542,11 @@ Low T: Points spread widely (varying slopes)
 **Setup:**
 ```python
 import numpy as np
+
+$$
 logits = np.array([2.0, 3.0, 8.0])
+$$
+
 temperatures = [0.5, 1.0, 2.0, 5.0, 10.0]
 **Results:**
 | Temperature | Prob[0] | Prob[1] | Prob[2] | Entropy |
@@ -463,7 +566,11 @@ temperatures = [0.5, 1.0, 2.0, 5.0, 10.0]
 ```python
 # Simulate 25 tokens
 np.random.seed(42)
+
+$$
 logits = np.random.randint(-5, 15, size=25)
+$$
+
 print(f"Logits range: {logits.min()} to {logits.max()}")
 # Top logit: 14
 # Second: 13
@@ -475,9 +582,19 @@ print(f"Logits range: {logits.min()} to {logits.max()}")
 - Not dramatically different
 **After Softmax $T=1$:**
 ```python
+
+$$
 probs = softmax(logits)
+$$
+
+$$
 print(f"P(token_max) = {probs.max():.4f}")
+$$
+
+$$
 print(f"P(token_2nd) = {sorted(probs)[-2]:.4f}")
+$$
+
 print(f"Ratio: {probs.max() / sorted(probs)[-2]:.2f}x")
 # Output:
 # P(token_max) = 0.6231
@@ -509,7 +626,11 @@ print(f"Ratio: {probs.max() / sorted(probs)[-2]:.2f}x")
 **Very low $T = 0.2$:**
 ```python
 # Distribution extremely peaked
+
+$$
 probs_low = softmax(logits / 0.2)
+$$
+
 # Top token: ~0.99
 # Others: ~0.00
 - Nearly deterministic
@@ -518,7 +639,11 @@ probs_low = softmax(logits / 0.2)
 **Very high $T = 10$:**
 ```python
 # Distribution nearly uniform
+
+$$
 probs_high = softmax(logits / 10)
+$$
+
 # All tokens: ~0.04 (for 25 tokens)
 - Almost random selection
 - Ignores logits
@@ -538,19 +663,37 @@ probs_high = softmax(logits / 10)
 **Log-Softmax:**
 
 $$
-\log \sigma(\mathbf{z})_i = \log \left( \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}} \right)
+
+$$
+
+$\log$ \sigma(\mathbf{z})_i = $\log$ $\le$ft( \frac{e^{z_i}}{$\sum$_{j=1}^K e^{z_j}} \right)
+
+$$
+
 $$
 
 **Simplified using log properties:**
 
 $$
-\log \sigma(\mathbf{z})_i = z_i - \log \sum_{j=1}^K e^{z_j}
+
+$$
+
+$\log$ \sigma(\mathbf{z})_i = z_i - $\log$ $\sum$_{j=1}^K e^{z_j}
+
+$$
+
 $$
 
 **Với temperature:**
 
 $$
-\log \sigma_T(\mathbf{z})_i = \frac{z_i}{T} - \log \sum_{j=1}^K e^{z_j/T}
+
+$$
+
+$\log$ \sigma_T(\mathbf{z})_i = \frac{z_i}{T} - $\log$ $\sum$_{j=1}^K e^{z_j/T}
+
+$$
+
 $$
 
 **Alternative name:** Log-probabilities
@@ -571,24 +714,52 @@ p2 = 2e-20
 # Hard to distinguish despite 2x difference
 **Issue 3: Gradient vanishing**
 ```python
+
+$$
 grad = prob * (1 - prob)  # → 0 if prob ≈ 0
+$$
+
 #### 4.1.3 Logarithm Stretches Small Numbers
 **Log transformation properties:**
 
 $$
-\log(0.1) = -2.3
+
+$$
+
+$\log$(0.1) = -2.3
+
 $$
 
 $$
-\log(0.01) = -4.6
+
 $$
 
 $$
-\log(0.001) = -6.9
+
+$\log$(0.01) = -4.6
+
 $$
 
 $$
-\log(10^{-8}) = -18.4
+
+$$
+
+$$
+
+$\log$(0.001) = -6.9
+
+$$
+
+$$
+
+$$
+
+$$
+
+$\log$(10^{-8}) = -18.4
+
+$$
+
 $$
 
 **Visual effect:**
@@ -613,21 +784,38 @@ $$
 4. **Gradient flow**: Better optimization
 ### 4.2 Mathematical Properties
 #### 4.2.1 Logarithm Properties Used
-**Property 1:** $\log(a/b) = \log(a) - \log(b)$
 
 $$
-\log \sigma(\mathbf{z})_i = \log(e^{z_i}) - \log\left(\sum_j e^{z_j}\right)
+**Property 1:** $\log(a/b) = $\log$(a) - $\log$(b)$
 $$
 
+$$
+
+$$
+
+$\log$ \sigma(\mathbf{z})_i = $\log$(e^{z_i}) - $\log$$\le$ft($\sum$_j e^{z_j}\right)
+
+$$
+
+$$
+
+$$
 **Property 2:** $\log(e^x) = x$
+$$
 
 $$
-= z_i - \log\left(\sum_j e^{z_j}\right)
+
+$$
+
+= z_i - $\log$$\le$ft($\sum$_j e^{z_j}\right)
+
+$$
+
 $$
 
 **Interpretation:**
 - **First term** ($z_i$): Original logit
-- **Second term** ($\log \sum e^{z_j}$): Log-sum-exp normalization
+- **Second term** ($\log $\sum$ e^{z_j}$): Log-sum-exp normalization
 #### 4.2.2 Range Comparison
 **Softmax output range:**
 
@@ -638,12 +826,12 @@ $$
 **Log-Softmax output range:**
 
 $$
-\log \sigma(\mathbf{z})_i \in (-\infty, 0]
+$\log$ \sigma(\mathbf{z})_i \in (-$\infty$, 0]
 $$
 
 **Relationship:**
-- $\sigma = 1 \Rightarrow \log \sigma = 0$ (maximum)
-- $\sigma \to 0^+ \Rightarrow \log \sigma \to -\infty$ (minimum)
+- $\sigma = 1 \Rightarrow $\log$ \sigma = 0$ (maximum)
+- $\sigma \to 0^+ \Rightarrow $\log$ \sigma \to -$\infty$$ (minimum)
 **Example:**
 Softmax:      [0.659, 0.242, 0.099]
 Log-Softmax:  [-0.417, -1.419, -2.313]
@@ -653,17 +841,35 @@ Log-Softmax:  [-0.417, -1.419, -2.313]
 import matplotlib.pyplot as plt
 import numpy as np
 # Generate logits
+
+$$
 logits = np.linspace(-5, 15, 35)
+$$
+
 # Compute Softmax and Log-Softmax
 temps = [1, 2, 5, 10]
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 for T in temps:
     # Softmax
-    probs = softmax(logits / T)
-    ax1.plot(logits, probs, label=f'T={T}', linewidth=2)
+
+$$
+probs = softmax(logits / T)
+$$
+
+$$
+ax1.plot(logits, probs, label=f'T={T}', linewidth=2)
+$$
+
     # Log-Softmax
-    log_probs = np.log(probs)
-    ax2.plot(logits, log_probs, label=f'T={T}', linewidth=2)
+
+$$
+log_probs = np.log(probs)
+$$
+
+$$
+ax2.plot(logits, log_probs, label=f'T={T}', linewidth=2)
+$$
+
 ax1.set_xlabel('Logit value')
 ax1.set_ylabel('Probability')
 ax1.set_title('Softmax (Linear)')
@@ -695,49 +901,104 @@ def log_softmax_naive(z):
 **Issues:**
 **Issue 1: Intermediate overflow**
 ```python
+
+$$
 z = np.array([1000, 1001, 1002])
+$$
+
+$$
 exp_z = np.exp(z)  # → [inf, inf, inf]
+$$
+
 # Cannot compute softmax!
 **Issue 2: Log of zero**
 ```python
+
+$$
 z = np.array([-1000, 0, 1])
+$$
+
+$$
 probs = softmax(z)  # → [0.0, 5e-435, 1.0]
+$$
+
+$$
 log_probs = np.log(probs)  # → [-inf, -1000, 0]
+$$
+
 # Lost information!
 #### 4.4.2 Numerically Stable Implementation
 **Better approach:**
 
 $$
-\log \sigma(\mathbf{z})_i = z_i - \log \sum_{j=1}^K e^{z_j}
+
+$$
+
+$\log$ \sigma(\mathbf{z})_i = z_i - $\log$ $\sum$_{j=1}^K e^{z_j}
+
+$$
+
 $$
 
 **Further stabilization (LogSumExp trick):**
 
 $$
-\log \sum_{j=1}^K e^{z_j} = \log \left( e^{z_{\max}} \sum_{j=1}^K e^{z_j - z_{\max}} \right)
+
+$$
+
+$\log$ $\sum$_{j=1}^K e^{z_j} = $\log$ $\le$ft( e^{z_{\max}} $\sum$_{j=1}^K e^{z_j - z_{\max}} \right)
+
 $$
 
 $$
-= z_{\max} + \log \sum_{j=1}^K e^{z_j - z_{\max}}
+
+$$
+
+$$
+
+= z_{\max} + $\log$ $\sum$_{j=1}^K e^{z_j - z_{\max}}
+
+$$
+
 $$
 
 **Stable implementation:**
 ```python
 def log_softmax_stable(z):
     """Numerically stable log-softmax"""
-    z_max = np.max(z)
+
+$$
+z_max = np.max(z)
+$$
+
     # Shift values to prevent overflow
-    z_shifted = z - z_max
+
+$$
+z_shifted = z - z_max
+$$
+
     # Compute log-sum-exp
-    log_sum_exp = z_max + np.log(np.sum(np.exp(z_shifted)))
+
+$$
+log_sum_exp = z_max + np.log(np.sum(np.exp(z_shifted)))
+$$
+
     # Return log-probabilities
     return z_shifted - np.log(np.sum(np.exp(z_shifted)))
 # Alternative: Use the shift in final computation
 def log_softmax_stable_v2(z):
-    z_max = np.max(z)
+
+$$
+z_max = np.max(z)
+$$
+
     return z - z_max - np.log(np.sum(np.exp(z - z_max)))
 **Why this works:**
-1. Subtract max prevents overflow ($e^{z-z_{\max}} \leq 1$)
+
+$$
+1. Subtract max prevents overflow ($e^{z-z_{\max}} $\le$q 1$)
+$$
+
 2. At least one term equals 1 (prevents all zeros)
 3. Mathematically equivalent to naive version
 4. Numerically robust
@@ -747,13 +1008,24 @@ def log_softmax_stable_v2(z):
 **Option 1: Separate operations**
 ```python
 import torch.nn.functional as F
+
+$$
 probs = F.softmax(logits, dim=-1)
+$$
+
+$$
 log_probs = torch.log(probs)
+$$
+
 **Pros:** Intuitive  
 **Cons:** Numerically unstable
 **Option 2: Dedicated function**
 ```python
+
+$$
 log_probs = F.log_softmax(logits, dim=-1)
+$$
+
 **Pros:** Numerically stable, optimized  
 **Cons:** None
 **Recommendation:**
@@ -767,14 +1039,30 @@ log_probs = F.log_softmax(logits, dim=-1)
 **Example showing difference:**
 ```python
 # Large logits
+
+$$
 logits = torch.tensor([100., 101., 102.])
+$$
+
 # Naive approach
+
+$$
 probs = F.softmax(logits, dim=0)
+$$
+
 print(probs)  # tensor([0., 0., 1.]) - lost precision!
+
+$$
 log_probs_naive = torch.log(probs)
+$$
+
 print(log_probs_naive)  # tensor([-inf, -inf, 0.])
 # Stable approach
+
+$$
 log_probs_stable = F.log_softmax(logits, dim=0)
+$$
+
 print(log_probs_stable)  
 # tensor([-2.0000, -1.0000, 0.0000]) - correct!
 ---
@@ -791,11 +1079,22 @@ def softmax(z):
     Returns:
         Probability distribution, shape (n,)
     """
-    exp_z = np.exp(z)
+
+$$
+exp_z = np.exp(z)
+$$
+
     return exp_z / np.sum(exp_z)
 # Test
+
+$$
 logits = np.array([2.0, 1.0, 0.1])
+$$
+
+$$
 probs = softmax(logits)
+$$
+
 print(f"Probabilities: {probs}")
 print(f"Sum: {probs.sum()}")
 **Output:**
@@ -803,7 +1102,11 @@ Probabilities: [0.65900114 0.24243297 0.09856589]
 Sum: 1.0
 #### 5.1.2 Softmax with Temperature
 ```python
+
+$$
 def softmax_temperature(z, T=1.0):
+$$
+
     """
     Softmax with temperature scaling
     Args:
@@ -812,12 +1115,24 @@ def softmax_temperature(z, T=1.0):
     Returns:
         Temperature-scaled probability distribution
     """
-    exp_z = np.exp(z / T)
+
+$$
+exp_z = np.exp(z / T)
+$$
+
     return exp_z / np.sum(exp_z)
 # Compare different temperatures
+
+$$
 logits = np.array([2.0, 1.0, 0.1])
+$$
+
 for T in [0.5, 1.0, 2.0]:
-    probs = softmax_temperature(logits, T)
+
+$$
+probs = softmax_temperature(logits, T)
+$$
+
     print(f"T={T}: {probs}")
 **Output:**
 T=0.5: [0.84360176 0.14345253 0.01294571]  # Sharp
@@ -833,17 +1148,41 @@ def log_softmax(z):
     Returns:
         Log-probabilities
     """
-    z_max = np.max(z)
-    z_shifted = z - z_max
-    log_sum_exp = np.log(np.sum(np.exp(z_shifted)))
+
+$$
+z_max = np.max(z)
+$$
+
+$$
+z_shifted = z - z_max
+$$
+
+$$
+log_sum_exp = np.log(np.sum(np.exp(z_shifted)))
+$$
+
     return z_shifted - log_sum_exp
 # Test
+
+$$
 logits = np.array([2.0, 1.0, 0.1])
+$$
+
+$$
 log_probs = log_softmax(logits)
+$$
+
 print(f"Log-probabilities: {log_probs}")
 # Verify: exp(log_probs) should equal softmax(logits)
+
+$$
 recovered_probs = np.exp(log_probs)
+$$
+
+$$
 original_probs = softmax(logits)
+$$
+
 print(f"Match: {np.allclose(recovered_probs, original_probs)}")
 ### 5.2 PyTorch Implementation
 #### 5.2.1 Basic Usage
@@ -851,32 +1190,71 @@ print(f"Match: {np.allclose(recovered_probs, original_probs)}")
 import torch
 import torch.nn.functional as F
 # Create logits
+
+$$
 logits = torch.tensor([2.0, 1.0, 0.1])
+$$
+
 # Softmax
+
+$$
 probs = F.softmax(logits, dim=0)
+$$
+
 print(f"Probabilities: {probs}")
 # Log-Softmax
+
+$$
 log_probs = F.log_softmax(logits, dim=0)
+$$
+
 print(f"Log-probabilities: {log_probs}")
 #### 5.2.2 Dimension Parameter
 **Critical importance của `dim` parameter:**
 ```python
 # 1D tensor
+
+$$
 logits_1d = torch.tensor([1.0, 2.0, 3.0])
+$$
+
+$$
 probs_1d = F.softmax(logits_1d, dim=0)
+$$
+
 # 2D tensor (batch)
+
+$$
 logits_2d = torch.tensor([[1.0, 2.0, 3.0],
+$$
+
                           [0.5, 1.5, 2.5]])
 # Softmax over features (dim=1)
+
+$$
 probs_features = F.softmax(logits_2d, dim=1)
+$$
+
 print("Softmax over features:")
 print(probs_features)
+
+$$
 print(f"Row sums: {probs_features.sum(dim=1)}")
+$$
+
 # Softmax over batch (dim=0)
+
+$$
 probs_batch = F.softmax(logits_2d, dim=0)
+$$
+
 print("\nSoftmax over batch:")
 print(probs_batch)
+
+$$
 print(f"Column sums: {probs_batch.sum(dim=0)}")
+$$
+
 **Output:**
 Softmax over features:
 tensor([[0.0900, 0.2447, 0.6652],
@@ -889,22 +1267,45 @@ Column sums: tensor([1., 1., 1.])
 **Common pattern trong LLMs:**
 ```python
 # Shape: [batch, sequence, vocab]
+
+$$
 logits = torch.randn(32, 128, 100000)
+$$
+
 # Softmax over vocabulary (last dimension)
+
+$$
 probs = F.softmax(logits, dim=-1)
+$$
+
 # Shape: [32, 128, 100000]
 # probs.sum(dim=-1) → all 1.0
 #### 5.2.3 Warning Message
 **Deprecated behavior:**
 ```python
+
+$$
 logits = torch.tensor([1.0, 2.0, 3.0])
+$$
+
+$$
 probs = F.softmax(logits)  # Warning!
+$$
+
 **Warning:**
 UserWarning: Implicit dimension choice for softmax has been deprecated.
+
+$$
 Change the call to include dim=X as an argument.
+$$
+
 **Solution:**
 ```python
+
+$$
 probs = F.softmax(logits, dim=0)  # ✓ No warning
+$$
+
 **Why this matters:**
 - Prevents ambiguity trong multi-dimensional tensors
 - Makes code intention explicit
@@ -915,25 +1316,52 @@ probs = F.softmax(logits, dim=0)  # ✓ No warning
 import matplotlib.pyplot as plt
 # Generate diverse logits
 np.random.seed(42)
+
+$$
 logits = np.random.randint(-5, 15, size=25)
+$$
+
 # Range of temperatures
 temperatures = [0.2, 0.5, 1.0, 2.0, 5.0, 10.0]
 # Plot
+
+$$
 fig, axes = plt.subplots(2, 3, figsize=(15, 10))
+$$
+
+$$
 axes = axes.ravel()
+$$
+
 for idx, T in enumerate(temperatures):
-    probs = softmax_temperature(logits, T)
+
+$$
+probs = softmax_temperature(logits, T)
+$$
+
     axes[idx].bar(range(len(probs)), probs)
-    axes[idx].set_title(f'Temperature = {T}', fontsize=14)
+
+$$
+axes[idx].set_title(f'Temperature = {T}', fontsize=14)
+$$
+
     axes[idx].set_xlabel('Token index')
     axes[idx].set_ylabel('Probability')
     axes[idx].set_ylim([0, 1])
     # Add entropy
     entropy = -np.sum(probs * np.log(probs + 1e-10))
     axes[idx].text(0.7, 0.9, f'H = {entropy:.2f}', 
-                   transform=axes[idx].transAxes)
+
+$$
+transform=axes[idx].transAxes)
+$$
+
 plt.tight_layout()
+
+$$
 plt.savefig('temperature_effects.png', dpi=300)
+$$
+
 **Observations:**
 - **T = 0.2**: One dominant bar, others near zero
 - **T = 1.0**: Clear peak, visible distribution
@@ -942,24 +1370,61 @@ plt.savefig('temperature_effects.png', dpi=300)
 #### 5.3.2 Softmax vs Log-Softmax
 ```python
 # Generate data
+
+$$
 logits = np.linspace(-5, 15, 35)
+$$
+
 temps = [1, 2, 5, 10]
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 for T in temps:
     # Softmax
-    probs = np.array([softmax_temperature(logits, T)])
-    ax1.plot(logits, probs.flatten(), label=f'T={T}', linewidth=2)
+
+$$
+probs = np.array([softmax_temperature(logits, T)])
+$$
+
+$$
+ax1.plot(logits, probs.flatten(), label=f'T={T}', linewidth=2)
+$$
+
     # Log-Softmax
-    log_probs = np.log(probs.flatten())
-    ax2.plot(logits, log_probs, label=f'T={T}', linewidth=2)
+
+$$
+log_probs = np.log(probs.flatten())
+$$
+
+$$
+ax2.plot(logits, log_probs, label=f'T={T}', linewidth=2)
+$$
+
+$$
 ax1.set_xlabel('Logit value', fontsize=12)
+$$
+
+$$
 ax1.set_ylabel('Probability', fontsize=12)
+$$
+
+$$
 ax1.set_title('Softmax (Linear Scale)', fontsize=14)
+$$
+
 ax1.legend()
 ax1.grid(True, alpha=0.3)
+
+$$
 ax2.set_xlabel('Logit value', fontsize=12)
+$$
+
+$$
 ax2.set_ylabel('Log-probability', fontsize=12)
+$$
+
+$$
 ax2.set_title('Log-Softmax (Log Scale)', fontsize=14)
+$$
+
 ax2.legend()
 ax2.grid(True, alpha=0.3)
 plt.tight_layout()
@@ -980,50 +1445,115 @@ plt.tight_layout()
 **Step 1: Model forward pass**
 ```python
 # Input: Token IDs [batch, seq_len]
+
+$$
 input_ids = torch.tensor([[15, 42, 88, 156]])
+$$
+
 # Model processes input
-hidden_states = model(input_ids)  
+
+$$
+hidden_states = model(input_ids)
+$$
+
 # Shape: [batch, seq_len, hidden_dim]
 # Final layer (unembedding)
+
+$$
 logits = model.lm_head(hidden_states[:, -1, :])
+$$
+
 # Shape: [batch, vocab_size]
 **Step 2: Apply softmax với temperature**
 ```python
 temperature = 1.0
+
+$$
 scaled_logits = logits / temperature
+$$
+
+$$
 probs = F.softmax(scaled_logits, dim=-1)
+$$
+
 # Shape: [batch, vocab_size]
 **Step 3: Sample token**
 ```python
 # Option 1: Greedy (argmax)
+
+$$
 next_token = torch.argmax(probs, dim=-1)
+$$
+
 # Option 2: Probabilistic sampling
+
+$$
 next_token = torch.multinomial(probs, num_samples=1)
+$$
+
 **Step 4: Append and continue**
 ```python
+
+$$
 input_ids = torch.cat([input_ids, next_token], dim=1)
+$$
+
 # Repeat for desired length
 #### 6.1.2 Temperature Presets
 **Typical configurations:**
 ```python
 # Factual, deterministic
+
+$$
 temperature_factual = 0.7
+$$
+
+$$
 top_p = 0.9
+$$
+
 # Balanced
+
+$$
 temperature_balanced = 1.0
+$$
+
+$$
 top_p = 0.95
+$$
+
 # Creative
+
+$$
 temperature_creative = 1.2
+$$
+
+$$
 top_p = 0.98
+$$
+
 # Very creative
+
+$$
 temperature_experimental = 1.5
+$$
+
+$$
 top_p = 1.0
+$$
+
 ### 6.2 Training: Cross-Entropy Loss
 #### 6.2.1 Loss Computation
 **Cross-entropy với Softmax:**
 
 $$
-\mathcal{L} = -\sum_{i=1}^K y_i \log(\sigma(\mathbf{z})_i)
+
+$$
+
+$\mathcal${L} = -$\sum$_{i=1}^K y_i $\log$(\sigma(\mathbf{z})_i)
+
+$$
+
 $$
 
 Trong đó:
@@ -1032,17 +1562,34 @@ Trong đó:
 **Với Log-Softmax:**
 
 $$
-\mathcal{L} = -\sum_{i=1}^K y_i \cdot \log\sigma(\mathbf{z})_i
+
+$$
+
+$\mathcal${L} = -$\sum$_{i=1}^K y_i \cdot $\log$\sigma(\mathbf{z})_i
+
+$$
+
 $$
 
 **PyTorch implementation:**
 **Option 1: Separate (not recommended)**
 ```python
+
+$$
 probs = F.softmax(logits, dim=-1)
+$$
+
+$$
 loss = F.nll_loss(torch.log(probs), targets)
+$$
+
 **Option 2: Combined (recommended)**
 ```python
+
+$$
 loss = F.cross_entropy(logits, targets)
+$$
+
 **Why combined is better:**
 - Numerically stable
 - Combines softmax + log + NLL
@@ -1052,7 +1599,13 @@ loss = F.cross_entropy(logits, targets)
 **Softmax gradient:**
 
 $$
-\frac{\partial \sigma_i}{\partial z_j} = \sigma_i(\delta_{ij} - \sigma_j)
+
+$$
+
+\frac{$\partial$ \sigma_i}{$\partial$ z_j} = \sigma_i(\delta_{ij} - \sigma_j)
+
+$$
+
 $$
 
 Trong đó $\delta_{ij}$ là Kronecker delta.
@@ -1066,7 +1619,7 @@ Trong đó $\delta_{ij}$ là Kronecker delta.
 **Formula:**
 
 $$
-\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right) \mathbf{V}
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}$\le$ft(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right) \mathbf{V}
 $$
 
 **Softmax role:**
@@ -1075,7 +1628,11 @@ $$
 - Creates weighted combination của values
 **Implementation:**
 ```python
+
+$$
 def scaled_dot_product_attention(Q, K, V, mask=None):
+$$
+
     """
     Scaled dot-product attention
     Args:
@@ -1086,16 +1643,36 @@ def scaled_dot_product_attention(Q, K, V, mask=None):
     Returns:
         Attention output [batch, heads, seq_q, d_v]
     """
-    d_k = Q.size(-1)
+
+$$
+d_k = Q.size(-1)
+$$
+
     # Compute attention scores
-    scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(d_k)
+
+$$
+scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(d_k)
+$$
+
     # Apply mask if provided
     if mask is not None:
-        scores = scores.masked_fill(mask == 0, float('-inf'))
+
+$$
+scores = scores.masked_fill(mask == 0, float('-inf'))
+$$
+
     # Softmax to get attention weights
-    attn_weights = F.softmax(scores, dim=-1)
+
+$$
+attn_weights = F.softmax(scores, dim=-1)
+$$
+
     # Apply weights to values
-    output = torch.matmul(attn_weights, V)
+
+$$
+output = torch.matmul(attn_weights, V)
+$$
+
     return output, attn_weights
 **Temperature trong attention:**
 - Implicitly controlled by $\sqrt{d_k}$ scaling
@@ -1107,10 +1684,18 @@ def scaled_dot_product_attention(Q, K, V, mask=None):
 #### 7.1.1 Always Specify Dimension
 **✗ Bad:**
 ```python
+
+$$
 probs = F.softmax(logits)  # Deprecated, ambiguous
+$$
+
 **✓ Good:**
 ```python
+
+$$
 probs = F.softmax(logits, dim=-1)  # Explicit, clear
+$$
+
 **Reasoning:**
 - Prevents bugs in multi-dimensional tensors
 - Makes code intention clear
@@ -1119,11 +1704,19 @@ probs = F.softmax(logits, dim=-1)  # Explicit, clear
 **✗ Bad:**
 ```python
 # Numerically unstable
+
+$$
 log_probs = torch.log(F.softmax(logits, dim=-1))
+$$
+
 **✓ Good:**
 ```python
 # Numerically stable, optimized
+
+$$
 log_probs = F.log_softmax(logits, dim=-1)
+$$
+
 **Benefits:**
 - Numerical stability (LogSumExp trick)
 - Computational efficiency
@@ -1150,22 +1743,41 @@ temperature = 1.2  # More exploratory
 **Problem:**
 ```python
 # Want low temperature but forget to scale
+
+$$
 probs = F.softmax(logits, dim=-1)
+$$
+
 # Temperature effectively = 1.0!
 **Solution:**
 ```python
 temperature = 0.8
+
+$$
 scaled_logits = logits / temperature
+$$
+
+$$
 probs = F.softmax(scaled_logits, dim=-1)
+$$
+
 #### 7.2.2 Inconsistent Dimensions
 **Problem:**
 ```python
 # logits: [batch, seq, vocab]
+
+$$
 probs = F.softmax(logits, dim=0)  # Wrong dimension!
+$$
+
 # Softmax over batch instead of vocab
 **Solution:**
 ```python
+
+$$
 probs = F.softmax(logits, dim=-1)  # Correct: over vocab
+$$
+
 **Verification:**
 ```python
 # Check that last dimension sums to 1
@@ -1174,28 +1786,60 @@ assert torch.allclose(probs.sum(dim=-1), torch.ones(batch, seq))
 **Problem:**
 ```python
 # Very large logits
+
+$$
 logits = torch.tensor([1000., 1001., 1002.])
-probs = F.softmax(logits, dim=0)  
+$$
+
+$$
+probs = F.softmax(logits, dim=0)
+$$
+
 # May produce nan or inf
 **Solution 1: Use log-softmax**
 ```python
+
+$$
 log_probs = F.log_softmax(logits, dim=0)
+$$
+
+$$
 probs = torch.exp(log_probs)
+$$
+
 **Solution 2: Clip logits**
 ```python
+
+$$
 logits = torch.clamp(logits, min=-100, max=100)
+$$
+
+$$
 probs = F.softmax(logits, dim=0)
+$$
+
 ### 7.3 Testing và Validation
 #### 7.3.1 Unit Tests
 ```python
 def test_softmax_properties():
     """Test that softmax satisfies probability axioms"""
-    logits = torch.randn(10, 100)
-    probs = F.softmax(logits, dim=-1)
+
+$$
+logits = torch.randn(10, 100)
+$$
+
+$$
+probs = F.softmax(logits, dim=-1)
+$$
+
     # Test 1: Non-negativity
     assert torch.all(probs >= 0), "Negative probabilities!"
     # Test 2: Normalization
-    sums = probs.sum(dim=-1)
+
+$$
+sums = probs.sum(dim=-1)
+$$
+
     assert torch.allclose(sums, torch.ones_like(sums)), \
         "Probabilities don't sum to 1!"
     # Test 3: Range
@@ -1206,15 +1850,36 @@ test_softmax_properties()
 ```python
 def validate_temperature(logits, T):
     """Validate temperature effects"""
-    probs_1 = F.softmax(logits / 1.0, dim=-1)
-    probs_T = F.softmax(logits / T, dim=-1)
-    entropy_1 = -(probs_1 * torch.log(probs_1 + 1e-10)).sum(dim=-1)
-    entropy_T = -(probs_T * torch.log(probs_T + 1e-10)).sum(dim=-1)
+
+$$
+probs_1 = F.softmax(logits / 1.0, dim=-1)
+$$
+
+$$
+probs_T = F.softmax(logits / T, dim=-1)
+$$
+
+$$
+entropy_1 = -(probs_1 * torch.log(probs_1 + 1e-10)).sum(dim=-1)
+$$
+
+$$
+entropy_T = -(probs_T * torch.log(probs_T + 1e-10)).sum(dim=-1)
+$$
+
     if T > 1.0:
-        assert torch.all(entropy_T >= entropy_1), \
+
+$$
+assert torch.all(entropy_T >= entropy_1), \
+$$
+
             "High T should increase entropy!"
     elif T < 1.0:
-        assert torch.all(entropy_T <= entropy_1), \
+
+$$
+assert torch.all(entropy_T <= entropy_1), \
+$$
+
             "Low T should decrease entropy!"
     print(f"Temperature T={T} validation passed! ✓")
 ---
@@ -1223,7 +1888,7 @@ def validate_temperature(logits, T):
 **Reparameterization trick cho discrete sampling:**
 
 $$
-\text{Gumbel-Softmax}(\mathbf{z}, \tau)_i = \frac{\exp((z_i + g_i)/\tau)}{\sum_j \exp((z_j + g_j)/\tau)}
+\text{Gumbel-Softmax}(\mathbf{z}, \tau)_i = \frac{\exp((z_i + g_i)/\tau)}{$\sum$_j \exp((z_j + g_j)/\tau)}
 $$
 
 Trong đó $g_i \sim \text{Gumbel}(0,1)$
@@ -1334,11 +1999,25 @@ class SoftmaxAnalyzer:
         Returns:
             Probability distribution (numpy array)
         """
-        z_scaled = z / T
-        exp_z = np.exp(z_scaled - np.max(z_scaled, axis=axis, keepdims=True))
-        return exp_z / np.sum(exp_z, axis=axis, keepdims=True)
+
+$$
+z_scaled = z / T
+$$
+
+$$
+exp_z = np.exp(z_scaled - np.max(z_scaled, axis=axis, keepdims=True))
+$$
+
+$$
+return exp_z / np.sum(exp_z, axis=axis, keepdims=True)
+$$
+
     @staticmethod
-    def log_softmax(z, T=1.0, axis=-1):
+
+$$
+def log_softmax(z, T=1.0, axis=-1):
+$$
+
         """
         Numerically stable log-softmax
         Args:
@@ -1348,20 +2027,45 @@ class SoftmaxAnalyzer:
         Returns:
             Log-probabilities
         """
-        z_scaled = z / T
-        z_max = np.max(z_scaled, axis=axis, keepdims=True)
-        log_sum_exp = np.log(np.sum(np.exp(z_scaled - z_max), 
-                                     axis=axis, keepdims=True))
+
+$$
+z_scaled = z / T
+$$
+
+$$
+z_max = np.max(z_scaled, axis=axis, keepdims=True)
+$$
+
+$$
+log_sum_exp = np.log(np.sum(np.exp(z_scaled - z_max),
+$$
+
+$$
+axis=axis, keepdims=True))
+$$
+
         return z_scaled - z_max - log_sum_exp
     @staticmethod
     def entropy(probs, axis=-1):
         """
         Compute entropy of probability distribution
-        H(p) = -Σ p_i log(p_i)
+
+$$
+H(p) = -Σ p_i log(p_i)
+$$
+
         """
-        return -np.sum(probs * np.log(probs + 1e-10), axis=axis)
+
+$$
+return -np.sum(probs * np.log(probs + 1e-10), axis=axis)
+$$
+
     @staticmethod
-    def validate_probabilities(probs, tol=1e-6):
+
+$$
+def validate_probabilities(probs, tol=1e-6):
+$$
+
         """
         Validate that probs form valid probability distribution
         Returns:
@@ -1372,12 +2076,23 @@ class SoftmaxAnalyzer:
         # Range [0, 1]
         assert np.all(probs <= 1 + tol), "Probabilities > 1 detected!"
         # Normalization
-        sums = np.sum(probs, axis=-1)
-        assert np.allclose(sums, 1.0, atol=tol), \
+
+$$
+sums = np.sum(probs, axis=-1)
+$$
+
+$$
+assert np.allclose(sums, 1.0, atol=tol), \
+$$
+
             f"Probabilities don't sum to 1! Sums: {sums}"
         return True
     @staticmethod
-    def compare_temperatures(logits, temperatures=[0.5, 1.0, 2.0, 5.0]):
+
+$$
+def compare_temperatures(logits, temperatures=[0.5, 1.0, 2.0, 5.0]):
+$$
+
         """
         Compare softmax distributions across temperatures
         Args:
@@ -1388,8 +2103,15 @@ class SoftmaxAnalyzer:
         """
         results = {}
         for T in temperatures:
-            probs = SoftmaxAnalyzer.softmax(logits, T=T)
-            H = SoftmaxAnalyzer.entropy(probs)
+
+$$
+probs = SoftmaxAnalyzer.softmax(logits, T=T)
+$$
+
+$$
+H = SoftmaxAnalyzer.entropy(probs)
+$$
+
             results[T] = {
                 'probabilities': probs,
                 'entropy': H,
@@ -1399,17 +2121,42 @@ class SoftmaxAnalyzer:
             }
         return results
     @staticmethod
-    def plot_temperature_effects(logits, temperatures=[0.5, 1.0, 2.0, 5.0]):
+
+$$
+def plot_temperature_effects(logits, temperatures=[0.5, 1.0, 2.0, 5.0]):
+$$
+
         """Visualize temperature effects"""
-        n_temps = len(temperatures)
-        fig, axes = plt.subplots(1, n_temps, figsize=(5*n_temps, 4))
-        if n_temps == 1:
+
+$$
+n_temps = len(temperatures)
+$$
+
+$$
+fig, axes = plt.subplots(1, n_temps, figsize=(5*n_temps, 4))
+$$
+
+$$
+if n_temps == 1:
+$$
+
             axes = [axes]
         for idx, T in enumerate(temperatures):
-            probs = SoftmaxAnalyzer.softmax(logits, T=T)
-            H = SoftmaxAnalyzer.entropy(probs)
+
+$$
+probs = SoftmaxAnalyzer.softmax(logits, T=T)
+$$
+
+$$
+H = SoftmaxAnalyzer.entropy(probs)
+$$
+
             axes[idx].bar(range(len(probs)), probs)
-            axes[idx].set_title(f'T = {T}\nH = {H:.3f}')
+
+$$
+axes[idx].set_title(f'T = {T}\nH = {H:.3f}')
+$$
+
             axes[idx].set_xlabel('Token Index')
             axes[idx].set_ylabel('Probability')
             axes[idx].set_ylim([0, 1])
@@ -1419,22 +2166,45 @@ class SoftmaxAnalyzer:
 if __name__ == "__main__":
     # Generate random logits
     np.random.seed(42)
-    logits = np.random.randn(20)
+
+$$
+logits = np.random.randn(20)
+$$
+
     # Analyze
-    analyzer = SoftmaxAnalyzer()
+
+$$
+analyzer = SoftmaxAnalyzer()
+$$
+
     # Validate standard softmax
-    probs = analyzer.softmax(logits)
+
+$$
+probs = analyzer.softmax(logits)
+$$
+
     print("Validation:", analyzer.validate_probabilities(probs))
     # Compare temperatures
-    results = analyzer.compare_temperatures(logits)
+
+$$
+results = analyzer.compare_temperatures(logits)
+$$
+
     for T, data in results.items():
         print(f"\nTemperature {T}:")
         print(f"  Entropy: {data['entropy']:.4f}")
         print(f"  Max prob: {data['max_prob']:.4f}")
         print(f"  Top 3 tokens: {data['top_3_indices']}")
     # Visualize
-    fig = analyzer.plot_temperature_effects(logits)
-    plt.savefig('temperature_analysis.png', dpi=300, bbox_inches='tight')
+
+$$
+fig = analyzer.plot_temperature_effects(logits)
+$$
+
+$$
+plt.savefig('temperature_analysis.png', dpi=300, bbox_inches='tight')
+$$
+
 ### A.2 PyTorch LLM Generation Example
 ```python
 """
@@ -1445,10 +2215,23 @@ import torch
 import torch.nn.functional as F
 class SimpleGenerator:
     """Simple text generator with temperature control"""
-    def __init__(self, vocab_size=50000, temperature=1.0):
-        self.vocab_size = vocab_size
-        self.temperature = temperature
-    def generate_next_token(self, logits, method='sample'):
+
+$$
+def __init__(self, vocab_size=50000, temperature=1.0):
+$$
+
+$$
+self.vocab_size = vocab_size
+$$
+
+$$
+self.temperature = temperature
+$$
+
+$$
+def generate_next_token(self, logits, method='sample'):
+$$
+
         """
         Generate next token from logits
         Args:
@@ -1459,30 +2242,76 @@ class SimpleGenerator:
             prob: Probability of selected token
         """
         # Apply temperature scaling
-        scaled_logits = logits / self.temperature
+
+$$
+scaled_logits = logits / self.temperature
+$$
+
         # Compute probabilities
-        probs = F.softmax(scaled_logits, dim=-1)
+
+$$
+probs = F.softmax(scaled_logits, dim=-1)
+$$
+
         if method == 'greedy':
             # Always pick highest probability
-            next_token = torch.argmax(probs)
-            prob = probs[next_token]
+
+$$
+next_token = torch.argmax(probs)
+$$
+
+$$
+prob = probs[next_token]
+$$
+
         elif method == 'sample':
             # Sample from distribution
-            next_token = torch.multinomial(probs, num_samples=1)
-            prob = probs[next_token]
-        elif method == 'top_k':
+
+$$
+next_token = torch.multinomial(probs, num_samples=1)
+$$
+
+$$
+prob = probs[next_token]
+$$
+
+$$
+elif method == 'top_k':
+$$
+
             # Sample from top K tokens
             k = 50
-            top_k_probs, top_k_indices = torch.topk(probs, k)
-            top_k_probs = top_k_probs / top_k_probs.sum()  # Renormalize
+
+$$
+top_k_probs, top_k_indices = torch.topk(probs, k)
+$$
+
+$$
+top_k_probs = top_k_probs / top_k_probs.sum()  # Renormalize
+$$
+
             # Sample from top K
-            sampled_idx = torch.multinomial(top_k_probs, num_samples=1)
-            next_token = top_k_indices[sampled_idx]
-            prob = probs[next_token]
+
+$$
+sampled_idx = torch.multinomial(top_k_probs, num_samples=1)
+$$
+
+$$
+next_token = top_k_indices[sampled_idx]
+$$
+
+$$
+prob = probs[next_token]
+$$
+
         else:
             raise ValueError(f"Unknown method: {method}")
         return next_token.item(), prob.item()
-    def generate_sequence(self, initial_logits, length=10, method='sample'):
+
+$$
+def generate_sequence(self, initial_logits, length=10, method='sample'):
+$$
+
         """
         Generate sequence of tokens
         Args:
@@ -1495,9 +2324,17 @@ class SimpleGenerator:
         """
         tokens = []
         probs = []
-        current_logits = initial_logits
+
+$$
+current_logits = initial_logits
+$$
+
         for _ in range(length):
-            token, prob = self.generate_next_token(current_logits, method)
+
+$$
+token, prob = self.generate_next_token(current_logits, method)
+$$
+
             tokens.append(token)
             probs.append(prob)
             # In real LLM, would feed token back to model
@@ -1507,16 +2344,31 @@ class SimpleGenerator:
 if __name__ == "__main__":
     # Simulate model output
     torch.manual_seed(42)
-    logits = torch.randn(50000)  # 50K vocab
+
+$$
+logits = torch.randn(50000)  # 50K vocab
+$$
+
     print("Comparing generation methods:\n")
     # Temperature sweep
     for temp in [0.7, 1.0, 1.3]:
         print(f"Temperature = {temp}")
-        generator = SimpleGenerator(temperature=temp)
+
+$$
+generator = SimpleGenerator(temperature=temp)
+$$
+
         # Generate with different methods
         for method in ['greedy', 'sample']:
-            tokens, probs = generator.generate_sequence(
-                logits, length=5, method=method
+
+$$
+tokens, probs = generator.generate_sequence(
+$$
+
+$$
+logits, length=5, method=method
+$$
+
             )
             print(f"  {method}: tokens={tokens[:5]}")
             print(f"           probs={[f'{p:.3f}' for p in probs[:5]]}")
@@ -1534,39 +2386,78 @@ def test_large_logits():
     """Test behavior with very large logits"""
     print("Test 1: Large Logits")
     print("-" * 50)
-    logits = torch.tensor([1000., 1001., 1002.])
+
+$$
+logits = torch.tensor([1000., 1001., 1002.])
+$$
+
     # Naive (will fail)
     try:
-        exp_z = torch.exp(logits)
+
+$$
+exp_z = torch.exp(logits)
+$$
+
         print(f"exp(logits): {exp_z}")  # Will be inf
-        naive_probs = exp_z / exp_z.sum()
+
+$$
+naive_probs = exp_z / exp_z.sum()
+$$
+
         print(f"Naive softmax: {naive_probs}")  # Will be nan
     except:
         print("Naive approach failed!")
     # PyTorch's stable implementation
-    stable_probs = F.softmax(logits, dim=0)
+
+$$
+stable_probs = F.softmax(logits, dim=0)
+$$
+
     print(f"F.softmax: {stable_probs}")
     # Log-softmax approach
-    log_probs = F.log_softmax(logits, dim=0)
-    recovered_probs = torch.exp(log_probs)
+
+$$
+log_probs = F.log_softmax(logits, dim=0)
+$$
+
+$$
+recovered_probs = torch.exp(log_probs)
+$$
+
     print(f"Via log_softmax: {recovered_probs}")
     print()
 def test_small_probabilities():
     """Test handling of very small probabilities"""
     print("Test 2: Small Probabilities")
     print("-" * 50)
-    logits = torch.tensor([-1000., -500., 0.])
+
+$$
+logits = torch.tensor([-1000., -500., 0.])
+$$
+
     # Standard softmax
-    probs = F.softmax(logits, dim=0)
+
+$$
+probs = F.softmax(logits, dim=0)
+$$
+
     print(f"Probabilities: {probs}")
     # Try to take log (naive)
     try:
-        naive_log_probs = torch.log(probs)
+
+$$
+naive_log_probs = torch.log(probs)
+$$
+
         print(f"Naive log(probs): {naive_log_probs}")
     except:
         print("Naive log failed!")
     # Stable log-softmax
-    log_probs = F.log_softmax(logits, dim=0)
+
+$$
+log_probs = F.log_softmax(logits, dim=0)
+$$
+
     print(f"F.log_softmax: {log_probs}")
     print()
 def test_gradient_stability():
@@ -1574,11 +2465,25 @@ def test_gradient_stability():
     print("Test 3: Gradient Stability")
     print("-" * 50)
     # Extreme logits
-    logits = torch.tensor([100., 101., 102.], requires_grad=True)
-    target = torch.tensor(2)  # True class
+
+$$
+logits = torch.tensor([100., 101., 102.], requires_grad=True)
+$$
+
+$$
+target = torch.tensor(2)  # True class
+$$
+
     # Compute loss using stable functions
-    log_probs = F.log_softmax(logits, dim=0)
-    loss = F.nll_loss(log_probs.unsqueeze(0), target.unsqueeze(0))
+
+$$
+log_probs = F.log_softmax(logits, dim=0)
+$$
+
+$$
+loss = F.nll_loss(log_probs.unsqueeze(0), target.unsqueeze(0))
+$$
+
     print(f"Loss: {loss.item():.6f}")
     # Compute gradients
     loss.backward()
@@ -1592,16 +2497,40 @@ def test_temperature_extremes():
     """Test extreme temperature values"""
     print("Test 4: Extreme Temperatures")
     print("-" * 50)
-    logits = torch.tensor([1., 2., 3., 4., 5.])
+
+$$
+logits = torch.tensor([1., 2., 3., 4., 5.])
+$$
+
     # Very low temperature
-    T_low = 0.01
-    probs_low = F.softmax(logits / T_low, dim=0)
-    print(f"T = {T_low}: {probs_low}")
+
+$$
+T_low = 0.01
+$$
+
+$$
+probs_low = F.softmax(logits / T_low, dim=0)
+$$
+
+$$
+print(f"T = {T_low}: {probs_low}")
+$$
+
     print(f"  → Nearly one-hot: {probs_low.max():.6f}")
     # Very high temperature
-    T_high = 100.0
-    probs_high = F.softmax(logits / T_high, dim=0)
-    print(f"T = {T_high}: {probs_high}")
+
+$$
+T_high = 100.0
+$$
+
+$$
+probs_high = F.softmax(logits / T_high, dim=0)
+$$
+
+$$
+print(f"T = {T_high}: {probs_high}")
+$$
+
     print(f"  → Nearly uniform: {probs_high.std():.6f}")
     print()
 # Run all tests
@@ -1623,83 +2552,172 @@ if __name__ == "__main__":
 **Setup:**
 
 $$
-\sigma_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
+
+$$
+
+\sigma_i = \frac{e^{z_i}}{$\sum$_j e^{z_j}}
+
+$$
+
 $$
 
 **Derivative w.r.t. $z_j$:**
+
+$$
 **Case 1: $i = j$**
-
-$$
-\frac{\partial \sigma_i}{\partial z_i} = \frac{e^{z_i} \sum_k e^{z_k} - e^{z_i} \cdot e^{z_i}}{(\sum_k e^{z_k})^2}
 $$
 
 $$
-= \frac{e^{z_i}}{\sum_k e^{z_k}} \cdot \frac{\sum_k e^{z_k} - e^{z_i}}{\sum_k e^{z_k}}
+\frac{$\partial$ \sigma_i}{$\partial$ z_i} = \frac{e^{z_i} $\sum$_k e^{z_k} - e^{z_i} \cdot e^{z_i}}{($\sum$_k e^{z_k})^2}
 $$
 
 $$
+
+$$
+
+= \frac{e^{z_i}}{$\sum$_k e^{z_k}} \cdot \frac{$\sum$_k e^{z_k} - e^{z_i}}{$\sum$_k e^{z_k}}
+
+$$
+
+$$
+
+$$
+
+$$
+
 = \sigma_i (1 - \sigma_i)
+
+$$
+
 $$
 
 **Case 2: $i \neq j$**
 
 $$
-\frac{\partial \sigma_i}{\partial z_j} = \frac{0 \cdot \sum_k e^{z_k} - e^{z_i} \cdot e^{z_j}}{(\sum_k e^{z_k})^2}
+\frac{$\partial$ \sigma_i}{$\partial$ z_j} = \frac{0 \cdot $\sum$_k e^{z_k} - e^{z_i} \cdot e^{z_j}}{($\sum$_k e^{z_k})^2}
 $$
 
 $$
-= -\frac{e^{z_i}}{\sum_k e^{z_k}} \cdot \frac{e^{z_j}}{\sum_k e^{z_k}}
+
+$$
+
+= -\frac{e^{z_i}}{$\sum$_k e^{z_k}} \cdot \frac{e^{z_j}}{$\sum$_k e^{z_k}}
+
 $$
 
 $$
+
+$$
+
+$$
+
 = -\sigma_i \sigma_j
+
+$$
+
 $$
 
 **Unified form:**
 
 $$
-\frac{\partial \sigma_i}{\partial z_j} = \sigma_i(\delta_{ij} - \sigma_j)
+
+$$
+
+\frac{$\partial$ \sigma_i}{$\partial$ z_j} = \sigma_i(\delta_{ij} - \sigma_j)
+
+$$
+
 $$
 
 Trong đó $\delta_{ij}$ là Kronecker delta:
 
 $$
+
+$$
+
 \delta_{ij} = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}
+
+$$
+
 $$
 
 ### B.2 Cross-Entropy Loss Gradient
 **Loss function:**
 
 $$
-\mathcal{L} = -\sum_i y_i \log \sigma_i
+
+$$
+
+$\mathcal${L} = -$\sum$_i y_i $\log$ \sigma_i
+
+$$
+
 $$
 
 **Gradient w.r.t. logit $z_j$:**
 
 $$
-\frac{\partial \mathcal{L}}{\partial z_j} = -\sum_i y_i \frac{\partial \log \sigma_i}{\partial z_j}
+
+$$
+
+\frac{$\partial$ $\mathcal${L}}{$\partial$ z_j} = -$\sum$_i y_i \frac{$\partial$ $\log$ \sigma_i}{$\partial$ z_j}
+
 $$
 
 $$
-= -\sum_i y_i \frac{1}{\sigma_i} \frac{\partial \sigma_i}{\partial z_j}
+
 $$
 
 $$
-= -\sum_i y_i \frac{1}{\sigma_i} \sigma_i(\delta_{ij} - \sigma_j)
+
+= -$\sum$_i y_i \frac{1}{\sigma_i} \frac{$\partial$ \sigma_i}{$\partial$ z_j}
+
 $$
 
 $$
-= -\sum_i y_i (\delta_{ij} - \sigma_j)
+
 $$
 
 $$
-= -y_j + \sigma_j \sum_i y_i
+
+= -$\sum$_i y_i \frac{1}{\sigma_i} \sigma_i(\delta_{ij} - \sigma_j)
+
 $$
 
+$$
+
+$$
+
+$$
+
+= -$\sum$_i y_i (\delta_{ij} - \sigma_j)
+
+$$
+
+$$
+
+$$
+
+$$
+
+= -y_j + \sigma_j $\sum$_i y_i
+
+$$
+
+$$
+
+$$
 Vì $\sum_i y_i = 1$ (one-hot):
+$$
 
 $$
+
+$$
+
 = \sigma_j - y_j
+
+$$
+
 $$
 
 **Result:**
@@ -1708,13 +2726,19 @@ $$
 **With temperature:**
 
 $$
-\sigma_T(z_i) = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
+
+$$
+
+\sigma_T(z_i) = \frac{e^{z_i/T}}{$\sum$_j e^{z_j/T}}
+
+$$
+
 $$
 
 **Derivative w.r.t. T:**
 
 $$
-\frac{\partial \sigma_T}{\partial T} = -\frac{1}{T^2} \left( \frac{z_i e^{z_i/T}}{\sum_j e^{z_j/T}} - \frac{e^{z_i/T} \sum_j z_j e^{z_j/T}}{(\sum_j e^{z_j/T})^2} \right)
+\frac{$\partial$ \sigma_T}{$\partial$ T} = -\frac{1}{T^2} $\le$ft( \frac{z_i e^{z_i/T}}{$\sum$_j e^{z_j/T}} - \frac{e^{z_i/T} $\sum$_j z_j e^{z_j/T}}{($\sum$_j e^{z_j/T})^2} \right)
 $$
 
 After simplification:

@@ -53,7 +53,7 @@ Kết quả từ các đánh giá này được sử dụng để huấn luyện
 Mục tiêu là tối ưu hóa hàm giá trị:
 
 $$
-J(\phi) = \mathbb{E}_{x \sim D, y \sim \pi_{\phi}(y|x)} [R(x, y)] - \beta \text{KL}(\pi_{\phi} || \pi_{ref})
+J(\phi) = $\mathbb${E}_{x \sim D, y \sim \pi_{\phi}(y|x)} [R(x, y)] - \beta \text{KL}(\pi_{\phi} || \pi_{ref})
 $$
 
 Trong đó:

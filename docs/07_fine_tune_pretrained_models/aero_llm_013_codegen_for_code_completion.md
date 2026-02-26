@@ -49,13 +49,25 @@ Mục tiêu nghiên cứu:
 Cho chuỗi token mã nguồn:
 
 $$
+
+$$
+
 X=(x_1,x_2,\dots,x_n)
+
+$$
+
 $$
 
 Xác suất sinh chuỗi:
 
 $$
-P(X)=\prod_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
+
+$$
+
+P(X)=$\prod$_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
+
+$$
+
 $$
 
 Trong đó:
@@ -66,7 +78,13 @@ Trong đó:
 Nhiệm vụ hoàn thành mã là ước lượng:
 
 $$
+
+$$
+
 x_{n+1}=\arg\max_x P(x\mid X)
+
+$$
+
 $$
 
 ---
@@ -76,27 +94,51 @@ $$
 Hàm cross-entropy:
 
 $$
-\mathcal{L}(\theta)= -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i\mid x_i;\theta)
+
+$$
+
+$\mathcal${L}(\theta)= -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P(y_i\mid x_i;\theta)
+
+$$
+
 $$
 
 Mục tiêu:
 
 $$
-\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
+
+$$
+
+\theta^{\ast}=\arg\min_\theta $\mathcal${L}(\theta)
+
+$$
+
 $$
 
 ---
 
 ### 2.3. Self-Attention trong Transformer
 
-Cho đầu vào $X\in\mathbb{R}^{n\times d}$:
+Cho đầu vào $X\in$\mathbb${R}^{n\times d}$:
 
 $$
+
+$$
+
 Q=XW_Q,\quad K=XW_K,\quad V=XW_V
+
 $$
 
 $$
-\text{Attn}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
+$$
+
+\text{Attn}(Q,K,V)= \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
+
 $$
 
 Cơ chế này cho phép mô hình học quan hệ giữa các dòng lệnh trong chương trình.
@@ -127,13 +169,13 @@ $$
 CodeGen sử dụng ma trận QKV ghép:
 
 $$
-W_{QKV}\in\mathbb{R}^{d\times 3d}
+W_{QKV}\in$\mathbb${R}^{d\times 3d}
 $$
 
 Thay vì ba ma trận riêng:
 
 $$
-W_Q,W_K,W_V\in\mathbb{R}^{d\times d}
+W_Q,W_K,W_V\in$\mathbb${R}^{d\times d}
 $$
 
 Cách làm này giúp tối ưu tốc độ tính toán.
@@ -145,13 +187,19 @@ Cách làm này giúp tối ưu tốc độ tính toán.
 Lớp feed-forward:
 
 $$
+
+$$
+
 h' = W_2\sigma(W_1 h)
+
+$$
+
 $$
 
 với:
 
 $$
-W_1\in\mathbb{R}^{d\times 4d},\quad W_2\in\mathbb{R}^{4d\times d}
+W_1\in$\mathbb${R}^{d\times 4d},\quad W_2\in$\mathbb${R}^{4d\times d}
 $$
 
 ---
@@ -167,7 +215,13 @@ $$
 Trong khi số token:
 
 $$
-N_{tok}\approx 50,257
+
+$$
+
+N_{tok}$\approx$ 50,257
+
+$$
+
 $$
 
 Do đó tồn tại các vector “trống”:
@@ -189,7 +243,13 @@ Tokenizer của CodeGen được phát triển dựa trên tokenizer của **Ope
 Ký hiệu:
 
 $$
+
+$$
+
 V={w_1,\dots,w_{|V|}}
+
+$$
+
 $$
 
 là tập token.
@@ -206,7 +266,13 @@ Theo tài liệu :
 Tỷ lệ đa dạng:
 
 $$
-r=\frac{3000}{160000}\approx1.9%
+
+$$
+
+r=\frac{3000}{160000}$\approx$1.9%
+
+$$
+
 $$
 
 Cho thấy mã nguồn có mức lặp cao.
@@ -220,7 +286,13 @@ Dữ liệu được thu thập từ các kho trên **GitHub**, tập trung vào
 Tập dữ liệu:
 
 $$
-\mathcal{D}={x_1,\dots,x_N}
+
+$$
+
+$\mathcal${D}={x_1,\dots,x_N}
+
+$$
+
 $$
 
 với mỗi $x_i$ là một cell code.
@@ -234,7 +306,13 @@ với mỗi $x_i$ là một cell code.
 Với prompt ban đầu:
 
 $$
+
+$$
+
 X_0=(x_1,\dots,x_k)
+
+$$
+
 $$
 
 Mô hình sinh:
@@ -246,7 +324,13 @@ $$
 Lặp lại:
 
 $$
+
+$$
+
 X_{t+1}=X_t\oplus x_{t+1}
+
+$$
+
 $$
 
 ---
@@ -256,7 +340,13 @@ $$
 Phân phối xác suất:
 
 $$
-p_i=\frac{\exp(z_i/T)}{\sum_j\exp(z_j/T)}
+
+$$
+
+p_i=\frac{\exp(z_i/T)}{$\sum$_j\exp(z_j/T)}
+
+$$
+
 $$
 
 Trong đó:
@@ -282,7 +372,13 @@ $$
 Tỷ lệ hợp lệ:
 
 $$
-R=\frac{1}{M}\sum_{i=1}^{M}f(x_i)
+
+$$
+
+R=\frac{1}{M}$\sum$_{i=1}^{M}f(x_i)
+
+$$
+
 $$
 
 Với mô hình nhỏ:
@@ -302,7 +398,13 @@ $$
 Tham số chia thành:
 
 $$
+
+$$
+
 \theta=(\theta_0,\Delta\theta)
+
+$$
+
 $$
 
 Trong đó:
@@ -323,7 +425,7 @@ Dữ liệu từ sách giải tích được dùng để fine-tune, giúp mô h�
 Hàm mục tiêu:
 
 $$
-\min_{\Delta\theta} \mathcal{L}(\theta_0+\Delta\theta)
+\min_{\Delta\theta} $\mathcal${L}(\theta_0+\Delta\theta)
 $$
 
 ---
@@ -333,7 +435,13 @@ $$
 Sau fine-tuning:
 
 $$
-P_{domain}(x)\approx P_{data}(x)
+
+$$
+
+P_{domain}(x)$\approx$ P_{data}(x)
+
+$$
+
 $$
 
 ⇒ mã sinh ra phù hợp miền dữ liệu.
@@ -353,7 +461,7 @@ $$
 Chất lượng trung bình:
 
 $$
-Q\propto\log(P)
+Q$\propto$$\log$(P)
 $$
 
 Mô hình lớn sinh mã hợp lệ tốt hơn.
@@ -365,7 +473,7 @@ Mô hình lớn sinh mã hợp lệ tốt hơn.
 Giả sử:
 
 $$
-C\propto P
+C$\propto$ P
 $$
 
 Hiệu quả:

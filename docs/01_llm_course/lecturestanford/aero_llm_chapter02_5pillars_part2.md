@@ -46,7 +46,10 @@ Level 4: Real-world Usage (Production metrics)
 ### **A. Perplexity**
 
 **Định nghĩa:**
-PPL = exp(-1/N ∑ᵢ log P(xᵢ | x₁,...,xᵢ₋₁))
+
+$$
+PPL = exp(-1/N ∑ᵢ log P(xᵢ  \mid  x₁,...,xᵢ₋₁))
+$$
 
 **Ý nghĩa:**
 - Độ "bối rối" của model khi dự đoán
@@ -57,7 +60,11 @@ PPL = exp(-1/N ∑ᵢ log P(xᵢ | x₁,...,xᵢ₋₁))
 ```python
 # Sentence: "The cat sat on the mat"
 probs = [0.8, 0.6, 0.9, 0.7, 0.5, 0.8]  # Probabilities
+
+$$
 ppl = exp(-mean([log(p) for p in probs]))
+$$
+
 # ppl ≈ 1.8 (very good)
 
 **Historical Trends:**
@@ -305,9 +312,18 @@ All-to-All communication
 **Example (GPT-4):**
 ```python
 # Split attention across 8 GPUs
+
+$$
 Q = split(Q, dim=heads, n_splits=8)  # Each GPU gets 16/8 = 2 heads
+$$
+
+$$
 K = split(K, dim=heads, n_splits=8)
+$$
+
+$$
 V = split(V, dim=heads, n_splits=8)
+$$
 
 **Pros:** Handles huge models  
 **Cons:** High communication overhead
@@ -377,27 +393,59 @@ Hardware
 
 ```python
 # Pseudo-code
+
+$$
 model = GPT4(params=1.76T)
+$$
+
+$$
 optimizer = AdamW(lr=6e-4)
+$$
+
+$$
 scaler = GradScaler()  # Mixed precision
+$$
 
 # 3D Parallelism
+
+$$
 model = apply_tensor_parallel(model, tp_size=8)
+$$
+
+$$
 model = apply_pipeline_parallel(model, pp_size=16)
+$$
+
+$$
 model = apply_data_parallel(model, dp_size=78)
+$$
+
 # Total: 8 × 16 × 78 ≈ 10,000 GPUs
 
 for epoch in range(3):  # 3 epochs × 13T tokens
     for batch in dataloader:
-        with autocast(dtype=bfloat16):
-            output = model(batch)
-            loss = cross_entropy(output, targets)
+
+$$
+with autocast(dtype=bfloat16):
+$$
+
+$$
+output = model(batch)
+$$
+
+$$
+loss = cross_entropy(output, targets)
+$$
+
         
         scaler.scale(loss).backward()
         scaler.step(optimizer)
         scaler.update()
         
-        if step % checkpoint_interval == 0:
+$$
+if step % checkpoint_interval == 0:
+$$
+
             save_checkpoint(model, optimizer, step)
 
 ---
@@ -408,7 +456,11 @@ for epoch in range(3):  # 3 epochs × 13T tokens
 ```python
 # Trade compute for memory
 # Recompute activations during backward
+
+$$
 model = checkpoint_sequential(model, segments=4)
+$$
+
 # 4× less memory, 20% slower
 
 **2. Flash Attention:**
@@ -416,12 +468,19 @@ model = checkpoint_sequential(model, segments=4)
 # Fused attention kernel
 # 2-4× faster, less memory
 from flash_attn import flash_attn_func
+
+$$
 attn_output = flash_attn_func(Q, K, V)
+$$
 
 **3. Quantization:**
 ```python
 # Train in INT8
+
+$$
 model = quantize_dynamic(model, dtype=torch.qint8)
+$$
+
 # 2× faster, 4× less memory
 
 ---
@@ -456,7 +515,10 @@ model = quantize_dynamic(model, dtype=torch.qint8)
 
 ## 🎯 Key Takeaways
 
+$$
 1. ✅ **5 Pillars ALL matter** - ignoring any one = failure
+$$
+
 2. ✅ **Architecture:** MoE is state-of-the-art
 3. ✅ **Loss:** Cross-entropy + RLHF
 4. ✅ **Data:** Quality > Quantity (but both needed)

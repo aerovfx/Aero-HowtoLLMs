@@ -181,7 +181,13 @@ Bài viết này tập trung vào **bốn phương pháp chính**:
 Sau khi model xử lý context, output là probability distribution:
 
 $$
+
+$$
+
 P(w_t  \mid  w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)
+
+$$
+
 $$
 
 Trong đó:
@@ -193,12 +199,18 @@ Trong đó:
 **Result:**
 
 $$
+
+$$
+
 \mathbf{p} = [p_1, p_2, \ldots, p_V]
+
+$$
+
 $$
 
 Trong đó:
 - $V$ = vocabulary size (e.g., 100,000)
-- $p_i \geq 0$ (non-negativity)
+- $p_i $\ge$q 0$ (non-negativity)
 - $\sum_{i=1}^V p_i = 1$ (normalization)
 
 #### 2.1.2 Example Distribution
@@ -227,7 +239,7 @@ TOTAL       | 1.000
 ### 2.2 Decoding Problem Definition
 
 **Formal problem:**
-> Cho probability distribution $\mathbf{p}$ over vocabulary $\mathcal{V}$, chọn next token $w_t \in \mathcal{V}$.
+> Cho probability distribution $\mathbf{p}$ over vocabulary $\mathcal{V}$, chọn next token $w_t \in $\mathcal${V}$.
 
 **Objectives (potentially conflicting):**
 1. **Likelihood maximization**: Choose high-probability tokens
@@ -261,8 +273,13 @@ $$
 ```python
 import torch
 
+$$
 probs = torch.tensor([0.340, 0.285, 0.195, 0.085, 0.045])
+$$
+
+$$
 next_token = torch.multinomial(probs, num_samples=1)
+$$
 
 #### 3.1.2 Properties
 
@@ -282,7 +299,11 @@ next_token = torch.multinomial(probs, num_samples=1)
 ```python
 # Run 5 times với same context
 for i in range(5):
-    token = sample(probs)
+
+$$
+token = sample(probs)
+$$
+
     print(f"Sample {i+1}: {token}")
 
 # Possible outputs:
@@ -297,7 +318,13 @@ for i in range(5):
 **Expected frequency over N samples:**
 
 $$
-\mathbb{E}[\text{count}(w_i)] = N \cdot p_i
+
+$$
+
+$\mathbb${E}[\text{count}(w_i)] = N \cdot p_i
+
+$$
+
 $$
 
 **Example with N=1000:**
@@ -310,7 +337,13 @@ $$
 **Variance:**
 
 $$
+
+$$
+
 \text{Var}[\text{count}(w_i)] = N \cdot p_i \cdot (1 - p_i)
+
+$$
+
 $$
 
 **Observation:**
@@ -323,11 +356,21 @@ $$
 **Deterministic selection:**
 
 $$
-w_t = \arg\max_{w \in \mathcal{V}} P(w  \mid  w_{1:t-1})
+
+$$
+
+w_t = \arg\max_{w \in $\mathcal${V}} P(w  \mid  w_{1:t-1})
+
+$$
+
 $$
 
 **Algorithm:**
+
+$$
 1. Compute probabilities p = Softmax(logits)
+$$
+
 2. Find index of maximum probability
 3. Return corresponding token
 
@@ -343,8 +386,15 @@ def greedy_decode(logits):
     Returns:
         token_id: Index of highest-probability token
     """
-    probs = torch.softmax(logits, dim=-1)
-    token_id = torch.argmax(probs)
+
+$$
+probs = torch.softmax(logits, dim=-1)
+$$
+
+$$
+token_id = torch.argmax(probs)
+$$
+
     return token_id
 
 #### 3.2.2 Properties
@@ -390,7 +440,10 @@ mouth:    0.170
 ```python
 # Hypothetical example
 context = "The cat sat on the"
+
+$$
 generated = greedy_generate(model, context, max_len=20)
+$$
 
 # Possible output:
 "The cat sat on the mat. The cat sat on the mat. The cat sat..."
@@ -414,7 +467,11 @@ generated = greedy_generate(model, context, max_len=20)
 #### 3.3.1 Definition
 
 **Constrained probabilistic sampling:**
-1. Sort probabilities descending: $p_{(1)} \geq p_{(2)} \geq \cdots \geq p_{(V)}$
+
+$$
+1. Sort probabilities descending: $p_{(1)} $\ge$q p_{(2)} $\ge$q \cdots $\ge$q p_{(V)}$
+$$
+
 2. Keep only top-K tokens
 3. Renormalize probabilities
 4. Sample từ truncated distribution
@@ -422,16 +479,26 @@ generated = greedy_generate(model, context, max_len=20)
 **Mathematical formulation:**
 
 $$
-\mathcal{V}_K = \{w_i : p_i \text{ is in top-K probabilities}\}
+
+$$
+
+$\mathcal${V}_K = \{w_i : p_i \text{ is in top-K probabilities}\}
+
 $$
 
 $$
-P_K(w) = \begin{cases} \frac{p_w}{\sum_{w' \in \mathcal{V}_K} p_{w'}} & \text{if } w \in \mathcal{V}_K \\ 0 & \text{otherwise} \end{cases}
+
+$$
+P_K(w) = \begin{cases} \frac{p_w}{$\sum$_{w' \in $\mathcal${V}_K} p_{w'}} & \text{if } w \in $\mathcal${V}_K \\ 0 & \text{otherwise} \end{cases}
 $$
 
 **PyTorch implementation:**
 ```python
+
+$$
 def top_k_sampling(logits, k=50):
+$$
+
     """
     Top-K sampling
     
@@ -443,16 +510,32 @@ def top_k_sampling(logits, k=50):
         token_id: Sampled token
     """
     # Get top-K logits and indices
-    top_k_logits, top_k_indices = torch.topk(logits, k)
+
+$$
+top_k_logits, top_k_indices = torch.topk(logits, k)
+$$
+
     
     # Softmax over top-K only
-    top_k_probs = torch.softmax(top_k_logits, dim=-1)
+
+$$
+top_k_probs = torch.softmax(top_k_logits, dim=-1)
+$$
+
     
     # Sample from top-K distribution
-    sampled_index = torch.multinomial(top_k_probs, num_samples=1)
+
+$$
+sampled_index = torch.multinomial(top_k_probs, num_samples=1)
+$$
+
     
     # Map back to original vocabulary
-    token_id = top_k_indices[sampled_index]
+
+$$
+token_id = top_k_indices[sampled_index]
+$$
+
     
     return token_id
 
@@ -543,24 +626,40 @@ Better: K=20 or more
 **Mathematical formulation:**
 
 $$
-\mathcal{V}_P = \{w_{(1)}, w_{(2)}, \ldots, w_{(m)}\}
+
+$$
+
+$\mathcal${V}_P = \{w_{(1)}, w_{(2)}, \ldots, w_{(m)}\}
+
+$$
+
 $$
 
 Trong đó $m$ là smallest index such that:
 
 $$
-\sum_{i=1}^m p_{(i)} \geq P
+
+$$
+
+$\sum$_{i=1}^m p_{(i)} $\ge$q P
+
+$$
+
 $$
 
 **Sampling distribution:**
 
 $$
-P_P(w) = \begin{cases} \frac{p_w}{\sum_{w' \in \mathcal{V}_P} p_{w'}} & \text{if } w \in \mathcal{V}_P \\ 0 & \text{otherwise} \end{cases}
+P_P(w) = \begin{cases} \frac{p_w}{$\sum$_{w' \in $\mathcal${V}_P} p_{w'}} & \text{if } w \in $\mathcal${V}_P \\ 0 & \text{otherwise} \end{cases}
 $$
 
 **PyTorch implementation:**
 ```python
+
+$$
 def top_p_sampling(logits, p=0.9):
+$$
+
     """
     Top-P (Nucleus) sampling
     
@@ -572,26 +671,59 @@ def top_p_sampling(logits, p=0.9):
         token_id: Sampled token
     """
     # Sort probabilities descending
-    probs = torch.softmax(logits, dim=-1)
-    sorted_probs, sorted_indices = torch.sort(probs, descending=True)
+
+$$
+probs = torch.softmax(logits, dim=-1)
+$$
+
+$$
+sorted_probs, sorted_indices = torch.sort(probs, descending=True)
+$$
+
     
     # Compute cumulative probabilities
-    cumulative_probs = torch.cumsum(sorted_probs, dim=-1)
+
+$$
+cumulative_probs = torch.cumsum(sorted_probs, dim=-1)
+$$
+
     
     # Find cutoff index
     # Keep tokens until cumulative prob exceeds p
-    cutoff = (cumulative_probs > p).nonzero()[0].item()
+
+$$
+cutoff = (cumulative_probs > p).nonzero()[0].item()
+$$
+
     
     # Include tokens up to cutoff
-    nucleus_probs = sorted_probs[:cutoff+1]
-    nucleus_indices = sorted_indices[:cutoff+1]
+
+$$
+nucleus_probs = sorted_probs[:cutoff+1]
+$$
+
+$$
+nucleus_indices = sorted_indices[:cutoff+1]
+$$
+
     
     # Renormalize
-    nucleus_probs = nucleus_probs / nucleus_probs.sum()
+
+$$
+nucleus_probs = nucleus_probs / nucleus_probs.sum()
+$$
+
     
     # Sample
-    sampled_index = torch.multinomial(nucleus_probs, num_samples=1)
-    token_id = nucleus_indices[sampled_index]
+
+$$
+sampled_index = torch.multinomial(nucleus_probs, num_samples=1)
+$$
+
+$$
+token_id = nucleus_indices[sampled_index]
+$$
+
     
     return token_id
 
@@ -656,7 +788,11 @@ smoothie  | 0.09  | 0.40
 (continuing to ~10th token to reach 0.9)
 
 With P=0.9:
-  Nucleus = {coffee, tea, ..., token_10} (size ~10)
+
+$$
+Nucleus = {coffee, tea, ..., token_10} (size ~10)
+$$
+
   → Acts like top-K with adaptive K! ✓
 
 Reason: Model uncertain, should explore options
@@ -678,7 +814,7 @@ Reason: Model uncertain, should explore options
 - ✓ Greedy-like khi model confident
 - ✓ Exploratory khi model uncertain
 - ✓ Principled: based on cumulative probability
-- ✓ One hyperparameter $P$ works across contexts
+- ✓ One hyperparameter $$P( works across contexts
 
 **Disadvantages:**
 - ✗ Slightly more complex to implement
@@ -787,1632 +923,1127 @@ P = 1.0    | Multinomial
 
 Temperature scaling happens **before** sampling method:
 
-$$
+)$$
 \text{logits} \xrightarrow{/T} \text{scaled logits} \xrightarrow{\text{Softmax}} \text{probs} \xrightarrow{\text{Sampling}} \text{token}
+
+$$
+**Examples:** **Low temp $T=0.7$ + Greedy:** - Very deterministic - Sharp distribution → same token always - Use for: Factual Q&A **Low temp $T=0.7$ + Top-P(0.9):** - Mostly deterministic - Small nucleus - Use for: Technical writing **High temp $T=1.2$ + Top-P(0.95):** - Very exploratory - Large nucleus - Use for: Creative fiction **High temp $T=1.5$ + Multinomial:** - Maximum diversity - Risk of incoherence - Use for: Experimental generation **Recommendation:** > Tune temperature và sampling method **together**, không independently. Optimal combinations depend on use case. --- ## 5. Implementation trong PyTorch ### 5.1 Complete Sampling Module ```python """ token_sampling.py Comprehensive implementation of token sampling strategies """ import torch import torch.nn.functional as F from typing import Optional, Literal class TokenSampler: """ Unified interface for token sampling strategies """ def __init__( self,
 $$
 
-**Examples:**
-
-**Low temp $T=0.7$ + Greedy:**
-- Very deterministic
-- Sharp distribution → same token always
-- Use for: Factual Q&A
-
-**Low temp $T=0.7$ + Top-P(0.9):**
-- Mostly deterministic
-- Small nucleus
-- Use for: Technical writing
-
-**High temp $T=1.2$ + Top-P(0.95):**
-- Very exploratory
-- Large nucleus
-- Use for: Creative fiction
-
-**High temp $T=1.5$ + Multinomial:**
-- Maximum diversity
-- Risk of incoherence
-- Use for: Experimental generation
-
-**Recommendation:**
-> Tune temperature và sampling method **together**, không independently. Optimal combinations depend on use case.
-
----
-
-## 5. Implementation trong PyTorch
-
-### 5.1 Complete Sampling Module
-
-```python
-"""
-token_sampling.py
-Comprehensive implementation of token sampling strategies
-"""
-
-import torch
-import torch.nn.functional as F
-from typing import Optional, Literal
-
-class TokenSampler:
-    """
-    Unified interface for token sampling strategies
-    """
-    
-    def __init__(
-        self,
-        method: Literal['greedy', 'multinomial', 'top_k', 'top_p'] = 'top_p',
-        temperature: float = 1.0,
-        top_k: Optional[int] = None,
-        top_p: Optional[float] = 0.9
-    ):
-        """
-        Initialize sampler
-        
-        Args:
-            method: Sampling method to use
-            temperature: Temperature scaling (default 1.0)
-            top_k: K value for top-k sampling
-            top_p: P value for top-p sampling
-        """
-        self.method = method
-        self.temperature = temperature
-        self.top_k = top_k
-        self.top_p = top_p
-        
-        # Validate parameters
-        if method == 'top_k' and top_k is None:
-            raise ValueError("top_k must be specified for top-k sampling")
-        if method == 'top_p' and top_p is None:
-            raise ValueError("top_p must be specified for top-p sampling")
-    
-    def sample(self, logits: torch.Tensor) -> torch.Tensor:
-        """
-        Sample next token
-        
-        Args:
-            logits: Model output logits [batch_size, vocab_size]
-        
-        Returns:
-            next_tokens: Sampled token IDs [batch_size]
-        """
-        # Apply temperature scaling
-        if self.temperature != 1.0:
-            logits = logits / self.temperature
-        
-        # Route to appropriate method
-        if self.method == 'greedy':
-            return self._greedy(logits)
-        elif self.method == 'multinomial':
-            return self._multinomial(logits)
-        elif self.method == 'top_k':
-            return self._top_k(logits)
-        elif self.method == 'top_p':
-            return self._top_p(logits)
-        else:
-            raise ValueError(f"Unknown method: {self.method}")
-    
-    def _greedy(self, logits: torch.Tensor) -> torch.Tensor:
-        """Greedy decoding: argmax"""
-        return torch.argmax(logits, dim=-1)
-    
-    def _multinomial(self, logits: torch.Tensor) -> torch.Tensor:
-        """Pure multinomial sampling"""
-        probs = F.softmax(logits, dim=-1)
-        return torch.multinomial(probs, num_samples=1).squeeze(-1)
-    
-    def _top_k(self, logits: torch.Tensor) -> torch.Tensor:
-        """
-        Top-K sampling
-        
-        Implementation:
-        1. Get top-K logits
-        2. Mask out others (-inf)
-        3. Softmax + sample
-        """
-        # Get top-K values and indices
-        top_k_logits, top_k_indices = torch.topk(logits, self.top_k, dim=-1)
-        
-        # Create mask for top-K
-        mask = torch.full_like(logits, float('-inf'))
-        mask.scatter_(-1, top_k_indices, top_k_logits)
-        
-        # Softmax over masked logits
-        probs = F.softmax(mask, dim=-1)
-        
-        # Sample
-        return torch.multinomial(probs, num_samples=1).squeeze(-1)
-    
-    def _top_p(self, logits: torch.Tensor) -> torch.Tensor:
-        """
-        Top-P (Nucleus) sampling
-        
-        Implementation:
-        1. Sort probabilities descending
-        2. Compute cumulative sum
-        3. Find nucleus (cumsum > p)
-        4. Mask + sample
-        """
-        # Sort probabilities
-        probs = F.softmax(logits, dim=-1)
-        sorted_probs, sorted_indices = torch.sort(probs, descending=True, dim=-1)
-        
-        # Cumulative probabilities
-        cumulative_probs = torch.cumsum(sorted_probs, dim=-1)
-        
-        # Find cutoff: first position where cumsum > p
-        # Keep tokens BEFORE cutoff (nucleus)
-        sorted_indices_to_remove = cumulative_probs > self.top_p
-        
-        # Shift right to keep first token above threshold
-        sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
-        sorted_indices_to_remove[..., 0] = False
-        
-        # Create mask
-        mask = torch.zeros_like(logits, dtype=torch.bool)
-        mask.scatter_(-1, sorted_indices, sorted_indices_to_remove)
-        
-        # Set removed indices to -inf
-        logits_masked = logits.clone()
-        logits_masked[mask] = float('-inf')
-        
-        # Softmax + sample
-        probs_masked = F.softmax(logits_masked, dim=-1)
-        return torch.multinomial(probs_masked, num_samples=1).squeeze(-1)
-
-# Example usage
-if __name__ == "__main__":
-    # Simulate model output
-    batch_size = 4
-    vocab_size = 50000
-    logits = torch.randn(batch_size, vocab_size)
-    
-    print("Sampling Comparison\n" + "="*50)
-    
-    # Test different methods
-    methods = {
-        'Greedy': TokenSampler('greedy'),
-        'Multinomial': TokenSampler('multinomial'),
-        'Top-K (k=50)': TokenSampler('top_k', top_k=50),
-        'Top-P (p=0.9)': TokenSampler('top_p', top_p=0.9),
-    }
-    
-    for name, sampler in methods.items():
-        tokens = sampler.sample(logits)
-        print(f"{name:20s}: {tokens.tolist()}")
-    
-    print("\nTemperature Effects\n" + "="*50)
-    
-    # Test temperature
-    for temp in [0.7, 1.0, 1.5]:
-        sampler = TokenSampler('top_p', temperature=temp, top_p=0.9)
-        tokens = sampler.sample(logits)
-        print(f"T={temp:.1f} + Top-P:     {tokens.tolist()}")
-
-### 5.2 Generation Loop
-
-```python
-def generate_text(
-    model,
-    tokenizer,
-    prompt: str,
-    max_length: int = 50,
-    sampler: Optional[TokenSampler] = None
-) -> str:
-    """
-    Generate text using specified sampling strategy
-    
-    Args:
-        model: Language model
-        tokenizer: Tokenizer
-        prompt: Input text
-        max_length: Maximum tokens to generate
-        sampler: TokenSampler instance (default: top-p)
-    
-    Returns:
-        generated_text: Complete generated text
-    """
-    # Default sampler
-    if sampler is None:
-        sampler = TokenSampler('top_p', temperature=1.0, top_p=0.9)
-    
-    # Tokenize prompt
-    input_ids = tokenizer.encode(prompt, return_tensors='pt')
-    
-    # Generation loop
-    for _ in range(max_length):
-        # Forward pass
-        with torch.no_grad():
-            outputs = model(input_ids)
-            logits = outputs.logits[:, -1, :]  # Last token logits
-        
-        # Sample next token
-        next_token = sampler.sample(logits)
-        
-        # Append to sequence
-        input_ids = torch.cat([input_ids, next_token.unsqueeze(-1)], dim=-1)
-        
-        # Check for EOS
-        if next_token.item() == tokenizer.eos_token_id:
-            break
-    
-    # Decode
-    generated_text = tokenizer.decode(input_ids[0], skip_special_tokens=True)
-    return generated_text
-
-# Example usage
-if __name__ == "__main__":
-    from transformers import GPT2LMHeadModel, GPT2Tokenizer
-    
-    # Load model
-    model = GPT2LMHeadModel.from_pretrained('gpt2')
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    model.eval()
-    
-    prompt = "The future of artificial intelligence is"
-    
-    print("Comparison of Sampling Methods\n" + "="*70)
-    
-    # Compare methods
-    configs = [
-        ('Greedy', TokenSampler('greedy')),
-        ('Top-K (k=50)', TokenSampler('top_k', temperature=1.0, top_k=50)),
-        ('Top-P (p=0.9)', TokenSampler('top_p', temperature=1.0, top_p=0.9)),
-        ('Top-P (p=0.95)', TokenSampler('top_p', temperature=1.0, top_p=0.95)),
-    ]
-    
-    for name, sampler in configs:
-        text = generate_text(model, tokenizer, prompt, max_length=30, sampler=sampler)
-        print(f"\n{name}:")
-        print(f"  {text}")
-
-### 5.3 Evaluation Metrics
-
-```python
-def evaluate_diversity(texts: list[str]) -> dict:
-    """
-    Compute diversity metrics for generated texts
-    
-    Args:
-        texts: List of generated texts
-    
-    Returns:
-        metrics: Dictionary of diversity metrics
-    """
-    from collections import Counter
-    import numpy as np
-    
-    # Tokenize
-    all_tokens = []
-    for text in texts:
-        tokens = text.split()
-        all_tokens.extend(tokens)
-    
-    # Unique tokens
-    unique_tokens = len(set(all_tokens))
-    total_tokens = len(all_tokens)
-    
-    # Type-Token Ratio (TTR)
-    ttr = unique_tokens / total_tokens if total_tokens > 0 else 0
-    
-    # Entropy
-    token_counts = Counter(all_tokens)
-    probs = np.array(list(token_counts.values())) / total_tokens
-    entropy = -np.sum(probs * np.log2(probs + 1e-10))
-    
-    # Self-BLEU (diversity within set)
-    # Lower is more diverse
-    # (Implementation omitted for brevity)
-    
-    return {
-        'unique_tokens': unique_tokens,
-        'total_tokens': total_tokens,
-        'type_token_ratio': ttr,
-        'entropy': entropy,
-    }
-
-# Benchmark different methods
-def benchmark_sampling_methods(model, tokenizer, prompts: list[str], n_samples=10):
-    """Compare sampling methods on diversity"""
-    
-    methods = {
-        'Greedy': TokenSampler('greedy'),
-        'Top-K(50)': TokenSampler('top_k', top_k=50),
-        'Top-P(0.9)': TokenSampler('top_p', top_p=0.9),
-        'Multinomial': TokenSampler('multinomial'),
-    }
-    
-    results = {}
-    
-    for method_name, sampler in methods.items():
-        texts = []
-        for prompt in prompts:
-            for _ in range(n_samples):
-                text = generate_text(model, tokenizer, prompt, 
-                                    max_length=30, sampler=sampler)
-                texts.append(text)
-        
-        metrics = evaluate_diversity(texts)
-        results[method_name] = metrics
-    
-    return results
-
----
-
-## 6. Applications và Use Cases
-
-### 6.1 Task-Specific Recommendations
-
-#### 6.1.1 Factual Question Answering
-
-**Requirements:**
-- High accuracy
-- Minimal hallucination
-- Reproducibility
-
-**Recommended configuration:**
-```python
-# Configuration 1: Pure greedy
-sampler = TokenSampler('greedy')
-
-# Configuration 2: Conservative top-p
-sampler = TokenSampler('top_p', temperature=0.7, top_p=0.85)
-
-**Examples:**
-Q: "What is the capital of France?"
-A: "Paris" (should be deterministic)
-
-Q: "When was the Eiffel Tower built?"
-A: "1889" (factual, no creativity needed)
-
-**Why these settings:**
-- Greedy/low-temp: Selects highest-probability (most likely correct) answer
-- Small nucleus: Prevents low-probability hallucinations
-- Deterministic: Same answer every time → reliable
-
-#### 6.1.2 Code Generation
-
-**Requirements:**
-- Syntactic correctness
-- Logical coherence
-- Runnable code
-
-**Recommended configuration:**
-```python
-# Conservative generation
-sampler = TokenSampler('top_p', temperature=0.8, top_p=0.9)
-
-**Example:**
-```python
-Prompt: "Write a Python function to reverse a string"
-
-# Good (with conservative sampling):
-def reverse_string(s):
-    return s[::-1]
-
-# Bad (with high-diversity sampling):
-def reverse_string(s):
-    # Uses quantum algorithms
-    return qbit_reverse(s)  # Hallucinated!
-
-**Why:**
-- Code has strict syntax → need high probability tokens
-- Small mistakes → syntax errors
-- Some creativity ok (variable names, approaches) but within bounds
-
-#### 6.1.3 Creative Writing
-
-**Requirements:**
-- Novelty
-- Engaging plot developments
-- Varied vocabulary
-
-**Recommended configuration:**
-```python
-# Exploratory generation
-sampler = TokenSampler('top_p', temperature=1.1, top_p=0.95)
-
-**Example:**
-Prompt: "Once upon a time in a magical forest"
-
-With conservative (greedy):
-"Once upon a time in a magical forest, there lived a young girl 
-named Alice who loved to explore..."
-(Predictable, common tropes)
-
-With creative (top-p 0.95, T=1.1):
-"Once upon a time in a magical forest, the trees whispered 
-secrets in a language only the moonlight could translate..."
-(More original, unexpected imagery)
-
-**Why:**
-- Unexpected twists valued
-- Repetitive = boring
-- Factual accuracy less critical
-
-#### 6.1.4 Dialogue / Chatbots
-
-**Requirements:**
-- Natural conversation flow
-- Some variability (not robotic)
-- Coherence
-
-**Recommended configuration:**
-```python
-# Balanced generation
-sampler = TokenSampler('top_p', temperature=0.9, top_p=0.92)
-
-**Example:**
-User: "How was your day?"
-
-Greedy (too robotic):
-"My day was good. How was yours?"
-(Every time same response)
-
-Top-P balanced:
-Response 1: "Pretty interesting! I learned about quantum computing."
-Response 2: "It was great, thanks for asking! How about you?"
-Response 3: "Not bad! Had some fascinating conversations."
-(Varied but appropriate)
-
-**Why:**
-- Humans don't repeat exact phrases
-- Need variety for natural feel
-- But stay coherent and on-topic
-
-#### 6.1.5 Translation
-
-**Requirements:**
-- Semantic accuracy
-- Grammatical correctness
-- Usually single best translation
-
-**Recommended configuration:**
-```python
-# Often use beam search instead
-# But if using sampling:
-sampler = TokenSampler('greedy')
-# Or very conservative top-p
-sampler = TokenSampler('top_p', temperature=0.6, top_p=0.8)
-
-**Why:**
-- Translation typically has "correct" answer
-- Creativity not desired
-- Accuracy paramount
-
-### 6.2 Configuration Matrix
-
-| Application | Temperature | Method | Parameters | Rationale |
-|-------------|-------------|--------|------------|-----------|
-| Q&A | 0.7 | Greedy | - | Accuracy > diversity |
-| Code | 0.8 | Top-P | p=0.9 | Correctness critical |
-| Chat | 0.9-1.0 | Top-P | p=0.92 | Natural variation |
-| Creative | 1.1-1.2 | Top-P | p=0.95 | Novelty valued |
-| Translation | 0.6 | Greedy | - | Single correct answer |
-| Summarization | 0.8 | Top-P | p=0.88 | Concise + accurate |
-
-### 6.3 Real-World Examples
-
-#### 6.3.1 ChatGPT Configuration
-
-**Reported settings (approximate):**
-- Method: Top-P
-- P: ~0.95
-- Temperature: User-adjustable (default ~1.0)
-
-**Why:**
-- Balances coherence và diversity
-- Adapts to model confidence
-- Generally produces natural outputs
-
-#### 6.3.2 GitHub Copilot
-
-**Likely settings:**
-- Method: Top-P with low temperature
-- Temperature: ~0.2-0.4
-- P: ~0.8
-
-**Why:**
-- Code correctness critical
-- Deterministic behavior preferred
-- Still allows some variability cho different valid solutions
-
-#### 6.3.3 AI Dungeon (Creative Game)
-
-**Settings:**
-- Method: Top-P
-- Temperature: 1.0-1.5 (user adjustable)
-- P: 0.9-0.98
-
-**Why:**
-- Creativity highly valued
-- Unexpected plot twists = fun
-- Some incoherence tolerable for entertainment
-
----
-
-## 7. The Hallucination Problem
-
-### 7.1 Định Nghĩa và Mechanism
-
-#### 7.1.1 What is Hallucination?
-
-**Definition:**
-> LLM hallucination xảy ra khi model generates content that is **plausible-sounding but factually incorrect or entirely fabricated**.
-
-**Examples:**
-Query: "Tell me about the Battle of Hastings in 1776"
-Hallucinated response: "The Battle of Hastings in 1776 was..."
-Truth: Battle of Hastings was 1066, not 1776
-
-Query: "What are the health benefits of quantum water?"
-Hallucinated response: "Quantum water has been shown to..."
-Truth: "Quantum water" is pseudoscience
-
-Query: "Who invented the telephone in ancient Rome?"
-Hallucinated response: "Marcus Telephonicus invented..."
-Truth: Telephones didn't exist in ancient Rome
-
-#### 7.1.2 Root Causes
-
-**Cause 1: Training data artifacts**
-- Model learns correlations, not facts
-- Memorizes patterns without understanding
-- "Sounds right" ≠ "is right"
-
-**Cause 2: Probabilistic nature**
-- Next-token prediction based on probability
-- No explicit fact-checking mechanism
-- High-probability ≠ true
-
-**Cause 3: Sampling introduces randomness**
-- Stochastic methods can select incorrect tokens
-- Even low-probability wrong answers can be chosen
-- Compounding errors through sequence
-
-**Example cascade:**
-Context: "The capital of France is"
-
-Token 1: "Paris" (p=0.98) ✓ Correct
-Token 2: "," (p=0.95) ✓ 
-Token 3: "located" (p=0.87) ✓
-Token 4: "on" (p=0.82) ✓
-Token 5: "the" (p=0.91) ✓
-Token 6: "moon" (p=0.003) ✗ Sampled despite low prob!
-
-Result: "The capital of France is Paris, located on the moon"
-
-### 7.2 Sampling Methods và Hallucination Risk
-
-#### 7.2.1 Risk Analysis
-
-**Hallucination risk spectrum:**
-Low Risk                                        High Risk
-(Factual)                                       (Creative but wrong)
-    |------------|------------|------------|------------|
-  Greedy      Top-P(0.8)   Top-P(0.95)   Multinomial
-  T=0.7       T=0.9        T=1.2         T=1.5
-
-**Method comparison:**
-
-**Greedy:**
-- ✓ Always picks most likely token
-- ✓ If training data correct, output likely correct
-- ✗ Can still hallucinate if top token is wrong
-- ✗ May repeat hallucinated patterns
-
-**Top-K / Top-P:**
-- ✗ Can sample less likely (potentially wrong) tokens
-- ✗ Small nucleus still has hallucination risk
-- ✗ Large nucleus increases risk
-- ✓ Can "recover" from model mistakes
-
-**Multinomial:**
-- ✗ Highest hallucination risk
-- ✗ Even very low-prob tokens can be selected
-- ✗ Compounds through sequence
-
-#### 7.2.2 The Fundamental Dilemma
-
-**Problem statement:**
-> To generate interesting, creative, varied text, we need stochastic sampling. But stochasticity introduces risk of selecting incorrect tokens, leading to hallucinations.
-
-**Trade-off:**
-Deterministic (Greedy)
-  ✓ Fewer hallucinations (usually)
-  ✗ Boring, repetitive
-  ✗ Can still hallucinate
-
-Stochastic (Top-P, etc.)
-  ✓ Diverse, interesting
-  ✓ Natural-sounding
-  ✗ More hallucinations
-
-**No perfect solution:**
-- Can't eliminate hallucinations without eliminating diversity
-- Can't maximize diversity without risking hallucinations
-- Different applications make different trade-offs
-
-### 7.3 Mitigation Strategies
-
-#### 7.3.1 Sampling-Level Mitigations
-
-**Strategy 1: Conservative parameters**
-```python
-# For factual tasks
-sampler = TokenSampler(
-    'top_p',
-    temperature=0.7,    # Lower temperature
-    top_p=0.85          # Smaller nucleus
-)
-
-**Strategy 2: Factuality-aware sampling**
-```python
-# Penalize known-unreliable tokens
-# (Requires external knowledge base)
-def factual_sampling(logits, knowledge_base):
-    probs = F.softmax(logits, dim=-1)
-    
-    # Penalize tokens known to be wrong in context
-    for token_id in get_incorrect_tokens(knowledge_base, context):
-        probs[token_id] *= 0.5  # Penalty
-    
-    # Renormalize and sample
-    probs = probs / probs.sum()
-    return torch.multinomial(probs, num_samples=1)
-
-**Strategy 3: Constrained decoding**
-- Force output to match template
-- Require citations/sources
-- Limit to verified knowledge base
-
-#### 7.3.2 Model-Level Solutions
-
-**Approach 1: Retrieval-Augmented Generation (RAG)**
-- Retrieve relevant documents before generation
-- Ground generation in retrieved facts
-- Reduces hallucination significantly [7]
-
-**Approach 2: Fact-checking modules**
-- Separate model verifies factual claims
-- Reject or flag hallucinations
-- Post-hoc filtering
-
-**Approach 3: Reinforcement Learning from Human Feedback (RLHF)**
-- Train model to prefer factual outputs
-- Penalize hallucinations during training
-- Used in ChatGPT, Claude, etc. [8]
-
-#### 7.3.3 User-Level Best Practices
-
-**For users:**
-1. **Verify critical facts** independently
-2. **Use appropriate settings** (greedy cho facts)
-3. **Ask for sources** when possible
-4. **Cross-reference** important claims
-5. **Understand limitations** của LLMs
-
-**For developers:**
-1. **Choose method** based on use case
-2. **Test hallucination rate** on your data
-3. **Implement safeguards** for high-risk applications
-4. **Provide uncertainty estimates** when possible
-5. **Document limitations** clearly
-
-### 7.4 Current State và Future Directions
-
-**Current challenges:**
-- No perfect solution exists
-- Fundamental to next-token prediction paradigm
-- Trade-offs unavoidable
-
-**Active research areas:**
-- Uncertainty quantification [9]
-- Fact verification during generation
-- Constitutional AI [10]
-- Iterative refinement methods
-
-**Conclusion:**
-> Hallucination remains **unresolved fundamental challenge**. Choice of sampling method affects risk but cannot eliminate it. Applications must balance creativity needs with factuality requirements.
-
----
-
-## 8. Best Practices và Recommendations
-
-### 8.1 Decision Framework
-
-**Flowchart:**
-START: Choose sampling method
-
-1. Is factual accuracy critical?
-   YES → Use Greedy or Top-P with T=0.7, p=0.85
-   NO → Continue to 2
-
-2. Is creativity/diversity important?
-   YES → Continue to 3
-   NO → Use Greedy or Top-K with small K
-
-3. Does model confidence vary widely?
-   YES → Use Top-P (adaptive nucleus)
-   NO → Use Top-K (simpler)
-
-4. Select hyperparameters:
-   - Factual: T=0.7-0.8, p=0.85-0.9, K=5-20
-   - Balanced: T=0.9-1.0, p=0.9-0.95, K=40-50
-   - Creative: T=1.1-1.3, p=0.95-0.98, K=50+
-
-### 8.2 Hyperparameter Tuning Guide
-
-#### 8.2.1 Temperature
-
-**Guidelines:**
-- Start: 1.0 (neutral)
-- Increase (1.1-1.5): More random, creative
-- Decrease (0.6-0.9): More focused, deterministic
-- Extreme low (<0.5): Nearly greedy
-- Extreme high (>2.0): Nearly uniform (avoid)
-
-**Tuning process:**
-```python
-# Test range
-temperatures = [0.7, 0.9, 1.0, 1.2, 1.5]
-
-for T in temperatures:
-    sampler = TokenSampler('top_p', temperature=T, top_p=0.9)
-    outputs = generate_samples(model, prompt, sampler, n=10)
-    
-    # Evaluate diversity
-    diversity = evaluate_diversity(outputs)
-    
-    # Evaluate quality (human or automated)
-    quality = evaluate_quality(outputs)
-    
-    print(f"T={T}: Diversity={diversity:.3f}, Quality={quality:.3f}")
-
-#### 8.2.2 Top-K
-
-**Guidelines:**
-- Small K (1-10): Conservative, focused
-- Medium K (20-50): Balanced
-- Large K $100+$: Exploratory
-- K=1: Equivalent to greedy
-
-**Selection criteria:**
-- Vocab size matters: K=50 reasonable cho 50K vocab
-- Task matters: Code generation → small K
-- Model quality matters: Better models → can use larger K
-
-#### 8.2.3 Top-P
-
-**Guidelines:**
-- Standard: 0.9 (90%)
-- Conservative: 0.8-0.85
-- Exploratory: 0.95-0.98
-- No truncation: 1.0 (multinomial)
-
-**Why 0.9 is common:**
-- Balances diversity và quality
-- Adapts to distribution shape
-- Works across various tasks
-- Empirically proven effective [11]
-
-### 8.3 Common Mistakes to Avoid
-
-#### 8.3.1 Mistake 1: Using Same Settings Everywhere
-
-**Wrong:**
-```python
-# One-size-fits-all approach
+method: Literal['greedy', 'multinomial', 'top_k', 'top_p'] = 'top_p',
+
+$$
+temperature: float = 1.0,
+$$
+
+top_k: Optional[int] = None,
+
+$$
+
+$$
+
+top_p: Optional[float] = 0.9
+
+$$
+): """ Initialize sampler Args: method: Sampling method to use temperature: Temperature scaling (default 1.0) top_k: K value for top-k sampling top_p: P value for top-p sampling """
+$$
+
+self.method = method
+
+$$
+
+$$
+
+self.temperature = temperature
+
+$$
+
+$$
+
+self.top_k = top_k
+
+$$
+
+$$
+
+self.top_p = top_p
+
+$$
+# Validate parameters
+$$
+
+if method == 'top_k' and top_k is None:
+
+$$
+raise ValueError("top_k must be specified for top-k sampling")
+$$
+
+if method == 'top_p' and top_p is None:
+
+$$
+raise ValueError("top_p must be specified for top-p sampling") def sample(self, logits: torch.Tensor) -> torch.Tensor: """ Sample next token Args: logits: Model output logits [batch_size, vocab_size] Returns: next_tokens: Sampled token IDs [batch_size] """ # Apply temperature scaling if self.temperature != 1.0:
+$$
+
+logits = logits / self.temperature
+
+$$
+# Route to appropriate method if self.method == 'greedy': return self._greedy(logits) elif self.method == 'multinomial': return self._multinomial(logits)
+$$
+
+elif self.method == 'top_k':
+
+$$
+return self._top_k(logits)
+$$
+
+elif self.method == 'top_p':
+
+$$
+return self._top_p(logits) else: raise ValueError(f"Unknown method: {self.method}") def _greedy(self, logits: torch.Tensor) -> torch.Tensor: """Greedy decoding: argmax""" return torch.argmax(logits, dim=-1) def _multinomial(self, logits: torch.Tensor) -> torch.Tensor: """Pure multinomial sampling"""
+$$
+
+probs = F.softmax(logits, dim=-1)
+
+$$
+
+$$
+
+return torch.multinomial(probs, num_samples=1).squeeze(-1)
+
+$$
+def _top_k(self, logits: torch.Tensor) -> torch.Tensor: """ Top-K sampling Implementation: 1. Get top-K logits 2. Mask out others (-inf) 3. Softmax + sample """ # Get top-K values and indices
+$$
+
+top_k_logits, top_k_indices = torch.topk(logits, self.top_k, dim=-1)
+
+$$
+# Create mask for top-K
+$$
+
+mask = torch.full_like(logits, float('-inf'))
+
+$$
+mask.scatter_(-1, top_k_indices, top_k_logits) # Softmax over masked logits
+$$
+
+probs = F.softmax(mask, dim=-1)
+
+$$
+# Sample
+$$
+
+return torch.multinomial(probs, num_samples=1).squeeze(-1)
+
+$$
+def _top_p(self, logits: torch.Tensor) -> torch.Tensor: """ Top-P (Nucleus) sampling Implementation: 1. Sort probabilities descending 2. Compute cumulative sum 3. Find nucleus (cumsum > p) 4. Mask + sample """ # Sort probabilities
+$$
+
+probs = F.softmax(logits, dim=-1)
+
+$$
+
+$$
+
+sorted_probs, sorted_indices = torch.sort(probs, descending=True, dim=-1)
+
+$$
+# Cumulative probabilities
+$$
+
+cumulative_probs = torch.cumsum(sorted_probs, dim=-1)
+
+$$
+# Find cutoff: first position where cumsum > p # Keep tokens BEFORE cutoff (nucleus)
+$$
+
+sorted_indices_to_remove = cumulative_probs > self.top_p
+
+$$
+# Shift right to keep first token above threshold
+$$
+
+sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
+
+$$
+
+$$
+
+sorted_indices_to_remove[..., 0] = False
+
+$$
+# Create mask
+$$
+
+mask = torch.zeros_like(logits, dtype=torch.bool)
+
+$$
+mask.scatter_(-1, sorted_indices, sorted_indices_to_remove) # Set removed indices to -inf
+$$
+
+logits_masked = logits.clone()
+
+$$
+
+$$
+
+logits_masked[mask] = float('-inf')
+
+$$
+# Softmax + sample
+$$
+
+probs_masked = F.softmax(logits_masked, dim=-1)
+
+$$
+
+$$
+
+return torch.multinomial(probs_masked, num_samples=1).squeeze(-1)
+
+$$
+# Example usage if __name__ == "__main__": # Simulate model output
+$$
+
+batch_size = 4
+
+$$
+
+$$
+
+vocab_size = 50000
+
+$$
+
+$$
+
+logits = torch.randn(batch_size, vocab_size)
+
+$$
+print("Sampling Comparison\n" + "="*50) # Test different methods methods = { 'Greedy': TokenSampler('greedy'), 'Multinomial': TokenSampler('multinomial'),
+$$
+
+'Top-K (k=50)': TokenSampler('top_k', top_k=50),
+
+$$
+
+$$
+
+'Top-P (p=0.9)': TokenSampler('top_p', top_p=0.9),
+
+$$
+} for name, sampler in methods.items():
+$$
+
+tokens = sampler.sample(logits)
+
+$$
+print(f"{name:20s}: {tokens.tolist()}") print("\nTemperature Effects\n" + "="*50) # Test temperature for temp in [0.7, 1.0, 1.5]:
+$$
+
+sampler = TokenSampler('top_p', temperature=temp, top_p=0.9)
+
+$$
+
+$$
+
+tokens = sampler.sample(logits)
+
+$$
+print(f"T={temp:.1f} + Top-P:     {tokens.tolist()}") ### 5.2 Generation Loop ```python def generate_text( model, tokenizer, prompt: str,
+$$
+
+max_length: int = 50,
+
+$$
+sampler: Optional[TokenSampler] = None ) -> str: """ Generate text using specified sampling strategy Args: model: Language model tokenizer: Tokenizer prompt: Input text max_length: Maximum tokens to generate sampler: TokenSampler instance (default: top-p) Returns: generated_text: Complete generated text """ # Default sampler if sampler is None:
+$$
+
 sampler = TokenSampler('top_p', temperature=1.0, top_p=0.9)
 
+$$
+# Tokenize prompt
+$$
+
+input_ids = tokenizer.encode(prompt, return_tensors='pt')
+
+$$
+# Generation loop for _ in range(max_length): # Forward pass with torch.no_grad():
+$$
+
+outputs = model(input_ids)
+
+$$
+
+$$
+
+logits = outputs.logits[:, -1, :]  # Last token logits
+
+$$
+# Sample next token
+$$
+
+next_token = sampler.sample(logits)
+
+$$
+# Append to sequence
+$$
+
+input_ids = torch.cat([input_ids, next_token.unsqueeze(-1)], dim=-1)
+
+$$
+# Check for EOS
+$$
+
+if next_token.item() == tokenizer.eos_token_id:
+
+$$
+break # Decode
+$$
+
+generated_text = tokenizer.decode(input_ids[0], skip_special_tokens=True)
+
+$$
+return generated_text # Example usage if __name__ == "__main__": from transformers import GPT2LMHeadModel, GPT2Tokenizer # Load model
+$$
+
+model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+$$
+
+$$
+
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+
+$$
+model.eval() prompt = "The future of artificial intelligence is" print("Comparison of Sampling Methods\n" + "="*70) # Compare methods configs = [ ('Greedy', TokenSampler('greedy')),
+$$
+
+('Top-K (k=50)', TokenSampler('top_k', temperature=1.0, top_k=50)),
+
+$$
+
+$$
+
+('Top-P (p=0.9)', TokenSampler('top_p', temperature=1.0, top_p=0.9)),
+
+$$
+
+$$
+
+('Top-P (p=0.95)', TokenSampler('top_p', temperature=1.0, top_p=0.95)),
+
+$$
+] for name, sampler in configs:
+$$
+
+text = generate_text(model, tokenizer, prompt, max_length=30, sampler=sampler)
+
+$$
+print(f"\n{name}:") print(f"  {text}") ### 5.3 Evaluation Metrics ```python def evaluate_diversity(texts: list[str]) -> dict: """ Compute diversity metrics for generated texts Args: texts: List of generated texts Returns: metrics: Dictionary of diversity metrics """ from collections import Counter import numpy as np # Tokenize
+$$
+
+all_tokens = []
+
+$$
+for text in texts:
+$$
+
+tokens = text.split()
+
+$$
+all_tokens.extend(tokens) # Unique tokens
+$$
+
+unique_tokens = len(set(all_tokens))
+
+$$
+
+$$
+
+total_tokens = len(all_tokens)
+
+$$
+# Type-Token Ratio (TTR)
+$$
+
+ttr = unique_tokens / total_tokens if total_tokens > 0 else 0
+
+$$
+# Entropy
+$$
+
+token_counts = Counter(all_tokens)
+
+$$
+
+$$
+
+probs = np.array(list(token_counts.values())) / total_tokens
+
+$$
+entropy = -np.sum(probs * np.log2(probs + 1e-10)) # Self-BLEU (diversity within set) # Lower is more diverse # (Implementation omitted for brevity) return { 'unique_tokens': unique_tokens, 'total_tokens': total_tokens, 'type_token_ratio': ttr, 'entropy': entropy, } # Benchmark different methods
+$$
+
+def benchmark_sampling_methods(model, tokenizer, prompts: list[str], n_samples=10):
+
+$$
+"""Compare sampling methods on diversity""" methods = { 'Greedy': TokenSampler('greedy'),
+$$
+
+'Top-K(50)': TokenSampler('top_k', top_k=50),
+
+$$
+
+$$
+
+'Top-P(0.9)': TokenSampler('top_p', top_p=0.9),
+
+$$
+'Multinomial': TokenSampler('multinomial'), } results = {} for method_name, sampler in methods.items(): texts = [] for prompt in prompts: for _ in range(n_samples):
+$$
+
+text = generate_text(model, tokenizer, prompt,
+
+$$
+
+$$
+
+max_length=30, sampler=sampler)
+
+$$
+texts.append(text)
+$$
+
+metrics = evaluate_diversity(texts)
+
+$$
+
+$$
+
+results[method_name] = metrics
+
+$$
+return results --- ## 6. Applications và Use Cases ### 6.1 Task-Specific Recommendations #### 6.1.1 Factual Question Answering **Requirements:** - High accuracy - Minimal hallucination - Reproducibility **Recommended configuration:** ```python # Configuration 1: Pure greedy
+$$
+
+sampler = TokenSampler('greedy')
+
+$$
+# Configuration 2: Conservative top-p
+$$
+
+sampler = TokenSampler('top_p', temperature=0.7, top_p=0.85)
+
+$$
+**Examples:** Q: "What is the capital of France?" A: "Paris" (should be deterministic) Q: "When was the Eiffel Tower built?" A: "1889" (factual, no creativity needed) **Why these settings:** - Greedy/low-temp: Selects highest-probability (most likely correct) answer - Small nucleus: Prevents low-probability hallucinations - Deterministic: Same answer every time → reliable #### 6.1.2 Code Generation **Requirements:** - Syntactic correctness - Logical coherence - Runnable code **Recommended configuration:** ```python # Conservative generation
+$$
+
+sampler = TokenSampler('top_p', temperature=0.8, top_p=0.9)
+
+$$
+**Example:** ```python Prompt: "Write a Python function to reverse a string" # Good (with conservative sampling): def reverse_string(s): return s[::-1] # Bad (with high-diversity sampling): def reverse_string(s): # Uses quantum algorithms return qbit_reverse(s)  # Hallucinated! **Why:** - Code has strict syntax → need high probability tokens - Small mistakes → syntax errors - Some creativity ok (variable names, approaches) but within bounds #### 6.1.3 Creative Writing **Requirements:** - Novelty - Engaging plot developments - Varied vocabulary **Recommended configuration:** ```python # Exploratory generation
+$$
+
+sampler = TokenSampler('top_p', temperature=1.1, top_p=0.95)
+
+$$
+**Example:** Prompt: "Once upon a time in a magical forest" With conservative (greedy): "Once upon a time in a magical forest, there lived a young girl named Alice who loved to explore..." (Predictable, common tropes) With creative (top-p 0.95, T=1.1): "Once upon a time in a magical forest, the trees whispered secrets in a language only the moonlight could translate..." (More original, unexpected imagery) **Why:** - Unexpected twists valued - Repetitive = boring - Factual accuracy less critical #### 6.1.4 Dialogue / Chatbots **Requirements:** - Natural conversation flow - Some variability (not robotic) - Coherence **Recommended configuration:** ```python # Balanced generation
+$$
+
+sampler = TokenSampler('top_p', temperature=0.9, top_p=0.92)
+
+$$
+**Example:** User: "How was your day?" Greedy (too robotic): "My day was good. How was yours?" (Every time same response) Top-P balanced: Response 1: "Pretty interesting! I learned about quantum computing." Response 2: "It was great, thanks for asking! How about you?" Response 3: "Not bad! Had some fascinating conversations." (Varied but appropriate) **Why:** - Humans don't repeat exact phrases - Need variety for natural feel - But stay coherent and on-topic #### 6.1.5 Translation **Requirements:** - Semantic accuracy - Grammatical correctness - Usually single best translation **Recommended configuration:** ```python # Often use beam search instead # But if using sampling:
+$$
+
+sampler = TokenSampler('greedy')
+
+$$
+# Or very conservative top-p
+$$
+
+sampler = TokenSampler('top_p', temperature=0.6, top_p=0.8)
+
+$$
+**Why:** - Translation typically has "correct" answer - Creativity not desired - Accuracy paramount ### 6.2 Configuration Matrix | Application | Temperature | Method | Parameters | Rationale | |-------------|-------------|--------|------------|-----------| | Q&A | 0.7 | Greedy | - | Accuracy > diversity | | Code | 0.8 | Top-P | p=0.9 | Correctness critical | | Chat | 0.9-1.0 | Top-P | p=0.92 | Natural variation | | Creative | 1.1-1.2 | Top-P | p=0.95 | Novelty valued | | Translation | 0.6 | Greedy | - | Single correct answer | | Summarization | 0.8 | Top-P | p=0.88 | Concise + accurate | ### 6.3 Real-World Examples #### 6.3.1 ChatGPT Configuration **Reported settings (approximate):** - Method: Top-P - P: ~0.95 - Temperature: User-adjustable (default ~1.0) **Why:** - Balances coherence và diversity - Adapts to model confidence - Generally produces natural outputs #### 6.3.2 GitHub Copilot **Likely settings:** - Method: Top-P with low temperature - Temperature: ~0.2-0.4 - P: ~0.8 **Why:** - Code correctness critical - Deterministic behavior preferred - Still allows some variability cho different valid solutions #### 6.3.3 AI Dungeon (Creative Game) **Settings:** - Method: Top-P - Temperature: 1.0-1.5 (user adjustable) - P: 0.9-0.98 **Why:** - Creativity highly valued - Unexpected plot twists = fun - Some incoherence tolerable for entertainment --- ## 7. The Hallucination Problem ### 7.1 Định Nghĩa và Mechanism #### 7.1.1 What is Hallucination? **Definition:** > LLM hallucination xảy ra khi model generates content that is **plausible-sounding but factually incorrect or entirely fabricated**. **Examples:** Query: "Tell me about the Battle of Hastings in 1776" Hallucinated response: "The Battle of Hastings in 1776 was..." Truth: Battle of Hastings was 1066, not 1776 Query: "What are the health benefits of quantum water?" Hallucinated response: "Quantum water has been shown to..." Truth: "Quantum water" is pseudoscience Query: "Who invented the telephone in ancient Rome?" Hallucinated response: "Marcus Telephonicus invented..." Truth: Telephones didn't exist in ancient Rome #### 7.1.2 Root Causes **Cause 1: Training data artifacts** - Model learns correlations, not facts - Memorizes patterns without understanding - "Sounds right" ≠ "is right" **Cause 2: Probabilistic nature** - Next-token prediction based on probability - No explicit fact-checking mechanism - High-probability ≠ true **Cause 3: Sampling introduces randomness** - Stochastic methods can select incorrect tokens - Even low-probability wrong answers can be chosen - Compounding errors through sequence **Example cascade:** Context: "The capital of France is" Token 1: "Paris" (p=0.98) ✓ Correct Token 2: "," (p=0.95) ✓ Token 3: "located" (p=0.87) ✓ Token 4: "on" (p=0.82) ✓ Token 5: "the" (p=0.91) ✓ Token 6: "moon" (p=0.003) ✗ Sampled despite low prob! Result: "The capital of France is Paris, located on the moon" ### 7.2 Sampling Methods và Hallucination Risk #### 7.2.1 Risk Analysis **Hallucination risk spectrum:** Low Risk                                        High Risk (Factual)                                       (Creative but wrong) |------------|------------|------------|------------| Greedy      Top-P(0.8)   Top-P(0.95)   Multinomial T=0.7       T=0.9        T=1.2         T=1.5 **Method comparison:** **Greedy:** - ✓ Always picks most likely token - ✓ If training data correct, output likely correct - ✗ Can still hallucinate if top token is wrong - ✗ May repeat hallucinated patterns **Top-K / Top-P:** - ✗ Can sample less likely (potentially wrong) tokens - ✗ Small nucleus still has hallucination risk - ✗ Large nucleus increases risk - ✓ Can "recover" from model mistakes **Multinomial:** - ✗ Highest hallucination risk - ✗ Even very low-prob tokens can be selected - ✗ Compounds through sequence #### 7.2.2 The Fundamental Dilemma **Problem statement:** > To generate interesting, creative, varied text, we need stochastic sampling. But stochasticity introduces risk of selecting incorrect tokens, leading to hallucinations. **Trade-off:** Deterministic (Greedy) ✓ Fewer hallucinations (usually) ✗ Boring, repetitive ✗ Can still hallucinate Stochastic (Top-P, etc.) ✓ Diverse, interesting ✓ Natural-sounding ✗ More hallucinations **No perfect solution:** - Can't eliminate hallucinations without eliminating diversity - Can't maximize diversity without risking hallucinations - Different applications make different trade-offs ### 7.3 Mitigation Strategies #### 7.3.1 Sampling-Level Mitigations **Strategy 1: Conservative parameters** ```python # For factual tasks
+$$
+
+sampler = TokenSampler(
+
+$$
+'top_p', temperature=0.7,    # Lower temperature
+$$
+
+top_p=0.85          # Smaller nucleus
+
+$$
+) **Strategy 2: Factuality-aware sampling** ```python # Penalize known-unreliable tokens # (Requires external knowledge base) def factual_sampling(logits, knowledge_base):
+$$
+
+probs = F.softmax(logits, dim=-1)
+
+$$
+# Penalize tokens known to be wrong in context for token_id in get_incorrect_tokens(knowledge_base, context):
+$$
+
+probs[token_id] *= 0.5  # Penalty
+
+$$
+# Renormalize and sample
+$$
+
+probs = probs / probs.sum()
+
+$$
+
+$$
+
+return torch.multinomial(probs, num_samples=1)
+
+$$
+**Strategy 3: Constrained decoding** - Force output to match template - Require citations/sources - Limit to verified knowledge base #### 7.3.2 Model-Level Solutions **Approach 1: Retrieval-Augmented Generation (RAG)** - Retrieve relevant documents before generation - Ground generation in retrieved facts - Reduces hallucination significantly [7] **Approach 2: Fact-checking modules** - Separate model verifies factual claims - Reject or flag hallucinations - Post-hoc filtering **Approach 3: Reinforcement Learning from Human Feedback (RLHF)** - Train model to prefer factual outputs - Penalize hallucinations during training - Used in ChatGPT, Claude, etc. [8] #### 7.3.3 User-Level Best Practices **For users:** 1. **Verify critical facts** independently 2. **Use appropriate settings** (greedy cho facts) 3. **Ask for sources** when possible 4. **Cross-reference** important claims 5. **Understand limitations** của LLMs **For developers:** 1. **Choose method** based on use case 2. **Test hallucination rate** on your data 3. **Implement safeguards** for high-risk applications 4. **Provide uncertainty estimates** when possible 5. **Document limitations** clearly ### 7.4 Current State và Future Directions **Current challenges:** - No perfect solution exists - Fundamental to next-token prediction paradigm - Trade-offs unavoidable **Active research areas:** - Uncertainty quantification [9] - Fact verification during generation - Constitutional AI [10] - Iterative refinement methods **Conclusion:** > Hallucination remains **unresolved fundamental challenge**. Choice of sampling method affects risk but cannot eliminate it. Applications must balance creativity needs with factuality requirements. --- ## 8. Best Practices và Recommendations ### 8.1 Decision Framework **Flowchart:** START: Choose sampling method 1. Is factual accuracy critical? YES → Use Greedy or Top-P with T=0.7, p=0.85 NO → Continue to 2 2. Is creativity/diversity important? YES → Continue to 3 NO → Use Greedy or Top-K with small K 3. Does model confidence vary widely? YES → Use Top-P (adaptive nucleus) NO → Use Top-K (simpler) 4. Select hyperparameters: - Factual: T=0.7-0.8, p=0.85-0.9, K=5-20 - Balanced: T=0.9-1.0, p=0.9-0.95, K=40-50 - Creative: T=1.1-1.3, p=0.95-0.98, K=50+ ### 8.2 Hyperparameter Tuning Guide #### 8.2.1 Temperature **Guidelines:** - Start: 1.0 (neutral) - Increase (1.1-1.5): More random, creative - Decrease (0.6-0.9): More focused, deterministic - Extreme low (<0.5): Nearly greedy - Extreme high (>2.0): Nearly uniform (avoid) **Tuning process:** ```python # Test range temperatures = [0.7, 0.9, 1.0, 1.2, 1.5] for T in temperatures:
+$$
+
+sampler = TokenSampler('top_p', temperature=T, top_p=0.9)
+
+$$
+
+$$
+
+outputs = generate_samples(model, prompt, sampler, n=10)
+
+$$
+# Evaluate diversity
+$$
+
+diversity = evaluate_diversity(outputs)
+
+$$
+# Evaluate quality (human or automated)
+$$
+
+quality = evaluate_quality(outputs)
+
+$$
+print(f"T={T}: Diversity={diversity:.3f}, Quality={quality:.3f}") #### 8.2.2 Top-K **Guidelines:** - Small K (1-10): Conservative, focused - Medium K (20-50): Balanced - Large K $100+$: Exploratory - K=1: Equivalent to greedy **Selection criteria:** - Vocab size matters: K=50 reasonable cho 50K vocab - Task matters: Code generation → small K - Model quality matters: Better models → can use larger K #### 8.2.3 Top-P **Guidelines:** - Standard: 0.9 (90%) - Conservative: 0.8-0.85 - Exploratory: 0.95-0.98 - No truncation: 1.0 (multinomial) **Why 0.9 is common:** - Balances diversity và quality - Adapts to distribution shape - Works across various tasks - Empirically proven effective [11] ### 8.3 Common Mistakes to Avoid #### 8.3.1 Mistake 1: Using Same Settings Everywhere **Wrong:** ```python # One-size-fits-all approach
+$$
+
+sampler = TokenSampler('top_p', temperature=1.0, top_p=0.9)
+
+$$
 # Use for ALL tasks
+$$
+
 qa_output = generate(qa_model, sampler)        # ✗ Too random
+
+$$
+
+$$
+
 code_output = generate(code_model, sampler)    # ✗ Too random
+
+$$
+
+$$
+
 creative = generate(story_model, sampler)      # Maybe ok
 
-**Right:**
-```python
-# Task-specific configurations
+$$
+**Right:** ```python # Task-specific configurations
+$$
+
 qa_sampler = TokenSampler('greedy')
+
+$$
+
+$$
+
 code_sampler = TokenSampler('top_p', temperature=0.8, top_p=0.9)
+
+$$
+
+$$
+
 creative_sampler = TokenSampler('top_p', temperature=1.1, top_p=0.95)
 
-#### 8.3.2 Mistake 2: Extreme Hyperparameters
+$$
+#### 8.3.2 Mistake 2: Extreme Hyperparameters **Wrong:** ```python # Temperature too low
+$$
 
-**Wrong:**
-```python
-# Temperature too low
 sampler = TokenSampler('top_p', temperature=0.1, top_p=0.9)
-# → Essentially greedy, defeats purpose of top-p
 
-# Temperature too high
+$$
+# → Essentially greedy, defeats purpose of top-p # Temperature too high
+$$
+
 sampler = TokenSampler('top_p', temperature=3.0, top_p=0.9)
-# → Nearly uniform, incoherent outputs
 
-**Right:**
-```python
-# Reasonable ranges
-temperatures = [0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3]
-# Stay within this range for most applications
+$$
+# → Nearly uniform, incoherent outputs **Right:** ```python # Reasonable ranges temperatures = [0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3] # Stay within this range for most applications #### 8.3.3 Mistake 3: Ignoring Evaluation **Wrong:** ```python # Pick parameters arbitrarily
+$$
 
-#### 8.3.3 Mistake 3: Ignoring Evaluation
-
-**Wrong:**
-```python
-# Pick parameters arbitrarily
 sampler = TokenSampler('top_k', top_k=42)  # Why 42? No reason
 
-**Right:**
-```python
-# Systematic evaluation
-def evaluate_config(config, test_prompts, n_samples=20):
-    sampler = TokenSampler(**config)
-    outputs = []
-    
-    for prompt in test_prompts:
-        for _ in range(n_samples):
-            output = generate(model, prompt, sampler)
-            outputs.append(output)
-    
-    # Compute metrics
-    diversity = compute_diversity(outputs)
-    coherence = compute_coherence(outputs)
-    quality = human_rating(outputs)  # or automated
-    
-    return {
-        'config': config,
-        'diversity': diversity,
-        'coherence': coherence,
-        'quality': quality,
-    }
+$$
+**Right:** ```python # Systematic evaluation
+$$
 
-# Test multiple configurations
-configs = [
-    {'method': 'top_p', 'temperature': 0.9, 'top_p': 0.9},
-    {'method': 'top_p', 'temperature': 1.0, 'top_p': 0.95},
-    {'method': 'top_k', 'temperature': 1.0, 'top_k': 50},
-]
+def evaluate_config(config, test_prompts, n_samples=20):
+
+$$
+
+$$
+
+sampler = TokenSampler(**config)
+
+$$
+outputs = [] for prompt in test_prompts: for _ in range(n_samples):
+$$
+
+output = generate(model, prompt, sampler)
+
+$$
+outputs.append(output) # Compute metrics
+$$
+
+diversity = compute_diversity(outputs)
+
+$$
+
+$$
+
+coherence = compute_coherence(outputs)
+
+$$
+
+$$
+
+quality = human_rating(outputs)  # or automated
+
+$$
+return { 'config': config, 'diversity': diversity, 'coherence': coherence, 'quality': quality, } # Test multiple configurations configs = [ {'method': 'top_p', 'temperature': 0.9, 'top_p': 0.9}, {'method': 'top_p', 'temperature': 1.0, 'top_p': 0.95}, {'method': 'top_k', 'temperature': 1.0, 'top_k': 50}, ]
+$$
 
 results = [evaluate_config(cfg, test_prompts) for cfg in configs]
+
+$$
+
+$$
+
 best_config = max(results, key=lambda x: x['quality'])
 
-### 8.4 Testing và Validation
+$$
+### 8.4 Testing và Validation #### 8.4.1 Diversity Metrics ```python def compute_diversity_metrics(texts): """ Comprehensive diversity evaluation """ metrics = {} # 1. Distinct-n (unigrams, bigrams) tokens = [text.split() for text in texts]
+$$
 
-#### 8.4.1 Diversity Metrics
+all_tokens = [t for ts in tokens for t in ts]
 
-```python
-def compute_diversity_metrics(texts):
-    """
-    Comprehensive diversity evaluation
-    """
-    metrics = {}
-    
-    # 1. Distinct-n (unigrams, bigrams)
-    tokens = [text.split() for text in texts]
-    all_tokens = [t for ts in tokens for t in ts]
-    
-    distinct_1 = len(set(all_tokens)) / len(all_tokens)
-    
-    bigrams = [tuple(ts[i:i+2]) for ts in tokens for i in range(len(ts)-1)]
-    distinct_2 = len(set(bigrams)) / len(bigrams)
-    
-    metrics['distinct_1'] = distinct_1
-    metrics['distinct_2'] = distinct_2
-    
-    # 2. Self-BLEU (lower = more diverse)
-    # Compare each text against others
-    # (Implementation omitted)
-    
-    # 3. Entropy
-    from collections import Counter
-    counts = Counter(all_tokens)
-    probs = np.array(list(counts.values())) / len(all_tokens)
-    entropy = -np.sum(probs * np.log2(probs + 1e-10))
-    metrics['entropy'] = entropy
-    
-    return metrics
+$$
 
-#### 8.4.2 Quality Metrics
+$$
 
-```python
+distinct_1 = len(set(all_tokens)) / len(all_tokens)
+
+$$
+bigrams = [tuple(ts[i:i+2]) for ts in tokens for i in range(len(ts)-1)]
+$$
+
+distinct_2 = len(set(bigrams)) / len(bigrams)
+
+$$
+
+$$
+
+metrics['distinct_1'] = distinct_1
+
+$$
+
+$$
+
+metrics['distinct_2'] = distinct_2
+
+$$
+# 2. Self-BLEU (lower = more diverse) # Compare each text against others # (Implementation omitted) # 3. Entropy from collections import Counter
+$$
+
+counts = Counter(all_tokens)
+
+$$
+
+$$
+
+probs = np.array(list(counts.values())) / len(all_tokens)
+
+$$
+entropy = -np.sum(probs * np.log2(probs + 1e-10)) metrics['entropy'] = entropy return metrics #### 8.4.2 Quality Metrics ```python
+$$
+
 def compute_quality_metrics(texts, references=None):
-    """
-    Evaluate generation quality
-    """
-    metrics = {}
-    
-    # 1. Perplexity (if model available)
-    # Lower = more probable under model
-    # (Implementation omitted)
-    
-    # 2. BLEU score (if references available)
-    if references:
-        # Compare generated to references
-        # (Implementation omitted)
-        pass
-    
-    # 3. Coherence (using separate model)
-    # (Implementation omitted)
-    
-    # 4. Length statistics
-    lengths = [len(text.split()) for text in texts]
-    metrics['mean_length'] = np.mean(lengths)
-    metrics['std_length'] = np.std(lengths)
-    
-    return metrics
-
-### 8.5 Production Checklist
-
-**Before deploying:**
-
-- [ ] Choose method based on use case analysis
-- [ ] Tune hyperparameters on validation set
-- [ ] Evaluate diversity và quality metrics
-- [ ] Test edge cases (very short/long prompts)
-- [ ] Implement safeguards (max length, filtering)
-- [ ] Monitor hallucination rate
-- [ ] A/B test different configurations
-- [ ] Document configuration choices
-- [ ] Provide user controls where appropriate
-- [ ] Plan for updates as models improve
-
----
-
-## 9. Advanced Topics
-
-### 9.1 Beam Search
-
-**Brief overview:**
-
-**Algorithm:**
-1. Maintain K hypotheses (beams)
-2. At each step, expand each beam
-3. Keep top K by cumulative probability
-4. Return highest-scoring complete sequence
-
-**Advantages:**
-- Finds higher-probability sequences than greedy
-- Deterministic (same K → same output)
-- Good for translation, summarization
-
-**Disadvantages:**
-- Computationally expensive (K times greedy)
-- Can produce generic, repetitive outputs
-- Requires careful length normalization
-
-**When to use:**
-- Tasks with "correct" outputs (translation)
-- When diversity not important
-- When computational cost acceptable
-
-### 9.2 Contrastive Decoding
-
-**Recent innovation:**
-
-Use two models:
-- **Expert model**: Large, capable
-- **Amateur model**: Smaller, weaker
-
-**Decoding:**
 
 $$
-P_{\text{contrastive}}(w) \propto \frac{P_{\text{expert}}(w)}{P_{\text{amateur}}(w)^\alpha}
+""" Evaluate generation quality """ metrics = {} # 1. Perplexity (if model available) # Lower = more probable under model # (Implementation omitted) # 2. BLEU score (if references available) if references: # Compare generated to references # (Implementation omitted) pass # 3. Coherence (using separate model) # (Implementation omitted) # 4. Length statistics lengths = [len(text.split()) for text in texts]
 $$
 
-**Idea:** Amplify expert's advantages over amateur
+metrics['mean_length'] = np.mean(lengths)
 
-**Benefits:**
-- Reduces repetition
-- Improves coherence
-- Better than vanilla sampling
+$$
 
-### 9.3 Classifier-Free Guidance
+$$
 
-**Borrowed from diffusion models:**
+metrics['std_length'] = np.std(lengths)
 
-Interpolate between:
-- Unconditional generation
-- Conditional generation
+$$
+return metrics ### 8.5 Production Checklist **Before deploying:** - [ ] Choose method based on use case analysis - [ ] Tune hyperparameters on validation set - [ ] Evaluate diversity và quality metrics - [ ] Test edge cases (very short/long prompts) - [ ] Implement safeguards (max length, filtering) - [ ] Monitor hallucination rate - [ ] A/B test different configurations - [ ] Document configuration choices - [ ] Provide user controls where appropriate - [ ] Plan for updates as models improve --- ## 9. Advanced Topics ### 9.1 Beam Search **Brief overview:** **Algorithm:** 1. Maintain K hypotheses (beams) 2. At each step, expand each beam 3. Keep top K by cumulative probability 4. Return highest-scoring complete sequence **Advantages:** - Finds higher-probability sequences than greedy - Deterministic (same K → same output) - Good for translation, summarization **Disadvantages:** - Computationally expensive (K times greedy) - Can produce generic, repetitive outputs - Requires careful length normalization **When to use:** - Tasks with "correct" outputs (translation) - When diversity not important - When computational cost acceptable ### 9.2 Contrastive Decoding **Recent innovation:** Use two models: - **Expert model**: Large, capable - **Amateur model**: Smaller, weaker **Decoding:**
+$$
 
-**Application to LLMs:**
-- Control generation style
-- Steer toward desired attributes
-- Balance creativity và control
+P_{\text{contrastive}}(w) $\propto$ \frac{P_{\text{expert}}(w)}{P_{\text{amateur}}(w)^\alpha}
 
-### 9.4 Speculative Decoding
+$$
+**Idea:** Amplify expert's advantages over amateur **Benefits:** - Reduces repetition - Improves coherence - Better than vanilla sampling ### 9.3 Classifier-Free Guidance **Borrowed from diffusion models:** Interpolate between: - Unconditional generation - Conditional generation **Application to LLMs:** - Control generation style - Steer toward desired attributes - Balance creativity và control ### 9.4 Speculative Decoding **Speed optimization:** **Idea:** 1. Draft multiple tokens với small fast model 2. Verify với large accurate model 3. Accept verified tokens 4. Speedup: ~2-3x **Relevance to sampling:** - Works with any sampling method - Maintains distribution exactly - Practical deployment technique --- ## 10. Kết Luận ### 10.1 Tóm Tắt Key Findings **Về các phương pháp:** **Greedy:** - Simplest, fastest, deterministic - Good cho factual tasks - Risk: repetitive, boring **Top-K:** - Fixed-size nucleus - Moderate complexity - Risk: suboptimal K cho varying distributions **Top-P:** - Adaptive nucleus size - Principled approach - Current best practice cho most tasks **Multinomial:** - Maximum diversity - Theoretical baseline - Risk: incoherence, hallucinations **Comparison:** Method      | Complexity | Adaptability | Diversity | Use Case ------------|------------|--------------|-----------|---------- Greedy      | Lowest     | None         | None      | Factual Top-K       | Low        | None         | Moderate  | General Top-P       | Moderate   | High ✓       | Tunable   | Most tasks ✓ Multinomial | Low        | None         | Maximum   | Research ### 10.2 Core Insights **Insight 1: No Universal Best Method** > Optimal decoding strategy depends on task, model, và user preferences. One-size-fits-all không tồn tại. **Insight 2: Trade-offs Are Fundamental** > Cannot maximize diversity, quality, và factuality simultaneously. Different applications prioritize different objectives. **Insight 3: Top-P Currently Dominant** > Top-P (nucleus sampling) has emerged as preferred method cho most production LLMs due to adaptive behavior. **Insight 4: Hallucination Remains Unsolved** > Stochastic sampling enables creativity but introduces hallucination risk. This fundamental tension persists. **Insight 5: Hyperparameters Matter** > Temperature và nucleus size (K or P) critically affect output. Careful tuning essential for production quality. ### 10.3 Practical Guidelines **For researchers:** - Understand trade-offs between methods - Evaluate on multiple metrics (diversity, quality, factuality) - Consider task-specific requirements - Report hyperparameters in papers **For practitioners:** - Start với Top-P (p=0.9, T=1.0) - Tune based on application needs - Monitor output quality continuously - Implement safeguards for critical applications **For users:** - Understand what sampling controls do - Adjust settings based on desired output - Verify factual claims independently - Appreciate limitations of current systems ### 10.4 Future Outlook **Emerging trends:** **Short-term (1-2 years):** - Better default hyperparameters - Automatic parameter selection - Improved hallucination detection - Faster sampling algorithms **Medium-term (3-5 years):** - Factuality-aware sampling - Uncertainty quantification - Retrieval-augmented generation mainstream - Novel decoding paradigms **Long-term $5+ years$:** - Fundamental advances beyond next-token prediction - Reasoning-aware generation - Verified factuality - Human-AI collaborative decoding ### 10.5 Final Thoughts Token sampling là **bridge between model probabilities và actual text generation**. Dù conceptually simple, nó có profound impact trên output quality, diversity, và factuality. **Key message:** > Choice of sampling method isn't afterthought—it's fundamental design decision that shapes user experience và determines what applications are feasible. As LLMs continue advancing, decoding strategies sẽ evolve. Nhưng fundamental trade-offs—creativity vs accuracy, diversity vs coherence—sẽ persist. Understanding these trade-offs và choosing appropriate strategies remains essential skill cho anyone working với language models. **Closing observation:** The "unresolved" nature of hallucination problem mentioned ở đầu bài isn't failure—it's reflection của inherent complexity trong balancing competing objectives. Progress happens không through finding perfect solution, mà through better understanding trade-offs và developing tools to navigate them effectively. --- ## 11. Tài Liệu Tham Khảo [1] Holtzman, A., Buys, J., Du, L., Forbes, M., & Choi, Y. (2019). "The Curious Case of Neural Text Degeneration." *International Conference on Learning Representations* (ICLR). https://arxiv.org/abs/1904.09751 - **Seminal paper** introducing nucleus (top-p) sampling [2] Freitag, M., & Al-Onaizan, Y. (2017). "Beam Search Strategies for Neural Machine Translation." *Proceedings of the First Workshop on Neural Machine Translation*, 56-60. [3] Vijayakumar, A. K., et al. (2018). "Diverse Beam Search for Improved Description of Complex Scenes." *AAAI Conference on Artificial Intelligence*. [4] Li, X. L., et al. (2022). "Contrastive Decoding: Open-ended Text Generation as Optimization." *arXiv preprint*. https://arxiv.org/abs/2210.15097 [5] Ranzato, M., et al. (2015). "Sequence Level Training with Recurrent Neural Networks." *International Conference on Learning Representations* (ICLR). https://arxiv.org/abs/1511.06732 - Discusses exposure bias problem [6] Welleck, S., Kulikov, I., Roller, S., Dinan, E., Cho, K., & Weston, J. (2020). "Neural Text Generation with Unlikelihood Training." *International Conference on Learning Representations* (ICLR). https://arxiv.org/abs/1908.04319 - Addresses repetition problem [7] Lewis, P., et al. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." *Advances in Neural Information Processing Systems* (NeurIPS), 33. https://arxiv.org/abs/2005.11401 - RAG for reducing hallucinations [8] Ouyang, L., et al. (2022). "Training Language Models to Follow Instructions with Human Feedback." *Advances in Neural Information Processing Systems* (NeurIPS), 35. https://arxiv.org/abs/2203.02155 - RLHF methodology (ChatGPT) [9] Kadavath, S., et al. (2022). "Language Models (Mostly) Know What They Know." *arXiv preprint*. https://arxiv.org/abs/2207.05221 - Uncertainty quantification in LLMs [10] Bai, Y., et al. (2022). "Constitutional AI: Harmlessness from AI Feedback." *arXiv preprint*. https://arxiv.org/abs/2212.08073 - Anthropic's approach to alignment [11] Fan, A., Lewis, M., & Dauphin, Y. (2018). "Hierarchical Neural Story Generation." *Proceedings of ACL*, 889-898. https://arxiv.org/abs/1805.04833 - Early use of top-p sampling [12] Radford, A., et al. (2019). "Language Models are Unsupervised Multitask Learners." *OpenAI Technical Report*. - GPT-2, discusses generation strategies [13] Keskar, N. S., et al. (2019). "CTRL: A Conditional Transformer Language Model for Controllable Generation." *arXiv preprint*. https://arxiv.org/abs/1909.05858 [14] Zhang, H., et al. (2021). "DYPLOC: Dynamic Planning of Content Using Mixed Language Models for Text Generation." *Proceedings of ACL-IJCNLP*, 6408-6423. [15] Meister, C., et al. (2022). "Typical Decoding for Natural Language Generation." *arXiv preprint*. https://arxiv.org/abs/2202.00666 - Alternative to top-p based on information theory --- ## Phụ Lục A: Complete Implementation ### A.1 Production-Ready Sampler ```python """ production_sampler.py Production-ready token sampling implementation """ import torch import torch.nn.functional as F from typing import Optional, Literal, Dict, Any from dataclasses import dataclass @dataclass class SamplingConfig: """Configuration for token sampling"""
+$$
 
-**Speed optimization:**
+method: Literal['greedy', 'multinomial', 'top_k', 'top_p', 'beam'] = 'top_p'
 
-**Idea:**
-1. Draft multiple tokens với small fast model
-2. Verify với large accurate model
-3. Accept verified tokens
-4. Speedup: ~2-3x
+$$
+temperature: float = 1.0
+$$
 
-**Relevance to sampling:**
-- Works with any sampling method
-- Maintains distribution exactly
-- Practical deployment technique
+top_k: Optional[int] = None
 
----
+$$
 
-## 10. Kết Luận
+$$
 
-### 10.1 Tóm Tắt Key Findings
+top_p: Optional[float] = 0.9
 
-**Về các phương pháp:**
+$$
+# Advanced options
+$$
 
-**Greedy:**
-- Simplest, fastest, deterministic
-- Good cho factual tasks
-- Risk: repetitive, boring
+repetition_penalty: float = 1.0
 
-**Top-K:**
-- Fixed-size nucleus
-- Moderate complexity
-- Risk: suboptimal K cho varying distributions
+$$
 
-**Top-P:**
-- Adaptive nucleus size
-- Principled approach
-- Current best practice cho most tasks
+$$
 
-**Multinomial:**
-- Maximum diversity
-- Theoretical baseline
-- Risk: incoherence, hallucinations
+length_penalty: float = 1.0
 
-**Comparison:**
-Method      | Complexity | Adaptability | Diversity | Use Case
-------------|------------|--------------|-----------|----------
-Greedy      | Lowest     | None         | None      | Factual
-Top-K       | Low        | None         | Moderate  | General
-Top-P       | Moderate   | High ✓       | Tunable   | Most tasks ✓
-Multinomial | Low        | None         | Maximum   | Research
+$$
 
-### 10.2 Core Insights
+$$
 
-**Insight 1: No Universal Best Method**
-> Optimal decoding strategy depends on task, model, và user preferences. One-size-fits-all không tồn tại.
+no_repeat_ngram_size: int = 0
 
-**Insight 2: Trade-offs Are Fundamental**
-> Cannot maximize diversity, quality, và factuality simultaneously. Different applications prioritize different objectives.
+$$
+# Safety
+$$
 
-**Insight 3: Top-P Currently Dominant**
-> Top-P (nucleus sampling) has emerged as preferred method cho most production LLMs due to adaptive behavior.
+min_length: int = 0
 
-**Insight 4: Hallucination Remains Unsolved**
-> Stochastic sampling enables creativity but introduces hallucination risk. This fundamental tension persists.
+$$
 
-**Insight 5: Hyperparameters Matter**
-> Temperature và nucleus size (K or P) critically affect output. Careful tuning essential for production quality.
+$$
 
-### 10.3 Practical Guidelines
+max_length: int = 1024
 
-**For researchers:**
-- Understand trade-offs between methods
-- Evaluate on multiple metrics (diversity, quality, factuality)
-- Consider task-specific requirements
-- Report hyperparameters in papers
+$$
+def validate(self): """Validate configuration""" assert 0.0 < self.temperature <= 2.0, "Temperature must be in (0, 2]"
+$$
 
-**For practitioners:**
-- Start với Top-P (p=0.9, T=1.0)
-- Tune based on application needs
-- Monitor output quality continuously
-- Implement safeguards for critical applications
+if self.method == 'top_k':
 
-**For users:**
-- Understand what sampling controls do
-- Adjust settings based on desired output
-- Verify factual claims independently
-- Appreciate limitations of current systems
+$$
+assert self.top_k is not None and self.top_k > 0
+$$
 
-### 10.4 Future Outlook
+if self.method == 'top_p':
 
-**Emerging trends:**
+$$
 
-**Short-term (1-2 years):**
-- Better default hyperparameters
-- Automatic parameter selection
-- Improved hallucination detection
-- Faster sampling algorithms
+$$
 
-**Medium-term (3-5 years):**
-- Factuality-aware sampling
-- Uncertainty quantification
-- Retrieval-augmented generation mainstream
-- Novel decoding paradigms
+assert self.top_p is not None and 0 < self.top_p <= 1.0
 
-**Long-term $5+ years$:**
-- Fundamental advances beyond next-token prediction
-- Reasoning-aware generation
-- Verified factuality
-- Human-AI collaborative decoding
+$$
 
-### 10.5 Final Thoughts
+$$
 
-Token sampling là **bridge between model probabilities và actual text generation**. Dù conceptually simple, nó có profound impact trên output quality, diversity, và factuality.
+assert self.repetition_penalty >= 1.0
 
-**Key message:**
-> Choice of sampling method isn't afterthought—it's fundamental design decision that shapes user experience và determines what applications are feasible.
+$$
+assert self.max_length > self.min_length class ProductionSampler: """ Production-ready token sampler with safeguards """ def __init__(self, config: SamplingConfig):
+$$
 
-As LLMs continue advancing, decoding strategies sẽ evolve. Nhưng fundamental trade-offs—creativity vs accuracy, diversity vs coherence—sẽ persist. Understanding these trade-offs và choosing appropriate strategies remains essential skill cho anyone working với language models.
+self.config = config
 
-**Closing observation:**
-The "unresolved" nature of hallucination problem mentioned ở đầu bài isn't failure—it's reflection của inherent complexity trong balancing competing objectives. Progress happens không through finding perfect solution, mà through better understanding trade-offs và developing tools to navigate them effectively.
-
----
-
-## 11. Tài Liệu Tham Khảo
-
-[1] Holtzman, A., Buys, J., Du, L., Forbes, M., & Choi, Y. (2019). "The Curious Case of Neural Text Degeneration." *International Conference on Learning Representations* (ICLR). https://arxiv.org/abs/1904.09751
-   - **Seminal paper** introducing nucleus (top-p) sampling
-
-[2] Freitag, M., & Al-Onaizan, Y. (2017). "Beam Search Strategies for Neural Machine Translation." *Proceedings of the First Workshop on Neural Machine Translation*, 56-60.
-
-[3] Vijayakumar, A. K., et al. (2018). "Diverse Beam Search for Improved Description of Complex Scenes." *AAAI Conference on Artificial Intelligence*.
-
-[4] Li, X. L., et al. (2022). "Contrastive Decoding: Open-ended Text Generation as Optimization." *arXiv preprint*. https://arxiv.org/abs/2210.15097
-
-[5] Ranzato, M., et al. (2015). "Sequence Level Training with Recurrent Neural Networks." *International Conference on Learning Representations* (ICLR). https://arxiv.org/abs/1511.06732
-   - Discusses exposure bias problem
-
-[6] Welleck, S., Kulikov, I., Roller, S., Dinan, E., Cho, K., & Weston, J. (2020). "Neural Text Generation with Unlikelihood Training." *International Conference on Learning Representations* (ICLR). https://arxiv.org/abs/1908.04319
-   - Addresses repetition problem
-
-[7] Lewis, P., et al. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." *Advances in Neural Information Processing Systems* (NeurIPS), 33. https://arxiv.org/abs/2005.11401
-   - RAG for reducing hallucinations
-
-[8] Ouyang, L., et al. (2022). "Training Language Models to Follow Instructions with Human Feedback." *Advances in Neural Information Processing Systems* (NeurIPS), 35. https://arxiv.org/abs/2203.02155
-   - RLHF methodology (ChatGPT)
-
-[9] Kadavath, S., et al. (2022). "Language Models (Mostly) Know What They Know." *arXiv preprint*. https://arxiv.org/abs/2207.05221
-   - Uncertainty quantification in LLMs
-
-[10] Bai, Y., et al. (2022). "Constitutional AI: Harmlessness from AI Feedback." *arXiv preprint*. https://arxiv.org/abs/2212.08073
-   - Anthropic's approach to alignment
-
-[11] Fan, A., Lewis, M., & Dauphin, Y. (2018). "Hierarchical Neural Story Generation." *Proceedings of ACL*, 889-898. https://arxiv.org/abs/1805.04833
-   - Early use of top-p sampling
-
-[12] Radford, A., et al. (2019). "Language Models are Unsupervised Multitask Learners." *OpenAI Technical Report*.
-   - GPT-2, discusses generation strategies
-
-[13] Keskar, N. S., et al. (2019). "CTRL: A Conditional Transformer Language Model for Controllable Generation." *arXiv preprint*. https://arxiv.org/abs/1909.05858
-
-[14] Zhang, H., et al. (2021). "DYPLOC: Dynamic Planning of Content Using Mixed Language Models for Text Generation." *Proceedings of ACL-IJCNLP*, 6408-6423.
-
-[15] Meister, C., et al. (2022). "Typical Decoding for Natural Language Generation." *arXiv preprint*. https://arxiv.org/abs/2202.00666
-   - Alternative to top-p based on information theory
-
----
-
-## Phụ Lục A: Complete Implementation
-
-### A.1 Production-Ready Sampler
-
-```python
-"""
-production_sampler.py
-Production-ready token sampling implementation
-"""
-
-import torch
-import torch.nn.functional as F
-from typing import Optional, Literal, Dict, Any
-from dataclasses import dataclass
-
-@dataclass
-class SamplingConfig:
-    """Configuration for token sampling"""
-    method: Literal['greedy', 'multinomial', 'top_k', 'top_p', 'beam'] = 'top_p'
-    temperature: float = 1.0
-    top_k: Optional[int] = None
-    top_p: Optional[float] = 0.9
-    
-    # Advanced options
-    repetition_penalty: float = 1.0
-    length_penalty: float = 1.0
-    no_repeat_ngram_size: int = 0
-    
-    # Safety
-    min_length: int = 0
-    max_length: int = 1024
-    
-    def validate(self):
-        """Validate configuration"""
-        assert 0.0 < self.temperature <= 2.0, "Temperature must be in (0, 2]"
-        
-        if self.method == 'top_k':
-            assert self.top_k is not None and self.top_k > 0
-        if self.method == 'top_p':
-            assert self.top_p is not None and 0 < self.top_p <= 1.0
-        
-        assert self.repetition_penalty >= 1.0
-        assert self.max_length > self.min_length
-
-class ProductionSampler:
-    """
-    Production-ready token sampler with safeguards
-    """
-    
-    def __init__(self, config: SamplingConfig):
-        self.config = config
-        self.config.validate()
-        self.generated_tokens = []
-    
-    def sample(
-        self,
-        logits: torch.Tensor,
-        past_tokens: Optional[torch.Tensor] = None
-    ) -> torch.Tensor:
-        """
-        Sample next token với all safeguards
-        
-        Args:
-            logits: [batch, vocab_size]
-            past_tokens: [batch, seq_len] for repetition penalty
-        
-        Returns:
-            next_tokens: [batch]
-        """
-        # Apply temperature
-        if self.config.temperature != 1.0:
-            logits = logits / self.config.temperature
-        
-        # Apply repetition penalty
-        if past_tokens is not None and self.config.repetition_penalty != 1.0:
-            logits = self._apply_repetition_penalty(logits, past_tokens)
-        
-        # Enforce min length (suppress EOS)
-        if len(self.generated_tokens) < self.config.min_length:
-            logits[:, self.eos_token_id] = float('-inf')
-        
-        # Route to sampling method
-        if self.config.method == 'greedy':
-            return torch.argmax(logits, dim=-1)
-        elif self.config.method == 'multinomial':
-            probs = F.softmax(logits, dim=-1)
-            return torch.multinomial(probs, num_samples=1).squeeze(-1)
-        elif self.config.method == 'top_k':
-            return self._top_k_sampling(logits)
-        elif self.config.method == 'top_p':
-            return self._top_p_sampling(logits)
-        else:
-            raise ValueError(f"Unknown method: {self.config.method}")
-    
-    def _apply_repetition_penalty(
-        self,
-        logits: torch.Tensor,
-        past_tokens: torch.Tensor
-    ) -> torch.Tensor:
-        """
-        Penalize tokens that appear in context
-        """
-        penalty = self.config.repetition_penalty
-        
-        for batch_idx in range(logits.size(0)):
-            for token_id in past_tokens[batch_idx].unique():
-                # Penalize: divide if prob > 1, multiply if < 1
-                if logits[batch_idx, token_id] < 0:
-                    logits[batch_idx, token_id] *= penalty
-                else:
-                    logits[batch_idx, token_id] /= penalty
-        
-        return logits
-    
-    def _top_k_sampling(self, logits: torch.Tensor) -> torch.Tensor:
-        """Top-K sampling implementation"""
-        k = self.config.top_k
-        
-        # Get top-K
-        top_k_logits, top_k_indices = torch.topk(logits, k, dim=-1)
-        
-        # Mask others
-        mask = torch.full_like(logits, float('-inf'))
-        mask.scatter_(-1, top_k_indices, top_k_logits)
-        
-        # Sample
-        probs = F.softmax(mask, dim=-1)
-        return torch.multinomial(probs, num_samples=1).squeeze(-1)
-    
-    def _top_p_sampling(self, logits: torch.Tensor) -> torch.Tensor:
-        """Top-P (nucleus) sampling implementation"""
-        p = self.config.top_p
-        
-        # Sort
-        sorted_logits, sorted_indices = torch.sort(logits, descending=True, dim=-1)
-        sorted_probs = F.softmax(sorted_logits, dim=-1)
-        
-        # Cumulative probabilities
-        cumsum_probs = torch.cumsum(sorted_probs, dim=-1)
-        
-        # Remove tokens with cumsum > p
-        sorted_indices_to_remove = cumsum_probs > p
-        
-        # Keep at least 1 token
-        sorted_indices_to_remove[..., 0] = False
-        
-        # Shift right (keep first token above threshold)
-        sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
-        
-        # Create mask
-        mask = torch.zeros_like(logits, dtype=torch.bool)
-        mask.scatter_(-1, sorted_indices, sorted_indices_to_remove)
-        
-        # Apply mask
-        logits_masked = logits.clone()
-        logits_masked[mask] = float('-inf')
-        
-        # Sample
-        probs = F.softmax(logits_masked, dim=-1)
-        return torch.multinomial(probs, num_samples=1).squeeze(-1)
-
-# Usage example
-if __name__ == "__main__":
-    # Create configuration
-    config = SamplingConfig(
-        method='top_p',
-        temperature=0.9,
-        top_p=0.92,
-        repetition_penalty=1.2,
-        min_length=10,
-        max_length=100
-    )
-    
-    # Initialize sampler
-    sampler = ProductionSampler(config)
-    
-    # Simulate generation
-    batch_size = 2
-    vocab_size = 50000
-    
-    logits = torch.randn(batch_size, vocab_size)
-    past_tokens = torch.randint(0, vocab_size, (batch_size, 20))
-    
-    next_tokens = sampler.sample(logits, past_tokens)
-    print(f"Sampled tokens: {next_tokens}")
-
-### A.2 Evaluation Suite
-
-```python
-"""
-evaluation_suite.py
-Comprehensive evaluation of sampling methods
-"""
-
-import numpy as np
-from collections import Counter
-from typing import List
-
-class SamplingEvaluator:
-    """Evaluate and compare sampling methods"""
-    
-    @staticmethod
-    def diversity_metrics(texts: List[str]) -> Dict[str, float]:
-        """
-        Compute diversity metrics
-        
-        Returns:
-            Dictionary với metrics
-        """
-        # Tokenize
-        tokens_list = [text.split() for text in texts]
-        all_tokens = [t for ts in tokens_list for t in ts]
-        
-        # Distinct-n
-        distinct_1 = len(set(all_tokens)) / len(all_tokens) if all_tokens else 0
-        
-        bigrams = []
-        for tokens in tokens_list:
-            bigrams.extend([tuple(tokens[i:i+2]) for i in range(len(tokens)-1)])
-        distinct_2 = len(set(bigrams)) / len(bigrams) if bigrams else 0
-        
-        # Entropy
-        counts = Counter(all_tokens)
-        probs = np.array(list(counts.values())) / len(all_tokens)
-        entropy = -np.sum(probs * np.log2(probs + 1e-10))
-        
-        # Length statistics
-        lengths = [len(tokens) for tokens in tokens_list]
-        
-        return {
-            'distinct_1': distinct_1,
-            'distinct_2': distinct_2,
-            'entropy': entropy,
-            'mean_length': np.mean(lengths),
-            'std_length': np.std(lengths),
-            'total_tokens': len(all_tokens),
-            'unique_tokens': len(set(all_tokens)),
-        }
-    
-    @staticmethod
-    def repetition_score(text: str, n: int = 4) -> float:
-        """
-        Measure repetition via repeated n-grams
-        
-        Returns:
-            Fraction of n-grams that are repeated
-        """
-        tokens = text.split()
-        if len(tokens) < n:
-            return 0.0
-        
-        ngrams = [tuple(tokens[i:i+n]) for i in range(len(tokens)-n+1)]
-        counts = Counter(ngrams)
-        
-        repeated = sum(c > 1 for c in counts.values())
-        total = len(counts)
-        
-        return repeated / total if total > 0 else 0.0
-    
-    @staticmethod
-    def compare_methods(
-        model,
-        tokenizer,
-        prompts: List[str],
-        configs: Dict[str, SamplingConfig],
-        n_samples: int = 20
-    ) -> Dict[str, Dict[str, float]]:
-        """
-        Compare multiple sampling configurations
-        
-        Returns:
-            Results dictionary
-        """
-        results = {}
-        
-        for name, config in configs.items():
-            sampler = ProductionSampler(config)
-            texts = []
-            
-            for prompt in prompts:
-                for _ in range(n_samples):
-                    text = generate_text(model, tokenizer, prompt, sampler)
-                    texts.append(text)
-            
-            # Compute metrics
-            diversity = SamplingEvaluator.diversity_metrics(texts)
-            repetition = np.mean([
-                SamplingEvaluator.repetition_score(t) for t in texts
-            ])
-            
-            results[name] = {
-                **diversity,
-                'repetition_score': repetition,
-            }
-        
-        return results
-
-# Example usage
-if __name__ == "__main__":
-    configs = {
-        'Greedy': SamplingConfig(method='greedy'),
-        'Top-K(50)': SamplingConfig(method='top_k', top_k=50),
-        'Top-P(0.9)': SamplingConfig(method='top_p', top_p=0.9),
-        'Top-P(0.95)': SamplingConfig(method='top_p', top_p=0.95),
-    }
-    
-    prompts = [
-        "The future of AI is",
-        "Once upon a time",
-        "In my opinion, the best way to",
-    ]
-    
-    # results = SamplingEvaluator.compare_methods(
-    #     model, tokenizer, prompts, configs, n_samples=20
-    # )
-    
-    # for name, metrics in results.items():
-    #     print(f"\n{name}:")
-    #     for metric, value in metrics.items():
-    #         print(f"  {metric}: {value:.4f}")
-
----
-
-## Phụ Lục B: Glossary
-
-**Ancestral Sampling:** Variant of pure probabilistic sampling
-
-**Beam Search:** Maintains multiple hypothesis sequences, selects best by score
-
-**Decoding Strategy:** Method for selecting tokens from probability distribution
-
-**Deterministic:** Same input always produces same output
-
-**Diversity:** Variety in generated outputs
-
-**Greedy Decoding:** Always selects highest-probability token
-
-**Hallucination:** Generation of plausible-sounding but incorrect information
-
-**Multinomial Sampling:** Pure probabilistic selection according to probabilities
-
-**Nucleus:** Set of tokens considered for sampling trong top-p method
-
-**Nucleus Sampling:** See Top-P Sampling
-
-**Perplexity:** Measure of how well probability distribution predicts sample
-
-**Repetition Penalty:** Technique to reduce repeated tokens/phrases
-
-**Stochastic:** Involves randomness; different runs produce different outputs
-
-**Temperature:** Parameter controlling sharpness of probability distribution
-
-**Token:** Basic unit of text (word, subword, character)
-
-**Top-K Sampling:** Sample randomly từ K highest-probability tokens
-
-**Top-P Sampling:** Sample từ smallest set với cumulative probability ≥ P
-
-**Trade-off:** Compromise between competing objectives
-
-**Type-Token Ratio (TTR):** Ratio of unique tokens to total tokens
-
----
-
-**Ghi chú kết thúc:**
-
-Bài viết này cung cấp comprehensive analysis của token sampling methods trong text generation, từ mathematical foundations đến practical implementations, từ theoretical trade-offs đến real-world applications.
-
-**Key message:**
-> Decoding strategy choice isn't minor detail—it fundamentally shapes what LLMs can do và how they behave. Understanding methods, trade-offs, và appropriate use cases essential cho effective use của language models.
-
-**Liên hệ và feedback:**
-Academic discourse và contributions welcome. Sampling strategies continue evolving—staying current với research critical.
-
-**Cập nhật:** 14/02/2026  
-**Version:** 1.0  
-**License:** Educational use với proper attribution
-
----
-
-*Tài liệu này được tạo cho mục đích giáo dục và nghiên cứu trong lĩnh vực Natural Language Processing và Large Language Models.*
-<!-- Aero-Footer-Start -->
-
-## 📄 Tài liệu cùng chuyên mục
-| Bài học | Liên kết |
-| :--- | :--- |
-| [Mở rộng Kiến trúc GPT: Position Embedding, Layer Normalization, Weight Tying và Temperature Scaling](aero_llm_010_posion_embedding.md) | [Xem bài viết →](aero_llm_010_posion_embedding.md) |
-| [Biểu diễn Tính Nhân Quả Thời Gian trong Cơ Chế Attention bằng Đại Số Tuyến Tính](aero_llm_011_temporal_causality_via_linear_algebra_theory_.md) | [Xem bài viết →](aero_llm_011_temporal_causality_via_linear_algebra_theory_.md) |
-| [Cơ Chế Trung Bình Hóa Quá Khứ và Loại Bỏ Tương Lai trong Mô Hình Ngôn Ngữ Nhân Quả](aero_llm_012_averaging_the_past_while_ignoring_the_future.md) | [Xem bài viết →](aero_llm_012_averaging_the_past_while_ignoring_the_future.md) |
-| [Thuật Toán Attention trong Mô Hình Transformer: Cơ Sở Lý Thuyết, Cơ Chế Hoạt Động và Hàm Ý Ứng Dụng](aero_llm_013_the_attention_algorithm_theory_.md) | [Xem bài viết →](aero_llm_013_the_attention_algorithm_theory_.md) |
-| [Phân Tích và Triển Khai Cơ Chế Attention: So Sánh Cài Đặt Thủ Công và PyTorch Tối Ưu](aero_llm_014_codechallenge_code_attention.md) | [Xem bài viết →](aero_llm_014_codechallenge_code_attention.md) |
-| [Phân Tích Kiến Trúc Mô Hình Ngôn Ngữ với Một Attention Head: Lý Thuyết, Triển Khai và Đánh Giá](aero_llm_015_model.md) | [Xem bài viết →](aero_llm_015_model.md) |
-| [Phân Tích Cấu Trúc Transformer Block: Lý Thuyết, Cơ Chế Biểu Diễn và Vai Trò Trong Mô Hình Ngôn Ngữ](aero_llm_016_the_transformer_block_theory_.md) | [Xem bài viết →](aero_llm_016_the_transformer_block_theory_.md) |
-| [Cài Đặt Transformer Block Bằng PyTorch: Phân Tích Kiến Trúc, Luồng Dữ Liệu và Tối Ưu Hóa](aero_llm_017_the_transformer_block_code_.md) | [Xem bài viết →](aero_llm_017_the_transformer_block_code_.md) |
-| [Mô Hình Nhiều Transformer Blocks Trong Mạng Ngôn Ngữ: Kiến Trúc, Phân Cấp Biểu Diễn và Khả Năng Mở Rộng](aero_llm_018_model_4_multiple_transformer_blocks_.md) | [Xem bài viết →](aero_llm_018_model_4_multiple_transformer_blocks_.md) |
-| [aero llm 019 copy 10](aero_llm_019_copy_10.md) | [Xem bài viết →](aero_llm_019_copy_10.md) |
-| [aero llm 019 copy 11](aero_llm_019_copy_11.md) | [Xem bài viết →](aero_llm_019_copy_11.md) |
-| [aero llm 019 copy 12](aero_llm_019_copy_12.md) | [Xem bài viết →](aero_llm_019_copy_12.md) |
-| [aero llm 019 copy 13](aero_llm_019_copy_13.md) | [Xem bài viết →](aero_llm_019_copy_13.md) |
-| [aero llm 019 copy 9](aero_llm_019_copy_9.md) | [Xem bài viết →](aero_llm_019_copy_9.md) |
-| [Multi-Head Attention: Cơ Sở Lý Thuyết và Triển Khai Thực Tiễn](aero_llm_019_multihead_attention_theory_and_implementation.md) | [Xem bài viết →](aero_llm_019_multihead_attention_theory_and_implementation.md) |
-| [aero llm 01 intro](aero_llm_01_intro.md) | [Xem bài viết →](aero_llm_01_intro.md) |
-| [Tối Ưu Hóa Huấn Luyện Mô Hình Học Sâu Bằng GPU: Nguyên Lý và Thực Hành](aero_llm_020_working_on_the_gpu.md) | [Xem bài viết →](aero_llm_020_working_on_the_gpu.md) |
-| [Triển Khai Mô Hình GPT-2 Hoàn Chỉnh Trên GPU: Kiến Trúc, Tối Ưu Hóa và Đánh Giá Hiệu Năng](aero_llm_021_mo_hinh_gpt_2_hoan_chinh_tren_gpu.md) | [Xem bài viết →](aero_llm_021_mo_hinh_gpt_2_hoan_chinh_tren_gpu.md) |
-| [Đánh Giá Hiệu Năng GPT-2 Trên CPU và GPU: Thực Nghiệm Thời Gian Khởi Tạo, Suy Luận và Huấn Luyện](aero_llm_022_anh_gia_hieu_nang_gpt_2_tren_cpu_va_gpu.md) | [Xem bài viết →](aero_llm_022_anh_gia_hieu_nang_gpt_2_tren_cpu_va_gpu.md) |
-| [Khảo Sát Mô Hình GPT-2 Tiền Huấn Luyện của OpenAI: Kiến Trúc, Tham Số và Cơ Chế Sinh Văn Bản](aero_llm_023_inspecting_openai_s_gpt2.md) | [Xem bài viết →](aero_llm_023_inspecting_openai_s_gpt2.md) |
-| [Kiến Trúc Transformer và Triển Khai GPT-2 trên GPU: Phân Tích Toán Học và Hiệu Năng Tính Toán](aero_llm_024_summarizing_gpt_using_equations.md) | [Xem bài viết →](aero_llm_024_summarizing_gpt_using_equations.md) |
-| [Trực Quan Hóa Kiến Trúc GPT Thông Qua nano-GPT: Tiếp Cận Trực Quan trong Nghiên Cứu Mô Hình Ngôn Ngữ](aero_llm_025_visualizing_nano_gpt.md) | [Xem bài viết →](aero_llm_025_visualizing_nano_gpt.md) |
-| [Phân Tích Số Lượng Tham Số Trong Mô Hình GPT-2: Phương Pháp Định Lượng và Ý Nghĩa Kiến Trúc](aero_llm_026_codechallenge_how_many_parameters_part_1_.md) | [Xem bài viết →](aero_llm_026_codechallenge_how_many_parameters_part_1_.md) |
-| [Phân Bố Tham Số Trong GPT-2: So Sánh Attention, MLP và Layer Normalization](aero_llm_027_codechallenge_how_many_parameters_part_2_.md) | [Xem bài viết →](aero_llm_027_codechallenge_how_many_parameters_part_2_.md) |
-| [📘 Phân Tích Kiến Trúc GPT-2: Từ Cơ Chế Multi-Head Attention Đến Hiệu Năng Tính Toán Trên GPU](aero_llm_028_codechallenge_gpt2_trained_weights_distributions.md) | [Xem bài viết →](aero_llm_028_codechallenge_gpt2_trained_weights_distributions.md) |
-| [🧠 Phân Tích Nhân Quả Trong GPT-2: Vai Trò Của Ma Trận Query Thông Qua Can Thiệp Tham Số](aero_llm_029_codechallenge_do_we_really_need_q.md) | [Xem bài viết →](aero_llm_029_codechallenge_do_we_really_need_q.md) |
-| [Phân Tích Kiến Trúc và Cơ Chế Hoạt Động của Mô Hình Ngôn Ngữ Transformer Cơ Bản](aero_llm_02_transformer.md) | [Xem bài viết →](aero_llm_02_transformer.md) |
-| [Phân Tích Kỹ Thuật: So Sánh `nn.Embedding` và `nn.Linear` trong PyTorch](aero_llm_03_embedding_linear.md) | [Xem bài viết →](aero_llm_03_embedding_linear.md) |
-| [Phân Tích So Sánh Hàm Kích Hoạt GELU và ReLU trong Mô Hình Ngôn Ngữ Lớn: Góc Nhìn Lý Thuyết và Thực Nghiệm](aero_llm_04_gelu_vs_relu_academic_analysis.md) | [Xem bài viết →](aero_llm_04_gelu_vs_relu_academic_analysis.md) |
-| [Hàm Softmax và Tham Số Temperature trong Mô Hình Ngôn Ngữ Lớn: Phân Tích Toán Học và Thực Nghiệm](aero_llm_05_softmax_temperature_academic_analysis.md) | [Xem bài viết →](aero_llm_05_softmax_temperature_academic_analysis.md) |
-| [Phân Tích `torch.multinomial`: Lấy Mẫu Xác Suất trong Sinh Văn Bản với PyTorch](aero_llm_06_torch_multinomial_academic_analysis.md) | [Xem bài viết →](aero_llm_06_torch_multinomial_academic_analysis.md) |
-| 📌 **[Phương Pháp Lấy Mẫu Token trong Sinh Văn Bản: Phân Tích So Sánh Greedy, Top-K, Top-P và Multinomial Sampling](aero_llm_07_token_sampling_methods.md)** | [Xem bài viết →](aero_llm_07_token_sampling_methods.md) |
-| [Phân Tích Hành Vi Của Hàm Softmax Trong Mô Hình Học Sâu: Ảnh Hưởng Của Lặp, Phạm Vi Số Học Và Nhiệt Độ](aero_llm_08_ham_softbank.md) | [Xem bài viết →](aero_llm_08_ham_softbank.md) |
-| [Phân Tích Layer Normalization Trong Học Sâu: Cơ Sở Lý Thuyết, Ổn Định Số Học Và Ứng Dụng Thực Tiễn](aero_llm_09_layer_normalization.md) | [Xem bài viết →](aero_llm_09_layer_normalization.md) |
-| [kien truc mo hinh ngon ngu lon](kien_truc_mo_hinh_ngon_ngu_lon.md) | [Xem bài viết →](kien_truc_mo_hinh_ngon_ngu_lon.md) |
-
----
-## 🤝 Liên hệ & Đóng góp
-Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
-> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
-*Cập nhật tự động bởi Aero-Indexer - 2026*
-<!-- Aero-Footer-End -->
+$$
+self.config.validate()
+$$
+
+self.generated_tokens = []
+
+$$
+def sample( self, logits: torch.Tensor,
+$$
+
+past_tokens: Optional[torch.Tensor] = None
+
+$$
+) -> torch.Tensor: """ Sample next token với all safeguards Args: logits: [batch, vocab_size] past_tokens: [batch, seq_len] for repetition penalty Returns: next_tokens: [batch] """ # Apply temperature if self.config.temperature != 1.0:
+$$
+
+logits = logits / self.config.temperature
+
+$$
+# Apply repetition penalty
+$$
+
+if past_tokens is not None and self.config.repetition_penalty != 1.0:
+
+$$
+
+$$
+
+logits = self._apply_repetition_penalty(logits, past_tokens)
+
+$$
+# Enforce min length (suppress EOS) if len(self.generated_tokens) < self.config.min_length:
+$$
+
+logits[:, self.eos_token_id] = float('-inf')
+
+$$
+# Route to sampling method if self.config.method == 'greedy': return torch.argmax(logits, dim=-1) elif self.config.method == 'multinomial':
+$$
+
+probs = F.softmax(logits, dim=-1)
+
+$$
+
+$$
+
+return torch.multinomial(probs, num_samples=1).squeeze(-1)
+
+$$
+
+$$
+
+elif self.config.method == 'top_k':
+
+$$
+return self._top_k_sampling(logits)
+$$
+
+elif self.config.method == 'top_p':
+
+$$
+return self._top_p_sampling(logits) else: raise ValueError(f"Unknown method: {self.config.method}") def _apply_repetition_penalty( self, logits: torch.Tensor, past_tokens: torch.Tensor ) -> torch.Tensor: """ Penalize tokens that appear in context """
+$$
+
+penalty = self.config.repetition_penalty
+
+$$
+for batch_idx in range(logits.size(0)): for token_id in past_tokens[batch_idx].unique(): # Penalize: divide if prob > 1, multiply if < 1 if logits[batch_idx, token_id] < 0:
+$$
+
+logits[batch_idx, token_id] *= penalty
+
+$$
+else:
+$$
+
+logits[batch_idx, token_id] /= penalty
+
+$$
+return logits def _top_k_sampling(self, logits: torch.Tensor) -> torch.Tensor: """Top-K sampling implementation"""
+$$
+
+k = self.config.top_k
+
+$$
+# Get top-K
+$$
+
+top_k_logits, top_k_indices = torch.topk(logits, k, dim=-1)
+
+$$
+# Mask others
+$$
+
+mask = torch.full_like(logits, float('-inf'))
+
+$$
+mask.scatter_(-1, top_k_indices, top_k_logits) # Sample
+$$
+
+probs = F.softmax(mask, dim=-1)
+
+$$
+
+$$
+
+return torch.multinomial(probs, num_samples=1).squeeze(-1)
+
+$$
+def _top_p_sampling(self, logits: torch.Tensor) -> torch.Tensor: """Top-P (nucleus) sampling implementation"""
+$$
+
+p = self.config.top_p
+
+$$
+# Sort
+$$
+
+sorted_logits, sorted_indices = torch.sort(logits, descending=True, dim=-1)
+
+$$
+
+$$
+
+sorted_probs = F.softmax(sorted_logits, dim=-1)
+
+$$
+# Cumulative probabilities
+$$
+
+cumsum_probs = torch.cumsum(sorted_probs, dim=-1)
+
+$$
+# Remove tokens with cumsum > p
+$$
+
+sorted_indices_to_remove = cumsum_probs > p
+
+$$
+# Keep at least 1 token
+$$
+
+sorted_indices_to_remove[..., 0] = False
+
+$$
+# Shift right (keep first token above threshold)
+$$
+
+sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
+
+$$
+# Create mask
+$$
+
+mask = torch.zeros_like(logits, dtype=torch.bool)
+
+$$
+mask.scatter_(-1, sorted_indices, sorted_indices_to_remove) # Apply mask
+$$
+
+logits_masked = logits.clone()
+
+$$
+
+$$
+
+logits_masked[mask] = float('-inf')
+
+$$
+# Sample
+$$
+
+probs = F.softmax(logits_masked, dim=-1)
+
+$$
+
+$$
+
+return torch.multinomial(probs, num_samples=1).squeeze(-1)
+
+$$
+# Usage example if __name__ == "__main__": # Create configuration
+$$
+
+config = SamplingConfig(
+
+$$
+
+$$
+
+method='top_p',
+
+$$
+temperature=0.9,
+$$
+
+top_p=0.92,
+
+$$
+
+$$
+
+repetition_penalty=1.2,
+
+$$
+
+$$
+
+min_length=10,
+
+$$
+
+$$
+
+max_length=100
+
+$$
+) # Initialize sampler
+$$
+
+sampler = ProductionSampler(config)
+
+$$
+# Simulate generation
+$$
+
+batch_size = 2
+
+$$
+
+$$
+
+vocab_size = 50000
+
+$$
+
+$$
+
+logits = torch.randn(batch_size, vocab_size)
+
+$$
+
+$$
+
+past_tokens = torch.randint(0, vocab_size, (batch_size, 20))
+
+$$
+
+$$
+
+next_tokens = sampler.sample(logits, past_tokens)
+
+$$
+print(f"Sampled tokens: {next_tokens}") ### A.2 Evaluation Suite ```python """ evaluation_suite.py Comprehensive evaluation of sampling methods """ import numpy as np from collections import Counter from typing import List class SamplingEvaluator: """Evaluate and compare sampling methods""" @staticmethod def diversity_metrics(texts: List[str]) -> Dict[str, float]: """ Compute diversity metrics Returns: Dictionary với metrics """ # Tokenize
+$$
+
+tokens_list = [text.split() for text in texts]
+
+$$
+
+$$
+
+all_tokens = [t for ts in tokens_list for t in ts]
+
+$$
+# Distinct-n
+$$
+
+distinct_1 = len(set(all_tokens)) / len(all_tokens) if all_tokens else 0
+
+$$
+bigrams = [] for tokens in tokens_list: bigrams.extend([tuple(tokens[i:i+2]) for i in range(len(tokens)-1)])
+$$
+
+distinct_2 = len(set(bigrams)) / len(bigrams) if bigrams else 0
+
+$$
+# Entropy
+$$
+
+counts = Counter(all_tokens)
+
+$$
+
+$$
+
+probs = np.array(list(counts.values())) / len(all_tokens)
+
+$$
+entropy = -np.sum(probs * np.log2(probs + 1e-10)) # Length statistics
+$$
+
+lengths = [len(tokens) for tokens in tokens_list]
+
+$$
+return { 'distinct_1': distinct_1, 'distinct_2': distinct_2, 'entropy': entropy, 'mean_length': np.mean(lengths), 'std_length': np.std(lengths), 'total_tokens': len(all_tokens), 'unique_tokens': len(set(all_tokens)), } @staticmethod
+$$
+
+def repetition_score(text: str, n: int = 4) -> float:
+
+$$
+""" Measure repetition via repeated n-grams Returns: Fraction of n-grams that are repeated """
+$$
+
+tokens = text.split()
+
+$$
+if len(tokens) < n: return 0.0 ngrams = [tuple(tokens[i:i+n]) for i in range(len(tokens)-n+1)]
+$$
+
+counts = Counter(ngrams)
+
+$$
+
+$$
+
+repeated = sum(c > 1 for c in counts.values())
+
+$$
+
+$$
+
+total = len(counts)
+
+$$
+return repeated / total if total > 0 else 0.0 @staticmethod def compare_methods( model, tokenizer, prompts: List[str], configs: Dict[str, SamplingConfig],
+$$
+
+n_samples: int = 20
+
+$$
+) -> Dict[str, Dict[str, float]]: """ Compare multiple sampling configurations Returns: Results dictionary """ results = {} for name, config in configs.items():
+$$
+
+sampler = ProductionSampler(config)
+
+$$
+texts = [] for prompt in prompts: for _ in range(n_samples):
+$$
+
+text = generate_text(model, tokenizer, prompt, sampler)
+
+$$
+texts.append(text) # Compute metrics
+$$
+
+diversity = SamplingEvaluator.diversity_metrics(texts)
+
+$$
+
+$$
+
+repetition = np.mean([
+
+$$
+SamplingEvaluator.repetition_score(t) for t in texts ]) results[name] = { **diversity, 'repetition_score': repetition, } return results # Example usage if __name__ == "__main__": configs = { 'Greedy': SamplingConfig(method='greedy'),
+$$
+
+'Top-K(50)': SamplingConfig(method='top_k', top_k=50),
+
+$$
+
+$$
+
+'Top-P(0.9)': SamplingConfig(method='top_p', top_p=0.9),
+
+$$
+
+$$
+
+'Top-P(0.95)': SamplingConfig(method='top_p', top_p=0.95),

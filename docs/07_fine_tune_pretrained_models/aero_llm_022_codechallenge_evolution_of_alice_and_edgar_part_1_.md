@@ -49,13 +49,25 @@ Mục tiêu nghiên cứu:
 Cho chuỗi token:
 
 $$
+
+$$
+
 X=(x_1,x_2,\dots,x_n)
+
+$$
+
 $$
 
 Xác suất sinh:
 
 $$
-P(X)=\prod_{i=1}^{n}P(x_i\mid x_{\lt i};\theta_g)
+
+$$
+
+P(X)=$\prod$_{i=1}^{n}P(x_i\mid x_{\lt i};\theta_g)
+
+$$
+
 $$
 
 Trong đó $\theta_g$ là tham số mô hình sinh.
@@ -67,13 +79,19 @@ Trong đó $\theta_g$ là tham số mô hình sinh.
 Với đầu ra [CLS]:
 
 $$
-h_{CLS}\in\mathbb{R}^d
+h_{CLS}\in$\mathbb${R}^d
 $$
 
 Bộ phân loại:
 
 $$
+
+$$
+
 z = Wh_{CLS}+b
+
+$$
+
 $$
 
 $$
@@ -89,13 +107,25 @@ Trong đó $\hat{y}$ là xác suất Alice/Edgar.
 #### $a$ Mô hình sinh
 
 $$
-\mathcal{L}_{gen} = -\frac{1}{N}\sum_{i=1}^{N}\log P(x_i\mid x_{\lt i})
+
+$$
+
+$\mathcal${L}_{gen} = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P(x_i\mid x_{\lt i})
+
+$$
+
 $$
 
 #### $b$ Mô hình phân loại
 
 $$
-\mathcal{L}_{cls} = -\frac{1}{N}\sum_{i=1}^{N}\sum_{c}y_{ic}\log\hat{y}_{ic}
+
+$$
+
+$\mathcal${L}_{cls} = -\frac{1}{N}$\sum$_{i=1}^{N}$\sum$_{c}y_{ic}$\log$\hat{y}_{ic}
+
+$$
+
 $$
 
 ---
@@ -133,7 +163,13 @@ $$
 Giảm dung lượng:
 
 $$
-M_{fp16}\approx \frac{1}{2}M_{fp32}
+
+$$
+
+M_{fp16}$\approx$ \frac{1}{2}M_{fp32}
+
+$$
+
 $$
 
 Giúp tiết kiệm GPU.
@@ -177,7 +213,7 @@ Theo tài liệu :
 Ma trận batch:
 
 $$
-B\in\mathbb{R}^{64\times128}
+B\in$\mathbb${R}^{64\times128}
 $$
 
 Vector nhãn:
@@ -201,7 +237,13 @@ $$
 Trong thực nghiệm:
 
 $$
-k\approx4
+
+$$
+
+k$\approx$4
+
+$$
+
 $$
 
 Sau đó cắt:
@@ -217,13 +259,19 @@ $$
 Danh sách token xấu:
 
 $$
-\mathcal{B}={\text{space},\text{tab},\text{newline},\dots}
+
+$$
+
+$\mathcal${B}={\text{space},\text{tab},\text{newline},\dots}
+
+$$
+
 $$
 
 Ràng buộc sinh:
 
 $$
-x_t\notin\mathcal{B}
+x_t\notin$\mathcal${B}
 $$
 
 ---
@@ -233,7 +281,13 @@ $$
 Hạn chế lặp:
 
 $$
+
+$$
+
 p_i'=\frac{p_i}{r^{c_i}}
+
+$$
+
 $$
 
 Trong đó:
@@ -248,13 +302,25 @@ Trong đó:
 ### 5.1. Độ chính xác phân loại
 
 $$
-\text{Acc} = \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
+
+$$
+
+\text{Acc} = \frac{1}{N}$\sum$_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
+
+$$
+
 $$
 
 Trước fine-tuning:
 
 $$
-\text{Acc}\approx 0.5
+
+$$
+
+\text{Acc}$\approx$ 0.5
+
+$$
+
 $$
 
 .
@@ -264,7 +330,7 @@ $$
 ### 5.2. Hàm mất mát BERT
 
 $$
-\mathcal{L}*{cls}^{(t+1)} \lt  \mathcal{L}*{cls}^{(t)}
+$\mathcal${L}*{cls}^{(t+1)} \lt  $\mathcal${L}*{cls}^{(t)}
 $$
 
 ⇒ mô hình sinh tiến gần phong cách mục tiêu.
@@ -276,7 +342,13 @@ $$
 Gọi:
 
 $$
+
+$$
+
 S(t)=P_{BERT}(\text{Alice}\mid X_t)
+
+$$
+
 $$
 
 Nếu:
@@ -300,7 +372,7 @@ Theo :
 Quan hệ tổng quát:
 
 $$
-\frac{d}{dt}\mathcal{L}_{cls}<0
+\frac{d}{dt}$\mathcal${L}_{cls}<0
 $$
 
 Cho thấy quá trình hội tụ.

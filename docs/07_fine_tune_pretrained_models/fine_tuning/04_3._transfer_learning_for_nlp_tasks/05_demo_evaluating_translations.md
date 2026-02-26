@@ -52,18 +52,38 @@ nltk.download('punkt')
 # Giả định mô hình đã được huấn luyện từ bài trước
 from transformers import TFAutoModelForSeq2SeqLM, AutoTokenizer
 
+$$
 model_name = "google/flan-t5-base"
+$$
+
+$$
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+$$
+
+$$
 model = TFAutoModelForSeq2SeqLM.from_pretrained("path/to/model")
+$$
 
 ### 2.3 Hàm Dịch Thuật
 
 ```python
 def translate(text):
-    prompt = f"translate English to Spanish: {text}"
-    inputs = tokenizer(prompt, return_tensors="tf", max_length=128, truncation=True)
-    outputs = model.generate(**inputs, max_length=128)
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+$$
+prompt = f"translate English to Spanish: {text}"
+$$
+
+$$
+inputs = tokenizer(prompt, return_tensors="tf", max_length=128, truncation=True)
+$$
+
+$$
+outputs = model.generate(**inputs, max_length=128)
+$$
+
+$$
+return tokenizer.decode(outputs[0], skip_special_tokens=True)
+$$
 
 ## 3. Tính Toán ROUGE Score
 
@@ -80,7 +100,7 @@ ROUGE (Recall-Oriented Understudy for Gisting Evaluation) là một nhóm các c
 **ROUGE-N:**
 
 $$
-\text{ROUGE-N} = \frac{\sum_{s \in \text{Reference}} \sum_{\text{n-gram} \in s} \min(\text{Count}_{hypothesis}(n\text{-gram}), \text{Count}_{reference}(n\text{-gram}))}{\sum_{s \in \text{Reference}} \sum_{\text{n-gram} \in s} \text{Count}_{reference}(n\text{-gram})}
+\text{ROUGE-N} = \frac{$\sum$_{s \in \text{Reference}} $\sum$_{\text{n-gram} \in s} \min(\text{Count}_{hypothesis}(n\text{-gram}), \text{Count}_{reference}(n\text{-gram}))}{$\sum$_{s \in \text{Reference}} $\sum$_{\text{n-gram} \in s} \text{Count}_{reference}(n\text{-gram})}
 $$
 
 ### 3.3 Triển Khai
@@ -89,11 +109,18 @@ $$
 from rouge_score import rouge_scorer
 
 # Khởi tạo ROUGE scorer
+
+$$
 scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
+$$
 
 # Tính ROUGE cho một cặp dịch
 def calculate_rouge(reference, hypothesis):
-    scores = scorer.score(reference, hypothesis)
+
+$$
+scores = scorer.score(reference, hypothesis)
+$$
+
     return {
         'rouge1': scores['rouge1'].precision,
         'rouge2': scores['rouge2'].precision,
@@ -109,7 +136,13 @@ BLEU (Bilingual Evaluation Understudy) đo lường sự tương đồng giữa 
 ### 4.2 Công Thức Toán Học
 
 $$
-\text{BLEU} = \text{BP} \cdot \exp\left(\sum_{n=1}^{N} w_n \log p_n\right)
+
+$$
+
+\text{BLEU} = \text{BP} \cdot \exp$\le$ft($\sum$_{n=1}^{N} w_n $\log$ p_n\right)
+
+$$
+
 $$
 
 Trong đó:
@@ -120,7 +153,13 @@ Trong đó:
 **Brevity Penalty:**
 
 $$
-\text{BP} = \begin{cases} 1 & \text{nếu } c > r \\ e^{(1-r/c)} & \text{nếu } c \leq r \end{cases}
+
+$$
+
+\text{BP} = \begin{cases} 1 & \text{nếu } c > r \\ e^{(1-r/c)} & \text{nếu } c $\le$q r \end{cases}
+
+$$
+
 $$
 
 ### 4.3 Triển Khai
@@ -129,15 +168,29 @@ $$
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 
 # Sử dụng smoothing để xử lý câu ngắn
+
+$$
 smoothing = SmoothingFunction().method1
+$$
 
 def calculate_bleu(reference, hypothesis):
     # Tokenize
-    ref_tokens = reference.split()
-    hyp_tokens = hypothesis.split()
+
+$$
+ref_tokens = reference.split()
+$$
+
+$$
+hyp_tokens = hypothesis.split()
+$$
+
     
     # Tính BLEU
-    score = sentence_bleu([ref_tokens], hyp_tokens, smoothing_function=smoothing)
+
+$$
+score = sentence_bleu([ref_tokens], hyp_tokens, smoothing_function=smoothing)
+$$
+
     return score
 
 ## 5. Đánh Giá Trên Tập Dữ Liệu
@@ -146,18 +199,36 @@ def calculate_bleu(reference, hypothesis):
 
 ```python
 # Lấy một batch từ test dataset
+
+$$
 batch = next(iter(test_dataset))
+$$
 
 # Lấy reference từ labels
+
+$$
 references = tokenizer.decode(batch['labels'][0], skip_special_tokens=True)
+$$
 
 # Dịch input
+
+$$
 inputs = tokenizer.decode(batch['input_ids'][0], skip_special_tokens=True)
+$$
+
+$$
 hypothesis = translate(inputs)
+$$
 
 # Tính các chỉ số
+
+$$
 rouge_scores = calculate_rouge(references, hypothesis)
+$$
+
+$$
 bleu_score = calculate_bleu(references, hypothesis)
+$$
 
 print(f"ROUGE-1: {rouge_scores['rouge1']:.4f}")
 print(f"ROUGE-2: {rouge_scores['rouge2']:.4f}")

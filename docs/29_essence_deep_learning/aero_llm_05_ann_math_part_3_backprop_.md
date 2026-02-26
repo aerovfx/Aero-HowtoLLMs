@@ -36,7 +36,13 @@ Lan truyền ngược thực chất chính là **Gradient Descent** được áp
 - **Công thức cập nhật:** Trọng số mới ($w$) được tính bằng cách trừ đi đạo hàm của hàm mất mát nhân với tốc độ học ($\eta$):
 
 $$
-w = w - \eta \cdot \frac{\partial L}{\partial w}
+
+$$
+
+w = w - \eta \cdot \frac{$\partial$ L}{$\partial$ w}
+
+$$
+
 $$
 
 - **Thách thức:** Vì hàm dự đoán $\hat{y}$ là sự kết hợp của nhiều hàm chồng chéo (tích vô hướng nằm trong hàm kích hoạt, nằm trong hàm mất mát), chúng ta không thể tính đạo hàm trực tiếp một cách đơn giản.

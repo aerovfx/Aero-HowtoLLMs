@@ -44,7 +44,13 @@ Mục tiêu của bài viết là:
 Trong huấn luyện mạng nơ-ron, mục tiêu là tìm bộ tham số $W$ sao cho hàm mất mát ( L(W) ) đạt giá trị nhỏ nhất:
 
 $$
+
+$$
+
 W^{\ast} = \arg\min_W L(W)
+
+$$
+
 $$
 
 Hàm mất mát thường được xây dựng từ cross-entropy hoặc negative log-likelihood. 
@@ -56,7 +62,13 @@ Hàm mất mát thường được xây dựng từ cross-entropy hoặc negativ
 Cập nhật tham số trong Gradient Descent có dạng:
 
 $$
-W_{t+1} = W_t - \eta \nabla L(W_t)
+
+$$
+
+W_{t+1} = W_t - \eta $\nabla$ L(W_t)
+
+$$
+
 $$
 
 Trong đó:
@@ -83,11 +95,23 @@ Cập nhật Adam gồm hai thống kê:
 * Trung bình bậc hai $s_t$.
 
 $$
+
+$$
+
 v_t = \beta_1 v_{t-1} + (1-\beta_1) g_t
+
 $$
 
 $$
+
+$$
+
+$$
+
 s_t = \beta_2 s_{t-1} + (1-\beta_2) g_t^2
+
+$$
+
 $$
 
 ---
@@ -142,7 +166,13 @@ AdamW tách riêng hai bước:
 2. Áp dụng weight decay sau cập nhật.
 
 $$
+
+$$
+
 W_{t+1} = W_t - \eta \hat{g}_t - \eta \lambda W_t
+
+$$
+
 $$
 
 Trong đó, thành phần weight decay không phụ thuộc vào gradient.

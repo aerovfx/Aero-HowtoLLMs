@@ -200,12 +200,19 @@ class WebGPUModelRenderer {
   
   async initialize() {
     // Request GPU adapter
-    const adapter = await navigator.gpu?.requestAdapter();
+
+$$
+const adapter = await navigator.gpu?.requestAdapter();
+$$
+
     if (!adapter) {
       throw new Error('WebGPU not supported');
     }
     
-    this.device = await adapter.requestDevice();
+$$
+this.device = await adapter.requestDevice();
+$$
+
     await this.setupPipelines();
   }
   

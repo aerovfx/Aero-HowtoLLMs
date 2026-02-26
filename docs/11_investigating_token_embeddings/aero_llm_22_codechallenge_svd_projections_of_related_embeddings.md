@@ -29,7 +29,7 @@ Cấu hình thử nghiệm được thiết kế dựa trên 2 tập dữ liệu
 2. **Tập 10 Quốc gia Liên Minh Châu Âu (EU):** `["France", "Germany", "Italy", "Spain", ...]` (Chọn lọc ưu tiên các quốc gia không bị băm ngang bởi tokenizer để đảm bảo luật *1 word = 1 token*).
 
 Hai ma trận con nhận được (Matrix $M_{\text{digits}}$ và $M_{\text{EU}}$) có chung kích thước $10 \times 768$.
-Tính độc lập phân phối (Orthogonality mapping) được khẳng định ngay từ bước thử nghiệm khi Ma trận Vectơ Trung Bình (Mean vectors) của tập Chữ số và tập EU trả về mức tương quan cực thấp ($r \approx 0.01$). Điều này chứng minh 2 đám mây tọa độ này bay xa nhau hoàn toàn trong cấu trúc dải ngân hà 768 chiều.
+Tính độc lập phân phối (Orthogonality mapping) được khẳng định ngay từ bước thử nghiệm khi Ma trận Vectơ Trung Bình (Mean vectors) của tập Chữ số và tập EU trả về mức tương quan cực thấp ($r $\approx$ 0.01$). Điều này chứng minh 2 đám mây tọa độ này bay xa nhau hoàn toàn trong cấu trúc dải ngân hà 768 chiều.
 
 ---
 

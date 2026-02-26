@@ -42,13 +42,25 @@ Theo tài liệu , các biểu đồ trực quan đóng vai trò quan trọng tr
 Với tập dữ liệu:
 
 $$
-\mathcal{D}={(x_i,y_i)}_{i=1}^{N}
+
+$$
+
+$\mathcal${D}={(x_i,y_i)}_{i=1}^{N}
+
+$$
+
 $$
 
 Hàm mất mát cross-entropy:
 
 $$
-\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i \mid x_i;\theta)
+
+$$
+
+$\mathcal${L} = -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P(y_i \mid x_i;\theta)
+
+$$
+
 $$
 
 Trong đó $\theta$ là tham số mô hình.
@@ -56,7 +68,13 @@ Trong đó $\theta$ là tham số mô hình.
 Mục tiêu huấn luyện:
 
 $$
-\theta^{\ast}=\arg\min_\theta \mathcal{L}
+
+$$
+
+\theta^{\ast}=\arg\min_\theta $\mathcal${L}
+
+$$
+
 $$
 
 ---
@@ -66,19 +84,37 @@ $$
 Quy tắc cập nhật:
 
 $$
-\theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}
+
+$$
+
+\theta_{t+1} = \theta_t-\eta$\nabla$_\theta$\mathcal${L}
+
+$$
+
 $$
 
 Với tham số bị đóng băng:
 
 $$
-\nabla_{\theta_f}\mathcal{L}=0
+
+$$
+
+$\nabla$_{\theta_f}$\mathcal${L}=0
+
+$$
+
 $$
 
 Suy ra:
 
 $$
+
+$$
+
 \theta_f^{(t+1)}=\theta_f^{(t)}
+
+$$
+
 $$
 
 ---
@@ -88,19 +124,25 @@ $$
 Cho ma trận trọng số attention:
 
 $$
-W_t\in\mathbb{R}^{m\times n}
+W_t\in$\mathbb${R}^{m\times n}
 $$
 
 Hiệu tại bước $t$:
 
 $$
+
+$$
+
 \Delta W_t=W_t-W_{t-1}
+
+$$
+
 $$
 
 Chuẩn Frobenius:
 
 $$
-|\Delta W_t|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n}(\Delta W_{ij})^2}
+|\Delta W_t|_F = \sqrt{$\sum$_{i=1}^{m}$\sum$_{j=1}^{n}(\Delta W_{ij})^2}
 $$
 
 Chuẩn này phản ánh mức độ thay đổi của mô hình theo thời gian.
@@ -119,7 +161,13 @@ Theo mô tả trong tài liệu , hai mô hình được huấn luyện song son
 Hai mô hình có cùng:
 
 $$
+
+$$
+
 \theta_A^{(0)}=\theta_B^{(0)}
+
+$$
+
 $$
 
 và cùng thứ tự dữ liệu.
@@ -131,18 +179,24 @@ và cùng thứ tự dữ liệu.
 Loss tại epoch $k$:
 
 $$
-\mathcal{L}_k^{(A)},\quad \mathcal{L}_k^{(B)}
+$\mathcal${L}_k^{(A)},\quad $\mathcal${L}_k^{(B)}
 $$
 
 Vẽ:
 
 * Biểu đồ đường: $\mathcal{L}_k$ theo $k$,
-* Biểu đồ scatter: $(\mathcal{L}_k^{(B$},\mathcal{L}_k^{$A$})).
+* Biểu đồ scatter: $($\mathcal${L}_k^{(B$},$\mathcal${L}_k^{$A$})).
 
 Đường chuẩn:
 
 $$
+
+$$
+
 y=x
+
+$$
+
 $$
 
 dùng để đánh giá sự tương đồng.
@@ -154,18 +208,33 @@ dùng để đánh giá sự tương đồng.
 Gọi:
 
 * $S$: tập token phổ biến,
+
+$$
 * $G=(g_1,\dots,g_M$): chuỗi sinh.
+$$
 
 Tỷ lệ:
 
 $$
-p=\frac{1}{M}\sum_{i=1}^{M}\mathbf{1}(g_i\in S)
+
+$$
+
+p=\frac{1}{M}$\sum$_{i=1}^{M}\mathbf{1}(g_i\in S)
+
+$$
+
 $$
 
 So sánh trước và sau huấn luyện:
 
 $$
+
+$$
+
 \Delta p = p_{post}-p_{pre}
+
+$$
+
 $$
 
 ---
@@ -175,7 +244,13 @@ $$
 Tổng thời gian:
 
 $$
-T=\sum_{k=1}^{K}t_k
+
+$$
+
+T=$\sum$_{k=1}^{K}t_k
+
+$$
+
 $$
 
 Tỷ lệ tiết kiệm:
@@ -198,13 +273,13 @@ Theo kết quả trong tài liệu :
 Ví dụ:
 
 $$
-\mathcal{L}_{freeze}: 3.78 \rightarrow 2.65
+$\mathcal${L}_{freeze}: 3.78 \rightarrow 2.65
 $$
 
 Trong khi:
 
 $$
-\mathcal{L}_{train}: \text{giảm mạnh hơn}
+$\mathcal${L}_{train}: \text{giảm mạnh hơn}
 $$
 
 Điều này cho thấy mô hình huấn luyện toàn phần học nhanh hơn.
@@ -213,10 +288,12 @@ $$
 
 ### 4.2. Biểu đồ Scatter Loss
 
+$$
 Các điểm dữ liệu nằm dưới đường $y=x$:
+$$
 
 $$
-\mathcal{L}^{(B)}>\mathcal{L}^{(A)}
+$\mathcal${L}^{(B)}>$\mathcal${L}^{(A)}
 $$
 
 ⇒ mô hình freeze thường có loss cao hơn.
@@ -272,13 +349,25 @@ cho thấy các lớp còn trainable phải “gánh” phần lớn quá trình
 Theo tài liệu:
 
 $$
-T_{freeze}\approx 89s,\quad T_{train}\approx 120s
+
+$$
+
+T_{freeze}$\approx$ 89s,\quad T_{train}$\approx$ 120s
+
+$$
+
 $$
 
 Tỷ lệ tiết kiệm:
 
 $$
-r\approx 25%
+
+$$
+
+r$\approx$ 25%
+
+$$
+
 $$
 
 Mặc dù không quá lớn, lợi ích sẽ tăng mạnh với mô hình lớn hơn.
@@ -295,7 +384,13 @@ Trong bài tập 5, chiến lược được đảo ngược:
 Kết quả:
 
 $$
-\mathcal{L}_A \approx \mathcal{L}_B
+
+$$
+
+$\mathcal${L}_A $\approx$ $\mathcal${L}_B
+
+$$
+
 $$
 
 Các đường loss gần như trùng nhau .
@@ -313,13 +408,13 @@ Các đường loss gần như trùng nhau .
 Trong mô hình phân loại:
 
 $$
-\min \mathcal{L}\Rightarrow \max \text{accuracy}
+\min $\mathcal${L}\Rightarrow \max \text{accuracy}
 $$
 
 Nhưng trong mô hình sinh:
 
 $$
-\min \mathcal{L} \not\Rightarrow \max \text{quality}
+\min $\mathcal${L} \not\Rightarrow \max \text{quality}
 $$
 
 Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên.
@@ -331,7 +426,7 @@ Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên.
 Mô hình freeze có:
 
 $$
-Var(\mathcal{L}_B)\lt Var(\mathcal{L}_A)
+Var($\mathcal${L}_B)\lt Var($\mathcal${L}_A)
 $$
 
 ⇒ ổn định hơn ở giai đoạn đầu.

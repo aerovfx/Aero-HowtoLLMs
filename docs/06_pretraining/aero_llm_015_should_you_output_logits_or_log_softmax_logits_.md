@@ -53,7 +53,13 @@ Mục tiêu của bài viết là:
 Giả sử mô hình sinh ra vector đầu ra:
 
 $$
+
+$$
+
 z = (z_1, z_2, \dots, z_V)
+
+$$
+
 $$
 
 trong đó $V$ là kích thước từ vựng. Vector $z$ được gọi là logits, đại diện cho độ tin cậy chưa chuẩn hóa của từng token.
@@ -67,13 +73,25 @@ Logits có thể mang giá trị bất kỳ trong tập số thực và chưa c�
 Phân phối xác suất được tính bằng hàm softmax:
 
 $$
-P_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
+
+$$
+
+P_i = \frac{e^{z_i}}{$\sum$_j e^{z_j}}
+
+$$
+
 $$
 
 Log-softmax được định nghĩa:
 
 $$
-\log P_i = z_i - \log \sum_j e^{z_j}
+
+$$
+
+$\log$ P_i = z_i - $\log$ $\sum$_j e^{z_j}
+
+$$
+
 $$
 
 Hàm log-softmax giúp tăng độ ổn định số học và thường được dùng trực tiếp trong loss function.
@@ -85,7 +103,13 @@ Hàm log-softmax giúp tăng độ ổn định số học và thường đượ
 Trong huấn luyện mô hình ngôn ngữ, loss thường được tính bằng:
 
 $$
-\mathcal{L} = - \log P_{target}
+
+$$
+
+$\mathcal${L} = - $\log$ P_{target}
+
+$$
+
 $$
 
 PyTorch thường kết hợp `LogSoftmax` và `NLLLoss` thành `CrossEntropyLoss`, cho phép truyền trực tiếp logits vào hàm loss.
@@ -101,7 +125,13 @@ Do đó, việc sử dụng logits hay log-softmax ảnh hưởng đến cách x
 Trong cách tiếp cận này, mô hình thực hiện:
 
 $$
-\text{Output} = \log(\text{Softmax}(z))
+
+$$
+
+\text{Output} = $\log$(\text{Softmax}(z))
+
+$$
+
 $$
 
 ngay trong hàm `forward`.
@@ -146,7 +176,10 @@ Việc chuẩn hóa được thực hiện bên ngoài mô hình, tùy theo mụ
 Khi sử dụng logits, cần áp dụng:
 
 ```python
+
+$$
 loss = nn.CrossEntropyLoss()(logits, targets)
+$$
 
 Hàm này tự động thực hiện log-softmax bên trong.
 
@@ -159,7 +192,13 @@ Theo tài liệu, việc quên bước này có thể dẫn đến lỗi huấn 
 Khi có logits, phân phối xác suất có thể được điều chỉnh bằng temperature:
 
 $$
-P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
+
+$$
+
+P_i = \frac{e^{z_i/T}}{$\sum$_j e^{z_j/T}}
+
+$$
+
 $$
 
 Trong đó:

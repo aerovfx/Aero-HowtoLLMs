@@ -51,7 +51,10 @@ import numpy as np
 
 ```python
 # Tải tậpu CNN DailyMail dữ liệ
+
+$$
 dataset = load_dataset("cnn_dailymail", "3.0.0", split="train[:0.5%]")
+$$
 
 print(f"Số lượng ví dụ: {len(dataset)}")
 print(dataset[0])
@@ -60,8 +63,14 @@ print(dataset[0])
 
 ```python
 # Tải tokenizer
+
+$$
 model_name = "google/flan-t5-small"
+$$
+
+$$
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+$$
 
 def preprocess_summarization(examples):
     # Tạo prompt với format: summarize: article
@@ -71,71 +80,173 @@ def preprocess_summarization(examples):
     targets = [highlight for highlight in examples['highlights']]
     
     # Tokenize
-    model_inputs = tokenizer(inputs, max_length=512, truncation=True, padding="max_length")
-    labels = tokenizer(targets, max_length=128, truncation=True, padding="max_length")
+
+$$
+model_inputs = tokenizer(inputs, max_length=512, truncation=True, padding="max_length")
+$$
+
+$$
+labels = tokenizer(targets, max_length=128, truncation=True, padding="max_length")
+$$
+
     
-    model_inputs["labels"] = labels["input_ids"]
+$$
+model_inputs["labels"] = labels["input_ids"]
+$$
+
     return model_inputs
 
 # Giới hạn dữ liệu (CNN rất lớn)
+
+$$
 train_data = dataset.select(range(10000))
+$$
+
+$$
 test_data = dataset.select(range(10000, 10500))
+$$
 
 # Áp dụng tiền xử lý
+
+$$
 train_data = train_data.map(preprocess_summarization, batched=True)
+$$
+
+$$
 test_data = test_data.map(preprocess_summarization, batched=True)
+$$
 
 ### 2.4 Chuyển Đổi Sang TensorFlow
 
 ```python
 # Chuyển sang TensorFlow Dataset
+
+$$
 tf_train = train_data.to_tf_dataset(
-    columns=["input_ids", "attention_mask"],
-    label_cols=["labels"],
-    batch_size=8,
-    shuffle=True
+$$
+
+$$
+columns=["input_ids", "attention_mask"],
+$$
+
+$$
+label_cols=["labels"],
+$$
+
+$$
+batch_size=8,
+$$
+
+$$
+shuffle=True
+$$
+
 )
 
+$$
 tf_test = test_data.to_tf_dataset(
-    columns=["input_ids", "attention_mask"],
-    label_cols=["labels"],
-    batch_size=8
+$$
+
+$$
+columns=["input_ids", "attention_mask"],
+$$
+
+$$
+label_cols=["labels"],
+$$
+
+$$
+batch_size=8
+$$
+
 )
 
 ### 2.5 Triển Khai LoRA
 
 ```python
 # Tải mô hình
+
+$$
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
+$$
 
 # Định nghĩa lớp LoRA
 class LoRALayer(tf.keras.layers.Layer):
-    def __init__(self, original_layer, rank=4, **kwargs):
+
+$$
+def __init__(self, original_layer, rank=4, **kwargs):
+$$
+
         super(LoRALayer, self).__init__(**kwargs)
-        self.original_layer = original_layer
-        self.rank = rank
+
+$$
+self.original_layer = original_layer
+$$
+
+$$
+self.rank = rank
+$$
+
         
     def build(self, input_shape):
         # Ma trận A (input_dim x rank)
-        self.A = self.add_weight(
-            name="lora_A",
-            shape=(input_shape[-1], self.rank),
-            initializer="glorot_uniform",
-            trainable=True
+
+$$
+self.A = self.add_weight(
+$$
+
+$$
+name="lora_A",
+$$
+
+$$
+shape=(input_shape[-1], self.rank),
+$$
+
+$$
+initializer="glorot_uniform",
+$$
+
+$$
+trainable=True
+$$
+
         )
         # Ma trận B (rank x input_dim)
-        self.B = self.add_weight(
-            name="lora_B",
-            shape=(self.rank, input_shape[-1]),
+
+$$
+self.B = self.add_weight(
+$$
+
+$$
+name="lora_B",
+$$
+
+$$
+shape=(self.rank, input_shape[-1]),
+$$
+
             initializer="zeros",
-            trainable=True
+
+$$
+trainable=True
+$$
+
         )
         super(LoRALayer, self).build(input_shape)
         
     def call(self, inputs):
-        original_output = self.original_layer(inputs)
+
+$$
+original_output = self.original_layer(inputs)
+$$
+
         # LoRA: A × B × input
-        lora_output = tf.matmul(tf.matmul(inputs, self.A), self.B)
+
+$$
+lora_output = tf.matmul(tf.matmul(inputs, self.A), self.B)
+$$
+
         return original_output + lora_output
 
 ### 2.6 Áp Dụng LoRA
@@ -143,7 +254,10 @@ class LoRALayer(tf.keras.layers.Layer):
 ```python
 # Freeze các lớp đầu
 for layer in model.layers[:3]:
-    layer.trainable = False
+
+$$
+layer.trainable = False
+$$
 
 # Áp dụng LoRA cho decoder và lớp dense cuối
 # (Lưu ý: Trong thực tế, cần duyệt qua các lớp và thay thế)
@@ -161,15 +275,30 @@ for layer in model.layers[:3]:
 ```python
 # Compile
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+
+$$
+optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
+$$
+
+$$
+loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+$$
+
 )
 
 # Huấn luyện
 print("Bắt đầu huấn luyện...")
+
+$$
 history = model.fit(
+$$
+
     tf_train,
-    validation_data=tf_test,
+
+$$
+validation_data=tf_test,
+$$
+
     epochs=3
 )
 
@@ -180,27 +309,57 @@ print(f"Hoàn thành trong ~6 phút")
 ```python
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 
+$$
 smoothing = SmoothingFunction().method1
+$$
 
 # Lấy một batch từ test set
+
+$$
 batch = next(iter(tf_test))
+$$
 
 # Tính BLEU score trung bình
+
+$$
 bleu_scores = []
+$$
+
 for i in range(8):
     # Reference
-    ref = tokenizer.decode(batch['labels'][i], skip_special_tokens=True)
+
+$$
+ref = tokenizer.decode(batch['labels'][i], skip_special_tokens=True)
+$$
+
     
     # Generate
-    input_ids = batch['input_ids'][i:i+1]
-    outputs = model.generate(input_ids)
-    hyp = tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+$$
+input_ids = batch['input_ids'][i:i+1]
+$$
+
+$$
+outputs = model.generate(input_ids)
+$$
+
+$$
+hyp = tokenizer.decode(outputs[0], skip_special_tokens=True)
+$$
+
     
     # Tính BLEU
-    score = sentence_bleu([ref.split()], hyp.split(), smoothing_function=smoothing)
+
+$$
+score = sentence_bleu([ref.split()], hyp.split(), smoothing_function=smoothing)
+$$
+
     bleu_scores.append(score)
 
+$$
 avg_bleu = np.mean(bleu_scores)
+$$
+
 print(f"Average BLEU Score: {avg_bleu:.4f}")
 
 ## 3. Kết Quả

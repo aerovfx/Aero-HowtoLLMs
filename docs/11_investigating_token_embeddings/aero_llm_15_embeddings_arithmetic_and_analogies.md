@@ -35,7 +35,7 @@ Trong không gian này, khoảng cách từ "Man" (Nam giới) đến "King" (Vu
 Khởi tạo hệ thống không gian vector liên tục (Continuous Vector Space Model), phép suy luận tương đồng bao hàm theo các bước:
 
 ### 2.1 Phương trình Tuyến tính Tương quan cơ sở
-Gọi $v_w \in \mathbb{R}^D$ là biểu diễn vector $D$ chiều của từ $w$. Phương trình số học cốt lõi lấy ý tưởng từ quy luật hình bình hành (Parallelogram law):
+Gọi $v_w \in $\mathbb${R}^D$ là biểu diễn vector $D$ chiều của từ $w$. Phương trình số học cốt lõi lấy ý tưởng từ quy luật hình bình hành (Parallelogram law):
 
 $$
 v_{analogy} = v_{king} - v_{man} + v_{woman}
@@ -47,7 +47,13 @@ $$
 Vì $v_{analogy}$ không chắc chắn đáp thẳng vào tâm của một từ vựng xác thực có sẵn (do độ trôi dạt - concept drift trong không gian nhiễu), bài toán hiện ra dưới dạng một hàm tìm điểm lân cận gần nhất (Nearest Neighbors Search):
 
 $$
+
+$$
+
 \text{target\_word} = \text{argmax}_{w \in V \setminus \{king, man, woman\}} \cos(v_{analogy}, v_w)
+
+$$
+
 $$
 
 Trong đó:

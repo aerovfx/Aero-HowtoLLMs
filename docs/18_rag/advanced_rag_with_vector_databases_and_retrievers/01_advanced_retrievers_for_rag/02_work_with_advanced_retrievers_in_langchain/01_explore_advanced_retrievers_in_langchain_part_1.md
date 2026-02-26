@@ -54,11 +54,17 @@ class Retriever(ABC):
 from langchain_core.documents import Document
 
 # Ví dụ usage
+
+$$
 retriever = vectorstore.as_retriever()
+$$
 
 # Truy xuất documents
 query = "What is machine learning?"
+
+$$
 documents = retriever.get_relevant_documents(query)
+$$
 
 for doc in documents:
     print(doc.page_content)
@@ -95,19 +101,42 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import OpenAIEmbeddings
 
 # Khởi tạo vector store
+
+$$
 vectorstore = Chroma.from_documents(
-    documents=texts,
-    embedding=OpenAIEmbeddings()
+$$
+
+$$
+documents=texts,
+$$
+
+$$
+embedding=OpenAIEmbeddings()
+$$
+
 )
 
 # Chuyển đổi thành retriever
+
+$$
 retriever = vectorstore.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 4}
+$$
+
+$$
+search_type="similarity",
+$$
+
+$$
+search_kwargs={"k": 4}
+$$
+
 )
 
 # Truy xuất
+
+$$
 docs = retriever.get_relevant_documents("What is AI?")
+$$
 
 ### 2.3 Các Loại Tìm Kiếm
 
@@ -120,8 +149,15 @@ $$
 $$
 
 ```python
+
+$$
 retriever = vectorstore.as_retriever(
-    search_type="similarity"
+$$
+
+$$
+search_type="similarity"
+$$
+
 )
 
 #### 2.3.2 Maximum Marginal Relevance (MMR)
@@ -132,19 +168,33 @@ MMR giúp cân bằng giữa:
 
 ```python
 # Cấu hình MMR
+
+$$
 retriever = vectorstore.as_retriever(
-    search_type="mmr",
-    search_kwargs={
+$$
+
+$$
+search_type="mmr",
+$$
+
+$$
+search_kwargs={
+$$
+
         "k": 4,           # Số lượng documents
         "fetch_k": 20,    # Số lượng lấy trước khi lọc
-        "lambda_mult": 0.5  # 0 = relevance, 1 = diversity
+
+$$
+"lambda_mult": 0.5  # 0 = relevance, 1 = diversity
+$$
+
     }
 )
 
 **Công thức MMR:**
 
 $$
-\text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{sim}(Q, D_i) - (1-\lambda) \cdot \max_{D_j \in S} \text{sim}(D_i, D_j) \right]
+\text{MMR} = \arg\max_{D_i \in R \setminus S} $\le$ft[ \lambda \cdot \text{sim}(Q, D_i) - (1-\lambda) \cdot \max_{D_j \in S} \text{sim}(D_i, D_j) \right]
 $$
 
 Trong đó:
@@ -163,16 +213,32 @@ from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import LLMChainExtractor
 
 # Tạo compressor
+
+$$
 compressor = LLMChainExtractor.from_llm(ChatOpenAI(temperature=0))
+$$
 
 # Tạo compression retriever
+
+$$
 compression_retriever = ContextualCompressionRetriever(
-    base_compressor=compressor,
-    base_retriever=vectorstore.as_retriever()
+$$
+
+$$
+base_compressor=compressor,
+$$
+
+$$
+base_retriever=vectorstore.as_retriever()
+$$
+
 )
 
 # Truy xuất với compression
+
+$$
 docs = compression_retriever.get_relevant_documents(query)
+$$
 
 ### 3.2 Ensemble Retriever
 
@@ -182,17 +248,28 @@ Kết hợp nhiều retrievers:
 from langchain.retrievers import EnsembleRetriever
 
 # Khởi tạo các retrievers
+
+$$
 retriever1 = vectorstore.as_retriever(search_kwargs={"k": 2})
+$$
+
 retriever2 = bm25_retriever  # BM25 retriever
 
 # Ensemble
+
+$$
 ensemble = EnsembleRetriever(
+$$
+
     retrievers=[retriever1, retriever2],
     weights=[0.5, 0.5]
 )
 
 # Truy xuất
+
+$$
 docs = ensemble.get_relevant_documents(query)
+$$
 
 ## 4. Tối Ưu Hiệu Suất
 
@@ -209,14 +286,27 @@ docs = ensemble.get_relevant_documents(query)
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # Cấu hình text splitter
+
+$$
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,
-    chunk_overlap=200,
+$$
+
+$$
+chunk_size=1000,
+$$
+
+$$
+chunk_overlap=200,
+$$
+
     separators=["\n\n", "\n", " ", ""]
 )
 
 # Split documents
+
+$$
 docs = text_splitter.split_documents(raw_documents)
+$$
 
 ### 4.2 Embedding Optimization
 
@@ -224,9 +314,19 @@ docs = text_splitter.split_documents(raw_documents)
 from langchain.embeddings import HuggingFaceEmbeddings
 
 # Sử dụng embedding tối ưu
+
+$$
 embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    model_kwargs={'device': 'cpu'}
+$$
+
+$$
+model_name="sentence-transformers/all-MiniLM-L6-v2",
+$$
+
+$$
+model_kwargs={'device': 'cpu'}
+$$
+
 )
 
 ## 5. Best Practices
@@ -236,17 +336,34 @@ embeddings = HuggingFaceEmbeddings(
 ```python
 # Thử nghiệm với các giá trị k khác nhau
 for k in [2, 4, 8, 16]:
-    retriever = vectorstore.as_retriever(search_kwargs={"k": k})
-    docs = retriever.get_relevant_documents(query)
+
+$$
+retriever = vectorstore.as_retriever(search_kwargs={"k": k})
+$$
+
+$$
+docs = retriever.get_relevant_documents(query)
+$$
+
     # Đánh giá kết quả
 
 ### 5.2 Filtering
 
 ```python
 # Lọc theo metadata
+
+$$
 retriever = vectorstore.as_retriever(
-    search_type="similarity",
-    search_kwargs={
+$$
+
+$$
+search_type="similarity",
+$$
+
+$$
+search_kwargs={
+$$
+
         "k": 4,
         "filter": {
             "source": "blog",

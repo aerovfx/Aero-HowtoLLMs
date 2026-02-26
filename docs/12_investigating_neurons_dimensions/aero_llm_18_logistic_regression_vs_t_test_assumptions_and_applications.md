@@ -53,7 +53,7 @@ Thực nghiệm mô phỏng dữ liệu với quy mô hiệu ứng thay đổi c
 - **Lưu ý về tính ổn định:** Tại các giá trị cực hạn (nơi dữ liệu hai nhóm tách biệt hoàn toàn), Hồi quy Logistic bộc lộ sự không ổn định về mặt số học (numerical instability) do tính chất phi tuyến của thuật toán ước lượng, trong khi T-test vẫn giữ được tính ổn định tuyến tính.
 
 ### 3.2. Sự Tương hợp về Giá trị P (P-values)
-Sử dụng giá trị $-\log(p)$ để trực quan hóa toàn bộ dải phân phối. Kết quả khẳng định:
+Sử dụng giá trị $-$\log$(p)$ để trực quan hóa toàn bộ dải phân phối. Kết quả khẳng định:
 - Khi kết quả không có ý nghĩa thống kê ở phương pháp này, nó cũng thường không có ý nghĩa ở phương pháp kia.
 - Khi một nơ-ron được xác định là "có ý nghĩa" ($p < 0.05$), cả hai phương pháp đều đưa ra kết luận đồng nhất.
 

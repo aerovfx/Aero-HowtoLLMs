@@ -46,13 +46,25 @@ Mục tiêu nghiên cứu:
 BERT học biểu diễn ngữ cảnh hai chiều cho chuỗi token:
 
 $$
+
+$$
+
 X=(x_1,x_2,\dots,x_n)
+
+$$
+
 $$
 
 Biểu diễn ẩn tại vị trí $i$:
 
 $$
+
+$$
+
 h_i = f(x_1,\dots,x_n;\theta)
+
+$$
+
 $$
 
 Trong đó $\theta$ là tập tham số mô hình.
@@ -64,13 +76,19 @@ Trong đó $\theta$ là tập tham số mô hình.
 Với token đặc biệt [CLS], vector biểu diễn:
 
 $$
-h_{CLS}\in\mathbb{R}^d
+h_{CLS}\in$\mathbb${R}^d
 $$
 
 được dùng cho phân loại:
 
 $$
+
+$$
+
 z = W h_{CLS} + b
+
+$$
+
 $$
 
 $$
@@ -86,13 +104,25 @@ Trong đó (W,b) là tham số của tầng phân loại.
 Với nhãn thật $y\in{0,1}$:
 
 $$
-\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N} \sum_{c=1}^{2} y_{ic}\log(\hat{y}_{ic})
+
+$$
+
+$\mathcal${L} = -\frac{1}{N}$\sum$_{i=1}^{N} $\sum$_{c=1}^{2} y_{ic}$\log$(\hat{y}_{ic})
+
+$$
+
 $$
 
 Mục tiêu:
 
 $$
-\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
+
+$$
+
+\theta^{\ast}=\arg\min_\theta $\mathcal${L}(\theta)
+
+$$
+
 $$
 
 ---
@@ -106,7 +136,13 @@ Dữ liệu gồm các đoạn văn bản ngắn trích từ hai nguồn văn h�
 Tập dữ liệu:
 
 $$
-\mathcal{D}={(x_i,y_i)}_{i=1}^{N}
+
+$$
+
+$\mathcal${D}={(x_i,y_i)}_{i=1}^{N}
+
+$$
+
 $$
 
 Trong đó:
@@ -129,7 +165,13 @@ Theo tài liệu :
 Tổng số token:
 
 $$
+
+$$
+
 M = N\times L
+
+$$
+
 $$
 
 với $L=256$.
@@ -149,7 +191,13 @@ Quy trình gồm:
 Tham số được cập nhật theo:
 
 $$
-\theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}_t
+
+$$
+
+\theta_{t+1} = \theta_t-\eta$\nabla$_\theta$\mathcal${L}_t
+
+$$
+
 $$
 
 ---
@@ -176,13 +224,25 @@ $$
 Giả sử chuỗi loss:
 
 $$
+
+$$
+
 x=(x_1,x_2,\dots,x_n)
+
+$$
+
 $$
 
 Với cửa sổ kích thước $k$, giá trị làm mượt:
 
 $$
-y_i = \frac{1}{k} \sum_{j=i-w}^{i+w} x_j
+
+$$
+
+y_i = \frac{1}{k} $\sum$_{j=i-w}^{i+w} x_j
+
+$$
+
 $$
 
 với:
@@ -214,7 +274,13 @@ $$
 sẽ xuất hiện sai lệch:
 
 $$
-y_i \approx \frac{1}{m}\sum x_j,\quad m<k
+
+$$
+
+y_i $\approx$ \frac{1}{m}$\sum$ x_j,\quad m<k
+
+$$
+
 $$
 
 Gây ra hiện tượng “edge effect”.
@@ -226,7 +292,13 @@ Gây ra hiện tượng “edge effect”.
 ### 5.1. Độ chính xác (Accuracy)
 
 $$
-\text{Acc} = \frac{1}{N} \sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
+
+$$
+
+\text{Acc} = \frac{1}{N} $\sum$_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
+
+$$
+
 $$
 
 Theo tài liệu , độ chính xác đạt mức cao chỉ sau vài chục epoch.
@@ -238,7 +310,7 @@ Theo tài liệu , độ chính xác đạt mức cao chỉ sau vài chục epoc
 Quá trình huấn luyện cho thấy:
 
 $$
-\mathcal{L}_{initial} > \mathcal{L}_{final}
+$\mathcal${L}_{initial} > $\mathcal${L}_{final}
 $$
 
 ⇒ mô hình hội tụ.
@@ -266,7 +338,7 @@ Theo kết quả trong :
 Quan hệ giữa loss và epoch:
 
 $$
-\frac{d\mathcal{L}}{dt}<0
+\frac{d$\mathcal${L}}{dt}<0
 $$
 
 Cho thấy xu hướng học ổn định.
@@ -294,7 +366,13 @@ $$
 Mô hình phân loại có thể dùng để đo:
 
 $$
+
+$$
+
 S = P(\text{Alice} \mid \text{text})
+
+$$
+
 $$
 
 hoặc

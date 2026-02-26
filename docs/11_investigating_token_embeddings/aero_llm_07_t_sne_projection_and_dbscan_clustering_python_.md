@@ -25,15 +25,15 @@ Nghiên cứu dưới đây sẽ lột trần từng ngóc ngách của quá tr�
 
 ## 1. Gram-Matrix: Bức Tranh Tổng Thể Nội Tại Tiền Mật Độ
 
-Để tránh quá tải thị giác, ta cắt gọn một Ma trận con 100 Tokens đầu tiên $\mathbf{E}_{\text{sub}} \in \mathbb{R}^{100 \times 768}$ từ GPT-2. 
-Lập tức tạo ngay Gram-Matrix $\mathbf{G} = \mathbf{E}_{\text{sub}} \cdot \mathbf{E}_{\text{sub}}^T \in \mathbb{R}^{100 \times 100}$. Hình ảnh chéo đối xứng phơi bày một trật tự sâu sắc không thể thấy khi nhìn ngang Matrix:
+Để tránh quá tải thị giác, ta cắt gọn một Ma trận con 100 Tokens đầu tiên $\mathbf{E}_{\text{sub}} \in $\mathbb${R}^{100 \times 768}$ từ GPT-2. 
+Lập tức tạo ngay Gram-Matrix $\mathbf{G} = \mathbf{E}_{\text{sub}} \cdot \mathbf{E}_{\text{sub}}^T \in $\mathbb${R}^{100 \times 100}$. Hình ảnh chéo đối xứng phơi bày một trật tự sâu sắc không thể thấy khi nhìn ngang Matrix:
 Các ô chấm vuông đậm đặc xuất hiện liên kết chéo cho các nhóm Tín hiệu đặc thù: (Chữ số Arab, Dấu câu Punctuation, Hệ thống Cấu trúc chữ cái Alphabetical Capital - Lowercase). Gram-Matrix dọn đường trước ranh giới hệ ý niệm.
 
 ---
 
 ## 2. Sự Nén Màng Và Cơ Chế Hoạt Động Của Thuật Toán t-SNE
 
-Với $\text{perplexity} = 5$ (đại diện cho ngưỡng độ linh hoạt tìm lân cận - smoothing parameter), t-SNE nén nhẹp hệ thống tọa độ Vector bằng định lý xác suất khoảng cách điểm từ $768D$ co về $\mathbf{Y} \in \mathbb{R}^{100 \times 2}$.
+Với $\text{perplexity} = 5$ (đại diện cho ngưỡng độ linh hoạt tìm lân cận - smoothing parameter), t-SNE nén nhẹp hệ thống tọa độ Vector bằng định lý xác suất khoảng cách điểm từ $768D$ co về $\mathbf{Y} \in $\mathbb${R}^{100 \times 2}$.
 
 **Lỗ hổng của Phép Xác Suất t-SNE:**
 Do bản tính thiết kế hàm phân phối lân cận Gauss ngẫu nhiên (Probabilistic initializations) của hàm loss Kulllback-Leibler, biểu đồ 2D cho ra những mảng đảo cụm token cực kỳ khác nhau qua mỗi lần tái chạy Model (Stochastic solving). Ví dụ: Nhóm Chữ cái in hoa $X, Y, Z$ vẫn kết dính nhau nhưng có thể xuất hiện lúc ở tọa độ Góc Đông Bắc, lúc thì ở Góc Tây Nam. Dẫu vậy, khoảng cách giữa các quần thể bản ngã (Global clusters structures) luôn bảo lưu đặc trưng cô đặc phi tuyến.

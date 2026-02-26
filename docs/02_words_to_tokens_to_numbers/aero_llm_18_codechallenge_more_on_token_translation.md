@@ -30,14 +30,14 @@ Dựa trên tài liệu đính kèm “More on Token Translation”, bài viết
 
 Tokenization định nghĩa một phép mã hóa:
 
-\mathcal{T}: \Sigma^* \rightarrow V^*
+$\mathcal${T}: \Sigma^* \rightarrow V^*
 
 với:
 	•	\Sigma: bảng chữ cái ký tự
 	•	V: tập token
 	•	V^*: chuỗi token
 
-Khi tồn tại hai tokenizer \mathcal{T}_A và \mathcal{T}_B, bài toán đặt ra là xây dựng ánh xạ:
+Khi tồn tại hai tokenizer $\mathcal${T}_A và $\mathcal${T}_B, bài toán đặt ra là xây dựng ánh xạ:
 
 \Phi_{A \to B}: V_A^* \rightarrow V_B^*
 
@@ -49,14 +49,18 @@ sao cho bảo toàn nội dung ngữ nghĩa và hạn chế sai số thông tin.
 
 Cách tự nhiên nhất:
 
-\Phi_{A \to B} = \mathcal{T}_B \circ \mathcal{D}_A
+$$
+\Phi_{A \to B} = $\mathcal${T}_B \circ $\mathcal${D}_A
+$$
 
 Trong đó:
-	•	\mathcal{D}_A: V_A^* \rightarrow \Sigma^* là hàm giải mã
+	•	$\mathcal${D}_A: V_A^* \rightarrow \Sigma^* là hàm giải mã
 
 Khi tokenizer khả nghịch:
 
-\mathcal{D}_A$\mathcal{T}_A(x$) = x
+$$
+$\mathcal${D}_A$\mathcal{T}_A(x$) = x
+$$
 
 Tuy nhiên, trong thực tế có thể xuất hiện chuẩn hóa Unicode hoặc xử lý khoảng trắng gây sai số.
 
@@ -70,15 +74,21 @@ A \to B \to C
 
 Sai số tổng:
 
-\epsilon_{A \to C} \le \epsilon_{A \to B} + \epsilon_{B \to C}
+$$
+\epsilon_{A \to C} $\le$ \epsilon_{A \to B} + \epsilon_{B \to C}
+$$
 
 Đây là hệ quả của bất đẳng thức tam giác đối với khoảng cách Levenshtein:
 
-d(x,z) \le d(x,y) + d(y,z)
+$$
+d(x,z) $\le$ d(x,y) + d(y,z)
+$$
 
 Nếu mỗi bước có sai số nhỏ nhưng lặp nhiều lần, sai số tích lũy có thể tăng tuyến tính theo số bước:
 
-\epsilon_k \le k \epsilon
+$$
+\epsilon_k $\le$ k \epsilon
+$$
 
 ⸻
 
@@ -86,23 +96,27 @@ Nếu mỗi bước có sai số nhỏ nhưng lặp nhiều lần, sai số tíc
 
 Thay vì ánh xạ xác định, ta định nghĩa phân bố xác suất:
 
-P$b_j \mid a_i$
+$P(b_j \mid a_i)$
 
 Tạo thành ma trận:
 
-M \in \mathbb{R}^{|V_A| \times |V_B|}
+M \in $\mathbb${R}^{|V_A| \times |V_B|}
 
 với:
 
-\sum_{j} M_{ij} = 1
+$$
+$\sum$_{j} M_{ij} = 1
+$$
 
 Khi đó embedding có thể chuyển đổi tuyến tính:
 
+$$
 E_B = M^\top E_A
+$$
 
 Trong đó:
-	•	E_A \in \mathbb{R}^{|V_A| \times d}
-	•	E_B \in \mathbb{R}^{|V_B| \times d}
+	•	E_A \in $\mathbb${R}^{|V_A| \times d}
+	•	E_B \in $\mathbb${R}^{|V_B| \times d}
 
 ⸻
 
@@ -114,15 +128,19 @@ e$a_i$, \quad e$b_j$
 
 Sai số chuyển đổi:
 
-\delta_i = \| e$a_i$ - \sum_j M_{ij} e$b_j$ \|_2
+$$
+\delta_i = \| e$a_i$ - $\sum$_j M_{ij} e$b_j$ \|_2
+$$
 
 Sai số trung bình:
 
-\mathbb{E}[\delta] = \frac{1}{|V_A|} \sum_i \delta_i
+$$
+$\mathbb${E}[\delta] = \frac{1}{|V_A|} $\sum$_i \delta_i
+$$
 
 Nếu embedding hai mô hình nằm trong cùng không gian ngữ nghĩa, ta có thể tối ưu:
 
-\min_M \sum_i \delta_i^2
+\min_M $\sum$_i \delta_i^2
 
 ⸻
 
@@ -130,19 +148,29 @@ Nếu embedding hai mô hình nằm trong cùng không gian ngữ nghĩa, ta có
 
 Cho văn bản độ dài n ký tự:
 
-m_A = \frac{n}{\mathbb{E}[L_A]}
+$$
+m_A = \frac{n}{$\mathbb${E}[L_A]}
+$$
 
-m_B = \frac{n}{\mathbb{E}[L_B]}
+$$
+m_B = \frac{n}{$\mathbb${E}[L_B]}
+$$
 
 Chi phí attention:
 
+$$
 C_A = O(m_A^2)
+$$
 
+$$
 C_B = O(m_B^2)
+$$
 
 Tỷ lệ:
 
-\frac{C_A}{C_B} = \left(\frac{\mathbb{E}[L_B]}{\mathbb{E}[L_A]}\right)^2
+$$
+\frac{C_A}{C_B} = $\le$ft(\frac{$\mathbb${E}[L_B]}{$\mathbb${E}[L_A]}\right)^2
+$$
 
 Tokenizer tạo token dài hơn giúp giảm chi phí tính toán.
 
@@ -152,9 +180,13 @@ Tokenizer tạo token dài hơn giúp giảm chi phí tính toán.
 
 Mỗi token tương ứng một đoạn ký tự:
 
-a_i \leftrightarrow [s_i, e_i)
+$$
+a_i $\le$ftrightarrow [s_i, e_i)
+$$
 
-b_j \leftrightarrow [u_j, v_j)
+$$
+b_j $\le$ftrightarrow [u_j, v_j)
+$$
 
 Bài toán căn chỉnh trở thành:
 
@@ -172,7 +204,7 @@ Nếu:
 
 Thuật toán căn chỉnh span có thể thực hiện trong:
 
-O$m + k$
+$O(m + k)$
 
 vì chỉ cần quét hai con trỏ.
 
@@ -186,11 +218,15 @@ O(mk)
 
 Entropy của phân bố token:
 
-H$V$ = - \sum_{t \in V} p$t$\log p$t$
+$$
+H$V$ = - $\sum$_{t \in V} p$t$\log p$t$
+$$
 
 Chuyển tokenizer làm thay đổi phân bố:
 
+$$
 \Delta H = |H$V_A$ - H$V_B$|
+$$
 
 Theo Claude Shannon (1948), entropy đo lượng thông tin trung bình trên mỗi token.
 
@@ -212,15 +248,21 @@ Trong thực tế, các hệ như OpenAI hay Google thiết kế tokenizer gắn
 
 Bài toán chuyển đổi tokenizer có thể được mô hình hóa:
 
-\Phi_{A \to B} = \mathcal{T}_B \circ \mathcal{D}_A
+$$
+\Phi_{A \to B} = $\mathcal${T}_B \circ $\mathcal${D}_A
+$$
 
 Sai số tích lũy:
 
-\epsilon_k \le k \epsilon
+$$
+\epsilon_k $\le$ k \epsilon
+$$
 
 Embedding có thể chuyển đổi bằng:
 
+$$
 E_B = M^\top E_A
+$$
 
 Đây là một bài toán kết hợp giữa:
 	•	Lý thuyết mã hóa

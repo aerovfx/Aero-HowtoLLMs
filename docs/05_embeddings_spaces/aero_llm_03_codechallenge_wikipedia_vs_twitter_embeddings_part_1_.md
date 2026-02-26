@@ -39,15 +39,17 @@ Bài viết cung cấp các mô hình toán học minh họa sự khác biệt v
 
 Embedding từ học được từ corpus phụ thuộc mạnh vào:
 
-\mathcal{D} = \{w_1, w_2, \dots, w_T\}
+$$
+$\mathcal${D} = \{w_1, w_2, \dots, w_T\}
+$$
 
 Hai miền:
-	•	\mathcal{D}_{wiki}: Wikipedia
-	•	\mathcal{D}_{twitter}: Twitter
+	•	$\mathcal${D}_{wiki}: Wikipedia
+	•	$\mathcal${D}_{twitter}: Twitter
 
 Ta xây dựng ánh xạ:
 
-E_\mathcal{D}: V \rightarrow \mathbb{R}^d
+E_$\mathcal${D}: V \rightarrow $\mathbb${R}^d
 
 Mục tiêu: so sánh E_{wiki} và E_{twitter}.
 
@@ -57,7 +59,7 @@ Mục tiêu: so sánh E_{wiki} và E_{twitter}.
 
 Theo luật Zipf:
 
-f$r$ \propto \frac{1}{r^\alpha}
+f$r$ $\propto$ \frac{1}{r^\alpha}
 
 Trong đó:
 	•	r: thứ hạng
@@ -74,7 +76,9 @@ Twitter có:
 
 Entropy từ vựng:
 
-H = -\sum_i P$w_i$\log P$w_i$
+$$
+H = -$\sum$_i $P(w_i)$\log $P(w_i)$
+$$
 
 Thường:
 
@@ -88,7 +92,9 @@ Do phân bố phẳng hơn.
 
 Với GloVe:
 
+$$
 X_{ij} = \text{số lần } w_j \text{ xuất hiện trong ngữ cảnh của } w_i
+$$
 
 Ta có:
 
@@ -100,7 +106,9 @@ Sự khác biệt thể hiện ở:
 
 Log-count:
 
-w_i^\top w_j \approx \log X_{ij}
+$$
+w_i^\top w_j $\approx$ $\log$ X_{ij}
+$$
 
 ⸻
 
@@ -108,7 +116,7 @@ w_i^\top w_j \approx \log X_{ij}
 
 Embedding:
 
-E$w$ \in \mathbb{R}^d
+E$w$ \in $\mathbb${R}^d
 
 Khoảng cách cosine:
 
@@ -144,7 +152,9 @@ Xét biến ngẫu nhiên:
 
 Mutual information:
 
-I(W;D) = \sum_{w,d} P(w,d)\log\frac{P(w,d)}{P$w$P$d$}
+$$
+I(W;D) = $\sum$_{w,d} P(w,d)$\log$\frac{P(w,d)}{$P(w)$$P(d)$}
+$$
 
 Nếu:
 
@@ -158,7 +168,9 @@ I(W;D) \text{ cao}
 
 Wikipedia thường giữ cấu trúc tuyến tính rõ:
 
-w_{Paris} - w_{France} + w_{Germany} \approx w_{Berlin}
+$$
+w_{Paris} - w_{France} + w_{Germany} $\approx$ w_{Berlin}
+$$
 
 Twitter có thể nhiễu hơn do:
 	•	Từ viết tắt
@@ -185,7 +197,7 @@ Huấn luyện trên wiki, test trên twitter:
 
 Sai số:
 
-\mathcal{L}_{cross-domain}
+$\mathcal${L}_{cross-domain}
 
 Tăng theo khoảng cách phân bố:
 
@@ -193,7 +205,9 @@ D_{KL}$P_{wiki} \\mid  P_{twitter}$
 
 Với:
 
-D_{KL}$P\\mid Q$ = \sum_i P$i$\log\frac{P$i$}{Q$i$}
+$$
+D_{KL}$P\\mid Q$ = $\sum$_i $P(i)$\log\frac{$P(i)$}{Q$i$}
+$$
 
 ⸻
 
@@ -201,7 +215,9 @@ D_{KL}$P\\mid Q$ = \sum_i P$i$\log\frac{P$i$}{Q$i$}
 
 Ma trận đồng xuất hiện:
 
+$$
 X = U\Sigma V^\top
+$$
 
 So sánh phổ trị riêng:
 
@@ -224,7 +240,10 @@ Embedding đầu vào cho mô hình như BERT hoặc GPT chịu ảnh hưởng m
 Self-attention:
 
 \text{Attention}(Q,K,V)=
-\text{softmax}\left$\frac{QK^\top}{\sqrt{d}}\right$V
+
+$$
+\text{softmax}$\le$ft$\frac{QK^\top}{\sqrt{d}}\right$V
+$$
 
 Nếu embedding nhiễu:
 
@@ -242,14 +261,14 @@ Ta định nghĩa:
 
 \bar{s} =
 \frac{1}{|P|}
-\sum_{(i,j)\in P}
+$\sum$_{(i,j)\in P}
 \text{sim}(i,j)
 
 10.2 Độ lệch miền trung bình
 
 \bar{\Delta} =
 \frac{1}{|V|}
-\sum_{w\in V}
+$\sum$_{w\in V}
 \Delta$w$
 
 ⸻
