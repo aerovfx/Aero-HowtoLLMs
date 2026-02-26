@@ -32,15 +32,7 @@ Hàm `plt.subplots()` không chỉ tạo ra một hình ảnh đơn thuần mà 
 
 ### 2.1. Tham số `figsize`
 
-$$
-
-$$
-
 Kích thước của hình ảnh được xác định bởi tham số `figsize=(chiều_rộng, chiều_cao)`.
-
-$$
-
-$$
 
 - **Lưu ý:** Các đơn vị này thường tương ứng với inch trên lý thuyết, nhưng thực tế sẽ thay đổi tùy thuộc vào độ phân giải và mức độ phóng to của màn hình người dùng. Việc lựa chọn tỷ lệ (aspect ratio) phù hợp là rất quan trọng để tránh làm biến dạng dữ liệu.
 

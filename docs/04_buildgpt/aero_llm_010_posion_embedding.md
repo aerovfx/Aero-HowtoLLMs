@@ -44,43 +44,19 @@ Mục tiêu của bài báo là phân tích có hệ thống các kỹ thuật n
 
 Trong GPT, mỗi token được ánh xạ thành vector thông qua embedding:
 
-$$
-
-$$
-
 E_{tok} \in \mathbb{R}^{V \times d}
-
-$$
-
-$$
 
 với $V$ là kích thước từ vựng, $d$ là chiều embedding.
 
 Position embedding được định nghĩa:
 
-$$
-
-$$
-
 E_{pos} \in \mathbb{R}^{L \times d}
-
-$$
-
-$$
 
 với $L$ là độ dài chuỗi tối đa.
 
 Biểu diễn đầu vào:
 
-$$
-
-$$
-
 X = E_{tok}(w_i) + E_{pos}(i)
-
-$$
-
-$$
 
 Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự mà không cần kiến trúc hồi quy.
 
@@ -90,54 +66,10 @@ Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự 
 
 Layer normalization chuẩn hóa theo chiều embedding:
 
-$$
-
-$$
-
 \hat{x} = \frac{x - \mu}{\sigma + \epsilon}
 
 $$
-
-$$
-
-$$
-y = \gamma \hat{x} + \beta
-$$
-
-$$
-Trong đó \mu, \sigma được tính theo từng token. Tác dụng chính: - Giảm hiện tượng exploding/vanishing gradients, - Ổn định phân phối kích hoạt, - Tăng tốc hội tụ. --- ### 2.3. Weight Tying (Tied Embeddings) Weight tying ràng buộc:
-$$
-
-$$
-W_{out} = E_{tok}^T
-$$
-
-$$
-Trong đó W_{out} là ma trận unembedding. Ưu điểm: - Giảm ~30–40% số tham số, - Tăng tính nhất quán giữa biểu diễn và dự đoán, - Giảm overfitting. --- ### 2.4. Logit Scaling và Temperature #### Logit Scaling Logits cuối cùng được chuẩn hóa:
-$$
-
-$$
-z' = \frac{z}{\sqrt{d}}
-$$
-
-$$
-Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với giả thuyết lý thuyết. #### Temperature Scaling Trong suy luận:
-$$
-
-$$
-p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
-$$
-
-$$
-- T < 1: sinh văn bản quyết định hơn, - T > 1: sinh văn bản đa dạng hơn. --- ## 3. Phương pháp nghiên cứu (Methodology) ### 3.1. Kiến trúc mô hình Mô hình được xây dựng từ GPT-1 cơ bản và mở rộng theo tài liệu tham khảo : 1. Token Embedding 2. Position Embedding 3. LayerNorm 4. MLP + Activation (GELU) 5. Linear Output (Weight Tying) 6. Logit Scaling Sơ đồ tổng quát: ```text Input Tokens ↓ Token Embedding + Position Embedding ↓ LayerNorm ↓ MLP (GELU) ↓ Tied Linear Output ↓ Scaled Logits ```` --- ### 3.2. Quy trình huấn luyện và đánh giá * Khởi tạo tham số ngẫu nhiên (Gaussian/Xavier), * Không huấn luyện đầy đủ, tập trung vào phân tích thống kê, * So sánh loss thực nghiệm và loss lý thuyết. Loss lý thuyết của mô hình ngẫu nhiên:
-$$
-
-$$
-\mathcal{L}_{theory} = \log(V)
-$$
-
-$$
-với (V) là vocab size. --- ### 3.3. Sinh văn bản Thuật toán sinh: 1. Lấy logits cuối, 2. Chia cho temperature, 3. Softmax, 4. Multinomial sampling, 5. Lặp autoregressive. Chỉ sử dụng cửa sổ ngữ cảnh gần nhất (sliding window) để giới hạn bộ nhớ. --- ## 4. Kết quả (Results) ### 4.1. Phân phối Loss Khi khởi tạo ngẫu nhiên, loss thực nghiệm:
+y = \gamma \hat{x} + \beta Trong đó \mu, \sigma được tính theo từng token. Tác dụng chính: - Giảm hiện tượng exploding/vanishing gradients, - Ổn định phân phối kích hoạt, - Tăng tốc hội tụ. --- ### 2.3. Weight Tying (Tied Embeddings) Weight tying ràng buộc: W_{out} = E_{tok}^T Trong đó W_{out} là ma trận unembedding. Ưu điểm: - Giảm ~30–40% số tham số, - Tăng tính nhất quán giữa biểu diễn và dự đoán, - Giảm overfitting. --- ### 2.4. Logit Scaling và Temperature #### Logit Scaling Logits cuối cùng được chuẩn hóa: z' = \frac{z}{\sqrt{d}} Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với giả thuyết lý thuyết. #### Temperature Scaling Trong suy luận: p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)} - T \lt  1: sinh văn bản quyết định hơn, - T > 1: sinh văn bản đa dạng hơn. --- ## 3. Phương pháp nghiên cứu (Methodology) ### 3.1. Kiến trúc mô hình Mô hình được xây dựng từ GPT-1 cơ bản và mở rộng theo tài liệu tham khảo : 1. Token Embedding 2. Position Embedding 3. LayerNorm 4. MLP + Activation (GELU) 5. Linear Output (Weight Tying) 6. Logit Scaling Sơ đồ tổng quát: ```text Input Tokens ↓ Token Embedding + Position Embedding ↓ LayerNorm ↓ MLP (GELU) ↓ Tied Linear Output ↓ Scaled Logits ```` --- ### 3.2. Quy trình huấn luyện và đánh giá * Khởi tạo tham số ngẫu nhiên (Gaussian/Xavier), * Không huấn luyện đầy đủ, tập trung vào phân tích thống kê, * So sánh loss thực nghiệm và loss lý thuyết. Loss lý thuyết của mô hình ngẫu nhiên: \mathcal{L}_{theory} = \log(V) với (V) là vocab size. --- ### 3.3. Sinh văn bản Thuật toán sinh: 1. Lấy logits cuối, 2. Chia cho temperature, 3. Softmax, 4. Multinomial sampling, 5. Lặp autoregressive. Chỉ sử dụng cửa sổ ngữ cảnh gần nhất (sliding window) để giới hạn bộ nhớ. --- ## 4. Kết quả (Results) ### 4.1. Phân phối Loss Khi khởi tạo ngẫu nhiên, loss thực nghiệm:
 $$
 
 * Gần bằng (\log(V)),
@@ -161,60 +93,16 @@ $$
 2:  for t = 1 → N do
 
 $$
-3:      Z ← GPT-Forward)x 4:      z_t ← Z_last / T 5:      p ← Softmaxz_t 6:      s ← Samplep 7:      x ← Append(x, s) 8:  end for 9:  return x --- ## A.3. Triển khai PyTorch (PyTorch Implementation) ### A.3.1. Mô hình GPT Mở rộng ```python import torch import torch.nn as nn import math --- ### Token + Position Embedding ```python class GPTEmbedding(nn.Module): def __init__(self, vocab_size, max_len, d_model): super().__init__()
-$$
-
-$$
-self.token_emb = nn.Embedding(
-$$
-
-$$
-vocab_size, d_model )
-$$
-
-$$
-self.pos_emb = nn.Embedding(
-$$
-
-$$
-max_len, d_model ) def forward(self, x):
-$$
-
-$$
-B, T = x.shape
-$$
-
-$$
-
+3:      Z ← GPT-Forward)x 4:      z_t ← Z_last / T 5:      p ← Softmaxz_t 6:      s ← Samplep 7:      x ← Append(x, s) 8:  end for 9:  return x --- ## A.3. Triển khai PyTorch (PyTorch Implementation) ### A.3.1. Mô hình GPT Mở rộng ```python import torch import torch.nn as nn import math --- ### Token + Position Embedding ```python class GPTEmbedding(nn.Module): def __init__(self, vocab_size, max_len, d_model): super().__init__() self.token_emb = nn.Embedding( vocab_size, d_model ) self.pos_emb = nn.Embedding( max_len, d_model ) def forward(self, x): B, T = x.shape
 $$
 
 pos = torch.arange(
 
 $$
-
-$$
-
-$$
-T, device=x.device
-$$
-
-$$
-)
-$$
-
-$$
-tok = self.token_embx
-$$
-
-$$
-
+T, device=x.device ) tok = self.token_embx
 $$
 
 pos = self.pos_emb(pos)
-
-$$
-
-$$
 
         return tok + pos
 
@@ -228,15 +116,7 @@ class FeedForward(nn.Module):
     def __init__(self, d_model):
         super().__init__()
 
-$$
-
-$$
-
 self.net = nn.Sequential(
-
-$$
-
-$$
 
             nn.Linear(d_model, 4 * d_model),
             nn.GELU(),
@@ -253,261 +133,81 @@ $$
 ```python
 class GPTBlock(nn.Module):
 
-$$
-
-$$
-
 def __init__(self, d_model, heads, dropout=0.1):
-
-$$
-
-$$
 
         super().__init__()
 
-$$
-
-$$
-
 self.ln1 = nn.LayerNorm(d_model)
-
-$$
-
-$$
 
 $$
 self.ln2 = nn.LayerNorm(d_model)
 $$
 
-$$
-
-$$
-
 self.attn = nn.MultiheadAttention(
-
-$$
-
-$$
 
             d_model,
             heads,
 
-$$
-
-$$
-
 dropout=dropout,
 
 $$
-
-$$
-
-$$
-batch_first=True
-$$
-
-$$
-)
-$$
-
-$$
-self.ffn = FeedForward(d_model)
-$$
-
-$$
-def forward(self, x, mask):
-$$
-
-$$
-h = self.ln1x
-$$
-
-$$
-
+batch_first=True ) self.ffn = FeedForward(d_model) def forward(self, x, mask): h = self.ln1x
 $$
 
 attn_out, _ = self.attn(
 
 $$
-
-$$
-
-$$
-h, h, h, attn_mask=mask
-$$
-
-$$
-)
-$$
-
-$$
-x = x + attn_out
-$$
-
-$$
-
+h, h, h, attn_mask=mask ) x = x + attn_out
 $$
 
 h = self.ln2x
 
 $$
-
-$$
-
-$$
-x = x + self.ffnh
-$$
-
-$$
-return x --- ### GPT Model với Weight Tying ```python class MiniGPT(nn.Module): def __init__( self, vocab_size, max_len, d_model, heads, layers ): super().__init__()
-$$
-
-$$
-self.embed = GPTEmbedding(
-$$
-
-$$
-vocab_size, max_len, d_model )
-$$
-
-$$
-self.blocks = nn.ModuleList([
-$$
-
-$$
-GPTBlock(d_model, heads) for _ in range(layers) ])
-$$
-
-$$
-self.ln_f = nn.LayerNorm(d_model)
-$$
-
-$$
-
+x = x + self.ffnh return x --- ### GPT Model với Weight Tying ```python class MiniGPT(nn.Module): def __init__( self, vocab_size, max_len, d_model, heads, layers ): super().__init__() self.embed = GPTEmbedding( vocab_size, max_len, d_model ) self.blocks = nn.ModuleList([ GPTBlock(d_model, heads) for _ in range(layers) ]) self.ln_f = nn.LayerNorm(d_model)
 $$
 
 self.lm_head = nn.Linear(
 
-$$
-
-$$
-
             d_model,
             vocab_size,
 
-$$
-
-$$
-
 bias=False
-
-$$
-
-$$
 
         )
 
         # Weight tying
 
-$$
-
-$$
-
 self.lm_head.weight = \
-
-$$
-
-$$
 
             self.embed.token_emb.weight
 
-$$
-
-$$
-
 self.max_len = max_len
-
-$$
-
-$$
 
     def causal_mask(self, T, device):
 
         return torch.triu(
 
-$$
-
-$$
-
 torch.ones(T, T, device=device),
-
-$$
-
-$$
 
 diagonal=1
 
 $$
-).bool() def forward(self, x):
-$$
-
-$$
-B, T = x.shape
-$$
-
-$$
-
+).bool() def forward(self, x): B, T = x.shape
 $$
 
 h = self.embedx
 
 $$
-
-$$
-
-$$
-mask = self.causal_mask(
-$$
-
-$$
-T, x.device ) for block in self.blocks:
-$$
-
-$$
-h = block(h, mask)
-$$
-
-$$
-
+mask = self.causal_mask( T, x.device ) for block in self.blocks: h = block(h, mask)
 $$
 
 h = self.ln_fh
 
 $$
-
-$$
-
-$$
-logits = self.lm_headh
-$$
-
-$$
-return logits --- ## A.3.2. Huấn luyện (Training) ```python def train_step( model, optimizer, loss_fn, x, y ):
-$$
-
-$$
-logits = modelx
-$$
-
-$$
-
+logits = self.lm_headh return logits --- ## A.3.2. Huấn luyện (Training) ```python def train_step( model, optimizer, loss_fn, x, y ): logits = modelx
 $$
 
 loss = loss_fn(
-
-$$
-
-$$
 
         logits.view(-1, logits.size(-1)),
         y.view(-1)
@@ -530,50 +230,22 @@ def train(
     epochs,
 
 $$
-lr=3e-4,
-$$
-
-$$
-device="cuda"
+lr=3e-4, device="cuda"
 $$
 
 ):
 
     model.to(device)
 
-$$
-
-$$
-
 optimizer = torch.optim.AdamW(
-
-$$
-
-$$
 
         model.parameters(),
 
-$$
-
-$$
-
 lr=lr
-
-$$
-
-$$
 
     )
 
-$$
-
-$$
-
 loss_fn = nn.CrossEntropyLoss()
-
-$$
-
-$$
 
     for epoch in range(epochs):
 
@@ -583,29 +255,13 @@ $$
 
         for x, y in dataloader:
 
-$$
-
-$$
-
 x = x.to(device)
-
-$$
-
-$$
 
 $$
 y = y.to(device)
 $$
 
-$$
-
-$$
-
 loss = train_step(
-
-$$
-
-$$
 
                 model,
                 optimizer,
@@ -638,121 +294,49 @@ def generate(
     tokenizer,
     prompt,
 
-$$
-
-$$
-
 max_new=200,
-
-$$
-
-$$
 
 temperature=1.0
 
 $$
-): model.eval()
-$$
-
-$$
-device = next(model.parameters()).device
-$$
-
-$$
-
+): model.eval() device = next(model.parameters()).device
 $$
 
 ids = torch.tensor(
 
-$$
-
-$$
-
         tokenizer.encode(prompt),
 
-$$
-
-$$
-
 device=device
-
-$$
-
-$$
 
     ).unsqueeze(0)
 
     for _ in range$max_new$:
 
-$$
-
-$$
-
 logits = model(ids)
-
-$$
-
-$$
 
 $$
 next_logits = logits[:, -1]
 $$
 
-$$
-
-$$
-
 next_logits /= temperature
-
-$$
-
-$$
 
 $$
 probs = torch.softmax(
 $$
 
-$$
-
-$$
-
 next_logits, dim=-1
-
-$$
-
-$$
 
         )
 
-$$
-
-$$
-
 next_id = torch.multinomial(
-
-$$
-
-$$
 
             probs, 1
         )
 
-$$
-
-$$
-
 ids = torch.cat(
 
 $$
-
-$$
-
-$$
-[ids, next_id], dim=1
-$$
-
-$$
-) return tokenizer.decode( ids[0].tolist() ) --- ## A.4. Độ phức tạp tính toán (Computational Complexity) Với: * Sequence length: T * Hidden size: d * Layers: L Chi phí forward:
+[ids, next_id], dim=1 ) return tokenizer.decode( ids[0].tolist() ) --- ## A.4. Độ phức tạp tính toán (Computational Complexity) Với: * Sequence length: T * Hidden size: d * Layers: L Chi phí forward:
 $$
 
 O(L \cdot T^2 \cdot d)

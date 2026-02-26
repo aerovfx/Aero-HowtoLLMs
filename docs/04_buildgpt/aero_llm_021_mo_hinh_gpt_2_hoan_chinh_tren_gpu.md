@@ -108,25 +108,9 @@ Mỗi khối Transformer bao gồm:
 
 Dạng tổng quát:
 
-$$
-
-$$
-
 X_{out} = X + \text{Attention}(\text{LN}(X))
 
-$$
-
-$$
-
-$$
-
-$$
-
 Y = X_{out} + \text{MLP}(\text{LN}(X_{out}))
-
-$$
-
-$$
 
 Cấu trúc này giúp ổn định quá trình huấn luyện và hạn chế hiện tượng gradient biến mất 
 
@@ -183,15 +167,7 @@ Mô hình sử dụng biến `device` để điều phối việc chạy trên G
 
 ```python
 
-$$
-
-$$
-
 device = torch.device("cuda")
-
-$$
-
-$$
 
 Việc đảm bảo tất cả tensor và mô hình nằm trên cùng thiết bị là điều kiện bắt buộc để tránh lỗi thực thi 
 
@@ -209,15 +185,7 @@ Giải pháp:
 
 ```python
 
-$$
-
-$$
-
 torch.arange(..., device=device)
-
-$$
-
-$$
 
 ---
 
@@ -241,15 +209,7 @@ Kết quả ban đầu cho thấy mô hình có khoảng:
 
 Do embedding và unembedding dùng chung trọng số, số tham số thực tế được điều chỉnh:
 
-$$
-
-$$
-
 163M - 38M \approx 124M
-
-$$
-
-$$
 
 Do đó, mô hình có khoảng 124 triệu tham số huấn luyện thực sự 
 

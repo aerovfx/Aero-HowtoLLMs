@@ -30,15 +30,7 @@ Trong lịch sử máy tính, định luật Moore chứng minh rằng số lư�
 
 Cụ thể, định luật chia sẻ dạng luật luỹ thừa (power-law):
 
-$$
-
-$$
-
 L(N) \approx \left(\frac{N_c}{N}\right)^{\alpha}
-
-$$
-
-$$
 
 Trong đó, $L(N)$ là hàm mất mát test loss, $N_c$ là hằng số và $\alpha$ thể hiện tốc độ cải thiện. Theo phương trình này, đồ thị trên trục log-log sẽ là một đường thẳng đi xuống.
 
@@ -62,15 +54,7 @@ Dưới lăng kính của Mechanistic Interpretability, điều này xuất phá
 ### 3.1 Vấn đề Số Chiều (Curse of Dimensionality)
 Khi một LLM học, nó sẽ thiết lập một không gian đặc trưng ảo kích thước khổng lồ $M$. Tuy nhiên, quy mô các lớp ẩn (đại diện bởi số neuron $N$) không thể tăng tiến cùng tốc độ. Do $M \gg N$, mô hình buộc phải "nén" các tri thức vào không gian vector không trực giao (non-orthogonal representation).
 
-$$
-
-$$
-
 x \approx \sum_{i=1}^{M} c_i W_{in}^T W_{out} \cdot e_i
-
-$$
-
-$$
 
 ### 3.2 Lượng Hóa Chồng Chập (Superposition) qua Mã Hóa Thưa Thớt
 Thay vì mỗi neuron biểu diễn 1 khái niệm, $N$ neuron sẽ biểu diễn một tổ hợp $M$ tính năng kích hoạt thưa (sparse features) bằng cách giải bài toán tối ưu hoá tối đa:

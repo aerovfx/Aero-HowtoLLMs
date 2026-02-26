@@ -28,41 +28,17 @@ Trong các mô hình Transformer, văn bản không được xử lý trực ti�
 
 Cho chuỗi đầu vào:
 
-$$
-
-$$
-
 X = (x_1, x_2, ..., x_n)
-
-$$
-
-$$
 
 Tokenizer thực hiện ánh xạ:
 
-$$
-
-$$
-
 f: X \rightarrow T = (t_1, t_2, ..., t_m)
-
-$$
-
-$$
 
 Trong đó:
 	•	$x_i$: ký tự hoặc byte
 	•	$t_j$: token trong từ vựng V
 
-$$
-
-$$
-
 •	m \leq n
-
-$$
-
-$$
 
 ⸻
 
@@ -84,15 +60,7 @@ Giả sử ta có tập dữ liệu huấn luyện D gồm các chuỗi ký tự
 
 Tần suất xuất hiện của cặp ký tự (a,b):
 
-$$
-
-$$
-
 \text{freq}(a,b) = \sum_{w \in D} \text{count}_{w}(a,b)
-
-$$
-
-$$
 
 Cặp được chọn để gộp:
 
@@ -100,15 +68,7 @@ $a^{\ast}, b^{\ast}$ = \arg\max_{(a,b)} \text{freq}(a,b)
 
 Sau mỗi bước gộp, từ vựng được cập nhật:
 
-$$
-
-$$
-
 V_{k+1} = V_k \cup \{ a^{\ast}b^{\ast} \}
-
-$$
-
-$$
 
 ⸻
 
@@ -149,15 +109,7 @@ Với:
 
 Chuỗi token:
 
-$$
-
-$$
-
 T = (t_1, t_2, ..., t_m)
-
-$$
-
-$$
 
 được chuyển thành ma trận embedding:
 
@@ -233,15 +185,7 @@ Chi phí attention tăng nhanh khi m lớn.
 
 Entropy của hệ token:
 
-$$
-
-$$
-
 HT = - \sum_{t \in V} P(t)\log P(t)
-
-$$
-
-$$
 
 Tokenizer tốt sẽ:
 	•	Giảm entropy

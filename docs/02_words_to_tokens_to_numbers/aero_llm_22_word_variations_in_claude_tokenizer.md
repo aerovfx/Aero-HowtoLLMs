@@ -39,15 +39,7 @@ Trong đó:
 
 Một từ có nhiều biến thể hình thái:
 
-$$
-
-$$
-
 w_k = r + s_k
-
-$$
-
-$$
 
 với:
 	•	r: gốc từ (root)
@@ -67,27 +59,11 @@ Thay vì xem mỗi biến thể là một token độc lập.
 
 Giả sử một tập biến thể:
 
-$$
-
-$$
-
 W = \{w_1, w_2, \dots, w_K\}
-
-$$
-
-$$
 
 Trong đó:
 
-$$
-
-$$
-
 w_k = r + s_k
-
-$$
-
-$$
 
 Nếu xác suất xuất hiện:
 
@@ -107,15 +83,7 @@ $P(r)$ \gg $P($w_k$)$
 
 3.1 Entropy ở mức từ
 
-$$
-
-$$
-
 H_W = -\sum_{k=1}^{K} P(w_k)\log P(w_k)
-
-$$
-
-$$
 
 ⸻
 
@@ -123,15 +91,7 @@ $$
 
 Giả sử tách thành root và suffix:
 
-$$
-
-$$
-
 H_{sub} = -P(r)\log P(r) - \sum_{k} P(s_k)\log P(s_k)
-
-$$
-
-$$
 
 Vì:
 
@@ -139,15 +99,7 @@ $P(r)$ = $\sum$_k $P($w_k$)$
 
 nên:
 
-$$
-
-$$
-
 H_{sub} \le H_W
-
-$$
-
-$$
 
 (giảm entropy nhờ gom tần suất về root chung).
 
@@ -236,27 +188,11 @@ $$
 
 Nếu các biến thể chia sẻ root:
 
-$$
-
-$$
-
 ew_k \approx er + es_k
-
-$$
-
-$$
 
 Sai số:
 
-$$
-
-$$
-
 \delta_k = \| ew_k - (e(r)+es_k) \|_2
-
-$$
-
-$$
 
 Tối ưu hóa:
 
@@ -296,15 +232,7 @@ Tokenizer phải cân bằng giữa:
 
 Tối ưu hóa đa mục tiêu:
 
-$$
-
-$$
-
 \min \left\frac{n^2}{R^2} + \lambda \mid V\mid \right
-
-$$
-
-$$
 
 ⸻
 
@@ -332,15 +260,7 @@ $P($w_k$)$ = $P(r)$$P($s_k$ \mid r)$
 
 Entropy giảm khi:
 
-$$
-
-$$
-
 H_{sub} \le H_W
-
-$$
-
-$$
 
 Compression ratio:
 

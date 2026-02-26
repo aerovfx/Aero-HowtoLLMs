@@ -30,15 +30,7 @@ f_\theta : X \rightarrow Y
 
 Mục tiêu là tìm tham số \theta tối ưu:
 
-$$
-
-$$
-
 \theta^{\ast} = \arg\min_\theta \mathbb{E}_{(x,y)\sim D}
-
-$$
-
-$$
 
 $\le$ft[
 
@@ -96,15 +88,7 @@ $$
 
 $\le$ft(
 
-$$
-
-$$
-
 $\sum$_{n=1}^{N}
-
-$$
-
-$$
 
 w_n \log p_n
 
@@ -115,23 +99,7 @@ $$
 ROUGE-N =
 
 $$
-\frac{ \sum_{gram_n \in Reference} Count_{match} } { \sum_{gram_n \in Reference} Count } ⸻ 3. Hứa Hẹn của Đánh Giá Định Lượng 3.1 Tính tái lập (Reproducibility) Khi hai mô hình được đánh giá trên cùng benchmark: Score_A > Score_B \Rightarrow A \text{ tốt hơn } B Giả định: •	Tập dữ liệu đại diện tốt cho phân phối thực tế. ⸻ 3.2 So sánh khách quan Đánh giá định lượng loại bỏ yếu tố chủ quan của con người. Theo quan điểm của George Box: “All models are wrong, but some are useful.” Chỉ số giúp ta đo mức độ “useful”. ⸻ 4. Thách Thức Cơ Bản 4.1 Sai lệch phân phối (Distribution Shift) Nếu: D_{train} \neq D_{test} thì:
-$$
-
-$$
-\hat{R}_{test} \not\approx R_{real}
-$$
-
-$$
-⸻ 4.2 Overfitting vào Benchmark Giả sử có k mô hình thử nghiệm:
-$$
-
-$$
-\max_{1 \le i \le k}
-$$
-
-$$
-\hat{R}_i Khi k lớn, xác suất chọn mô hình overfit vào test tăng theo bất đẳng thức Hoeffding. ⸻ 4.3 Độ tin cậy thống kê Sai số chuẩn:
+\frac{ \sum_{gram_n \in Reference} Count_{match} } { \sum_{gram_n \in Reference} Count } ⸻ 3. Hứa Hẹn của Đánh Giá Định Lượng 3.1 Tính tái lập (Reproducibility) Khi hai mô hình được đánh giá trên cùng benchmark: Score_A > Score_B \Rightarrow A \text{ tốt hơn } B Giả định: •	Tập dữ liệu đại diện tốt cho phân phối thực tế. ⸻ 3.2 So sánh khách quan Đánh giá định lượng loại bỏ yếu tố chủ quan của con người. Theo quan điểm của George Box: “All models are wrong, but some are useful.” Chỉ số giúp ta đo mức độ “useful”. ⸻ 4. Thách Thức Cơ Bản 4.1 Sai lệch phân phối (Distribution Shift) Nếu: D_{train} \neq D_{test} thì: \hat{R}_{test} \not\approx R_{real} ⸻ 4.2 Overfitting vào Benchmark Giả sử có k mô hình thử nghiệm: \max_{1 \le i \le k} \hat{R}_i Khi k lớn, xác suất chọn mô hình overfit vào test tăng theo bất đẳng thức Hoeffding. ⸻ 4.3 Độ tin cậy thống kê Sai số chuẩn:
 $$
 
 SE =

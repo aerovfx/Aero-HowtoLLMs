@@ -50,67 +50,27 @@ from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM
 
 # Tải tokenizer và model
 
-$$
-
-$$
-
 tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
 
 $$
-
-$$
-
-$$
-model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
-$$
-
-$$
-**Lưu ý về warnings:** - Warning về xác thực HuggingFace là bình thường - Warning về việc model được train bằng PyTorch rồi convert sang TensorFlow - độ chính xác 99.9% tương đương ## Quy Trình Prompt Với FLAN-T5 Việc prompt một LLM luôn gồm 4 bước: 1. Định nghĩa prompt 2. Tokenize (chuyển đổi văn bản thành tokens) 3. Model.generate() (tạo output) 4. Tokenizer.decode() (chuyển đổi IDs về văn bản) ### 1. Tóm Tắt Văn Bản (Summarization) ```python # Định nghĩa prompt
+model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large") **Lưu ý về warnings:** - Warning về xác thực HuggingFace là bình thường - Warning về việc model được train bằng PyTorch rồi convert sang TensorFlow - độ chính xác 99.9% tương đương ## Quy Trình Prompt Với FLAN-T5 Việc prompt một LLM luôn gồm 4 bước: 1. Định nghĩa prompt 2. Tokenize (chuyển đổi văn bản thành tokens) 3. Model.generate() (tạo output) 4. Tokenizer.decode() (chuyển đổi IDs về văn bản) ### 1. Tóm Tắt Văn Bản (Summarization) ```python # Định nghĩa prompt
 $$
 
 prompt = "summarize: Studies show that eating carrots help improve vision..."
 
 $$
-# Tokenize
-$$
-
-$$
-inputs = tokenizer(prompt, return_tensors="tf", max_length=512,
-$$
-
-$$
-
+# Tokenize inputs = tokenizer(prompt, return_tensors="tf", max_length=512,
 $$
 
 truncation=True, padding=True)
 
-$$
-
-$$
-
 # Generate
-
-$$
-
-$$
 
 outputs = model.generate(inputs.input_ids, max_length=50)
 
-$$
-
-$$
-
 # Decode
 
-$$
-
-$$
-
 summary = tokenizer.decode(outputs[0])
-
-$$
-
-$$
 
 print(summary)
 
@@ -127,86 +87,23 @@ $$
 
 # Tokenize
 
-$$
-
-$$
-
 inputs = tokenizer(prompt, return_tensors="tf", max_length=512,
 
 $$
-
-$$
-
-$$
-truncation=True, padding=True)
-$$
-
-$$
-# Generate
-$$
-
-$$
-outputs = model.generate(inputs.input_ids, max_length=40)
-$$
-
-$$
-# Decode
-$$
-
-$$
-translation = tokenizer.decode(outputs[0])
-$$
-
-$$
-print(translation) ### 3. Trả Lời Câu Hỏi (Question Answering) ```python # Context và câu hỏi
+truncation=True, padding=True) # Generate outputs = model.generate(inputs.input_ids, max_length=40) # Decode translation = tokenizer.decode(outputs[0]) print(translation) ### 3. Trả Lời Câu Hỏi (Question Answering) ```python # Context và câu hỏi
 $$
 
 context = "The Great Wall of China is over 13,000 miles long."
 
-$$
-
-$$
-
 question = "question: How long is the Great Wall of China?"
-
-$$
-
-$$
 
 prompt = context + " " + question
 
-$$
-
-$$
-
 # Tokenize
-
-$$
-
-$$
 
 inputs = tokenizer(prompt, return_tensors="tf", max_length=512,
 
 $$
-
+truncation=True, padding=True) # Generate outputs = model.generate(inputs.input_ids, max_length=50) # Decode answer = tokenizer.decode(outputs[0])
 $$
 
-$$
-truncation=True, padding=True)
-$$
-
-$$
-# Generate
-$$
-
-$$
-outputs = model.generate(inputs.input_ids, max_length=50)
-$$
-
-$$
-# Decode
-$$
-
-$$
-answer = tokenizer.decode(outputs[0])
-$$

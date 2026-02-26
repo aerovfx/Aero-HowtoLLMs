@@ -25,49 +25,17 @@ Trong nghiên cứu xử lý ngôn ngữ tự nhiên (NLP), các mô hình embed
 ## 1. Giới thiệu
 
 $$
-Word embedding ánh xạ mỗi từ w vào một vector \mathbf{v}_w \in \mathbb{R}^d, trong đó:
-$$
-
-$$
-f: w \rightarrow \mathbf{v}_w
+Word embedding ánh xạ mỗi từ w vào một vector \mathbf{v}_w \in \mathbb{R}^d, trong đó: f: w \rightarrow \mathbf{v}_w
 $$
 
 với $d$ là số chiều của không gian nhúng.
 
 Khi hai mô hình embedding được huấn luyện trên hai tập dữ liệu khác nhau (ví dụ: văn bản bách khoa và tweet ngắn), ta có:
 
-$$
-
-$$
-
 f_{wiki}(w) = \mathbf{v}_w^{(wiki)}
 
 $$
-
-$$
-
-$$
-f_{twitter}(w) = \mathbf{v}_w^{(twitter)}
-$$
-
-$$
-Do khác biệt về miền dữ liệu và phân bố ngôn ngữ, các vector thu được không thể so sánh trực tiếp từng chiều. --- ## 2. Độ tương đồng Cosine Để đo mức độ tương đồng giữa hai từ w_i và w_j trong cùng một mô hình, ta sử dụng **cosine similarity**:
-$$
-
-$$
-\text{cosine}(\mathbf{v}_i, \mathbf{v}_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
-$$
-
-$$
-Trong đó: - \mathbf{v}_i \cdot \mathbf{v}_j là tích vô hướng. - \\mid\mathbf{v}_i\\mid là chuẩn Euclid:
-$$
-
-$$
-\|\mathbf{v}_i\| = \sqrt{\sum_{k=1}^{d} v_{ik}^2}
-$$
-
-$$
-Cosine similarity nằm trong khoảng:
+f_{twitter}(w) = \mathbf{v}_w^{(twitter)} Do khác biệt về miền dữ liệu và phân bố ngôn ngữ, các vector thu được không thể so sánh trực tiếp từng chiều. --- ## 2. Độ tương đồng Cosine Để đo mức độ tương đồng giữa hai từ w_i và w_j trong cùng một mô hình, ta sử dụng **cosine similarity**: \text{cosine}(\mathbf{v}_i, \mathbf{v}_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\| \|\mathbf{v}_j\|} Trong đó: - \mathbf{v}_i \cdot \mathbf{v}_j là tích vô hướng. - \\mid\mathbf{v}_i\\mid là chuẩn Euclid: \|\mathbf{v}_i\| = \sqrt{\sum_{k=1}^{d} v_{ik}^2} Cosine similarity nằm trong khoảng:
 $$
 
 -1 $\le$q \text{cosine} $\le$q 1
@@ -79,28 +47,12 @@ $$
 \mathbf{v}_w^{(wiki)} \neq \mathbf{v}_w^{(twitter)}
 
 $$
-Lý do: 1. Các không gian được học độc lập. 2. Trục tọa độ không đồng nhất. 3. Phép quay (rotation) của không gian không làm thay đổi khoảng cách nội tại nhưng làm thay đổi tọa độ tuyệt đối. Giả sử tồn tại một ma trận quay trực giao \mathbf{R}:
-$$
-
-$$
-\mathbf{v}_w^{(twitter)} \approx \mathbf{R} \mathbf{v}_w^{(wiki)}
-$$
-
-$$
-Khi đó, tọa độ khác nhau nhưng cấu trúc tương đối có thể vẫn được bảo toàn. --- ## 4. Representational Similarity Analysis (RSA) ### 4.1 Ý tưởng RSA không so sánh vector trực tiếp, mà so sánh **ma trận tương đồng nội bộ** giữa các từ trong từng mô hình. Giả sử ta có tập n từ trong câu: > “The quick brown fox jumps over the lazy dog”
+Lý do: 1. Các không gian được học độc lập. 2. Trục tọa độ không đồng nhất. 3. Phép quay (rotation) của không gian không làm thay đổi khoảng cách nội tại nhưng làm thay đổi tọa độ tuyệt đối. Giả sử tồn tại một ma trận quay trực giao \mathbf{R}: \mathbf{v}_w^{(twitter)} \approx \mathbf{R} \mathbf{v}_w^{(wiki)} Khi đó, tọa độ khác nhau nhưng cấu trúc tương đối có thể vẫn được bảo toàn. --- ## 4. Representational Similarity Analysis (RSA) ### 4.1 Ý tưởng RSA không so sánh vector trực tiếp, mà so sánh **ma trận tương đồng nội bộ** giữa các từ trong từng mô hình. Giả sử ta có tập n từ trong câu: > “The quick brown fox jumps over the lazy dog”
 $$
 
 Ta xây dựng ma trận tương đồng S \in \mathbb{R}^{n \times n}:
 
-$$
-
-$$
-
 S_{ij} = \text{cosine}(\mathbf{v}_i, \mathbf{v}_j)
-
-$$
-
-$$
 
 Ta có:
 
@@ -120,15 +72,7 @@ $$
 
 Sau đó tính hệ số tương quan Pearson:
 
-$$
-
-$$
-
 r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})} {\sqrt{\sum (x_i - \bar{x})^2} \sqrt{\sum (y_i - \bar{y})^2}}
-
-$$
-
-$$
 
 Nếu:
 
@@ -145,11 +89,7 @@ Nếu:
 Với mỗi từ $w$ trong câu:
 
 $$
-\text{index}_{wiki}(w)
-$$
-
-$$
-\text{index}_{twitter}(w)
+\text{index}_{wiki}(w) \text{index}_{twitter}(w)
 $$
 
 Lưu ý: Một số từ có thể không xuất hiện (ví dụ: chữ hoa “The”).
@@ -158,38 +98,10 @@ Lưu ý: Một số từ có thể không xuất hiện (ví dụ: chữ hoa “
 
 ### Bước 2: Trích xuất embedding
 
-$$
-
-$$
-
 \mathbf{v}_w^{(wiki)} = E^{(wiki)}[\text{index}(w)]
 
 $$
-
-$$
-
-$$
-\mathbf{v}_w^{(twitter)} = E^{(twitter)}[\text{index}(w)]
-$$
-
-$$
---- ### Bước 3: Tính ma trận tương đồng
-$$
-
-$$
-S^{(model)}_{ij} = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
-$$
-
-$$
---- ### Bước 4: Tính tương quan giữa hai ma trận
-$$
-
-$$
-\text{RSA score} = \text{corr}(\mathbf{s}^{(wiki)}, \mathbf{s}^{(twitter)})
-$$
-
-$$
---- ## 6. Phân tích kết quả Nếu embedding từ Twitter cho giá trị cosine cao hơn trong nhiều cặp từ, điều này có thể phản ánh: - Ngôn ngữ trên mạng xã hội mang tính ngữ cảnh chặt chẽ. - Các từ xuất hiện trong cấu trúc hội thoại ngắn, làm tăng mật độ đồng xuất hiện. Trong khi đó, Wikipedia có phong cách học thuật, phân bố từ rộng hơn, dẫn đến cấu trúc embedding phân tán hơn. --- ## 7. Thảo luận RSA cho phép ta: - So sánh hai không gian embedding không cùng hệ trục. - Đánh giá tính tương đồng cấu trúc. - Tránh phụ thuộc vào tọa độ tuyệt đối. Phương pháp này thường được sử dụng trong: - Khoa học thần kinh tính toán. - So sánh mô hình ngôn ngữ lớn. - Phân tích đa miền dữ liệu. --- ## 8. Kết luận So sánh embedding giữa Wikipedia và Twitter không thể thực hiện bằng cách đối chiếu trực tiếp vector. Tuy nhiên, thông qua cosine similarity và đặc biệt là Representational Similarity Analysis (RSA), ta có thể đánh giá mức độ tương đồng cấu trúc giữa hai không gian biểu diễn. Về mặt toán học:
+\mathbf{v}_w^{(twitter)} = E^{(twitter)}[\text{index}(w)] --- ### Bước 3: Tính ma trận tương đồng S^{(model)}_{ij} = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\| \|\mathbf{v}_j\|} --- ### Bước 4: Tính tương quan giữa hai ma trận \text{RSA score} = \text{corr}(\mathbf{s}^{(wiki)}, \mathbf{s}^{(twitter)}) --- ## 6. Phân tích kết quả Nếu embedding từ Twitter cho giá trị cosine cao hơn trong nhiều cặp từ, điều này có thể phản ánh: - Ngôn ngữ trên mạng xã hội mang tính ngữ cảnh chặt chẽ. - Các từ xuất hiện trong cấu trúc hội thoại ngắn, làm tăng mật độ đồng xuất hiện. Trong khi đó, Wikipedia có phong cách học thuật, phân bố từ rộng hơn, dẫn đến cấu trúc embedding phân tán hơn. --- ## 7. Thảo luận RSA cho phép ta: - So sánh hai không gian embedding không cùng hệ trục. - Đánh giá tính tương đồng cấu trúc. - Tránh phụ thuộc vào tọa độ tuyệt đối. Phương pháp này thường được sử dụng trong: - Khoa học thần kinh tính toán. - So sánh mô hình ngôn ngữ lớn. - Phân tích đa miền dữ liệu. --- ## 8. Kết luận So sánh embedding giữa Wikipedia và Twitter không thể thực hiện bằng cách đối chiếu trực tiếp vector. Tuy nhiên, thông qua cosine similarity và đặc biệt là Representational Similarity Analysis (RSA), ta có thể đánh giá mức độ tương đồng cấu trúc giữa hai không gian biểu diễn. Về mặt toán học:
 $$
 
 \text{So sánh trực tiếp vector} \neq \text{So sánh cấu trúc quan hệ}

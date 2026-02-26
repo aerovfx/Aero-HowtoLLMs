@@ -50,15 +50,7 @@ Tài liệu cung cấp một góc nhìn thực tiễn về đánh đổi giữa 
 
 Trong huấn luyện LLMs, mục tiêu tiêu chuẩn là:
 
-$$
-
-$$
-
 $\mathcal${L} = -$\sum$_{t=1}^{T} $\log$ P($x_t$ \mid x_{\lt t})
-
-$$
-
-$$
 
 với $T$ là độ dài chuỗi.
 
@@ -84,15 +76,7 @@ Việc kết hợp dropout với chiến lược loss ảnh hưởng đáng kể
 
 Trong bài tập, hàm loss chỉ được tính tại token cuối:
 
-$$
-
-$$
-
 $\mathcal${L} = - $\log$ P($x_T$ \mid x_{\lt T})
-
-$$
-
-$$
 
 Thay vì flatten toàn bộ chuỗi, tác giả chỉ sử dụng:
 
@@ -107,39 +91,15 @@ Cách tiếp cận này được mô tả rõ trong tài liệu.
 
 Do forward pass chỉ trả về logits, cần áp dụng log-softmax trước khi đưa vào loss:
 
-$$
-
-$$
-
 $\ell(_i = $z_i$ - )$\log$$ $\sum$_j e^{$z_j$}
-
-$$
-
-$$
 
 Trong PyTorch:
 
 ```python
 
-$$
-
-$$
-
 log_probs = F.log_softmax(logits, dim=-1)
 
 $$
-
-$$
-
-$$
-loss = NLLLoss(log_probs, targets)
-$$
-
-$$
-Việc thiếu bước này dẫn đến lỗi huấn luyện nghiêm trọng. --- ### 3.3. Device Consistency Tài liệu nhấn mạnh lỗi phổ biến: > Expected all tensors to be on the same device Lỗi xảy ra khi dữ liệu và mô hình nằm trên các thiết bị khác nhau CPU/GPU. Việc đồng bộ thiết bị là điều kiện bắt buộc trong pipeline huấn luyện. --- ### 3.4. Training and Evaluation Mode Switching Để đảm bảo dropout chỉ hoạt động khi huấn luyện, tác giả sử dụng: ```python model.eval() ... model.train() Tuy nhiên, một số hàm như `scaled_dot_product_attention` không tự động tắt dropout. Do đó, trạng thái `self.training` được sử dụng để kiểm soát thủ công. --- ## 4. Experimental Design ### 4.1. Training Procedure Quy trình huấn luyện gồm: 1. Sampling batch, 2. Forward pass, 3. Log-softmax, 4. Final-token loss, 5. Backpropagation, 6. Optimization, 7. Periodic evaluation. Đánh giá được thực hiện mỗi 80 iteration. --- ### 4.2. Dataset Mô hình được huấn luyện trên FineWeb dataset, có đặc điểm: * Đa dạng chủ đề, * Phong cách không đồng nhất, * Độ biến thiên cao. Khác với huấn luyện trên một cuốn sách đơn lẻ, FineWeb tạo ra môi trường học phức tạp hơn. --- ### 4.3. Visualization Train loss và test loss được vẽ theo epoch để quan sát: * Độ ổn định, * Xu hướng hội tụ, * Mức độ nhiễu. Kết quả cho thấy loss dao động mạnh. --- ## 5. Results ### 5.1. Loss Magnitude So với huấn luyện toàn bộ token, final-token training cho thấy: * Loss cao hơn, * Dao động lớn hơn, * Hội tụ chậm hơn. Trong các bài tập trước, loss thường giảm về 3–4, trong khi ở đây duy trì ở mức cao hơn. --- ### 5.2. Loss Variability Loss biến động mạnh giữa các epoch, phản ánh: * Tín hiệu huấn luyện ít hơn, * Độ nhiễu gradient cao, * Khó tối ưu hóa. Hiện tượng này được ghi nhận rõ trong tài liệu. --- ### 5.3. Text Quality Văn bản sinh ra có đặc điểm: * Thiếu khoảng trắng, * Cấu trúc kém mạch lạc, * Token bị dính liền. So với mô hình huấn luyện trên một cuốn sách, chất lượng thấp hơn đáng kể. --- ## 6. Discussion ### 6.1. Nguyên Nhân Loss Cao Tài liệu xác định hai nguyên nhân chính: #### (1) Reduced Training Signal Trước đây, mô hình học từ 256 token/chuỗi. Hiện tại, chỉ học từ 1 token:
-$$
-
-$$
-\text{Signal reduction factor} \approx 256
+loss = NLLLoss(log_probs, targets) Việc thiếu bước này dẫn đến lỗi huấn luyện nghiêm trọng. --- ### 3.3. Device Consistency Tài liệu nhấn mạnh lỗi phổ biến: > Expected all tensors to be on the same device Lỗi xảy ra khi dữ liệu và mô hình nằm trên các thiết bị khác nhau CPU/GPU. Việc đồng bộ thiết bị là điều kiện bắt buộc trong pipeline huấn luyện. --- ### 3.4. Training and Evaluation Mode Switching Để đảm bảo dropout chỉ hoạt động khi huấn luyện, tác giả sử dụng: ```python model.eval() ... model.train() Tuy nhiên, một số hàm như `scaled_dot_product_attention` không tự động tắt dropout. Do đó, trạng thái `self.training` được sử dụng để kiểm soát thủ công. --- ## 4. Experimental Design ### 4.1. Training Procedure Quy trình huấn luyện gồm: 1. Sampling batch, 2. Forward pass, 3. Log-softmax, 4. Final-token loss, 5. Backpropagation, 6. Optimization, 7. Periodic evaluation. Đánh giá được thực hiện mỗi 80 iteration. --- ### 4.2. Dataset Mô hình được huấn luyện trên FineWeb dataset, có đặc điểm: * Đa dạng chủ đề, * Phong cách không đồng nhất, * Độ biến thiên cao. Khác với huấn luyện trên một cuốn sách đơn lẻ, FineWeb tạo ra môi trường học phức tạp hơn. --- ### 4.3. Visualization Train loss và test loss được vẽ theo epoch để quan sát: * Độ ổn định, * Xu hướng hội tụ, * Mức độ nhiễu. Kết quả cho thấy loss dao động mạnh. --- ## 5. Results ### 5.1. Loss Magnitude So với huấn luyện toàn bộ token, final-token training cho thấy: * Loss cao hơn, * Dao động lớn hơn, * Hội tụ chậm hơn. Trong các bài tập trước, loss thường giảm về 3–4, trong khi ở đây duy trì ở mức cao hơn. --- ### 5.2. Loss Variability Loss biến động mạnh giữa các epoch, phản ánh: * Tín hiệu huấn luyện ít hơn, * Độ nhiễu gradient cao, * Khó tối ưu hóa. Hiện tượng này được ghi nhận rõ trong tài liệu. --- ### 5.3. Text Quality Văn bản sinh ra có đặc điểm: * Thiếu khoảng trắng, * Cấu trúc kém mạch lạc, * Token bị dính liền. So với mô hình huấn luyện trên một cuốn sách, chất lượng thấp hơn đáng kể. --- ## 6. Discussion ### 6.1. Nguyên Nhân Loss Cao Tài liệu xác định hai nguyên nhân chính: #### (1) Reduced Training Signal Trước đây, mô hình học từ 256 token/chuỗi. Hiện tại, chỉ học từ 1 token: \text{Signal reduction factor} \approx 256
 $$
 

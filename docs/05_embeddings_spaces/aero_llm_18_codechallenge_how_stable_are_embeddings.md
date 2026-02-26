@@ -37,15 +37,7 @@ $$
 
 Câu hỏi:
 
-$$
-
-$$
-
 E^{(1)} \stackrel{?}{\approx} E^{(2)}
-
-$$
-
-$$
 
 Trên thực tế, các embedding không trùng khớp từng phần tử, nhưng có thể tương đương về cấu trúc hình học.
 
@@ -68,37 +60,13 @@ Các điểm xuất phát khác nhau dẫn đến nghiệm tối ưu khác nhau 
 2.2 Tính bất biến quay (Rotational Invariance)
 
 $$
-Giả sử Q \in \mathbb{R}^{d \times d} là ma trận trực giao:
-$$
-
-$$
-Q^\top Q = I
-$$
-
-$$
-Nếu E là nghiệm tối ưu, thì:
+Giả sử Q \in \mathbb{R}^{d \times d} là ma trận trực giao: Q^\top Q = I Nếu E là nghiệm tối ưu, thì:
 $$
 
 E' = EQ
 
 $$
-cũng là nghiệm tương đương vì:
-$$
-
-$$
-(EQ)(EQ)^\top = EQQ^\top E^\top = EE^\top
-$$
-
-$$
-Điều này giải thích vì sao embeddings giữa hai lần huấn luyện có thể khác nhau về tọa độ nhưng giống nhau về quan hệ tương đối. ⸻ 3. Đo lường Độ Ổn Định 3.1 So sánh trực tiếp bằng chuẩn Frobenius ||E^{(1)} - E^{(2)}||_F Tuy nhiên cách này không hiệu quả do vấn đề quay không gian. ⸻ 3.2 Procrustes Alignment Tìm ma trận quay tối ưu:
-$$
-
-$$
-Q^{\ast} = \arg\min_Q ||E^{(1)}Q - E^{(2)}||_F
-$$
-
-$$
-Sau căn chỉnh:
+cũng là nghiệm tương đương vì: (EQ)(EQ)^\top = EQQ^\top E^\top = EE^\top Điều này giải thích vì sao embeddings giữa hai lần huấn luyện có thể khác nhau về tọa độ nhưng giống nhau về quan hệ tương đối. ⸻ 3. Đo lường Độ Ổn Định 3.1 So sánh trực tiếp bằng chuẩn Frobenius ||E^{(1)} - E^{(2)}||_F Tuy nhiên cách này không hiệu quả do vấn đề quay không gian. ⸻ 3.2 Procrustes Alignment Tìm ma trận quay tối ưu: Q^{\ast} = \arg\min_Q ||E^{(1)}Q - E^{(2)}||_F Sau căn chỉnh:
 $$
 
 Stability = ||E^{(1)}Q^* - E^{(2)}||_F
@@ -115,15 +83,7 @@ $$
 
 \overline{sim} =
 
-$$
-
-$$
-
 \frac{1}{V} \sum_{w=1}^{V} simw
-
-$$
-
-$$
 
 ⸻
 
@@ -148,15 +108,7 @@ Hàm mất mát này phụ thuộc vào tích vô hướng:
 
 Do đó nếu:
 
-$$
-
-$$
-
 \mathbf{v}'_w = Q\mathbf{v}_w
-
-$$
-
-$$
 
 thì:
 
@@ -187,15 +139,7 @@ Từ bài Code Challenge:
 
 Ví dụ:
 
-$$
-
-$$
-
 NN^{(1)}(king) \approx NN^{(2)}(king)
-
-$$
-
-$$
 
 ⸻
 

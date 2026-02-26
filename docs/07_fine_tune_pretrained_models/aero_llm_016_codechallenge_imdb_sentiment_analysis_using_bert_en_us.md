@@ -52,15 +52,7 @@ Mỗi tầng gồm:
 
 Công thức Attention:
 
-$$
-
-$$
-
 \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-
-$$
-
-$$
 
 Trong đó:
 
@@ -75,15 +67,7 @@ Trong đó:
 
 Mỗi encoder layer chứa mạng MLP hai tầng:
 
-$$
-
-$$
-
 \text{MLP}(x)=W_2 \cdot \sigma(W_1 x + b_1)+b_2
-
-$$
-
-$$
 
 Trong đó:
 
@@ -99,15 +83,7 @@ MLP giúp ánh xạ dữ liệu sang không gian đặc trưng phi tuyến.
 
 Bài toán phân loại nhị phân sử dụng hàm Cross-Entropy:
 
-$$
-
-$$
-
 L=-\frac{1}{N}\sum_{i=1}^{N} \left[y_i\log(p_i)+(1-y_i)\log(1-p_i)\right]
-
-$$
-
-$$
 
 Trong đó:
 
@@ -146,15 +122,7 @@ Chiến lược huấn luyện:
 
 Điều kiện đóng băng:
 
-$$
-
-$$
-
 \text{requires_grad}=False
-
-$$
-
-$$
 
 Việc này giúp:
 
@@ -168,35 +136,11 @@ Việc này giúp:
 
 Số tham số được tính:
 
-$$
-
-$$
-
 P_{total}=\sum_i |W_i|
-
-$$
-
-$$
-
-$$
-
-$$
 
 P_{trainable}=\sum_{j \in T}|W_j|
 
-$$
-
-$$
-
-$$
-
-$$
-
 R=\frac{P_{trainable}}{P_{total}}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -205,15 +149,7 @@ Trong đó:
 
 Kết quả cho thấy:
 
-$$
-
-$$
-
 R \approx 0.5
-
-$$
-
-$$
 
 Tức khoảng 50% tham số được cập nhật.
 
@@ -223,15 +159,7 @@ Tức khoảng 50% tham số được cập nhật.
 
 Mô hình được huấn luyện trong 300 batch:
 
-$$
-
-$$
-
 \theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta)
-
-$$
-
-$$
 
 Trong đó:
 
@@ -249,15 +177,7 @@ Sau mỗi 10 batch, tiến hành đánh giá tập kiểm tra.
 
 Độ chính xác được tính:
 
-$$
-
-$$
-
 Accuracy=\frac{TP+TN}{TP+TN+FP+FN}
-
-$$
-
-$$
 
 Kết quả trung bình:
 

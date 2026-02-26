@@ -33,11 +33,7 @@ Theo quy tắc chuỗi:
 P($w_1$^T)
 
 $$
-=
-$$
-
-$$
-\prod_{t=1}^{T}
+= \prod_{t=1}^{T}
 $$
 
 P($w_t$ | $w_1$^{t-1})
@@ -154,11 +150,7 @@ Số lượng lựa chọn trung bình mà mô hình “phân vân” tại mỗ
 Ví dụ:
 
 $$
-•	Nếu PP = 10 → mô hình như đang chọn trong 10 từ khả dĩ.
-$$
-
-$$
-•	Nếu PP = 1 → dự đoán hoàn hảo.
+•	Nếu PP = 10 → mô hình như đang chọn trong 10 từ khả dĩ. •	Nếu PP = 1 → dự đoán hoàn hảo.
 $$
 
 ⸻
@@ -179,11 +171,7 @@ $$
 $\sum$_{t=1}^{T}
 
 $$
-\log P(w_t  \mid  w_1^{t-1}) Khi đó:
-$$
-
-$$
-PP = e^{-\ell(}
+\log P(w_t  \mid  w_1^{t-1}) Khi đó: PP = e^{-\ell(}
 $$
 
 )$
@@ -196,42 +184,14 @@ Giảm perplexity ⇔ tăng log-likelihood.
 
 Giả sử mô hình dự đoán xác suất trung bình:
 
-$$
-
-$$
-
 P(w_t  \mid  context) = 0.2
 
-$$
-
-$$
-
 Khi đó:
-
-$$
-
-$$
 
 \hat{H} = -\log(0.2)
 
 $$
-
-$$
-
-$$
-PP = \exp-\log 0.2 = \frac{1}{0.2} = 5
-$$
-
-$$
-⸻ 7. Perplexity và Mô hình N-gram Trong mô hình n-gram: P(w_t  \mid  w_{t-n+1}^{t-1}) Perplexity giảm khi: •	n tăng •	dữ liệu huấn luyện lớn hơn Tuy nhiên: n \rightarrow lớn \Rightarrow Data\ sparsity ⸻ 8. Perplexity trong Mô hình Neural Với mạng nơ-ron:
-$$
-
-$$
-z_t = W h_t
-$$
-
-$$
-P(w_t  \mid  context)
+PP = \exp-\log 0.2 = \frac{1}{0.2} = 5 ⸻ 7. Perplexity và Mô hình N-gram Trong mô hình n-gram: P(w_t  \mid  w_{t-n+1}^{t-1}) Perplexity giảm khi: •	n tăng •	dữ liệu huấn luyện lớn hơn Tuy nhiên: n \rightarrow lớn \Rightarrow Data\ sparsity ⸻ 8. Perplexity trong Mô hình Neural Với mạng nơ-ron: z_t = W h_t P(w_t  \mid  context)
 $$
 
 =
@@ -253,10 +213,6 @@ $$
 $$
 
 $\le$ft(
-
-$$
-
-$$
 
 \frac{\mathcal{L}}{T}
 
@@ -285,17 +241,6 @@ $$
 =
 
 $$
-\exp(H(p) + D_{KL}(p||q)) Perplexity tối thiểu khi:
+\exp(H(p) + D_{KL}(p||q)) Perplexity tối thiểu khi: q = p ⸻ 12. Perplexity trong LLMs Hiện đại Trong mô hình lớn: •	Zero-shot evaluation •	Few-shot evaluation •	Instruction tuning Perplexity thường dùng để: •	So sánh checkpoint •	Phát hiện overfitting •	Đánh giá hội tụ Tuy nhiên, với mô hình instruction-tuned: Perplexity có thể tăng nhưng chất lượng hội thoại tốt hơn. ⸻ 13. Kết luận Perplexity là thước đo toán học chặt chẽ dựa trên entropy và likelihood: PP = e^{H}
 $$
 
-$$
-q = p
-$$
-
-$$
-⸻ 12. Perplexity trong LLMs Hiện đại Trong mô hình lớn: •	Zero-shot evaluation •	Few-shot evaluation •	Instruction tuning Perplexity thường dùng để: •	So sánh checkpoint •	Phát hiện overfitting •	Đánh giá hội tụ Tuy nhiên, với mô hình instruction-tuned: Perplexity có thể tăng nhưng chất lượng hội thoại tốt hơn. ⸻ 13. Kết luận Perplexity là thước đo toán học chặt chẽ dựa trên entropy và likelihood:
-$$
-
-$$
-PP = e^{H}
-$$

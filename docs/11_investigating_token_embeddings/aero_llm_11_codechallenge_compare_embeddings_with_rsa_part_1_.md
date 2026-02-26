@@ -43,15 +43,7 @@ Trước khi thực hiện đồng bộ RSA, mỗi phương trình Cosine Simila
 Ý tưởng của CSI là so sánh: **Liệu độ gắn kết cấu trúc CÙNG một mạng (Wihtin-category) có áp đảo lực gắn kết độ lêch GIỮA các mạng sai lệch (Between-category) hay không.**
 Phương trình tạo Mask $S_{idx}$ là nhân chéo Vector các ID nhãn nhóm. Sau đó, công thức CSI được xác định:
 
-$$
-
-$$
-
 CSI = \frac{\text{Mean}(S_{\text{within-categories}})}{\text{Mean}(S_{\text{between-categories}})}
-
-$$
-
-$$
 
 Trong đó:
 - Dữ liệu thuộc **Within-category** (Tự thân trong nhóm) = Trích xuất các Block vuông nằm trên đường chéo Heatmap. 
@@ -70,9 +62,6 @@ Phương sai độ lệch vi phân của 50D cũng tản mác dữ dội hơn, t
 Sử dụng chuỗi hàm liên hợp:
 
 $$
-1. `t-SNE(perplexity=5...)` làm bứt gãy sự liên kế giả để hình thành hạt.
+1. `t-SNE(perplexity=5...)` làm bứt gãy sự liên kế giả để hình thành hạt. 2. `DBSCAN(epsilon=0.5, min_samples=2)` khóa hạt nhân vi mô tạo chuỗi liên hợp ranh giới.
 $$
 
-$$
-2. `DBSCAN(epsilon=0.5, min_samples=2)` khóa hạt nhân vi mô tạo chuỗi liên hợp ranh giới.
-$$

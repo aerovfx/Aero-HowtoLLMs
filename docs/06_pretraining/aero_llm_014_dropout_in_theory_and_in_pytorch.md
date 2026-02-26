@@ -48,22 +48,10 @@ This paper focuses on:
 ### 2.1. Basic Principle
 
 $$
-Given an activation vector h \in \mathbb{R}^n, dropout applies a random mask:
-$$
-
-$$
-m_i \sim \text{Bernoulli}(1-p)
-$$
-
-$$
-
+Given an activation vector h \in \mathbb{R}^n, dropout applies a random mask: m_i \sim \text{Bernoulli}(1-p)
 $$
 
 \tilde{h}_i = m_i h_i
-
-$$
-
-$$
 
 where $p$ is the dropout probability.
 
@@ -91,15 +79,7 @@ By preventing any single neuron from dominating prediction, dropout encou18_rage
 
 When dropout is applied, the expected sum of activations decreases:
 
-$$
-
-$$
-
 \mathbb${E}[$\sum$_i \tilde{h}_i] = (1-p)$\sum$_i $h_i
-
-$$
-
-$$
 
 This reduction may negatively affect downstream operations such as Softmax.
 
@@ -109,15 +89,7 @@ This reduction may negatively affect downstream operations such as Softmax.
 
 To compensate, modern frameworks use inverted dropout:
 
-$$
-
-$$
-
 \tilde{h}_i = \begin{cases} \frac{h_i}{1-p}, & \text{if } m_i = 1 \\ 0, & \text{otherwise} \end{cases}
-
-$$
-
-$$
 
 This preserves the expected activation magnitude during training.
 
@@ -134,33 +106,9 @@ PyTorch provides `nn.Dropout` as a module:
 ```python
 import torch.nn as nn
 
-$$
-
-$$
-
 dropout = nn.Dropout(p=0.2)
 
 $$
-
-$$
-
-$$
-y = dropout(x)
-$$
-
-$$
-This module is sensitive to training and evaluation modes. --- ### 4.2. Functional Dropout Alternatively, functional dropout is implemented via: ```python import torch.nn.functional as F
-$$
-
-$$
-y = F.dropout(x, p=0.2, training=True)
-$$
-
-$$
-Unlike `nn.Dropout`, this function is independent of `model.eval()` and must be controlled manually. --- ### 4.3. Training and Evaluation Modes In PyTorch: * `model.train()` enables dropout, * `model.eval()` disables dropout. For class-based dropout, mode switching is automatic. For functional dropout, the `training` parameter must be explicitly set. Failure to manage these modes correctly can lead to unintended stochasticity during inference. --- ## 5. Dropout in Large Language Models ### 5.1. Reduced Need for Dropout in Pretraining LLMs are trained on massive and diverse datasets, reducing the risk of overfitting. As a result, dropout plays a smaller role during pretraining. Typical dropout rates in LLMs range from: * 2% to 10%, compared to 30–50% in computer vision models. --- ### 5.2. Importance in Fine-Tuning During fine-tuning and instruction tuning: * Datasets are smaller, * Topics are narrower, * Overfitting risk increases. In this context, dropout becomes more valuable as a regularizer. --- ### 5.3. Placement in Transformer Architectures In Transformer-based LLMs, dropout is commonly applied to: * Attention outputs, * MLP layers, * Embedding layers, * Residual connections. Proper placement is essential to avoid degrading representational capacity. --- ## 6. Experimental Observations ### 6.1. Stochastic Behavior Repeated execution of dropout yields different masks, confirming its probabilistic nature. The observed dropout rate converges to the expected probability in the long run. --- ### 6.2. Preservation of Activation Sum With inverted dropout, the sum of activations remains approximately constant:
-$$
-
-$$
-\sum x \approx \sum \tilde{x}
+y = dropout(x) This module is sensitive to training and evaluation modes. --- ### 4.2. Functional Dropout Alternatively, functional dropout is implemented via: ```python import torch.nn.functional as F y = F.dropout(x, p=0.2, training=True) Unlike `nn.Dropout`, this function is independent of `model.eval()` and must be controlled manually. --- ### 4.3. Training and Evaluation Modes In PyTorch: * `model.train()` enables dropout, * `model.eval()` disables dropout. For class-based dropout, mode switching is automatic. For functional dropout, the `training` parameter must be explicitly set. Failure to manage these modes correctly can lead to unintended stochasticity during inference. --- ## 5. Dropout in Large Language Models ### 5.1. Reduced Need for Dropout in Pretraining LLMs are trained on massive and diverse datasets, reducing the risk of overfitting. As a result, dropout plays a smaller role during pretraining. Typical dropout rates in LLMs range from: * 2% to 10%, compared to 30–50% in computer vision models. --- ### 5.2. Importance in Fine-Tuning During fine-tuning and instruction tuning: * Datasets are smaller, * Topics are narrower, * Overfitting risk increases. In this context, dropout becomes more valuable as a regularizer. --- ### 5.3. Placement in Transformer Architectures In Transformer-based LLMs, dropout is commonly applied to: * Attention outputs, * MLP layers, * Embedding layers, * Residual connections. Proper placement is essential to avoid degrading representational capacity. --- ## 6. Experimental Observations ### 6.1. Stochastic Behavior Repeated execution of dropout yields different masks, confirming its probabilistic nature. The observed dropout rate converges to the expected probability in the long run. --- ### 6.2. Preservation of Activation Sum With inverted dropout, the sum of activations remains approximately constant: \sum x \approx \sum \tilde{x}
 $$
 

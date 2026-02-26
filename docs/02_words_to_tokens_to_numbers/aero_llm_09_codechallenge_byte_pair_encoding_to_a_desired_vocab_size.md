@@ -46,39 +46,15 @@ Byte Pair Encoding (BPE) được đề xuất ban đầu cho nén dữ liệu (
 
 Giả sử tập dữ liệu huấn luyện:
 
-$$
-
-$$
-
 $\mathcal${D} = \{$w_1$, $w_2$, \dots, $w_N$\}
-
-$$
-
-$$
 
 Mỗi từ được biểu diễn thành chuỗi ký tự:
 
-$$
-
-$$
-
 w_i = (c_1, c_2, \dots, c_m)
-
-$$
-
-$$
 
 Tập token ban đầu:
 
-$$
-
-$$
-
 V_0 = \{ \text{tất cả ký tự xuất hiện} \}
-
-$$
-
-$$
 
 ---
 
@@ -88,51 +64,19 @@ Tại bước $k$, tập token là $V_k$.
 
 Tập các cặp token liền kề:
 
-$$
-
-$$
-
 P_k = \{(t_i, t_{i+1})\}
-
-$$
-
-$$
 
 Hàm tần suất:
 
-$$
-
-$$
-
 f_k(p) = \sum_{w \in \mathcal{D}} \text{count}(p, w)
-
-$$
-
-$$
 
 Chọn cặp tối ưu:
 
-$$
-
-$$
-
 p_k^{\ast} = \arg\max_{p \in P_k} f_k(p)
-
-$$
-
-$$
 
 Sau đó cập nhật:
 
-$$
-
-$$
-
 V_{k+1} = V_k \cup \{ t_{new} \}
-
-$$
-
-$$
 
 Quá trình dừng khi:
 
@@ -163,15 +107,7 @@ $$
 
 Ta cần:
 
-$$
-
-$$
-
 M = V_{target} - C
-
-$$
-
-$$
 
 Như vậy, bài toán trở thành:
 
@@ -207,15 +143,7 @@ $$
 
 Trong thực tế:
 
-$$
-
-$$
-
 T \approx 10^9 - 10^{12}
-
-$$
-
-$$
 
 Do đó cần:
 - Cấu trúc heap
@@ -230,54 +158,22 @@ Do đó cần:
 
 Ma trận embedding:
 
-$$
-
-$$
-
 E \in \mathbb{R}^{V \times d}
-
-$$
-
-$$
 
 Số tham số:
 
-$$
-
-$$
-
 \text{Params} = V \times d
-
-$$
-
-$$
 
 Ví dụ:
 
 - $V = 50,000$
 - $d = 4096$
 
-$$
-
-$$
-
 \text{Params} = 204,800,000
-
-$$
-
-$$
 
 Nếu tăng $V$ lên 100,000:
 
-$$
-
-$$
-
 \text{Params} = 409,600,000
-
-$$
-
-$$
 
 Chi phí tăng gấp đôi.
 
@@ -325,15 +221,7 @@ $$
 
 Trong khi WordPiece tối ưu:
 
-$$
-
-$$
-
 \max \log P(\mathcal{D}  \mid  V_k)
-
-$$
-
-$$
 
 ---
 
@@ -371,15 +259,7 @@ Việc chọn tokenizer ảnh hưởng trực tiếp đến:
 
 Thuật toán Byte Pair Encoding cung cấp một cơ chế phân tách từ hiệu quả, đặc biệt trong bối cảnh mô hình ngôn ngữ lớn. Bài toán đạt kích thước từ vựng mong muốn có thể được mô hình hóa thành việc thực hiện chính xác số vòng gộp cần thiết:
 
-$$
-
-$$
-
 M = V_{target} - |V_0|
-
-$$
-
-$$
 
 Việc tối ưu hóa BPE không chỉ là bước tiền xử lý, mà còn ảnh hưởng trực tiếp đến:
 

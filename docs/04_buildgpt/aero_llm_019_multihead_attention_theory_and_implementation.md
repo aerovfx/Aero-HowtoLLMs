@@ -53,15 +53,7 @@ Trong attention, ba ma trận chính được xây dựng:
 
 Chúng được tính như sau:
 
-$$
-
-$$
-
 Q = XW_Q,\quad K = XW_K,\quad V = XW_V
-
-$$
-
-$$
 
 Trong đó:
 
@@ -76,15 +68,7 @@ Các chiều embedding được trộn lẫn thông qua phép nhân ma trận, k
 
 Với một head, attention được tính theo công thức:
 
-$$
-
-$$
-
 \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-
-$$
-
-$$
 
 Trong đó $d_k$ là số chiều của vector key.
 
@@ -96,27 +80,11 @@ Trong đó $d_k$ là số chiều của vector key.
 
 Multi-head attention chia các ma trận Q, K, V thành $H$ phần không chồng lấn:
 
-$$
-
-$$
-
 Q = [Q_1, Q_2, ..., Q_H]
-
-$$
-
-$$
 
 Mỗi head có kích thước:
 
-$$
-
-$$
-
 d_h = \frac{D}{H}
-
-$$
-
-$$
 
 với $D$ là số chiều embedding.
 
@@ -128,15 +96,7 @@ Việc chia này yêu cầu $D$ chia hết cho $H$
 
 Với mỗi head $i$:
 
-$$
-
-$$
-
 \text{head}_i = \text{softmax}\left(\frac{Q_iK_i^T}{\sqrt{d_h}}\right)V_i
-
-$$
-
-$$
 
 Hệ số chuẩn hóa được điều chỉnh theo số chiều mới $D/H$
 
@@ -146,15 +106,7 @@ Hệ số chuẩn hóa được điều chỉnh theo số chiều mới $D/H$
 
 Sau khi tính attention cho từng head, kết quả được ghép nối:
 
-$$
-
-$$
-
 A = \text{Concat}(\text{head}_1,...,\text{head}_H)W_0
-
-$$
-
-$$
 
 Trong đó $W_0$ là ma trận tuyến tính dùng để trộn thông tin giữa các head.
 

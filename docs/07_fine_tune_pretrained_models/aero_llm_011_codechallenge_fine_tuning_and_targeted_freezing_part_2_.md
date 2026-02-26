@@ -41,41 +41,17 @@ Theo tài liệu , các biểu đồ trực quan đóng vai trò quan trọng tr
 
 Với tập dữ liệu:
 
-$$
-
-$$
-
 $\mathcal${D}={($x_i$,$y_i$)}_{i=1}^{N}
-
-$$
-
-$$
 
 Hàm mất mát cross-entropy:
 
-$$
-
-$$
-
 $\mathcal${L} = -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P($y_i$ \mid $x_i$;\theta)
-
-$$
-
-$$
 
 Trong đó $\theta$ là tham số mô hình.
 
 Mục tiêu huấn luyện:
 
-$$
-
-$$
-
 \theta^{\ast}=\arg\min_\theta \mathcal{L}
-
-$$
-
-$$
 
 ---
 
@@ -83,39 +59,15 @@ $$
 
 Quy tắc cập nhật:
 
-$$
-
-$$
-
 \theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}
-
-$$
-
-$$
 
 Với tham số bị đóng băng:
 
-$$
-
-$$
-
 $\nabla$_{\theta_f}$\mathcal${L}=0
-
-$$
-
-$$
 
 Suy ra:
 
-$$
-
-$$
-
 \theta_f^{(t+1)}=\theta_f^{(t)}
-
-$$
-
-$$
 
 ---
 
@@ -123,27 +75,11 @@ $$
 
 Cho ma trận trọng số attention:
 
-$$
-
-$$
-
 W_t\in\mathbb{R}^{m\times n}
-
-$$
-
-$$
 
 Hiệu tại bước $t$:
 
-$$
-
-$$
-
 \Delta W_t=W_t-W_{t-1}
-
-$$
-
-$$
 
 Chuẩn Frobenius:
 
@@ -166,15 +102,7 @@ Theo mô tả trong tài liệu , hai mô hình được huấn luyện song son
 
 Hai mô hình có cùng:
 
-$$
-
-$$
-
 \theta_A^{(0)}=\theta_B^{(0)}
-
-$$
-
-$$
 
 và cùng thứ tự dữ liệu.
 
@@ -191,24 +119,12 @@ $$
 Vẽ:
 
 $$
-* Biểu đồ đường: \mathcal{L}_k theo k,
-$$
-
-$$
-* Biểu đồ scatter: (\mathcal{L}_k^{(B},\mathcal{L}_k^{A})).
+* Biểu đồ đường: \mathcal{L}_k theo k, * Biểu đồ scatter: (\mathcal{L}_k^{(B},\mathcal{L}_k^{A})).
 $$
 
 Đường chuẩn:
 
-$$
-
-$$
-
 y=x
-
-$$
-
-$$
 
 dùng để đánh giá sự tương đồng.
 
@@ -220,39 +136,15 @@ Gọi:
 
 * $S$: tập token phổ biến,
 
-$$
-
-$$
-
 * G=(g_1,\dots,g_M): chuỗi sinh.
-
-$$
-
-$$
 
 Tỷ lệ:
 
-$$
-
-$$
-
 p=\frac{1}{M}\sum_{i=1}^{M}\mathbf{1}(g_i\in S)
-
-$$
-
-$$
 
 So sánh trước và sau huấn luyện:
 
-$$
-
-$$
-
 \Delta p = p_{post}-p_{pre}
-
-$$
-
-$$
 
 ---
 
@@ -260,27 +152,11 @@ $$
 
 Tổng thời gian:
 
-$$
-
-$$
-
 T=\sum_{k=1}^{K}t_k
-
-$$
-
-$$
 
 Tỷ lệ tiết kiệm:
 
-$$
-
-$$
-
 r=\frac{T_{train}-T_{freeze}}{T_{train}}
-
-$$
-
-$$
 
 ---
 
@@ -311,15 +187,7 @@ $$
 
 ### 4.2. Biểu đồ Scatter Loss
 
-$$
-
-$$
-
 Các điểm dữ liệu nằm dưới đường y=x:
-
-$$
-
-$$
 
 $\mathcal${L}^{(B)}>$\mathcal${L}^{(A)}
 
@@ -348,55 +216,7 @@ $$
 |\Delta $W_t$^{(B)}|_F > |\Delta $W_t$^{(A)}|_F
 
 $$
-cho thấy các lớp còn trainable phải “gánh” phần lớn quá trình học . --- ### 4.5. Thời gian tính toán Theo tài liệu:
-$$
-
-$$
-T_{freeze}\approx 89s,\quad T_{train}\approx 120s
-$$
-
-$$
-Tỷ lệ tiết kiệm:
-$$
-
-$$
-r\approx 25%
-$$
-
-$$
-Mặc dù không quá lớn, lợi ích sẽ tăng mạnh với mô hình lớn hơn. --- ## 5. Thí nghiệm đảo ngược chiến lược đóng băng Trong bài tập 5, chiến lược được đảo ngược: * Huấn luyện hầu hết mô hình, * Đóng băng attention tầng cao. Kết quả:
-$$
-
-$$
-\mathcal{L}_A \approx \mathcal{L}_B
-$$
-
-$$
-Các đường loss gần như trùng nhau . Điều này cho thấy: * Đóng băng một số lớp muộn ít ảnh hưởng tới hiệu năng tổng thể. --- ## 6. Thảo luận ### 6.1. Ý nghĩa của loss trong mô hình sinh Trong mô hình phân loại:
-$$
-
-$$
-\min \mathcal{L}\Rightarrow \max \text{accuracy}
-$$
-
-$$
-Nhưng trong mô hình sinh:
-$$
-
-$$
-\min \mathcal{L} \not\Rightarrow \max \text{quality}
-$$
-
-$$
-Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên. --- ### 6.2. Tính ổn định huấn luyện Mô hình freeze có:
-$$
-
-$$
-Var(\mathcal{L}_B)\lt Var(\mathcal{L}_A)
-$$
-
-$$
-⇒ ổn định hơn ở giai đoạn đầu. --- ### 6.3. Vai trò của interpretability Theo tài liệu , việc chọn lớp đóng băng phụ thuộc nhiều vào nghiên cứu interpretability: * Phân tích vai trò từng tầng, * Hiểu cấu trúc tri thức nội tại, * Xác định vùng cần fine-tune. --- ## 7. Ứng dụng thực tiễn Phương pháp trong nghiên cứu phù hợp cho: * Fine-tuning dữ liệu doanh nghiệp, * NLP chuyên ngành, * Hệ thống tài nguyên thấp, * Huấn luyện nhanh mô hình thử nghiệm. Đặc biệt hiệu quả khi:
+cho thấy các lớp còn trainable phải “gánh” phần lớn quá trình học . --- ### 4.5. Thời gian tính toán Theo tài liệu: T_{freeze}\approx 89s,\quad T_{train}\approx 120s Tỷ lệ tiết kiệm: r\approx 25% Mặc dù không quá lớn, lợi ích sẽ tăng mạnh với mô hình lớn hơn. --- ## 5. Thí nghiệm đảo ngược chiến lược đóng băng Trong bài tập 5, chiến lược được đảo ngược: * Huấn luyện hầu hết mô hình, * Đóng băng attention tầng cao. Kết quả: \mathcal{L}_A \approx \mathcal{L}_B Các đường loss gần như trùng nhau . Điều này cho thấy: * Đóng băng một số lớp muộn ít ảnh hưởng tới hiệu năng tổng thể. --- ## 6. Thảo luận ### 6.1. Ý nghĩa của loss trong mô hình sinh Trong mô hình phân loại: \min \mathcal{L}\Rightarrow \max \text{accuracy} Nhưng trong mô hình sinh: \min \mathcal{L} \not\Rightarrow \max \text{quality} Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên. --- ### 6.2. Tính ổn định huấn luyện Mô hình freeze có: Var(\mathcal{L}_B)\lt Var(\mathcal{L}_A) ⇒ ổn định hơn ở giai đoạn đầu. --- ### 6.3. Vai trò của interpretability Theo tài liệu , việc chọn lớp đóng băng phụ thuộc nhiều vào nghiên cứu interpretability: * Phân tích vai trò từng tầng, * Hiểu cấu trúc tri thức nội tại, * Xác định vùng cần fine-tune. --- ## 7. Ứng dụng thực tiễn Phương pháp trong nghiên cứu phù hợp cho: * Fine-tuning dữ liệu doanh nghiệp, * NLP chuyên ngành, * Hệ thống tài nguyên thấp, * Huấn luyện nhanh mô hình thử nghiệm. Đặc biệt hiệu quả khi:
 $$
 
 N_{data}\ll P_{model}

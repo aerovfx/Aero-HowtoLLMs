@@ -70,37 +70,13 @@ Bạn có thể nghĩ về BLEU như một phép đo precision và ROUGE như m�
 # Đánh giá với ROUGE
 from datasets import load_metric
 
-$$
-
-$$
-
 rouge = load_metric("rouge")
 
 $$
-
-$$
-
-$$
-results = rouge.compute(predictions=predictions, references=references)
-$$
-
-$$
-# Đánh giá với BLEU
-$$
-
-$$
-bleu = load_metric("bleu")
-$$
-
-$$
-
+results = rouge.compute(predictions=predictions, references=references) # Đánh giá với BLEU bleu = load_metric("bleu")
 $$
 
 results = bleu.compute(predictions=predictions, references=references)
-
-$$
-
-$$
 
 ## Kết Luận
 

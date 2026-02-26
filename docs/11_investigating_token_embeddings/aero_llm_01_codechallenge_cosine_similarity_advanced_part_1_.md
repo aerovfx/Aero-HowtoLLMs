@@ -49,11 +49,7 @@ Trong các hệ này, Cosine Similarity là thước đo chuẩn để so sánh 
 2. Định nghĩa Cosine Similarity
 
 $$
-Cho hai vector \mathbf{x}, \mathbf{y} \in \mathbb{R}^d:
-$$
-
-$$
-\text{cosine\_sim}\mathbf{x}, \mathbf{y} =
+Cho hai vector \mathbf{x}, \mathbf{y} \in \mathbb{R}^d: \text{cosine\_sim}\mathbf{x}, \mathbf{y} =
 $$
 
 \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|}
@@ -61,27 +57,11 @@ $$
 Trong đó:
 	•	Tích vô hướng:
 
-$$
-
-$$
-
 \mathbf{x} \cdot \mathbf{y} = \sum_{i=1}^{d} x_i y_i
-
-$$
-
-$$
 
 	•	Chuẩn Euclid:
 
-$$
-
-$$
-
 \|\mathbf{x}\| = \sqrt{\sum_{i=1}^{d} x_i^2}
-
-$$
-
-$$
 
 ⸻
 
@@ -123,15 +103,7 @@ Trong không gian chiều cao d \gg 1:
 Theo lý thuyết xác suất:
 
 $$
-Nếu x_i, y_i \sim \mathcal{N}(0,1)
-$$
-
-$$
-\mathbb{E}[\mathbf{x} \cdot \mathbf{y}] = 0
-$$
-
-$$
-Var\mathbf{x} \cdot \mathbf{y} = d
+Nếu x_i, y_i \sim \mathcal{N}(0,1) \mathbb{E}[\mathbf{x} \cdot \mathbf{y}] = 0 Var\mathbf{x} \cdot \mathbf{y} = d
 $$
 
 Sau chuẩn hóa:
@@ -201,11 +173,7 @@ Theo Elements of Information Theory:
 Mutual information giữa hai vector embedding:
 
 $$
-I(X;Y) =
-$$
-
-$$
-\mathbb{E}\left[
+I(X;Y) = \mathbb{E}\left[
 $$
 
 $\log$ \frac{P(X,Y)}{$P(X)$$P(Y)$}
@@ -246,15 +214,7 @@ $$
 
 Gradient theo \mathbf{x}:
 
-$$
-
-$$
-
 \frac{\partial S}{\partial \mathbf{x}} =
-
-$$
-
-$$
 
 \frac{\mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}
 -

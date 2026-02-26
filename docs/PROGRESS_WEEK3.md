@@ -47,87 +47,31 @@ $$
 // Expert Grid Parameters
 
 $$
-const expertsPerRow = 4;                    // 4 experts per row
-$$
-
-$$
-const row = Math.floor(i / expertsPerRow);  // Row: 0 or 1
-$$
-
-$$
-
+const expertsPerRow = 4;                    // 4 experts per row const row = Math.floor(i / expertsPerRow);  // Row: 0 or 1
 $$
 
 const col = i % expertsPerRow;              // Col: 0,1,2,3
 
-$$
-
-$$
-
 // Compact sizing
-
-$$
-
-$$
 
 const expertW = C * cell * 0.8;             // 80% of original width
 
-$$
-
-$$
-
 const expertH = (h + C) * cell + margin * 2; // Height for weight + output
-
-$$
-
-$$
 
 const spacingX = expertW + margin * 3;      //  Horizontal spacing
 
 $$
-
-$$
-
-$$
-const spacingY = expertH + margin * 2;      // Vertical spacing
-$$
-
-$$
-// Grid base position (to the left of attention layers)
-$$
-
-$$
-const gridBaseX = attnLeftX - (expertsPerRow * spacingX);
-$$
-
-$$
-
+const spacingY = expertH + margin * 2;      // Vertical spacing // Grid base position (to the left of attention layers) const gridBaseX = attnLeftX - (expertsPerRow * spacingX);
 $$
 
 const gridBaseY = y + row * spacingY;
 
-$$
-
-$$
-
 // Individual expert position
-
-$$
-
-$$
 
 const expertX = gridBaseX + col * spacingX;
 
 $$
-
-$$
-
-$$
-const expertY = gridBaseY;
-$$
-
-$$
-### **Per-Expert Visualization:** Each expert now renders: 1. **Weight Block** (`expFcWeight`) - Expert's weight matrix 2. **Output Block** (`expOut`) - Expert's output **Compact representation:** - Labels: "Chuyên gia 0 W1" → "Chuyên gia 7 W1" - Output labels: "Chuyên gia 0 Đầu ra" → "E7 Đầu ra" - Both blocks positioned in grid layout --- ## 📊 Visual Improvements ### Space Efficiency: | Layout | Height (model units) | Width Utilization | |--------|---------------------|-------------------| | **Before (Stack)** | ~8 × expertH | Narrow (1 column) | | **After (Grid)** | ~2 × expertH | Wide (4 columns) ✅ | **Space saved:** ~75% vertical space! ### Positioning Strategy: Attention Layers (attnLeftX) │ ├──────────── margin ────────────┤ │                                  │ [Router]                               │ │                                  │ ┌─────┴─────┐                           │ │           │                           │ E0  E1  E2  E3 ←── gridBaseX             │ E4  E5  E6  E7                            │ │                                       │ └───────────┬───────────────────────────┘
+const expertY = gridBaseY; ### **Per-Expert Visualization:** Each expert now renders: 1. **Weight Block** (`expFcWeight`) - Expert's weight matrix 2. **Output Block** (`expOut`) - Expert's output **Compact representation:** - Labels: "Chuyên gia 0 W1" → "Chuyên gia 7 W1" - Output labels: "Chuyên gia 0 Đầu ra" → "E7 Đầu ra" - Both blocks positioned in grid layout --- ## 📊 Visual Improvements ### Space Efficiency: | Layout | Height (model units) | Width Utilization | |--------|---------------------|-------------------| | **Before (Stack)** | ~8 × expertH | Narrow (1 column) | | **After (Grid)** | ~2 × expertH | Wide (4 columns) ✅ | **Space saved:** ~75% vertical space! ### Positioning Strategy: Attention Layers (attnLeftX) │ ├──────────── margin ────────────┤ │                                  │ [Router]                               │ │                                  │ ┌─────┴─────┐                           │ │           │                           │ E0  E1  E2  E3 ←── gridBaseX             │ E4  E5  E6  E7                            │ │                                       │ └───────────┬───────────────────────────┘
 $$
 
 Aggregation
@@ -138,43 +82,19 @@ $$
 
 y += h * cell + margin;  // After weight block
 
-$$
-
-$$
-
 y += C * cell + margin;  // After output block
 
 $$
-// AFTER: // No individual Y increments! // All positioning relative to grid coordinates **2. Added grid position calculation** ```typescript // NEW: Grid math
-$$
-
-$$
-const row = Math.floor(i / 4);
-$$
-
-$$
-
+// AFTER: // No individual Y increments! // All positioning relative to grid coordinates **2. Added grid position calculation** ```typescript // NEW: Grid math const row = Math.floor(i / 4);
 $$
 
 const col = i % 4;
 
 $$
-
-$$
-
-$$
 const expertX = gridBaseX + col * spacingX;
 $$
 
-$$
-
-$$
-
 const expertY = gridBaseY + row * spacingY;
-
-$$
-
-$$
 
 **3. Updated final Y position**
 ```typescript
@@ -236,16 +156,9 @@ y: expertY,   // Grid row position
 4. **Color Coding** ⏳
    ```typescript
 
-$$
-
-$$
-
 expert.highlight = isTopK ? routingProb : 0;
-
-$$
-
-$$
 
 $$
 expert.color = isTopK ? ACTIVE_GREEN : INACTIVE_GRAY;
 $$
+

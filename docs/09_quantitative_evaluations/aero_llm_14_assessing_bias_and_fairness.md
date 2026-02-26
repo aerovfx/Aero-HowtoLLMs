@@ -111,15 +111,7 @@ $$
 
 Trong đó:
 
-$$
-
-$$
-
 D_{KL}(P||Q) = \sum_x P(x)\log \frac{P(x)}{Qx}
-
-$$
-
-$$
 
 Nếu:
 
@@ -133,15 +125,7 @@ D_{KL} \rightarrow 0
 
 Khác với phân loại nhị phân, LLM sinh chuỗi token:
 
-$$
-
-$$
-
 P_\thetax_1,\dots,x_T = \prod_{t=1}^{T} P_\theta(x_t|x_{\lt t})
-
-$$
-
-$$
 
 Thiên lệch có thể đo bằng cách so sánh xác suất sinh câu liên quan đến nhóm A:
 
@@ -161,15 +145,7 @@ Tạo cặp prompt:
 
 Tính chênh lệch log-likelihood:
 
-$$
-
-$$
-
 \Delta = \log P_\theta(r|he) - \log P_\theta(r|she)
-
-$$
-
-$$
 
 ⸻
 
@@ -177,27 +153,11 @@ $$
 
 Sử dụng classifier phụ để ước lượng:
 
-$$
-
-$$
-
 Toxicity = P_{tox}(text)
-
-$$
-
-$$
 
 So sánh kỳ vọng theo nhóm:
 
-$$
-
-$$
-
 \Delta_{tox} = \mathbb{E}[T|A=0] - \mathbb{E}[T|A=1]
-
-$$
-
-$$
 
 ⸻
 
@@ -205,27 +165,11 @@ $$
 
 Giả sử có hai nhóm:
 
-$$
-
-$$
-
 \mu_1 = 0.62, \quad \mu_2 = 0.54
-
-$$
-
-$$
 
 Kiểm định:
 
-$$
-
-$$
-
 t = \frac{\mu_1 - \mu_2}{\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}}
-
-$$
-
-$$
 
 Nếu p < 0.05 → khác biệt có ý nghĩa.
 
@@ -237,27 +181,11 @@ Theo Elements of Information Theory:
 
 Mutual Information giữa dự đoán và thuộc tính nhạy cảm:
 
-$$
-
-$$
-
 I\hat{Y};A = \sum_{a,y} P(a,y)\log\frac{P(a,y)}{P(a)P(y)}
-
-$$
-
-$$
 
 Nếu:
 
-$$
-
-$$
-
 I\hat{Y};A \approx 0
-
-$$
-
-$$
 
 → ít phụ thuộc → công bằng hơn.
 
@@ -279,15 +207,7 @@ $$
 
 Huấn luyện mô hình phụ đoán A:
 
-$$
-
-$$
-
 \min_\theta \max_\phi \left\mathcal{L}_{task} - \lambda \mathcal{L}_{adv} \right
-
-$$
-
-$$
 
 ⸻
 

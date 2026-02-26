@@ -65,15 +65,7 @@ $P($a_i$ \mid c)$
 
 Đáp án được chọn:
 
-$$
-
-$$
-
 \hat{a} = \arg\max_{a_i} P(a_i \mid c)
-
-$$
-
-$$
 
 ⸻
 
@@ -91,15 +83,7 @@ $$
 
 Để tránh thiên vị độ dài, thường dùng chuẩn hoá:
 
-$$
-
-$$
-
 Scorea_i = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{\lt t})
-
-$$
-
-$$
 
 ⸻
 
@@ -107,15 +91,7 @@ $$
 
 Với N câu hỏi:
 
-$$
-
-$$
-
 Accuracy = \frac{1}{N} \sum_{j=1}^{N} \mathbf{1}\hat{a}^{(j} = a^{j}_{\text{true}})
-
-$$
-
-$$
 
 Baseline ngẫu nhiên:
 
@@ -141,15 +117,7 @@ f_\theta$c, a_i$
 
 Giữ lại các mẫu mà:
 
-$$
-
-$$
-
 f_\thetac, a_{\text{true}} - f_\thetac, a_{\text{false}} \approx 0
-
-$$
-
-$$
 
 Điều này làm bộ dữ liệu ngày càng khó.
 
@@ -159,15 +127,7 @@ $$
 
 Kiến trúc Transformer:
 
-$$
-
-$$
-
 Attention(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
-
-$$
-
-$$
 
 Self-attention cho phép mô hình:
 	•	Hiểu quan hệ dài hạn
@@ -180,15 +140,7 @@ Self-attention cho phép mô hình:
 
 Perplexity đo:
 
-$$
-
-$$
-
 PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right)
-
-$$
-
-$$
 
 Trong khi HellaSwag đo:
 	•	Khả năng so sánh nhiều chuỗi hoàn chỉnh
@@ -215,15 +167,7 @@ Khoảng tin cậy 95%:
 Ví dụ:
 
 $$
-•	N = 10,000
-$$
-
-$$
-•	Accuracy = 0.80
-$$
-
-$$
-SE = \sqrt{\frac{0.8(0.2)}{10000}} = 0.004
+•	N = 10,000 •	Accuracy = 0.80 SE = \sqrt{\frac{0.8(0.2)}{10000}} = 0.004
 $$
 
 Khoảng tin cậy:

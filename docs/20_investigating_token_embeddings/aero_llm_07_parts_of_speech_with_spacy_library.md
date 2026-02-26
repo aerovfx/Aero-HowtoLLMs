@@ -45,16 +45,9 @@ Sự kết nối giữa LLMs và `spaCy` thất bại khi đối diện thuật 
 Kết quả được chạy qua vòng lặp quét của `spaCy` Tokenizer:
 ```python
 
-$$
-
-$$
-
 if token.pos_ == 'NOUN': count_noun += 1
-
-$$
-
-$$
 
 $$
 if token.pos_ == 'VERB': count_verb += 1
 $$
+

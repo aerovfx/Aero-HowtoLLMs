@@ -47,53 +47,21 @@ Mục tiêu là thiết kế một thuật toán tự động sinh tên có tín
 
 Giả sử:
 
-$$
-
-$$
-
 •	Tập tiền tố P = \{p_1, p_2, ..., p_a\}
-
-$$
-
-$$
 
 $$
 •	Tập từ lõi C = \{c_1, c_2, ..., c_b\}
 $$
 
-$$
-
-$$
-
 •	Tập hậu tố M = \{m_1, m_2, ..., m_c\}
-
-$$
-
-$$
 
 Số lượng tên có thể sinh:
 
-$$
-
-$$
-
 N = a \times b \times c
-
-$$
-
-$$
 
 Nếu không bắt buộc hậu tố:
 
-$$
-
-$$
-
 N = a \times b \times c + 1
-
-$$
-
-$$
 
 ⸻
 
@@ -119,27 +87,11 @@ $$
 
 Entropy đo mức độ đa dạng:
 
-$$
-
-$$
-
 H = - \sum_{n \in \mathcal{N}} P(n)\log P(n)
-
-$$
-
-$$
 
 Nếu phân bố đều:
 
-$$
-
-$$
-
 H = \log N
-
-$$
-
-$$
 
 Entropy càng lớn → hệ càng sáng tạo.
 
@@ -149,15 +101,7 @@ Entropy càng lớn → hệ càng sáng tạo.
 
 Có thể mô hình hóa tên như chuỗi ký tự:
 
-$$
-
-$$
-
 S = (s_1, s_2, ..., s_n)
-
-$$
-
-$$
 
 Mô hình Markov bậc 1:
 
@@ -175,27 +119,11 @@ P($t_i$ | t_{<i})
 
 Với:
 
-$$
-
-$$
-
 \text{Name} = (t_1, t_2, ..., t_m)
-
-$$
-
-$$
 
 Self-attention:
 
-$$
-
-$$
-
 \text{Attention}(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d}}\rightV
-
-$$
-
-$$
 
 Khác biệt chính:
 	•	Thuật toán tổ hợp → quy tắc tường minh
@@ -250,11 +178,7 @@ $P(\text{Title} + \text{Alias})$ = 1 - \alpha
 Nếu:
 
 $$
-a=20, \quad b=100, \quad c=30
-$$
-
-$$
-N = 20 \times 100 \times 30 = 60{,}000
+a=20, \quad b=100, \quad c=30 N = 20 \times 100 \times 30 = 60{,}000
 $$
 
 Nếu thêm biến thể ký tự (ví dụ thay “s” bằng “$”):

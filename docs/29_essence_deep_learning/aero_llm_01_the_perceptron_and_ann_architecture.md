@@ -30,15 +30,7 @@ Perceptron là "tế bào" cơ bản của mọi kiến trúc học sâu. Nó ho
 
 Về bản chất toán học, Perceptron thực hiện phép tính **tích vô hướng** giữa véc-tơ đầu vào $x$ và véc-tơ trọng số $w$:
 
-$$
-
-$$
-
 y = x^T w = \sum_{i=1}^{n} x_i w_i
-
-$$
-
-$$
 
 ---
 
@@ -55,15 +47,7 @@ Perceptron thuần túy là một **mô hình tuyến tính**. Điều này có 
 
 Để mở rộng khả năng của mạng nơ-ron, chúng ta đưa kết quả của phép tính tuyến tính qua một hàm phi tuyến $\sigma$ (thường được gọi là hàm kích hoạt):
 
-$$
-
-$$
-
 \hat{y} = \sigma(x^T w)
-
-$$
-
-$$
 
 - **Ví dụ cơ bản:** Hàm signum (hàm dấu) trả về +1 nếu tổng lớn hơn 0 và -1 nếu ngược lại.
 - **Vai trò:** Phá vỡ tính tuyến tính, cho phép mô hình học được các ranh giới quyết định phức tạp hơn. Trong học sâu hiện đại, chúng ta thường sử dụng các hàm như ReLU, Sigmoid hoặc Tanh.

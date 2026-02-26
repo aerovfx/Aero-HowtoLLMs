@@ -62,15 +62,7 @@ Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó 
 
 Residual stream đóng vai trò như “dòng thông tin trung tâm”, nơi mọi phép biến đổi đều được cộng dồn:
 
-$$
-
-$$
-
 X_{out} = X_{in} + f(\text{LN}(X_{in}))
-
-$$
-
-$$
 
 Cấu trúc này giúp:
 
@@ -110,15 +102,7 @@ Do đó, khi nhắc đến “attention block”, thực chất là nói đến 
 
 Self-attention được định nghĩa:
 
-$$
-
-$$
-
 \text{Attention}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-
-$$
-
-$$
 
 Trong đó:
 
@@ -148,15 +132,7 @@ Theo tài liệu, attention thực hiện quá trình “crosstalk” giữa cá
 
 MLP sublayer gồm hai lớp tuyến tính và một hàm phi tuyến:
 
-$$
-
-$$
-
 \text{MLP}(x)=W_2 \sigma(W_1 x)
-
-$$
-
-$$
 
 Trong đó:
 
@@ -170,15 +146,7 @@ Trong đó:
 
 Thông thường:
 
-$$
-
-$$
-
 d_{ff} \approx 4d_{model}
-
-$$
-
-$$
 
 Ví dụ trong GPT-2:
 
@@ -207,15 +175,7 @@ Khác với attention, MLP không sử dụng thông tin vị trí hay quan hệ
 
 Nó chỉ xử lý từng token độc lập:
 
-$$
-
-$$
-
 y_i = \text{MLP}(x_i)
-
-$$
-
-$$
 
 Do đó, MLP đóng vai trò biến đổi đặc trưng cục bộ.
 
@@ -237,25 +197,9 @@ Quy trình xử lý:
 
 Dạng tổng quát:
 
-$$
-
-$$
-
 X' = X + \text{Attn}(\text{LN}(X))
 
-$$
-
-$$
-
-$$
-
-$$
-
 Y = X' + \text{MLP}(\text{LN}(X'))
-
-$$
-
-$$
 
 ---
 
@@ -444,25 +388,9 @@ Việc tích hợp FlashAttention vào Transformer Block là bước quan trọn
 
 Một Transformer block chuẩn (Pre-LN) có dạng:
 
-$$
-
-$$
-
 H = X + \text{Attn}(\text{LN}(X))
 
-$$
-
-$$
-
-$$
-
-$$
-
 Y = H + \text{MLP}(\text{LN}(H))
-
-$$
-
-$$
 
 Trong đó:
 
@@ -507,25 +435,9 @@ Mục tiêu là giảm số lần truy cập bộ nhớ chậm.
 
 Thay vì tính toàn bộ $QK^T$, FlashAttention chia tensor thành các block:
 
-$$
-
-$$
-
 Q = [Q_1, Q_2, \dots, Q_n]
 
-$$
-
-$$
-
-$$
-
-$$
-
 K = [K_1, K_2, \dots, K_n]
-
-$$
-
-$$
 
 Attention được tính theo từng block nhỏ.
 
@@ -535,35 +447,11 @@ Attention được tính theo từng block nhỏ.
 
 FlashAttention sử dụng công thức softmax tích lũy:
 
-$$
-
-$$
-
 m_i = \max(m_{i-1}, s_i)
-
-$$
-
-$$
-
-$$
-
-$$
 
 l_i = l_{i-1} e^{m_{i-1}-m_i} + e^{s_i-m_i}
 
-$$
-
-$$
-
-$$
-
-$$
-
 o_i = o_{i-1} e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
-
-$$
-
-$$
 
 Giúp:
 
@@ -654,44 +542,16 @@ Quy trình xử lý:
 Input: X
 
 $$
-H1 = LNX
-$$
-
-$$
-Q,K,V = Linear(H1)
-$$
-
-$$
-
+H1 = LNX Q,K,V = Linear(H1)
 $$
 
 A = FlashAttention(Q,K,V, causal=True)
 
 $$
-
-$$
-
-$$
-U = X + W0A
-$$
-
-$$
-H2 = LNU
-$$
-
-$$
-F = MLP(H2)
-$$
-
-$$
-
+U = X + W0A H2 = LNU F = MLP(H2)
 $$
 
 Y = U + F
-
-$$
-
-$$
 
 return Y
 
@@ -711,151 +571,55 @@ class FlashTransformerBlock(nn.Module):
     def __init__(self, d_model, n_heads, d_ff):
         super().__init__()
 
-$$
-
-$$
-
 self.ln1 = nn.LayerNorm(d_model)
-
-$$
-
-$$
 
 $$
 self.ln2 = nn.LayerNorm(d_model)
 $$
 
-$$
-
-$$
-
 self.qkv = nn.Linear(d_model, 3*d_model, bias=False)
-
-$$
-
-$$
 
 $$
 self.proj = nn.Linear(d_model, d_model)
 $$
 
-$$
-
-$$
-
 self.ffn = nn.Sequential(
-
-$$
-
-$$
 
             nn.Linear(d_model, d_ff),
             nn.GELU(),
             nn.Linear(d_ff, d_model)
         )
 
-$$
-
-$$
-
 self.n_heads = n_heads
 
 $$
-
-$$
-
-$$
-self.d_head = d_model // n_heads
-$$
-
-$$
-def forward(self, x):
-$$
-
-$$
-B, T, D = x.shape
-$$
-
-$$
-
+self.d_head = d_model // n_heads def forward(self, x): B, T, D = x.shape
 $$
 
 h = self.ln1x
 
 $$
-
-$$
-
-$$
 qkv = self.qkvh
-$$
-
-$$
-
 $$
 
 qkv = qkv.view(B, T, 3,
 
-$$
-
-$$
-
                        self.n_heads,
                        self.d_head)
-
-$$
-
-$$
 
 q, k, v = qkv.unbinddim=2
 
 $$
-
-$$
-
-$$
-attn = flash_attn_func(
-$$
-
-$$
-q, k, v,
-$$
-
-$$
-causal=True
-$$
-
-$$
-)
-$$
-
-$$
-attn = attn.reshape(B, T, D)
-$$
-
-$$
-
+attn = flash_attn_func( q, k, v, causal=True ) attn = attn.reshape(B, T, D)
 $$
 
 x = x + self.proj(attn)
 
 $$
-
-$$
-
-$$
 h = self.ln2x
 $$
 
-$$
-
-$$
-
 x = x + self.ffnh
-
-$$
-
-$$
 
         return x
 ````
@@ -1070,15 +834,7 @@ Residual Add
 
 Sử dụng RMSNorm hoặc Pre-LN:
 
-$$
-
-$$
-
 \hat{x} = \frac{x}{\sqrt{\text{Var}(x) + \epsilon}}
-
-$$
-
-$$
 
 Giúp ổn định gradient trong huấn luyện sâu.
 
@@ -1086,15 +842,7 @@ Giúp ổn định gradient trong huấn luyện sâu.
 
 #### (b) QKV Projection
 
-$$
-
-$$
-
 Q,K,V = XW_Q, XW_K, XW_V
-
-$$
-
-$$
 
 Được hợp nhất thành một kernel duy nhất để giảm memory access.
 
@@ -1113,15 +861,7 @@ $$
 
 Dạng phổ biến:
 
-$$
-
-$$
-
 \text{FFN}(x) = W_2(\text{SiLU}(W_1x) \odot W_3x)
-
-$$
-
-$$
 
 Tăng biểu diễn phi tuyến.
 
@@ -1161,58 +901,22 @@ Chỉ tính attention cho token mới.
 Input: X, KV_cache
 
 $$
-H1 = RMSNormX
-$$
-
-$$
-QKV = Linear(H1)
-$$
-
-$$
-
+H1 = RMSNormX QKV = Linear(H1)
 $$
 
 Q,K,V = Split(QKV)
 
 $$
-
-$$
-
-$$
 K_cache, V_cache = UpdateCache(K, V)
-$$
-
-$$
-
 $$
 
 A = FlashAttention(Q, K_cache, V_cache)
 
 $$
-
-$$
-
-$$
-U = X + ProjA
-$$
-
-$$
-H2 = RMSNormU
-$$
-
-$$
-F = GatedMLP(H2)
-$$
-
-$$
-
+U = X + ProjA H2 = RMSNormU F = GatedMLP(H2)
 $$
 
 Y = U + F
-
-$$
-
-$$
 
 return Y, KV_cache
 
@@ -1233,160 +937,64 @@ class LLMBlock(nn.Module):
         super().__init__()
 
 $$
-self.norm1 = nn.RMSNorm(dim)
-$$
-
-$$
-self.norm2 = nn.RMSNorm(dim)
-$$
-
-$$
-self.qkv = nn.Linear(dim, 3*dim, bias=False)
-$$
-
-$$
-
+self.norm1 = nn.RMSNorm(dim) self.norm2 = nn.RMSNorm(dim) self.qkv = nn.Linear(dim, 3*dim, bias=False)
 $$
 
 self.proj = nn.Linear(dim, dim, bias=False)
 
 $$
-
-$$
-
-$$
 self.gate = nn.Linear(dim, hidden, bias=False)
-$$
-
-$$
-
 $$
 
 self.up = nn.Linear(dim, hidden, bias=False)
 
 $$
-
-$$
-
-$$
 self.down = nn.Linear(hidden, dim, bias=False)
-$$
-
-$$
-
 $$
 
 self.heads = heads
 
 $$
-
-$$
-
-$$
 self.d = dim // heads
-$$
-
-$$
-
 $$
 
 def forward(self, x, k_cache=None, v_cache=None):
 
 $$
-
-$$
-
-$$
 B, T, D = x.shape
-$$
-
-$$
-
 $$
 
 h = self.norm1x
 
 $$
-
-$$
-
-$$
 qkv = self.qkvh
-$$
-
-$$
-
 $$
 
 qkv = qkv.view(B, T, 3, self.heads, self.d)
 
 $$
-
-$$
-
-$$
-q, k, v = qkv.unbind(2)
-$$
-
-$$
-if k_cache is not None:
-$$
-
-$$
-k = torch.cat([k_cache, k], dim=1)
-$$
-
-$$
-
+q, k, v = qkv.unbind(2) if k_cache is not None: k = torch.cat([k_cache, k], dim=1)
 $$
 
 v = torch.cat([v_cache, v], dim=1)
 
 $$
-
-$$
-
-$$
 attn = flash_attn_func(q, k, v, causal=True)
-$$
-
-$$
-
 $$
 
 attn = attn.reshape(B, T, D)
 
 $$
-
-$$
-
-$$
 x = x + self.proj(attn)
-$$
-
-$$
-
 $$
 
 h = self.norm2x
 
 $$
-
-$$
-
-$$
 gated = torch.silu(self.gate(h)) * self.uph
 $$
 
-$$
-
-$$
-
 x = x + self.down(gated)
-
-$$
-
-$$
 
         return x, k, v
 ````

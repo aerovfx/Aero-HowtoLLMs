@@ -61,26 +61,14 @@ $$
 Phân phối của:
 
 $$
-\cos \theta = \tilde{\mathbf{x}} \cdot \tilde{\mathbf{y}}
-$$
-
-$$
-Khi d \to \infty:
+\cos \theta = \tilde{\mathbf{x}} \cdot \tilde{\mathbf{y}} Khi d \to \infty:
 $$
 
 \cos \theta \xrightarrow{p} 0
 
 Và phương sai:
 
-$$
-
-$$
-
 Var\cos \theta \approx \frac{1}{d}
-
-$$
-
-$$
 
 Điều này giải thích vì sao trong embedding dimension lớn (512–4096), các vector ngẫu nhiên gần như trực giao.
 
@@ -94,15 +82,7 @@ Anisotropy xảy ra khi embedding tập trung quanh một hướng ưu thế.
 
 Giả sử trung bình embedding:
 
-$$
-
-$$
-
 \mu = \mathbb{E}[\mathbf{x}]
-
-$$
-
-$$
 
 Nếu:
 
@@ -138,13 +118,5 @@ $$
 
 Cho ma trận hiệp phương sai:
 
-$$
-
-$$
-
 \Sigma = \mathbb{E}[\mathbf{x}-\mu
-
-$$
-
-$$
 

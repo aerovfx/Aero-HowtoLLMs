@@ -41,27 +41,11 @@ Ví dụ:
 
 Sau tokenization có thể trở thành:
 
-$$
-
-$$
-
 "AI", " is", " powerful"
-
-$$
-
-$$
 
 Và được ánh xạ thành:
 
-$$
-
-$$
-
 50256, 318, 3665
-
-$$
-
-$$
 
 ---
 
@@ -75,15 +59,7 @@ $$
 
 Hàm tokenization:
 
-$$
-
-$$
-
 T: \mathcal{X} \to V^T
-
-$$
-
-$$
 
 với:
 
@@ -95,15 +71,7 @@ $$
 
 Nếu chuỗi văn bản là $x$, ta có:
 
-$$
-
-$$
-
 T(x) = (t_1, t_2, ..., t_T)
-
-$$
-
-$$
 
 Mỗi $t_i \in {1,2,...,N}$
 
@@ -122,15 +90,7 @@ Thuật toán lặp:
 
 Quá trình tối ưu hóa nhằm giảm entropy:
 
-$$
-
-$$
-
 H(X) = -\sum_x P(x)\log P(x)
-
-$$
-
-$$
 
 BPE giúp:
 
@@ -149,15 +109,7 @@ $$
 
 Ta cần biểu diễn thứ tự:
 
-$$
-
-$$
-
 i = 1,2,...,T
-
-$$
-
-$$
 
 Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến hoán vị.
 
@@ -167,27 +119,11 @@ Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến h
 
 Mỗi token ID được ánh xạ:
 
-$$
-
-$$
-
 e_i = E(t_i)
-
-$$
-
-$$
 
 Vector đầu vào cuối cùng:
 
-$$
-
-$$
-
 z_i = e_i + p_i
-
-$$
-
-$$
 
 Trong đó:
 
@@ -199,41 +135,17 @@ Trong đó:
 
 Attention được định nghĩa:
 
-$$
-
-$$
-
 \text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
-
-$$
-
-$$
 
 Nếu không có positional encoding:
 
-$$
-
-$$
-
 \text{Attention}(PX) = P\text{Attention}(X)
-
-$$
-
-$$
 
 → Không phân biệt thứ tự.
 
 Khi thêm $p_i$:
 
-$$
-
-$$
-
 Z = E + P
-
-$$
-
-$$
 
 ma trận attention phản ánh quan hệ phụ thuộc có hướng.
 
@@ -243,39 +155,15 @@ ma trận attention phản ánh quan hệ phụ thuộc có hướng.
 
 Trong mô hình tự hồi quy (GPT):
 
-$$
-
-$$
-
 P(x) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t})
-
-$$
-
-$$
 
 Mask:
 
-$$
-
-$$
-
 M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
-
-$$
-
-$$
 
 Ma trận attention thực tế:
 
-$$
-
-$$
-
 A = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} + M \right)
-
-$$
-
-$$
 
 Đánh số token cho phép xác định chính xác vị trí $i$.
 
@@ -291,15 +179,7 @@ $$
 
 Nếu chiều dài chuỗi tăng gấp đôi:
 
-$$
-
-$$
-
 \text{Compute} \approx 4\times
-
-$$
-
-$$
 
 Do đó việc tokenization hiệu quả giúp:
 
@@ -316,51 +196,19 @@ Giả sử câu:
 
 Tokenization:
 
-$$
-
-$$
-
 1543, 4673, 318, 4996
-
-$$
-
-$$
 
 Embedding:
 
-$$
-
-$$
-
 E \in \mathbb{R}^{|V| \times d}
-
-$$
-
-$$
 
 Đầu vào:
 
-$$
-
-$$
-
 Z \in \mathbb{R}^{T \times d}
-
-$$
-
-$$
 
 Qua attention:
 
-$$
-
-$$
-
 Z' = \text{Transformer}(Z)
-
-$$
-
-$$
 
 ---
 
@@ -368,15 +216,7 @@ $$
 
 Trong RLHF:
 
-$$
-
-$$
-
 x = [\text{Prompt}; \text{Response}]
-
-$$
-
-$$
 
 Đánh số cho phép:
 
@@ -385,15 +225,7 @@ $$
 
 Loss:
 
-$$
-
-$$
-
 $\mathcal${L} = - $\sum$_{t \in R} $\log$ P($x_t$  \mid  x_{\lt t})
-
-$$
-
-$$
 
 ---
 

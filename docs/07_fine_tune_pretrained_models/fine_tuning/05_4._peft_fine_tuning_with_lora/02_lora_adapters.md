@@ -56,15 +56,7 @@ LoRA thực hiện tương đương hoặc tốt hơn so với fine-tuning về 
 
 LoRA đề xuất sử dụng phân rã hạng thấp:
 
-$$
-
-$$
-
 W' = W + \Delta W = W + BA
-
-$$
-
-$$
 
 Trong đó:
 - $W$: Ma trận trọng số pre-trained (đông cứng)

@@ -340,15 +340,7 @@ npm run dev
 
 ## 🎯 Key Takeaways
 
-$$
-
-$$
-
 1. ✅ **LLM = Probability model** over token sequences
-
-$$
-
-$$
 
 2. ✅ **Transformer architecture** is the foundation
 3. ✅ **GPT-4 uses MoE** for efficiency at scale

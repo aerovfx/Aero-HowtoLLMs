@@ -30,39 +30,15 @@ BERT (Bidirectional Encoder Representations from Transformers) là mô hình Tra
 
 Chuỗi đầu vào:
 
-$$
-
-$$
-
 S = (w_1, w_2, ..., w_n)
-
-$$
-
-$$
 
 Được ánh xạ thành chuỗi token:
 
-$$
-
-$$
-
 T = (t_1, t_2, ..., t_m)
-
-$$
-
-$$
 
 Với:
 
-$$
-
-$$
-
 m \ge n
-
-$$
-
-$$
 
 Do một từ có thể bị tách thành nhiều subword.
 
@@ -92,15 +68,7 @@ $$
 
 Trong đó một từ w được phân rã thành:
 
-$$
-
-$$
-
 w = (t_1, t_2, ..., t_k)
-
-$$
-
-$$
 
 Xác suất:
 
@@ -138,15 +106,7 @@ $P(t)$ = \frac{\text{count}$t$}{$\sum$_{t' \in V} \text{count}(t')}
 
 Entropy:
 
-$$
-
-$$
-
 H = - \sum_{t \in V} P(t)\log P(t)
-
-$$
-
-$$
 
 ⸻
 
@@ -234,15 +194,7 @@ Tokenization tối ưu hóa sự cân bằng giữa:
 
 Bài toán tối ưu:
 
-$$
-
-$$
-
 \min_{V} \left( \mathbb{E}[m] + \lambda |V| \right)
-
-$$
-
-$$
 
 Với:
 	•	\lambda: hệ số điều chỉnh
@@ -280,26 +232,11 @@ Giảm vấn đề OOV (Out-of-Vocabulary).
 
 Tokenization trong BERT dựa trên WordPiece có thể được mô hình hóa:
 
-$$
-
-$$
-
 \max \sum_{w \in D} \log \prod_{i=1}^{k} P(t_i)
-
-$$
-
-$$
 
 Ảnh hưởng trực tiếp đến:
 
 $$
-m = \alpha n
+m = \alpha n \text{Attention Cost} = O(m^2) H = - \sum P(t)\log P(t)
 $$
 
-$$
-\text{Attention Cost} = O(m^2)
-$$
-
-$$
-H = - \sum P(t)\log P(t)
-$$

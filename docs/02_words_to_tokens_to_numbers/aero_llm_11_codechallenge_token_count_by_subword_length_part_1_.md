@@ -32,27 +32,11 @@ Trong các mô hình ngôn ngữ lớn (LLMs), tokenization quyết định các
 
 Giả sử một chuỗi văn bản đầu vào:
 
-$$
-
-$$
-
 S = (c_1, c_2, ..., c_n)
-
-$$
-
-$$
 
 Tokenizer ánh xạ thành chuỗi token:
 
-$$
-
-$$
-
 T = (t_1, t_2, ..., t_m), \quad m \le n
-
-$$
-
-$$
 
 Mỗi token có độ dài subword \ell((t_i).
 
@@ -78,15 +62,7 @@ Nếu phân bố lệch phải (right-skewed), phần lớn token sẽ có độ
 
 2.3 Hàm phân bố tích lũy
 
-$$
-
-$$
-
 Fk = P(L \le k)
-
-$$
-
-$$
 
 Giúp đánh giá tỷ lệ token ngắn chiếm bao nhiêu phần trăm trong toàn bộ từ vựng.
 
@@ -110,11 +86,7 @@ Trong đó:
 Chuẩn hóa:
 
 $$
-\sum_{k=1}^{\infty} Ce^{-\lambda k} = 1
-$$
-
-$$
-C = 1 - e^{-\lambda}
+\sum_{k=1}^{\infty} Ce^{-\lambda k} = 1 C = 1 - e^{-\lambda}
 $$
 
 ⸻
@@ -128,15 +100,7 @@ $O(m^2)$
 Trong đó m là số token sau khi token hóa.
 
 $$
-Nếu độ dài trung bình token là \mathbb{E}[L], thì:
-$$
-
-$$
-m \approx \frac{n}{\mathbb{E}[L]}
-$$
-
-$$
-Do đó chi phí tính toán:
+Nếu độ dài trung bình token là \mathbb{E}[L], thì: m \approx \frac{n}{\mathbb{E}[L]} Do đó chi phí tính toán:
 $$
 
 $O($\le$)$ft($\le$ft(\frac{n}{$\mathbb${E}[L]}\right)^2\right)
@@ -148,29 +112,13 @@ $$
 •	Tăng \mathbb{E}[L]
 
 $$
-•	Giảm m •	Giảm chi phí attention ⸻ 5. Mối quan hệ với Entropy Thông tin Entropy của phân bố token:
-$$
-
-$$
-HT = - \sum_{t \in V} P(t)\log P(t)
-$$
-
-$$
-Nếu token ngắn quá nhiều: •	Entropy cao •	Chuỗi dài •	Attention tốn tài nguyên Nếu token quá dài: •	Vocabulary lớn •	Khó tổng quát hóa Do đó BPE tối ưu cân bằng giữa hai yếu tố này. ⸻ 6. Mô hình Zipf và Phân bố Tần suất Tần suất token thường tuân theo luật Zipf:
+•	Giảm m •	Giảm chi phí attention ⸻ 5. Mối quan hệ với Entropy Thông tin Entropy của phân bố token: HT = - \sum_{t \in V} P(t)\log P(t) Nếu token ngắn quá nhiều: •	Entropy cao •	Chuỗi dài •	Attention tốn tài nguyên Nếu token quá dài: •	Vocabulary lớn •	Khó tổng quát hóa Do đó BPE tối ưu cân bằng giữa hai yếu tố này. ⸻ 6. Mô hình Zipf và Phân bố Tần suất Tần suất token thường tuân theo luật Zipf:
 $$
 
 fr \propto \frac{1}{r^\alpha}
 
 $$
-Trong đó: •	r: thứ hạng token
-$$
-
-$$
-•	\alpha \approx 1
-$$
-
-$$
-Kết hợp Zipf và phân bố độ dài: •	Token phổ biến thường ngắn •	Token hiếm thường dài ⸻ 7. So sánh với Các Phương pháp Khác Phương pháp	Phân bố độ dài	Tính ổn định	Chi phí Word-level	Không đồng đều	OOV cao	Trung bình
+Trong đó: •	r: thứ hạng token •	\alpha \approx 1 Kết hợp Zipf và phân bố độ dài: •	Token phổ biến thường ngắn •	Token hiếm thường dài ⸻ 7. So sánh với Các Phương pháp Khác Phương pháp	Phân bố độ dài	Tính ổn định	Chi phí Word-level	Không đồng đều	OOV cao	Trung bình
 $$
 
 Character-level	L = 1	Ổn định	Rất cao

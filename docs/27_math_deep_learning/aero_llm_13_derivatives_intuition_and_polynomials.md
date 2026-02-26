@@ -34,15 +34,7 @@ Báo cáo này nghiên cứu về vai trò quyết định của đạo hàm tro
 
 Đối với các hàm đa thức, đạo hàm được tính theo quy tắc hệ thống:
 
-$$
-
-$$
-
 \frac{d}{dx}(ax^n) = nax^{n-1}
-
-$$
-
-$$
 
 - **Cơ chế:** Đưa số mũ xuống làm hệ số nhân và giảm bậc của biến số đi 1 đơn vị. 
 - **Ví dụ:** Đạo hàm của $x^2$ là $2x$, đạo hàm của $x^3$ là $3x^2$. 

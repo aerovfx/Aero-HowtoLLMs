@@ -35,15 +35,7 @@ Trong đó:
 
 Quá trình huấn luyện nhằm tìm ra bộ tham số \theta^* sao cho hàm mất mát được tối thiểu hóa:
 
-$$
-
-$$
-
 \theta^{\ast} = \arg\min_\theta \mathcal{L}\theta
-
-$$
-
-$$
 
 ⸻
 
@@ -79,15 +71,7 @@ Cross-entropy có nguồn gốc từ lý thuyết thông tin của Shannon (1948
 
 Thuật toán cập nhật tham số:
 
-$$
-
-$$
-
 \theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}\theta_t
-
-$$
-
-$$
 
 Trong đó:
 	•	\eta là learning rate
@@ -101,22 +85,10 @@ Các biến thể:
 	•	Stochastic Gradient Descent (SGD)
 	•	Adam Optimizer:
 
-$$
-
-$$
-
 m_t = \beta_1 m_{t-1} + 1-\beta_1g_t
 
 $$
-
-$$
-
-$$
-v_t = \beta_2 v_{t-1} + 1-\beta_2g_t^2
-$$
-
-$$
-Adam được đề xuất bởi Kingma & Ba (2015). ⸻ 3. Quy trình Huấn luyện 3.1 Chia tập dữ liệu Thông thường: •	Training set: 70–80% •	Validation set: 10–15% •	Test set: 10–15% Mô hình được tối ưu trên training set, điều chỉnh siêu tham số trên validation set và đánh giá cuối cùng trên test set. ⸻ 3.2 Overfitting và Underfitting Overfitting Mô hình học quá sát dữ liệu huấn luyện: \mathcal{L}_{train} \ll \mathcal{L}_{test} Giải pháp: •	Regularization:
+v_t = \beta_2 v_{t-1} + 1-\beta_2g_t^2 Adam được đề xuất bởi Kingma & Ba (2015). ⸻ 3. Quy trình Huấn luyện 3.1 Chia tập dữ liệu Thông thường: •	Training set: 70–80% •	Validation set: 10–15% •	Test set: 10–15% Mô hình được tối ưu trên training set, điều chỉnh siêu tham số trên validation set và đánh giá cuối cùng trên test set. ⸻ 3.2 Overfitting và Underfitting Overfitting Mô hình học quá sát dữ liệu huấn luyện: \mathcal{L}_{train} \ll \mathcal{L}_{test} Giải pháp: •	Regularization:
 $$
 
 $\mathcal${L}_{reg} = $\mathcal${L} + \lambda ||\theta||^2
@@ -133,10 +105,6 @@ $$
 
 Precision = \frac{TP}{TP + FP}
 
-$$
-
-$$
-
 Recall = \frac{TP}{TP + FN}
 
 $$
@@ -146,31 +114,7 @@ $$
 F1 = 2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}
 
 $$
-⸻ d ROC-AUC Diện tích dưới đường cong ROC đo khả năng phân biệt hai lớp. ⸻ 4.2 Bài toán Hồi quy a Mean Absolute Error (MAE)
-$$
-
-$$
-MAE = \frac{1}{n} \sum |y_i - \hat{y}_i|
-$$
-
-$$
-b R² Score
-$$
-
-$$
-R^2 = 1 - \frac{\sum y_i - \hat{y}_i^2}{\sum y_i - \bar{y}^2}
-$$
-
-$$
-⸻ 5. Đánh giá Thực nghiệm Trong quá trình huấn luyện: •	Theo dõi loss curve •	So sánh train vs validation •	Sử dụng confusion matrix •	Cross-validation:
-$$
-
-$$
-CV = \frac{1}{k} \sum_{i=1}^{k} \mathcal{L}_i
-$$
-
-$$
-⸻ 6. Thảo luận Huấn luyện và đánh giá mô hình không chỉ là quá trình kỹ thuật mà còn là bài toán tối ưu hóa thống kê. Sai lệch (bias) và phương sai (variance) đóng vai trò quan trọng:
+⸻ d ROC-AUC Diện tích dưới đường cong ROC đo khả năng phân biệt hai lớp. ⸻ 4.2 Bài toán Hồi quy a Mean Absolute Error (MAE) MAE = \frac{1}{n} \sum |y_i - \hat{y}_i| b R² Score R^2 = 1 - \frac{\sum y_i - \hat{y}_i^2}{\sum y_i - \bar{y}^2} ⸻ 5. Đánh giá Thực nghiệm Trong quá trình huấn luyện: •	Theo dõi loss curve •	So sánh train vs validation •	Sử dụng confusion matrix •	Cross-validation: CV = \frac{1}{k} \sum_{i=1}^{k} \mathcal{L}_i ⸻ 6. Thảo luận Huấn luyện và đánh giá mô hình không chỉ là quá trình kỹ thuật mà còn là bài toán tối ưu hóa thống kê. Sai lệch (bias) và phương sai (variance) đóng vai trò quan trọng:
 $$
 
 $\mathbb${E}[$y - \hat{f}(x$)^2] = Bias^2 + Variance + \sigma^2

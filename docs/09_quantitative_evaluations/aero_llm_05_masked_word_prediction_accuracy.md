@@ -50,15 +50,7 @@ Phương pháp này được phổ biến rộng rãi trong kiến trúc Transfo
 Giả sử:
 	•	Câu đầu vào:
 
-$$
-
-$$
-
 X = (x_1, x_2, ..., x_n)
-
-$$
-
-$$
 
 	•	Tập chỉ số các token bị che:
 M \subset \{1, 2, ..., n\}
@@ -77,27 +69,11 @@ Trong đó X_{\setminus M} là chuỗi đầu vào đã thay các vị trí tron
 
 Nếu có N token bị che:
 
-$$
-
-$$
-
 Accuracy = \frac{1}{N} \sum_{i \in M} \mathbf{1}\hat{x}_i = x_i
-
-$$
-
-$$
 
 Trong đó:
 
-$$
-
-$$
-
 •	\hat{x}_i = \arg\max P(x_i \mid X_{\setminus M})
-
-$$
-
-$$
 
 	•	\mathbf{1}$\cdot$ là hàm chỉ báo
 
@@ -107,15 +83,7 @@ $$
 
 Trong thực tế, ta thường sử dụng Top-k accuracy:
 
-$$
-
-$$
-
 Top\text{-}k = \frac{1}{N} \sum_{i \in M} \mathbf{1}x_i \in \text{Top-}k(\hat{P}_i)
-
-$$
-
-$$
 
 Điều này đặc biệt quan trọng khi:
 	•	Từ vựng lớn (30k–100k tokens)
@@ -139,27 +107,11 @@ Cross-entropy đo mức “bất ngờ” của mô hình trước dữ liệu t
 
 Perplexity được định nghĩa:
 
-$$
-
-$$
-
 PP = e^{\mathcal{L}}
-
-$$
-
-$$
 
 Hoặc:
 
-$$
-
-$$
-
 PP = \exp\left- \frac{1}{N} \sum_{i=1}^{N} \log P(x_i \right)
-
-$$
-
-$$
 
 Perplexity càng thấp → mô hình càng tốt.
 
@@ -211,15 +163,7 @@ playing → play + ##ing
 Nếu từ vựng lớn:
 
 $$
-P_{\text{random}} = \frac{1}{|V|}
-$$
-
-$$
-Với |V| = 50,000:
-$$
-
-$$
-P_{\text{random}} = 0.00002
+P_{\text{random}} = \frac{1}{|V|} Với |V| = 50,000: P_{\text{random}} = 0.00002
 $$
 
 Accuracy cao hơn mức này nhiều lần mới có ý nghĩa thống kê.
@@ -240,15 +184,7 @@ Accuracy có thể giảm mạnh dù mô hình vẫn tốt về mặt xác suấ
 
 Kiến trúc Transformer do Ashish Vaswani et al. đề xuất có cơ chế self-attention:
 
-$$
-
-$$
-
 Attention(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
-
-$$
-
-$$
 
 MLM tận dụng self-attention hai chiều để dự đoán token bị che.
 
@@ -280,15 +216,7 @@ Khoảng tin cậy 95%:
 
 MLM (BERT) vs Autoregressive (GPT):
 
-$$
-
-$$
-
 P(x_1,...,x_n) = \prod_{t=1}^{n} P(x_t \mid x_{\lt t})
-
-$$
-
-$$
 
 Khác với:
 

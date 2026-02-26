@@ -47,15 +47,7 @@ Mục tiêu nghiên cứu:
 
 Quy trình cập nhật tham số:
 
-$$
-
-$$
-
 \theta_{t+1}=\theta_t-\eta_t \nabla_\theta L(\theta_t)
-
-$$
-
-$$
 
 Trong đó:
 
@@ -79,15 +71,7 @@ Learning rate ảnh hưởng trực tiếp tới:
 
 Khi:
 
-$$
-
-$$
-
 \eta_t \to 0 \Rightarrow \theta_{t+1}\approx \theta_t
-
-$$
-
-$$
 
 ⇒ quá trình học gần như dừng lại.
 
@@ -109,15 +93,7 @@ Theo , learning rate tăng dần trong giai đoạn đầu.
 
 Warm-up tuyến tính:
 
-$$
-
-$$
-
 \eta_t=\eta_{max}\cdot\frac{t}{T_{warm}},\quad t\le T_{warm}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -137,29 +113,13 @@ Cosine scheduler làm giảm learning rate theo hàm cosin.
 
 Với $C$ chu kỳ:
 
-$$
-
-$$
-
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min}) \left(1+\cos\frac{2\pi Ct}{T}\right)
-
-$$
-
-$$
 
 $$
 Trường hợp C=\frac{1}{2}:
 $$
 
-$$
-
-$$
-
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min}) \left(1+\cos\frac{\pi t}{T}\right)
-
-$$
-
-$$
 
 ---
 
@@ -203,15 +163,7 @@ trong suốt quá trình huấn luyện.
 
 Cập nhật tham số tổng quát:
 
-$$
-
-$$
-
 \theta_{t+1}=\theta_t-\eta_t\cdot \frac{c}{\max(|\mathbf{g}|,c)}\mathbf{g}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -225,30 +177,14 @@ Trong đó:
 
 Theo tài liệu , mô hình gồm:
 
-$$
-
-$$
-
 * Vector trọng số (w=(w_1,w_2))
-
-$$
-
-$$
 
 * Mục tiêu: ($w_1$>$w_2$)
 * SGD + Scheduler
 
 Hàm mất mát:
 
-$$
-
-$$
-
 L=-\log\frac{e^{w_1}}{e^{w_1}+e^{w_2}}
-
-$$
-
-$$
 
 ---
 
@@ -262,15 +198,7 @@ Quan sát thực nghiệm:
 
 Đồ thị:
 
-$$
-
-$$
-
 w(t)\propto \int_0^t \eta_s ds
-
-$$
-
-$$
 
 ---
 
@@ -282,25 +210,9 @@ $$
 * Ít dao động
 * Dễ kiểm soát
 
-$$
-
-$$
-
 Trường hợp \eta_t=0:
 
-$$
-
-$$
-
-$$
-
-$$
-
 \theta_{t+1}=\theta_t
-
-$$
-
-$$
 
 ⇒ không học.
 

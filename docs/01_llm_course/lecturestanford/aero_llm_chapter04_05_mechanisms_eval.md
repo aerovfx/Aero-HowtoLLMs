@@ -35,15 +35,7 @@ $$
 Input: "The cat"
 
 $$
-Step 1: P("sat"  \mid  "The cat") = 0.8 → Output: "sat"
-$$
-
-$$
-Step 2: P("on"  \mid  "The cat sat") = 0.9 → Output: "on"
-$$
-
-$$
-Step 3: P("the"  \mid  "The cat sat on") = 0.95 → Output: "the"
+Step 1: P("sat"  \mid  "The cat") = 0.8 → Output: "sat" Step 2: P("on"  \mid  "The cat sat") = 0.9 → Output: "on" Step 3: P("the"  \mid  "The cat sat on") = 0.95 → Output: "the"
 $$
 
 ...
@@ -89,22 +81,10 @@ Result: "The cat sat on the mat"
 
 ### **1. Perplexity**
 
-$$
-
-$$
-
 PPL = exp(-1/N ∑ log P(xᵢ  \mid  context))
 
 $$
-
-$$
-
-$$
-**Lower = Better**
-$$
-
-$$
-| Model | PPL (WikiText) | |-------|----------------| | LSTM (2017) | ~70 | | GPT-2 (2019) | ~18 | | **GPT-4 (2023)** | **~8** | --- ### **2. Benchmarks** #### **MMLU (Knowledge)** - 57 subjects - Multiple choice - GPT-4: **86.4%** (human expert ~90%) #### **HumanEval (Coding)** - 164 Python problems - GPT-4: **67.0% pass@1** #### **GSM8K (Math)** - Grade school math - GPT-4: **92.0%** --- ### **3. Human Evaluation** **Criteria:** 1. **Helpful:** Did it answer well? 2. **Honest:** No hallucinations? 3. **Harmless:** No toxic content? **Process:** Generate responses → Humans rate → Statistical analysis --- ### **4. Production Metrics** | Metric | Target | |--------|--------| | Latency | < 500ms | | Throughput | > 100 tok/s | | Cost | < 0.01/1K tokens | | Uptime | > 99.9% | --- ## 🎯 Summary: Full LLM Stack ┌─────────────────────────────┐ │  User Prompt                │ └──────────┬──────────────────┘ ↓
+**Lower = Better** | Model | PPL (WikiText) | |-------|----------------| | LSTM (2017) | ~70 | | GPT-2 (2019) | ~18 | | **GPT-4 (2023)** | **~8** | --- ### **2. Benchmarks** #### **MMLU (Knowledge)** - 57 subjects - Multiple choice - GPT-4: **86.4%** (human expert ~90%) #### **HumanEval (Coding)** - 164 Python problems - GPT-4: **67.0% pass@1** #### **GSM8K (Math)** - Grade school math - GPT-4: **92.0%** --- ### **3. Human Evaluation** **Criteria:** 1. **Helpful:** Did it answer well? 2. **Honest:** No hallucinations? 3. **Harmless:** No toxic content? **Process:** Generate responses → Humans rate → Statistical analysis --- ### **4. Production Metrics** | Metric | Target | |--------|--------| | Latency | < 500ms | | Throughput | > 100 tok/s | | Cost | < 0.01/1K tokens | | Uptime | > 99.9% | --- ## 🎯 Summary: Full LLM Stack ┌─────────────────────────────┐ │  User Prompt                │ └──────────┬──────────────────┘ ↓
 $$
 
 Tokenization

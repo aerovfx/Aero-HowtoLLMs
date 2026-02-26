@@ -94,54 +94,22 @@ $$
 ```python
 # Pseudo-code
 
-$$
-
-$$
-
 def multi_head_attention(x, num_heads=8):
-
-$$
-
-$$
 
     # Split into multiple heads
 
-$$
-
-$$
-
 Q, K, V = split_heads(x, num_heads)
-
-$$
-
-$$
 
     
     # Scaled dot-product attention
 
-$$
-
-$$
-
 scores = (Q @ K.T) / sqrt(d_k)
-
-$$
-
-$$
 
 $$
 attn = softmax(scores)
 $$
 
-$$
-
-$$
-
 output = attn @ V
-
-$$
-
-$$
 
     
     # Concat and project
@@ -171,30 +139,10 @@ def rope(x, positions):
     # Rotate pairs of dimensions
 
 $$
-freqs = 1.0 / (10000 ** (arange(0, d, 2) / d))
-$$
-
-$$
-angles = positions[:, None] * freqs[None, :]
-$$
-
-$$
-# Apply rotation
-$$
-
-$$
-cos, sin = cos(angles), sin(angles)
-$$
-
-$$
-
+freqs = 1.0 / (10000 ** (arange(0, d, 2) / d)) angles = positions[:, None] * freqs[None, :] # Apply rotation cos, sin = cos(angles), sin(angles)
 $$
 
 x_rotated = rotate_half(x)
-
-$$
-
-$$
 
     return x * cos + x_rotated * sin
 
@@ -217,15 +165,7 @@ $$
 └────────┴────────┴────────┴────────┘
   ↓
 
-$$
-
-$$
-
 Weighted sum = w₀·E₀(x) + w₁·E₁(x)
-
-$$
-
-$$
 
   ↓
 Output
@@ -280,15 +220,7 @@ def cross_entropy_loss(logits, targets):
     """
     # Softmax to get probabilities
 
-$$
-
-$$
-
 probs = softmax(logits, dim=-1)
-
-$$
-
-$$
 
     
     # Negative log likelihood
@@ -316,49 +248,13 @@ $$
 # Adam parameters
 
 $$
-lr = 6e-4  # learning rate
-$$
-
-$$
-beta1 = 0.9
-$$
-
-$$
-beta2 = 0.95
-$$
-
-$$
-epsilon = 1e-8
-$$
-
-$$
-weight_decay = 0.1
-$$
-
-$$
-# Update rule
-$$
-
-$$
-m = beta1 * m + (1 - beta1) * grad
-$$
-
-$$
-
+lr = 6e-4  # learning rate beta1 = 0.9 beta2 = 0.95 epsilon = 1e-8 weight_decay = 0.1 # Update rule m = beta1 * m + (1 - beta1) * grad
 $$
 
 v = beta2 * v + (1 - beta2) * grad**2
 
 $$
-
-$$
-
-$$
-update = lr * m / (sqrt(v) + epsilon)
-$$
-
-$$
-params -= update
+update = lr * m / (sqrt(v) + epsilon) params -= update
 $$
 
 #### **B. AdamW (Modern LLMs)**
@@ -378,27 +274,11 @@ $$
 **Cosine Decay with Warmup:**
 Warmup (0-2000 steps):
 
-$$
-
-$$
-
 lr = base_lr * (step / warmup_steps)
-
-$$
-
-$$
 
 Cosine Decay:
 
-$$
-
-$$
-
 lr = min_lr + 0.5 * (max_lr - min_lr) *
-
-$$
-
-$$
 
        (1 + cos(π * (step - warmup) / total_steps))
 
@@ -413,15 +293,7 @@ $$
 ```python
 # Prevent gradient explosion
 
-$$
-
-$$
-
 max_grad_norm = 1.0
-
-$$
-
-$$
 
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
 
@@ -431,29 +303,13 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
 ```python
 from torch.cuda.amp import autocast
 
-$$
-
-$$
-
 with autocast(dtype=torch.bfloat16):
-
-$$
-
-$$
 
 $$
 logits = model(inputs)
 $$
 
-$$
-
-$$
-
 loss = criterion(logits, targets)
-
-$$
-
-$$
 
 scaler.scale(loss).backward()
 scaler.step(optimizer)
@@ -523,28 +379,12 @@ Clean Training Data
 ```python
 # Train small model on high-quality data
 
-$$
-
-$$
-
 ref_model = train_tiny_gpt(wikipedia + books)
-
-$$
-
-$$
 
 # Filter web data
 for doc in web_crawl:
 
-$$
-
-$$
-
 perplexity = ref_model.perplexity(doc)
-
-$$
-
-$$
 
     if perplexity < threshold:  # e.g., 1000
         keep(doc)
@@ -561,17 +401,6 @@ $$
 # Generate math problems
 
 $$
-prompt = "Generate 100 algebra word problems with step-by-step solutions"
+prompt = "Generate 100 algebra word problems with step-by-step solutions" synthetic_data = gpt4.generate(prompt) # Filter for quality high_quality = filter_by_correctness(synthetic_data)
 $$
 
-$$
-synthetic_data = gpt4.generate(prompt)
-$$
-
-$$
-# Filter for quality
-$$
-
-$$
-high_quality = filter_by_correctness(synthetic_data)
-$$

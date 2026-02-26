@@ -39,11 +39,7 @@ Xác suất toàn chuỗi:
 P($w_1$^T)
 
 $$
-=
-$$
-
-$$
-\prod_{t=1}^{T}
+= \prod_{t=1}^{T}
 $$
 
 P($w_t$ | $w_1$^{t-1})
@@ -110,11 +106,7 @@ $$
 $\sum$_{t=1}^{T}
 
 $$
-\log P(w_t  \mid  context) \right) Hoặc:
-$$
-
-$$
-PP = e^{-\ell(}
+\log P(w_t  \mid  context) \right) Hoặc: PP = e^{-\ell(}
 $$
 
 )$
@@ -153,11 +145,7 @@ $$
 \exp
 
 $$
-\left(
-$$
-
-$$
-\frac{\mathcal{L}}{T}
+\left( \frac{\mathcal{L}}{T}
 $$
 
 \right)
@@ -252,15 +240,7 @@ $$
 
 Tối thiểu khi:
 
-$$
-
-$$
-
 q = p
-
-$$
-
-$$
 
 ⸻
 
@@ -276,29 +256,13 @@ $P(w)$ = \frac{1}{V}
 
 Thì:
 
-$$
-
-$$
-
 H = \log V
 
 $$
-
-$$
-
-$$
-PP = V
-$$
-
-$$
-→ Perplexity bằng kích thước từ vựng. ⸻ Trường hợp 2: Dự đoán hoàn hảo Nếu: P(w_t) = 1
+PP = V → Perplexity bằng kích thước từ vựng. ⸻ Trường hợp 2: Dự đoán hoàn hảo Nếu: P(w_t) = 1
 $$
 
 H = 0
-
-$$
-
-$$
 
 PP = 1
 
@@ -308,22 +272,10 @@ $$
 
 H \rightarrow \infty
 
-$$
-
-$$
-
 PP \rightarrow \infty
 
 $$
-⸻ 5. Perplexity và Softmax Trong mô hình neural:
-$$
-
-$$
-z_t = W h_t
-$$
-
-$$
-P(w_t  \mid  context)
+⸻ 5. Perplexity và Softmax Trong mô hình neural: z_t = W h_t P(w_t  \mid  context)
 $$
 
 =
@@ -352,16 +304,9 @@ $$
 
 $\le$ft(
 
-$$
-
-$$
-
 \frac{\mathcal{L}}{T}
 
 $$
-\right) ⸻ 6. Perplexity trong LLMs Hiện đại Trong các mô hình lớn: •	Instruction tuning •	RLHF •	Fine-tuning theo nhiệm vụ Có thể xảy ra: PP_{instruction} > PP_{base} Nhưng chất lượng hội thoại tốt hơn. Điều này cho thấy perplexity không đo được alignment với người dùng. ⸻ 7. Phân tích Giới hạn Lý thuyết Perplexity tối ưu hóa: \min_\theta D_{KL}p\mid \midq_\theta Không tối ưu hóa: •	Utility •	Human preference •	Task-specific reward Theo nguyên lý Goodhart: Khi một chỉ số trở thành mục tiêu tối ưu, nó có thể mất đi ý nghĩa ban đầu. ⸻ 8. Kết luận Perplexity là:
+\right) ⸻ 6. Perplexity trong LLMs Hiện đại Trong các mô hình lớn: •	Instruction tuning •	RLHF •	Fine-tuning theo nhiệm vụ Có thể xảy ra: PP_{instruction} > PP_{base} Nhưng chất lượng hội thoại tốt hơn. Điều này cho thấy perplexity không đo được alignment với người dùng. ⸻ 7. Phân tích Giới hạn Lý thuyết Perplexity tối ưu hóa: \min_\theta D_{KL}p\mid \midq_\theta Không tối ưu hóa: •	Utility •	Human preference •	Task-specific reward Theo nguyên lý Goodhart: Khi một chỉ số trở thành mục tiêu tối ưu, nó có thể mất đi ý nghĩa ban đầu. ⸻ 8. Kết luận Perplexity là: PP = e^{H}
 $$
 
-$$
-PP = e^{H}
-$$

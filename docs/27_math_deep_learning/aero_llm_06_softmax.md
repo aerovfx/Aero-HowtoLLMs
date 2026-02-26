@@ -36,15 +36,7 @@ $$
 
 Giả sử có một tập hợp các số thực $z$, hàm Softmax cho phần tử thứ $i$ được định nghĩa là:
 
-$$
-
-$$
-
 \sigma(z)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}
-
-$$
-
-$$
 
 - **Tử số:** Chuyển đổi giá trị thô sang không gian số mũ.
 - **Mẫu số:** Tổng của toàn bộ các giá trị sau khi lấy số mũ, đóng vai trò là hệ số chuẩn hóa.

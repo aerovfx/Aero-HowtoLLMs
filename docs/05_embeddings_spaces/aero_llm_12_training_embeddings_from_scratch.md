@@ -63,27 +63,11 @@ $$
 
 với:
 
-$$
-
-$$
-
 x_i =
-
-$$
-
-$$
 
 \begin{cases}
 
-$$
-
-$$
-
 1 & \text{nếu } i = w \\
-
-$$
-
-$$
 
 0 & \text{ngược lại}
 \end{cases}
@@ -115,15 +99,7 @@ Xác suất:
 $P(y=i \mid w)$ =
 \frac{\exp$z_i$}
 
-$$
-
-$$
-
 {\sum_{j=1}^{V} \expz_j}
-
-$$
-
-$$
 
 ⸻
 
@@ -148,22 +124,10 @@ $$
 Gradient theo logits:
 
 $$
-\frac{\partial \mathcal{L}}{\partial z_i}
-$$
-
-$$
-= P(y=i) - y_i
-$$
-
-$$
-Gradient theo embedding:
+\frac{\partial \mathcal{L}}{\partial z_i} = P(y=i) - y_i Gradient theo embedding:
 $$
 
 \frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
-
-$$
-
-$$
 
 = \mathbf{W}^T \mathbf{p} - \mathbf{y}
 
@@ -173,27 +137,11 @@ $$
 
 \frac{\partial \mathcal{L}}{\partial \mathbf{E}[w]}
 
-$$
-
-$$
-
 = \frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
-
-$$
-
-$$
 
 Cập nhật bằng gradient descent:
 
-$$
-
-$$
-
 \mathbf{E}[w] \leftarrow
-
-$$
-
-$$
 
 \mathbf{E}[w]
 - \eta
@@ -231,15 +179,7 @@ $$
 
 \frac{\exp$\mathbf{u}_c^T \mathbf{v}_w$}
 
-$$
-
-$$
-
 {\sum_{j=1}^{V} \exp\mathbf{u}_j^T \mathbf{v}_w}
-
-$$
-
-$$
 
 Trong đó:
 	•	\mathbf{v}_w: embedding trung tâm
@@ -291,29 +231,13 @@ $$
 
 Với:
 
-$$
-
-$$
-
 Q = ZW_Q, \quad
-
-$$
-
-$$
 
 $$
 K = ZW_K, \quad
 $$
 
-$$
-
-$$
-
 V = ZW_V
-
-$$
-
-$$
 
 Embedding ảnh hưởng trực tiếp đến attention scores.
 
@@ -419,29 +343,13 @@ Các thuật toán tối ưu phổ biến:
 
 Ví dụ Adam cập nhật:
 
-$$
-
-$$
-
 m_t = \beta_1 m_{t-1} + 1-\beta_1g_t
-
-$$
-
-$$
 
 $$
 v_t = \beta_2 v_{t-1} + 1-\beta_2g_t^2
 $$
 
-$$
-
-$$
-
 \theta_t =
-
-$$
-
-$$
 
 \theta_{t-1}
 -

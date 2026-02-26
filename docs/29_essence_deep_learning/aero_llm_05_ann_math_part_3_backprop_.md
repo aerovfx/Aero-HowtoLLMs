@@ -35,15 +35,7 @@ Trong các kiến trúc phức tạp, chúng ta đơn giản hóa biểu đồ t
 Lan truyền ngược thực chất chính là **Gradient Descent** được áp dụng cho mọi tầng của mạng nơ-ron:
 - **Công thức cập nhật:** Trọng số mới ($w$) được tính bằng cách trừ đi đạo hàm của hàm mất mát nhân với tốc độ học ($\eta$):
 
-$$
-
-$$
-
 w = w - \eta \cdot \frac{\partial L}{\partial w}
-
-$$
-
-$$
 
 - **Thách thức:** Vì hàm dự đoán $\hat{y}$ là sự kết hợp của nhiều hàm chồng chéo (tích vô hướng nằm trong hàm kích hoạt, nằm trong hàm mất mát), chúng ta không thể tính đạo hàm trực tiếp một cách đơn giản.
 

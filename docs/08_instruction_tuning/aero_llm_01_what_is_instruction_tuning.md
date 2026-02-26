@@ -52,15 +52,7 @@ Quá trình Instruction Tuning về bản chất vẫn tuân thủ các định 
 
 Khi đầu vào là một chuỗi token $X = ($x_1$, $x_2$, ..., $x_t$)$, mạng mô hình sẽ được huấn luyện để học cách cực đại hóa xác suất có điều kiện của toàn bộ chuỗi:
 
-$$
-
-$$
-
 P_\theta(X) = \prod_{t=1}^{T} P_\theta(x_t \mid x_{\lt t})
-
-$$
-
-$$
 
 Trong phương trình thống kê trên:
 - $\theta$ đại diện cho cấu trúc ma trận tham số (weights) khổng lồ nội bộ của mạng nơ-ron Transformer.
@@ -70,15 +62,7 @@ Trong phương trình thống kê trên:
 
 Trọng tâm của pha Instruction Tuning (SFT - Supervised Fine Tuning), chúng ta chỉ muốn tính toán lỗi trên phạm vi mô hình sinh ra phần phản hồi $Y = ($y_1$, $y_2$, ..., $y_N$)$ khi cho trước biểu thức Chỉ thị $I$. Hàm mục tiêu (Objective function) dựa trên Cross-Entropy Loss được thiết lập lại dưới biểu diễn NLL (Negative Log-Likelihood) để che vạch (masking) phần lệnh gốc:
 
-$$
-
-$$
-
 $\mathcal${L}_{SFT}(\theta) = - \frac{1}{N} $\sum$_{i=1}^{N} $\log$ P_\theta($y_i$ \mid I, y_{\lt i})
-
-$$
-
-$$
 
 Điểm khác biệt ở đây là thuật toán lan truyền ngược (back-propagation) chỉ gửi tín hiệu lỗi (gradient) tính trên mạng của tập token thuộc về Output $Y$ (phần phản hồi ảo). Còn đối với các token mang vai trò Prompt $I$ (mệnh lệnh), Loss được nhân với không để chúng bị che khuất, tránh việc mô hình học ngược lại phong cách "ra lệnh" cho con người.
 
@@ -86,15 +70,7 @@ $$
 
 Nhằm di chuyển hội tụ hệ thống ma trận $\theta$, thuật toán tăng cường tối ưu động lượng như Adam hoặc AdamW được triển khai thông qua công thức Gradient Descent:
 
-$$
-
-$$
-
 \theta_{k+1} = \theta_k - \eta \cdot \nabla_\theta \mathcal{L}_{SFT}
-
-$$
-
-$$
 
 $$
 Trong đó, \eta là hệ số tốc độ học (learning rate), và \nabla_\theta \mathcal{L}_{SFT} biểu trưng cho đạo hàm riêng vi phân của hàm mất mát.

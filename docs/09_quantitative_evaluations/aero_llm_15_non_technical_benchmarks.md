@@ -87,15 +87,7 @@ $$
 
 Đánh giá khả năng tuân thủ yêu cầu phức tạp:
 
-$$
-
-$$
-
 Compliance = \frac{1}{N}\sum_{i=1}^{N} \mathbf{1}(response_i \models instruction_i)
-
-$$
-
-$$
 
 ⸻
 
@@ -137,15 +129,7 @@ P_{tox}$x$
 
 Mức độc hại trung bình:
 
-$$
-
-$$
-
 Toxicity = \mathbb{E}[P_{tox}(response)]
-
-$$
-
-$$
 
 So sánh giữa các phiên bản mô hình:
 
@@ -163,15 +147,7 @@ Giả sử:
 	•	$C_i$ là claim thứ i
 	•	$V_i$ \in \{0,1\} là verified
 
-$$
-
-$$
-
 FactScore = \frac{\sum_{i=1}^{K} V_i}{K}
-
-$$
-
-$$
 
 ⸻
 
@@ -195,27 +171,11 @@ D_{KL}(P_{human} || P_{model})
 
 Giả sử có m tiêu chí:
 
-$$
-
-$$
-
 S = (s_1, s_2, ..., s_m)
-
-$$
-
-$$
 
 Điểm tổng hợp:
 
-$$
-
-$$
-
 Score_{overall} = \sum_{i=1}^{m} w_i s_i
-
-$$
-
-$$
 
 với:
 
@@ -231,15 +191,7 @@ Theo Elements of Information Theory:
 
 Entropy phản ánh độ không chắc chắn:
 
-$$
-
-$$
-
 HX = -\sum_x P(x)\log P(x)
-
-$$
-
-$$
 
 Mô hình hallucinate nhiều → entropy cao nhưng không tương thích với dữ kiện thật.
 

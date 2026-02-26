@@ -103,15 +103,7 @@ Thay vì DataLoader, một hàm sampling được xây dựng như sau:
 
 Kết quả có dạng:
 
-$$
-
-$$
-
 X, Y \in \mathbb{R}^{B \times T}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -127,15 +119,7 @@ $$
 
 Target được dịch sang phải một token so với input:
 
-$$
-
-$$
-
 Y_i = X_{i+1}
-
-$$
-
-$$
 
 Điều này phù hợp với bài toán language modeling tự hồi quy. 
 

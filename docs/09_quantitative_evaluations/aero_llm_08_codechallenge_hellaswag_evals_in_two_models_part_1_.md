@@ -63,15 +63,7 @@ Nếu dùng tổng log-likelihood trực tiếp:
 
 Do đó cần chuẩn hoá:
 
-$$
-
-$$
-
 Scorea_i = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{\lt t})
-
-$$
-
-$$
 
 Đây là ave18_rage log-probability.
 
@@ -79,27 +71,11 @@ $$
 
 4. Quy tắc chọn đáp án
 
-$$
-
-$$
-
 \hat{a} = \arg\max_{a_i} Scorea_i
-
-$$
-
-$$
 
 Accuracy được tính:
 
-$$
-
-$$
-
 Accuracy = \frac{1}{N} \sum_{j=1}^{N} \mathbf{1}\hat{a}^{(j} = a_{\text{true}}^{j})
-
-$$
-
-$$
 
 Baseline ngẫu nhiên:
 
@@ -127,15 +103,7 @@ $$
 
 Kiểm định sự khác biệt:
 
-$$
-
-$$
-
 z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{SE_1^2 + SE_2^2}}
-
-$$
-
-$$
 
 Nếu:
 
@@ -149,15 +117,7 @@ Nếu:
 
 Transformer sử dụng cơ chế:
 
-$$
-
-$$
-
 Attention(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
-
-$$
-
-$$
 
 Cơ chế này giúp mô hình:
 	•	Theo dõi quan hệ dài hạn
@@ -170,15 +130,7 @@ Cơ chế này giúp mô hình:
 
 Perplexity đo khả năng dự đoán token kế tiếp:
 
-$$
-
-$$
-
 PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right)
-
-$$
-
-$$
 
 Trong khi HellaSwag đo:
 	•	So sánh chuỗi hoàn chỉnh
@@ -230,15 +182,7 @@ Mô hình có thể:
 
 Đo calibration:
 
-$$
-
-$$
-
 ECE = \sum_{m=1}^{M} \frac{|B_m|}{n} |accB_m - confB_m|
-
-$$
-
-$$
 
 ⸻
 

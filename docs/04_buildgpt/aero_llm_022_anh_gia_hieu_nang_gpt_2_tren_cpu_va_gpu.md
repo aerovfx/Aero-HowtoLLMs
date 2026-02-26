@@ -59,16 +59,9 @@ Ví dụ:
 
 ```python
 
-$$
-
-$$
-
 self.device = device
-
-$$
-
-$$
 
 $$
 tensor = torch.arange(..., device=self.device)
 $$
+

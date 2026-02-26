@@ -50,81 +50,25 @@ $$
 
         super().__init__(**kwargs)
 
-$$
-
-$$
-
 self.rank = rank
-
-$$
-
-$$
 
         
     def build(self, shape):
         # Tạo ma trận A và B
 
-$$
-
-$$
-
 self.A = self.add_weight(
-
-$$
-
-$$
 
 name="A",
 
-$$
-
-$$
-
 shape=(shape[0], self.rank),
 
-$$
-
-$$
-
 initializer="random_normal",
 
 $$
-
-$$
-
-$$
-trainable=True
-$$
-
-$$
-)
-$$
-
-$$
-self.B = self.add_weight(
-$$
-
-$$
-name="B",
-$$
-
-$$
-shape=(self.rank, shape[1]),
-$$
-
-$$
-initializer="random_normal",
-$$
-
-$$
-
+trainable=True ) self.B = self.add_weight( name="B", shape=(self.rank, shape[1]), initializer="random_normal",
 $$
 
 trainable=True
-
-$$
-
-$$
 
         )
         

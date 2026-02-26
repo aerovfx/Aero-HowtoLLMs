@@ -50,25 +50,9 @@ Bài viết này nhằm:
 
 Một Transformer Block dạng Pre-LayerNorm gồm hai sublayer:
 
-$$
-
-$$
-
 Y_1 = X + \text{Attention}(\text{LN}(X))
 
-$$
-
-$$
-
-$$
-
-$$
-
 Y_2 = Y_1 + \text{MLP}(\text{LN}(Y_1))
-
-$$
-
-$$
 
 Trong đó:
 
@@ -142,35 +126,11 @@ X → LN → Attention → +X
 
 MLP gồm ba bước:
 
-$$
-
-$$
-
 H = \text{LN}(Y_1)
-
-$$
-
-$$
-
-$$
-
-$$
 
 Z = W_2(\sigma(W_1 H))
 
-$$
-
-$$
-
-$$
-
-$$
-
 Y_2 = Y_1 + Z
-
-$$
-
-$$
 
 Trong đó:
 
@@ -214,15 +174,7 @@ Thay vì tự viết toàn bộ phép toán, tài liệu sử dụng hàm tích 
 torch.nn.functional.scaled_dot_product_attention
 ````
 
-$$
-
-$$
-
 với tham số `is_causal=True`.
-
-$$
-
-$$
 
 Cách làm này:
 
@@ -249,15 +201,7 @@ Attention head xử lý toàn bộ embedding dimension trong phiên bản đơn 
 
 Multi-head attention chia embedding thành nhiều phần:
 
-$$
-
-$$
-
 d_{head} = \frac{d_{model}}{h}
-
-$$
-
-$$
 
 Mỗi head học một không gian quan hệ riêng.
 

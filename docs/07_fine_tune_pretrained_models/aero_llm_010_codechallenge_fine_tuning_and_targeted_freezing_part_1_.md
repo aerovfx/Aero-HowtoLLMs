@@ -46,27 +46,11 @@ Mục tiêu nghiên cứu:
 
 Cho chuỗi token:
 
-$$
-
-$$
-
 X = (x_1, x_2, \dots, x_n)
-
-$$
-
-$$
 
 Xác suất sinh chuỗi:
 
-$$
-
-$$
-
 P(X)=\prod_{i=1}^{n} P(x_i \mid x_1,\dots,x_{i-1})
-
-$$
-
-$$
 
 Mô hình dự đoán token tiếp theo dựa trên toàn bộ ngữ cảnh trước đó.
 
@@ -76,25 +60,9 @@ Mô hình dự đoán token tiếp theo dựa trên toàn bộ ngữ cảnh trư
 
 Trong một lớp Transformer, self-attention được xác định bởi:
 
-$$
-
-$$
-
 Q = XW_Q,\quad K = XW_K,\quad V = XW_V
 
-$$
-
-$$
-
-$$
-
-$$
-
 \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-
-$$
-
-$$
 
 Trong đó:
 
@@ -109,41 +77,17 @@ Các ma trận này là trọng tâm của chiến lược fine-tuning có mục
 
 Hàm mất mát Cross-Entropy:
 
-$$
-
-$$
-
 $\mathcal${L} = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P($y_i$ \mid $x_i$)
-
-$$
-
-$$
 
 Quy tắc cập nhật:
 
-$$
-
-$$
-
 \theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}
-
-$$
-
-$$
 
 với $\eta$ là learning rate.
 
 Nếu tham số bị đóng băng:
 
-$$
-
-$$
-
 $\nabla$_\theta $\mathcal${L} = 0
-
-$$
-
-$$
 
 ⇒ không được cập nhật.
 
@@ -155,27 +99,11 @@ $$
 
 Nguồn dữ liệu là văn bản *Moby-Dick*, gồm:
 
-$$
-
-$$
-
 N_{total} \approx 350,000
-
-$$
-
-$$
 
 token, trong đó chỉ khoảng:
 
-$$
-
-$$
-
 N_{unique} \approx 17,000
-
-$$
-
-$$
 
 token là duy nhất .
 
@@ -190,15 +118,7 @@ Hai mô hình giống hệt nhau được tải:
 
 Ban đầu:
 
-$$
-
-$$
-
 \theta_{\text{train}}^{(0)} = \theta_{\text{freeze}}^{(0)}
-
-$$
-
-$$
 
 ---
 
@@ -206,27 +126,11 @@ $$
 
 Tần suất token:
 
-$$
-
-$$
-
 f(w)=\sum_{i=1}^{N}\mathbf{1}(x_i=w)
-
-$$
-
-$$
 
 Chọn tập 100 token phổ biến nhất:
 
-$$
-
-$$
-
 S_{100}={w_1,\dots,w_{100}}
-
-$$
-
-$$
 
 ---
 
@@ -234,27 +138,11 @@ $$
 
 Cho chuỗi sinh:
 
-$$
-
-$$
-
 G=(g_1,\dots,g_M)
-
-$$
-
-$$
 
 Tỷ lệ token phổ biến:
 
-$$
-
-$$
-
 p=\frac{1}{M}\sum_{i=1}^{M}\mathbf{1}(g_i\in S_{100})
-
-$$
-
-$$
 
 Chỉ số này phản ánh mức độ mô hình học được phong cách văn bản.
 
@@ -269,72 +157,24 @@ Theo tài liệu , chỉ huấn luyện:
 
 Mô tả toán học:
 
-$$
-
-$$
-
 \theta_i = \begin{cases} \text{trainable}, & i \in \mathcal{A}_{6+} \\ \text{frozen}, & \text{ngược lại} \end{cases}
-
-$$
-
-$$
 
 với \mathcal{A}_{6+} là tập attention layer từ block 6 trở lên.
 
 $$
---- ## 4. Theo dõi quá trình huấn luyện ### 4.1. Đo thời gian huấn luyện Thời gian mỗi vòng lặp:
-$$
-
-$$
-t_k = t_k^{end}-t_k^{start}
-$$
-
-$$
-Tổng thời gian:
-$$
-
-$$
-T=\sum_{k=1}^{K} t_k
-$$
-
-$$
-So sánh T_{\text{freeze}} và T_{\text{train}}. --- ### 4.2. Theo dõi biến đổi trọng số Cho ma trận tại bước t:
+--- ## 4. Theo dõi quá trình huấn luyện ### 4.1. Đo thời gian huấn luyện Thời gian mỗi vòng lặp: t_k = t_k^{end}-t_k^{start} Tổng thời gian: T=\sum_{k=1}^{K} t_k So sánh T_{\text{freeze}} và T_{\text{train}}. --- ### 4.2. Theo dõi biến đổi trọng số Cho ma trận tại bước t:
 $$
 
 W_t
 
 $$
-Hiệu giữa hai bước:
-$$
-
-$$
-\Delta W_t = W_t - W_{t-1}
-$$
-
-$$
-Chuẩn Frobenius:
+Hiệu giữa hai bước: \Delta W_t = W_t - W_{t-1} Chuẩn Frobenius:
 $$
 
 |\Delta $W_t$|_F = \sqrt{$\sum$_{i,j}(\Delta W_{ij})^2}
 
 $$
-Chuẩn lớn ⇒ cập nhật mạnh. Chuẩn nhỏ ⇒ cập nhật yếu. --- ### 4.3. Theo dõi hàm mất mát Loss trung bình:
-$$
-
-$$
-\bar{\mathcal{L}} = \frac{1}{K}\sum_{k=1}^{K}\mathcal{L}_k
-$$
-
-$$
-Dùng để so sánh tốc độ hội tụ của hai mô hình. --- ## 5. Kết quả thực nghiệm ### 5.1. Trước fine-tuning Tỷ lệ token phổ biến:
-$$
-
-$$
-p_{\text{train}}\approx 47%,\quad p_{\text{freeze}}\approx 44%
-$$
-
-$$
-Hai mô hình gần như tương đương . --- ### 5.2. Sau fine-tuning Quan sát cho thấy: * Mô hình Train: học mạnh nhưng dễ overfit. * Mô hình Freeze: học ổn định hơn.
+Chuẩn lớn ⇒ cập nhật mạnh. Chuẩn nhỏ ⇒ cập nhật yếu. --- ### 4.3. Theo dõi hàm mất mát Loss trung bình: \bar{\mathcal{L}} = \frac{1}{K}\sum_{k=1}^{K}\mathcal{L}_k Dùng để so sánh tốc độ hội tụ của hai mô hình. --- ## 5. Kết quả thực nghiệm ### 5.1. Trước fine-tuning Tỷ lệ token phổ biến: p_{\text{train}}\approx 47%,\quad p_{\text{freeze}}\approx 44% Hai mô hình gần như tương đương . --- ### 5.2. Sau fine-tuning Quan sát cho thấy: * Mô hình Train: học mạnh nhưng dễ overfit. * Mô hình Freeze: học ổn định hơn.
 $$
 
 p_{\text{freeze}}^{post} > p_{\text{freeze}}^{pre}
@@ -352,18 +192,6 @@ $$
 T_{\text{freeze}} \lt  T_{\text{train}}
 
 $$
---- ## 6. Thảo luận ### 6.1. Ưu điểm 1. Giảm thời gian huấn luyện. 2. Tiết kiệm bộ nhớ. 3. Hạn chế overfitting. 4. Bảo toàn tri thức nền. --- ### 6.2. Hạn chế * Khả năng thích nghi bị giới hạn. * Phụ thuộc cấu hình đóng băng. * Cần nhiều thử nghiệm để tối ưu. --- ### 6.3. Chiến lược mở rộng #### Đóng băng từng phần theo thời gian
-$$
-
-$$
-\theta_i(t)= \begin{cases} \text{frozen}, & t\lt t_0\ \text{trainable}, & t\ge t_0 \end{cases}
-$$
-
-$$
-#### Kết hợp LoRA/Adapter Giữ nguyên \theta, thêm tham số phụ \phi:
-$$
-
-$$
-y = f(x;\theta)+g(x;\phi)
+--- ## 6. Thảo luận ### 6.1. Ưu điểm 1. Giảm thời gian huấn luyện. 2. Tiết kiệm bộ nhớ. 3. Hạn chế overfitting. 4. Bảo toàn tri thức nền. --- ### 6.2. Hạn chế * Khả năng thích nghi bị giới hạn. * Phụ thuộc cấu hình đóng băng. * Cần nhiều thử nghiệm để tối ưu. --- ### 6.3. Chiến lược mở rộng #### Đóng băng từng phần theo thời gian \theta_i(t)= \begin{cases} \text{frozen}, & t\lt t_0\ \text{trainable}, & t\ge t_0 \end{cases} #### Kết hợp LoRA/Adapter Giữ nguyên \theta, thêm tham số phụ \phi: y = f(x;\theta)+g(x;\phi)
 $$
 

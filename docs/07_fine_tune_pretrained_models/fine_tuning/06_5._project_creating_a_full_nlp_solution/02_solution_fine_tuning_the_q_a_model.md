@@ -50,15 +50,7 @@ from rouge_score import rouge_scorer
 ```python
 # Tải tập dữ liệu SQuAD v2
 
-$$
-
-$$
-
 dataset = load_dataset("squad_v2", split="train")
-
-$$
-
-$$
 
 # Xem ví dụ
 print(dataset[0])
@@ -68,163 +60,59 @@ print(dataset[0])
 ```python
 # Tải tokenizer
 
-$$
-
-$$
-
 model_name = "google/flan-t5-base"
 
 $$
-
-$$
-
-$$
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-$$
-
-$$
-def preprocess_qa(examples): # Tạo prompt với format: context + question
+tokenizer = AutoTokenizer.from_pretrained(model_name) def preprocess_qa(examples): # Tạo prompt với format: context + question
 $$
 
 inputs = []
 
 $$
-for context, question in zip(examples['context'], examples['questions']):
-$$
-
-$$
-prompt = f"{context} Question: {question} Answer:"
-$$
-
-$$
-inputs.append(prompt) # Xử lý câu trả lời
+for context, question in zip(examples['context'], examples['questions']): prompt = f"{context} Question: {question} Answer:" inputs.append(prompt) # Xử lý câu trả lời
 $$
 
 answers = []
 
 $$
-for ans_text in examples['answers']: if len(ans_text['text']) > 0: answers.append(ans_text['text'][0]) else: answers.append("")  # Câu trả lời trống # Tokenize
-$$
-
-$$
-model_inputs = tokenizer(inputs, max_length=384, truncation=True, padding="max_length")
-$$
-
-$$
-
+for ans_text in examples['answers']: if len(ans_text['text']) > 0: answers.append(ans_text['text'][0]) else: answers.append("")  # Câu trả lời trống # Tokenize model_inputs = tokenizer(inputs, max_length=384, truncation=True, padding="max_length")
 $$
 
 labels = tokenizer(answers, max_length=128, truncation=True, padding="max_length")
 
 $$
-
-$$
-
-$$
-model_inputs["labels"] = labels["input_ids"]
-$$
-
-$$
-return model_inputs # Giới hạn dữ liệu (SQuAD rất lớn)
-$$
-
-$$
-train_data = dataset.select(range(25000))
-$$
-
-$$
-
+model_inputs["labels"] = labels["input_ids"] return model_inputs # Giới hạn dữ liệu (SQuAD rất lớn) train_data = dataset.select(range(25000))
 $$
 
 test_data = dataset.select(range(25000, 27000))
 
-$$
-
-$$
-
 # Áp dụng tiền xử lý
-
-$$
-
-$$
 
 train_data = train_data.map(preprocess_qa, batched=True)
 
 $$
-
-$$
-
-$$
-test_data = test_data.map(preprocess_qa, batched=True)
-$$
-
-$$
-### 2.4 Chuyển Đổi Sang TensorFlow ```python
-$$
-
-$$
-tf_train = train_data.to_tf_dataset(
-$$
-
-$$
-
+test_data = test_data.map(preprocess_qa, batched=True) ### 2.4 Chuyển Đổi Sang TensorFlow ```python tf_train = train_data.to_tf_dataset(
 $$
 
 columns=["input_ids", "attention_mask"],
 
 $$
-
-$$
-
-$$
 label_cols=["labels"],
-$$
-
-$$
-
 $$
 
 batch_size=16,
 
 $$
-
-$$
-
-$$
-shuffle=True
-$$
-
-$$
-)
-$$
-
-$$
-tf_test = test_data.to_tf_dataset(
-$$
-
-$$
-
+shuffle=True ) tf_test = test_data.to_tf_dataset(
 $$
 
 columns=["input_ids", "attention_mask"],
 
 $$
-
-$$
-
-$$
 label_cols=["labels"],
 $$
 
-$$
-
-$$
-
 batch_size=16
-
-$$
-
-$$
 
 )
 
@@ -233,28 +121,12 @@ $$
 ```python
 # Tải mô hình FLAN-T5-base
 
-$$
-
-$$
-
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
-
-$$
-
-$$
 
 # Freeze các lớp đầu (transfer learning)
 for layer in model.layers[:3]:
 
-$$
-
-$$
-
 layer.trainable = False
-
-$$
-
-$$
 
 print(f"Tổng tham số: {model.count_params() / 1e6:.1f}M")
 
@@ -264,38 +136,10 @@ print(f"Tổng tham số: {model.count_params() / 1e6:.1f}M")
 # Compile
 model.compile(
 
-$$
-
-$$
-
 optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
 
 $$
-
-$$
-
-$$
-loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-$$
-
-$$
-) # Huấn luyện print("Bắt đầu huấn luyện...")
-$$
-
-$$
-history = model.fit(
-$$
-
-$$
-tf_train,
-$$
-
-$$
-validation_data=tf_test,
-$$
-
-$$
-epochs=3
+loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True) ) # Huấn luyện print("Bắt đầu huấn luyện...") history = model.fit( tf_train, validation_data=tf_test, epochs=3
 $$
 
 )
@@ -305,85 +149,29 @@ $$
 ```python
 # Khởi tạo ROUGE scorer
 
-$$
-
-$$
-
 scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
-
-$$
-
-$$
 
 # Lấy một ví dụ từ test set
 
-$$
-
-$$
-
 batch = next(iter(tf_test))
 
-$$
-
-$$
-
 # Lấy một ví dụ cụ thể
-
-$$
-
-$$
 
 input_ids = batch['input_ids'][0:1]
 
 $$
-
-$$
-
-$$
-label_ids = batch['labels'][0:1]
-$$
-
-$$
-# Generate answer
-$$
-
-$$
-outputs = model.generate(input_ids)
-$$
-
-$$
-
+label_ids = batch['labels'][0:1] # Generate answer outputs = model.generate(input_ids)
 $$
 
 predicted_answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-$$
-
-$$
-
 # Reference
-
-$$
-
-$$
 
 reference = tokenizer.decode(label_ids[0], skip_special_tokens=True)
 
-$$
-
-$$
-
 # Tính ROUGE
 
-$$
-
-$$
-
 scores = scorer.score(reference, predicted_answer)
-
-$$
-
-$$
 
 print(f"Question: What is the capital of France?")
 print(f"Reference: {reference}")
@@ -438,17 +226,6 @@ Trong SQuAD v2, có những câu hỏi không có câu trả lời. Chúng ta x�
 # Kiểm tra và xử lý câu trả lời trống
 
 $$
-if len(answer['text']) == 0:
+if len(answer['text']) == 0: answer_text = ""  # Model sẽ học "I don't know" else: answer_text = answer['text'][0]
 $$
 
-$$
-answer_text = ""  # Model sẽ học "I don't know"
-$$
-
-$$
-else:
-$$
-
-$$
-answer_text = answer['text'][0]
-$$

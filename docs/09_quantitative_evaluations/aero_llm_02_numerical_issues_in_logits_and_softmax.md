@@ -26,15 +26,7 @@ Trong các mô hình phân loại và mô hình ngôn ngữ, hàm softmax đư�
 
 Trong bài toán phân loại nhiều lớp, mô hình xuất ra một vector logits:
 
-$$
-
-$$
-
 \mathbf{z} = z_1, z_2, \dots, z_K
-
-$$
-
-$$
 
 Softmax chuyển logits thành xác suất:
 
@@ -46,15 +38,7 @@ $$
 
 \frac{\exp$z_i$}
 
-$$
-
-$$
-
 {\sum_{j=1}^{K} \expz_j}
-
-$$
-
-$$
 
 Tuy nhiên, khi $z_i$ có độ lớn lớn (|z| >> 1), phép tính \exp$z_i$ có thể gây lỗi số học.
 
@@ -66,15 +50,7 @@ Tuy nhiên, khi $z_i$ có độ lớn lớn (|z| >> 1), phép tính \exp$z_i$ c�
 
 Trong chuẩn IEEE 754 (float32):
 
-$$
-
-$$
-
 \exp(88.7) \approx 3.4 \times 10^{38}
-
-$$
-
-$$
 
 Nếu:
 
@@ -84,15 +60,7 @@ $z_i$ > 88
 
 Ngược lại:
 
-$$
-
-$$
-
 \exp(-100) \approx 3.7 \times 10^{-44}
-
-$$
-
-$$
 
 → underflow (gần 0).
 
@@ -108,26 +76,14 @@ $$
 
 Ta có:
 
-$$
-
-$$
-
 \exp(1000) = \infty
-
-$$
-
-$$
 
 Khi đó:
 
 \sigma$z_i$
 
 $$
-=
-$$
-
-$$
-\frac{\infty}{\infty}
+= \frac{\infty}{\infty}
 $$
 
 → Không xác định (NaN).
@@ -152,27 +108,11 @@ $$
 
 Trong đó:
 
-$$
-
-$$
-
 z_{max} = \max_j z_j
-
-$$
-
-$$
 
 Vì:
 
-$$
-
-$$
-
 \exp(z_i - z_{max}) \le 1
-
-$$
-
-$$
 
 → đảm bảo ổn định số học.
 
@@ -243,11 +183,7 @@ $\sum$_i $y_i$ $\log$ \sigma$z_i$
 Gradient:
 
 $$
-\frac{\partial \mathcal{L}}{\partial z_i}
-$$
-
-$$
-=
+\frac{\partial \mathcal{L}}{\partial z_i} =
 $$
 
 \sigma$z_i$ - $y_i$
@@ -264,36 +200,16 @@ $z_k$ \gg $z_j$
 
 Ta có:
 
-$$
-
-$$
-
 \sigmaz_k \approx 1
-
-$$
-
-$$
 
 \quad
 
-$$
-
-$$
-
 \sigmaz_j \approx 0
-
-$$
-
-$$
 
 Gradient:
 
 $$
-\frac{\partial \mathcal{L}}{\partial z_k}
-$$
-
-$$
-=
+\frac{\partial \mathcal{L}}{\partial z_k} =
 $$
 
 1 - $y_k$
@@ -317,15 +233,7 @@ Khi \kappa lớn → dễ mất ổn định.
 
 Trong mô hình lớn (LLMs):
 
-$$
-
-$$
-
 z_i = \mathbf{w}_i^\top \mathbf{h}
-
-$$
-
-$$
 
 Nếu:
 
@@ -339,15 +247,7 @@ Nếu:
 
 Khi dùng float16:
 
-$$
-
-$$
-
 \exp(11) \approx 59874
-
-$$
-
-$$
 
 Giới hạn nhỏ hơn float32 → dễ overflow hơn.
 

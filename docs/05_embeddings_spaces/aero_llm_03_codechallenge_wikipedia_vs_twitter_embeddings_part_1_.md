@@ -46,11 +46,7 @@ $$
 Hai miền:
 
 $$
-•	\mathcal{D}_{wiki}: Wikipedia
-$$
-
-$$
-•	\mathcal{D}_{twitter}: Twitter
+•	\mathcal{D}_{wiki}: Wikipedia •	\mathcal{D}_{twitter}: Twitter
 $$
 
 Ta xây dựng ánh xạ:
@@ -86,15 +82,7 @@ Twitter có:
 
 Entropy từ vựng:
 
-$$
-
-$$
-
 H = -\sum_i P(w_i)\log P(w_i)
-
-$$
-
-$$
 
 Thường:
 
@@ -108,15 +96,7 @@ Do phân bố phẳng hơn.
 
 Với GloVe:
 
-$$
-
-$$
-
 X_{ij} = \text{số lần } w_j \text{ xuất hiện trong ngữ cảnh của } w_i
-
-$$
-
-$$
 
 Ta có:
 
@@ -128,15 +108,7 @@ Sự khác biệt thể hiện ở:
 
 Log-count:
 
-$$
-
-$$
-
 w_i^\top w_j \approx \log X_{ij}
-
-$$
-
-$$
 
 ⸻
 
@@ -187,15 +159,7 @@ Xét biến ngẫu nhiên:
 
 Mutual information:
 
-$$
-
-$$
-
 I(W;D) = \sum_{w,d} P(w,d)\log\frac{P(w,d)}{P(w)P(d)}
-
-$$
-
-$$
 
 Nếu:
 
@@ -209,15 +173,7 @@ I(W;D) \text{ cao}
 
 Wikipedia thường giữ cấu trúc tuyến tính rõ:
 
-$$
-
-$$
-
 w_{Paris} - w_{France} + w_{Germany} \approx w_{Berlin}
-
-$$
-
-$$
 
 Twitter có thể nhiễu hơn do:
 	•	Từ viết tắt
@@ -257,15 +213,7 @@ D_{KL}$P_{wiki} \\mid  P_{twitter}$
 
 Với:
 
-$$
-
-$$
-
 D_{KL}P\\mid Q = \sum_i P(i)\log\frac{P(i)}{Qi}
-
-$$
-
-$$
 
 ⸻
 
@@ -273,15 +221,7 @@ $$
 
 Ma trận đồng xuất hiện:
 
-$$
-
-$$
-
 X = U\Sigma V^\top
-
-$$
-
-$$
 
 So sánh phổ trị riêng:
 
@@ -304,15 +244,7 @@ Embedding đầu vào cho mô hình như BERT hoặc GPT chịu ảnh hưởng m
 Self-attention:
 
 $$
-\text{Attention}(Q,K,V)=
-$$
-
-$$
-\text{softmax}\left\frac{QK^\top}{\sqrt{d}}\rightV
-$$
-
-$$
-Nếu embedding nhiễu: \|QK^\top\| \text{ giảm ổn định} → attention phân tán hơn. ⸻ 10. Phân tích Định lượng Ta định nghĩa: 10.1 Độ tương đồng trung bình
+\text{Attention}(Q,K,V)= \text{softmax}\left\frac{QK^\top}{\sqrt{d}}\rightV Nếu embedding nhiễu: \|QK^\top\| \text{ giảm ổn định} → attention phân tán hơn. ⸻ 10. Phân tích Định lượng Ta định nghĩa: 10.1 Độ tương đồng trung bình
 $$
 
 \bar{s} =

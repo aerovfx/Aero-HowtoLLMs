@@ -16,15 +16,7 @@
 <!-- Aero-Navigation-End -->
 Như vậy, từ “lowest” có thể biểu diễn thành:
 
-$$
-
-$$
-
 \text{lowest} = \text{low} + \text{est}
-
-$$
-
-$$
 
 ---
 
@@ -37,63 +29,23 @@ Giả sử:
 
 Ma trận embedding:
 
-$$
-
-$$
-
 E \in \mathbb{R}^{V \times d}
-
-$$
-
-$$
 
 Số tham số của embedding:
 
-$$
-
-$$
-
 \text{Params} = V \times d
-
-$$
-
-$$
 
 Nếu dùng word-level tokenization:
 
-$$
-
-$$
-
 V \approx 500,000
-
-$$
-
-$$
 
 Nếu dùng BPE:
 
-$$
-
-$$
-
 V \approx 30,000 - 50,000
-
-$$
-
-$$
 
 Giảm số tham số đáng kể:
 
-$$
-
-$$
-
 \Delta = (V_{word} - V_{BPE}) \times d
-
-$$
-
-$$
 
 Điều này giúp:
 - Giảm bộ nhớ
@@ -106,27 +58,11 @@ $$
 
 Trong kiến trúc Transformer, chuỗi token được ánh xạ sang embedding:
 
-$$
-
-$$
-
 x_i = E(t_i)
-
-$$
-
-$$
 
 Sau đó được đưa vào cơ chế Attention:
 
-$$
-
-$$
-
 \text{Attention}(Q, K, V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V
-
-$$
-
-$$
 
 Việc sử dụng BPE giúp:
 
@@ -156,15 +92,7 @@ Các mô hình như GPT sử dụng biến thể của BPE để xây dựng tok
 
 Giả sử tổng số token huấn luyện:
 
-$$
-
-$$
-
 T = 10^{11}
-
-$$
-
-$$
 
 Thời gian huấn luyện phụ thuộc vào:
 

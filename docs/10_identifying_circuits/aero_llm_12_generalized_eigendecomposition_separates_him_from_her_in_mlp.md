@@ -39,21 +39,6 @@ Khi $\text{Rank} \ll \text{Size}$, Phép Tính Eigendecomposition trở nên b�
 ### 2.2. Trực Khán Với Shrinkage (Shrinkage Regularized GED)
 
 $$
-Tuyển 63-Dimension Matrix mới có vẻ bé, nhưng bản thân nó vẫn bị Vướng Rank Zero! Nghĩa là \text{Rank}(Cov) = 52 < 63.
+Tuyển 63-Dimension Matrix mới có vẻ bé, nhưng bản thân nó vẫn bị Vướng Rank Zero! Nghĩa là \text{Rank}(Cov) = 52 \lt  63. Áp dụng cơ chế Covariance Shrinking 1\% (\gamma = 0.01): \tilde{\mathbf{R}} = (1 - 0.01)\mathbf{R} + 0.01 \alpha \mathbf{I} Phép toán này biến hóa Rank 52 \xrightarrow{Inflate} 63 (Full Rank). Lúc này hàm vi phân của SciPy (`scipy.linalg.eigh`) có thể tiêu hóa ma trận R_{her\_shrunk}^{-1} \cdot S_{him} hoàn toàn trơn tru. --- ## 3. Khảo Sát Tách Mạch Căn Giới (Analysis) ### 3.1. Sự Trỗi Dậy Của Thành Phần Phân Cực Tuyệt Đối (Top Eigenvector) Khi GED hoàn tất, hệ số Trị Riêng (Eigenvalues) được sắp xếp từ cao xuống thấp. Top 1 Eigenvalue cho thấy có một Vectơ đặc biệt (Eigenvector) mà khi dữ liệu chiếu vào: - Nó Tràn Đầy Năng lượng (Tạo Max Variance) khi dữ liệu mang chữ HIM. - Nó Triệt Tiêu Năng lượng (Chìm nghỉm thành Zero Variance) khi dữ liệu mang chữ HER. (Và khi đảo \mathbf{S=Her}, \mathbf{R=Him}, ta lại thấy điều ngược lại hoạt động song song).
 $$
 
-$$
-Áp dụng cơ chế Covariance Shrinking 1\% (\gamma = 0.01):
-$$
-
-$$
-\tilde{\mathbf{R}} = (1 - 0.01)\mathbf{R} + 0.01 \alpha \mathbf{I}
-$$
-
-$$
-Phép toán này biến hóa Rank 52 \xrightarrow{Inflate} 63 (Full Rank). Lúc này hàm vi phân của SciPy (`scipy.linalg.eigh`) có thể tiêu hóa ma trận R_{her\_shrunk}^{-1} \cdot S_{him} hoàn toàn trơn tru. --- ## 3. Khảo Sát Tách Mạch Căn Giới (Analysis) ### 3.1. Sự Trỗi Dậy Của Thành Phần Phân Cực Tuyệt Đối (Top Eigenvector) Khi GED hoàn tất, hệ số Trị Riêng (Eigenvalues) được sắp xếp từ cao xuống thấp. Top 1 Eigenvalue cho thấy có một Vectơ đặc biệt (Eigenvector) mà khi dữ liệu chiếu vào: - Nó Tràn Đầy Năng lượng (Tạo Max Variance) khi dữ liệu mang chữ HIM. - Nó Triệt Tiêu Năng lượng (Chìm nghỉm thành Zero Variance) khi dữ liệu mang chữ HER.
-$$
-
-$$
-(Và khi đảo \mathbf{S=Her}, \mathbf{R=Him}, ta lại thấy điều ngược lại hoạt động song song).
-$$

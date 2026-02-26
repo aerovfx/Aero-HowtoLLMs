@@ -45,27 +45,11 @@ Mục tiêu nghiên cứu:
 
 BERT học biểu diễn ngữ cảnh hai chiều cho chuỗi token:
 
-$$
-
-$$
-
 X=(x_1,x_2,\dots,x_n)
-
-$$
-
-$$
 
 Biểu diễn ẩn tại vị trí $i$:
 
-$$
-
-$$
-
 h_i = f(x_1,\dots,x_n;\theta)
-
-$$
-
-$$
 
 Trong đó $\theta$ là tập tham số mô hình.
 
@@ -75,37 +59,13 @@ Trong đó $\theta$ là tập tham số mô hình.
 
 Với token đặc biệt [CLS], vector biểu diễn:
 
-$$
-
-$$
-
 h_{CLS}\in\mathbb{R}^d
-
-$$
-
-$$
 
 được dùng cho phân loại:
 
-$$
-
-$$
-
 z = W h_{CLS} + b
 
-$$
-
-$$
-
-$$
-
-$$
-
 \hat{y}=\text{softmax}(z)
-
-$$
-
-$$
 
 Trong đó (W,b) là tham số của tầng phân loại.
 
@@ -115,27 +75,11 @@ Trong đó (W,b) là tham số của tầng phân loại.
 
 Với nhãn thật $y\in{0,1}$:
 
-$$
-
-$$
-
 $\mathcal${L} = -\frac{1}{N}$\sum$_{i=1}^{N} $\sum$_{c=1}^{2} y_{ic}$\log$(\hat{y}_{ic})
-
-$$
-
-$$
 
 Mục tiêu:
 
-$$
-
-$$
-
 \theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
-
-$$
-
-$$
 
 ---
 
@@ -147,15 +91,7 @@ Dữ liệu gồm các đoạn văn bản ngắn trích từ hai nguồn văn h�
 
 Tập dữ liệu:
 
-$$
-
-$$
-
 $\mathcal${D}={($x_i$,$y_i$)}_{i=1}^{N}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -176,15 +112,7 @@ Theo tài liệu :
 
 Tổng số token:
 
-$$
-
-$$
-
 M = N\times L
-
-$$
-
-$$
 
 $$
 với L=256.
@@ -204,15 +132,7 @@ Quy trình gồm:
 
 Tham số được cập nhật theo:
 
-$$
-
-$$
-
 \theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}_t
-
-$$
-
-$$
 
 ---
 
@@ -225,15 +145,7 @@ Theo , mỗi batch gồm:
 
 Vector nhãn:
 
-$$
-
-$$
-
 y=(\underbrace{0,\dots,0}*{32}, \underbrace{1,\dots,1}*{32})
-
-$$
-
-$$
 
 ---
 
@@ -243,39 +155,15 @@ $$
 
 Giả sử chuỗi loss:
 
-$$
-
-$$
-
 x=(x_1,x_2,\dots,x_n)
-
-$$
-
-$$
 
 Với cửa sổ kích thước $k$, giá trị làm mượt:
 
-$$
-
-$$
-
 y_i = \frac{1}{k} \sum_{j=i-w}^{i+w} x_j
-
-$$
-
-$$
 
 với:
 
-$$
-
-$$
-
 w=\frac{k-1}{2}
-
-$$
-
-$$
 
 ---
 
@@ -301,15 +189,7 @@ $$
 
 sẽ xuất hiện sai lệch:
 
-$$
-
-$$
-
 y_i \approx \frac{1}{m}\sum x_j,\quad m<k
-
-$$
-
-$$
 
 Gây ra hiện tượng “edge effect”.
 
@@ -319,15 +199,7 @@ Gây ra hiện tượng “edge effect”.
 
 ### 5.1. Độ chính xác (Accuracy)
 
-$$
-
-$$
-
 \text{Acc} = \frac{1}{N} \sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
-
-$$
-
-$$
 
 Theo tài liệu , độ chính xác đạt mức cao chỉ sau vài chục epoch.
 
@@ -365,15 +237,7 @@ Theo kết quả trong :
 
 Quan hệ giữa loss và epoch:
 
-$$
-
-$$
-
 \frac{d\mathcal{L}}{dt}<0
-
-$$
-
-$$
 
 Cho thấy xu hướng học ổn định.
 
@@ -399,15 +263,7 @@ $$
 
 Mô hình phân loại có thể dùng để đo:
 
-$$
-
-$$
-
 S = P(\text{Alice} \mid \text{text})
-
-$$
-
-$$
 
 hoặc
 

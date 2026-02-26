@@ -42,27 +42,11 @@ Mục tiêu của nghiên cứu gồm:
 
 Cho chuỗi token:
 
-$$
-
-$$
-
 X = (x_1, x_2, \dots, x_n)
-
-$$
-
-$$
 
 Xác suất sinh chuỗi được mô hình hóa như sau:
 
-$$
-
-$$
-
 P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, x_2, \dots, x_{i-1})
-
-$$
-
-$$
 
 Trong đó:
 
@@ -75,15 +59,7 @@ Trong đó:
 
 Cửa sổ ngữ cảnh tại bước $t$:
 
-$$
-
-$$
-
 C_t = (x_1, x_2, \dots, x_t)
-
-$$
-
-$$
 
 Mô hình sinh token tiếp theo dựa trên:
 
@@ -103,27 +79,11 @@ $$
 
 Quá trình fine-tuning cập nhật tham số $\theta$ thông qua hàm mất mát Cross-Entropy:
 
-$$
-
-$$
-
 $\mathcal${L}(\theta) = -\frac{1}{N} $\sum$_{i=1}^{N} $\log$ P($y_i$ \mid $x_i$; \theta)
-
-$$
-
-$$
 
 Mục tiêu:
 
-$$
-
-$$
-
 \theta^{\ast} = \arg\min_{\theta} \mathcal{L}(\theta)
-
-$$
-
-$$
 
 ---
 
@@ -148,27 +108,11 @@ $$
 
 Hội thoại bắt đầu bằng prompt ban đầu:
 
-$$
-
-$$
-
 S_0 = \text{``Hello, my name is Alice.''}
-
-$$
-
-$$
 
 Sau tokenization:
 
-$$
-
-$$
-
 T_0 = (t_1, t_2, \dots, t_k)
-
-$$
-
-$$
 
 Chuỗi này được đưa vào mô hình E.
 
@@ -186,27 +130,11 @@ $$
 
 Sinh ra $m$ token:
 
-$$
-
-$$
-
 G_E^{(1)} = (g_1, \dots, g_m)
-
-$$
-
-$$
 
 #### Bước 2: Cập nhật ngữ cảnh
 
-$$
-
-$$
-
 C_1 = T_0 \oplus G_E^{(1)}
-
-$$
-
-$$
 
 với $\oplus$ là phép nối chuỗi.
 
@@ -220,27 +148,11 @@ $$
 
 Quá trình được lặp lại $K$ lần:
 
-$$
-
-$$
-
 C_{k+1} = C_k \oplus G_{model}^{(k)}
-
-$$
-
-$$
 
 Trong đó:
 
-$$
-
-$$
-
 model = \begin{cases} E, & k \text{ lẻ} \\ A, & k \text{ chẵn} \end{cases}
-
-$$
-
-$$
 
 ---
 
@@ -254,15 +166,7 @@ $$
 
 với:
 
-$$
-
-$$
-
 p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -283,15 +187,7 @@ Theo tài liệu gốc :
 
 Tổng số token sinh:
 
-$$
-
-$$
-
 M \approx 500
-
-$$
-
-$$
 
 ---
 
@@ -299,15 +195,7 @@ $$
 
 Chỉ in ra token mới sinh:
 
-$$
-
-$$
-
 G^{(k)} = C_k[|C_{k-1}|+1 : |C_k|]
-
-$$
-
-$$
 
 Điều này giúp tránh in lại toàn bộ lịch sử.
 
@@ -337,15 +225,7 @@ Khác với chatbot chuyên dụng, hai mô hình trong nghiên cứu:
 
 Do đó, hội thoại thực chất là:
 
-$$
-
-$$
-
 \hat{X} = \arg\max_X P(X \mid C_0)
-
-$$
-
-$$
 
 chứ không phải đối thoại có mục đích.
 
@@ -392,30 +272,14 @@ giúp mô hình học cấu trúc đối thoại.
 
 Có thể đo mức ổn định hội thoại bằng entropy:
 
-$$
-
-$$
-
 H = -\sum_{i=1}^{V} p_i \log p_i
-
-$$
-
-$$
 
 Entropy cao → phản hồi đa dạng.
 Entropy thấp → phản hồi lặp.
 
 Hoặc độ dài phụ thuộc ngữ cảnh:
 
-$$
-
-$$
-
 D = \frac{1}{K}\sum_{k=1}^{K} |C_k|
-
-$$
-
-$$
 
 ---
 

@@ -54,15 +54,7 @@ Một sự nhầm lẫn phổ biến là coi Loss và Cost là một, nhưng ch�
 - **Loss (Mất mát):** Tính trên **một mẫu** dữ liệu duy nhất.
 - **Cost (Chi phí - $J$):** Là **trung bình cộng** của tất cả các giá trị Loss trên toàn bộ tập dữ liệu (hoặc một lô dữ liệu - batch).
 
-$$
-
-$$
-
 J(w) = \frac{1}{N} \sum_{i=1}^{N} L_i
-
-$$
-
-$$
 
 Việc tối ưu hóa dựa trên Cost giúp mô hình có cái nhìn tổng quát về toàn bộ dữ liệu, tránh hiện tượng quá khớp (overfitting) nếu chỉ nhìn vào từng mẫu riêng lẻ.
 

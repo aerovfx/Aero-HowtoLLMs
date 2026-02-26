@@ -38,15 +38,7 @@ $$
 
 với:
 
-$$
-
-$$
-
 \alpha \approx 1
-
-$$
-
-$$
 
 Luật này xuất hiện ở cả mức ký tự và mức token.
 
@@ -63,15 +55,7 @@ $$
 
 Sắp xếp ký tự theo tần suất giảm dần.
 
-$$
-
-$$
-
 f_cr = C r^{-\alpha_c}
-
-$$
-
-$$
 
 Tổng xác suất:
 
@@ -81,27 +65,11 @@ $$
 
 Chuẩn hóa:
 
-$$
-
-$$
-
 C = \left\sum_{r=1}^{K} r^{-\alpha_c} \right^{-1}
-
-$$
-
-$$
 
 Với tiếng Anh:
 
-$$
-
-$$
-
 \alpha_c \approx 1
-
-$$
-
-$$
 
 Do bảng chữ cái nhỏ (26–100 ký tự), phân bố có đuôi ngắn.
 
@@ -115,15 +83,7 @@ Với token (subword), kích thước từ vựng:
 
 Phân bố:
 
-$$
-
-$$
-
 f_tr = C' r^{-\alpha_t}
-
-$$
-
-$$
 
 Thông thường:
 
@@ -137,51 +97,19 @@ Phân bố token có đuôi dài hơn nhiều so với ký tự.
 
 Entropy ký tự:
 
-$$
-
-$$
-
 H_c = - \sum_{r=1}^{K} f_cr\log f_cr
-
-$$
-
-$$
 
 Entropy token:
 
-$$
-
-$$
-
 H_t = - \sum_{r=1}^{|V|} f_tr\log f_tr
-
-$$
-
-$$
 
 Với phân bố Zipf:
 
-$$
-
-$$
-
 H \approx \log Z\alpha + \frac{\alpha}{Z\alpha} \sum_{r} r^{-\alpha}\log r
-
-$$
-
-$$
 
 Trong đó:
 
-$$
-
-$$
-
 Z\alpha = \sum_{r=1}^{N} r^{-\alpha}
-
-$$
-
-$$
 
 Vì |V| \gg K, nên:
 
@@ -203,27 +131,11 @@ $$
 
 Theo bảo toàn thông tin:
 
-$$
-
-$$
-
 n H_c \approx m H_t
-
-$$
-
-$$
 
 Suy ra:
 
-$$
-
-$$
-
 R \approx \frac{H_t}{H_c}
-
-$$
-
-$$
 
 Nếu $H_t$ tăng (do đuôi dài của Zipf), R tăng → chuỗi token ngắn hơn.
 
@@ -236,11 +148,7 @@ Self-attention có độ phức tạp:
 $O(m^2)$
 
 $$
-Thay m = \frac{n}{R}:
-$$
-
-$$
-O(\le)ft\frac{n^2}{R^2}\right
+Thay m = \frac{n}{R}: O(\le)ft\frac{n^2}{R^2}\right
 $$
 
 Vì luật Zipf tạo ra:
@@ -261,51 +169,19 @@ $$
 
 Tổng số lần xuất hiện của token thứ hạng r:
 
-$$
-
-$$
-
 N_r = N_1 r^{-\alpha}
-
-$$
-
-$$
 
 Tổng số token trong corpus:
 
-$$
-
-$$
-
 T = \sum_{r=1}^{|V|} N_r
-
-$$
-
-$$
 
 Xấp xỉ tích phân:
 
-$$
-
-$$
-
 T \approx N_1 \int_1^{|V|} r^{-\alpha} dr
-
-$$
-
-$$
 
 Nếu \alpha = 1:
 
-$$
-
-$$
-
 T \approx N_1 \log |V|
-
-$$
-
-$$
 
 Điều này giải thích tại sao:
 	•	Tăng từ vựng → tăng nhẹ tổng khối lượng thông tin
@@ -343,15 +219,7 @@ Nếu từ vựng quá lớn:
 
 Tối ưu hóa:
 
-$$
-
-$$
-
 \min_{|V|} \left\frac{n^2}{R^2} + \lambda \mid V\mid \right
-
-$$
-
-$$
 
 ⸻
 
@@ -377,27 +245,11 @@ $$
 
 Entropy:
 
-$$
-
-$$
-
 H = -\sum fr\log fr
-
-$$
-
-$$
 
 Compression ratio:
 
-$$
-
-$$
-
 R \approx \frac{H_t}{H_c}
-
-$$
-
-$$
 
 Chi phí attention:
 

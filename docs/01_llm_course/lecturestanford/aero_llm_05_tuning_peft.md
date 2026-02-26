@@ -81,15 +81,7 @@ Kỹ thuật PEFT phổ biến nhất hiện nay.
 **Ý tưởng:**
 Thay vì cập nhật trực tiếp ma trận trọng số $W$ (kích thước $d \times d$), ta cập nhật thông qua 2 ma trận nhỏ $A$ và $B$:
 
-$$
-
-$$
-
 W' = W + \Delta W = W + BA
-
-$$
-
-$$
 
 Trong đó:
 *   $B$: kích thước $d \times r$

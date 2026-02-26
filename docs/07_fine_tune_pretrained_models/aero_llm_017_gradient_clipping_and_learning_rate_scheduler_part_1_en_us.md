@@ -50,15 +50,7 @@ Mục tiêu nghiên cứu gồm:
 
 Quá trình cập nhật tham số trong học sâu được mô tả bởi:
 
-$$
-
-$$
-
 \theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta_t)
-
-$$
-
-$$
 
 Trong đó:
 
@@ -67,11 +59,7 @@ Trong đó:
 * $L$: hàm mất mát
 
 $$
-* \nabla_\theta L: gradient
-$$
-
-$$
-Khi \mid\nabla_\theta L\mid quá lớn, cập nhật tham số trở nên không ổn định.
+* \nabla_\theta L: gradient Khi \mid\nabla_\theta L\mid quá lớn, cập nhật tham số trở nên không ổn định.
 $$
 
 ---
@@ -129,15 +117,7 @@ $$
 
 Sau clipping:
 
-$$
-
-$$
-
 \theta_{t+1}=\theta_t-\eta \mathbf{g}_{clip}
-
-$$
-
-$$
 
 Việc này giúp giới hạn bước nhảy của tham số.
 
@@ -157,15 +137,7 @@ Theo , việc duy trì learning rate cố định có thể làm giảm hiệu q
 
 Trong giai đoạn khởi động:
 
-$$
-
-$$
-
 \eta_t=\eta_{max}\cdot\frac{t}{T_{warm}}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -178,15 +150,7 @@ Trong đó:
 
 Hàm cosine decay:
 
-$$
-
-$$
-
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min})\left(1+\cos\frac{\pi t}{T}\right)
-
-$$
-
-$$
 
 Trong đó:
 
@@ -199,15 +163,7 @@ Trong đó:
 
 Giảm tuyến tính:
 
-$$
-
-$$
-
 \eta_t=\eta_{max}\left(1-\frac{t}{T}\right)
-
-$$
-
-$$
 
 ---
 
@@ -220,15 +176,7 @@ Quy trình huấn luyện:
 3. Cập nhật learning rate
 4. Cập nhật tham số
 
-$$
-
-$$
-
 \theta_{t+1}=\theta_t-\eta_t\cdot \mathbf{g}_{clip}
-
-$$
-
-$$
 
 ---
 
@@ -244,15 +192,7 @@ Theo mô tả trong tài liệu , mô hình gồm:
 
 Loss function:
 
-$$
-
-$$
-
 L=\sum_{i=1}^{n}w_i^2
-
-$$
-
-$$
 
 ---
 

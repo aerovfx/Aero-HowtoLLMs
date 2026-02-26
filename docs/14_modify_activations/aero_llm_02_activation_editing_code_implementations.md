@@ -28,15 +28,7 @@ Cú pháp tổng quát của Phẫu thuật Forward Hook:
 ```python
 def my_hook(module, inputs, output):
 
-$$
-
-$$
-
 modified_output = output.clone()
-
-$$
-
-$$
 
     # [Inject, Zero-out, hay Scale tùy ý]
     return modified_output

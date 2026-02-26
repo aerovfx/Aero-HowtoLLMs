@@ -52,15 +52,7 @@ Hàm mục tiêu được trích xuất bằng cách định vị Argmax cao nh�
 ### 3.2. Hiệu Chỉnh Đầu Ra Thành Z-Score (Z-Score Standardization)
 Thay vì sử dụng Logits thô hoặc Softmax phi tuyến tính, ta làm phẳng định danh toàn bộ mảng Logit 30,522 bằng phân phối chuẩn Standardized Normal Distribution (Z-Score):
 
-$$
-
-$$
-
 Z_i = \frac{X_i - \mu_{vocab}}{\sigma_{vocab}}
-
-$$
-
-$$
 
 Đồ thị phân vạch vạch trần ưu thế cực trị của BERT: Từ ngữ được dự đoán "way" bắn vọt lên biên độ $Z > 10$ (10 độ lệch chuẩn). Tính năng Z-score không những khử độ chệch độ lớn tự do của các LLM, mà còn đảm bảo chắc chắn rằng đối với một ngữ cảnh đúng đắn, mô hình sẽ dồn toàn bộ lực chú ý kéo cách biệt Token đáp án ra thật xa khởi nhiễu thông dụng của đại từ vựng. 
 

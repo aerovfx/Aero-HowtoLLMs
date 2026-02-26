@@ -42,15 +42,7 @@ Biểu diễn từ (word representation) là bài toán trung tâm trong xử l�
 
 Ta xét một tập từ vựng:
 
-$$
-
-$$
-
 V = \{w_1, w_2, \dots, w_{|V|}\}
-
-$$
-
-$$
 
 Mục tiêu là xây dựng ánh xạ:
 
@@ -92,23 +84,15 @@ $w_1$, $w_2$, \dots, $w_T$
 
 Hàm mục tiêu:
 
-$$
-
-$$
-
 \max \sum_{t=1}^{T} \sum_{-c \le j \le c, j \ne 0} \log P(w_{t+j} \mid w_t)
-
-$$
-
-$$
 
 Với:
 
-$P($w_O$ \mid $w_I$)$ = \frac{\exp$v_{$w_O$}^\top v_{$w_I$}$}{$\sum$_{w \in V} \exp$v_w^\top v_{$w_I$}$}
+$P($w_$O( \mid )$w_I$)$ = \frac{\exp$v_{$w_$O(}^\top v_{)$w_I$}$}{$\sum$_{w \in V} \exp$v_w^\top v_{$w_I$}$}
 
 Do chi phí tính toán lớn, sử dụng negative sampling:
 
-$\log$ \sigma$v_{$w_O$}^\top v_{$w_I$}$ + $\sum$_{i=1}^{k} $\mathbb${E}_{$w_i$ \sim P_n$w$} $\log$ \sigma$-v_{$w_i$}^\top v_{$w_I$}$
+$\log$ \sigma$v_{$w_$O(}^\top v_{)$w_I$}$ + $\sum$_{i=1}^{k} $\mathbb${E}_{$w_i$ \sim P_n$w$} $\log$ \sigma$-v_{$w_i$}^\top v_{$w_I$}$
 
 ⸻
 
@@ -116,27 +100,11 @@ $\log$ \sigma$v_{$w_O$}^\top v_{$w_I$}$ + $\sum$_{i=1}^{k} $\mathbb${E}_{$w_i$ \
 
 Một tính chất nổi tiếng:
 
-$$
-
-$$
-
 \text{king} - \text{man} + \text{woman} \approx \text{queen}
-
-$$
-
-$$
 
 Toán học:
 
-$$
-
-$$
-
 v_{king} - v_{man} + v_{woman} \approx v_{queen}
-
-$$
-
-$$
 
 Điều này cho thấy embedding học được cấu trúc tuyến tính.
 
@@ -148,29 +116,13 @@ $$
 
 GloVe (Pennington et al., 2014) dựa trên ma trận đồng xuất hiện:
 
-$$
-
-$$
-
 X_{ij} = \text{số lần } w_j \text{ xuất hiện trong ngữ cảnh của } w_i
-
-$$
-
-$$
 
 ⸻
 
 3.2 Hàm mục tiêu
 
-$$
-
-$$
-
 J = \sum_{i,j} fX_{ij} \leftw_i^\top \tilde{w}_j + b_i + b_j - \log X_{ij} \right^2
-
-$$
-
-$$
 
 Trong đó:
 
@@ -203,28 +155,12 @@ $P($w_1$,\dots,$w_T$)$ = $\prod$_{t=1}^{T} $P($w_t$ \mid w_{\lt t})$
 
 Với:
 
-$$
-
-$$
-
 Q = XW_Q,\quad K = XW_K,\quad V = XW_V
-
-$$
-
-$$
 
 Attention:
 
 $$
-\text{Attention}(Q,K,V) =
-$$
-
-$$
-\text{softmax}\left\frac{QK^\top}{\sqrt{d_k}} \rightV
-$$
-
-$$
-Độ phức tạp: O(n^2 d) ⸻ 4.3 Hàm mất mát Cross-entropy:
+\text{Attention}(Q,K,V) = \text{softmax}\left\frac{QK^\top}{\sqrt{d_k}} \rightV Độ phức tạp: O(n^2 d) ⸻ 4.3 Hàm mất mát Cross-entropy:
 $$
 
 \mathcal${L} = - $\sum$_{t=1}^{T} $\log$ $P($w_t$ \mid w_{\lt t})
@@ -236,37 +172,13 @@ $$
 \mathcal${L}_{MLM} = - $\sum$_{t \in M} $\log$ $P($w_t$ \mid w_{\setminus M})
 
 $$
-Khác GPT: •	GPT: dự đoán tương lai •	BERT: dùng cả trái và phải ⸻ 5.3 Biểu diễn Ngữ cảnh hóa Embedding giờ là hàm của toàn bộ câu:
-$$
-
-$$
-e_t = fw_1,\dots,w_T, t
-$$
-
-$$
-Không còn là ánh xạ cố định. ⸻ 6. So sánh Toán học Mô hình	Xác suất	Phạm vi ngữ cảnh	Embedding Word2Vec	P(w_O\mid w_I)	Cục bộ	Tĩnh
+Khác GPT: •	GPT: dự đoán tương lai •	BERT: dùng cả trái và phải ⸻ 5.3 Biểu diễn Ngữ cảnh hóa Embedding giờ là hàm của toàn bộ câu: e_t = fw_1,\dots,w_T, t Không còn là ánh xạ cố định. ⸻ 6. So sánh Toán học Mô hình	Xác suất	Phạm vi ngữ cảnh	Embedding Word2Vec	P(w_O\mid w_I)	Cục bộ	Tĩnh
 $$
 
 GloVe	\log X_{ij}	Toàn cục	Tĩnh
 
 $$
-GPT	P(w_t \mid w_{\lt t})	Trái	Ngữ cảnh BERT	P(w_t\mid w_{\setminus M})	Hai chiều	Ngữ cảnh ⸻ 7. Phân tích Entropy Entropy chuỗi:
-$$
-
-$$
-H = - \sum P(w_1,\dots,w_T)\log P(w_1,\dots,w_T)
-$$
-
-$$
-GPT mô hình hóa trực tiếp:
-$$
-
-$$
-H = - \sum_{t} \log P(w_t \mid w_{\lt t})
-$$
-
-$$
-Perplexity:
+GPT	P(w_t \mid w_{\lt t})	Trái	Ngữ cảnh BERT	P(w_t\mid w_{\setminus M})	Hai chiều	Ngữ cảnh ⸻ 7. Phân tích Entropy Entropy chuỗi: H = - \sum P(w_1,\dots,w_T)\log P(w_1,\dots,w_T) GPT mô hình hóa trực tiếp: H = - \sum_{t} \log P(w_t \mid w_{\lt t}) Perplexity:
 $$
 
 \text{PPL} = 2^H

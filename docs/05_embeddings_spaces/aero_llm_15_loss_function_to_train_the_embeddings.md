@@ -50,30 +50,14 @@ $$
 
 Logits:
 
-$$
-
-$$
-
 z_i = \mathbf{h}^T \mathbf{w}_i
-
-$$
-
-$$
 
 Xác suất:
 
 $P(y=i)$ =
 \frac{\exp$z_i$}
 
-$$
-
-$$
-
 {\sum_{j=1}^{V} \expz_j}
-
-$$
-
-$$
 
 ⸻
 
@@ -88,15 +72,7 @@ $$
 -
 
 $$
-\sum_{i=1}^{V}
-$$
-
-$$
-y_i \log P(y=i)
-$$
-
-$$
-Vì y là one-hot: \mathcal{L}
+\sum_{i=1}^{V} y_i \log P(y=i) Vì y là one-hot: \mathcal{L}
 $$
 
 =
@@ -119,10 +95,6 @@ $$
 
 \frac{\partial \mathcal{L}}{\partial z_i}
 
-$$
-
-$$
-
 =
 
 $$
@@ -131,24 +103,12 @@ $$
 
 Với weight tying \mathbf{W} = \mathbf{E}^T:
 
-$$
-
-$$
-
 z_i = \mathbf{h}^T \mathbf{e}_i
-
-$$
-
-$$
 
 Gradient theo embedding token đúng y:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{e}_y}
-$$
-
-$$
-=
+\frac{\partial \mathcal{L}}{\partial \mathbf{e}_y} =
 $$
 
 (P(y) - 1)\mathbf{h}
@@ -156,11 +116,7 @@ $$
 Với token sai:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{e}_i}
-$$
-
-$$
-=
+\frac{\partial \mathcal{L}}{\partial \mathbf{e}_i} =
 $$
 
 $P(i)$\mathbf{h}
@@ -224,11 +180,7 @@ $O(K)$
 Cross-Entropy với softmax là hàm lồi theo logits:
 
 $$
-\frac{\partial^2 \mathcal{L}}{\partial z_i^2}
-$$
-
-$$
-=
+\frac{\partial^2 \mathcal{L}}{\partial z_i^2} =
 $$
 
 $P(i)$(1-P(i))

@@ -207,15 +207,7 @@
 
 ---
 
-$$
-
-$$
-
 > 🚀 Hybrid AI = Não (Transformer) + Trí nhớ (Mamba) + Chuyên gia (MoE) + Google (RAG)
-
-$$
-
-$$
 
 <!-- Aero-Footer-Start -->
 

@@ -29,11 +29,7 @@ Huấn luyện mô hình ngôn ngữ tự hồi quy (autoregressive language mod
 $P($x_1$, $x_2$, \dots, $x_T$)$
 
 $$
-=
-$$
-
-$$
-\prod_{t=1}^{T}
+= \prod_{t=1}^{T}
 $$
 
 $P($x_t$ \mid x_{\lt t})$
@@ -56,15 +52,7 @@ Data loader có nhiệm vụ:
 
 Giả sử văn bản sau khi token hóa:
 
-$$
-
-$$
-
 \mathbf{s} = t_1, t_2, \dots, t_N
-
-$$
-
-$$
 
 với:
 
@@ -118,11 +106,7 @@ $P(t_{i+t} \mid $t_i$,\dots,t_{i+t-1})$
 Với batch size B, ta có tensor:
 
 $$
-X \in \mathbb{R}^{B \times L}
-$$
-
-$$
-Y \in \mathbb{R}^{B \times L}
+X \in \mathbb{R}^{B \times L} Y \in \mathbb{R}^{B \times L}
 $$
 
 Loss trung bình:
@@ -223,15 +207,7 @@ $$
 
 Trong huấn luyện SGD:
 
-$$
-
-$$
-
 \theta \leftarrow
-
-$$
-
-$$
 
 \theta - \eta \nabla_\theta \mathcal{L}x_i
 
@@ -260,15 +236,7 @@ $$
 $\le$ft(
 
 $$
-\frac{QK^T}{\sqrt{d_k}} \right)V ⸻ 7. Ảnh hưởng của Data Loader đến Hội Tụ Giả sử gradient ước lượng:
-$$
-
-$$
-g_t = \nabla_\theta \mathcal{L}_{batch}
-$$
-
-$$
-Phương sai: \text{Var}g_t
+\frac{QK^T}{\sqrt{d_k}} \right)V ⸻ 7. Ảnh hưởng của Data Loader đến Hội Tụ Giả sử gradient ước lượng: g_t = \nabla_\theta \mathcal{L}_{batch} Phương sai: \text{Var}g_t
 $$
 
 =
@@ -278,9 +246,5 @@ $$
 $$
 
 =
-
-$$
-
-$$
 
 \bigcup_{k=1}^{K}

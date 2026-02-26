@@ -60,46 +60,10 @@ import numpy as np
 # Tạo index với exact search
 
 $$
-dimension = 128
-$$
-
-$$
-index = faiss.IndexFlatL2(dimension)  # L2 distance
-$$
-
-$$
-# Hoặc
-$$
-
-$$
-index = faiss.IndexFlatIP(dimension)   # Inner product (cosine)
-$$
-
-$$
-# Thêm vectors
-$$
-
-$$
-vectors = np.random.random((10000, dimension)).astype('float32')
-$$
-
-$$
-index.add(vectors) # Tìm kiếm
-$$
-
-$$
-query = np.random.random((5, dimension)).astype('float32')
-$$
-
-$$
-
+dimension = 128 index = faiss.IndexFlatL2(dimension)  # L2 distance # Hoặc index = faiss.IndexFlatIP(dimension)   # Inner product (cosine) # Thêm vectors vectors = np.random.random((10000, dimension)).astype('float32') index.add(vectors) # Tìm kiếm query = np.random.random((5, dimension)).astype('float32')
 $$
 
 distances, indices = index.search(query, k=10)
-
-$$
-
-$$
 
 **Đặc điểm:**
 - Độ chính xác tuyệt đối
@@ -112,22 +76,10 @@ $$
 # Tạo IVF index
 
 $$
-nlist = 100  # Số clusters
-$$
-
-$$
-quantizer = faiss.IndexFlatL2(dimension)
-$$
-
-$$
-
+nlist = 100  # Số clusters quantizer = faiss.IndexFlatL2(dimension)
 $$
 
 index = faiss.IndexIVFFlat(quantizer, dimension, nlist)
-
-$$
-
-$$
 
 # Train trước khi add
 index.train(vectors)
@@ -138,51 +90,23 @@ index.add(vectors)
 # Tìm kiếm
 
 $$
-index.nprobe = 10  # Số clusters cần tìm
-$$
-
-$$
-distances, indices = index.search(query, k=10)
-$$
-
-$$
-**Đặc điểm:** - Nhanh hơn Flat với large datasets - Accuracy phụ thuộc vào nprobe - Time: O(N/D \cdot nlist + nprobe \cdot k) ### 2.4 HNSW Index (Hierarchical Navigable Small World) ```python # Tạo HNSW index
+index.nprobe = 10  # Số clusters cần tìm distances, indices = index.search(query, k=10) **Đặc điểm:** - Nhanh hơn Flat với large datasets - Accuracy phụ thuộc vào nprobe - Time: O(N/D \cdot nlist + nprobe \cdot k) ### 2.4 HNSW Index (Hierarchical Navigable Small World) ```python # Tạo HNSW index
 $$
 
 dimension = 128
 
-$$
-
-$$
-
 index = faiss.IndexHNSWFlat(dimension, 32)  # 32 = M parameter
-
-$$
-
-$$
 
 # Cấu hình
 
 $$
-index.hnsw.efConstruction = 200  # Xây dựng
-$$
-
-$$
-index.hnsw.efSearch = 50        # Tìm kiếm
+index.hnsw.efConstruction = 200  # Xây dựng index.hnsw.efSearch = 50        # Tìm kiếm
 $$
 
 # Add và search
 index.add(vectors)
 
-$$
-
-$$
-
 distances, indices = index.search(query, k=10)
-
-$$
-
-$$
 
 **Đặc điểm:**
 - Graph-based navigation
@@ -195,104 +119,32 @@ $$
 # Tạo LSH index
 
 $$
-dimension = 128
-$$
-
-$$
-nbits = 32  # Số bits cho mỗi hash
-$$
-
-$$
-index = faiss.IndexLSH(dimension, nbits)
-$$
-
-$$
-index.add(vectors)
-$$
-
-$$
-distances, indices = index.search(query, k=10)
-$$
-
-$$
-**Đặc điểm:** - Hash-based approximate search - Good for high-dimensional data - Memory efficient ### 2.6 PQ (Product Quantization) ```python # Tạo PQ index
+dimension = 128 nbits = 32  # Số bits cho mỗi hash index = faiss.IndexLSH(dimension, nbits) index.add(vectors) distances, indices = index.search(query, k=10) **Đặc điểm:** - Hash-based approximate search - Good for high-dimensional data - Memory efficient ### 2.6 PQ (Product Quantization) ```python # Tạo PQ index
 $$
 
 m = 8           # Số sub-vectors
 
-$$
-
-$$
-
 nbits = 8        # Bits per sub-vector
-
-$$
-
-$$
 
 quantizer = faiss.IndexFlatL2(dimension)
 
 $$
-
-$$
-
-$$
-index = faiss.IndexIVFPQ(quantizer, dimension, nlist, m, nbits)
-$$
-
-$$
-index.train(vectors) index.add(vectors)
-$$
-
-$$
-distances, indices = index.search(query, k=10)
-$$
-
-$$
-**Đặc điểm:** - Compression cao - Memory efficient - Good for large-scale search ## 3. So Sánh FAISS vs ChromaDB ### 3.1 Tổng Quan So Sánh | Tiêu chí | FAISS | ChromaDB | |----------|-------|----------| | **Loại** | Library | Database | | **Architecture** | Single-node | Single + Distributed | | **Index Types** | Multiple | HNSW only | | **Metadata** | Không có | Có | | **Persistence** | Memory-only | Persistent | | **Query Language** | Python API | SQL-like | | **Scalability** | Medium | High | | **Integrations** | LangChain, LlamaIndex | LangChain, LlamaIndex | ### 3.2 FAISS - Ưu và Nhược Điểm **Ưu điểm:** - Hiệu suất cao với single machine - Nhiều thuật toán index - Hỗ trợ GPU - Kiểm soát full parameters - Lightweight **Nhược điểm:** - Không có native metadata - Single-node only - Cần tự quản lý persistence - Không có built-in server ### 3.3 ChromaDB - Ưu và Nhược Điểm **Ưu điểm:** - Full database với persistence - Native metadata support - Filtering - Dễ sử dụng - Distributed scaling - Good LangChain integration **Nhược điểm:** - Ít index options (chỉ HNSW) - Performance thấp hơn FAISS cho một số cases - Younger project ## 4. Milvus Extension ### 4.1 Giới Thiệu Milvus Milvus là distributed vector database có thể mở rộng FAISS: ```python from pymilvus import connections, Collection # Kết nối Milvus
+index = faiss.IndexIVFPQ(quantizer, dimension, nlist, m, nbits) index.train(vectors) index.add(vectors) distances, indices = index.search(query, k=10) **Đặc điểm:** - Compression cao - Memory efficient - Good for large-scale search ## 3. So Sánh FAISS vs ChromaDB ### 3.1 Tổng Quan So Sánh | Tiêu chí | FAISS | ChromaDB | |----------|-------|----------| | **Loại** | Library | Database | | **Architecture** | Single-node | Single + Distributed | | **Index Types** | Multiple | HNSW only | | **Metadata** | Không có | Có | | **Persistence** | Memory-only | Persistent | | **Query Language** | Python API | SQL-like | | **Scalability** | Medium | High | | **Integrations** | LangChain, LlamaIndex | LangChain, LlamaIndex | ### 3.2 FAISS - Ưu và Nhược Điểm **Ưu điểm:** - Hiệu suất cao với single machine - Nhiều thuật toán index - Hỗ trợ GPU - Kiểm soát full parameters - Lightweight **Nhược điểm:** - Không có native metadata - Single-node only - Cần tự quản lý persistence - Không có built-in server ### 3.3 ChromaDB - Ưu và Nhược Điểm **Ưu điểm:** - Full database với persistence - Native metadata support - Filtering - Dễ sử dụng - Distributed scaling - Good LangChain integration **Nhược điểm:** - Ít index options (chỉ HNSW) - Performance thấp hơn FAISS cho một số cases - Younger project ## 4. Milvus Extension ### 4.1 Giới Thiệu Milvus Milvus là distributed vector database có thể mở rộng FAISS: ```python from pymilvus import connections, Collection # Kết nối Milvus
 $$
 
 connections.connect("default", host="localhost", port="19530")
 
 $$
-# Tạo collection
-$$
-
-$$
-collection = Collection("FAISS_Collection")
-$$
-
-$$
-collection.create_schema(
+# Tạo collection collection = Collection("FAISS_Collection") collection.create_schema(
 $$
 
 fields=[
 
 $$
-{"name": "id", "type": "INT"}, {"name": "embedding", "type": "FLOAT_VECTOR", "dim": 128} ] ) ### 4.2 Sử Dụng FAISS với Milvus ```python # Milvus hỗ trợ nhiều FAISS indexes
-$$
-
-$$
-index_params = {
-$$
-
-$$
-"index_type": "IVF_FLAT", "metric_type": "L2", "params": {"nlist": 128} } collection.create_index(
-$$
-
-$$
-field_name="embedding",
-$$
-
-$$
-
+{"name": "id", "type": "INT"}, {"name": "embedding", "type": "FLOAT_VECTOR", "dim": 128} ] ) ### 4.2 Sử Dụng FAISS với Milvus ```python # Milvus hỗ trợ nhiều FAISS indexes index_params = { "index_type": "IVF_FLAT", "metric_type": "L2", "params": {"nlist": 128} } collection.create_index( field_name="embedding",
 $$
 
 index_params=index_params
-
-$$
-
-$$
 
 )
 
@@ -309,83 +161,27 @@ $$
 ```python
 # Use case: Production với hiệu suất cao
 
-$$
-
-$$
-
 index = faiss.IndexHNSWFlat(dimension, 32)
-
-$$
-
-$$
 
 index.hnsw.efSearch = 100
 
 $$
-### 5.2 Chọn ChromaDB Khi: - Cần persistence - Metadata filtering - Distributed deployment - Rapid development - LangChain/LlamaIndex integration ```python # Use case: Development với LangChain
-$$
-
-$$
-vectorstore = Chroma.from_documents(
-$$
-
-$$
-
+### 5.2 Chọn ChromaDB Khi: - Cần persistence - Metadata filtering - Distributed deployment - Rapid development - LangChain/LlamaIndex integration ```python # Use case: Development với LangChain vectorstore = Chroma.from_documents(
 $$
 
 documents=texts,
 
 $$
-
-$$
-
-$$
-embedding=OpenAIEmbeddings()
-$$
-
-$$
-) ### 5.3 Decision Tree Start │ ├─> Need metadata filtering? │     ├─ Yes → ChromaDB │     └─ No │           │ │     ├─> Single machine? │     │     ├─ Yes │     │     │     │ │     │     │     ├─> Need full control? │     │     │     │     ├─ Yes → FAISS │     │     │     │     └─ No → ChromaDB │     │     └─ No → Milvus/Pinecone │     └─ No ## 6. Code Examples ### 6.1 FAISS với GPU ```python import faiss # Chuyển sang GPU
-$$
-
-$$
-gpu_index = faiss.index_cpu_to_gpu(
-$$
-
-$$
-faiss.StandardGpuResources(), 0,  # GPU ID index  # CPU index ) # Search trên GPU
-$$
-
-$$
-distances, indices = gpu_index.search(query, k=10)
-$$
-
-$$
-### 6.2 ChromaDB với Metadata Filtering ```python import chromadb
-$$
-
-$$
-client = chromadb.Client()
-$$
-
-$$
-
+embedding=OpenAIEmbeddings() ) ### 5.3 Decision Tree Start │ ├─> Need metadata filtering? │     ├─ Yes → ChromaDB │     └─ No │           │ │     ├─> Single machine? │     │     ├─ Yes │     │     │     │ │     │     │     ├─> Need full control? │     │     │     │     ├─ Yes → FAISS │     │     │     │     └─ No → ChromaDB │     │     └─ No → Milvus/Pinecone │     └─ No ## 6. Code Examples ### 6.1 FAISS với GPU ```python import faiss # Chuyển sang GPU gpu_index = faiss.index_cpu_to_gpu( faiss.StandardGpuResources(), 0,  # GPU ID index  # CPU index ) # Search trên GPU distances, indices = gpu_index.search(query, k=10) ### 6.2 ChromaDB với Metadata Filtering ```python import chromadb client = chromadb.Client()
 $$
 
 collection = client.create_collection("documents")
-
-$$
-
-$$
 
 # Add với metadata
 collection.add(
 
 $$
-documents=["Doc 1", "Doc 2"],
-$$
-
-$$
-metadatas=[{"source": "blog", "year": 2024},
+documents=["Doc 1", "Doc 2"], metadatas=[{"source": "blog", "year": 2024},
 $$
 
                {"source": "news", "year": 2023}],
@@ -398,28 +194,12 @@ $$
 
 # Query với filter
 
-$$
-
-$$
-
 results = collection.query(
-
-$$
-
-$$
 
 $$
 query_texts=["search query"],
 $$
 
-$$
-
-$$
-
 n_results=2,
-
-$$
-
-$$
 
 where={"source": "blog"}

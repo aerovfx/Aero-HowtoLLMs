@@ -72,15 +72,7 @@ Tổng số tham số cho từng nhóm được cộng dồn trong quá trình l
 
 Do số lượng tham số tuyệt đối giữa các mô hình khác nhau rất lớn, nghiên cứu sử dụng tỷ lệ phần trăm để biểu diễn:
 
-$$
-
-$$
-
 \text{Percentage} = \frac{\text{Parameters of sublayer}}{\text{Total parameters}} \times 100%
-
-$$
-
-$$
 
 Kết quả được thể hiện bằng biểu đồ cột (bar plot) để so sánh trực quan 
 
@@ -168,15 +160,7 @@ Layer Normalization sử dụng hai tham số chính:
 
 Công thức:
 
-$$
-
-$$
-
 y = \gamma \frac{x - \mu}{\sigma} + \beta
-
-$$
-
-$$
 
 ---
 
@@ -195,15 +179,7 @@ Con số này rất nhỏ so với hàng trăm triệu hoặc hàng tỷ tham s�
 
 Khác với toàn mô hình, trong Layer Norm:
 
-$$
-
-$$
-
 * Số weight = số bias.
-
-$$
-
-$$
 
 Nguyên nhân là mỗi chiều embedding có đúng một tham số scale và một tham số shift 
 

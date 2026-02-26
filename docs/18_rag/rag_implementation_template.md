@@ -118,15 +118,7 @@ Filter + Rerank hiệu quả
 
 ### Rule
 
-$$
-
-$$
-
 👉 Không metadata = RAG yếu
-
-$$
-
-$$
 
 ---
 
@@ -143,27 +135,11 @@ $$
 
 ```python
 
-$$
-
-$$
-
 embedding_dim = 3072
-
-$$
-
-$$
 
 metric = "cosine"
 
-$$
-
-$$
-
 top_k = 20
-
-$$
-
-$$
 
 ### Optimize
 
@@ -187,44 +163,12 @@ Filter → Similarity Search → Rerank → Top N
 
 ```python
 
-$$
-
-$$
-
 docs = vector.search(
-
-$$
-
-$$
 
     query,
 
 $$
-filter={"year":2025},
-$$
-
-$$
-top_k=20
-$$
-
-$$
-)
-$$
-
-$$
-reranked = rerank(docs, query)[:5]
-$$
-
-$$
-### Reranker * Cohere * BGE-reranker * Cross-Encoder --- ## ✅ PHASE 6 – Prompt Engineering (2 ngày) ### System Prompt Template You are an enterprise assistant. Use only provided context. Cite sources. If unknown → say not found. ### Format Output ```json { "answer": "", "sources": [] } ➡️ Giảm hallucination mạnh --- ## ✅ PHASE 7 – Backend API (4–5 ngày) ### Stack đề xuất | Layer | Tool    | | ----- | ------- | | API   | FastAPI | | Auth  | JWT     | | Cache | Redis   | | Queue | Celery  | ### Architecture Frontend → API → RAG Engine → LLM ### Endpoint mẫu POST /ask POST /upload GET /status --- ## ✅ PHASE 8 – Evaluation & Monitoring (Song song) ### Metrics | Metric    | Tool       | | --------- | ---------- | | Recall    | Custom     | | Precision | Human eval | | Latency   | Prometheus | | Cost      | OpenAI log | ### Golden Dataset 👉 200–500 Q&A thật --- ## ✅ PHASE 9 – Security & Governance (BẮT BUỘC) ### Checklist ✅ RBAC ✅ Encrypt Vector DB ✅ Audit log ✅ PII Masking
-$$
-
-$$
-➡️ Thiếu = không lên production
-$$
-
-$$
---- ## ✅ PHASE 10 – Deployment (3 ngày) ### Infra | Layer         | Tool           | | ------------- | -------------- | | Container     | Docker         | | Orchestration | K8s            | | CI/CD         | GitHub Actions | | Monitor       | Grafana        | ### Strategy * Blue-Green * Canary Release --- # 📅 ROADMAP 30 NGÀY | Tuần   | Mục tiêu           | | ------ | ------------------ | | Week 1 | Ingest + Chunk     | | Week 2 | Vector + Retrieval | | Week 3 | API + Prompt       | | Week 4 | Eval + Deploy      | ➡️ MVP chạy được --- # 🔥 PRODUCTION FORMULA Công thức sống còn: Good Data + Smart Chunk + Strong Metadata + Rerank + Eval Loop
+filter={"year":2025}, top_k=20 ) reranked = rerank(docs, query)[:5] ### Reranker * Cohere * BGE-reranker * Cross-Encoder --- ## ✅ PHASE 6 – Prompt Engineering (2 ngày) ### System Prompt Template You are an enterprise assistant. Use only provided context. Cite sources. If unknown → say not found. ### Format Output ```json { "answer": "", "sources": [] } ➡️ Giảm hallucination mạnh --- ## ✅ PHASE 7 – Backend API (4–5 ngày) ### Stack đề xuất | Layer | Tool    | | ----- | ------- | | API   | FastAPI | | Auth  | JWT     | | Cache | Redis   | | Queue | Celery  | ### Architecture Frontend → API → RAG Engine → LLM ### Endpoint mẫu POST /ask POST /upload GET /status --- ## ✅ PHASE 8 – Evaluation & Monitoring (Song song) ### Metrics | Metric    | Tool       | | --------- | ---------- | | Recall    | Custom     | | Precision | Human eval | | Latency   | Prometheus | | Cost      | OpenAI log | ### Golden Dataset 👉 200–500 Q&A thật --- ## ✅ PHASE 9 – Security & Governance (BẮT BUỘC) ### Checklist ✅ RBAC ✅ Encrypt Vector DB ✅ Audit log ✅ PII Masking ➡️ Thiếu = không lên production --- ## ✅ PHASE 10 – Deployment (3 ngày) ### Infra | Layer         | Tool           | | ------------- | -------------- | | Container     | Docker         | | Orchestration | K8s            | | CI/CD         | GitHub Actions | | Monitor       | Grafana        | ### Strategy * Blue-Green * Canary Release --- # 📅 ROADMAP 30 NGÀY | Tuần   | Mục tiêu           | | ------ | ------------------ | | Week 1 | Ingest + Chunk     | | Week 2 | Vector + Retrieval | | Week 3 | API + Prompt       | | Week 4 | Eval + Deploy      | ➡️ MVP chạy được --- # 🔥 PRODUCTION FORMULA Công thức sống còn: Good Data + Smart Chunk + Strong Metadata + Rerank + Eval Loop
 $$
 
 = RAG Success

@@ -135,15 +135,7 @@ Kết quả mô hình ban đầu là log-softmax, nên chưa phải phân phối
 
 Phân phối xác suất được khôi phục bằng:
 
-$$
-
-$$
-
 P = e^{\log p}
-
-$$
-
-$$
 
 Sau chuyển đổi, mỗi hàng của ma trận đầu ra có tổng bằng 1, xác nhận tính hợp lệ. 
 

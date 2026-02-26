@@ -59,15 +59,7 @@ Ta muốn đo mức gần nhau giữa P và Q.
 
 Phân kỳ KL:
 
-$$
-
-$$
-
 D_{KL}P \\mid  Q = \sum_x P(x)\log \frac{P(x)}{Qx}
-
-$$
-
-$$
 
 Vấn đề:
 	•	Không đối xứng
@@ -103,11 +95,7 @@ Khi thay đổi \lambda \in [0,1], ta thu được một đường cong trong kh
 MAUVE xây dựng đồ thị:
 
 $$
-x\lambda = D_{KL}P \\mid  R_\lambda
-$$
-
-$$
-y\lambda = D_{KL}Q \\mid  R_\lambda
+x\lambda = D_{KL}P \\mid  R_\lambda y\lambda = D_{KL}Q \\mid  R_\lambda
 $$
 
 Diện tích dưới đường cong này được chuẩn hoá thành điểm MAUVE:
@@ -124,15 +112,7 @@ Giá trị gần 1 → phân phối gần nhau.
 
 Văn bản được ánh xạ vào không gian embedding:
 
-$$
-
-$$
-
 x_i = f_{\text{LM}}text_i
-
-$$
-
-$$
 
 Trong đó f_{\text{LM}} là encoder từ Transformer của Ashish Vaswani et al.
 
@@ -142,15 +122,7 @@ Trong đó f_{\text{LM}} là encoder từ Transformer của Ashish Vaswani et al
 
 Không gian embedding được phân cụm (k-means):
 
-$$
-
-$$
-
 \min \sum_{i=1}^{N} ||x_i - c_{z_i}||^2
-
-$$
-
-$$
 
 Sau đó ước lượng phân phối rời rạc trên các cluster.
 
@@ -160,15 +132,7 @@ Sau đó ước lượng phân phối rời rạc trên các cluster.
 
 Perplexity:
 
-$$
-
-$$
-
 PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right)
-
-$$
-
-$$
 
 Perplexity:
 	•	Đo chất lượng token-level
@@ -184,24 +148,12 @@ MAUVE:
 
 Giả sử:
 
-$$
-
-$$
-
 •	P = Q
-
-$$
-
-$$
 
 → Với mọi \lambda:
 
 $$
-D_{KL}P \\mid  R_\lambda = D_{KL}Q \\mid  R_\lambda
-$$
-
-$$
-→ MAUVE = 1
+D_{KL}P \\mid  R_\lambda = D_{KL}Q \\mid  R_\lambda → MAUVE = 1
 $$
 
 Nếu:

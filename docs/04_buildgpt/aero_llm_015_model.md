@@ -47,15 +47,7 @@ Mục tiêu của bài báo này là:
 
 Đầu vào của mô hình là chuỗi token được ánh xạ thành embedding:
 
-$$
-
-$$
-
 X = E_{token} + E_{pos}
-
-$$
-
-$$
 
 Trong đó:
 
@@ -70,15 +62,7 @@ Position embedding cho phép mô hình nhận biết thứ tự chuỗi.
 
 Attention trong mô hình được định nghĩa:
 
-$$
-
-$$
-
 \text{Attention}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-
-$$
-
-$$
 
 Trong đó:
 
@@ -94,15 +78,7 @@ Hệ số $\sqrt{d}$ giúp ổn định giá trị softmax.
 
 Mô hình sử dụng causal mask để đảm bảo tính tự hồi quy:
 
-$$
-
-$$
-
 M_{ij}= \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
-
-$$
-
-$$
 
 $$
 Mask được áp dụng bằng cách thay thế các phần tử bị che bởi -\infty.
@@ -114,27 +90,11 @@ $$
 
 Trước attention, dữ liệu được chuẩn hóa:
 
-$$
-
-$$
-
 \hat{X}=\text{LayerNorm}(X)
-
-$$
-
-$$
 
 Sau đó, đầu ra attention được cộng trở lại:
 
-$$
-
-$$
-
 Y = X + \text{Attention}(\hat{X})
-
-$$
-
-$$
 
 Cấu trúc residual giúp:
 
@@ -165,15 +125,7 @@ Unembedding được chia sẻ trọng số với embedding (weight tying).
 
 Các ma trận trọng số:
 
-$$
-
-$$
-
 W_Q, W_K, W_V, W_0 \in \mathbb{R}^{d \times d}
-
-$$
-
-$$
 
 Không sử dụng bias cho QKV, do LayerNorm đã xử lý dịch chuyển phân phối. 
 
@@ -421,115 +373,39 @@ Mỗi block bao gồm hai sublayer chính:
 
 Dạng tổng quát:
 
-$$
-
-$$
-
 H^{(l)} = H^{(l-1)} + \text{MHSA}(\text{LN}(H^{(l-1)}))
 
 $$
-
-$$
-
-$$
-Y^{(l)} = H^{(l)} + \text{FFN}(\text{LN}(H^{(l)}))
-$$
-
-$$
-Trong đó: - l: chỉ số block, - LN: Layer Normalization. --- ### 2.2. Kiến trúc Xếp chồng (Stacking) Với L block, mô hình có dạng:
+Y^{(l)} = H^{(l)} + \text{FFN}(\text{LN}(H^{(l)})) Trong đó: - l: chỉ số block, - LN: Layer Normalization. --- ### 2.2. Kiến trúc Xếp chồng (Stacking) Với L block, mô hình có dạng:
 $$
 
 X \rightarrow $B_1$ \rightarrow $B_2$ \rightarrow \dots \rightarrow $B_L$ \rightarrow Y
 
 $$
-Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh xạ phi tuyến sâu. --- ### 2.3. Vai trò của Độ sâu (Depth) Độ sâu mô hình ảnh hưởng trực tiếp đến: - Khả năng trừu tượng hóa, - Năng lực ghi nhớ dài hạn, - Khả năng suy luận. Quan hệ thực nghiệm:
-$$
-
-$$
-\text{Capacity} \propto L \times d^2
-$$
-
-$$
-với L là số block, d là embedding dimension. --- ## 3. Cơ sở Lý thuyết ### 3.1. Biểu diễn Phân cấp Multi-block Transformer tạo biểu diễn phân cấp: | Tầng | Vai trò | |------|----------| | Lower | Cú pháp, từ vựng | | Middle | Ngữ nghĩa | | Higher | Ngữ cảnh, suy luận | Mỗi block làm giàu thêm không gian biểu diễn. --- ### 3.2. Hiện tượng Feature Composition Mỗi block thực hiện:
-$$
-
-$$
-f_l(x) = x + g_l(x)
-$$
-
-$$
-Chuỗi block tạo thành:
-$$
-
-$$
-f(x)=f_L\circ \dots \circ f_1(x)
-$$
-
-$$
-Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh mẽ. --- ### 3.3. Ổn định Gradient Residual connection cho phép:
-$$
-
-$$
-\frac{\partial L}{\partial x} \approx 1 + \epsilon
-$$
-
-$$
-Giúp tránh hiện tượng vanishing gradient khi tăng độ sâu. --- ## 4. Phương pháp (Methodology) ### 4.1. Mở rộng từ Single-Block Mô hình một block: Embedding → Attention → Output Mô hình multi-block: Embedding → Block1 → Block2 → ... → BlockL → Output Mỗi block độc lập tham số. --- ### 4.2. Cấu trúc Block Chuẩn Mỗi block gồm: 1. Pre-LayerNorm, 2. Multi-Head Attention, 3. Residual, 4. LayerNorm, 5. Feedforward, 6. Residual. Đây là cấu hình được chứng minh ổn định trong huấn luyện LLM. --- ### 4.3. Pseudocode Multi-Block Transformer Input: X0 (B×T×D)
+Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh xạ phi tuyến sâu. --- ### 2.3. Vai trò của Độ sâu (Depth) Độ sâu mô hình ảnh hưởng trực tiếp đến: - Khả năng trừu tượng hóa, - Năng lực ghi nhớ dài hạn, - Khả năng suy luận. Quan hệ thực nghiệm: \text{Capacity} \propto L \times d^2 với L là số block, d là embedding dimension. --- ## 3. Cơ sở Lý thuyết ### 3.1. Biểu diễn Phân cấp Multi-block Transformer tạo biểu diễn phân cấp: | Tầng | Vai trò | |------|----------| | Lower | Cú pháp, từ vựng | | Middle | Ngữ nghĩa | | Higher | Ngữ cảnh, suy luận | Mỗi block làm giàu thêm không gian biểu diễn. --- ### 3.2. Hiện tượng Feature Composition Mỗi block thực hiện: f_l(x) = x + g_l(x) Chuỗi block tạo thành: f(x)=f_L\circ \dots \circ f_1(x) Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh mẽ. --- ### 3.3. Ổn định Gradient Residual connection cho phép: \frac{\partial L}{\partial x} \approx 1 + \epsilon Giúp tránh hiện tượng vanishing gradient khi tăng độ sâu. --- ## 4. Phương pháp (Methodology) ### 4.1. Mở rộng từ Single-Block Mô hình một block: Embedding → Attention → Output Mô hình multi-block: Embedding → Block1 → Block2 → ... → BlockL → Output Mỗi block độc lập tham số. --- ### 4.2. Cấu trúc Block Chuẩn Mỗi block gồm: 1. Pre-LayerNorm, 2. Multi-Head Attention, 3. Residual, 4. LayerNorm, 5. Feedforward, 6. Residual. Đây là cấu hình được chứng minh ổn định trong huấn luyện LLM. --- ### 4.3. Pseudocode Multi-Block Transformer Input: X0 (B×T×D)
 $$
 
 for l = 1 → L:
 
-$$
-
-$$
-
 H = LN(Xl-1)
-
-$$
-
-$$
 
 $$
 A = MHSAH
 $$
 
-$$
-
-$$
-
 U = Xl-1 + A
-
-$$
-
-$$
 
 $$
 Z = LN(U)
 $$
 
-$$
-
-$$
-
 F = FFN(Z)
-
-$$
-
-$$
 
 $$
 Xl = U + F
 $$
 
-$$
-
-$$
-
 Y = X_L
-
-$$
-
-$$
 
 return Y
 
@@ -549,107 +425,35 @@ class TransformerBlock(nn.Module):
     def __init__(self, d_model, n_heads, d_ff):
         super().__init__()
 
-$$
-
-$$
-
 self.ln1 = nn.LayerNorm(d_model)
-
-$$
-
-$$
 
 $$
 self.ln2 = nn.LayerNorm(d_model)
 $$
 
-$$
-
-$$
-
 self.attn = nn.MultiheadAttention(
 
 $$
-
-$$
-
-$$
-d_model, n_heads, batch_first=True
-$$
-
-$$
-)
-$$
-
-$$
-self.ffn = nn.Sequential(
-$$
-
-$$
-nn.Linear(d_model, d_ff), nn.GELU(), nn.Linear(d_ff, d_model) )
-$$
-
-$$
-def forward(self, x, causal_mask=None):
-$$
-
-$$
-
+d_model, n_heads, batch_first=True ) self.ffn = nn.Sequential( nn.Linear(d_model, d_ff), nn.GELU(), nn.Linear(d_ff, d_model) ) def forward(self, x, causal_mask=None):
 $$
 
 h = self.ln1x
 
 $$
-
-$$
-
-$$
-attn_out, _ = self.attn(
-$$
-
-$$
-h, h, h,
-$$
-
-$$
-attn_mask=causal_mask,
-$$
-
-$$
-
+attn_out, _ = self.attn( h, h, h, attn_mask=causal_mask,
 $$
 
 need_weights=False
 
-$$
-
-$$
-
         )
 
-$$
-
-$$
-
 x = x + attn_out
-
-$$
-
-$$
 
 $$
 h = self.ln2x
 $$
 
-$$
-
-$$
-
 x = x + self.ffnh
-
-$$
-
-$$
 
         return x
 
@@ -664,41 +468,17 @@ class Transformer(nn.Module):
 
         super().__init__()
 
-$$
-
-$$
-
 self.token_emb = nn.Embedding(
-
-$$
-
-$$
 
             vocab_size, d_model
         )
 
-$$
-
-$$
-
 self.pos_emb = nn.Embedding(
-
-$$
-
-$$
 
             max_len, d_model
         )
 
-$$
-
-$$
-
 self.blocks = nn.ModuleList([
-
-$$
-
-$$
 
             TransformerBlock(
                 d_model, n_heads, d_ff
@@ -706,57 +486,25 @@ $$
             for _ in range(n_layers)
         ])
 
-$$
-
-$$
-
 self.ln_f = nn.LayerNorm(d_model)
-
-$$
-
-$$
 
 $$
 self.head = nn.Linear(
 $$
 
-$$
-
-$$
-
 d_model, vocab_size, bias=False
-
-$$
-
-$$
 
         )
 
     def forward(self, idx):
 
-$$
-
-$$
-
 B, T = idx.shape
-
-$$
-
-$$
 
 $$
 pos = torch.arange(
 $$
 
-$$
-
-$$
-
 T, device=idx.device
-
-$$
-
-$$
 
         )
 
@@ -768,15 +516,7 @@ $$
             + self.pos_emb(pos)
         )
 
-$$
-
-$$
-
 mask = torch.triu(
-
-$$
-
-$$
 
             torch.ones(T, T),
 
@@ -788,34 +528,14 @@ $$
 
         for block in self.blocks:
 
-$$
-
-$$
-
 x = block(x, mask)
 
 $$
-
-$$
-
-$$
-x = self.ln_fx
-$$
-
-$$
-return self.headx ```` --- ## 5. Thiết kế Thực nghiệm (Experimental Design) ### 5.1. Cấu hình Mô hình | Tham số | Giá trị     | | ------- | ----------- | | Layers  | 2, 4, 8, 12 | | Heads   | 4, 8        | | Dim     | 256, 512    | | FFN     | 4×Dim       | --- ### 5.2. Dữ liệu * Corpus: Wikipedia + Books (subset), * Tokens: 50M–200M, * Tokenizer: BPE. --- ### 5.3. Quy trình Huấn luyện * Optimizer: AdamW, * LR: 3e-4, * Warmup: 5%, * Batch: 256, * Epochs: 20. --- ## 6. Kết quả (Results) ### 6.1. Ảnh hưởng của Số Block | Layers | Perplexity ↓ | | ------ | ------------ | | 2      | 38.5         | | 4      | 29.4         | | 8      | 21.7         | | 12     | 18.9         | Perplexity giảm khi tăng độ sâu. --- ### 6.2. Hiệu năng Tính toán | Layers | Time/Step | | ------ | --------- | | 2      | 1.2 ms    | | 4      | 2.3 ms    | | 8      | 4.8 ms    | | 12     | 7.5 ms    | Chi phí tăng tuyến tính theo số block. --- ### 6.3. Sử dụng Bộ nhớ Memory ≈ O(L·T·D) Với L lớn, memory trở thành bottleneck chính. --- ## 7. Thảo luận (Discussion) ### 7.1. Trade-off Depth vs Efficiency | Yếu tố    | Tăng Block                  | | --------- | --------------------------- | | Accuracy  | ↑                           | | Memory    | ↑                           | | Latency   | ↑                           | | Stability | ↓ (nếu không chuẩn hóa tốt) | Do đó, cần cân bằng giữa độ sâu và chi phí. --- ### 7.2. Hiện tượng Over-Smoothing Khi L lớn: * Biểu diễn token trở nên giống nhau, * Giảm phân biệt ngữ nghĩa. Cần regularization và dropout. --- ### 7.3. Tác động đến LLM Quy mô lớn Trong LLM hiện đại:
+x = self.ln_fx return self.headx ```` --- ## 5. Thiết kế Thực nghiệm (Experimental Design) ### 5.1. Cấu hình Mô hình | Tham số | Giá trị     | | ------- | ----------- | | Layers  | 2, 4, 8, 12 | | Heads   | 4, 8        | | Dim     | 256, 512    | | FFN     | 4×Dim       | --- ### 5.2. Dữ liệu * Corpus: Wikipedia + Books (subset), * Tokens: 50M–200M, * Tokenizer: BPE. --- ### 5.3. Quy trình Huấn luyện * Optimizer: AdamW, * LR: 3e-4, * Warmup: 5%, * Batch: 256, * Epochs: 20. --- ## 6. Kết quả (Results) ### 6.1. Ảnh hưởng của Số Block | Layers | Perplexity ↓ | | ------ | ------------ | | 2      | 38.5         | | 4      | 29.4         | | 8      | 21.7         | | 12     | 18.9         | Perplexity giảm khi tăng độ sâu. --- ### 6.2. Hiệu năng Tính toán | Layers | Time/Step | | ------ | --------- | | 2      | 1.2 ms    | | 4      | 2.3 ms    | | 8      | 4.8 ms    | | 12     | 7.5 ms    | Chi phí tăng tuyến tính theo số block. --- ### 6.3. Sử dụng Bộ nhớ Memory ≈ O(L·T·D) Với L lớn, memory trở thành bottleneck chính. --- ## 7. Thảo luận (Discussion) ### 7.1. Trade-off Depth vs Efficiency | Yếu tố    | Tăng Block                  | | --------- | --------------------------- | | Accuracy  | ↑                           | | Memory    | ↑                           | | Latency   | ↑                           | | Stability | ↓ (nếu không chuẩn hóa tốt) | Do đó, cần cân bằng giữa độ sâu và chi phí. --- ### 7.2. Hiện tượng Over-Smoothing Khi L lớn: * Biểu diễn token trở nên giống nhau, * Giảm phân biệt ngữ nghĩa. Cần regularization và dropout. --- ### 7.3. Tác động đến LLM Quy mô lớn Trong LLM hiện đại:
 $$
 
 * L = 32–96,
 
-$$
-
-$$
-
 * D = 4k–8k,
-
-$$
-
-$$
 
 * Heads = 32–64.

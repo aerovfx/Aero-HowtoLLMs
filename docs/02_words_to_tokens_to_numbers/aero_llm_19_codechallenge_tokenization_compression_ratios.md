@@ -62,27 +62,11 @@ Nếu R > 1, tokenization đạt hiệu ứng nén.
 
 Gọi $L_i$ là số ký tự trong token $t_i$.
 
-$$
-
-$$
-
 \bar{L} = \frac{1}{m} \sum_{i=1}^{m} L_i
-
-$$
-
-$$
 
 Ta có:
 
-$$
-
-$$
-
 n = \sum_{i=1}^{m} L_i
-
-$$
-
-$$
 
 Suy ra:
 
@@ -96,15 +80,7 @@ Tỷ lệ nén chính là độ dài ký tự trung bình trên mỗi token.
 
 3. Phân tích Xác suất
 
-$$
-
-$$
-
 Gọi P(L=k) là xác suất token có độ dài k.
-
-$$
-
-$$
 
 Kỳ vọng:
 
@@ -114,15 +90,7 @@ $$
 
 Tỷ lệ nén trung bình:
 
-$$
-
-$$
-
 R = \mathbb{E}[L]
-
-$$
-
-$$
 
 Nếu phân bố độ dài tuân theo phân bố hình học:
 
@@ -140,51 +108,19 @@ $$
 
 Theo lý thuyết của Claude Shannon (1948), entropy của nguồn ký tự:
 
-$$
-
-$$
-
 H_c = -\sum_{c \in \Sigma} pc\log pc
-
-$$
-
-$$
 
 Entropy trên token:
 
-$$
-
-$$
-
 H_t = -\sum_{t \in V} pt\log pt
-
-$$
-
-$$
 
 Tỷ lệ nén lý thuyết tối ưu:
 
-$$
-
-$$
-
 R_{\text{opt}} = \frac{H_c}{H_t}
-
-$$
-
-$$
 
 Nếu tokenizer tối ưu theo nghĩa thông tin, thì:
 
-$$
-
-$$
-
 m H_t \approx n H_c
-
-$$
-
-$$
 
 ⸻
 
@@ -193,19 +129,7 @@ $$
 Trong kiến trúc Transformer:
 
 $$
-\text{Cost} = O(m^2)
-$$
-
-$$
-Thay m = \frac{n}{R}:
-$$
-
-$$
-\text{Cost} = O(\le)ft\left(\frac{n}{R}\right^2\right)
-$$
-
-$$
-Do đó: •	R \uparrow \Rightarrow chi phí giảm theo bình phương. Ví dụ:
+\text{Cost} = O(m^2) Thay m = \frac{n}{R}: \text{Cost} = O(\le)ft\left(\frac{n}{R}\right^2\right) Do đó: •	R \uparrow \Rightarrow chi phí giảm theo bình phương. Ví dụ:
 $$
 
 •	Nếu R = 4, chi phí giảm 16 lần so với character-level.
@@ -235,49 +159,6 @@ $$
 W \in \mathbb{R}^{|V| \times d}
 
 $$
-Tổng tham số: |V|d Bài toán tối ưu đa mục tiêu:
+Tổng tham số: |V|d Bài toán tối ưu đa mục tiêu: \min_{V} \left\frac{n}{R} \right^2 + \lambda |V| Trong đó: •	Thành phần đầu: chi phí attention •	Thành phần sau: chi phí bộ nhớ embedding ⸻ 8. Phân tích Tỷ lệ Nén Thực nghiệm Trong thực tế: •	Văn bản tiếng Anh: R \approx 3-4 •	Văn bản có nhiều ký tự Unicode: R thấp hơn •	Ngôn ngữ chắp dính (agglutinative): R biến thiên mạnh Do đó: R = f\text{ngôn ngữ}, \mid V\mid, thuật toán ⸻ 9. Bàn luận Tokenization đóng vai trò như cơ chế nén tiền xử lý cho Transformer. Có thể xem tokenization như bài toán mã hóa: \Sigma^{\ast} \rightarrow V^{\ast} Mục tiêu: 1.	Giảm độ dài chuỗi (tăng R) 2.	Giữ entropy thông tin 3.	Hạn chế tăng kích thước từ vựng Sự cân bằng này giải thích vì sao các hệ như Google và OpenAI chọn từ vựng khoảng 30k–50k token. ⸻ 10. Kết luận Tỷ lệ nén trong tokenization được xác định bởi: R = \frac{n}{m} = \mathbb{E}[L] Ảnh hưởng trực tiếp đến: \text{Attention Cost} = O(\le)ft\left(\frac{n}{R}\right^2\right) Và chịu ràng buộc bởi: m H_t \approx n H_c
 $$
 
-$$
-\min_{V} \left\frac{n}{R} \right^2 + \lambda |V|
-$$
-
-$$
-Trong đó: •	Thành phần đầu: chi phí attention •	Thành phần sau: chi phí bộ nhớ embedding ⸻ 8. Phân tích Tỷ lệ Nén Thực nghiệm Trong thực tế:
-$$
-
-$$
-•	Văn bản tiếng Anh: R \approx 3-4
-$$
-
-$$
-•	Văn bản có nhiều ký tự Unicode: R thấp hơn •	Ngôn ngữ chắp dính (agglutinative): R biến thiên mạnh Do đó:
-$$
-
-$$
-R = f\text{ngôn ngữ}, \mid V\mid, thuật toán
-$$
-
-$$
-⸻ 9. Bàn luận Tokenization đóng vai trò như cơ chế nén tiền xử lý cho Transformer. Có thể xem tokenization như bài toán mã hóa: \Sigma^{\ast} \rightarrow V^{\ast} Mục tiêu: 1.	Giảm độ dài chuỗi (tăng R) 2.	Giữ entropy thông tin 3.	Hạn chế tăng kích thước từ vựng Sự cân bằng này giải thích vì sao các hệ như Google và OpenAI chọn từ vựng khoảng 30k–50k token. ⸻ 10. Kết luận Tỷ lệ nén trong tokenization được xác định bởi:
-$$
-
-$$
-R = \frac{n}{m} = \mathbb{E}[L]
-$$
-
-$$
-Ảnh hưởng trực tiếp đến:
-$$
-
-$$
-\text{Attention Cost} = O(\le)ft\left(\frac{n}{R}\right^2\right)
-$$
-
-$$
-Và chịu ràng buộc bởi:
-$$
-
-$$
-m H_t \approx n H_c
-$$

@@ -102,28 +102,12 @@ Mỗi chunk gắn:
 
 ```python
 
-$$
-
-$$
-
 top_k = 20
-
-$$
-
-$$
 
 filter = {year:2024, project:"X"}
 
 $$
-#### Phase 2: Rerank (Cross-Encoder) * Dùng Cohere Rerank / BGE-reranker * Chọn top 5 ➡️ Precision tăng mạnh --- ### 6️⃣ Prompt Engineering Prompt production: You are an internal AI assistant. Only answer from provided context. If info missing, say "Not found in documents". ➡️ Hallucination giảm ~60% --- ## 📊 Kết quả sau 3 tháng | Chỉ số        | Trước   | Sau     | | ------------- | ------- | ------- | | Accuracy      | 62%     | 89%     | | Hallucination | Cao     | Thấp    | | Thời gian tìm | 10 phút | 10 giây | | User 만족       | 6/10    | 9/10    | --- ## 🔍 Ví dụ truy vấn thực tế User hỏi: > “Chi phí marketing Q2/2024 dự án X?” Hệ thống xử lý:
-$$
-
-$$
-1️⃣ Filter: year=2024, project=X
-$$
-
-$$
-2️⃣ Retrieve: 20 chunk 3️⃣ Rerank: top 5 4️⃣ LLM tổng hợp Output: > “Theo báo cáo tài chính Q2/2024, chi phí marketing là 2.3 tỷ VNĐ…” ➡️ Có nguồn rõ ràng → tin cậy --- ## 🏗️ Stack Công Nghệ | Layer    | Tool                 | | -------- | -------------------- | | Ingest   | Unstructured / PyPDF | | Chunking | Custom + LangChain   | | VectorDB | Qdrant               | | Rerank   | Cohere               | | LLM      | GPT-4 / Claude       | | Backend  | FastAPI              | --- ## 💎 Bài học rút ra ### ❌ Sai lầm thường gặp * Chunk quá nhỏ (<200 tokens) * Không overlap * Không metadata * Chỉ dùng similarity search ### ✅ Best Practice 🔥 Công thức vàng: Section + Semantic + Overlap + Metadata Filter + Rerank + Strict Prompt
+#### Phase 2: Rerank (Cross-Encoder) * Dùng Cohere Rerank / BGE-reranker * Chọn top 5 ➡️ Precision tăng mạnh --- ### 6️⃣ Prompt Engineering Prompt production: You are an internal AI assistant. Only answer from provided context. If info missing, say "Not found in documents". ➡️ Hallucination giảm ~60% --- ## 📊 Kết quả sau 3 tháng | Chỉ số        | Trước   | Sau     | | ------------- | ------- | ------- | | Accuracy      | 62%     | 89%     | | Hallucination | Cao     | Thấp    | | Thời gian tìm | 10 phút | 10 giây | | User 만족       | 6/10    | 9/10    | --- ## 🔍 Ví dụ truy vấn thực tế User hỏi: > “Chi phí marketing Q2/2024 dự án X?” Hệ thống xử lý: 1️⃣ Filter: year=2024, project=X 2️⃣ Retrieve: 20 chunk 3️⃣ Rerank: top 5 4️⃣ LLM tổng hợp Output: > “Theo báo cáo tài chính Q2/2024, chi phí marketing là 2.3 tỷ VNĐ…” ➡️ Có nguồn rõ ràng → tin cậy --- ## 🏗️ Stack Công Nghệ | Layer    | Tool                 | | -------- | -------------------- | | Ingest   | Unstructured / PyPDF | | Chunking | Custom + LangChain   | | VectorDB | Qdrant               | | Rerank   | Cohere               | | LLM      | GPT-4 / Claude       | | Backend  | FastAPI              | --- ## 💎 Bài học rút ra ### ❌ Sai lầm thường gặp * Chunk quá nhỏ (<200 tokens) * Không overlap * Không metadata * Chỉ dùng similarity search ### ✅ Best Practice 🔥 Công thức vàng: Section + Semantic + Overlap + Metadata Filter + Rerank + Strict Prompt
 $$
 
 = RAG mạnh thật sự

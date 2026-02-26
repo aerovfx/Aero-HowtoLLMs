@@ -100,15 +100,7 @@ Context: "I prefer oat milk in my ___"
 Model forward pass
     ↓
 
-$$
-
-$$
-
 Logits: [z₁, z₂, ..., z_V]  (V = vocab size)
-
-$$
-
-$$
 
     ↓
 Softmax + Temperature
@@ -131,15 +123,7 @@ Decode to text
 **Deterministic (argmax):**
 ```python
 
-$$
-
-$$
-
 next_token = torch.argmax(probs)
-
-$$
-
-$$
 
 # Always picks highest probability
 # Boring, repetitive
@@ -147,15 +131,7 @@ $$
 **Uniform random:**
 ```python
 
-$$
-
-$$
-
 next_token = torch.randint(0, vocab_size, (1,))
-
-$$
-
-$$
 
 # Ignores probabilities entirely
 # Incoherent output
@@ -163,15 +139,7 @@ $$
 **Weighted probabilistic (multinomial):**
 ```python
 
-$$
-
-$$
-
 next_token = torch.multinomial(probs, num_samples=1)
-
-$$
-
-$$
 
 # Respects probability distribution
 # Balanced diversity + quality ✓
@@ -212,76 +180,16 @@ $$
 **Mathematical definition:**
 
 $$
-Cho K possible outcomes với probabilities \mathbf{p} = [p_1, p_2, \ldots, p_K] where \sum_{i=1}^K p_i = 1:
-$$
-
-$$
-P(X_1=n_1, X_2=n_2, \ldots, X_K=n_K) = \frac{n!}{n_1! n_2! \cdots n_K!} p_1^{n_1} p_2^{n_2} \cdots p_K^{n_K}
-$$
-
-$$
-Trong đó: - n = \sum_{i=1}^K n_i = total number of trials - n_i = number of times outcome i occurs #### 2.1.2 Sampling từ Multinomial **Single sample:** Select one outcome i với probability p_i. **PyTorch implementation:** ```python
-$$
-
-$$
-torch.multinomial(probs, num_samples=1)
-$$
-
-$$
-**Mathematical interpretation:**
-$$
-
-$$
-P(\text{sample} = i) = p_i
-$$
-
-$$
-**Multiple samples (with replacement):** ```python
-$$
-
-$$
-torch.multinomial(probs, num_samples=n, replacement=True)
-$$
-
-$$
-Each sample independent, probability distribution unchanged. **Multiple samples (without replacement):** ```python
-$$
-
-$$
-torch.multinomial(probs, num_samples=n, replacement=False)
-$$
-
-$$
-After sampling outcome i, effective probability becomes:
-$$
-
-$$
-p_i^{\text{new}} = 0
-$$
-
-$$
-Other probabilities renormalized. ### 2.2 Relationship với Categorical Distribution **Categorical distribution:**
+Cho K possible outcomes với probabilities \mathbf{p} = [p_1, p_2, \ldots, p_K] where \sum_{i=1}^K p_i = 1: P(X_1=n_1, X_2=n_2, \ldots, X_K=n_K) = \frac{n!}{n_1! n_2! \cdots n_K!} p_1^{n_1} p_2^{n_2} \cdots p_K^{n_K} Trong đó: - n = \sum_{i=1}^K n_i = total number of trials - n_i = number of times outcome i occurs #### 2.1.2 Sampling từ Multinomial **Single sample:** Select one outcome i với probability p_i. **PyTorch implementation:** ```python torch.multinomial(probs, num_samples=1) **Mathematical interpretation:** P(\text{sample} = i) = p_i **Multiple samples (with replacement):** ```python torch.multinomial(probs, num_samples=n, replacement=True) Each sample independent, probability distribution unchanged. **Multiple samples (without replacement):** ```python torch.multinomial(probs, num_samples=n, replacement=False) After sampling outcome i, effective probability becomes: p_i^{\text{new}} = 0 Other probabilities renormalized. ### 2.2 Relationship với Categorical Distribution **Categorical distribution:**
 $$
 
 Special case của multinomial với n=1 (single trial).
 
 $$
-**Equivalence:** ```python # These are mathematically equivalent
-$$
-
-$$
-sample = torch.multinomial(probs, num_samples=1)
-$$
-
-$$
-
+**Equivalence:** ```python # These are mathematically equivalent sample = torch.multinomial(probs, num_samples=1)
 $$
 
 sample = torch.distributions.Categorical(probs).sample()
-
-$$
-
-$$
 
 **Trong LLMs:**
 - Each token selection = one categorical sample
@@ -294,51 +202,19 @@ $$
 
 **Automatic normalization:**
 
-$$
-
-$$
-
 If input is \mathbf{w} = [w_1, w_2, \ldots, w_K] (unnormalized weights):
 
-$$
-
-$$
-
-$$
-
-$$
-
 p_i = \frac{w_i}{\sum_{j=1}^K w_j}
-
-$$
-
-$$
 
 **Example:**
 ```python
 
-$$
-
-$$
-
 weights = torch.tensor([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
 # Internally normalized to:
 # [1/8, 2/8, 5/8] = [0.125, 0.25, 0.625]
 
-$$
-
-$$
-
 sample = torch.multinomial(weights, num_samples=1)
-
-$$
-
-$$
 
 # P(sample=0) = 0.125
 # P(sample=1) = 0.25
@@ -360,89 +236,17 @@ torch.multinomial(
     input,                    # Tensor of probability weights
     num_samples,              # Number of samples to draw
 
-$$
-
-$$
-
 replacement=False,        # Sample with/without replacement
 
-$$
-
-$$
-
     *,
-
-$$
-
-$$
 
 generator=None,           # RNG generator
 
 $$
-
-$$
-
-$$
-out=None                  # Output tensor
-$$
-
-$$
-) → Tensor **Parameters:** **`input`** (Tensor): - Shape: `(*)` - any shape - Dtype: **Must be float** (float32, float64) - Values: **Must be non-negative** - Interpretation: Probability weights (auto-normalized) **`num_samples`** (int): - Number of samples to draw - Must be ≤ input.size(-1) if `replacement=False`
-$$
-
-$$
-**`replacement`** (bool, default=False):
-$$
-
-$$
-- `True`: Sample with replacement (independent draws) - `False`: Sample without replacement (no duplicates) **Returns:** Tensor of **indices** (not values!) với shape `(*)[num_samples]` #### 3.1.2 Minimal Example ```python import torch # Define probability weights
-$$
-
-$$
-probs = torch.tensor([1.0, 2.0, 5.0])
-$$
-
-$$
-# Sample ONE index
-$$
-
-$$
-sample = torch.multinomial(probs, num_samples=1)
-$$
-
-$$
-print(sample)  # Output: tensor([2]) or [1] or [0] # The output is an INDEX, not the value! # To get the actual value:
-$$
-
-$$
-value = probs[sample]
-$$
-
-$$
-print(value)   # Output: tensor([5.]) or [2.] or [1.] **Key observation:** ```python # Output is INDEX
-$$
-
-$$
-sample = torch.multinomial(probs, 1)  # → tensor([2])
-$$
-
-$$
-# NOT the value sample ≠ 5.0  # Even though 5.0 has highest weight ### 3.2 Critical Distinction: Indices vs Values #### 3.2.1 Common Misconception **Wrong assumption:** ```python
-$$
-
-$$
-vector = torch.tensor([1.0, 2.0, 5.0])
-$$
-
-$$
-
+out=None                  # Output tensor ) → Tensor **Parameters:** **`input`** (Tensor): - Shape: `(*)` - any shape - Dtype: **Must be float** (float32, float64) - Values: **Must be non-negative** - Interpretation: Probability weights (auto-normalized) **`num_samples`** (int): - Number of samples to draw - Must be ≤ input.size(-1) if `replacement=False` **`replacement`** (bool, default=False): - `True`: Sample with replacement (independent draws) - `False`: Sample without replacement (no duplicates) **Returns:** Tensor of **indices** (not values!) với shape `(*)[num_samples]` #### 3.1.2 Minimal Example ```python import torch # Define probability weights probs = torch.tensor([1.0, 2.0, 5.0]) # Sample ONE index sample = torch.multinomial(probs, num_samples=1) print(sample)  # Output: tensor([2]) or [1] or [0] # The output is an INDEX, not the value! # To get the actual value: value = probs[sample] print(value)   # Output: tensor([5.]) or [2.] or [1.] **Key observation:** ```python # Output is INDEX sample = torch.multinomial(probs, 1)  # → tensor([2]) # NOT the value sample ≠ 5.0  # Even though 5.0 has highest weight ### 3.2 Critical Distinction: Indices vs Values #### 3.2.1 Common Misconception **Wrong assumption:** ```python vector = torch.tensor([1.0, 2.0, 5.0])
 $$
 
 sample = torch.multinomial(vector, 1)
-
-$$
-
-$$
 
 # ✗ WRONG: Assume sample ∈ {1.0, 2.0, 5.0}
 # ✓ CORRECT: sample ∈ {0, 1, 2}  (indices!)
@@ -452,27 +256,11 @@ $$
 ```python
 # Example that illustrates the issue
 
-$$
-
-$$
-
 vector = torch.tensor([10.0, 20.0, 50.0])
-
-$$
-
-$$
 
 # Sample 10 times
 
-$$
-
-$$
-
 samples = torch.multinomial(vector, 10, replacement=True)
-
-$$
-
-$$
 
 print(samples)
 # Output: tensor([2, 2, 1, 2, 0, 2, 2, 2, 1, 2])
@@ -481,15 +269,7 @@ print(samples)
 
 # To get actual values:
 
-$$
-
-$$
-
 values = vector[samples]
-
-$$
-
-$$
 
 print(values)
 # Output: tensor([50., 50., 20., 50., 10., 50., 50., 50., 20., 50.])
@@ -501,101 +281,13 @@ print(values)
 ```python
 # Model outputs probabilities over vocabulary
 
-$$
-
-$$
-
 vocab_size = 50000
 
 $$
-
-$$
-
-$$
-probs = F.softmax(logits, dim=-1)  # Shape: [50000]
-$$
-
-$$
-# Sample token INDEX
-$$
-
-$$
-token_id = torch.multinomial(probs, num_samples=1)
-$$
-
-$$
-# token_id ∈ {0, 1, 2, ..., 49999} # Decode INDEX to actual token text
-$$
-
-$$
-token_text = tokenizer.decode([token_id])
-$$
-
-$$
-# "the" or "coffee" or "," etc. **Why indices:** - Tokens are stored in vocabulary by index - Model outputs probabilities per index - Sampling returns which index to use - Decode index → text via tokenizer ### 3.3 Sampling With vs Without Replacement #### 3.3.1 Without Replacement (Default) **Behavior:** ```python
-$$
-
-$$
-probs = torch.tensor([1.0, 2.0, 5.0])
-$$
-
-$$
-# Sample 3 items without replacement
-$$
-
-$$
-samples = torch.multinomial(probs, num_samples=3, replacement=False)
-$$
-
-$$
-print(samples) # Output: tensor([2, 1, 0]) or some permutation #         ↑ All different! No duplicates **Constraint:** ```python # ✗ ERROR: Can't sample 4 from 3 options without replacement
-$$
-
-$$
-samples = torch.multinomial(probs, num_samples=4, replacement=False)
-$$
-
-$$
-# RuntimeError: cannot sample n_sample > prob_dist.size(-1) samples # without replacement **Use case:** - Selecting top-K items - Generating diverse set - When duplicates undesired #### 3.3.2 With Replacement **Behavior:** ```python
-$$
-
-$$
-probs = torch.tensor([1.0, 2.0, 5.0])
-$$
-
-$$
-# Sample 10 items WITH replacement
-$$
-
-$$
-samples = torch.multinomial(probs, num_samples=10, replacement=True)
-$$
-
-$$
-print(samples) # Output: tensor([2, 2, 1, 2, 0, 2, 2, 2, 1, 2]) #         ↑ Duplicates allowed! **No constraint on num_samples:** ```python # ✓ OK: Can sample any amount with replacement
-$$
-
-$$
-samples = torch.multinomial(probs, num_samples=1000, replacement=True)
-$$
-
-$$
-# Works fine! **Use case:** - LLM token generation (default) - Independent sampling - When duplicates meaningful **Example in text generation:** "the the the" - repetition possible and sometimes correct "I I I" - grammatically wrong but sampling allows it --- ## 4. Input Requirements và Error Handling ### 4.1 Type Requirements #### 4.1.1 Must Be Tensor **Requirement:** Input must be `torch.Tensor`, not list or NumPy array. **Error case 1: Python list** ```python # ✗ WRONG: Python list
-$$
-
-$$
-probs_list = [1.0, 2.0, 5.0]
-$$
-
-$$
-
+probs = F.softmax(logits, dim=-1)  # Shape: [50000] # Sample token INDEX token_id = torch.multinomial(probs, num_samples=1) # token_id ∈ {0, 1, 2, ..., 49999} # Decode INDEX to actual token text token_text = tokenizer.decode([token_id]) # "the" or "coffee" or "," etc. **Why indices:** - Tokens are stored in vocabulary by index - Model outputs probabilities per index - Sampling returns which index to use - Decode index → text via tokenizer ### 3.3 Sampling With vs Without Replacement #### 3.3.1 Without Replacement (Default) **Behavior:** ```python probs = torch.tensor([1.0, 2.0, 5.0]) # Sample 3 items without replacement samples = torch.multinomial(probs, num_samples=3, replacement=False) print(samples) # Output: tensor([2, 1, 0]) or some permutation #         ↑ All different! No duplicates **Constraint:** ```python # ✗ ERROR: Can't sample 4 from 3 options without replacement samples = torch.multinomial(probs, num_samples=4, replacement=False) # RuntimeError: cannot sample n_sample > prob_dist.size(-1) samples # without replacement **Use case:** - Selecting top-K items - Generating diverse set - When duplicates undesired #### 3.3.2 With Replacement **Behavior:** ```python probs = torch.tensor([1.0, 2.0, 5.0]) # Sample 10 items WITH replacement samples = torch.multinomial(probs, num_samples=10, replacement=True) print(samples) # Output: tensor([2, 2, 1, 2, 0, 2, 2, 2, 1, 2]) #         ↑ Duplicates allowed! **No constraint on num_samples:** ```python # ✓ OK: Can sample any amount with replacement samples = torch.multinomial(probs, num_samples=1000, replacement=True) # Works fine! **Use case:** - LLM token generation (default) - Independent sampling - When duplicates meaningful **Example in text generation:** "the the the" - repetition possible and sometimes correct "I I I" - grammatically wrong but sampling allows it --- ## 4. Input Requirements và Error Handling ### 4.1 Type Requirements #### 4.1.1 Must Be Tensor **Requirement:** Input must be `torch.Tensor`, not list or NumPy array. **Error case 1: Python list** ```python # ✗ WRONG: Python list probs_list = [1.0, 2.0, 5.0]
 $$
 
 sample = torch.multinomial(probs_list, 1)
-
-$$
-
-$$
 
 # Error:
 # TypeError: multinomial(): argument 'input' (position 1) must be 
@@ -605,37 +297,13 @@ $$
 ```python
 # ✓ CORRECT: Convert to tensor
 
-$$
-
-$$
-
 probs_tensor = torch.tensor([1.0, 2.0, 5.0])
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(probs_tensor, 1)
-$$
-
-$$
-**Error case 2: NumPy array** ```python import numpy as np # ✗ WRONG: NumPy array
-$$
-
-$$
-probs_numpy = np.array([1.0, 2.0, 5.0])
-$$
-
-$$
-
+sample = torch.multinomial(probs_tensor, 1) **Error case 2: NumPy array** ```python import numpy as np # ✗ WRONG: NumPy array probs_numpy = np.array([1.0, 2.0, 5.0])
 $$
 
 sample = torch.multinomial(probs_numpy, 1)
-
-$$
-
-$$
 
 # Error:
 # TypeError: multinomial(): argument 'input' must be Tensor, 
@@ -645,37 +313,13 @@ $$
 ```python
 # ✓ CORRECT: Convert to tensor
 
-$$
-
-$$
-
 probs_tensor = torch.from_numpy(probs_numpy)
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(probs_tensor, 1)
-$$
-
-$$
-**Note:** > Some PyTorch functions accept lists/arrays and auto-convert. `multinomial` does NOT—strict tensor requirement. #### 4.1.2 Must Be Float **Requirement:** Input dtype must be floating point (float32, float64), not integer. **Error case:** ```python # ✗ WRONG: Integer tensor
-$$
-
-$$
-probs_int = torch.tensor([1, 2, 5])  # dtype=torch.int64
-$$
-
-$$
-
+sample = torch.multinomial(probs_tensor, 1) **Note:** > Some PyTorch functions accept lists/arrays and auto-convert. `multinomial` does NOT—strict tensor requirement. #### 4.1.2 Must Be Float **Requirement:** Input dtype must be floating point (float32, float64), not integer. **Error case:** ```python # ✗ WRONG: Integer tensor probs_int = torch.tensor([1, 2, 5])  # dtype=torch.int64
 $$
 
 sample = torch.multinomial(probs_int, 1)
-
-$$
-
-$$
 
 # Error:
 # RuntimeError: "multinomial_cpu" not implemented for 'Long'
@@ -686,65 +330,25 @@ $$
 ```python
 # ✓ CORRECT: Use decimals
 
-$$
-
-$$
-
 probs = torch.tensor([1.0, 2.0, 5.0])  # dtype=torch.float32
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(probs, 1)
-$$
-
-$$
-**Option 2: Explicit dtype** ```python # ✓ CORRECT: Specify dtype
-$$
-
-$$
-probs = torch.tensor([1, 2, 5], dtype=torch.float)
-$$
-
-$$
-
+sample = torch.multinomial(probs, 1) **Option 2: Explicit dtype** ```python # ✓ CORRECT: Specify dtype probs = torch.tensor([1, 2, 5], dtype=torch.float)
 $$
 
 sample = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
 **Option 3: Type conversion**
 ```python
 # ✓ CORRECT: Convert existing tensor
 
-$$
-
-$$
-
 probs_int = torch.tensor([1, 2, 5])
-
-$$
-
-$$
 
 $$
 probs_float = probs_int.float()
 $$
 
-$$
-
-$$
-
 sample = torch.multinomial(probs_float, 1)
-
-$$
-
-$$
 
 **Why floats required:**
 - Probabilities are real numbers [0, 1]
@@ -761,73 +365,25 @@ $$
 ```python
 # ✗ WRONG: Contains negative value
 
-$$
-
-$$
-
 probs = torch.tensor([1.0, 2.0, -1.0])
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(probs, 1)
-$$
-
-$$
-# Error: # RuntimeError: invalid multinomial distribution # (encountering probability entry < 0) **Why:** - Probabilities cannot be negative - Negative weights mathematically meaningless - Would violate probability axioms **Fix:** ```python # ✓ CORRECT: Ensure all non-negative
-$$
-
-$$
-probs = torch.tensor([1.0, 2.0, 5.0])  # All ≥ 0
-$$
-
-$$
-
+sample = torch.multinomial(probs, 1) # Error: # RuntimeError: invalid multinomial distribution # (encountering probability entry < 0) **Why:** - Probabilities cannot be negative - Negative weights mathematically meaningless - Would violate probability axioms **Fix:** ```python # ✓ CORRECT: Ensure all non-negative probs = torch.tensor([1.0, 2.0, 5.0])  # All ≥ 0
 $$
 
 sample = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
 **Note on zeros:**
 ```python
 # ✓ OK: Zeros allowed (but won't be sampled)
 
-$$
-
-$$
-
 probs = torch.tensor([0.0, 2.0, 5.0])
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(probs, 1)
-$$
-
-$$
-# Will never return index 0 #### 4.2.2 Sum Must Be Positive **Implicit requirement:** Sum of all weights must be > 0. **Error case:** ```python # ✗ WRONG: All zeros
-$$
-
-$$
-probs = torch.tensor([0.0, 0.0, 0.0])
-$$
-
-$$
-
+sample = torch.multinomial(probs, 1) # Will never return index 0 #### 4.2.2 Sum Must Be Positive **Implicit requirement:** Sum of all weights must be > 0. **Error case:** ```python # ✗ WRONG: All zeros probs = torch.tensor([0.0, 0.0, 0.0])
 $$
 
 sample = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
 # Error:
 # RuntimeError: invalid multinomial distribution 
@@ -900,51 +456,19 @@ import numpy as np
 
 # Define weights
 
-$$
-
-$$
-
 vector = torch.tensor([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
 # Sample 10,000 times with replacement
 
-$$
-
-$$
-
 samples = torch.multinomial(vector, num_samples=10000, replacement=True)
-
-$$
-
-$$
 
 # Count occurrences
 
-$$
-
-$$
-
 unique, counts = np.unique(samples.numpy(), return_counts=True)
-
-$$
-
-$$
 
 # Compute observed frequencies
 
-$$
-
-$$
-
 observed_freq = counts / counts.sum() * 100
-
-$$
-
-$$
 
 print("Observed frequencies:")
 for idx, freq in zip(unique, observed_freq):
@@ -967,47 +491,15 @@ $$
 Given weights \mathbf{w} = [1.0, 2.0, 5.0]:
 $$
 
-$$
-
-$$
-
 p_i = \frac{w_i}{\sum_j w_j} = \frac{w_i}{1 + 2 + 5} = \frac{w_i}{8}
-
-$$
-
-$$
 
 Therefore:
 
-$$
-
-$$
-
 p_0 = \frac{1}{8} = 0.125 = 12.5\%
-
-$$
-
-$$
-
-$$
-
-$$
 
 p_1 = \frac{2}{8} = 0.25 = 25\%
 
-$$
-
-$$
-
-$$
-
-$$
-
 p_2 = \frac{5}{8} = 0.625 = 62.5\%
-
-$$
-
-$$
 
 **Comparison với observed:**
 
@@ -1021,15 +513,7 @@ $$
 
 Chi-square goodness of fit:
 
-$$
-
-$$
-
 \chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i}
-
-$$
-
-$$
 
 With 10,000 samples, observed frequencies closely match expected (p > 0.05).
 
@@ -1040,85 +524,21 @@ With 10,000 samples, observed frequencies closely match expected (p > 0.05).
 **Direct weighting:**
 ```python
 
-$$
-
-$$
-
 weights = torch.tensor([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
 # Sample without softmax
 
-$$
-
-$$
-
 samples = torch.multinomial(weights, num_samples=10000, replacement=True)
 
-$$
-
-$$
-
 # Compute observed frequencies
-
-$$
-
-$$
 
 unique, counts = np.unique(samples.numpy(), return_counts=True)
 
 $$
-
-$$
-
-$$
-observed = counts / counts.sum()
-$$
-
-$$
-print("Without Softmax:") print(f"  Index 0: {observed[0]:.3f}")  # ~0.125 print(f"  Index 1: {observed[1]:.3f}")  # ~0.250 print(f"  Index 2: {observed[2]:.3f}")  # ~0.625 **Distribution:** - Relatively flat - Largest value dominates but not overwhelmingly #### 5.2.2 With Softmax **Exponential weighting:** ```python
-$$
-
-$$
-weights = torch.tensor([1.0, 2.0, 5.0])
-$$
-
-$$
-# Apply Softmax
-$$
-
-$$
-probs = torch.softmax(weights, dim=0)
-$$
-
-$$
-print("Softmax probabilities:") print(probs) # Output: tensor([0.0236, 0.0643, 0.9121]) # Sample from softmax distribution
-$$
-
-$$
-samples = torch.multinomial(probs, num_samples=10000, replacement=True)
-$$
-
-$$
-# Compute observed frequencies
-$$
-
-$$
-unique, counts = np.unique(samples.numpy(), return_counts=True)
-$$
-
-$$
-
+observed = counts / counts.sum() print("Without Softmax:") print(f"  Index 0: {observed[0]:.3f}")  # ~0.125 print(f"  Index 1: {observed[1]:.3f}")  # ~0.250 print(f"  Index 2: {observed[2]:.3f}")  # ~0.625 **Distribution:** - Relatively flat - Largest value dominates but not overwhelmingly #### 5.2.2 With Softmax **Exponential weighting:** ```python weights = torch.tensor([1.0, 2.0, 5.0]) # Apply Softmax probs = torch.softmax(weights, dim=0) print("Softmax probabilities:") print(probs) # Output: tensor([0.0236, 0.0643, 0.9121]) # Sample from softmax distribution samples = torch.multinomial(probs, num_samples=10000, replacement=True) # Compute observed frequencies unique, counts = np.unique(samples.numpy(), return_counts=True)
 $$
 
 observed = counts / counts.sum()
-
-$$
-
-$$
 
 print("\nWith Softmax:")
 print(f"  Index 0: {observed[0]:.3f}")  # ~0.024
@@ -1140,30 +560,14 @@ print(f"  Index 2: {observed[2]:.3f}")  # ~0.912
 ```python
 # Model logits (before softmax)
 
-$$
-
-$$
-
 logits = torch.tensor([2.0, 3.0, 8.0])
-
-$$
-
-$$
 
 # Option 1: Multinomial on logits directly
 # p = [2/13, 3/13, 8/13] = [0.15, 0.23, 0.62]
 
 # Option 2: Softmax then multinomial (standard practice)
 
-$$
-
-$$
-
 probs = torch.softmax(logits, dim=0)
-
-$$
-
-$$
 
 # p = [0.002, 0.007, 0.991]
 
@@ -1177,39 +581,15 @@ $$
 
 Without Softmax:
 
-$$
-
-$$
-
 p_i^{\text{linear}} = \frac{w_i}{\sum_j w_j}
-
-$$
-
-$$
 
 With Softmax:
 
-$$
-
-$$
-
 p_i^{\text{softmax}} = \frac{e^{w_i}}{\sum_j e^{w_j}}
-
-$$
-
-$$
 
 **Amplification factor:**
 
-$$
-
-$$
-
 \frac{p_i^{\text{softmax}}}{p_i^{\text{linear}}} = \frac{e^{w_i}/\sum_j e^{w_j}}{w_i/\sum_j w_j}
-
-$$
-
-$$
 
 **For large weights:** This ratio can be **orders of magnitude**.
 
@@ -1247,37 +627,13 @@ Softmax:  38:1 ratio
 ```python
 import torch
 
-$$
-
-$$
-
 weights = torch.tensor([1.0, 2.0, 5.0])
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(weights, num_samples=1)
-$$
-
-$$
-print(type(sample))  # torch.Tensor print(sample)        # tensor([2]) - INDEX print(sample.item()) # 2 **NumPy:** ```python import numpy as np
-$$
-
-$$
-options = np.array([1.0, 2.0, 5.0])
-$$
-
-$$
-
+sample = torch.multinomial(weights, num_samples=1) print(type(sample))  # torch.Tensor print(sample)        # tensor([2]) - INDEX print(sample.item()) # 2 **NumPy:** ```python import numpy as np options = np.array([1.0, 2.0, 5.0])
 $$
 
 sample = np.random.choice(options, size=1)
-
-$$
-
-$$
 
 print(type(sample))  # numpy.ndarray
 print(sample)        # [5.0] - VALUE
@@ -1298,27 +654,11 @@ print(sample[0])     # 5.0
 ```python
 # PyTorch: WITHOUT replacement (default)
 
-$$
-
-$$
-
 torch.multinomial(weights, num_samples=2)
-
-$$
-
-$$
 
 # OK: Can sample up to len(weights) items
 
-$$
-
-$$
-
 torch.multinomial(weights, num_samples=4)
-
-$$
-
-$$
 
 # ERROR: Need replacement=True
 
@@ -1330,15 +670,7 @@ $$
 
 # OK: Can sample any amount
 
-$$
-
-$$
-
 np.random.choice(options, size=10, replace=False)
-
-$$
-
-$$
 
 # ERROR: Can't sample 10 from 3 without replacement
 
@@ -1360,85 +692,21 @@ $$
 **NumPy without probabilities:**
 ```python
 
-$$
-
-$$
-
 options = np.array([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
 # Sample 10,000 times
 
-$$
-
-$$
-
 samples = np.random.choice(options, size=10000, replace=True)
 
-$$
-
-$$
-
 # Count occurrences
-
-$$
-
-$$
 
 unique, counts = np.unique(samples, return_counts=True)
 
 $$
-
-$$
-
-$$
-frequencies = counts / counts.sum()
-$$
-
-$$
-print("NumPy frequencies (uniform):") for val, freq in zip(unique, frequencies): print(f"  {val}: {freq:.3f}") # Output: #   1.0: 0.333 #   2.0: 0.333 #   5.0: 0.333 **Observation:** > By default, NumPy samples **uniformly** regardless of values. Each option equally likely. #### 6.2.2 NumPy với Explicit Probabilities **NumPy with `p` parameter:** ```python
-$$
-
-$$
-options = np.array([1.0, 2.0, 5.0])
-$$
-
-$$
-# Compute probability weights (same as torch.multinomial does automatically)
-$$
-
-$$
-probs = options / options.sum()  # [0.125, 0.25, 0.625]
-$$
-
-$$
-# Sample with probabilities
-$$
-
-$$
-samples = np.random.choice(options, size=10000, replace=True, p=probs)
-$$
-
-$$
-# Count occurrences
-$$
-
-$$
-unique, counts = np.unique(samples, return_counts=True)
-$$
-
-$$
-
+frequencies = counts / counts.sum() print("NumPy frequencies (uniform):") for val, freq in zip(unique, frequencies): print(f"  {val}: {freq:.3f}") # Output: #   1.0: 0.333 #   2.0: 0.333 #   5.0: 0.333 **Observation:** > By default, NumPy samples **uniformly** regardless of values. Each option equally likely. #### 6.2.2 NumPy với Explicit Probabilities **NumPy with `p` parameter:** ```python options = np.array([1.0, 2.0, 5.0]) # Compute probability weights (same as torch.multinomial does automatically) probs = options / options.sum()  # [0.125, 0.25, 0.625] # Sample with probabilities samples = np.random.choice(options, size=10000, replace=True, p=probs) # Count occurrences unique, counts = np.unique(samples, return_counts=True)
 $$
 
 frequencies = counts / counts.sum()
-
-$$
-
-$$
 
 print("NumPy frequencies (weighted):")
 for val, freq in zip(unique, frequencies):
@@ -1457,53 +725,13 @@ for val, freq in zip(unique, frequencies):
 import torch
 import numpy as np
 
-$$
-
-$$
-
 weights_torch = torch.tensor([1.0, 2.0, 5.0])
 
 $$
-
-$$
-
-$$
-weights_numpy = np.array([1.0, 2.0, 5.0])
-$$
-
-$$
-# PyTorch: Automatic probability weighting
-$$
-
-$$
-samples_torch = torch.multinomial(weights_torch, 10000, replacement=True)
-$$
-
-$$
-# Counts of indices 0, 1, 2: [1250, 2500, 6250] # NumPy: Default uniform
-$$
-
-$$
-samples_numpy_uniform = np.random.choice(weights_numpy, 10000)
-$$
-
-$$
-# Counts of values 1, 2, 5: [3333, 3333, 3334] # NumPy: Explicit probabilities (matches PyTorch)
-$$
-
-$$
-probs = weights_numpy / weights_numpy.sum()
-$$
-
-$$
-
+weights_numpy = np.array([1.0, 2.0, 5.0]) # PyTorch: Automatic probability weighting samples_torch = torch.multinomial(weights_torch, 10000, replacement=True) # Counts of indices 0, 1, 2: [1250, 2500, 6250] # NumPy: Default uniform samples_numpy_uniform = np.random.choice(weights_numpy, 10000) # Counts of values 1, 2, 5: [3333, 3333, 3334] # NumPy: Explicit probabilities (matches PyTorch) probs = weights_numpy / weights_numpy.sum()
 $$
 
 samples_numpy_weighted = np.random.choice(weights_numpy, 10000, p=probs)
-
-$$
-
-$$
 
 # Counts of values 1, 2, 5: [1250, 2500, 6250]
 
@@ -1521,105 +749,41 @@ $$
 ```python
 # PyTorch
 
-$$
-
-$$
-
 weights_pt = torch.tensor([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
 $$
 sample_idx = torch.multinomial(weights_pt, 1).item()
 $$
 
-$$
-
-$$
-
 sample_value = weights_pt[sample_idx].item()
-
-$$
-
-$$
 
 # NumPy equivalent
 
-$$
-
-$$
-
 weights_np = np.array([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
 $$
 probs = weights_np / weights_np.sum()
 $$
 
-$$
-
-$$
-
 sample_value = np.random.choice(weights_np, p=probs)
-
-$$
-
-$$
 
 **NumPy to PyTorch equivalent:**
 ```python
 # NumPy (uniform)
 
-$$
-
-$$
-
 options = np.array([10, 20, 30])
 
 $$
-
-$$
-
-$$
-sample = np.random.choice(options)
-$$
-
-$$
-# PyTorch equivalent (uniform weights)
-$$
-
-$$
-options_pt = torch.tensor([10.0, 20.0, 30.0])
-$$
-
-$$
-
+sample = np.random.choice(options) # PyTorch equivalent (uniform weights) options_pt = torch.tensor([10.0, 20.0, 30.0])
 $$
 
 uniform_weights = torch.ones(3)
 
 $$
-
-$$
-
-$$
 sample_idx = torch.multinomial(uniform_weights, 1).item()
 $$
 
-$$
-
-$$
-
 sample = options_pt[sample_idx].item()
-
-$$
-
-$$
 
 ---
 
@@ -1638,22 +802,10 @@ def generate_next_token(
     input_ids: torch.Tensor,
 
 $$
-temperature: float = 1.0,
-$$
-
-$$
-top_k: int = None,
-$$
-
-$$
-
+temperature: float = 1.0, top_k: int = None,
 $$
 
 top_p: float = None
-
-$$
-
-$$
 
 ) -> int:
     """
@@ -1673,99 +825,39 @@ $$
     # Step 1: Model forward pass
     with torch.no_grad():
 
-$$
-
-$$
-
 outputs = model(input_ids)
 
 $$
-
-$$
-
-$$
-logits = outputs.logits[:, -1, :]  # [1, vocab_size]
-$$
-
-$$
-# Step 2: Apply temperature
+logits = outputs.logits[:, -1, :]  # [1, vocab_size] # Step 2: Apply temperature
 $$
 
 if temperature != 1.0:
 
-$$
-
-$$
-
 logits = logits / temperature
-
-$$
-
-$$
 
     
     # Step 3: Optional filtering (top-k or top-p)
     if top_k is not None:
         # Keep only top-k logits
 
-$$
-
-$$
-
 top_k_logits, top_k_indices = torch.topk(logits, top_k)
 
 $$
-
-$$
-
-$$
-logits = torch.full_like(logits, float('-inf'))
-$$
-
-$$
-logits.scatter_(1, top_k_indices, top_k_logits) if top_p is not None: # Nucleus sampling (covered in other lectures)
-$$
-
-$$
-sorted_logits, sorted_indices = torch.sort(logits, descending=True)
-$$
-
-$$
-
+logits = torch.full_like(logits, float('-inf')) logits.scatter_(1, top_k_indices, top_k_logits) if top_p is not None: # Nucleus sampling (covered in other lectures) sorted_logits, sorted_indices = torch.sort(logits, descending=True)
 $$
 
 cumulative_probs = torch.cumsum(F.softmax(sorted_logits, dim=-1), dim=-1)
-
-$$
-
-$$
 
         # ... (implementation details)
     
     # Step 4: Convert to probabilities
 
-$$
-
-$$
-
 probs = F.softmax(logits, dim=-1)  # [1, vocab_size]
-
-$$
-
-$$
 
     
     # Step 5: Sample using multinomial ← KEY STEP
 
-$$
-
-$$
-
 next_token = torch.multinomial(probs[0], num_samples=1)
-
-$$
-
-$$
 
     
     return next_token.item()
@@ -1775,15 +867,7 @@ $$
 **Step 1: Forward pass**
 ```python
 
-$$
-
-$$
-
 logits = model(input_ids).logits[:, -1, :]
-
-$$
-
-$$
 
 # Shape: [batch=1, vocab_size=50000]
 # Values: Raw scores (unnormalized)
@@ -1792,15 +876,7 @@ $$
 **Step 2: Temperature scaling**
 ```python
 
-$$
-
-$$
-
 logits = logits / temperature
-
-$$
-
-$$
 
 # temperature=0.7 → sharper distribution (more deterministic)
 # temperature=1.0 → unchanged
@@ -1809,15 +885,7 @@ $$
 **Step 3: Softmax transformation**
 ```python
 
-$$
-
-$$
-
 probs = F.softmax(logits, dim=-1)
-
-$$
-
-$$
 
 # Shape: [1, 50000]
 # Values: Probabilities
@@ -1826,15 +894,7 @@ $$
 **Step 4: Multinomial sampling**
 ```python
 
-$$
-
-$$
-
 next_token = torch.multinomial(probs[0], num_samples=1)
-
-$$
-
-$$
 
 # Input: [50000] probabilities
 # Output: Single index ∈ [0, 49999]
@@ -1843,15 +903,7 @@ $$
 **Step 5: Decode token**
 ```python
 
-$$
-
-$$
-
 token_text = tokenizer.decode([next_token])
-
-$$
-
-$$
 
 # Index → Text
 # e.g., 3421 → "the"
@@ -1870,27 +922,11 @@ $$
 
 # Greedy (deterministic):
 
-$$
-
-$$
-
 token = torch.argmax(probs)  # Always picks first (0.35)
-
-$$
-
-$$
 
 # Multinomial (stochastic):
 
-$$
-
-$$
-
 token = torch.multinomial(probs, 1)  # Picks any with fair chance
-
-$$
-
-$$
 
 # Sometimes 0, sometimes 1, sometimes 2
 
@@ -1904,15 +940,7 @@ $$
 
 for i in range(5):
 
-$$
-
-$$
-
 completion = generate_text(model, prompt)
-
-$$
-
-$$
 
     print(f"{i+1}: {completion}")
 
@@ -1936,15 +964,7 @@ $$
 **Greedy (argmax):**
 ```python
 
-$$
-
-$$
-
 next_token = torch.argmax(probs)
-
-$$
-
-$$
 
 - ✓ Fast, deterministic
 - ✗ Boring, repetitive
@@ -1953,15 +973,7 @@ $$
 **Uniform random:**
 ```python
 
-$$
-
-$$
-
 next_token = torch.randint(0, vocab_size, (1,))
-
-$$
-
-$$
 
 - ✓ Maximum diversity
 - ✗ Ignores model knowledge
@@ -1970,15 +982,7 @@ $$
 **Multinomial (stochastic):**
 ```python
 
-$$
-
-$$
-
 next_token = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
 - ✓ Respects probabilities
 - ✓ Enables diversity
@@ -1995,67 +999,27 @@ $$
 ```python
 # After softmax, most probs extremely small
 
-$$
-
-$$
-
 probs = F.softmax(logits, dim=-1)
-
-$$
-
-$$
 
 # Many values: ~1e-20, 1e-30, etc.
 
 # Potential underflow issues
 
-$$
-
-$$
-
 next_token = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
 **Solution:** Temperature và filtering help:
 ```python
 # Temperature makes distribution less extreme
 
-$$
-
-$$
-
 logits = logits / 0.8
-
-$$
-
-$$
 
 # Top-p removes tail entirely
 
-$$
-
-$$
-
 probs = apply_top_p_filtering(probs, p=0.9)
-
-$$
-
-$$
 
 # Now multinomial operates on cleaner distribution
 
-$$
-
-$$
-
 next_token = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
 #### 7.3.2 Performance Optimization
 
@@ -2064,27 +1028,11 @@ $$
 # Instead of sampling one at a time
 for i in range(batch_size):
 
-$$
-
-$$
-
 token = torch.multinomial(probs[i], 1)
-
-$$
-
-$$
 
 # Sample entire batch at once
 
-$$
-
-$$
-
 tokens = torch.multinomial(probs, num_samples=1)
-
-$$
-
-$$
 
 # Shape: [batch_size, 1]
 
@@ -2092,43 +1040,19 @@ $$
 ```python
 # Move to GPU
 
-$$
-
-$$
-
 probs = probs.to('cuda')
 
 $$
-
-$$
-
-$$
-tokens = torch.multinomial(probs, 1)  # Runs on GPU
-$$
-
-$$
-#### 7.3.3 Reproducibility **Set seed for deterministic results:** ```python # Set global seed torch.manual_seed(42) # Now multinomial reproducible
+tokens = torch.multinomial(probs, 1)  # Runs on GPU #### 7.3.3 Reproducibility **Set seed for deterministic results:** ```python # Set global seed torch.manual_seed(42) # Now multinomial reproducible
 $$
 
 token1 = torch.multinomial(probs, 1)
 
 $$
-# → Always same result with seed 42 # Custom generator for finer control
-$$
-
-$$
-generator = torch.Generator().manual_seed(42)
-$$
-
-$$
-
+# → Always same result with seed 42 # Custom generator for finer control generator = torch.Generator().manual_seed(42)
 $$
 
 token2 = torch.multinomial(probs, 1, generator=generator)
-
-$$
-
-$$
 
 **Use case:**
 - Debugging
@@ -2155,15 +1079,7 @@ def safe_multinomial(probs: torch.Tensor, num_samples: int, **kwargs):
     # Check 2: Dtype
     if probs.dtype not in [torch.float32, torch.float64]:
 
-$$
-
-$$
-
 probs = probs.float()
-
-$$
-
-$$
 
     
     # Check 3: Non-negative
@@ -2180,15 +1096,7 @@ $$
     
     # Check 5: Replacement constraint
 
-$$
-
-$$
-
 replacement = kwargs.get('replacement', False)
-
-$$
-
-$$
 
     if not replacement and num_samples > probs.size(-1):
         raise ValueError(
@@ -2211,56 +1119,24 @@ def robust_multinomial(probs: torch.Tensor, num_samples: int, **kwargs):
         # All probabilities essentially zero
         # Fall back to uniform
 
-$$
-
-$$
-
 probs = torch.ones_like(probs)
-
-$$
-
-$$
 
     
     # Handle NaNs
     if torch.any(torch.isnan(probs)):
         # Replace NaNs with zeros
 
-$$
-
-$$
-
 probs = torch.nan_to_num(probs, nan=0.0)
-
-$$
-
-$$
 
     
     # Ensure numerical stability
 
-$$
-
-$$
-
 probs = probs.clamp(min=1e-10)  # Avoid exact zeros
-
-$$
-
-$$
 
     
     # Renormalize
 
-$$
-
-$$
-
 probs = probs / probs.sum()
-
-$$
-
-$$
 
     
     return torch.multinomial(probs, num_samples, **kwargs)
@@ -2271,170 +1147,42 @@ $$
 
 ```python
 
-$$
-
-$$
-
 def top_k_multinomial(logits: torch.Tensor, k: int, temperature: float = 1.0):
-
-$$
-
-$$
 
     """
     Combine top-k filtering with multinomial sampling
     """
     # Apply temperature
 
-$$
-
-$$
-
 logits = logits / temperature
-
-$$
-
-$$
 
     
     # Get top-k
 
-$$
-
-$$
-
 top_k_logits, top_k_indices = torch.topk(logits, k)
-
-$$
-
-$$
 
     
     # Mask others
 
-$$
-
-$$
-
 filtered_logits = torch.full_like(logits, float('-inf'))
-
-$$
-
-$$
 
     filtered_logits.scatter_(-1, top_k_indices, top_k_logits)
     
     # Softmax + multinomial
 
-$$
-
-$$
-
 probs = F.softmax(filtered_logits, dim=-1)
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(probs, num_samples=1)
-$$
-
-$$
-return sample #### 8.2.2 Batched Generation Pattern ```python
-$$
-
-$$
-def batch_generate(model, input_ids: torch.Tensor, max_length: int = 50):
-$$
-
-$$
-""" Generate for entire batch using multinomial Args: input_ids: [batch_size, seq_len] max_length: Maximum generation length Returns: generated_ids: [batch_size, max_length] """
-$$
-
-$$
-batch_size = input_ids.size(0)
-$$
-
-$$
-for _ in range(max_length): # Forward pass
-$$
-
-$$
-logits = model(input_ids).logits[:, -1, :]  # [batch, vocab]
-$$
-
-$$
-# Softmax
-$$
-
-$$
-probs = F.softmax(logits, dim=-1)
-$$
-
-$$
-# Sample for entire batch
-$$
-
-$$
-next_tokens = torch.multinomial(probs, num_samples=1)  # [batch, 1]
-$$
-
-$$
-# Append
-$$
-
-$$
-input_ids = torch.cat([input_ids, next_tokens], dim=1)
-$$
-
-$$
-return input_ids ### 8.3 Debugging Tips #### 8.3.1 Inspect Distribution ```python # Before sampling, check distribution
-$$
-
-$$
-probs = F.softmax(logits, dim=-1)
-$$
-
-$$
-print(f"Min prob: {probs.min().item():.2e}") print(f"Max prob: {probs.max().item():.4f}") print(f"Entropy: {-(probs * probs.log()).sum().item():.2f}") print(f"Top 5 probs: {probs.topk(5).values}") # Look for issues: # - Max prob = 1.0? (Deterministic, why use multinomial?) # - All equal? (Uniform, model not confident) # - Many zeros? (Too peaked, might have numerical issues) #### 8.3.2 Verify Sampling Behavior ```python # Test that sampling matches probabilities
-$$
-
-$$
-def test_multinomial(probs, n_samples=10000):
-$$
-
-$$
-""" Verify empirical frequencies match probabilities """
-$$
-
-$$
-samples = torch.multinomial(probs, n_samples, replacement=True)
-$$
-
-$$
-
+sample = torch.multinomial(probs, num_samples=1) return sample #### 8.2.2 Batched Generation Pattern ```python def batch_generate(model, input_ids: torch.Tensor, max_length: int = 50): """ Generate for entire batch using multinomial Args: input_ids: [batch_size, seq_len] max_length: Maximum generation length Returns: generated_ids: [batch_size, max_length] """ batch_size = input_ids.size(0) for _ in range(max_length): # Forward pass logits = model(input_ids).logits[:, -1, :]  # [batch, vocab] # Softmax probs = F.softmax(logits, dim=-1) # Sample for entire batch next_tokens = torch.multinomial(probs, num_samples=1)  # [batch, 1] # Append input_ids = torch.cat([input_ids, next_tokens], dim=1) return input_ids ### 8.3 Debugging Tips #### 8.3.1 Inspect Distribution ```python # Before sampling, check distribution probs = F.softmax(logits, dim=-1) print(f"Min prob: {probs.min().item():.2e}") print(f"Max prob: {probs.max().item():.4f}") print(f"Entropy: {-(probs * probs.log()).sum().item():.2f}") print(f"Top 5 probs: {probs.topk(5).values}") # Look for issues: # - Max prob = 1.0? (Deterministic, why use multinomial?) # - All equal? (Uniform, model not confident) # - Many zeros? (Too peaked, might have numerical issues) #### 8.3.2 Verify Sampling Behavior ```python # Test that sampling matches probabilities def test_multinomial(probs, n_samples=10000): """ Verify empirical frequencies match probabilities """ samples = torch.multinomial(probs, n_samples, replacement=True)
 $$
 
 unique, counts = torch.unique(samples, return_counts=True)
 
 $$
-
-$$
-
-$$
 observed = counts.float() / n_samples
 $$
 
-$$
-
-$$
-
 expected = probs[unique]
-
-$$
-
-$$
 
     
     # Compare
@@ -2442,115 +1190,35 @@ $$
     print("-" * 40)
     for idx, exp, obs in zip(unique, expected, observed):
 
-$$
-
-$$
-
 diff = abs(exp - obs)
-
-$$
-
-$$
 
         print(f"{idx:5d} | {exp:8.4f} | {obs:8.4f} | {diff:.4f}")
     
     # Statistical test
 
-$$
-
-$$
-
 max_diff = (expected - observed).abs().max()
 
 $$
-
-$$
-
-$$
-acceptable = 3 * (probs * (1 - probs)).max().sqrt() / (n_samples ** 0.5)
-$$
-
-$$
-if max_diff < acceptable: print("\n✓ Sampling behavior correct") else: print("\n✗ Warning: Deviation larger than expected") ### 8.4 Performance Tuning #### 8.4.1 Memory Efficiency ```python # Bad: Creating intermediate tensors
-$$
-
-$$
-probs = F.softmax(logits, dim=-1)
-$$
-
-$$
-
+acceptable = 3 * (probs * (1 - probs)).max().sqrt() / (n_samples ** 0.5) if max_diff < acceptable: print("\n✓ Sampling behavior correct") else: print("\n✗ Warning: Deviation larger than expected") ### 8.4 Performance Tuning #### 8.4.1 Memory Efficiency ```python # Bad: Creating intermediate tensors probs = F.softmax(logits, dim=-1)
 $$
 
 top_probs, indices = probs.topk(k)
 
 $$
-
-$$
-
-$$
-sample = torch.multinomial(top_probs, 1)
-$$
-
-$$
-# Better: In-place operations where possible
-$$
-
-$$
-logits = logits / temperature  # In-place
-$$
-
-$$
-
+sample = torch.multinomial(top_probs, 1) # Better: In-place operations where possible logits = logits / temperature  # In-place
 $$
 
 probs = F.softmax(logits, dim=-1)
 
 $$
-
-$$
-
-$$
-torch.multinomial(probs, 1, out=output_buffer)  # Reuse buffer
-$$
-
-$$
-#### 8.4.2 Avoiding Unnecessary Copies ```python # Bad: Converting back and forth
-$$
-
-$$
-probs_numpy = probs.cpu().numpy()
-$$
-
-$$
-# ... process in NumPy ...
-$$
-
-$$
-probs_torch = torch.from_numpy(probs_numpy)
-$$
-
-$$
-
+torch.multinomial(probs, 1, out=output_buffer)  # Reuse buffer #### 8.4.2 Avoiding Unnecessary Copies ```python # Bad: Converting back and forth probs_numpy = probs.cpu().numpy() # ... process in NumPy ... probs_torch = torch.from_numpy(probs_numpy)
 $$
 
 sample = torch.multinomial(probs_torch, 1)
 
-$$
-
-$$
-
 # Better: Stay in PyTorch
 
-$$
-
-$$
-
 sample = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
 ---
 
@@ -2564,15 +1232,7 @@ $$
 ```python
 from torch.distributions import Categorical
 
-$$
-
-$$
-
 probs = torch.tensor([0.1, 0.3, 0.6])
-
-$$
-
-$$
 
 # Method 1: multinomial
 
@@ -2582,15 +1242,7 @@ $$
 
 # Method 2: Categorical distribution
 
-$$
-
-$$
-
 dist = Categorical(probs)
-
-$$
-
-$$
 
 sample2 = dist.sample()
 
@@ -2601,59 +1253,19 @@ $$
 assert sample1.item() == sample2.item()  # (with same seed)
 
 $$
-**Advantages of Categorical:** - Can compute log_prob, entropy, etc. - More statistically complete - Better for RL applications **Advantages of multinomial:** - Faster for simple sampling - Batched sampling built-in - Familiar interface #### 9.1.2 Gumbel-Softmax **Differentiable sampling:** ```python
-$$
-
-$$
-def gumbel_softmax_sample(logits, temperature=1.0):
-$$
-
-$$
-""" Differentiable alternative to multinomial Used when need gradients through sampling operation """ # Sample Gumbel noise
-$$
-
-$$
-gumbels = -torch.log(-torch.log(torch.rand_like(logits)))
-$$
-
-$$
-# Add to logits
+**Advantages of Categorical:** - Can compute log_prob, entropy, etc. - More statistically complete - Better for RL applications **Advantages of multinomial:** - Faster for simple sampling - Batched sampling built-in - Familiar interface #### 9.1.2 Gumbel-Softmax **Differentiable sampling:** ```python def gumbel_softmax_sample(logits, temperature=1.0): """ Differentiable alternative to multinomial Used when need gradients through sampling operation """ # Sample Gumbel noise gumbels = -torch.log(-torch.log(torch.rand_like(logits))) # Add to logits
 $$
 
 gumbels = (logits + gumbels) / temperature
 
 $$
-# Softmax (differentiable)
-$$
-
-$$
-y_soft = F.softmax(gumbels, dim=-1)
-$$
-
-$$
-return y_soft **Use case:** VAEs, REINFORCE with continuous relaxation ### 9.2 Custom Sampling Strategies #### 9.2.1 Temperature Annealing ```python def generate_with_annealing( model, input_ids,
-$$
-
-$$
-max_length=50,
-$$
-
-$$
-
+# Softmax (differentiable) y_soft = F.softmax(gumbels, dim=-1) return y_soft **Use case:** VAEs, REINFORCE with continuous relaxation ### 9.2 Custom Sampling Strategies #### 9.2.1 Temperature Annealing ```python def generate_with_annealing( model, input_ids, max_length=50,
 $$
 
 initial_temp=1.5,
 
 $$
-
-$$
-
-$$
-final_temp=0.7,
-$$
-
-$$
-decay='linear'
+final_temp=0.7, decay='linear'
 $$
 
 ):
@@ -2666,52 +1278,16 @@ $$
         # Compute current temperature
 
 $$
-if decay == 'linear':
-$$
-
-$$
-t = initial_temp - (initial_temp - final_temp) * step / max_length
-$$
-
-$$
-elif decay == 'exponential':
-$$
-
-$$
-t = final_temp + (initial_temp - final_temp) * (0.95 ** step)
-$$
-
-$$
-# Generate with current temperature
-$$
-
-$$
-logits = model(input_ids).logits[:, -1, :]
-$$
-
-$$
-
+if decay == 'linear': t = initial_temp - (initial_temp - final_temp) * step / max_length elif decay == 'exponential': t = final_temp + (initial_temp - final_temp) * (0.95 ** step) # Generate with current temperature logits = model(input_ids).logits[:, -1, :]
 $$
 
 probs = F.softmax(logits / t, dim=-1)
 
 $$
-
-$$
-
-$$
 next_token = torch.multinomial(probs, 1)
 $$
 
-$$
-
-$$
-
 input_ids = torch.cat([input_ids, next_token], dim=1)
-
-$$
-
-$$
 
     
     return input_ids
@@ -2720,70 +1296,30 @@ $$
 
 ```python
 
-$$
-
-$$
-
 def generate_adaptive(model, input_ids, confidence_threshold=0.8):
-
-$$
-
-$$
 
     """
     Use greedy when confident, multinomial when uncertain
     """
 
-$$
-
-$$
-
 logits = model(input_ids).logits[:, -1, :]
-
-$$
-
-$$
 
 $$
 probs = F.softmax(logits, dim=-1)
 $$
 
-$$
-
-$$
-
 max_prob = probs.max()
-
-$$
-
-$$
 
     
     if max_prob > confidence_threshold:
         # Confident → greedy
 
-$$
-
-$$
-
 next_token = torch.argmax(probs)
-
-$$
-
-$$
 
     else:
         # Uncertain → multinomial
 
-$$
-
-$$
-
 next_token = torch.multinomial(probs, 1)
-
-$$
-
-$$
 
     
     return next_token
@@ -2852,54 +1388,10 @@ $$
 # ✗ WRONG assumption
 
 $$
-weights = [1, 2, 5]
-$$
-
-$$
-sample = torch.multinomial(weights, 1)
-$$
-
-$$
-# Each NOT equally likely! **Pitfall 2: Expecting values instead of indices** ```python # ✗ WRONG
-$$
-
-$$
-sample = torch.multinomial(probs, 1)
-$$
-
-$$
-print(sample)  # Outputs index, not probability value! **Pitfall 3: Using integers** ```python # ✗ WRONG
-$$
-
-$$
-weights = torch.tensor([1, 2, 5])  # int64
-$$
-
-$$
-torch.multinomial(weights, 1)  # ERROR **Pitfall 4: Negative values** ```python # ✗ WRONG
-$$
-
-$$
-weights = torch.tensor([1.0, -0.5, 2.0])
-$$
-
-$$
-torch.multinomial(weights, 1)  # ERROR **Pitfall 5: Over-sampling without replacement** ```python # ✗ WRONG
-$$
-
-$$
-weights = torch.tensor([1.0, 2.0, 5.0])  # 3 items
-$$
-
-$$
-
+weights = [1, 2, 5] sample = torch.multinomial(weights, 1) # Each NOT equally likely! **Pitfall 2: Expecting values instead of indices** ```python # ✗ WRONG sample = torch.multinomial(probs, 1) print(sample)  # Outputs index, not probability value! **Pitfall 3: Using integers** ```python # ✗ WRONG weights = torch.tensor([1, 2, 5])  # int64 torch.multinomial(weights, 1)  # ERROR **Pitfall 4: Negative values** ```python # ✗ WRONG weights = torch.tensor([1.0, -0.5, 2.0]) torch.multinomial(weights, 1)  # ERROR **Pitfall 5: Over-sampling without replacement** ```python # ✗ WRONG weights = torch.tensor([1.0, 2.0, 5.0])  # 3 items
 $$
 
 torch.multinomial(weights, 10)  # ERROR: need replacement=True
-
-$$
-
-$$
 
 ### 10.5 Future Directions
 
@@ -2979,28 +1471,13 @@ class MultinomialTester:
         print("Test 1: Basic Functionality")
         print("-" * 50)
         
-$$
-
-$$
 
 weights = torch.tensor([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
         
         # Single sample
 
-$$
-
-$$
-
 sample = torch.multinomial(weights, num_samples=1)
-
-$$
-
-$$
 
         print(f"Weights: {weights.tolist()}")
         print(f"Sample (index): {sample.item()}")
@@ -3013,87 +1490,32 @@ $$
         print("Test 2: Probability Weighting")
         print("-" * 50)
         
-$$
-
-$$
 
 weights = torch.tensor([1.0, 2.0, 5.0])
 
 $$
-
-$$
-
-$$
-n_samples = 10000
-$$
-
-$$
-# Sample many times
-$$
-
-$$
-samples = torch.multinomial(weights, n_samples, replacement=True)
-$$
-
-$$
-# Compute frequencies
-$$
-
-$$
-unique, counts = torch.unique(samples, return_counts=True)
-$$
-
-$$
-
+n_samples = 10000 # Sample many times samples = torch.multinomial(weights, n_samples, replacement=True) # Compute frequencies unique, counts = torch.unique(samples, return_counts=True)
 $$
 
 observed_freq = counts.float() / n_samples
 
-$$
-
-$$
-
         
         # Expected frequencies
 
-$$
-
-$$
-
 expected_freq = weights / weights.sum()
-
-$$
-
-$$
 
         
         print("Index | Expected | Observed | Diff")
         print("-" * 50)
         for idx in range(len(weights)):
 
-$$
-
-$$
-
 exp = expected_freq[idx].item()
-
-$$
-
-$$
 
 $$
 obs = observed_freq[idx].item() if idx in unique else 0
 $$
 
-$$
-
-$$
-
 diff = abs(exp - obs)
-
-$$
-
-$$
 
             print(f"  {idx}   |  {exp:.4f}  |  {obs:.4f}  | {diff:.4f}")
         print()
@@ -3104,102 +1526,39 @@ $$
         print("Test 3: Softmax Effect")
         print("-" * 50)
         
-$$
-
-$$
 
 weights = torch.tensor([1.0, 2.0, 5.0])
 
 $$
-
-$$
-
-$$
-n_samples = 10000
-$$
-
-$$
-# Without softmax
-$$
-
-$$
-samples_no_sm = torch.multinomial(weights, n_samples, replacement=True)
-$$
-
-$$
-
+n_samples = 10000 # Without softmax samples_no_sm = torch.multinomial(weights, n_samples, replacement=True)
 $$
 
 _, counts_no_sm = torch.unique(samples_no_sm, return_counts=True)
 
 $$
-
-$$
-
-$$
-freq_no_sm = counts_no_sm.float() / n_samples
-$$
-
-$$
-# With softmax
-$$
-
-$$
-probs = torch.softmax(weights, dim=0)
-$$
-
-$$
-
+freq_no_sm = counts_no_sm.float() / n_samples # With softmax probs = torch.softmax(weights, dim=0)
 $$
 
 samples_sm = torch.multinomial(probs, n_samples, replacement=True)
 
 $$
-
-$$
-
-$$
 _, counts_sm = torch.unique(samples_sm, return_counts=True)
 $$
 
-$$
-
-$$
-
 freq_sm = counts_sm.float() / n_samples
-
-$$
-
-$$
 
         
         print("Index | No Softmax | With Softmax | Softmax Prob")
         print("-" * 60)
         for idx in range(len(weights)):
 
-$$
-
-$$
-
 no_sm = freq_no_sm[idx].item()
-
-$$
-
-$$
 
 $$
 with_sm = freq_sm[idx].item()
 $$
 
-$$
-
-$$
-
 prob = probs[idx].item()
-
-$$
-
-$$
 
             print(f"  {idx}   |   {no_sm:.4f}   |    {with_sm:.4f}    |   {prob:.4f}")
         print()
@@ -3210,43 +1569,20 @@ $$
         print("Test 4: Replacement Behavior")
         print("-" * 50)
         
-$$
-
-$$
 
 weights = torch.tensor([1.0, 2.0, 5.0])
-
-$$
-
-$$
 
         
         # Without replacement - should have no duplicates
 
-$$
-
-$$
-
 samples_no_repl = torch.multinomial(weights, 3, replacement=False)
-
-$$
-
-$$
 
         print(f"Without replacement: {samples_no_repl.tolist()}")
         print(f"  Unique count: {len(torch.unique(samples_no_repl))}/3")
         
         # With replacement - may have duplicates
 
-$$
-
-$$
-
 samples_repl = torch.multinomial(weights, 10, replacement=True)
-
-$$
-
-$$
 
         print(f"With replacement: {samples_repl.tolist()}")
         print(f"  Unique count: {len(torch.unique(samples_repl))}/10")
@@ -3258,149 +1594,54 @@ $$
         print("Test 5: NumPy Comparison")
         print("-" * 50)
         
-$$
-
-$$
 
 values = np.array([1.0, 2.0, 5.0])
 
 $$
-
-$$
-
-$$
-n_samples = 10000
-$$
-
-$$
-# PyTorch multinomial (weighted)
-$$
-
-$$
-weights_pt = torch.tensor(values)
-$$
-
-$$
-
+n_samples = 10000 # PyTorch multinomial (weighted) weights_pt = torch.tensor(values)
 $$
 
 samples_pt = torch.multinomial(weights_pt, n_samples, replacement=True)
 
 $$
-
-$$
-
-$$
 counts_pt = Counter(samples_pt.numpy())
-$$
-
-$$
-
 $$
 
 freq_pt = {k: v/n_samples for k, v in counts_pt.items()}
 
-$$
-
-$$
-
         
         # NumPy choice (uniform by default)
 
-$$
-
-$$
-
 samples_np_uniform = np.random.choice(values, size=n_samples)
-
-$$
-
-$$
 
 $$
 counts_np_uniform = Counter(samples_np_uniform)
 $$
 
-$$
-
-$$
-
 freq_np_uniform = {k: v/n_samples for k, v in counts_np_uniform.items()}
-
-$$
-
-$$
 
         
         # NumPy choice (weighted)
 
-$$
-
-$$
-
 probs = values / values.sum()
-
-$$
-
-$$
 
 $$
 samples_np_weighted = np.random.choice(values, size=n_samples, p=probs)
 $$
 
-$$
-
-$$
-
 counts_np_weighted = Counter(samples_np_weighted)
 
 $$
-
-$$
-
-$$
-freq_np_weighted = {k: v/n_samples for k, v in counts_np_weighted.items()}
-$$
-
-$$
-print("Value | PyTorch | NumPy Uniform | NumPy Weighted") print("-" * 60) for i, val in enumerate(values):
-$$
-
-$$
-pt = freq_pt.get(i, 0)
-$$
-
-$$
-
+freq_np_weighted = {k: v/n_samples for k, v in counts_np_weighted.items()} print("Value | PyTorch | NumPy Uniform | NumPy Weighted") print("-" * 60) for i, val in enumerate(values): pt = freq_pt.get(i, 0)
 $$
 
 np_u = freq_np_uniform.get(val, 0)
 
 $$
-
-$$
-
-$$
-np_w = freq_np_weighted.get(val, 0)
-$$
-
-$$
-print(f" {val:.1f}  |  {pt:.4f}  |    {np_u:.4f}    |    {np_w:.4f}") print() @staticmethod def test_error_cases(): """Demonstrate common errors""" print("Test 6: Error Cases") print("-" * 50) # Error 1: List instead of tensor try: torch.multinomial([1.0, 2.0, 5.0], 1) print("✗ List error not caught!") except TypeError: print("✓ List input correctly rejected") # Error 2: Integer dtype try: torch.multinomial(torch.tensor([1, 2, 5]), 1) print("✗ Integer dtype error not caught!") except RuntimeError: print("✓ Integer dtype correctly rejected") # Error 3: Negative values try: torch.multinomial(torch.tensor([1.0, -1.0, 5.0]), 1) print("✗ Negative value error not caught!") except RuntimeError: print("✓ Negative values correctly rejected") # Error 4: Over-sampling without replacement try:
-$$
-
-$$
-torch.multinomial(torch.tensor([1.0, 2.0, 5.0]), 10, replacement=False)
-$$
-
-$$
-print("✗ Over-sampling error not caught!") except RuntimeError: print("✓ Over-sampling correctly rejected") print() # Run all tests
+np_w = freq_np_weighted.get(val, 0) print(f" {val:.1f}  |  {pt:.4f}  |    {np_u:.4f}    |    {np_w:.4f}") print() @staticmethod def test_error_cases(): """Demonstrate common errors""" print("Test 6: Error Cases") print("-" * 50) # Error 1: List instead of tensor try: torch.multinomial([1.0, 2.0, 5.0], 1) print("✗ List error not caught!") except TypeError: print("✓ List input correctly rejected") # Error 2: Integer dtype try: torch.multinomial(torch.tensor([1, 2, 5]), 1) print("✗ Integer dtype error not caught!") except RuntimeError: print("✓ Integer dtype correctly rejected") # Error 3: Negative values try: torch.multinomial(torch.tensor([1.0, -1.0, 5.0]), 1) print("✗ Negative value error not caught!") except RuntimeError: print("✓ Negative values correctly rejected") # Error 4: Over-sampling without replacement try: torch.multinomial(torch.tensor([1.0, 2.0, 5.0]), 10, replacement=False) print("✗ Over-sampling error not caught!") except RuntimeError: print("✓ Over-sampling correctly rejected") print() # Run all tests
 $$
 
 if __name__ == "__main__":
-
-$$
-
-$$
 
 print("=" * 60)
 
@@ -3411,15 +1652,7 @@ $$
 print("=" * 60)
 
 $$
-print()
-$$
-
-$$
-tester = MultinomialTester()
-$$
-
-$$
-tester.test_basic_functionality() tester.test_probability_weighting() tester.test_softmax_effect() tester.test_replacement() tester.test_numpy_comparison() tester.test_error_cases()
+print() tester = MultinomialTester() tester.test_basic_functionality() tester.test_probability_weighting() tester.test_softmax_effect() tester.test_replacement() tester.test_numpy_comparison() tester.test_error_cases()
 $$
 
 print("=" * 60)
@@ -3431,51 +1664,15 @@ $$
 print("=" * 60)
 
 $$
-### A.2 Visualization Tools ```python """ multinomial_visualization.py Visualize multinomial sampling behavior """ import torch import matplotlib.pyplot as plt import numpy as np
-$$
-
-$$
-def visualize_sampling_distribution(weights, n_samples=10000):
-$$
-
-$$
-""" Visualize empirical vs theoretical distribution """ # Sample
-$$
-
-$$
-samples = torch.multinomial(weights, n_samples, replacement=True)
-$$
-
-$$
-# Compute frequencies
-$$
-
-$$
-unique, counts = torch.unique(samples, return_counts=True)
-$$
-
-$$
-
+### A.2 Visualization Tools ```python """ multinomial_visualization.py Visualize multinomial sampling behavior """ import torch import matplotlib.pyplot as plt import numpy as np def visualize_sampling_distribution(weights, n_samples=10000): """ Visualize empirical vs theoretical distribution """ # Sample samples = torch.multinomial(weights, n_samples, replacement=True) # Compute frequencies unique, counts = torch.unique(samples, return_counts=True)
 $$
 
 observed = counts.float() / n_samples
 
-$$
-
-$$
-
     
     # Expected probabilities
 
-$$
-
-$$
-
 expected = weights / weights.sum()
-
-$$
-
-$$
 
     
     # Plot
@@ -3487,15 +1684,7 @@ $$
     
     # Bar plot
 
-$$
-
-$$
-
 indices = range(len(weights))
-
-$$
-
-$$
 
 width = 0.35
 
@@ -3518,23 +1707,7 @@ $$
 ax1.grid(True, alpha=0.3)
 
 $$
-# Histogram of samples
-$$
-
-$$
-ax2.hist(samples.numpy(), bins=len(weights), density=True, alpha=0.7)
-$$
-
-$$
-ax2.set_xlabel('Index') ax2.set_ylabel('Density')
-$$
-
-$$
-ax2.set_title(f'Sample Distribution (n={n_samples})')
-$$
-
-$$
-ax2.grid(True, alpha=0.3)
+# Histogram of samples ax2.hist(samples.numpy(), bins=len(weights), density=True, alpha=0.7) ax2.set_xlabel('Index') ax2.set_ylabel('Density') ax2.set_title(f'Sample Distribution (n={n_samples})') ax2.grid(True, alpha=0.3)
 $$
 
     
@@ -3546,91 +1719,35 @@ def visualize_softmax_effect(weights):
     Compare distributions with/without softmax
     """
 
-$$
-
-$$
-
 n_samples = 10000
-
-$$
-
-$$
 
     
     # Without softmax
 
-$$
-
-$$
-
 samples_linear = torch.multinomial(weights, n_samples, replacement=True)
-
-$$
-
-$$
 
 $$
 _, counts_linear = torch.unique(samples_linear, return_counts=True)
 $$
 
-$$
-
-$$
-
 freq_linear = counts_linear.float() / n_samples
-
-$$
-
-$$
 
     
     # With softmax
 
-$$
-
-$$
-
 probs = torch.softmax(weights, dim=0)
-
-$$
-
-$$
 
 $$
 samples_softmax = torch.multinomial(probs, n_samples, replacement=True)
 $$
 
-$$
-
-$$
-
 _, counts_softmax = torch.unique(samples_softmax, return_counts=True)
 
 $$
-
-$$
-
-$$
-freq_softmax = counts_softmax.float() / n_samples
-$$
-
-$$
-# Plot
-$$
-
-$$
-fig, ax = plt.subplots(figsize=(10, 6))
-$$
-
-$$
-
+freq_softmax = counts_softmax.float() / n_samples # Plot fig, ax = plt.subplots(figsize=(10, 6))
 $$
 
 indices = range(len(weights))
-
-$$
-
-$$
 
 width = 0.35
 
@@ -3665,44 +1782,17 @@ $$
 if __name__ == "__main__":
 
 $$
-# Test weights
-$$
-
-$$
-weights = torch.tensor([1.0, 2.0, 5.0])
-$$
-
-$$
-# Visualize basic distribution
-$$
-
-$$
-fig1 = visualize_sampling_distribution(weights)
-$$
-
-$$
-
+# Test weights weights = torch.tensor([1.0, 2.0, 5.0]) # Visualize basic distribution fig1 = visualize_sampling_distribution(weights)
 $$
 
 fig1.savefig('multinomial_distribution.png', dpi=300)
 
-$$
-
-$$
-
     
     # Visualize softmax effect
-
-$$
-
-$$
 
 fig2 = visualize_softmax_effect(weights)
 
 $$
-
-$$
-
-$$
 fig2.savefig('softmax_effect.png', dpi=300)
 $$
+

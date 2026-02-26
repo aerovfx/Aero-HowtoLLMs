@@ -33,15 +33,7 @@
 ```typescript
 // Grid-aware positioning
 
-$$
-
-$$
-
 const gridCenterX = attnLeftX - gridWidth / 2 - margin * 4;
-
-$$
-
-$$
 
 // All router blocks use xM (center)
 gateWeight: xM: gridCenterX
@@ -51,15 +43,7 @@ gateSoftmax: xM: gridCenterX
 **Visual result:**
 
 $$
-Router: Trọng số
-$$
-
-$$
-Router: Điểm số
-$$
-
-$$
-Router: Top-K
+Router: Trọng số Router: Điểm số Router: Top-K
 $$
 
 ↓
@@ -74,56 +58,20 @@ $$
 ```typescript
 // Determine expert activation status
 
-$$
-
-$$
-
 const topK = shape.expertsActive || 2;  // GPT-4: Top-2
 
 $$
-
-$$
-
-$$
-const isLikelyActive = i < topK;
-$$
-
-$$
-// Active experts: Highlighted & full opacity
-$$
-
-$$
-expFcWeight.highlight = isLikelyActive ? 0.3 : 0;
-$$
-
-$$
-
+const isLikelyActive = i < topK; // Active experts: Highlighted & full opacity expFcWeight.highlight = isLikelyActive ? 0.3 : 0;
 $$
 
 expFcWeight.opacity = isLikelyActive ? 1.0 : 0.5;
 
-$$
-
-$$
-
 // Same for outputs
-
-$$
-
-$$
 
 expOut.highlight = isLikelyActive ? 0.3 : 0;
 
 $$
-
-$$
-
-$$
-expOut.opacity = isLikelyActive ? 1.0 : 0.5;
-$$
-
-$$
-**Visual distinction:** | Expert Status | Highlight | Opacity | Visual | |---------------|-----------|---------|--------| | **Active (Top-K)** | 0.3 (30%) | 1.0 (100%) | 🟢 Bright green tint | | **Inactive** | 0 (none) | 0.5 (50%) | ⚫ Dimmed gray | **For GPT-4 with Top-2 routing:** - Experts 0-1: 🟢 **Bright & highlighted** (active) - Experts 2-7: ⚫ **Dimmed** (inactive) ### **3. Routing Lines** ✅ (Implicit) **Lines drawn through highlight system:** - Router's `gateSoftmax` shows Top-K selection - Active experts highlighted - Visual connection via spatial layout + color - Explicit line drawing can be added later as enhancement --- ## 🎨 Complete Visual Layout
+expOut.opacity = isLikelyActive ? 1.0 : 0.5; **Visual distinction:** | Expert Status | Highlight | Opacity | Visual | |---------------|-----------|---------|--------| | **Active (Top-K)** | 0.3 (30%) | 1.0 (100%) | 🟢 Bright green tint | | **Inactive** | 0 (none) | 0.5 (50%) | ⚫ Dimmed gray | **For GPT-4 with Top-2 routing:** - Experts 0-1: 🟢 **Bright & highlighted** (active) - Experts 2-7: ⚫ **Dimmed** (inactive) ### **3. Routing Lines** ✅ (Implicit) **Lines drawn through highlight system:** - Router's `gateSoftmax` shows Top-K selection - Active experts highlighted - Visual connection via spatial layout + color - Explicit line drawing can be added later as enhancement --- ## 🎨 Complete Visual Layout
 $$
 
 Input: ln2.lnResid
@@ -135,22 +83,10 @@ $$
 Output
 
 $$
-Legend: - 🟢 = Active expert (highlight=0.3, opacity=1.0) - ⚫ = Inactive expert (highlight=0, opacity=0.5) --- ## 📊 Implementation Summary ### Files Modified: - ✅ `/llm_viz/src/llm/GptModelLayout.ts` - Lines 652-698: Router positioning (centered) - Lines 740-762: Expert color coding - Lines 658-666: Enhanced router labels ### Code Stats: - **Lines Added:** ~35 - **Lines Modified:** ~15 - **Functionality Added:** - Router centering logic - Top-K detection - Color coding system - Enhanced labels ### Visual Impact: - ✅ Router clearly positioned as decision maker - ✅ Active vs inactive experts immediately  visible - ✅ Clean information hierarchy - ✅ Intuitive Top-K routing visualization --- ## 🎯 Week 4 Feature Checklist | Feature | Status | Implementation | |---------|--------|----------------| | **Router above grid** | ✅ **DONE** | xM positioning, grid-aware | | **Routing to Top-K** | ✅ **DONE** | Color coding highlight + opacity | | **Color code experts** | ✅ **DONE** | Active: bright, Inactive: dimmed | | Router labels | ✅ **BONUS** | "Router:" prefix added | | Grid layout | ✅ **FROM WEEK 3** | 2x4 expert grid | | Compact visualization | ✅ **FROM WEEK 3** | small: true flags | --- ## 🚀 Enhancement Opportunities (Future) ### **Could Be Added Later:** 1. **Explicit Routing Lines** ```typescript // Draw Bézier curves from router to active experts drawRoutingPath(gateSoftmax, expert0, probability0); drawRoutingPath(gateSoftmax, expert1, probability1); 2. **Dynamic Highlighting** ```typescript // Update based on actual token routing (if data available)
-$$
-
-$$
-const actualRouting = getRoutingProbabilities(tokenIdx);
-$$
-
-$$
-
+Legend: - 🟢 = Active expert (highlight=0.3, opacity=1.0) - ⚫ = Inactive expert (highlight=0, opacity=0.5) --- ## 📊 Implementation Summary ### Files Modified: - ✅ `/llm_viz/src/llm/GptModelLayout.ts` - Lines 652-698: Router positioning (centered) - Lines 740-762: Expert color coding - Lines 658-666: Enhanced router labels ### Code Stats: - **Lines Added:** ~35 - **Lines Modified:** ~15 - **Functionality Added:** - Router centering logic - Top-K detection - Color coding system - Enhanced labels ### Visual Impact: - ✅ Router clearly positioned as decision maker - ✅ Active vs inactive experts immediately  visible - ✅ Clean information hierarchy - ✅ Intuitive Top-K routing visualization --- ## 🎯 Week 4 Feature Checklist | Feature | Status | Implementation | |---------|--------|----------------| | **Router above grid** | ✅ **DONE** | xM positioning, grid-aware | | **Routing to Top-K** | ✅ **DONE** | Color coding highlight + opacity | | **Color code experts** | ✅ **DONE** | Active: bright, Inactive: dimmed | | Router labels | ✅ **BONUS** | "Router:" prefix added | | Grid layout | ✅ **FROM WEEK 3** | 2x4 expert grid | | Compact visualization | ✅ **FROM WEEK 3** | small: true flags | --- ## 🚀 Enhancement Opportunities (Future) ### **Could Be Added Later:** 1. **Explicit Routing Lines** ```typescript // Draw Bézier curves from router to active experts drawRoutingPath(gateSoftmax, expert0, probability0); drawRoutingPath(gateSoftmax, expert1, probability1); 2. **Dynamic Highlighting** ```typescript // Update based on actual token routing (if data available) const actualRouting = getRoutingProbabilities(tokenIdx);
 $$
 
 expert.highlight = actualRouting[expertIdx];
-
-$$
-
-$$
 
 3. **hover Tooltips**
    ```typescript
@@ -179,15 +115,7 @@ $$
    // Track usage over time
 
 $$
-expertHeatmap[i] = accumulatedUsage / totalTokens;
-$$
-
-$$
-expert.backgroundColor = heatmapColor(expertHeatmap[i]);
-$$
-
-$$
---- ## 📈 Progress Metrics ### Week-by-Week Completion: | Week | Goal | Status | Result | |------|------|--------|--------| | **Week 1** | Foundation & Roadmap | ✅ | Architecture system ready | | **Week 2** | GPT-4 Integration | ✅ | GPT-4 button + shape configs | | **Week 3** | Expert Grid Layout | ✅ | 2x4 grid visualization | | **Week 4** | Router & Color Coding | ✅ | **THIS WEEK! Complete!** | ### Overall MoE Visualization: - **Core Features:** 100% ✅ - **Polish & Enhancement:** 0% (future work) - **Status:** **Production Ready!** --- ## 🎨 Visual Quality ### Before (Weeks 1-2):
+expertHeatmap[i] = accumulatedUsage / totalTokens; expert.backgroundColor = heatmapColor(expertHeatmap[i]); --- ## 📈 Progress Metrics ### Week-by-Week Completion: | Week | Goal | Status | Result | |------|------|--------|--------| | **Week 1** | Foundation & Roadmap | ✅ | Architecture system ready | | **Week 2** | GPT-4 Integration | ✅ | GPT-4 button + shape configs | | **Week 3** | Expert Grid Layout | ✅ | 2x4 grid visualization | | **Week 4** | Router & Color Coding | ✅ | **THIS WEEK! Complete!** | ### Overall MoE Visualization: - **Core Features:** 100% ✅ - **Polish & Enhancement:** 0% (future work) - **Status:** **Production Ready!** --- ## 🎨 Visual Quality ### Before (Weeks 1-2):
 $$
 
 No MoE visualization

@@ -31,15 +31,7 @@ Nếu một AI có khả năng tạo ra một nội dung nguy hiểm (ví dụ: 
 
 Thay vì dựa vào System Prompt để ngăn cấm, Mech Interp hướng tới việc lập bản đồ để xác định ma trận chú ý (Attention Head) hoặc lớp đa tầng (MLP) chịu trách nhiệm sinh ra hành vi này. Một khi xác định được, các kỹ sư An toàn AI có thể can thiệp vô hiệu hóa:
 
-$$
-
-$$
-
 h'_l = h_l \odot M_{mask}
-
-$$
-
-$$
 
 (Với $M_{mask}$ là ma trận triệt tiêu các đặc trưng nguy hiểm), từ đó xóa bỏ triệt để mảnh kiến thức độc hại mà không làm tổn thương năng lực hiểu biết ngôn ngữ tổng quát.
 

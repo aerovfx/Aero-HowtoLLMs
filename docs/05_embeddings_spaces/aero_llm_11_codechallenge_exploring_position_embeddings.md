@@ -33,11 +33,7 @@ $$
 Trong đó:
 
 $$
-•	\mathbf{e}_t \in \mathbb{R}^d: embedding ngữ nghĩa của token
-$$
-
-$$
-•	\mathbf{p}_t \in \mathbb{R}^d: embedding vị trí
+•	\mathbf{e}_t \in \mathbb{R}^d: embedding ngữ nghĩa của token •	\mathbf{p}_t \in \mathbb{R}^d: embedding vị trí
 $$
 
 	•	d: số chiều embedding
@@ -56,22 +52,10 @@ Do đó, embedding vị trí cung cấp cấu trúc thứ tự cho mô hình.
 
 Trong Transformer ban đầu:
 
-$$
-
-$$
-
 \text{PE}(pos, 2i) = \sin\left\frac{pos}{10000^{2i/d}}\right
 
 $$
-
-$$
-
-$$
-\text{PE}(pos, 2i+1) = \cos\left\frac{pos}{10000^{2i/d}}\right
-$$
-
-$$
-Tính chất quan trọng: •	Tạo ra phổ tần số đa dạng •	Cho phép biểu diễn quan hệ tuyến tính giữa các vị trí •	Không cần tham số học thêm ⸻ 2.2 Embedding vị trí học được (GPT-2) Trong GPT-2, embedding vị trí được học như một ma trận tham số:
+\text{PE}(pos, 2i+1) = \cos\left\frac{pos}{10000^{2i/d}}\right Tính chất quan trọng: •	Tạo ra phổ tần số đa dạng •	Cho phép biểu diễn quan hệ tuyến tính giữa các vị trí •	Không cần tham số học thêm ⸻ 2.2 Embedding vị trí học được (GPT-2) Trong GPT-2, embedding vị trí được học như một ma trận tham số:
 $$
 
 \mathbf{P} \in \mathbb{R}^{L \times d}
@@ -83,113 +67,41 @@ $$
 \mathbf{p}_t = \mathbf{P}[t]
 
 $$
-Các vector này được tối ưu thông qua gradient descent:
-$$
-
-$$
-\mathbf{P} \leftarrow \mathbf{P} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{P}}
-$$
-
-$$
-Trong đó: •	\eta: learning rate
+Các vector này được tối ưu thông qua gradient descent: \mathbf{P} \leftarrow \mathbf{P} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{P}} Trong đó: •	\eta: learning rate
 $$
 
 •	\mathcal{L}: hàm mất mát
 
 $$
-⸻ 3. Phân tích hình học của embedding vị trí 3.1 Chuẩn vector (Vector Norm) Chuẩn L2 của embedding vị trí:
-$$
-
-$$
-\|\mathbf{p}_t\|_2 = \sqrt{\sum_{i=1}^{d} p_{t,i}^2}
-$$
-
-$$
-Quan sát thực nghiệm: •	Chuẩn tương đối ổn định theo vị trí •	Không có sự bùng nổ norm ở cuối chuỗi Điều này giúp đảm bảo embedding vị trí không lấn át embedding token. ⸻ 3.2 Độ tương đồng cosine Độ tương đồng cosine giữa hai vị trí:
+⸻ 3. Phân tích hình học của embedding vị trí 3.1 Chuẩn vector (Vector Norm) Chuẩn L2 của embedding vị trí: \|\mathbf{p}_t\|_2 = \sqrt{\sum_{i=1}^{d} p_{t,i}^2} Quan sát thực nghiệm: •	Chuẩn tương đối ổn định theo vị trí •	Không có sự bùng nổ norm ở cuối chuỗi Điều này giúp đảm bảo embedding vị trí không lấn át embedding token. ⸻ 3.2 Độ tương đồng cosine Độ tương đồng cosine giữa hai vị trí:
 $$
 
 \cos\theta =
 
 $$
-\frac{\mathbf{p}_t \cdot \mathbf{p}_s} {\|\mathbf{p}_t\| \|\mathbf{p}_s\|} Tính chất thực nghiệm: •	\cos\mathbf{p}_t, \mathbf{p}_{t+1} cao •	Giảm dần khi khoảng cách |t-s| tăng •	Tạo cấu trúc liên tục (smooth manifold) Có thể mô hình hoá xấp xỉ:
-$$
-
-$$
-\cos\mathbf{p}_t, \mathbf{p}_{t+k} \approx e^{-\alpha k}
-$$
-
-$$
-với \alpha > 0. ⸻ 4. Phân tích sai phân (Difference Vectors) Xét vector sai phân:
-$$
-
-$$
-\Delta_t = \mathbf{p}_{t+1} - \mathbf{p}_t
-$$
-
-$$
-Nếu embedding có cấu trúc tuyến tính, ta kỳ vọng:
-$$
-
-$$
-\Delta_t \approx \Delta_{t+1}
-$$
-
-$$
-Thực nghiệm cho thấy: •	Các \Delta_t gần song song nhau
+\frac{\mathbf{p}_t \cdot \mathbf{p}_s} {\|\mathbf{p}_t\| \|\mathbf{p}_s\|} Tính chất thực nghiệm: •	\cos\mathbf{p}_t, \mathbf{p}_{t+1} cao •	Giảm dần khi khoảng cách |t-s| tăng •	Tạo cấu trúc liên tục (smooth manifold) Có thể mô hình hoá xấp xỉ: \cos\mathbf{p}_t, \mathbf{p}_{t+k} \approx e^{-\alpha k} với \alpha > 0. ⸻ 4. Phân tích sai phân (Difference Vectors) Xét vector sai phân: \Delta_t = \mathbf{p}_{t+1} - \mathbf{p}_t Nếu embedding có cấu trúc tuyến tính, ta kỳ vọng: \Delta_t \approx \Delta_{t+1} Thực nghiệm cho thấy: •	Các \Delta_t gần song song nhau
 $$
 
 •	Embedding vị trí gần như nằm trên một quỹ đạo tuyến tính trong không gian \mathbb{R}^d
 
 $$
-Điều này gợi ý:
-$$
-
-$$
-\mathbf{p}_t \approx \mathbf{p}_0 + t\mathbf{v}
-$$
-
-$$
-với \mathbf{v} là vector hướng chính. ⸻ 5. Phân tích thành phần chính (PCA) 5.1 Ma trận hiệp phương sai
+Điều này gợi ý: \mathbf{p}_t \approx \mathbf{p}_0 + t\mathbf{v} với \mathbf{v} là vector hướng chính. ⸻ 5. Phân tích thành phần chính (PCA) 5.1 Ma trận hiệp phương sai
 $$
 
 \mathbf{C} =
 
-$$
-
-$$
-
 \frac{1}{L} \sum_{t=1}^{L}
-
-$$
-
-$$
 
 $\mathbf{p}_t - \bar{\mathbf{p}}$
 $\mathbf{p}_t - \bar{\mathbf{p}}$^T
 
 Trong đó:
 
-$$
-
-$$
-
 \bar{\mathbf{p}} = \frac{1}{L} \sum_{t=1}^{L} \mathbf{p}_t
-
-$$
-
-$$
 
 Giải bài toán trị riêng:
 
-$$
-
-$$
-
 \mathbf{C}\mathbf{v}_i = \lambda_i \mathbf{v}_i
-
-$$
-
-$$
 
 5.2 Kết quả thực nghiệm
 	•	Thành phần chính thứ nhất (PC1) tương quan mạnh với chỉ số vị trí.
@@ -203,37 +115,13 @@ $$
 Self-attention:
 
 $$
-\text{Attention}(Q,K,V) =
-$$
-
-$$
-\text{softmax}\left(
-$$
-
-$$
-\frac{QK^T}{\sqrt{d_k}} \right)V Với:
-$$
-
-$$
-Q = ZW_Q, \quad
-$$
-
-$$
-
+\text{Attention}(Q,K,V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V Với: Q = ZW_Q, \quad
 $$
 
 K = ZW_K, \quad
 
 $$
-
-$$
-
-$$
-Z = E + P
-$$
-
-$$
-Suy ra:
+Z = E + P Suy ra:
 $$
 
 QK^T =
@@ -249,10 +137,6 @@ Embedding vị trí đóng góp trực tiếp vào ma trận attention scores. �
 $$
 
 \mathbf{p}_t \approx \mathbf{a} + t\mathbf{b} + \epsilon_t
-
-$$
-
-$$
 
 với nhiễu nhỏ \epsilon_t.
 

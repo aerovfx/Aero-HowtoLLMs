@@ -31,27 +31,11 @@ Dù vậy, một luồng triết học và kiến trúc học thuyết (Alignmen
 ### 1.1 Tìm Phép Biến Đổi Vô Hướng Biên Dịch Chéo (Cross-lingual / Cross-model Mapping)
 Nếu hệ học của hai mô hình là chung quy luật, thì về mặt lý thuyết thuần túy Toán Hình Học, có thể ánh xạ (map) từ vựng không gian này sang không gian kia (Translation Mapping) bằng bộ khung quy tắc bao gồm ma trận xoay (Rotation $W$) và co dãn chiều (Scaling matrix $S$):
 
-$$
-
-$$
-
 E_2 \approx E_1 \cdot W + b
-
-$$
-
-$$
 
 Việc dịch chuyển này thường được nỗ lực đạt thông qua Căn chỉnh Procrustes Trực giao (Orthogonal Procrustes problem), một bài toán tìm ma trận trực giao tối ưu để chồng khít hai khối vector mà không sử dụng sự uốn nắn phi tuyến. Trọng điểm chi phí mất mát:
 
-$$
-
-$$
-
 \text{Loss} = \| E_1 W - E_2 \|_F^2 \quad \text{với điều kiện } W^\top W = I
-
-$$
-
-$$
 
 ---
 

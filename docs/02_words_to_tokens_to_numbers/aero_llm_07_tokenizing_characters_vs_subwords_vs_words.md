@@ -55,39 +55,15 @@ Mỗi phương pháp tạo ra độ dài chuỗi $T$ và kích thước từ v�
 
 Mỗi token là một ký tự:
 
-$$
-
-$$
-
 V = \Sigma
-
-$$
-
-$$
 
 Chuỗi:
 
-$$
-
-$$
-
 X = (c_1, c_2, \dots, c_n)
-
-$$
-
-$$
 
 Số token:
 
-$$
-
-$$
-
 T = n
-
-$$
-
-$$
 
 ---
 
@@ -112,136 +88,28 @@ $$
 Self-attention có độ phức tạp:
 
 $$
-\mathcal{O}(T^2 d)
-$$
-
-$$
-Vì T = n lớn → chi phí tăng mạnh.
-$$
-
-$$
-Ví dụ: văn bản 1000 ký tự
-$$
-
-$$
-T_{char} = 1000
-$$
-
-$$
-Chi phí attention:
-$$
-
-$$
-\propto 1000^2 = 10^6
-$$
-
-$$
---- # 3. Tokenization mức từ (Word-Level) ## 3.1 Định nghĩa Chuỗi:
-$$
-
-$$
-X = (w_1, w_2, \dots, w_m)
-$$
-
-$$
-với:
+\mathcal{O}(T^2 d) Vì T = n lớn → chi phí tăng mạnh. Ví dụ: văn bản 1000 ký tự T_{char} = 1000 Chi phí attention: \propto 1000^2 = 10^6 --- # 3. Tokenization mức từ (Word-Level) ## 3.1 Định nghĩa Chuỗi: X = (w_1, w_2, \dots, w_m) với:
 $$
 
 m < n
 
 $$
-Tập từ vựng:
-$$
-
-$$
-V = { w }
-$$
-
-$$
---- ## 3.2 Đặc điểm thống kê Phân bố tần suất từ tuân theo định luật Zipf:
-$$
-
-$$
-f(w_r) \propto \frac{1}{r}
-$$
-
-$$
-trong đó r là thứ hạng. Entropy:
-$$
-
-$$
-H(W) = -\sum_{w} P(w)\log P(w)
-$$
-
-$$
---- ## 3.3 Nhược điểm Xác suất OOV:
-$$
-
-$$
-P(\text{OOV}) = 1 - \sum_{w \in V} P(w)
-$$
-
-$$
-Vì từ vựng hữu hạn. Kích thước từ vựng lớn:
+Tập từ vựng: V = { w } --- ## 3.2 Đặc điểm thống kê Phân bố tần suất từ tuân theo định luật Zipf: f(w_r) \propto \frac{1}{r} trong đó r là thứ hạng. Entropy: H(W) = -\sum_{w} P(w)\log P(w) --- ## 3.3 Nhược điểm Xác suất OOV: P(\text{OOV}) = 1 - \sum_{w \in V} P(w) Vì từ vựng hữu hạn. Kích thước từ vựng lớn:
 $$
 
 |V| $\approx$ 30,000 - 200,000
 
 $$
-Embedding matrix:
-$$
-
-$$
-E \in \mathbb{R}^{|V| \times d}
-$$
-
-$$
-→ tiêu tốn bộ nhớ. --- # 4. Tokenization mức Subword Subword kết hợp ưu điểm của hai phương pháp trên. ## 4.1 Byte Pair Encoding (BPE) BPE lặp lại:
-$$
-
-$$
-(a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b)
-$$
-
-$$
-Cập nhật từ vựng:
-$$
-
-$$
-V_{k+1} = V_k \cup \{ab\}
-$$
-
-$$
---- ## 4.2 Unigram Language Model Tối ưu:
-$$
-
-$$
-\max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z \mid \theta)
-$$
-
-$$
-Trong đó: * z: một phân tách hợp lệ
+Embedding matrix: E \in \mathbb{R}^{|V| \times d} → tiêu tốn bộ nhớ. --- # 4. Tokenization mức Subword Subword kết hợp ưu điểm của hai phương pháp trên. ## 4.1 Byte Pair Encoding (BPE) BPE lặp lại: (a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b) Cập nhật từ vựng: V_{k+1} = V_k \cup \{ab\} --- ## 4.2 Unigram Language Model Tối ưu: \max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z \mid \theta) Trong đó: * z: một phân tách hợp lệ
 $$
 
 * \mathcal{Z}(x_i): tập các phân tách
 
 $$
---- ## 4.3 Độ dài chuỗi trung bình Giả sử:
-$$
-
-$$
-* Character-level: T_c = n
-$$
-
-$$
-
+--- ## 4.3 Độ dài chuỗi trung bình Giả sử: * Character-level: T_c = n
 $$
 
 * Word-level: T_w = m
-
-$$
-
-$$
 
 * Subword-level: $T_s$
 
@@ -275,15 +143,7 @@ $$
 
 Self-attention:
 
-$$
-
-$$
-
 \text{Cost} = \mathcal{O}(T^2 d)
-
-$$
-
-$$
 
 Embedding memory:
 
@@ -299,27 +159,11 @@ Subword tối ưu cân bằng hai yếu tố.
 
 Theo định lý Shannon:
 
-$$
-
-$$
-
 H(X) = -\sum_x P(x)\log P(x)
-
-$$
-
-$$
 
 Chiều dài mã tối ưu:
 
-$$
-
-$$
-
 L \approx \frac{H(X)}{\log |V|}
-
-$$
-
-$$
 
 Subword giúp:
 
@@ -332,15 +176,7 @@ Subword giúp:
 
 Mô hình Transformer tính:
 
-$$
-
-$$
-
 Z = \text{Softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
-
-$$
-
-$$
 
 Vì attention phụ thuộc $T$:
 
@@ -362,35 +198,11 @@ Trong thực tế:
 
 Giả sử chuỗi 1000 ký tự:
 
-$$
-
-$$
-
 T_c = 1000
-
-$$
-
-$$
-
-$$
-
-$$
 
 T_s \approx 250 - 400
 
-$$
-
-$$
-
-$$
-
-$$
-
 T_w \approx 150 - 250
-
-$$
-
-$$
 
 Chi phí attention giảm theo bình phương độ dài.
 
@@ -400,15 +212,7 @@ Chi phí attention giảm theo bình phương độ dài.
 
 Tokenization có thể xem là bài toán tối ưu đa mục tiêu:
 
-$$
-
-$$
-
 \min_{V} \left( \alpha T^2 + \beta |V| \right)
-
-$$
-
-$$
 
 Trong đó:
 

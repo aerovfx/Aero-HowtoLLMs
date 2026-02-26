@@ -26,28 +26,12 @@ Báo cáo này nghiên cứu về cơ chế lan truyền xuôi (forward propagat
 Lan truyền xuôi là quá trình dữ liệu đi từ trái sang phải qua mạng nơ-ron. Đối với một perceptron đơn lẻ, quy trình này được tóm gọn qua hai bước:
 1. **Thành phần Tuyến tính:** Tính tổng có trọng số của các đầu vào, bao gồm cả thành phần định kiến (bias).
 
-$$
-
-$$
-
 z = x^T w + b
-
-$$
-
-$$
 
 Trong đó, $b$ có thể được hấp thụ vào tích vô hướng bằng cách thêm một hằng số 1 vào véc-tơ đầu vào.
 2. **Thành phần Phi tuyến (Hàm kích hoạt):** Kết quả $z$ được đưa qua một hàm phi tuyến $\sigma$ để tạo ra giá trị dự đoán cuối cùng $\hat{y}$.
 
-$$
-
-$$
-
 \hat{y} = \sigma(z)
-
-$$
-
-$$
 
 ---
 

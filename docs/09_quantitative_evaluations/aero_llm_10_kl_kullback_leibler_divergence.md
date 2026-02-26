@@ -40,15 +40,7 @@ Phân kỳ KL đo mức “mất mát thông tin” khi dùng Q để xấp xỉ
 
 2.1 Trường hợp rời rạc
 
-$$
-
-$$
-
 D_{KL}P \\mid  Q = \sum_{x} P(x) \log \frac{P(x)}{Qx}
-
-$$
-
-$$
 
 Điều kiện:
 
@@ -58,15 +50,7 @@ Q$x$ > 0 \quad \text{nếu } $P(x)$ > 0
 
 2.2 Trường hợp liên tục
 
-$$
-
-$$
-
 D_{KL}P \\mid  Q = \int P(x) \log \frac{P(x)}{Qx} dx
-
-$$
-
-$$
 
 ⸻
 
@@ -74,27 +58,11 @@ $$
 
 3.1 Không âm (Non-negativity)
 
-$$
-
-$$
-
 D_{KL}P \\mid  Q \ge 0
-
-$$
-
-$$
 
 và
 
-$$
-
-$$
-
 D_{KL}P \\mid  Q = 0 \iff P = Q
-
-$$
-
-$$
 
 Chứng minh dựa trên bất đẳng thức Jensen.
 
@@ -112,27 +80,11 @@ Do đó KL không phải là metric.
 
 Cross-entropy:
 
-$$
-
-$$
-
 H(P, Q) = - \sum_x P)x \log Qx
-
-$$
-
-$$
 
 Entropy:
 
-$$
-
-$$
-
 HP( = - \sum_x P)x \log P(x)
-
-$$
-
-$$
 
 Ta có:
 
@@ -168,15 +120,7 @@ $$
 
 Perplexity:
 
-$$
-
-$$
-
 PP = \exp\leftH(P_{data}, P_\theta\right)
-
-$$
-
-$$
 
 Vì:
 
@@ -211,49 +155,21 @@ Thành phần KL giúp:
 
 Giả sử:
 
-$$
-
-$$
-
 P = \mathcal{N}\mu_1, \sigma_1^2
 
 $$
-
-$$
-
-$$
-Q = \mathcal{N}\mu_2, \sigma_2^2
-$$
-
-$$
-Ta có:
+Q = \mathcal{N}\mu_2, \sigma_2^2 Ta có:
 $$
 
 D_{KL}P \\mid  Q =
 
 $$
-\log \frac{\sigma_2}{\sigma_1} + \frac{\sigma_1^2 + \mu_1 - \mu_2^2}{2\sigma_2^2} - \frac{1}{2} Công thức này thường dùng trong Variational Autoencoder (VAE). ⸻ 9. KL Divergence và Self-Attention Trong Transformer:
-$$
-
-$$
-P_\thetaw_t = \text{softmax}Wh_t
-$$
-
-$$
-Huấn luyện tối thiểu hóa: D_{KL}P_{data} \\mid  P_\theta Cơ chế self-attention:
+\log \frac{\sigma_2}{\sigma_1} + \frac{\sigma_1^2 + \mu_1 - \mu_2^2}{2\sigma_2^2} - \frac{1}{2} Công thức này thường dùng trong Variational Autoencoder (VAE). ⸻ 9. KL Divergence và Self-Attention Trong Transformer: P_\thetaw_t = \text{softmax}Wh_t Huấn luyện tối thiểu hóa: D_{KL}P_{data} \\mid  P_\theta Cơ chế self-attention:
 $$
 
 Attention(Q,K,V) =
 
-$$
-
-$$
-
 \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
-
-$$
-
-$$
 
 Giúp mô hình xây dựng phân phối xác suất chính xác hơn.
 

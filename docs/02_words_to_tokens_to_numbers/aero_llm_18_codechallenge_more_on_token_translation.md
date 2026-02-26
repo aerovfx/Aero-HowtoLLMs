@@ -51,15 +51,7 @@ sao cho bảo toàn nội dung ngữ nghĩa và hạn chế sai số thông tin.
 
 Cách tự nhiên nhất:
 
-$$
-
-$$
-
 \Phi_{A \to B} = \mathcal{T}_B \circ \mathcal{D}_A
-
-$$
-
-$$
 
 Trong đó:
 
@@ -85,39 +77,15 @@ A \to B \to C
 
 Sai số tổng:
 
-$$
-
-$$
-
 \epsilon_{A \to C} \le \epsilon_{A \to B} + \epsilon_{B \to C}
-
-$$
-
-$$
 
 Đây là hệ quả của bất đẳng thức tam giác đối với khoảng cách Levenshtein:
 
-$$
-
-$$
-
 d(x,z) \le d(x,y) + d(y,z)
-
-$$
-
-$$
 
 Nếu mỗi bước có sai số nhỏ nhưng lặp nhiều lần, sai số tích lũy có thể tăng tuyến tính theo số bước:
 
-$$
-
-$$
-
 \epsilon_k \le k \epsilon
-
-$$
-
-$$
 
 ⸻
 
@@ -141,24 +109,12 @@ $$
 
 Khi đó embedding có thể chuyển đổi tuyến tính:
 
-$$
-
-$$
-
 E_B = M^\top E_A
-
-$$
-
-$$
 
 Trong đó:
 
 $$
-•	E_A \in \mathbb{R}^{|V_A| \times d}
-$$
-
-$$
-•	E_B \in \mathbb{R}^{|V_B| \times d}
+•	E_A \in \mathbb{R}^{|V_A| \times d} •	E_B \in \mathbb{R}^{|V_B| \times d}
 $$
 
 ⸻
@@ -171,15 +127,7 @@ e$a_i$, \quad e$b_j$
 
 Sai số chuyển đổi:
 
-$$
-
-$$
-
 \delta_i = \| ea_i - \sum_j M_{ij} eb_j \|_2
-
-$$
-
-$$
 
 Sai số trung bình:
 
@@ -199,49 +147,17 @@ $$
 
 Cho văn bản độ dài n ký tự:
 
-$$
-
-$$
-
 m_A = \frac{n}{\mathbb{E}[L_A]}
 
 $$
-
-$$
-
-$$
-m_B = \frac{n}{\mathbb{E}[L_B]}
-$$
-
-$$
-Chi phí attention:
-$$
-
-$$
-C_A = O(m_A^2)
-$$
-
-$$
-
+m_B = \frac{n}{\mathbb{E}[L_B]} Chi phí attention: C_A = O(m_A^2)
 $$
 
 C_B = O(m_B^2)
 
-$$
-
-$$
-
 Tỷ lệ:
 
-$$
-
-$$
-
 \frac{C_A}{C_B} = \left(\frac{\mathbb{E}[L_B]}{\mathbb{E}[L_A]}\right)^2
-
-$$
-
-$$
 
 Tokenizer tạo token dài hơn giúp giảm chi phí tính toán.
 
@@ -251,56 +167,9 @@ Tokenizer tạo token dài hơn giúp giảm chi phí tính toán.
 
 Mỗi token tương ứng một đoạn ký tự:
 
-$$
-
-$$
-
 a_i \leftrightarrow [s_i, e_i)
 
 $$
-
+b_j \leftrightarrow [u_j, v_j) Bài toán căn chỉnh trở thành: \text{match}a_i, b_j \iff [s_i, e_i) \cap [u_j, v_j) \neq \emptyset Có thể xây dựng ánh xạ nhiều-nhiều. ⸻ 8. Độ phức tạp Thuật toán Nếu: •	Chuỗi có m token ở A •	k token ở B Thuật toán căn chỉnh span có thể thực hiện trong: O(m + k) vì chỉ cần quét hai con trỏ. Tuy nhiên nếu so khớp embedding: O(mk) ⸻ 9. Liên hệ đến Lý thuyết Thông tin Entropy của phân bố token: HV = - \sum_{t \in V} pt\log pt Chuyển tokenizer làm thay đổi phân bố: \Delta H = |HV_A - HV_B| Theo Claude Shannon (1948), entropy đo lượng thông tin trung bình trên mỗi token. ⸻ 10. Thảo luận Mở rộng từ tài liệu đính kèm, có thể thấy: 1.	Token translation không chỉ là thao tác chuỗi 2.	Là bài toán ánh xạ giữa hai hệ mã hóa rời rạc 3.	Có thể xem như biến đổi tuyến tính trong không gian embedding 4.	Sai số có thể tích lũy nếu chuyển đổi nhiều bước Trong thực tế, các hệ như OpenAI hay Google thiết kế tokenizer gắn chặt với kiến trúc mô hình, do đó việc chuyển đổi đòi hỏi phân tích cẩn trọng. ⸻ 11. Kết luận Bài toán chuyển đổi tokenizer có thể được mô hình hóa: \Phi_{A \to B} = \mathcal{T}_B \circ \mathcal{D}_A Sai số tích lũy: \epsilon_k \le k \epsilon Embedding có thể chuyển đổi bằng: E_B = M^\top E_A
 $$
 
-$$
-b_j \leftrightarrow [u_j, v_j)
-$$
-
-$$
-Bài toán căn chỉnh trở thành: \text{match}a_i, b_j \iff [s_i, e_i) \cap [u_j, v_j) \neq \emptyset Có thể xây dựng ánh xạ nhiều-nhiều. ⸻ 8. Độ phức tạp Thuật toán Nếu: •	Chuỗi có m token ở A •	k token ở B Thuật toán căn chỉnh span có thể thực hiện trong: O(m + k) vì chỉ cần quét hai con trỏ. Tuy nhiên nếu so khớp embedding: O(mk) ⸻ 9. Liên hệ đến Lý thuyết Thông tin Entropy của phân bố token:
-$$
-
-$$
-HV = - \sum_{t \in V} pt\log pt
-$$
-
-$$
-Chuyển tokenizer làm thay đổi phân bố:
-$$
-
-$$
-\Delta H = |HV_A - HV_B|
-$$
-
-$$
-Theo Claude Shannon (1948), entropy đo lượng thông tin trung bình trên mỗi token. ⸻ 10. Thảo luận Mở rộng từ tài liệu đính kèm, có thể thấy: 1.	Token translation không chỉ là thao tác chuỗi 2.	Là bài toán ánh xạ giữa hai hệ mã hóa rời rạc 3.	Có thể xem như biến đổi tuyến tính trong không gian embedding 4.	Sai số có thể tích lũy nếu chuyển đổi nhiều bước Trong thực tế, các hệ như OpenAI hay Google thiết kế tokenizer gắn chặt với kiến trúc mô hình, do đó việc chuyển đổi đòi hỏi phân tích cẩn trọng. ⸻ 11. Kết luận Bài toán chuyển đổi tokenizer có thể được mô hình hóa:
-$$
-
-$$
-\Phi_{A \to B} = \mathcal{T}_B \circ \mathcal{D}_A
-$$
-
-$$
-Sai số tích lũy:
-$$
-
-$$
-\epsilon_k \le k \epsilon
-$$
-
-$$
-Embedding có thể chuyển đổi bằng:
-$$
-
-$$
-E_B = M^\top E_A
-$$

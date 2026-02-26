@@ -33,15 +33,7 @@ Chào mừng bạn đến với khóa học về việc sử dụng **cơ sở d
 
 ### 1.2 Công Thức Cơ Bản
 
-$$
-
-$$
-
 \text{Response} = \text{LLM}( \text{Query}, \text{Context} )
-
-$$
-
-$$
 
 Trong đó:
 - **Query**: Câu hỏi của người dùng
@@ -60,41 +52,17 @@ from langchain.chat_models import ChatOpenAI
 
 # Tạo multi-query retriever
 
-$$
-
-$$
-
 retriever = MultiQueryRetriever.from_llm(
-
-$$
-
-$$
 
     vectorstore.as_retriever(),
 
-$$
-
-$$
-
 llm=ChatOpenAI(temperature=0)
-
-$$
-
-$$
 
 )
 
 # Truy xuất với nhiều query
 
-$$
-
-$$
-
 docs = retriever.get_relevant_documents(
-
-$$
-
-$$
 
     "What are the main benefits of exercise?"
 )
@@ -114,43 +82,19 @@ from langchain.chains.query_constructor.base import AttributeInfo
 
 # Định nghĩa metadata fields
 
-$$
-
-$$
-
 metadata_field_info = [
-
-$$
-
-$$
 
     AttributeInfo(
 
 $$
-name="source",
-$$
-
-$$
-description="The source of the document",
-$$
-
-$$
-type="string"
+name="source", description="The source of the document", type="string"
 $$
 
     ),
     AttributeInfo(
 
 $$
-name="date",
-$$
-
-$$
-description="The date of the document",
-$$
-
-$$
-type="date"
+name="date", description="The date of the document", type="date"
 $$
 
     )
@@ -158,81 +102,29 @@ $$
 
 # Tạo self-query retriever
 
-$$
-
-$$
-
 retriever = SelfQueryRetriever.from_llm(
-
-$$
-
-$$
 
 ChatOpenAI(temperature=0),
 
 $$
-vectorstore, metadata_field_info,
-$$
-
-$$
-document_contents="Academic papers"
-$$
-
-$$
-) ### 2.3 Parent-Document Retriever Kết hợp kết quả từ nhiều mức độ chi tiết: ```python from langchain.retrievers import ParentDocumentRetriever from langchain.text_splitter import RecursiveCharacterTextSplitter from langchain.vectorstores import Chroma # Tạo text splitters cho parent và child documents
-$$
-
-$$
-parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000)
-$$
-
-$$
-
+vectorstore, metadata_field_info, document_contents="Academic papers" ) ### 2.3 Parent-Document Retriever Kết hợp kết quả từ nhiều mức độ chi tiết: ```python from langchain.retrievers import ParentDocumentRetriever from langchain.text_splitter import RecursiveCharacterTextSplitter from langchain.vectorstores import Chroma # Tạo text splitters cho parent và child documents parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000)
 $$
 
 child_splitter = RecursiveCharacterTextSplitter(chunk_size=400)
 
-$$
-
-$$
-
 # Tạo retriever
-
-$$
-
-$$
 
 retriever = ParentDocumentRetriever(
 
-$$
-
-$$
-
 vectorstores=[Chroma(...)],
 
-$$
-
-$$
-
 docstore=InMemoryStore(),
-
-$$
-
-$$
 
 $$
 parent_splitter=parent_splitter,
 $$
 
-$$
-
-$$
-
 child_splitter=child_splitter
-
-$$
-
-$$
 
 )
 
@@ -249,38 +141,10 @@ import numpy as np
 # Tạo index
 
 $$
-dimension = 128
-$$
-
-$$
-index = faiss.IndexFlatL2(dimension)
-$$
-
-$$
-# Thêm vectors
-$$
-
-$$
-vectors = np.random.random((10000, dimension)).astype('float32')
-$$
-
-$$
-index.add(vectors) # Tìm kiếm
-$$
-
-$$
-query = np.random.random((1, dimension)).astype('float32')
-$$
-
-$$
-
+dimension = 128 index = faiss.IndexFlatL2(dimension) # Thêm vectors vectors = np.random.random((10000, dimension)).astype('float32') index.add(vectors) # Tìm kiếm query = np.random.random((1, dimension)).astype('float32')
 $$
 
 distances, indices = index.search(query, k=10)
-
-$$
-
-$$
 
 **Ưu điểm:**
 - Tìm kiếm nhanh với nhiều chiều
@@ -296,70 +160,30 @@ import chromadb
 
 # Khởi tạo client
 
-$$
-
-$$
-
 client = chromadb.Client()
-
-$$
-
-$$
 
 # Tạo collection
 
-$$
-
-$$
-
 collection = client.create_collection("documents")
-
-$$
-
-$$
 
 # Thêm documents
 collection.add(
 
 $$
-documents=["Doc 1", "Doc 2"],
-$$
-
-$$
-ids=["id1", "id2"],
-$$
-
-$$
-embeddings=[[1, 2, 3], [4, 5, 6]]
+documents=["Doc 1", "Doc 2"], ids=["id1", "id2"], embeddings=[[1, 2, 3], [4, 5, 6]]
 $$
 
 )
 
 # Query
 
-$$
-
-$$
-
 results = collection.query(
-
-$$
-
-$$
 
 $$
 query_texts=["Search query"],
 $$
 
-$$
-
-$$
-
 n_results=2
-
-$$
-
-$$
 
 )
 
@@ -379,15 +203,7 @@ $$
 
 HNSW là thuật toán graph-based cho tìm kiếm gần đúng:
 
-$$
-
-$$
-
 \text{Time Complexity} = O(\log N)
-
-$$
-
-$$
 
 ```python
 import hnswlib
@@ -395,42 +211,18 @@ import hnswlib
 # Khởi tạo HNSW index
 
 $$
-dimension = 128
-$$
-
-$$
-max_elements = 10000
-$$
-
-$$
-
+dimension = 128 max_elements = 10000
 $$
 
 index = hnswlib.Index(space='l2', dim=dimension)
 
-$$
-
-$$
-
 # Cấu hình
 index.init_params(
-
-$$
-
-$$
 
 max_elements=max_elements,
 
 $$
-
-$$
-
-$$
-ef_construction=200,
-$$
-
-$$
-M=16
+ef_construction=200, M=16
 $$
 
 )
@@ -440,15 +232,7 @@ index.add_items(vectors, ids)
 
 # Tìm kiếm
 
-$$
-
-$$
-
 labels, distances = index.knn_query(query, k=10)
-
-$$
-
-$$
 
 **Đặc điểm:**
 - **ef_construction**: Tham số ảnh hưởng đến chất lượng index
@@ -471,35 +255,15 @@ $$
     "Doc 3 content"
 ]
 
-$$
-
-$$
-
 tokenized_corpus = [doc.split() for doc in corpus]
 
 $$
-
-$$
-
-$$
-bm25 = BM25Okapi(tokenized_corpus)
-$$
-
-$$
-# Query
+bm25 = BM25Okapi(tokenized_corpus) # Query
 $$
 
 query = "search query"
 
-$$
-
-$$
-
 results = bm25.get_scores(query.split())
-
-$$
-
-$$
 
 ## 5. Đánh Giá Retrieval
 
@@ -525,22 +289,10 @@ from ragas.metrics import (
 
 # Đánh giá RAG
 
-$$
-
-$$
-
 results = evaluate(
 
 $$
-
-$$
-
-$$
-dataset=eval_dataset,
-$$
-
-$$
-metrics=[
+dataset=eval_dataset, metrics=[
 $$
 
         faithfulness,
@@ -563,84 +315,32 @@ import gradio as gr
 
 # Tạo vector store
 
-$$
-
-$$
-
 vectorstore = Chroma.from_documents(
-
-$$
-
-$$
 
 $$
 documents=texts,
 $$
 
-$$
-
-$$
-
 embedding=OpenAIEmbeddings()
-
-$$
-
-$$
 
 )
 
 # Tạo chain
 
-$$
-
-$$
-
 qa_chain = RetrievalQA.from_chain_type(
-
-$$
-
-$$
 
 $$
 llm=ChatOpenAI(),
 $$
 
-$$
-
-$$
-
 chain_type="stuff",
 
 $$
-
-$$
-
-$$
-retriever=vectorstore.as_retriever()
-$$
-
-$$
-) # Tạo Gradio interface def answer_question(query): return qa_chain.run(query)
-$$
-
-$$
-demo = gr.Interface(
-$$
-
-$$
-
+retriever=vectorstore.as_retriever() ) # Tạo Gradio interface def answer_question(query): return qa_chain.run(query) demo = gr.Interface(
 $$
 
 fn=answer_question,
 
-$$
-
-$$
-
 inputs="text",
-
-$$
-
-$$
 
 outputs="text"

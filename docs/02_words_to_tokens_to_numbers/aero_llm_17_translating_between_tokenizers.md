@@ -56,15 +56,7 @@ Làm thế nào để ánh xạ chuỗi token từ không gian $V_A$^* sang $V_B
 
 Thuật toán tối đa hóa xác suất:
 
-$$
-
-$$
-
 \arg\max_{s_1,\dots,s_k} \prod_{i=1}^{k} P(s_i)
-
-$$
-
-$$
 
 ⸻
 
@@ -112,27 +104,11 @@ $\mathcal${D}_A: $V_A$^* \rightarrow \Sigma^*
 
 thì:
 
-$$
-
-$$
-
 \Phi = \mathcal{T}_B \circ \mathcal{D}_A
-
-$$
-
-$$
 
 Khi đó:
 
-$$
-
-$$
-
 \Phi\mathcal{T}_A(x) = \mathcal{T}_Bx
-
-$$
-
-$$
 
 ⸻
 
@@ -140,59 +116,19 @@ $$
 
 Nếu tokenizer không khả nghịch hoàn toàn, ta có sai số:
 
-$$
-
-$$
-
 \epsilon = d\mathcal{D}_A(\mathcal{T}_A(x), x)
-
-$$
-
-$$
 
 Trong đó d là khoảng cách Levenshtein.
 
 Entropy trước và sau:
 
-$$
-
-$$
-
 H_A = - \sum pt_i\log pt_i
 
 $$
-
-$$
-
-$$
-H_B = - \sum pu_j\log pu_j
-$$
-
-$$
-Độ chênh entropy:
-$$
-
-$$
-\Delta H = |H_A - H_B|
-$$
-
-$$
-Nếu \Delta H lớn → thay đổi cấu trúc phân bố token đáng kể. ⸻ 5. Ảnh hưởng đến Độ dài Chuỗi và Self-Attention Giả sử văn bản có n ký tự. Số token:
-$$
-
-$$
-m_A = \frac{n}{\mathbb{E}[L_A]}
-$$
-
-$$
-
+H_B = - \sum pu_j\log pu_j Độ chênh entropy: \Delta H = |H_A - H_B| Nếu \Delta H lớn → thay đổi cấu trúc phân bố token đáng kể. ⸻ 5. Ảnh hưởng đến Độ dài Chuỗi và Self-Attention Giả sử văn bản có n ký tự. Số token: m_A = \frac{n}{\mathbb{E}[L_A]}
 $$
 
 m_B = \frac{n}{\mathbb{E}[L_B]}
-
-$$
-
-$$
 
 Self-attention có độ phức tạp:
 
@@ -200,15 +136,7 @@ $O(m^2)$
 
 Tỷ lệ chi phí:
 
-$$
-
-$$
-
 \frac{C_A}{C_B} = \left\frac{m_A}{m_B}\right^2
-
-$$
-
-$$
 
 Nếu tokenizer B tạo token dài hơn:
 
@@ -222,11 +150,7 @@ $\mathbb${E}[$L_B$] > $\mathbb${E}[$L_A$]
 Giả sử:
 
 $$
-\mathcal{T}_Ax = a_1, a_2, \dots, a_m
-$$
-
-$$
-\mathcal{T}_Bx = b_1, b_2, \dots, b_k
+\mathcal{T}_Ax = a_1, a_2, \dots, a_m \mathcal{T}_Bx = b_1, b_2, \dots, b_k
 $$
 
 Ta cần tìm ánh xạ căn chỉnh:
@@ -235,15 +159,7 @@ Ta cần tìm ánh xạ căn chỉnh:
 
 Tối ưu hóa:
 
-$$
-
-$$
-
 \min_{\pi} \sum_{i=1}^{m} d\text{span}(a_i, \text{span}b_{\pi(i}))
-
-$$
-
-$$
 
 Đây tương đương bài toán căn chỉnh chuỗi động (dynamic programming).
 
@@ -259,15 +175,7 @@ $$
 
 Trong đó:
 
-$$
-
-$$
-
 M_{ij} = P(b_j \mid a_i)
-
-$$
-
-$$
 
 Nếu ánh xạ xác định:
 
@@ -309,27 +217,11 @@ Bài toán chuyển đổi tokenizer thực chất là bài toán ánh xạ gi�
 
 Việc chuyển đổi giữa hai tokenizer có thể được mô hình hóa hình thức bằng:
 
-$$
-
-$$
-
 \Phi = \mathcal{T}_B \circ \mathcal{D}_A
-
-$$
-
-$$
 
 Sai số thông tin được đo bằng:
 
-$$
-
-$$
-
 \epsilon = d\mathcal{D}_A(\mathcal{T}_A(x), x)
-
-$$
-
-$$
 
 Độ phức tạp tính toán phụ thuộc vào:
 

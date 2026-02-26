@@ -26,15 +26,7 @@ Trong bài học này, chúng ta sẽ khám phá các chủ đề nâng cao và 
 
 **Few-shot learning** và **zero-shot learning** là những khả năng quan trọng của LLMs hiện đại, cho phép mô hình thực hiện các tác vụ với ít hoặc không có dữ liệu huấn luyện cụ thể.
 
-$$
-
-$$
-
 \text{Performance} = f(\text{prompt}, \text{model\_capacity})
-
-$$
-
-$$
 
 **Ứng dụng:**
 - Giảm nhu cầu dữ liệu có nhãn
@@ -45,15 +37,7 @@ $$
 
 Federated learning cho phép huấn luyện mô hình trên nhiều thiết bị hoặc máy chủ phi tập trung:
 
-$$
-
-$$
-
 \theta_{global} = \sum_{k=1}^{K} w_k \cdot \theta_k
-
-$$
-
-$$
 
 **Lợi ích:**
 - Bảo mật quyền riêng tư
@@ -81,15 +65,7 @@ PEFT bao gồm các kỹ thuật như:
 
 AI đa phương thức kết hợp văn bản, hình ảnh và âm thanh:
 
-$$
-
-$$
-
 \text{Multimodal} = \text{Text} \oplus \text{Image} \oplus \text{Audio}
-
-$$
-
-$$
 
 **Ví dụ:**
 - GPT-4V (Vision)
@@ -100,15 +76,7 @@ $$
 
 **Pruning (Cắt tỉa):** Loại bỏ các tham số không cần thiết
 
-$$
-
-$$
-
 \text{Model}_{pruned} = \text{Model} \cdot M
-
-$$
-
-$$
 
 **Quantization (Lượng tử hóa):** Giảm độ chính xác của weights
 
@@ -165,15 +133,7 @@ Triển khai mô hình trên thiết bị edge:
 
 ### 5.1 Scaling Laws
 
-$$
-
-$$
-
 \text{Performance} \propto N^\alpha \cdot D^\beta \cdot C^\gamma
-
-$$
-
-$$
 
 Trong đó:
 - $N$: Số tham số

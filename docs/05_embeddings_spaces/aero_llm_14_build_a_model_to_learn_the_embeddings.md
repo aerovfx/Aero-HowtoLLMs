@@ -92,11 +92,7 @@ $$
 Với:
 
 $$
-•	\mathbf{W} \in \mathbb{R}^{d \times V}
-$$
-
-$$
-•	\mathbf{b} \in \mathbb{R}^{V}
+•	\mathbf{W} \in \mathbb{R}^{d \times V} •	\mathbf{b} \in \mathbb{R}^{V}
 $$
 
 ⸻
@@ -152,11 +148,7 @@ $$
 \frac{1}{BL}
 
 $$
-\sum_{b=1}^{B}
-$$
-
-$$
-\sum_{t=1}^{L}
+\sum_{b=1}^{B} \sum_{t=1}^{L}
 $$
 
 $\mathcal${L}_{b,t}
@@ -174,11 +166,7 @@ $$
 Gradient theo logits:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{z}}
-$$
-
-$$
-=
+\frac{\partial \mathcal{L}}{\partial \mathbf{z}} =
 $$
 
 \mathbf{p} - \mathbf{y}
@@ -186,11 +174,7 @@ $$
 Gradient theo embedding:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
-$$
-
-$$
-=
+\frac{\partial \mathcal{L}}{\partial \mathbf{e}_w} =
 $$
 
 \mathbf{W}
@@ -258,27 +242,11 @@ $\mathbf{p}-\mathbf{y}$
 
 Khi token dự đoán đúng:
 
-$$
-
-$$
-
 \mathbf{p} \approx \mathbf{y}
-
-$$
-
-$$
 
 \Rightarrow
 
-$$
-
-$$
-
 \Delta \mathbf{e}_w \approx 0
-
-$$
-
-$$
 
 Khi sai:
 	•	Embedding dịch chuyển về phía vector đúng

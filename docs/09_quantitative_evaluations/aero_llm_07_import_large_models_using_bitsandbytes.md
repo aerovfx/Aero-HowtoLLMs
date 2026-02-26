@@ -52,11 +52,7 @@ $$
 Ví dụ:
 
 $$
-N = 7 \times 10^9
-$$
-
-$$
-Memory = 28GB
+N = 7 \times 10^9 Memory = 28GB
 $$
 
 Điều này vượt quá khả năng của nhiều GPU phổ thông.
@@ -99,27 +95,11 @@ $$
 
 Giá trị lượng tử hóa:
 
-$$
-
-$$
-
 \hat{w} = \text{round}\left\frac{w - w_{min}}{s}\right
-
-$$
-
-$$
 
 Giải lượng tử:
 
-$$
-
-$$
-
 w \approx s \hat{w} + w_{min}
-
-$$
-
-$$
 
 ⸻
 
@@ -127,15 +107,7 @@ $$
 
 Sai số:
 
-$$
-
-$$
-
 \epsilon = w - \hat{w}
-
-$$
-
-$$
 
 Giả sử phân phối đều:
 
@@ -190,39 +162,15 @@ $$
 
 Transformer sử dụng:
 
-$$
-
-$$
-
 Y = XW
-
-$$
-
-$$
 
 Sau lượng tử hóa:
 
-$$
-
-$$
-
 Y = X\hat{W}
-
-$$
-
-$$
 
 Sai số lan truyền:
 
-$$
-
-$$
-
 \Delta Y = XW - \hat{W}
-
-$$
-
-$$
 
 Nếu:
 
@@ -253,51 +201,19 @@ Mapping phi tuyến giúp giảm sai số so với lượng tử hóa tuyến t�
 
 Hệ sinh thái của Hugging Face hỗ trợ:
 
-$$
-
-$$
-
 •	load_in_8bit=True
 
 $$
-
-$$
-
-$$
-•	load_in_4bit=True
-$$
-
-$$
-Giảm bộ nhớ GPU đáng kể mà không cần huấn luyện lại toàn bộ mô hình. ⸻ 7. Ảnh hưởng đến Perplexity Perplexity:
-$$
-
-$$
-PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right)
-$$
-
-$$
-Sau lượng tử hóa:
+•	load_in_4bit=True Giảm bộ nhớ GPU đáng kể mà không cần huấn luyện lại toàn bộ mô hình. ⸻ 7. Ảnh hưởng đến Perplexity Perplexity: PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right) Sau lượng tử hóa:
 $$
 
 PP_{quant} = PP_{fp32} + \delta
 
 $$
-Trong thực nghiệm:
-$$
-
-$$
-•	8-bit: \delta \approx 1\% - 3\%
-$$
-
-$$
-
+Trong thực nghiệm: •	8-bit: \delta \approx 1\% - 3\%
 $$
 
 •	4-bit: \delta \approx 3\% - 8\%
-
-$$
-
-$$
 
 Phụ thuộc kích thước mô hình.
 

@@ -69,15 +69,8 @@ Roadmap chi tiết 10-14 tháng bao gồm:
    ```typescript
    import { getModel, AVAILABLE_MODELS } from './architectures';
    
-$$
-
-$$
 
 const gpt4Spec = getModel(AVAILABLE_MODELS.GPT4);
-
-$$
-
-$$
 
    // Use spec to configure layout
 

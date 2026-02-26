@@ -48,15 +48,7 @@ Vấn đề không nằm ở “kiến thức” mà ở cách mô hình xử l�
 
 Chuỗi ký tự:
 
-$$
-
-$$
-
 S = (s_1, s_2, ..., s_n)
-
-$$
-
-$$
 
 Với:
 
@@ -88,15 +80,7 @@ là hàm chỉ thị.
 
 LLMs không xử lý ở mức ký tự mà theo token:
 
-$$
-
-$$
-
 T = (t_1, t_2, ..., t_m)
-
-$$
-
-$$
 
 Ví dụ (minh họa):
 
@@ -138,15 +122,7 @@ Tức là tối thiểu hóa cross-entropy giữa token dự đoán và token th
 
 Bài toán đếm yêu cầu:
 
-$$
-
-$$
-
 fS = \sum_{i=1}^{n} \mathbf{1}s_i = r
-
-$$
-
-$$
 
 Nhưng mô hình chỉ có:
 
@@ -180,15 +156,7 @@ Không tồn tại biến riêng biệt đếm số lần xuất hiện của r.
 
 Self-attention:
 
-$$
-
-$$
-
 \text{Attention}(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
-
-$$
-
-$$
 
 Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng số học chính xác trên ký tự.
 
@@ -227,11 +195,7 @@ $$
 for char in string:
 
 $$
-if char == 'r':
-$$
-
-$$
-count += 1
+if char == 'r': count += 1
 $$
 
 LLM không thực thi thuật toán tuần tự như vậy.
@@ -242,15 +206,7 @@ LLM không thực thi thuật toán tuần tự như vậy.
 
 Entropy của chuỗi ký tự:
 
-$$
-
-$$
-
 HS = - \sum_{c \in \Sigma} P(c)\log P(c)
-
-$$
-
-$$
 
 LLM tối ưu hóa dự đoán token, không tối ưu hóa:
 
@@ -275,15 +231,7 @@ Nhưng vẫn không đảm bảo 100% chính xác vì không phải mô hình sy
 
 Ta có thể định nghĩa:
 
-$$
-
-$$
-
 h_\thetaS \approx \sum_{i=1}^{n} \mathbf{1}s_i = r
-
-$$
-
-$$
 
 Với:
 

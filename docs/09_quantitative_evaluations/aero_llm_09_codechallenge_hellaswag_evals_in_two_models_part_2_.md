@@ -57,15 +57,7 @@ $$
 
 Trong thực tế, ta tính:
 
-$$
-
-$$
-
 Scorea_i = \frac{1}{T_i^\alpha} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{\lt t})
-
-$$
-
-$$
 
 Trong đó:
 
@@ -81,15 +73,7 @@ $$
 
 Transformer tính xác suất thông qua:
 
-$$
-
-$$
-
 h_t = \text{Transformer}c, w_{\lt t}
-
-$$
-
-$$
 
 Sau đó:
 
@@ -97,27 +81,11 @@ $P($w_t$)$ = \text{softmax}$Wh_t$
 
 Trong đó:
 
-$$
-
-$$
-
 \text{softmax}z_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
-
-$$
-
-$$
 
 Self-attention:
 
-$$
-
-$$
-
 Attention(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
-
-$$
-
-$$
 
 ⸻
 
@@ -130,27 +98,11 @@ Giả sử:
 
 Sai số chuẩn:
 
-$$
-
-$$
-
 SE_i = \sqrt{\frac{\hat{p}_i 1-\hat{p}_i}{N}}
-
-$$
-
-$$
 
 Kiểm định z:
 
-$$
-
-$$
-
 z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{SE_1^2 + SE_2^2}}
-
-$$
-
-$$
 
 Nếu:
 
@@ -168,29 +120,13 @@ Nếu không chuẩn hoá:
 
 Giả sử hai đáp án:
 
-$$
-
-$$
-
 •	T_1 = 5
 
 $$
-
-$$
-
-$$
-•	T_2 = 20
-$$
-
-$$
-Nếu xác suất token trung bình như nhau:
+•	T_2 = 20 Nếu xác suất token trung bình như nhau:
 $$
 
 $\sum$_{t=1}^{5} $\log$ p = -10
-
-$$
-
-$$
 
 $\sum$_{t=1}^{20} $\log$ p = -40
 
@@ -200,46 +136,15 @@ $$
 
 \frac{-10}{5} = -2
 
-$$
-
-$$
-
 \frac{-40}{20} = -2
 
 $$
-→ công bằng. ⸻ 6. So sánh với Perplexity Perplexity:
-$$
-
-$$
-PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right)
-$$
-
-$$
-HellaSwag đo khả năng phân biệt nhiều chuỗi hoàn chỉnh. Mô hình có perplexity tốt nhưng thiếu reasoning vẫn có thể: Accuracy_{\text{HellaSwag}} thấp ⸻ 7. Phân tích scaling Theo luật scaling:
+→ công bằng. ⸻ 6. So sánh với Perplexity Perplexity: PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right) HellaSwag đo khả năng phân biệt nhiều chuỗi hoàn chỉnh. Mô hình có perplexity tốt nhưng thiếu reasoning vẫn có thể: Accuracy_{\text{HellaSwag}} thấp ⸻ 7. Phân tích scaling Theo luật scaling:
 $$
 
 LossN = A N^{-\alpha} + B
 
 $$
-Accuracy thường tăng theo:
+Accuracy thường tăng theo: AccuracyN \approx C - D N^{-\beta} Khi N tăng → performance tiệm cận trần. ⸻ 8. Phân tích lỗi Các lỗi phổ biến: 1.	Chọn continuation “nghe tự nhiên” nhưng sai logic vật lý. 2.	Nhầm lẫn do bias dữ liệu huấn luyện. 3.	Sai do thiếu hiểu biết hành động hiếm gặp. ⸻ 9. Calibration và độ tin cậy Expected Calibration Error (ECE): ECE = \sum_{m=1}^{M} \frac{|B_m|}{n} |accB_m - confB_m| Mô hình tốt không chỉ cần accuracy cao mà còn: acc \approx conf
 $$
 
-$$
-AccuracyN \approx C - D N^{-\beta}
-$$
-
-$$
-Khi N tăng → performance tiệm cận trần. ⸻ 8. Phân tích lỗi Các lỗi phổ biến: 1.	Chọn continuation “nghe tự nhiên” nhưng sai logic vật lý. 2.	Nhầm lẫn do bias dữ liệu huấn luyện. 3.	Sai do thiếu hiểu biết hành động hiếm gặp. ⸻ 9. Calibration và độ tin cậy Expected Calibration Error (ECE):
-$$
-
-$$
-ECE = \sum_{m=1}^{M} \frac{|B_m|}{n} |accB_m - confB_m|
-$$
-
-$$
-Mô hình tốt không chỉ cần accuracy cao mà còn:
-$$
-
-$$
-acc \approx conf
-$$
