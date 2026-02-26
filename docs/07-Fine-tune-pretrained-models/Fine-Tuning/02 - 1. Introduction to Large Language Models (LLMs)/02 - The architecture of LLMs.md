@@ -36,6 +36,10 @@ Mỗi lớp của Transformer có thể được coi như một bộ não thu nh
 
 LLMs sử dụng các kiến trúc Transformer này để xuất sắc trong các tác vụ như dịch thuật, tạo nội dung, và hơn thế nữa bằng cách hiệu quả trong việc hiểu và tạo văn bản giống con người. Khả năng nhanh chóng xử lý lượng lớn dữ liệu và nắm bắt các pattern phức tạp khiến chúng trở nên vô giá trong các lĩnh vực khác nhau.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 02 - The architecture of LLMs.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

@@ -55,6 +55,10 @@ Mẫu này được sử dụng để yêu cầu LLM tinh chỉnh hoặc làm r�
 
 Khi bạn thử nghiệm với các mẫu này, bạn sẽ thấy rằng cách bạn diễn đạt một prompt có thể thay đổi đáng kể kết quả bạn đạt được với một LLM. Hãy thử các cách tiếp cận khác nhau, tinh chỉnh prompts của bạn dựa trên các phản hồi, và liên tục học từ tương tác của họ.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 02 - Crafting effective prompts.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

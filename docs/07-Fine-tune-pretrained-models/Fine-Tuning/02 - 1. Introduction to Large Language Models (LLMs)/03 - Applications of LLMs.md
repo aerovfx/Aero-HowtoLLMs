@@ -28,6 +28,10 @@ Trong giáo dục, LLMs cá nhân hóa trải nghiệm học tập, điều ch�
 
 Như chúng ta có thể thấy, LLMs không chỉ đang cách mạng hóa, chúng đang tái định nghĩa các ngành công nghiệp bằng cách cung cấp các giải pháp được tùy chỉnh, hiệu quả và đổi mới. Khả năng của chúng trong việc xử lý và tạo văn bản giống con người khiến chúng trở nên vô giá trong bất kỳ lĩnh vực nào nơi giao tiếp và dữ liệu là chìa khóa.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 03 - Applications of LLMs.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

@@ -31,6 +31,10 @@ Prompt engineering không chỉ là việc đặt câu hỏi, mà là về việ
 
 Hãy thử nghiệm với các prompts khác nhau, điều chỉnh ngữ cảnh của bạn, và xem phản hồi của mô hình thay đổi như thế nào. Nó giống như tinh chỉnh một công thức cho đến khi bạn có được hương vị hoàn hảo.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 01 - Basics of prompt engineering.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

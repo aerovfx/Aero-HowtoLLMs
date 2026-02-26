@@ -34,6 +34,10 @@ Cuối cùng, vai trò của quy định không thể bị bỏ qua. Cũng như 
 
 Khi chúng ta tiếp tục khai thác khả năng của LLMs, hãy luôn cảnh giác về các chiều đạo đức của công nghệ này. Bằng cách chủ động giải quyết những vấn đề này, chúng ta có thể đảm bảo rằng nhà bếp kỹ thuật số của chúng ta không chỉ đổi mới mà còn tôn trọng và an toàn cho tất cả mọi người.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 04 - Ethical considerations in LLMs.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

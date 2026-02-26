@@ -1,11 +1,15 @@
-# Index — 19-AI-safety
+# 📂 Index — 19-AI-safety
 
-Back to documentation: [Docs Home](../README.md)
+[← Quay lại danh mục chính](../README.md)
 
-Overview / README: [Overview](README.md)
+## 📄 Tài liệu trong mục này
 
-Browse this folder's files: [Files and articles](./)
+- [Đánh giá An toàn AI (AI Safety) và Sự Căn chỉnh (Alignment) thông qua Khả năng Diễn giải Cơ chế (Mechanistic Interpretability)](aero_LLM_01_AI safety and alignment.md)
+- [Tại Sao Trí Tuệ Nhân Tạo (AI) Không Thể Tự Động An Toàn và Có Đạo Đức?](aero_LLM_02_Why can't AI just be safe and moral.md)
+- [Học Trong Ngữ Cảnh (In-Context Learning) và Rủi Ro Đối Với An Toàn AI](aero_LLM_03_In-context and few-shot learning.md)
+- [Định Luật Mở Rộng (Scaling Laws) và Sự Phát Triển Của An Toàn Trí Tuệ Nhân Tạo](aero_LLM_04_Scaling and AI safety.md)
+- [Thực hành: Hack AI để Đánh cắp Mật khẩu (Prompt Injection)](aero_LLM_05_Hands-on Hack an AI to steal a password!.md)
+- [Tham Gia Vào Lĩnh Vực An Toàn Trí Tuệ Nhân Tạo (AI Safety): Khởi Đầu Và Cơ Hội](aero_LLM_06_How to get involved in AI safety.md)
 
 ---
-
-Return to documentation home: [Docs Home](../README.md)
+*Tự động cập nhật bởi Aero-Indexer*

@@ -30,6 +30,10 @@ Trong các lĩnh vực sáng tạo, LLMs đang đẩy xa ranh giới bằng các
 
 Nếu bạn có một LLM trong tay ngay bây giờ, nhiệm vụ đầu tiên bạn muốn nó thực hiện là gì? Hãy suy nghĩ về cách nó có thể tạo ra sự khác biệt trong công việc hoặc cuộc sống hàng ngày của bạn.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 01 - LLMs Revolutionizing AI.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

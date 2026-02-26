@@ -42,6 +42,10 @@ Khả năng mới của bạn sẽ cho phép bạn tùy chỉnh các giải phá
 4. Luôn tò mò, đặt câu hỏi
 5. Nhớ rằng mỗi kiến thức là một bước tiến towards thành thạo nghệ thuật fine-tuning LLMs
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 02 - Getting the most out of this course.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

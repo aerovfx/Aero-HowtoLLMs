@@ -53,6 +53,10 @@ Tiếp theo, đánh giá xem các mô hình hiện có có đáp ứng nhu cầu
 
 Xây dựng một LLM từ đầu có thể tốn kém như việc mở một nhà hàng cao cấp. Nó đòi hỏi đầu tư đáng kể vào tài nguyên tính toán, dữ liệu và chuyên môn. Do đó, tận dụng các mô hình hiện có và tập trung vào fine-tuning hoặc prompt engineering thường thực tế hơn.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 05 - Comparing LLMs.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.

@@ -1,99 +1,79 @@
+# 🚀 Aero-HowtoLLMs: Master LLM & Visualization
 
-# 🚀 Aero-HowtoLLMs: Lộ Trình Toàn Diện Master LLM & Visualization
-
-> **Dự án học tập chuyên sâu từ A-Z về Large Language Models (LLM), tích hợp Interactive 3D Visualization và Hệ thống Tài liệu tiếng Việt.**
-
-**Documentation index:** [Docs Home](docs/README.md)
+> **Chương trình đào tạo toàn diện về Large Language Models (LLM) - Từ lý thuyết cơ bản đến thực thi 3D Visualizer & MoE.**
 
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
-[![Tech: Next.js 13](https://img.shields.io/badge/Tech-Next.js%2013-blue.svg)]()
+[![Tech: Next.js 14](https://img.shields.io/badge/Tech-Next.js%2014-blue.svg)]()
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese%20Localized-red.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)]()
 
 ---
 
-## 🌟 ĐIỂM NHẤN DỰ ÁN
+## 📽️ Interactive 3D LLM Visualizer
+Dự án tích hợp một công cụ trực quan hóa kiến trúc Transformer (GPT-4) và Mixture of Experts (MoE) cực kỳ sinh động.
 
-### 1. Interactive 3D LLM Visualizer (GPT-4 ↔ MoE) 👁️
-Mô tản trực quan sống động kiến trúc Transformer với các tính năng:
-- **100% Tiếng Việt:** Toàn bộ Walkthrough và Commentary đã được Việt hóa.
-- **Kiến trúc MoE (Mixture of Experts):** Trực quan hóa Router và Grid Expert (2x4).
-- **Deep Dive Components:** Tương tác với Token Embeddings, Multi-Head Attention, MLP, Residual Connections, và Softmax.
-- **Hiệu ứng Animation:** Luồng dữ liệu, kích hoạt Expert top-K, và quá trình sinh token.
+- **Khám phá cấu trúc:** Token Embeddings, Multi-Head Attention, MLP, Residual Connections.
+- **Mixture of Experts:** Trực quan hóa cơ chế Router và các Experts.
+- **Hoàn toàn Tiếng Việt:** Hệ thống chú giải và bước hướng dẫn đã được Việt hóa 100%.
 
-👉 **Chạy Visualizer:** `npm run dev` (truy cập `localhost:3002`)
-
-### 2. Hệ Thống Tài Liệu Chuyên Sâu (Docs Suite) 📚
-Hơn 100 file Markdown được biên soạn khoa học, bao gồm các chủ đề:
-
-| Module | Nội Dung |
-|--------|----------|
-| **[Stanford Course](docs/LLM_Course/README.md)** | Chuyển ngữ và bổ sung từ Stanford CME 295 (5 Chương cốt lõi). |
-| **[Pre-training & Arch](docs/pretraining/)** | Xây dựng GPT từ con số 0, xử lý dữ liệu và Scaling Laws. |
-| **[Fine-tuning Series](docs/Fine-tune%20pretrained%20models/README.md)** | 23 chương thực chiến: LoRA, PEFT, và series Alice vs Edgar. |
-| **[RAG & Applications](docs/rag/)** | Triển khai RAG với FastAPI, Qdrant và Ollama. |
-| **[AI Safety & Interpretability](docs/AI%20safety%20and%20mechanistic%20interpretability/)** | Phân tích cơ chế và an toàn AI. |
+### 🛠️ Chạy Visualizer ngay:
+```bash
+npm install
+npm run dev
+```
+*Truy cập: [http://localhost:3002](http://localhost:3002)*
 
 ---
 
-## 🗺️ LỘ TRÌNH HỌC TẬP (ROADMAP)
+## 📚 Hệ Thống Tài Liệu (Knowledge Base)
+Kho lưu trữ kiến thức khổng lồ với hơn 400+ nội dung chuyên sâu được phân loại khoa học.
 
-### 🟢 Giai đoạn 1: Nền Tảng (Fundamentals)
-- Tìm hiểu kiến trúc Transformer gốc qua **[Sơ đồ trực quan](docs/COMPLETION_VISUALIZATION_AND_CHAPTERS.md)**.
-- Học 5 trụ cột của LLM: Architecture, Data, Loss, Evaluation, Systems.
-- **[Xem tài liệu Overview](docs/LLM_Course/LectureStanford/aero_LLM_00_Overview.md)**.
+### 🧭 Truy cập nhanh các Module chính:
 
-### 🟡 Giai đoạn 2: Huấn Luyện & Cấu Trúc (Pre-training)
-- **[BuildGPT](docs/buildGPT/)**: Từng bước xây dựng mô hình trong code.
-- Xử lý các vấn đề số học (Numerical stability), Normalization, và Optimization.
+| Module | Nội Dung Trọng Tâm | Link Truy Cập |
+|:---:|---|:---:|
+| **01** | **LLM Course (Stanford CME 295)** | [Xem chi tiết →](docs/01-LLM_Course/) |
+| **02** | **Tokenization & Data Prep** | [Xem chi tiết →](docs/02-Words-to-tokens-to-numbers/) |
+| **04** | **Building GPT From Scratch** | [Xem chi tiết →](docs/04-buildGPT/) |
+| **07** | **Fine-tuning & LoRA/PEFT** | [Xem chi tiết →](docs/07-Fine-tune-pretrained-models/) |
+| **18** | **RAG & Applications** | [Xem chi tiết →](docs/18-RAG/) |
+| **19** | **AI Safety & Interpretability** | [Xem chi tiết →](docs/19-AI-safety/) |
 
-### 🟠 Giai đoạn 3: Tinh Chỉnh & Thích Nghi (Fine-tuning)
-- Thực hiện các **CodeChallenge** thực tế:
-    - Tinh chỉnh phong cách văn học (Alice in Wonderland vs Edgar Allan Poe).
-    - Định lượng hiệu quả bằng mô hình phân loại (BERT integration).
-    - Các kỹ thuật tối ưu: Freezing Attention, PEFT, LoRA.
-- **[Xem danh mục Fine-tuning](docs/Fine-tune%20pretrained%20models/README.md)**.
-
-### 🔴 Giai đoạn 4: Ứng Dụng Nâng Cao (Advanced)
-- Triển khai **RAG (Retrieval Augmented Generation)** cho dữ liệu nội bộ.
-- Xây dựng AI Agents và thực hiện Instruction Tuning.
-- **[Xem lộ trình Hybrid AI](docs/roadmapHybridAI.md)**.
+👉 **[Xem toàn bộ danh mục tài liệu (Full Index)](docs/README.md)**
 
 ---
 
-## 🛠️ CÀI ĐẶT & SỬ DỤNG
+## 🗺️ Lộ Trình Học Tập (Learning Roadmap)
 
-### Yêu cầu hệ thống
-- Node.js 18+
-- RAM: Tối thiểu 8GB (để chạy Visualizer mượt mà)
+### 🔵 Giai đoạn 1: Nền tảng & Kiến trúc (The Core)
+- Tìm hiểu về Transformers qua [Visualization Spec](docs/VISUALIZATION_SYSTEM_DESIGN_SPEC.md).
+- Học về Tokenization và Embedding Spaces.
 
-### Các bước cài đặt
-1. Clone repository:
-   ```bash
-   git clone https://github.com/aerovfx/Aero-HowtoLLMs.git
-   ```
-2. Cài đặt dependency:
-   ```bash
-   npm install
-   ```
-3. Khởi chạy môi trường phát triển (Visualizer):
-   ```bash
-   npm run dev
-   ```
-   *Mở trình duyệt tại: http://localhost:3002*
+### 🟢 Giai đoạn 2: Xây dựng & Huấn luyện (Pre-training)
+- Từng bước code GPT trong module BuildGPT.
+- Hiểu về Loss functions và Optimization.
+
+### 🟡 Giai đoạn 3: Tinh chỉnh & Thích nghi (Fine-tuning)
+- Áp dụng các kỹ thuật SFT, RLHF, và LoRA.
+- Thực hiện các Code Challenge thực tế.
+
+### 🔴 Giai đoạn 4: Ứng dụng & An toàn (Advanced)
+- Triển khai RAG với dữ liệu tùy chỉnh.
+- Nghiên cứu về AI Safety và Interpretability.
 
 ---
 
-## 📊 THỐNG KÊ DỰ ÁN
-- **Số lượng tài liệu:** ~1,800 dòng nội dung chuyên sâu được cập nhật gần nhất.
-- **Ngôn ngữ:** 100% hỗ trợ tiếng Việt (Localized).
-- **Tính năng Visual:** GPT-4 ↔ MoE (Mixture of Experts).
+## 📈 Tiến Độ Dự ÁN
+- [x] **Week 1-3:** Hoàn thành Core Architecture & Visualization.
+- [x] **Week 4:** Đang hoàn thiện Localization 100%.
+- [ ] **Next:** Mở rộng sang Hybrid AI & Agentic Workflows.
 
 ---
 
-## 🤝 ĐÓNG GÓP & LIÊN HỆ
-Dự án được biên soạn và duy trì bởi **Pixibox** phục vụ cộng đồng AI Việt Nam.
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
 
-> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+> *"Kiến thức là sức mạnh, chia sẻ là lan tỏa."* 🚀
 
 ---
-*Cập nhật lần cuối: 16/02/2026*
+*Cập nhật lần cuối: 26/02/2026*

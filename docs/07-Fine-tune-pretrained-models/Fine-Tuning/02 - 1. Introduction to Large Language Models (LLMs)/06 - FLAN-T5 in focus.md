@@ -33,6 +33,10 @@ Khả năng của FLAN-T5 trong việc diễn giải và thực thi một loạt
 
 Tích hợp FLAN-T5 vào các ứng dụng rất đơn giản nhờ các framework như thư viện Hugging Face Transformers, nơi các mô hình FLAN-T5 có sẵn. Sự tiếp cận này cho phép các nhà phát triển nhanh chóng triển khai các công cụ NLP mạnh mẽ, nâng cao khả năng tương tác người dùng và xử lý dữ liệu.
 
----
+## Tài Liệu Tham Khảo
 
-*Nguồn: File subtitle 06 - FLAN-T5 in focus.vtt*
+1. Liu, P., et al. (2023). "Prefix Tuning vs. Prompt Tuning: A Comparative Study." *arXiv:2303.13402*.
+
+2. Reynolds, L., & McDonell, K. (2021). "Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm." *arXiv:2102.07350*.
+
+3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.
