@@ -94,6 +94,22 @@ MDP là một công cụ quan trọng trong lĩnh vực Reinforcement Learning. 
 
 Tóm lại, MDP là một formal hóa để mô tả các vấn đề quyết định trong Reinforcement Learning. Nó có thể được mô tả bởi các tính chất như khối lượng, động lực, và tính bất định. Có nhiều phương pháp giải quyết MDP, bao gồm sự tương tác và sự quan sát, phương pháp động học, hoặc phương pháp phân tích.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [01_WhatisReinforcementLearningEn.md](01_WhatisReinforcementLearningEn.md) | [Xem bài viết →](01_WhatisReinforcementLearningEn.md) |
+| [01_WhatisreinforcementLearningVi.md](01_WhatisreinforcementLearningVi.md) | [Xem bài viết →](01_WhatisreinforcementLearningVi.md) |
+| [02_Bellman EquationVi.md](02_Bellman EquationVi.md) | [Xem bài viết →](02_Bellman EquationVi.md) |
+| [02_BellmanEquationEn.md](02_BellmanEquationEn.md) | [Xem bài viết →](02_BellmanEquationEn.md) |
+| [03_The_Plan_in_Plankton'sAttackEn.md](03_The_Plan_in_Plankton'sAttackEn.md) | [Xem bài viết →](03_The_Plan_in_Plankton'sAttackEn.md) |
+| [03_The_Plan_in_Plankton'sAttackVi.md](03_The_Plan_in_Plankton'sAttackVi.md) | [Xem bài viết →](03_The_Plan_in_Plankton'sAttackVi.md) |
+| [04_MDPen.md](04_MDPen.md) | [Xem bài viết →](04_MDPen.md) |
+| 📌 **[04_MDPvi.md](04_MDPvi.md)** | [Xem bài viết →](04_MDPvi.md) |
+| [05_PolicyVsPlanvi.md](05_PolicyVsPlanvi.md) | [Xem bài viết →](05_PolicyVsPlanvi.md) |
+| [📘 Khóa học: Học Sâu Học Tăng Cường (Deep Reinforcement Learning)](06_Deep_Reinforcement_Learning_Course.md) | [Xem bài viết →](06_Deep_Reinforcement_Learning_Course.md) |
+| [📂 Module: Reinforcement_Learning_Basics](README.md) | [Xem bài viết →](README.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

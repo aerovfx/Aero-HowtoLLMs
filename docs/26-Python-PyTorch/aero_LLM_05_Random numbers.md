@@ -61,6 +61,16 @@ Khả năng điều khiển tính ngẫu nhiên là chìa khóa để xây dựn
 ## Tài liệu tham khảo (Citations)
 1. Phương pháp tạo số ngẫu nhiên và kỹ thuật hoán vị trong PyTorch dựa trên `aero_LL_05_Random numbers.md`. Phân tích phân phối chuẩn, hàm randperm và quản lý lỗi chỉ mục đa chiều.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nhập môn PyTorch: Cơ sở về Lập trình Hướng đối tượng (Working with Classes)](aero_LLM_01_Working with classes.md) | [Xem bài viết →](aero_LLM_01_Working with classes.md) |
+| [Nhập môn PyTorch: Kỹ thuật Xây dựng Lớp tùy chỉnh (Creating Custom Classes)](aero_LLM_02_Creating custom classes.md) | [Xem bài viết →](aero_LLM_02_Creating custom classes.md) |
+| [Nhập môn PyTorch: Kiểu dữ liệu, Tensor và Kích thước (Datatypes, Tensors, and Dimensions)](aero_LLM_03_Datatypes, tensors, and dimensions.md) | [Xem bài viết →](aero_LLM_03_Datatypes, tensors, and dimensions.md) |
+| [Nhập môn PyTorch: Kỹ thuật Tái cấu trúc và Biến đổi Hình dạng Tensor (Reshaping Tensors)](aero_LLM_04_Reshaping tensors.md) | [Xem bài viết →](aero_LLM_04_Reshaping tensors.md) |
+| 📌 **[Nhập môn PyTorch: Kỹ thuật Tạo số Ngẫu nhiên và Phân phối Dữ liệu (Random Numbers)](aero_LLM_05_Random numbers.md)** | [Xem bài viết →](aero_LLM_05_Random numbers.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

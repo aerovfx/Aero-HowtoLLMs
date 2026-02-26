@@ -197,6 +197,25 @@ là nó chỉ có thể nhìn vào quá khứ.
 **Status:** ✅ In Progress (Walkthrough04 Complete)  
 **Next:** Walkthrough03_LayerNorm.tsx
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS!](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) | [Xem bài viết →](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) |
+| [🎉 100% LOCALIZATION COMPLETE!](LOCALIZATION_100_COMPLETE.md) | [Xem bài viết →](LOCALIZATION_100_COMPLETE.md) |
+| [✅ LOCALIZATION FOUNDATION COMPLETE!](LOCALIZATION_SUMMARY.md) | [Xem bài viết →](LOCALIZATION_SUMMARY.md) |
+| 📌 **[✅ Việt Hóa Walkthrough - Self Attention Complete!](LOCALIZATION_WALKTHROUGH04.md)** | [Xem bài viết →](LOCALIZATION_WALKTHROUGH04.md) |
+| [✅ Phase 1 - Week 1: Foundation Complete!](PROGRESS_WEEK1.md) | [Xem bài viết →](PROGRESS_WEEK1.md) |
+| [✅ Week 2 Progress: GPT-4 Integration Complete!](PROGRESS_WEEK2.md) | [Xem bài viết →](PROGRESS_WEEK2.md) |
+| [✅ Week 3 Progress: MoE Grid Layout Complete!](PROGRESS_WEEK3.md) | [Xem bài viết →](PROGRESS_WEEK3.md) |
+| [✅ Week 4 Complete: Router Visualization & Color Coding!](PROGRESS_WEEK4_COMPLETE.md) | [Xem bài viết →](PROGRESS_WEEK4_COMPLETE.md) |
+| [🎯 Week 4 Progress: Router Visualization (Part 1)](PROGRESS_WEEK4_PART1.md) | [Xem bài viết →](PROGRESS_WEEK4_PART1.md) |
+| [� Kho Tài Liệu Aero-HowtoLLMs](README.md) | [Xem bài viết →](README.md) |
+| [🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures](ROADMAP_GPT4_EXPANSION.md) | [Xem bài viết →](ROADMAP_GPT4_EXPANSION.md) |
+| [🎯 LLM Training Pipeline - 3D Visualization System Design](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) | [Xem bài viết →](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) |
+| [🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement](WEEK3_MOE_IMPLEMENTATION.md) | [Xem bài viết →](WEEK3_MOE_IMPLEMENTATION.md) |
+| [🚀 Roadmap Học Hybrid AI (6 Tháng)](roadmapHybridAI.md) | [Xem bài viết →](roadmapHybridAI.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

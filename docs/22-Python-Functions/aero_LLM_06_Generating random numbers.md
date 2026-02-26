@@ -65,6 +65,17 @@ Module `numpy.random` cung cấp một bộ công cụ toàn diện để mô ph
 ## Tài liệu tham khảo (Citations)
 1. Thao tác tạo số ngẫu nhiên với NumPy dựa trên `aero_LLM_06_Generating random numbers.md`. Phân tích phân phối Gaussian, Uniform và hàm `choice()`.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nhập môn Python: Hàm, Đầu vào và Đầu ra (Functions, Inputs and Outputs)](aero_LLM_01_Inputs and outputs.md) | [Xem bài viết →](aero_LLM_01_Inputs and outputs.md) |
+| [Nhập môn Python: Thư viện NumPy và Thao tác Số học (The NumPy Library)](aero_LLM_02_The numpy library.md) | [Xem bài viết →](aero_LLM_02_The numpy library.md) |
+| [Nhập môn Python: Các Phương pháp Tra cứu và Hỗ trợ (Getting Help)](aero_LLM_03_Getting help on functions.md) | [Xem bài viết →](aero_LLM_03_Getting help on functions.md) |
+| [Nhập môn Python: Kỹ thuật Xây dựng Hàm (Creating Functions)](aero_LLM_04_Creating functions.md) | [Xem bài viết →](aero_LLM_04_Creating functions.md) |
+| [Nhập môn Python: Cơ chế Sao chép Biến và Quản lý Bộ nhớ (Copying Variables)](aero_LLM_05_Copying (duplicating) variables.md) | [Xem bài viết →](aero_LLM_05_Copying (duplicating) variables.md) |
+| 📌 **[Nhập môn Python: Kỹ thuật Tạo số Ngẫu nhiên với NumPy (Generating Random Numbers)](aero_LLM_06_Generating random numbers.md)** | [Xem bài viết →](aero_LLM_06_Generating random numbers.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

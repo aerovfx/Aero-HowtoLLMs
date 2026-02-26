@@ -62,6 +62,14 @@ Làm chủ hình học biểu đồ con là chìa khóa để tạo ra các báo
 ## Tài liệu tham khảo (Citations)
 1. Kỹ thuật tạo biểu đồ con và quản lý bố cục trong Matplotlib dựa trên `aero_LL_02_Subplot geometry.md`. Phân tích hàm subplots, tham số figsize, kỹ thuật tight_layout và tự động hóa vòng lặp.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nhập môn Python: Kỹ thuật Trực quan hóa Dữ liệu với Matplotlib (Plotting Dots and Lines)](aero_LLM_01_Plotting dots and lines.md) | [Xem bài viết →](aero_LLM_01_Plotting dots and lines.md) |
+| 📌 **[Nhập môn Python: Hình học và Cấu trúc Biểu đồ con (Subplot Geometry)](aero_LLM_02_Subplot geometry.md)** | [Xem bài viết →](aero_LLM_02_Subplot geometry.md) |
+| [Nhập môn Python: Kỹ thuật Tinh chỉnh và Thẩm mỹ Biểu đồ (Making Graphs Look Nice)](aero_LLM_03_Making graphs look nice.md) | [Xem bài viết →](aero_LLM_03_Making graphs look nice.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

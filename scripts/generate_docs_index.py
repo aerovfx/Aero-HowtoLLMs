@@ -70,6 +70,8 @@ def process_all_markdowns(base_dir):
         
         subfolders = sorted([d for d in dirs if not d.startswith('.') and not d.startswith('_')])
         md_files = [f for f in files if f.endswith('.md')] # Process ALL md files
+        # Filter files for sibling listing (exclude the index itself)
+        list_files = sorted([f for f in md_files if f.lower() != 'index.md'])
 
         # 1. Generate/Update index.md for this folder
         generate_folder_index(root, rel_path, depth, subfolders, md_files)
@@ -77,11 +79,10 @@ def process_all_markdowns(base_dir):
         # 2. Process every markdown file in this folder
         for md in md_files:
             if md.lower() == 'index.md': continue
-            # We treat README.md specially in generate_folder_index, but let's ensure consistency
             file_path = os.path.join(root, md)
-            update_article_navigation(file_path, rel_path, depth, md.lower() == 'readme.md')
+            update_article_navigation(file_path, rel_path, depth, md.lower() == 'readme.md', list_files=list_files, current_dir=root)
 
-def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme):
+def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme, list_files=None, current_dir=None):
     # For a file, the effective depth for links is dir_depth + 1
     depth = dir_depth if is_readme else dir_depth + 1
     
@@ -89,9 +90,8 @@ def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme):
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Check if already processed
+        # Check if already processed and strip existing tags
         if "<!-- Aero-Navigation-Start -->" in content:
-            # Strip existing navigation to refresh it
             content = re.sub(r"<!-- Aero-Navigation-Start -->.*?<!-- Aero-Navigation-End -->", "", content, flags=re.DOTALL).strip()
             content = re.sub(r"<!-- Aero-Footer-Start -->.*?<!-- Aero-Footer-End -->", "", content, flags=re.DOTALL).strip()
 
@@ -101,16 +101,34 @@ def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme):
         header.append("\n---\n")
         header.append(generate_sidebar(depth))
         header.append("\n---\n<!-- Aero-Navigation-End -->\n")
-        
+
+        # Generate Sibling Navigation Table (if any)
+        sibling_table = ""
+        if list_files and len(list_files) > 1:
+            sibling_table = ["\n## 📄 Tài liệu cùng chuyên mục\n"]
+            sibling_table.append("| Bài học | Liên kết |\n")
+            sibling_table.append("| :--- | :--- |\n")
+            for sibling in list_files:
+                # Highlight current file
+                is_current = sibling == os.path.basename(file_path)
+                prefix = "📌 **" if is_current else ""
+                suffix = "**" if is_current else ""
+                
+                title = get_title_from_md(os.path.join(current_dir, sibling))
+                sibling_table.append(f"| {prefix}[{title}]({sibling}){suffix} | [Xem bài viết →]({sibling}) |\n")
+            sibling_table.append("\n")
+            sibling_table = "".join(sibling_table)
+
         # Generate Footer
-        footer = ["\n<!-- Aero-Footer-Start -->\n---\n"]
-        footer.append(f"## 🤝 Liên hệ & Đóng góp\n")
+        footer = ["\n<!-- Aero-Footer-Start -->\n"]
+        if sibling_table:
+            footer.append(sibling_table)
+        footer.append("---\n## 🤝 Liên hệ & Đóng góp\n")
         footer.append(f"Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.\n\n")
         footer.append(f"> *\"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!\"* 🚀\n")
         footer.append(f"\n*Cập nhật tự động bởi Aero-Indexer - 2026*\n<!-- Aero-Footer-End -->\n")
 
         # Combine: Header + Content + Footer
-        # We don't want to double titles if it's already there
         new_content = "".join(header) + content + "".join(footer)
         
         with open(file_path, 'w', encoding='utf-8') as f:

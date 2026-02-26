@@ -58,6 +58,17 @@ Khi chúng ta tiếp tục khai thác khả năng của LLMs, hãy luôn cảnh 
 
 3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [LLMs Đang Cách Mạng Hóa AI](01 - LLMs Revolutionizing AI.md) | [Xem bài viết →](01 - LLMs Revolutionizing AI.md) |
+| [Kiến Trúc Của LLMs](02 - The architecture of LLMs.md) | [Xem bài viết →](02 - The architecture of LLMs.md) |
+| [Các Ứng Dụng Của LLMs](03 - Applications of LLMs.md) | [Xem bài viết →](03 - Applications of LLMs.md) |
+| 📌 **[Các Cân Nhắc Đạo Đức Trong LLMs](04 - Ethical considerations in LLMs.md)** | [Xem bài viết →](04 - Ethical considerations in LLMs.md) |
+| [So Sánh Các Mô Hình LLMs](05 - Comparing LLMs.md) | [Xem bài viết →](05 - Comparing LLMs.md) |
+| [FLAN-T5: Mô Hình Transformer Đa Năng](06 - FLAN-T5 in focus.md) | [Xem bài viết →](06 - FLAN-T5 in focus.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

@@ -73,6 +73,13 @@ Chỉ mục không chỉ đơn thuần là việc chọn một vị trí, mà c�
 ## Tài liệu tham khảo (Citations)
 1. Kỹ thuật chỉ mục nâng cao trong Python dựa trên `aero_LLM_01_Indexing.md`. Phân tích hàm `range()`, cơ chế loại trừ cận trên và trích xuất dữ liệu lồng ghép.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Nhập môn Python: Kỹ thuật Chỉ mục Nâng cao (Advanced Indexing)](aero_LLM_01_Indexing.md)** | [Xem bài viết →](aero_LLM_01_Indexing.md) |
+| [Nhập môn Python: Kỹ thuật Cắt lát Danh sách (Slicing)](aero_LLM_02_Slicing.md) | [Xem bài viết →](aero_LLM_02_Slicing.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

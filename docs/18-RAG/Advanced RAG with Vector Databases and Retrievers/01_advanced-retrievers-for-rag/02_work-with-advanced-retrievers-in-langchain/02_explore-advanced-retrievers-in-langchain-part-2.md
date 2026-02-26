@@ -140,6 +140,13 @@ Mỗi loại retriever có những ưu điểm riêng và phù hợp với các 
 4. LangChain Documentation. (2025). *Parent Document Retriever*. https://python.langchain.com/docs/modules/data_connection/retrievers/parent_document_retriever
 5. IBM. (2025). *Advanced RAG with Vector Databases and Retrievers*. Coursera.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Khám Phá Advanced Retrievers Trong LangChain - Phần 1](01_explore-advanced-retrievers-in-langchain-part-1.md) | [Xem bài viết →](01_explore-advanced-retrievers-in-langchain-part-1.md) |
+| 📌 **[Khám Phá Các Retriever Nâng Cao trong LangChain - Phần 2](02_explore-advanced-retrievers-in-langchain-part-2.md)** | [Xem bài viết →](02_explore-advanced-retrievers-in-langchain-part-2.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

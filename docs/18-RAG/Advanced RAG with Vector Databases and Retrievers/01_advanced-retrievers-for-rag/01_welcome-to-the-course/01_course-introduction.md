@@ -339,6 +339,13 @@ Khóa học này sẽ giúp bạn:
 
 5. Robertson, S., & Zaragoza, H. (2009). "The probabilistic relevance framework: BM25 and beyond". *Foundations and Trends in Information Retrieval*, 3(4), 333-389.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Giới Thiệu Khóa Học: Retrieval-Augmented Generation Nâng Cao với Cơ Sở Dữ Liệu Vector](01_course-introduction.md)** | [Xem bài viết →](01_course-introduction.md) |
+| [Tổng Quan về Chứng Chỉ Chuyên Nghiệp về RAG và AI Tác Nhân (Agentic AI)](03_rag-and-agentic-ai-professional-certificate-overview.md) | [Xem bài viết →](03_rag-and-agentic-ai-professional-certificate-overview.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

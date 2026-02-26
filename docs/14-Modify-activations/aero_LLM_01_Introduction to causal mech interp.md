@@ -67,6 +67,14 @@ Việc thò tay Thay đổi Tham số Điện tích Hệ thống là Chén Thán
 ## Tài liên tham khảo (Citations)
 1. Lý luận Khái Niệm Phản Thực Tế và Phân bổ Mạng trên thực tiễn "Aero_LLM_01_Introduction to causal mech interp.md". Đưa ra ví dụ về Dropout and LayerNorm như những Trở lực Nhân quả.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Dẫn Nhập Về Diễn Giải Cơ Học Nhân Quả (Causal Mechanistic Interpretability)](aero_LLM_01_Introduction to causal mech interp.md)** | [Xem bài viết →](aero_LLM_01_Introduction to causal mech interp.md) |
+| [Các Chế Độ Sửa Đổi Hoạt Hóa Cơ Học (Activation Editing Implementations)](aero_LLM_02_Activation editing Code implementations.md) | [Xem bài viết →](aero_LLM_02_Activation editing Code implementations.md) |
+| [Thử thách Lập trình: Thay thế Hoạt hóa Attention, MLP và Hidden States](aero_LLM_03_CodeChallenge replacing attention, MLP, and hidden states.md) | [Xem bài viết →](aero_LLM_03_CodeChallenge replacing attention, MLP, and hidden states.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

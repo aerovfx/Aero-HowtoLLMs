@@ -93,6 +93,13 @@ Chương trình này cung cấp cho bạn chuyên môn để xây dựng và tri
 5. Chromadb. (2025). *Chroma: The AI-native open-source embedding database*. https://www.trychroma.com/
 6. OpenAI. (2025). *Whisper: General-purpose speech recognition model*. https://openai.com/index/whisper/
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Giới Thiệu Khóa Học: Retrieval-Augmented Generation Nâng Cao với Cơ Sở Dữ Liệu Vector](01_course-introduction.md) | [Xem bài viết →](01_course-introduction.md) |
+| 📌 **[Tổng Quan về Chứng Chỉ Chuyên Nghiệp về RAG và AI Tác Nhân (Agentic AI)](03_rag-and-agentic-ai-professional-certificate-overview.md)** | [Xem bài viết →](03_rag-and-agentic-ai-professional-certificate-overview.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

@@ -282,6 +282,15 @@ Tóm tắt là một tác vụ quan trọng trong các ứng dụng chatbot đ�
 
 3. Hu, E.J., et al. (2021). "LoRA: Low-Rank Adaptation of Large Language Models." *ICLR 2022*.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Giải Pháp: Fine-tuning Mô Hình Phân Tích Cảm Xúc](01 - Solution Fine-tuning the sentiment analysis model.md) | [Xem bài viết →](01 - Solution Fine-tuning the sentiment analysis model.md) |
+| [Giải Pháp Fine-tuning Mô Hình Question Answering](02 - Solution Fine-tuning the Q&A model.md) | [Xem bài viết →](02 - Solution Fine-tuning the Q&A model.md) |
+| 📌 **[Giải Pháp Fine-tuning Mô Hình Tóm Tắt với LoRA](03 - Solution Fine-tuning the summarization model.md)** | [Xem bài viết →](03 - Solution Fine-tuning the summarization model.md) |
+| [Demo Tích Hợp Mọi Thứ vào Giải Pháp](04 - Demo Integrating everything into our solution.md) | [Xem bài viết →](04 - Demo Integrating everything into our solution.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

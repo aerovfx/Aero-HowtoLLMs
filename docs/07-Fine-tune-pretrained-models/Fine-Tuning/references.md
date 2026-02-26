@@ -58,6 +58,13 @@
 
 20. **Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., ... & Amodei, D. (2020).** *Language Models are Few-Shot Learners.* Advances in Neural Information Processing Systems, 33, 1877-1901. https://arxiv.org/abs/2005.14165
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nghiên Cứu Về Fine-Tuning Large Language Models: Từ Transformer Đến LoRA](Fine-Tuning_Scientific_Article.md) | [Xem bài viết →](Fine-Tuning_Scientific_Article.md) |
+| 📌 **[Tài liệu tham khảo](references.md)** | [Xem bài viết →](references.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

@@ -67,6 +67,14 @@ Matplotlib không chỉ là một công cụ vẽ hình đơn thuần mà là m�
 ## Tài liệu tham khảo (Citations)
 1. Thao tác vẽ điểm và đường với Matplotlib trong Python dựa trên `aero_LL_01_Plotting dots and lines.md`. Phân tích dấu mốc, màu sắc, chú giải và bản chất đường cong trong đồ họa máy tính.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Nhập môn Python: Kỹ thuật Trực quan hóa Dữ liệu với Matplotlib (Plotting Dots and Lines)](aero_LLM_01_Plotting dots and lines.md)** | [Xem bài viết →](aero_LLM_01_Plotting dots and lines.md) |
+| [Nhập môn Python: Hình học và Cấu trúc Biểu đồ con (Subplot Geometry)](aero_LLM_02_Subplot geometry.md) | [Xem bài viết →](aero_LLM_02_Subplot geometry.md) |
+| [Nhập môn Python: Kỹ thuật Tinh chỉnh và Thẩm mỹ Biểu đồ (Making Graphs Look Nice)](aero_LLM_03_Making graphs look nice.md) | [Xem bài viết →](aero_LLM_03_Making graphs look nice.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

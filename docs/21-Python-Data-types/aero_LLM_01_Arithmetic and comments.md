@@ -79,6 +79,16 @@ Việc nắm vững các toán tử số học và cách thức Python diễn gi
 ## Tài liệu tham khảo (Citations)
 1. Các phép toán cơ bản và chú thích trong Python dựa trên `aero_LLM_01_Arithmetic and comments.md`. Phân tích cú pháp toán tử và hàm `print()`.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Nhập môn Python: Các phép toán cơ bản và Chú thích (Arithmetic and Comments)](aero_LLM_01_Arithmetic and comments.md)** | [Xem bài viết →](aero_LLM_01_Arithmetic and comments.md) |
+| [Nhập môn Python: Biến và các Kiểu dữ liệu Cơ bản (Variables and Data Types)](aero_LLM_02_Variables.md) | [Xem bài viết →](aero_LLM_02_Variables.md) |
+| [Nhập môn Python: Danh sách và Kỹ thuật Chỉ mục (Lists and Indexing)](aero_LLM_03_Lists.md) | [Xem bài viết →](aero_LLM_03_Lists.md) |
+| [Nhập môn Python: Biến Boolean và Logic Nhị phân (Booleans and Logic)](aero_LLM_04_Booleans.md) | [Xem bài viết →](aero_LLM_04_Booleans.md) |
+| [Nhập môn Python: Từ điển và Cấu trúc Cặp Khóa-Giá trị (Dictionaries)](aero_LLM_05_Dictionaries.md) | [Xem bài viết →](aero_LLM_05_Dictionaries.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

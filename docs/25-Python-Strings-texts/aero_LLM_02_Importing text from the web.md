@@ -66,6 +66,14 @@ Khả năng nhập văn bản trực tiếp từ web mở ra nguồn tài nguyê
 ## Tài liệu tham khảo (Citations)
 1. Phương pháp nhập văn bản từ web và phân tích bộ ký tự duy nhất dựa trên `aero_LL_02_Importing text from the web.md`. Phân tích thư viện requests, hàm set() và định dạng số lớn trong F-strings.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nhập môn Python: Kỹ thuật Nội suy Chuỗi và F-strings (String Interpolation)](aero_LLM_01_String interpolation and f-strings.md) | [Xem bài viết →](aero_LLM_01_String interpolation and f-strings.md) |
+| 📌 **[Nhập môn Python: Kỹ thuật Nhập và Phân tích Văn bản trực tuyến (Importing Text from the Web)](aero_LLM_02_Importing text from the web.md)** | [Xem bài viết →](aero_LLM_02_Importing text from the web.md) |
+| [Nhập môn Python: Kỹ thuật Xử lý và Phân tích Văn bản (Processing Text)](aero_LLM_03_Processing text.md) | [Xem bài viết →](aero_LLM_03_Processing text.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

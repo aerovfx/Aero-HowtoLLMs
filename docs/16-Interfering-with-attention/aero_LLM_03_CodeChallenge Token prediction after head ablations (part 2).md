@@ -59,6 +59,18 @@ Kết quả thực nghiệm cho thấy sự tinh vi của mô hình trong việc
 ## Tài liệu tham khảo (Citations)
 1. Thử thách Token Prediction và Deterministic Chaos trên GPT-2 dựa trên `aero_LLM_03_CodeChallenge Token prediction after head ablations (part 2).md`. Phân tích sự ảnh hưởng của token spacing và precise ablation.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Cắt bỏ Attention Head và Dự đoán Token (Head Ablation and Token Prediction)](aero_LLM_01_Head ablation and token prediction.md) | [Xem bài viết →](aero_LLM_01_Head ablation and token prediction.md) |
+| [Thử thách Lập trình: Dự đoán Token sau khi Cắt bỏ Head (Phần 1)](aero_LLM_02_CodeChallenge Token prediction after head ablations (part 1).md) | [Xem bài viết →](aero_LLM_02_CodeChallenge Token prediction after head ablations (part 1).md) |
+| 📌 **[Thử thách Lập trình: Dự đoán Token sau khi Cắt bỏ Head (Phần 2)](aero_LLM_03_CodeChallenge Token prediction after head ablations (part 2).md)** | [Xem bài viết →](aero_LLM_03_CodeChallenge Token prediction after head ablations (part 2).md) |
+| [Tác động của việc "Tắt tiếng" Head lên Độ tương đồng Cosine (Impact of Head-Silencing on Cosine Similarity)](aero_LLM_04_Impact of head-silencing on cosine similarity.md) | [Xem bài viết →](aero_LLM_04_Impact of head-silencing on cosine similarity.md) |
+| [Thử thách Lập trình: GPT-2 có thực sự thích Pizza Dứa? (Một nghiên cứu về can thiệp Attention chính xác)](aero_LLM_05_CodeChallenge Does GPT2 like pineapple pizza.md) | [Xem bài viết →](aero_LLM_05_CodeChallenge Does GPT2 like pineapple pizza.md) |
+| [Vá lỗi Attention Head trong tác vụ Nhận dạng Tân ngữ Gián tiếp (Attention Head Patching in IOI)](aero_LLM_06_Attention head patching in IOI.md) | [Xem bài viết →](aero_LLM_06_Attention head patching in IOI.md) |
+| [Thử thách Lập trình: Vá lỗi Head và Token trong tác vụ IOI (Head and Token Patching in IOI)](aero_LLM_07_CodeChallenge Head and token patching in IOI.md) | [Xem bài viết →](aero_LLM_07_CodeChallenge Head and token patching in IOI.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

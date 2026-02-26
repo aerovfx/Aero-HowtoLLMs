@@ -745,6 +745,14 @@ RTX 3060 12GB
 | 32GB  | llama3:13b |
 | 64GB+ | llama3:70b |
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[🏗️ LOCAL RAG STACK](FULL TEMPLATE: Local RAG với Ollama + Qdrant + FastAPI.md)** | [Xem bài viết →](FULL TEMPLATE: Local RAG với Ollama + Qdrant + FastAPI.md) |
+| [🏗️ RAG IMPLEMENTATION TEMPLATE (0 → PROD)](RAG IMPLEMENTATION TEMPLATE.md) | [Xem bài viết →](RAG IMPLEMENTATION TEMPLATE.md) |
+| [🚀 CASE STUDY: XÂY DỰNG HỆ RAG CHO HỆ THỐNG TRA CỨU TÀI LIỆU NỘI BỘ](rag_noibo.md) | [Xem bài viết →](rag_noibo.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

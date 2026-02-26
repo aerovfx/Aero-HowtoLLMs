@@ -65,6 +65,13 @@ Cắt lát là một kỹ thuật không thể thiếu để xử lý các khố
 ## Tài liệu tham khảo (Citations)
 1. Kỹ thuật cắt lát (slicing) trong Python dựa trên `aero_LLM_02_Slicing.md`. Phân tích cú pháp `[start:stop:step]`, chỉ mục âm và phương pháp đảo ngược danh sách.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nhập môn Python: Kỹ thuật Chỉ mục Nâng cao (Advanced Indexing)](aero_LLM_01_Indexing.md) | [Xem bài viết →](aero_LLM_01_Indexing.md) |
+| 📌 **[Nhập môn Python: Kỹ thuật Cắt lát Danh sách (Slicing)](aero_LLM_02_Slicing.md)** | [Xem bài viết →](aero_LLM_02_Slicing.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

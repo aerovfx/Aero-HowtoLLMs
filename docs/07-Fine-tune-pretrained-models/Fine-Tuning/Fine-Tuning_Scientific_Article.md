@@ -325,6 +325,13 @@ Các hướng nghiên cứu tiếp theo bao gồm:
 
 *Bài viết được viết dựa trên tài liệu khóa học Fine-Tuning Large Language Models và các bài báo khoa học liên quan.*
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Nghiên Cứu Về Fine-Tuning Large Language Models: Từ Transformer Đến LoRA](Fine-Tuning_Scientific_Article.md)** | [Xem bài viết →](Fine-Tuning_Scientific_Article.md) |
+| [Tài liệu tham khảo](references.md) | [Xem bài viết →](references.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

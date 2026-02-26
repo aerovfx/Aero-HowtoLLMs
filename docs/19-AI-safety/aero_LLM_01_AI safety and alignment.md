@@ -110,6 +110,17 @@ An toàn AI không chỉ là câu chuyện của luân lý mà là bài toán c�
 6. **Olah, C., et al. (2020).** *Zoom In: An Introduction to Circuits.* Distill.
 7. **Räuköll, D. et al. (2023).** *Mechanistic Interpretability connects AI Safety and Architectural Understanding.*
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Đánh giá An toàn AI (AI Safety) và Sự Căn chỉnh (Alignment) thông qua Khả năng Diễn giải Cơ chế (Mechanistic Interpretability)](aero_LLM_01_AI safety and alignment.md)** | [Xem bài viết →](aero_LLM_01_AI safety and alignment.md) |
+| [Tại Sao Trí Tuệ Nhân Tạo (AI) Không Thể Tự Động An Toàn và Có Đạo Đức?](aero_LLM_02_Why can't AI just be safe and moral.md) | [Xem bài viết →](aero_LLM_02_Why can't AI just be safe and moral.md) |
+| [Học Trong Ngữ Cảnh (In-Context Learning) và Rủi Ro Đối Với An Toàn AI](aero_LLM_03_In-context and few-shot learning.md) | [Xem bài viết →](aero_LLM_03_In-context and few-shot learning.md) |
+| [Định Luật Mở Rộng (Scaling Laws) và Sự Phát Triển Của An Toàn Trí Tuệ Nhân Tạo](aero_LLM_04_Scaling and AI safety.md) | [Xem bài viết →](aero_LLM_04_Scaling and AI safety.md) |
+| [Thực hành: Hack AI để Đánh cắp Mật khẩu (Prompt Injection)](aero_LLM_05_Hands-on Hack an AI to steal a password!.md) | [Xem bài viết →](aero_LLM_05_Hands-on Hack an AI to steal a password!.md) |
+| [Tham Gia Vào Lĩnh Vực An Toàn Trí Tuệ Nhân Tạo (AI Safety): Khởi Đầu Và Cơ Hội](aero_LLM_06_How to get involved in AI safety.md) | [Xem bài viết →](aero_LLM_06_How to get involved in AI safety.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

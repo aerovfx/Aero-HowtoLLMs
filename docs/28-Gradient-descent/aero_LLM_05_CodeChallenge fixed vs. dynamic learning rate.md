@@ -68,6 +68,16 @@ Tốc độ học động là một "vũ khí" tối thượng trong việc tố
 ## Tài liệu tham khảo (Citations)
 1. Thử nghiệm so sánh hiệu năng của các chiến lược tốc độ học dựa trên `aero_LL_05_CodeChallenge fixed vs. dynamic learning rate.md`. Phân tích thực nghiệm về learning rate decay, adaptive methods và ứng dụng trong các optimizer hiện đại.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Học sâu: Tổng quan về Thuật toán Hạ giang (Gradient Descent)](aero_LLM_01_Overview of gradient descent.md) | [Xem bài viết →](aero_LLM_01_Overview of gradient descent.md) |
+| [Học sâu: Vấn đề Cực trị Địa phương (Local Minima)](aero_LLM_02_What about local minima.md) | [Xem bài viết →](aero_LLM_02_What about local minima.md) |
+| [Học sâu: Thực thi Hạ giang trong Không gian 1 Chiều (1D Gradient Descent)](aero_LLM_03_Gradient descent in 1D.md) | [Xem bài viết →](aero_LLM_03_Gradient descent in 1D.md) |
+| [Học sâu: Hạ giang trong Không gian 2 Chiều (2D Gradient Descent)](aero_LLM_04_Gradient descent in 2D.md) | [Xem bài viết →](aero_LLM_04_Gradient descent in 2D.md) |
+| 📌 **[Học sâu: Thử thách Lập trình – Tốc độ học Cố định vs. Động (Fixed vs. Dynamic Learning Rate)](aero_LLM_05_CodeChallenge fixed vs. dynamic learning rate.md)** | [Xem bài viết →](aero_LLM_05_CodeChallenge fixed vs. dynamic learning rate.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

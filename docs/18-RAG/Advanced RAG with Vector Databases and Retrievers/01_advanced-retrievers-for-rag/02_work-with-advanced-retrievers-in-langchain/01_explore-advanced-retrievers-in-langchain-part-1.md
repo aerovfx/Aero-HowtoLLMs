@@ -276,6 +276,13 @@ Việc lựa chọn đúng retriever và tham số là yếu tố quan trọng t
 
 4. Karpukhin, V., et al. (2020). "Dense Passage Retrieval for Open-Domain Question Answering". *EMNLP 2020*.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Khám Phá Advanced Retrievers Trong LangChain - Phần 1](01_explore-advanced-retrievers-in-langchain-part-1.md)** | [Xem bài viết →](01_explore-advanced-retrievers-in-langchain-part-1.md) |
+| [Khám Phá Các Retriever Nâng Cao trong LangChain - Phần 2](02_explore-advanced-retrievers-in-langchain-part-2.md) | [Xem bài viết →](02_explore-advanced-retrievers-in-langchain-part-2.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

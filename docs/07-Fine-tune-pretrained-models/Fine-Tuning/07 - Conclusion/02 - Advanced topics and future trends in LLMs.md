@@ -166,6 +166,15 @@ Việc theo dõi các xu hướng này là quan trọng để tận dụng tối
 
 4. Kaplan, J., et al. (2020). "Scaling Laws for Neural Language Models." *arXiv:2001.08361*.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Tóm Tắt Khóa Học Và Điểm Chính](01 - Course recap and key takeaways.md) | [Xem bài viết →](01 - Course recap and key takeaways.md) |
+| 📌 **[Chủ Đề Nâng Cao và Xu Hướng Tương Lai trong LLMs](02 - Advanced topics and future trends in LLMs.md)** | [Xem bài viết →](02 - Advanced topics and future trends in LLMs.md) |
+| [Tận Dụng LLMs Cho Các Dự Án Tương Lai](03 - Leveraging LLMs for future projects.md) | [Xem bài viết →](03 - Leveraging LLMs for future projects.md) |
+| [Học Tập Liên Tục trong Lĩnh Vực LLMs](04 - Continuous learning in the field of LLMs.md) | [Xem bài viết →](04 - Continuous learning in the field of LLMs.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

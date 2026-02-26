@@ -59,6 +59,14 @@ Việc nắm vững kỹ thuật thao túng Tuple và Indexing chính xác trong
 ## Tài liệu tham khảo (Citations)
 1. Thử nghiệm can thiệp đa thành phần (Multi-component interference) dựa trên `aero_LLM_03_CodeChallenge replacing attention, MLP, and hidden states.md`. Giải thích cơ chế đóng gói Tuple trong cấu trúc `huggingface-transformer`.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Dẫn Nhập Về Diễn Giải Cơ Học Nhân Quả (Causal Mechanistic Interpretability)](aero_LLM_01_Introduction to causal mech interp.md) | [Xem bài viết →](aero_LLM_01_Introduction to causal mech interp.md) |
+| [Các Chế Độ Sửa Đổi Hoạt Hóa Cơ Học (Activation Editing Implementations)](aero_LLM_02_Activation editing Code implementations.md) | [Xem bài viết →](aero_LLM_02_Activation editing Code implementations.md) |
+| 📌 **[Thử thách Lập trình: Thay thế Hoạt hóa Attention, MLP và Hidden States](aero_LLM_03_CodeChallenge replacing attention, MLP, and hidden states.md)** | [Xem bài viết →](aero_LLM_03_CodeChallenge replacing attention, MLP, and hidden states.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

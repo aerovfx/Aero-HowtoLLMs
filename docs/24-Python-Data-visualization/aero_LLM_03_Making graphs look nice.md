@@ -71,6 +71,14 @@ Sự chuyên nghiệp của một nhà nghiên cứu AI không chỉ thể hiệ
 ## Tài liệu tham khảo (Citations)
 1. Kỹ thuật tinh chỉnh thẩm mỹ biểu đồ với Matplotlib dựa trên `aero_LL_03_Making graphs look nice.md`. Phân tích gán nhãn LaTeX, kỹ thuật GCA, quản lý màu sắc RGB/Hex và hiệu ứng độ dày đường kẻ.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nhập môn Python: Kỹ thuật Trực quan hóa Dữ liệu với Matplotlib (Plotting Dots and Lines)](aero_LLM_01_Plotting dots and lines.md) | [Xem bài viết →](aero_LLM_01_Plotting dots and lines.md) |
+| [Nhập môn Python: Hình học và Cấu trúc Biểu đồ con (Subplot Geometry)](aero_LLM_02_Subplot geometry.md) | [Xem bài viết →](aero_LLM_02_Subplot geometry.md) |
+| 📌 **[Nhập môn Python: Kỹ thuật Tinh chỉnh và Thẩm mỹ Biểu đồ (Making Graphs Look Nice)](aero_LLM_03_Making graphs look nice.md)** | [Xem bài viết →](aero_LLM_03_Making graphs look nice.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

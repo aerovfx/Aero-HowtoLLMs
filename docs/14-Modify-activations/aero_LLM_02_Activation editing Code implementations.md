@@ -71,6 +71,14 @@ Quá trình Forward Pass chạy với tốc độ hàng phần nghìn giây và 
 ## Tài liệu Tham khảo (Citations)
 1. 06 Quy trình Thao Túng Pytorch Causal Framework - Lược sử từ `aero_LLM_02_Activation editing Code implementations.md`. So sánh đối chứng Lỗi In-place View Tensor và giải pháp Khối Dictionary.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Dẫn Nhập Về Diễn Giải Cơ Học Nhân Quả (Causal Mechanistic Interpretability)](aero_LLM_01_Introduction to causal mech interp.md) | [Xem bài viết →](aero_LLM_01_Introduction to causal mech interp.md) |
+| 📌 **[Các Chế Độ Sửa Đổi Hoạt Hóa Cơ Học (Activation Editing Implementations)](aero_LLM_02_Activation editing Code implementations.md)** | [Xem bài viết →](aero_LLM_02_Activation editing Code implementations.md) |
+| [Thử thách Lập trình: Thay thế Hoạt hóa Attention, MLP và Hidden States](aero_LLM_03_CodeChallenge replacing attention, MLP, and hidden states.md) | [Xem bài viết →](aero_LLM_03_CodeChallenge replacing attention, MLP, and hidden states.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

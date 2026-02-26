@@ -32,6 +32,14 @@ Hãy bắt đầu!
 
 3. Stiennon, N., et al. (2020). "Learning to Summarize with Human Feedback." *Advances in Neural Information Processing Systems*, 33, 3008-3021.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Bắt Đầu Fine-tuning LLMs](01 - Beginning to fine-tune your LLMs.md)** | [Xem bài viết →](01 - Beginning to fine-tune your LLMs.md) |
+| [Tận Dụng Tối Đa Khóa Học](02 - Getting the most out of this course.md) | [Xem bài viết →](02 - Getting the most out of this course.md) |
+| [Kiểm Tra Phiên Bản](03 - Version check.md) | [Xem bài viết →](03 - Version check.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

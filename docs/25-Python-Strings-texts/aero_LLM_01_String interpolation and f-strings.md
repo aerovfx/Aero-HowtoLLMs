@@ -64,6 +64,14 @@ Làm chủ F-strings là một bước tiến quan trọng trong việc nâng ca
 ## Tài liệu tham khảo (Citations)
 1. Kỹ thuật định dạng chuỗi ký tự và F-strings trong Python dựa trên `aero_LL_01_String interpolation and f-strings.md`. Phân tích so sánh giữa phép nối chuỗi, nội suy toán tử % và các tùy chọn canh lề định dạng.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[Nhập môn Python: Kỹ thuật Nội suy Chuỗi và F-strings (String Interpolation)](aero_LLM_01_String interpolation and f-strings.md)** | [Xem bài viết →](aero_LLM_01_String interpolation and f-strings.md) |
+| [Nhập môn Python: Kỹ thuật Nhập và Phân tích Văn bản trực tuyến (Importing Text from the Web)](aero_LLM_02_Importing text from the web.md) | [Xem bài viết →](aero_LLM_02_Importing text from the web.md) |
+| [Nhập môn Python: Kỹ thuật Xử lý và Phân tích Văn bản (Processing Text)](aero_LLM_03_Processing text.md) | [Xem bài viết →](aero_LLM_03_Processing text.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

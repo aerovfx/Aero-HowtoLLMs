@@ -213,6 +213,17 @@ Transfer learning là một kỹ thuật mạnh mẽ cho phép tận dụng ki�
 
 3. Wei, J., et al. (2021). "Finetuned Language Models are Zero-Shot Learners." *ICLR 2022*.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Transfer Learning Trong LLMs](01 - Transfer learning in LLMs.md) | [Xem bài viết →](01 - Transfer learning in LLMs.md) |
+| [Chọn Mô Hình Cho Transfer Learning](02 - Choosing models for transfer learning.md) | [Xem bài viết →](02 - Choosing models for transfer learning.md) |
+| 📌 **[Demo Transfer Learning với FLAN-T5](03 - Demo Transfer learning with FLAN-T5.md)** | [Xem bài viết →](03 - Demo Transfer learning with FLAN-T5.md) |
+| [Đánh Giá Kết Quả Transfer Learning](04 - Evaluating transfer learning outcomes.md) | [Xem bài viết →](04 - Evaluating transfer learning outcomes.md) |
+| [Demo Đánh Giá Bản Dịch](05 - Demo Evaluating translations.md) | [Xem bài viết →](05 - Demo Evaluating translations.md) |
+| [Giải Pháp Nâng Cao Dịch Thuật với Transfer Learning](06 - Solution Enhancing translation with transfer learning.md) | [Xem bài viết →](06 - Solution Enhancing translation with transfer learning.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.

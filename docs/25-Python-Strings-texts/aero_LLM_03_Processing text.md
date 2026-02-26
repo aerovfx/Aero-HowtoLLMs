@@ -225,6 +225,14 @@ Xử lý văn bản là "cổng vào" của mọi pipeline AI ngôn ngữ. Dù c
 3. Bird, S., Klein, E., Loper, E. (2009). *Natural Language Processing with Python*. O'Reilly Media.
 4. Nội dung bài giảng về xử lý văn bản trong Python dựa trên `aero_LLM_03_Processing text.md`. Phân tích `.split()`, thư viện `string`, các phương thức `.lower()`, `.strip()`, `.replace()` và ứng dụng trong NLP pipeline.
 <!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nhập môn Python: Kỹ thuật Nội suy Chuỗi và F-strings (String Interpolation)](aero_LLM_01_String interpolation and f-strings.md) | [Xem bài viết →](aero_LLM_01_String interpolation and f-strings.md) |
+| [Nhập môn Python: Kỹ thuật Nhập và Phân tích Văn bản trực tuyến (Importing Text from the Web)](aero_LLM_02_Importing text from the web.md) | [Xem bài viết →](aero_LLM_02_Importing text from the web.md) |
+| 📌 **[Nhập môn Python: Kỹ thuật Xử lý và Phân tích Văn bản (Processing Text)](aero_LLM_03_Processing text.md)** | [Xem bài viết →](aero_LLM_03_Processing text.md) |
+
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
