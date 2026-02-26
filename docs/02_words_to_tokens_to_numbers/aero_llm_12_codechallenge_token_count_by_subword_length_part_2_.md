@@ -28,13 +28,19 @@ Bài báo này tiếp tục phân tích thống kê số lượng token theo đ�
 
 Trong các mô hình ngôn ngữ lớn (LLMs), tokenization là bước ánh xạ văn bản thô thành chuỗi token rời rạc:
 
+$$
 S = (c_1, c_2, ..., c_n)
+$$
 
+$$
 T = (t_1, t_2, ..., t_m)
+$$
 
 Với:
 
+$$
 m \le n
+$$
 
 Mỗi token t_i có độ dài \ell(t_i) tính theo byte hoặc ký tự Unicode.
 
@@ -55,11 +61,15 @@ Gọi:
 
 Khi đó:
 
+$$
 P(L = k) = \frac{N_k}{|V|}
+$$
 
 Và:
 
+$$
 \sum_{k=1}^{K_{\max}} P(L = k) = 1
+$$
 
 ⸻
 
@@ -71,11 +81,15 @@ N_k \approx Ae^{-\lambda k}
 
 Suy ra:
 
+$$
 P(L = k) = \frac{Ae^{-\lambda k}}{\sum_{j=1}^{K_{\max}} Ae^{-\lambda j}}
+$$
 
 Chuẩn hóa:
 
+$$
 P(L = k) = (1 - e^{-\lambda}) e^{-\lambda (k-1)}
+$$
 
 Đây là phân bố hình học rời rạc.
 
@@ -85,11 +99,15 @@ P(L = k) = (1 - e^{-\lambda}) e^{-\lambda (k-1)}
 
 Kỳ vọng:
 
+$$
 \mathbb{E}[L] = \frac{1}{1 - e^{-\lambda}}
+$$
 
 Phương sai:
 
+$$
 \mathrm{Var}(L) = \frac{e^{-\lambda}}{(1 - e^{-\lambda})^2}
+$$
 
 Điều này cho thấy khi \lambda nhỏ:
 	•	Đuôi phân bố dài hơn
@@ -101,7 +119,9 @@ Phương sai:
 
 Tần suất token theo thứ hạng:
 
+$$
 f(r) \propto \frac{1}{r^\alpha}
+$$
 
 Trong đó:
 	•	r: thứ hạng
@@ -113,7 +133,9 @@ Kết hợp hai quan sát:
 
 Ta có mô hình kết hợp:
 
+$$
 P(t) \propto e^{-\beta \ell(t)} \cdot \frac{1}{r^\alpha}
+$$
 
 ⸻
 
@@ -123,15 +145,21 @@ Giả sử văn bản có tổng số ký tự n.
 
 Số token:
 
+$$
 m = \frac{n}{\mathbb{E}[L]}
+$$
 
 Self-attention có độ phức tạp:
 
+$$
 O(m^2)
+$$
 
 Thay vào:
 
+$$
 O\left(\left(\frac{n}{\mathbb{E}[L]}\right)^2\right)
+$$
 
 Do đó:
 	•	Nếu \mathbb{E}[L] \uparrow \Rightarrow m \downarrow \Rightarrow \text{Cost} \downarrow
@@ -143,19 +171,27 @@ Do đó:
 
 Entropy:
 
+$$
 H = - \sum_{t \in V} P(t) \log P(t)
+$$
 
 Thay mô hình mũ:
 
+$$
 H \approx - \sum_{k} P(L=k) \log P(L=k)
+$$
 
 Với phân bố hình học:
 
+$$
 H = - \sum_{k=1}^{\infty} (1-q) q^{k-1} \log[(1-q) q^{k-1}]
+$$
 
 Trong đó:
 
+$$
 q = e^{-\lambda}
+$$
 
 Entropy tối ưu khi:
 	•	Không quá tập trung vào token cực ngắn
@@ -169,7 +205,9 @@ Entropy tối ưu khi:
 
 6.1 Hồi quy log-linear
 
+$$
 \log N_k = \log A - \lambda k
+$$
 
 Nếu đồ thị \log N_k theo k tuyến tính → xác nhận mô hình mũ.
 
@@ -177,7 +215,9 @@ Nếu đồ thị \log N_k theo k tuyến tính → xác nhận mô hình mũ.
 
 6.2 Kiểm định Chi-square
 
+$$
 \chi^2 = \sum_{k} \frac{(N_k - \hat{N}_k)^2}{\hat{N}_k}
+$$
 
 So sánh với phân bố lý thuyết.
 
@@ -187,7 +227,9 @@ So sánh với phân bố lý thuyết.
 
 Tokenizer BPE thực chất tối ưu xấp xỉ:
 
+$$
 \min_{V} \left( \mathbb{E}[m] + \lambda |V| \right)
+$$
 
 Trong đó:
 	•	\mathbb{E}[m]: số token trung bình
@@ -217,11 +259,15 @@ Phần 2 của dữ liệu thực nghiệm cho thấy:
 
 Phân bố độ dài subword có thể được mô hình hóa gần đúng bằng phân bố mũ rời rạc:
 
+$$
 P(L = k) \sim e^{-\lambda k}
+$$
 
 Tác động trực tiếp đến:
 
+$$
 m = \frac{n}{\mathbb{E}[L]}
+$$
 
 \text{Attention Cost} \sim O(m^2)
 
