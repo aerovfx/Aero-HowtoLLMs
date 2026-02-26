@@ -41,7 +41,7 @@ $$
 Tokenizer định nghĩa ánh xạ:
 
 $$
-\tau : \Sigma^{*} \rightarrow \mathbb{Z}^m
+\tau : \Sigma^{\ast} \rightarrow \mathbb{Z}^m
 $$
 
 Trong đó:
@@ -137,7 +137,7 @@ $$
 Chọn:
 
 $$
-(a^*, b^*) = \arg\max_{a,b} f(a,b)
+(a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b)
 $$
 
 Cập nhật:
@@ -197,7 +197,7 @@ $$
 BPE đảm bảo:
 
 $$
-\forall x \in \Sigma^*, \quad \exists \text{ decomposition into subwords}
+\forall x \in \Sigma^{\ast}, \quad \exists \text{ decomposition into subwords}
 $$
 
 Do đó:
@@ -291,7 +291,7 @@ Quy trình chuẩn bị văn bản bao gồm:
 Về mặt toán học, tokenization là ánh xạ:
 
 $$
-\Sigma^{*} \rightarrow V^{*}
+\Sigma^{\ast} \rightarrow V^{\ast}
 $$
 
 đóng vai trò cầu nối giữa không gian ký tự rời rạc và không gian vector liên tục trong Transformer.
