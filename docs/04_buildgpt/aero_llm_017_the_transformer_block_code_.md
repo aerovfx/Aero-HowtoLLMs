@@ -248,9 +248,9 @@ Attention head xử lý toàn bộ embedding dimension trong phiên bản đơn 
 
 Multi-head attention chia embedding thành nhiều phần:
 
-[
+$$
 d_{head} = \frac{d_{model}}{h}
-]
+$$
 
 Mỗi head học một không gian quan hệ riêng.
 
@@ -291,9 +291,9 @@ Tensor đầu vào:
 
 Qua mỗi block, kích thước được bảo toàn:
 
-[
+$$
 (B, T, D) \rightarrow (B, T, D)
-]
+$$
 
 Đảm bảo khả năng xếp chồng nhiều layer.
 

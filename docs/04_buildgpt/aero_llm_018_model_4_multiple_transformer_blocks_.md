@@ -140,9 +140,9 @@ Mặc dù các block có cùng kiến trúc, mỗi block có tập tham số ri�
 
 Trong mỗi block:
 
-[
+$$
 H_{l+1} = H_l + f_l(\text{LN}(H_l))
-]
+$$
 
 Với (l) là chỉ số block.
 
@@ -154,9 +154,9 @@ Quan trọng là residual chỉ cộng trong từng block, không quay lại emb
 
 Đầu ra của block trước là đầu vào của block sau:
 
-[
+$$
 X_0 \rightarrow X_1 \rightarrow X_2 \rightarrow ... \rightarrow X_N
-]
+$$
 
 Mỗi tầng làm giàu biểu diễn.
 

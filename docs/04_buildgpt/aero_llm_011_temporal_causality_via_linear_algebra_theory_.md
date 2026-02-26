@@ -760,15 +760,15 @@ Với chuỗi độ dài ( T ):
 
 ### Thời gian
 
-[
+$$
 O(T^2)
-]
+$$
 
 ### Bộ nhớ
 
-[
+$$
 O(T^2)
-]
+$$
 
 Khi dùng KV Cache:
 

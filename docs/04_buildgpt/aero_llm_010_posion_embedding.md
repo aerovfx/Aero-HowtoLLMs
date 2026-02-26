@@ -204,9 +204,9 @@ Scaled Logits
 
 Loss lý thuyết của mô hình ngẫu nhiên:
 
-[
+$$
 \mathcal{L}_{theory} = \log(V)
-]
+$$
 
 với (V) là vocab size.
 
@@ -785,21 +785,21 @@ Với:
 
 Chi phí forward:
 
-[
+$$
 O(L \cdot T^2 \cdot d)
-]
+$$
 
 Bộ nhớ:
 
-[
+$$
 O(L \cdot T \cdot d)
-]
+$$
 
 Khi dùng KV-cache:
 
-[
+$$
 O(L \cdot T \cdot d)
-]
+$$
 
 ---
 

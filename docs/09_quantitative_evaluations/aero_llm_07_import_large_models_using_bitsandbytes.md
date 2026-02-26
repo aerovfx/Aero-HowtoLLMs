@@ -75,8 +75,9 @@ Trong đó:
 
 Cho trọng số w nằm trong khoảng:
 
-[w_{min}, w_{max}]
-
+$$
+w_{min}, w_{max}
+$$
 Hệ số scale:
 
 s = \frac{w_{max} - w_{min}}{2^b - 1}

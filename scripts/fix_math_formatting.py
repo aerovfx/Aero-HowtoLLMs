@@ -2,95 +2,64 @@ import os
 import re
 
 def fix_math_formats(content):
-    placeholders = []
+    """
+    Fix math formulas for GitHub Markdown rendering.
+    Converts [ formula ] and \[ formula \] to $$ formula $$ blocks.
+    """
+    
+    # === PHASE 0: Fix [ \n formula \n ] BEFORE protecting code blocks ===
+    # This pattern is unambiguous: a line with just "[", math content, then a line with just "]" 
+    def convert_bracket_block(match):
+        inner = match.group(1).strip()
+        if not inner:
+            return match.group(0)
+        # Check for math-like content
+        if any(c in inner for c in ['\\', '_', '^', '=']):
+            return f"\n$$\n{inner}\n$$\n"
+        return match.group(0)
+    
+    # [ on its own line, content, ] on its own line
+    content = re.sub(r'\n\[\s*\n([\s\S]*?)\n\]\s*(?=\n)', convert_bracket_block, content)
+    
+    # === PHASE 1: Protect code blocks and existing valid constructs ===
+    protections = []
     
     def protect(match):
-        placeholders.append(match.group(0))
-        return f"___MATH_PROTECT_{len(placeholders)-1}___"
-
-    # 1. Protect code blocks and existing math
-    content = re.sub(r'```.*?```', protect, content, flags=re.DOTALL)
-    content = re.sub(r'`.*?`', protect, content)
-    content = re.sub(r'\$\$.*?\$\$', protect, content, flags=re.DOTALL)
-    content = re.sub(r'\$.*?\$', protect, content)
-
-    # 2. Convert block math [ \n formula \n ]
-    def block_converter(match):
-        inner = match.group(1).strip()
-        return f"\n$$\n{inner}\n$$\n"
-
-    # Block patterns
-    content = re.sub(r'\n\s*\[\s*\n(.*?)\n\s*\]', block_converter, content, flags=re.DOTALL)
-    content = re.sub(r'\\\[(.*?)\\\]', block_converter, content, flags=re.DOTALL)
+        protections.append(match.group(0))
+        return f"__PROT_{len(protections)-1}__"
     
-    # Handle the side-by-side case from the user screenshot if they are literal on one line
-    # [ X_{out} = ... ] [ Y = ... ]
-    content = re.sub(r'(?<!\w)\[ ([^\]\n]+?=.*?\\text\{.*?\}|[^\]\n]+?=.*?_{.*?\}|[^\]\n]+?=.*?\\times) \]', 
-                     lambda m: f"\n$$\n{m.group(1).strip()}\n$$\n", content)
-
-    # Protect newly created math blocks
-    content = re.sub(r'\$\$.*?\$\$', protect, content, flags=re.DOTALL)
-
-    # 3. Handle inline math in parentheses ( ... )
-    def inline_heuristic(match):
-        inner = match.group(1).strip()
-        
-        # Guard against empty or huge
-        if not inner or len(inner) > 150:
-            return f"({match.group(1)})"
-
-        # Exclude common code/programming patterns
-        if '[' in inner or ']' in inner or "'" in inner or '"' in inner:
-            return f"({match.group(1)})"
-        
-        # Check for code keywords
-        code_keywords = ['torch', 'model', 'tokenizer', 'batch', 'layer', 'loss', 'print', 'return', 'def ', 'class ', 'import ']
-        if any(word in inner.lower() for word in code_keywords):
-            return f"({match.group(1)})"
-
-        is_math = False
-        # LaTeX commands
-        if '\\' in inner:
-            is_math = True
-        # Single letter variables
-        elif len(inner) == 1 and inner.isalpha():
-            is_math = True
-        # Subscripts/Superscripts
-        elif '_' in inner or '^' in inner:
-            # Check if it looks like a math variable with subscript (e.g. z_i, W_Q)
-            if re.match(r'^[A-Za-z]_[A-Za-z0-9]$|^[A-Za-z]_{[^{}]+}$|^[A-Za-z]\^[A-Za-z0-9]$|^[A-Za-z]\^{ [^{}]+ }$', inner):
-                is_math = True
-            elif len(inner) < 10 and not any(c.isdigit() for c in inner): # simple x_out etc
-                 is_math = True
-        # Math operators
-        elif any(op in inner for op in [' \in ', ' \approx ', ' \times ', ' \cdot ', ' \pm ', ' = ']):
-            is_math = True
-        elif re.match(r'^[A-Za-z0-9\s\+\-\*\/\!\(\)\=\.]{1,20}$', inner) and any(c in inner for c in '+*/='):
-            is_math = True
-            
-        if is_math:
-            return f"${inner}$"
-        return f"({match.group(1)})"
-
-    # Target (variable) or (expression)
-    content = re.sub(r'\(([^\)\n]+?)\)', inline_heuristic, content)
+    # Protect fenced code blocks
+    content = re.sub(r'```[\s\S]*?```', protect, content)
+    # Protect inline code
+    content = re.sub(r'`[^`\n]+`', protect, content)
+    # Protect existing $$ blocks
+    content = re.sub(r'\$\$[\s\S]*?\$\$', protect, content)
+    # Protect existing $ inline math
+    content = re.sub(r'\$[^\$\n]+?\$', protect, content)
+    # Protect markdown links
+    content = re.sub(r'\[([^\]]*?)\]\([^\)]*?\)', protect, content)
+    # Protect reference citations [1], [2]
+    content = re.sub(r'\[\d+\]', protect, content)
     
-    # 4. Handle escaped inline math \( ... \)
-    content = re.sub(r'\\\((.*?)\\\)', r'$\1$', content)
-
-    # 5. Restore placeholders
-    for i in range(len(placeholders)-1, -1, -1):
-        content = content.replace(f"___MATH_PROTECT_{i}___", placeholders[i])
-
-    return content
-
-def fix_typos(content):
+    # === PHASE 2: Convert remaining \[ \] and \( \) ===
+    content = re.sub(r'\\\[([\s\S]*?)\\\]', lambda m: f"\n$$\n{m.group(1).strip()}\n$$\n", content)
+    content = re.sub(r'\\\((.*?)\\\)', lambda m: f"${m.group(1).strip()}$", content)
+    
+    # === PHASE 3: Fix typos ===
     content = content.replace("Ave18_rage", "Average")
+    
+    # === PHASE 4: Restore protections ===
+    for i in range(len(protections) - 1, -1, -1):
+        content = content.replace(f"__PROT_{i}__", protections[i])
+    
     return content
+
 
 def process_docs(base_dir):
+    count = 0
     for root, dirs, files in os.walk(base_dir):
         if '.git' in dirs: dirs.remove('.git')
+        if 'node_modules' in dirs: dirs.remove('node_modules')
         for file in files:
             if file.endswith('.md'):
                 path = os.path.join(root, file)
@@ -99,14 +68,16 @@ def process_docs(base_dir):
                         content = f.read()
                     
                     new_content = fix_math_formats(content)
-                    new_content = fix_typos(new_content)
                     
                     if new_content != content:
                         with open(path, 'w', encoding='utf-8') as f:
                             f.write(new_content)
-                        print(f"Fixed: {path}")
+                        count += 1
+                        print(f"Fixed: {os.path.relpath(path, base_dir)}")
                 except Exception as e:
                     print(f"Error: {path} - {e}")
+    print(f"\nTotal files fixed: {count}")
+
 
 if __name__ == "__main__":
     process_docs("/Users/pixibox/Aero-HowtoLLMs/docs")
