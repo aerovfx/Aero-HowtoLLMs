@@ -97,7 +97,7 @@ def generate_indexes(base_dir):
         if subfolders:
             index_content.append(f"## 📁 Thư mục con\n")
             for sub in subfolders:
-                index_content.append(f"- [**{sub}**]({sub}/index.md)")
+                index_content.append(f"[{sub}]({sub}/index.md)")
             index_content.append("")
 
         if md_files:

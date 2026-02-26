@@ -17,8 +17,8 @@
 
 ## 📁 Thư mục con
 
-- [**01_introduction-to-faiss-for-rag**](01_introduction-to-faiss-for-rag/index.md)
-- [**03_course-wrap-up**](03_course-wrap-up/index.md)
+[01_introduction-to-faiss-for-rag](01_introduction-to-faiss-for-rag/index.md)
+[03_course-wrap-up](03_course-wrap-up/index.md)
 
 
 ---

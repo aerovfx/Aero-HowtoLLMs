@@ -17,7 +17,7 @@
 
 ## 📁 Thư mục con
 
-- [**Advanced RAG with Vector Databases and Retrievers**](Advanced RAG with Vector Databases and Retrievers/index.md)
+[Advanced RAG with Vector Databases and Retrievers](Advanced RAG with Vector Databases and Retrievers/index.md)
 
 ## 📄 Tài liệu trong mục này
 

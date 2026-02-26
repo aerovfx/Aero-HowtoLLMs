@@ -17,8 +17,8 @@
 
 ## 📁 Thư mục con
 
-- [**01_advanced-retrievers-for-rag**](01_advanced-retrievers-for-rag/index.md)
-- [**02_build-a-comprehensive-rag-application**](02_build-a-comprehensive-rag-application/index.md)
+[01_advanced-retrievers-for-rag](01_advanced-retrievers-for-rag/index.md)
+[02_build-a-comprehensive-rag-application](02_build-a-comprehensive-rag-application/index.md)
 
 
 ---

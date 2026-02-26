@@ -17,7 +17,7 @@
 
 ## 📁 Thư mục con
 
-- [**Fine-Tuning**](Fine-Tuning/index.md)
+[Fine-Tuning](Fine-Tuning/index.md)
 
 ## 📄 Tài liệu trong mục này
 
