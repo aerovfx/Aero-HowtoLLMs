@@ -1,0 +1,89 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../../index.md) > [01 llm course](../../index.md) > [lecturestanford](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../../index.md)
+- [📚 Module 01: LLM Course](../../../01_llm_course/index.md)
+- [🔢 Module 02: Tokenization](../../../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../../04_buildgpt/index.md)
+- [🎯 Module 07: Fine-tuning](../../../07_fine_tune_pretrained_models/index.md)
+- [🔍 Module 19: AI Safety](../../../19_ai_safety/index.md)
+- [🐍 Module 20: Python for AI](../../../20_python_colab_notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
+# Lecture 9: Recap & Current Trends 🔮
+
+> **Tóm tắt từ khóa học Stanford CME 295: Transformers & Large Language Models.**
+> Bài giảng cuối cùng: Tổng kết lại toàn bộ hành trình và cái nhìn về tương lai của LLM.
+
+---
+
+## 📚 Mục Lục
+1. [Hành trình của chúng ta](#1-hành-trình-của-chúng-ta)
+2. [Các xu hướng hiện tại (2025)](#2-các-xu-hướng-hiện-tại-2025)
+3. [Những thách thức mở (Open Problems)](#3-những-thách-thức-mở-open-problems)
+
+---
+
+## 1. Hành trình của chúng ta
+Khóa học đã đi qua một chặng đường dài từ những khái niệm cơ bản nhất đến những kỹ thuật tối tân nhất:
+1.  **Kiến trúc:** Transformer, Attention, Encoder-Decoder.
+2.  **Training:** Pre-training (Next token prediction), Scaling Laws, Parallelism.
+3.  **Tuning:** SFT, RLHF, PEFT (LoRA).
+4.  **Reasoning:** Chain-of-Thought, GRPO (DeepSeek-R1).
+5.  **Agent:** RAG, Tool Use, ReAct.
+6.  **Evaluation:** LLM-as-a-Judge, Benchmarks.
+
+---
+
+## 2. Các xu hướng hiện tại (2025)
+Thế giới AI đang dịch chuyển rất nhanh:
+*   **Reasoning Models (System 2):** Sự trỗi dậy của các mô hình "biết suy nghĩ" (như o1, DeepSeek-R1) sử dụng Inference-time compute để giải quyết các bài toán khó mà LLM truyền thống bó tay.
+*   **Efficient Inference:** Các kỹ thuật như Quantization (4-bit, 1-bit), Speculative Decoding, KV Cache optimization giúp chạy LLM trên thiết bị cá nhân (Edge AI).
+*   **Multimodal (Đa phương thức):** LLM không chỉ đọc text mà còn nhìn (Vision), nghe (Audio), nói (Speech) một cách tự nhiên (Native Multimodal như GPT-4o, Gemini 1.5).
+*   **Agentic Systems:** Từ Chatbot hỏi-đáp chuyển sang Agent thực thi hành động, tự chủ hoàn thành công việc phức tạp.
+
+---
+
+## 3. Những thách thức mở (Open Problems)
+Dù phát triển mạnh, LLM vẫn còn nhiều vấn đề chưa giải quyết được:
+*   **Reliability (Độ tin cậy):** Làm sao để loại bỏ hoàn toàn Hallucination? Làm sao để tin tưởng vào code do AI viết trong các hệ thống quan trọng?
+*   **Data Wall:** Dữ liệu chất lượng cao trên Internet sắp cạn kiệt. *Giải pháp:* Synthetic Data (Dữ liệu tổng hợp), Self-play.
+*   **Energy Consumption:** Chi phí năng lượng cho Training và Inference quá lớn. Cần các kiến trúc xanh hơn.
+*   **Safety & Alignment:** Đảm bảo AI siêu thông minh vẫn nằm trong tầm kiểm soát và phục vụ lợi ích con người.
+
+---
+*Biên soạn bởi Pixiboss - Dựa trên Stanford CME 295.*
+<!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [CS229: Xây Dựng Mô Hình Ngôn Ngữ Lớn (LLMs) 🧠](aero_llm_00_overview.md) | [Xem bài viết →](aero_llm_00_overview.md) |
+| [Lecture 1: Transformer Architecture 🤖](aero_llm_01_transformer.md) | [Xem bài viết →](aero_llm_01_transformer.md) |
+| [Lecture 2: Transformer Tricks & BERT 🛠️](aero_llm_02_transformer_tricks.md) | [Xem bài viết →](aero_llm_02_transformer_tricks.md) |
+| [Lecture 3: Large Language Models (LLMs) & Inference 🚀](aero_llm_03_large_language_models.md) | [Xem bài viết →](aero_llm_03_large_language_models.md) |
+| [Lecture 4: LLM Training - Pre-training 🏋️](aero_llm_04_training_pretraining.md) | [Xem bài viết →](aero_llm_04_training_pretraining.md) |
+| [Lecture 5: LLM Tuning (SFT & Parameter Efficient) 🎛️](aero_llm_05_tuning_peft.md) | [Xem bài viết →](aero_llm_05_tuning_peft.md) |
+| [Lecture 6: LLM Reasoning 🧠](aero_llm_06_reasoning.md) | [Xem bài viết →](aero_llm_06_reasoning.md) |
+| [Lecture 7: Agentic LLMs & Tool Use 🛠️](aero_llm_07_agentic_llms.md) | [Xem bài viết →](aero_llm_07_agentic_llms.md) |
+| [Lecture 8: LLM Evaluation ⚖️](aero_llm_08_evaluation.md) | [Xem bài viết →](aero_llm_08_evaluation.md) |
+| 📌 **[Lecture 9: Recap & Current Trends 🔮](aero_llm_09_trends.md)** | [Xem bài viết →](aero_llm_09_trends.md) |
+| [🛠️ Top 12 Repo Quan Trọng Cho AI Engineer Tối Ưu LLM](aero_llm_10_essential_tools.md) | [Xem bài viết →](aero_llm_10_essential_tools.md) |
+| [Chương 1: Tổng Quan Về Large Language Models (LLMs) 🧠](aero_llm_chapter01_overview_detailed.md) | [Xem bài viết →](aero_llm_chapter01_overview_detailed.md) |
+| [Chương 2: 5 Trụ Cột Của Việc Huấn Luyện LLMs 🏛️](aero_llm_chapter02_5pillars_part1.md) | [Xem bài viết →](aero_llm_chapter02_5pillars_part1.md) |
+| [Chương 2: 5 Trụ Cột - Part 2 (Evaluation & Systems)](aero_llm_chapter02_5pillars_part2.md) | [Xem bài viết →](aero_llm_chapter02_5pillars_part2.md) |
+| [Chương 3: Pre-training → Post-training Pipeline 🔄](aero_llm_chapter03_training_pipeline.md) | [Xem bài viết →](aero_llm_chapter03_training_pipeline.md) |
+| [Chương 4 & 5: Mechanisms & Evaluation 🔧📊](aero_llm_chapter04_05_mechanisms_eval.md) | [Xem bài viết →](aero_llm_chapter04_05_mechanisms_eval.md) |
+
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

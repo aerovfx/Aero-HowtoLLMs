@@ -1,0 +1,109 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [12 investigating neurons dimensions](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01_llm_course/index.md)
+- [🔢 Module 02: Tokenization](../../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04_buildgpt/index.md)
+- [🎯 Module 07: Fine-tuning](../../07_fine_tune_pretrained_models/index.md)
+- [🔍 Module 19: AI Safety](../../19_ai_safety/index.md)
+- [🐍 Module 20: Python for AI](../../20_python_colab_notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
+# Thử thách Lập trình: Điều chỉnh Phủ định trong Nơ-ron QVK (Attention)
+
+## Tóm tắt (Abstract)
+Báo cáo này mở rộng nghiên cứu về cơ chế phủ định từ các nơ-ron MLP sang các đơn vị trong lớp Attention (Query, Key, Value - QVK). Sử dụng cùng một bộ dữ liệu từ Philip K. Dick và phương pháp Hồi quy Logistic, chúng ta so sánh hành vi của các thành phần Attention với các phát hiện trước đó về MLP. Nghiên cứu triển khai kỹ thuật tách ma trận (tensor splitting) để phân tích độc lập ba kênh Q, K, V. Kết quả xác nhận tính phân tán (distributed) của biểu diễn logic phủ định trong toàn bộ kiến trúc mô hình, đồng thời củng cố quan sát về sự suy giảm tín hiệu "hiện tại" tại các tầng sâu của mạng Transformer.
+
+---
+
+## 1. Thiết lập Thực nghiệm và Hooking Attention
+
+### 1.1. Chuyển đổi Đối tượng Nghiên cứu
+Thay vì tập trung vào lớp mở rộng của MLP (`mlp.c_fc`), nghiên cứu chuyển hướng sang lớp tuyến tính của attention (`attn.c_attn`). Trong kiến trúc GPT-2 của OpenAI, các vector Query, Key và Value được tạo ra đồng thời và nối tiếp nhau trong một ma trận rộng.
+- **Kích thước:** Trong GPT-2 Large ($d=1280$), lớp này có kích thước $3 \times 1280 = 3840$ đơn vị.
+- **Vị trí trích xuất:** Chúng ta thu thập hoạt hóa **trước** khi chúng được đưa vào phương trình tính toán Attention Score (Pre-attention activations).
+
+### 1.2. Tái sử dụng Tài nguyên Dữ liệu
+Toàn bộ quy trình lọc token phủ định (*not, won't*) và khẳng định (*can, may*) từ các bài thực hành trước được giữ nguyên. Điều này đảm bảo tính khách quan khi so sánh hiệu năng giữa khối MLP và khối Attention trên cùng một ngữ cảnh ngôn ngữ.
+
+---
+
+## 2. Kỹ thuật Phân tích Đa kênh (Exercise 2)
+
+### 2.1. Hồi quy Logistic trên Ma trận Hợp nhất
+Hồi quy được thực hiện trên toàn bộ 3840 đơn vị QVK cùng một lúc. Điều này giúp tối ưu hóa khối lượng tính toán trước khi đi sâu vào chi tiết từng loại vector.
+
+### 2.2. Kỹ thuật Tách Tensor (Tensor Splitting)
+Để trực quan hóa sự khác biệt giữa Query, Key và Value, chúng ta cần tách ma trận kết quả:
+- **Thách thức:** Các thư viện như NumPy không hỗ trợ trực tiếp hàm tách theo kích thước linh hoạt như PyTorch.
+- **Giải pháp:** Chuyển đổi dữ liệu (bao gồm cả các Masked Arrays) sang `torch.tensor` và sử dụng phương thức `.split(n_embed, dim=1)`. Kỹ thuật này cho phép chúng ta cô lập các chỉ số thống kê ($\beta, p$, Accuracy) cho riêng từng thành phần Q, K, V một cách chính xác.
+
+---
+
+## 3. Kết Quả Quan Sát và Đối chiếu
+
+### 3.1. Sự tương đồng với MLP
+Xu hướng xuyên tầng của các đơn vị QVK phản chiếu gần như hoàn hảo những gì đã quan sát ở MLP:
+- **Tỷ lệ nơ-ron "nhạy cảm":** Giảm từ ~70% ở các tầng đầu xuống dưới 30% ở các tầng cuối.
+- **Độ chính xác:** Giảm từ mức 75% xuống gần mức ngẫu nhiên (50-60%) khi tiến về phía Output layer.
+
+### 3.2. Hiệu năng của các đơn vị Q, K, V
+Thực nghiệm cho thấy cả ba loại vector (Q, K, V) đều tham gia vào việc mã hóa sự phủ định, nhưng với các quy mô hiệu ứng khác nhau. Việc độ chính xác giảm mạnh ở các tầng cuối trong Attention sublayer càng củng cố giả thuyết rằng mô hình đang ưu tiên tích hợp thông tin liên ngữ cảnh (inter-token) để dự đoán từ tiếp theo hơn là duy trì đặc tính ngữ pháp của từ hiện tại.
+
+---
+
+## 4. Thảo luận và Kết luận
+
+### 4.1. Bản chất Phân tán của LLM
+Một kết luận quan trọng rút ra từ chuỗi thử thách này là: Các đặc tính chức năng (như nhận diện phủ định) được phân bổ một cách định lượng (quantitative) thay vì định tính (qualitative). Không có sự phân chia module tuyệt đối; thay vào đó, thông tin về phủ định "thấm" qua cả MLP và Attention, giảm dần theo chiều sâu nhưng không bao giờ biến mất hoàn toàn.
+
+### 4.2. Bài học về Lập trình Khoa học
+Việc dành thời gian để viết và hiểu từng dòng mã nguồn, thay vì phụ thuộc vào các công cụ AI tạo mã, là khoản đầu tư cần thiết để nắm bắt được các sắc thái tinh tế trong dữ liệu. Sự hiểu biết về kiểu dữ liệu (Data types) và các phép biến đổi Tensor là nền tảng để tin tưởng vào kết quả nghiên cứu trong tương lai.
+
+---
+
+## Tài liệu tham khảo (Citations)
+1. Thử thách Negation tuning trên nơ-ron QVK dựa trên `aero_LLM_23_CodeChallenge Negation tuning in QVK neurons.md`. Sử dụng `torch.split` để phân tích đa kênh và so sánh tính phân tán với MLP.
+<!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [📂 Module: 12-Investigating-neurons-dimensions](README.md) | [Xem bài viết →](README.md) |
+| [Cực đại hóa Hoạt hóa (Activation Maximization): Cơ sở Lý thuyết và Những thách thức trong LLM](aero_llm_01_activation_maximization_via_gradient_ascent_theory_.md) | [Xem bài viết →](aero_llm_01_activation_maximization_via_gradient_ascent_theory_.md) |
+| [Triển khai Cực đại hóa Hoạt hóa: Từ Gradient Ascent đến Giải mã Token (Activation Maximization Implementation)](aero_llm_02_activation_maximization_code_.md) | [Xem bài viết →](aero_llm_02_activation_maximization_code_.md) |
+| [Cực đại hóa Hoạt hóa qua Lấy mẫu Dữ liệu (Activation Maximization via Data Sampling)](aero_llm_03_activation_maximization_via_data_sampling.md) | [Xem bài viết →](aero_llm_03_activation_maximization_via_data_sampling.md) |
+| [Thử thách Lập trình: Kiểm chứng Tính lặp lại của Cực đại hóa Hoạt hóa (Reproducibility of Activation Maximization)](aero_llm_04_codechallenge_reproducibility_of_activation_maximization.md) | [Xem bài viết →](aero_llm_04_codechallenge_reproducibility_of_activation_maximization.md) |
+| [Giải phẫu Nội tại Mô hình bằng Hooks: Kỹ thuật Trích xuất Hoạt hóa (Extracting Activations via Hooks)](aero_llm_05_extracting_activations_using_hooks.md) | [Xem bài viết →](aero_llm_05_extracting_activations_using_hooks.md) |
+| [Mối tương quan giữa Hooks và Hidden States: Giải cấu trúc Khối Transformer (Reconstructing Transformer Blocks)](aero_llm_06_relation_between_hooks_and_output_hidden_states.md) | [Xem bài viết →](aero_llm_06_relation_between_hooks_and_output_hidden_states.md) |
+| [Làm rõ về Hidden States Tầng cuối: Vai trò của LayerNorm (Clarification of Final Hidden States)](aero_llm_07_clarification_of_final_hidden_states_output.md) | [Xem bài viết →](aero_llm_07_clarification_of_final_hidden_states_output.md) |
+| [Thử thách Lập trình: Tính Chọn lọc Ngữ pháp của Nơ-ron MLP (Phần 1)](aero_llm_08_codechallenge_grammar_tuning_in_mlp_neurons_part_1_.md) | [Xem bài viết →](aero_llm_08_codechallenge_grammar_tuning_in_mlp_neurons_part_1_.md) |
+| [Thử thách Lập trình: Tính Chọn lọc Ngữ pháp của Nơ-ron MLP (Phần 2)](aero_llm_09_codechallenge_grammar_tuning_in_mlp_neurons_part_2_.md) | [Xem bài viết →](aero_llm_09_codechallenge_grammar_tuning_in_mlp_neurons_part_2_.md) |
+| [Thử thách Lập trình: Sự Điều chế Ngữ cảnh trong Hoạt hóa MLP (Context-modulated Activation)](aero_llm_10_codechallenge_context_modulated_activation_in_mlp.md) | [Xem bài viết →](aero_llm_10_codechallenge_context_modulated_activation_in_mlp.md) |
+| [Thử thách Lập trình: Độ dài Token và Đặc tính Hoạt hóa (Phần 1)](aero_llm_11_codechallenge_activation_histograms_by_token_length_part_1_.md) | [Xem bài viết →](aero_llm_11_codechallenge_activation_histograms_by_token_length_part_1_.md) |
+| [Thử thách Lập trình: Độ dài Token và Đặc tính Hoạt hóa (Phần 2)](aero_llm_12_codechallenge_activation_histograms_by_token_length_part_2_.md) | [Xem bài viết →](aero_llm_12_codechallenge_activation_histograms_by_token_length_part_2_.md) |
+| [Thử thách Lập trình: Độ dài Token và Đặc tính Hoạt hóa (Phần 3)](aero_llm_13_codechallenge_activation_histograms_by_token_length_part_3_.md) | [Xem bài viết →](aero_llm_13_codechallenge_activation_histograms_by_token_length_part_3_.md) |
+| [Xử lý Biểu diễn Nơ-ron cho các Từ đa Token (Multi-token Words)](aero_llm_14_dealing_with_multitoken_word_embeddings.md) | [Xem bài viết →](aero_llm_14_dealing_with_multitoken_word_embeddings.md) |
+| [Thử thách Lập trình: Hình chiếu MLP Điều chỉnh theo Danh mục (Phần 1)](aero_llm_15_codechallenge_category_tuned_mlp_projections_part_1_.md) | [Xem bài viết →](aero_llm_15_codechallenge_category_tuned_mlp_projections_part_1_.md) |
+| [Thử thách Lập trình: Hình chiếu MLP Điều chỉnh theo Danh mục (Phần 2)](aero_llm_16_codechallenge_category_tuned_mlp_projections_part_2_.md) | [Xem bài viết →](aero_llm_16_codechallenge_category_tuned_mlp_projections_part_2_.md) |
+| [Hồi quy Logistic: Lý thuyết và Triển khai Phân loại Nơ-ron](aero_llm_17_classification_via_logistic_regression_theory_and_code.md) | [Xem bài viết →](aero_llm_17_classification_via_logistic_regression_theory_and_code.md) |
+| [Đối chiếu Hồi quy Logistic và Kiểm định T-test: Giả định và Ứng dụng](aero_llm_18_logistic_regression_vs_t_test_assumptions_and_applications.md) | [Xem bài viết →](aero_llm_18_logistic_regression_vs_t_test_assumptions_and_applications.md) |
+| [Điều chỉnh Danh từ riêng trong GPT-2 Medium](aero_llm_19_proper_noun_tuning_in_gpt2_medium.md) | [Xem bài viết →](aero_llm_19_proper_noun_tuning_in_gpt2_medium.md) |
+| [Thử thách Lập trình: Điều chỉnh Phủ định trong Nơ-ron MLP (Phần 1)](aero_llm_20_codechallenge_negation_tuning_in_mlp_neurons_part_1_.md) | [Xem bài viết →](aero_llm_20_codechallenge_negation_tuning_in_mlp_neurons_part_1_.md) |
+| [Thử thách Lập trình: Điều chỉnh Phủ định trong Nơ-ron MLP (Phần 2)](aero_llm_21_codechallenge_negation_tuning_in_mlp_neurons_part_2_.md) | [Xem bài viết →](aero_llm_21_codechallenge_negation_tuning_in_mlp_neurons_part_2_.md) |
+| [Thử thách Lập trình: Điều chỉnh Phủ định trong Nơ-ron MLP (Phần 3)](aero_llm_22_codechallenge_negation_tuning_in_mlp_neurons_part_3_.md) | [Xem bài viết →](aero_llm_22_codechallenge_negation_tuning_in_mlp_neurons_part_3_.md) |
+| 📌 **[Thử thách Lập trình: Điều chỉnh Phủ định trong Nơ-ron QVK (Attention)](aero_llm_23_codechallenge_negation_tuning_in_qvk_neurons.md)** | [Xem bài viết →](aero_llm_23_codechallenge_negation_tuning_in_qvk_neurons.md) |
+
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

@@ -1,40 +1,49 @@
 import os
 import re
+import urllib.parse
 
 def get_title_from_md(filepath):
-    """Extracts the first H1 title from a markdown file."""
+    """Extracts the first H1 title from a markdown file and cleans it."""
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             for line in f:
                 match = re.search(r'^#\s+(.*)', line)
                 if match:
-                    return match.group(1).strip()
+                    title = match.group(1).strip()
+                    # Remove markdown links: [text](url) -> text
+                    title = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', title)
+                    # Remove emphasis
+                    title = title.replace('**', '').replace('__', '')
+                    return title
     except Exception:
         pass
-    return os.path.basename(filepath)
+    # Fallback to filename
+    basename = os.path.basename(filepath)
+    name = os.path.splitext(basename)[0]
+    # Remove numbering if present
+    name = re.sub(r'^\d+-', '', name)
+    return name.replace('_', ' ').replace('-', ' ').strip()
+
+def safe_link(path):
+    """Encodes spaces and special characters in links."""
+    return urllib.parse.quote(path)
 
 def generate_breadcrumb(rel_path, is_file=False):
     if rel_path == ".":
         return "**Home**"
     
     parts = rel_path.split(os.sep)
-    # Root Home link pointing to the main index.md
     depth = len(parts)
-    # File is one level deeper than its base directory
     steps_to_root = depth + (1 if is_file else 0)
     home_link = "../" * steps_to_root + "index.md"
-    breadcrumb = [f"[🏠 Home]({home_link})"]
+    breadcrumb = [f"[🏠 Home]({safe_link(home_link)})"]
 
     for i, part in enumerate(parts):
-        # Calculate how many levels to go back to reach this part's index.md
-        # Part i depth relative to root: i + 1
         steps_back = depth - (i + 1)
         if is_file:
             steps_back += 1
         
         link = "../" * steps_back + "index.md"
-        
-        # Clean up the part name for display (e.g. remove numbering)
         display_name = part.replace("_", " ").replace("-", " ")
         match = re.match(r'^\d+-(.*)', display_name)
         if match:
@@ -43,20 +52,20 @@ def generate_breadcrumb(rel_path, is_file=False):
         if i == len(parts) - 1 and not is_file:
             breadcrumb.append(f"**{display_name}**")
         else:
-            breadcrumb.append(f"[{display_name}]({link})")
+            breadcrumb.append(f"[{display_name}]({safe_link(link)})")
             
     return " > ".join(breadcrumb)
 
 def generate_sidebar(depth):
     prefix = "../" * depth
     sidebar = ["### 🧭 Điều hướng nhanh\n"]
-    sidebar.append(f"- [🏠 Cổng tài liệu]({prefix}index.md)")
-    sidebar.append(f"- [📚 Module 01: LLM Course]({prefix}01-LLM_Course/index.md)")
-    sidebar.append(f"- [🔢 Module 02: Tokenization]({prefix}02-Words-to-tokens-to-numbers/index.md)")
-    sidebar.append(f"- [🏗️ Module 04: Build GPT]({prefix}04-buildGPT/index.md)")
-    sidebar.append(f"- [🎯 Module 07: Fine-tuning]({prefix}07-Fine-tune-pretrained-models/index.md)")
-    sidebar.append(f"- [🔍 Module 19: AI Safety]({prefix}19-AI-safety/index.md)")
-    sidebar.append(f"- [🐍 Module 20: Python for AI]({prefix}20-Python-Colab-notebooks/index.md)")
+    sidebar.append(f"- [🏠 Cổng tài liệu]({safe_link(prefix + 'index.md')})")
+    sidebar.append(f"- [📚 Module 01: LLM Course]({safe_link(prefix + '01_llm_course/index.md')})")
+    sidebar.append(f"- [🔢 Module 02: Tokenization]({safe_link(prefix + '02_words_to_tokens_to_numbers/index.md')})")
+    sidebar.append(f"- [🏗️ Module 04: Build GPT]({safe_link(prefix + '04_buildgpt/index.md')})")
+    sidebar.append(f"- [🎯 Module 07: Fine-tuning]({safe_link(prefix + '07_fine_tune_pretrained_models/index.md')})")
+    sidebar.append(f"- [🔍 Module 19: AI Safety]({safe_link(prefix + '19_ai_safety/index.md')})")
+    sidebar.append(f"- [🐍 Module 20: Python for AI]({safe_link(prefix + '20_python_colab_notebooks/index.md')})")
     return "\n".join(sidebar)
 
 def process_all_markdowns(base_dir):
@@ -69,57 +78,48 @@ def process_all_markdowns(base_dir):
         depth = 0 if rel_path == "." else rel_path.count(os.sep) + 1
         
         subfolders = sorted([d for d in dirs if not d.startswith('.') and not d.startswith('_')])
-        md_files = [f for f in files if f.endswith('.md')] # Process ALL md files
-        # Filter files for sibling listing (exclude the index itself)
+        md_files = [f for f in files if f.endswith('.md')]
         list_files = sorted([f for f in md_files if f.lower() != 'index.md'])
 
-        # 1. Generate/Update index.md for this folder
         generate_folder_index(root, rel_path, depth, subfolders, md_files)
 
-        # 2. Process every markdown file in this folder
         for md in md_files:
             if md.lower() == 'index.md': continue
             file_path = os.path.join(root, md)
             update_article_navigation(file_path, rel_path, depth, md.lower() == 'readme.md', list_files=list_files, current_dir=root)
 
 def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme, list_files=None, current_dir=None):
-    # For a file, the effective depth for links is dir_depth + 1
     depth = dir_depth if is_readme else dir_depth + 1
     
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Check if already processed and strip existing tags
         if "<!-- Aero-Navigation-Start -->" in content:
             content = re.sub(r"<!-- Aero-Navigation-Start -->.*?<!-- Aero-Navigation-End -->", "", content, flags=re.DOTALL).strip()
             content = re.sub(r"<!-- Aero-Footer-Start -->.*?<!-- Aero-Footer-End -->", "", content, flags=re.DOTALL).strip()
 
-        # Generate Navigation Header
         header = ["\n<!-- Aero-Navigation-Start -->\n"]
         header.append(f"{generate_breadcrumb(rel_dir_path, not is_readme)}\n")
         header.append("\n---\n")
         header.append(generate_sidebar(depth))
         header.append("\n---\n<!-- Aero-Navigation-End -->\n")
 
-        # Generate Sibling Navigation Table (if any)
         sibling_table = ""
         if list_files and len(list_files) > 1:
             sibling_table = ["\n## 📄 Tài liệu cùng chuyên mục\n"]
             sibling_table.append("| Bài học | Liên kết |\n")
             sibling_table.append("| :--- | :--- |\n")
             for sibling in list_files:
-                # Highlight current file
                 is_current = sibling == os.path.basename(file_path)
                 prefix = "📌 **" if is_current else ""
                 suffix = "**" if is_current else ""
                 
                 title = get_title_from_md(os.path.join(current_dir, sibling))
-                sibling_table.append(f"| {prefix}[{title}]({sibling}){suffix} | [Xem bài viết →]({sibling}) |\n")
+                sibling_table.append(f"| {prefix}[{title}]({safe_link(sibling)}){suffix} | [Xem bài viết →]({safe_link(sibling)}) |\n")
             sibling_table.append("\n")
             sibling_table = "".join(sibling_table)
 
-        # Generate Footer
         footer = ["\n<!-- Aero-Footer-Start -->\n"]
         if sibling_table:
             footer.append(sibling_table)
@@ -128,7 +128,6 @@ def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme, lis
         footer.append(f"> *\"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!\"* 🚀\n")
         footer.append(f"\n*Cập nhật tự động bởi Aero-Indexer - 2026*\n<!-- Aero-Footer-End -->\n")
 
-        # Combine: Header + Content + Footer
         new_content = "".join(header) + content + "".join(footer)
         
         with open(file_path, 'w', encoding='utf-8') as f:
@@ -137,10 +136,7 @@ def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme, lis
         print(f"Error processing {file_path}: {e}")
 
 def generate_folder_index(root, rel_path, depth, subfolders, md_files):
-    # Filter files for listing (exclude the index itself)
-    list_files = [f for f in md_files if f.lower() != 'index.md']
-    list_files.sort()
-
+    list_files = sorted([f for f in md_files if f.lower() != 'index.md'])
     folder_name = os.path.basename(root)
     index_content = ["<!-- Aero-Navigation-Start -->\n"]
     
@@ -167,7 +163,7 @@ def generate_folder_index(root, rel_path, depth, subfolders, md_files):
             match = re.match(r'^\d+-(.*)', display_name)
             if match:
                 display_name = match.group(1).strip()
-            index_content.append(f"| **{display_name}** | [Mở thư mục →]({sub}/index.md) |\n")
+            index_content.append(f"| **{display_name}** | [Mở thư mục →]({safe_link(sub + '/index.md')}) |\n")
         index_content.append("\n")
 
     if list_files:
@@ -176,11 +172,9 @@ def generate_folder_index(root, rel_path, depth, subfolders, md_files):
         index_content.append("| :--- | :--- |\n")
         for md in list_files:
             title = get_title_from_md(os.path.join(root, md))
-            # Make the title itself a link as well for better UX
-            index_content.append(f"| [{title}]({md}) | [Xem bài viết →]({md}) |\n")
+            index_content.append(f"| [{title}]({safe_link(md)}) | [Xem bài viết →]({safe_link(md)}) |\n")
         index_content.append("\n")
 
-    # Footer
     index_content.append(f"<!-- Aero-Footer-Start -->\n---\n")
     index_content.append(f"## 🤝 Liên hệ & Đóng góp\n")
     index_content.append(f"Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.\n\n")

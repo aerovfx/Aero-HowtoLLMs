@@ -1,0 +1,46 @@
+<!-- Aero-Navigation-Start -->
+# 📂 Module: fine_tuning
+> **Tài liệu chuyên sâu và bài tập thuộc phần fine_tuning.**
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
+
+[🏠 Home](../../index.md) > [07 fine tune pretrained models](../index.md) > **fine tuning**
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01_llm_course/index.md)
+- [🔢 Module 02: Tokenization](../../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04_buildgpt/index.md)
+- [🎯 Module 07: Fine-tuning](../../07_fine_tune_pretrained_models/index.md)
+- [🔍 Module 19: AI Safety](../../19_ai_safety/index.md)
+- [🐍 Module 20: Python for AI](../../20_python_colab_notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
+## 📁 Thư mục con
+| Thư mục | Liên kết |
+| :--- | :--- |
+| **01 introduction** | [Mở thư mục →](01_introduction/index.md) |
+| **02 1. introduction to large language models llms** | [Mở thư mục →](02_1._introduction_to_large_language_models_llms/index.md) |
+| **03 2. utilizing llms with prompt engineering** | [Mở thư mục →](03_2._utilizing_llms_with_prompt_engineering/index.md) |
+| **04 3. transfer learning for nlp tasks** | [Mở thư mục →](04_3._transfer_learning_for_nlp_tasks/index.md) |
+| **05 4. peft fine tuning with lora** | [Mở thư mục →](05_4._peft_fine_tuning_with_lora/index.md) |
+| **06 5. project creating a full nlp solution** | [Mở thư mục →](06_5._project_creating_a_full_nlp_solution/index.md) |
+| **07 conclusion** | [Mở thư mục →](07_conclusion/index.md) |
+| **ex files fine tuning for llms** | [Mở thư mục →](ex_files_fine_tuning_for_llms/index.md) |
+
+## 📄 Tài liệu chi tiết
+| Bài học | Liên kết |
+| :--- | :--- |
+| [Nghiên Cứu Về Fine-Tuning Large Language Models: Từ Transformer Đến LoRA](fine_tuning_scientific_article.md) | [Xem bài viết →](fine_tuning_scientific_article.md) |
+| [Tài liệu tham khảo](references.md) | [Xem bài viết →](references.md) |
+
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->
