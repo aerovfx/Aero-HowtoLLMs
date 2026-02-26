@@ -130,7 +130,11 @@ Attention được tính:
 
 $$
 \text{Attention}(Q,K,V)
-=======================
+$$
+
+## 4.1. Tính toán attention
+
+$$
 \text{softmax}
 \left(
 \frac{QK^T}{\sqrt{d_k}}
