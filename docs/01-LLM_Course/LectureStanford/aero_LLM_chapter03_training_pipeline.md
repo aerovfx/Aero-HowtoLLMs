@@ -85,4 +85,4 @@ ChatGPT ✅
 
 ---
 
-**Next:** [Chương 4: Autoregressive & Tokenization →](./aero_LLM_chapter04_mechanisms.md)
+**Next:** [Chương 4: Autoregressive & Tokenization →](./aero_LLM_chapter04_05_mechanisms_eval.md)

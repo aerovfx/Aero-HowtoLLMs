@@ -6,17 +6,17 @@
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 
-[Home](../README.md) > **07-Fine-tune-pretrained-models**
+[Home](../index.md) > **07-Fine-tune-pretrained-models**
 
 ---
 
 ### 🧭 Quick Navigation
 
-- [🏠 Cổng tài liệu](../README.md)
+- [🏠 Cổng tài liệu](../index.md)
 - [📚 Module 01: LLM Course](../01-LLM_Course/index.md)
 - [🔢 Module 02: Tokenization](../02-Words-to-tokens-to-numbers/index.md)
 - [🏗️ Module 04: Build GPT](../04-buildGPT/index.md)
-- [🎯 Module 07: Fine-tuning](../07-Fine-tune-pretrained-models/index.md)
+- [🎯 Module 07: Fine-tuning](index.md)
 - [🔍 Module 19: AI Safety](../19-AI-safety/index.md)
 
 ---
@@ -30,7 +30,7 @@
 
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📂 Module: 07-Fine-tune-pretrained-models | [Xem bài viết →](README.md) |
+| 📂 Module: 07-Fine-tune-pretrained-models | [Xem bài viết →](index.md) |
 | Fine-tuning Có Mục Tiêu và Đóng Băng Chính Xác Trọng Số Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_010_CodeChallenge Fine-tuning and targeted freezing (part 1).md) |
 | Phân Tích Hiệu Quả Fine-tuning và Targeted Freezing (Phần 2): Đánh Giá Bằng Trực Quan Hóa và Chuẩn Ma Trận | [Xem bài viết →](aero_LLM_011_CodeChallenge Fine-tuning and targeted freezing (part 2).md) |
 | Fine-tuning Hiệu Quả Tham Số (Parameter-Efficient Fine-Tuning – PEFT) Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_012_Parameter-efficient fine-tuning (PEFT).md) |

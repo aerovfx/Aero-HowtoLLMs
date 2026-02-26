@@ -13,18 +13,25 @@ def get_title_from_md(filepath):
         pass
     return os.path.basename(filepath)
 
-def generate_breadcrumb(rel_path):
+def generate_breadcrumb(rel_path, is_file=False):
     if rel_path == ".":
         return "**Home**"
     
     parts = rel_path.split(os.sep)
-    breadcrumb = ["[Home](../README.md)"]
+    breadcrumb = ["[Home](../" * len(parts) + "README.md)" if is_file else "[Home](../" * (len(parts)-1) + "README.md)"]
     
+    # Recalculate Home link based on depth
+    depth = len(parts)
+    home_link = "../" * depth + "README.md"
+    breadcrumb = [f"[Home]({home_link})"]
+
     for i, part in enumerate(parts):
         depth_back = len(parts) - (i + 1)
-        link = "../" * depth_back + "index.md" if depth_back > 0 else "index.md"
+        # If it's a file, we are one level deeper than its directory
+        actual_depth_back = depth_back + (1 if is_file else 0)
+        link = "../" * actual_depth_back + "index.md"
         
-        if i == len(parts) - 1:
+        if i == len(parts) - 1 and not is_file:
             breadcrumb.append(f"**{part}**")
         else:
             breadcrumb.append(f"[{part}]({link})")
@@ -42,139 +49,116 @@ def generate_sidebar(depth):
     sidebar.append(f"- [🔍 Module 19: AI Safety]({prefix}19-AI-safety/index.md)")
     return "\n".join(sidebar)
 
-def generate_indexes(base_dir):
+def process_all_markdowns(base_dir):
     docs_dir = os.path.join(base_dir, 'docs')
     if not os.path.exists(docs_dir):
-        print(f"Directory {docs_dir} not found.")
         return
 
     for root, dirs, files in os.walk(docs_dir):
         rel_path = os.path.relpath(root, docs_dir)
         depth = 0 if rel_path == "." else rel_path.count(os.sep) + 1
         
-        # Filter markdown files
-        # Include README.md in the listing if we are not overwriting it
-        md_files = [f for f in files if f.endswith('.md') and f.lower() not in ['index.md']]
-        md_files.sort()
-        
-        # Subdirectories
         subfolders = sorted([d for d in dirs if not d.startswith('.') and not d.startswith('_')])
+        md_files = [f for f in files if f.endswith('.md')] # Process ALL md files
+
+        # 1. Generate/Update index.md for this folder
+        generate_folder_index(root, rel_path, depth, subfolders, md_files)
+
+        # 2. Process every markdown file in this folder
+        for md in md_files:
+            if md.lower() == 'index.md': continue
+            # We treat README.md specially in generate_folder_index, but let's ensure consistency
+            file_path = os.path.join(root, md)
+            update_article_navigation(file_path, rel_path, depth, md.lower() == 'readme.md')
+
+def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme):
+    # For a file, the effective depth for links is dir_depth + 1
+    depth = dir_depth if is_readme else dir_depth + 1
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Check if already processed
+        if "<!-- Aero-Navigation-Start -->" in content:
+            # Strip existing navigation to refresh it
+            content = re.sub(r"<!-- Aero-Navigation-Start -->.*?<!-- Aero-Navigation-End -->", "", content, flags=re.DOTALL).strip()
+            content = re.sub(r"<!-- Aero-Footer-Start -->.*?<!-- Aero-Footer-End -->", "", content, flags=re.DOTALL).strip()
+
+        # Generate Navigation Header
+        header = ["\n<!-- Aero-Navigation-Start -->\n"]
+        header.append(f"{generate_breadcrumb(rel_dir_path, not is_readme)}\n")
+        header.append("\n---\n")
+        header.append(generate_sidebar(depth))
+        header.append("\n---\n<!-- Aero-Navigation-End -->\n")
         
-        if not md_files and not subfolders and rel_path != ".":
-            continue
+        # Generate Footer
+        footer = ["\n<!-- Aero-Footer-Start -->\n---\n"]
+        footer.append(f"## 🤝 Liên hệ & Đóng góp\n")
+        footer.append(f"Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.\n\n")
+        footer.append(f"> *\"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!\"* 🚀\n")
+        footer.append(f"\n*Cập nhật tự động bởi Aero-Indexer - 2026*\n<!-- Aero-Footer-End -->\n")
 
-        index_content = []
-        folder_name = os.path.basename(root)
+        # Combine: Header + Content + Footer
+        # We don't want to double titles if it's already there
+        new_content = "".join(header) + content + "".join(footer)
         
-        # --- HEADER ---
-        if folder_name == 'docs':
-            index_content.append(f"# 🚀 Master Index: Aero-HowtoLLMs\n")
-            index_content.append(f"> **Danh mục tổng hợp toàn bộ lộ trình và tài liệu nghiên cứu LLM.**\n")
-        else:
-            index_content.append(f"# 📂 Module: {folder_name}\n")
-            index_content.append(f"> **Tài liệu chuyên sâu và bài tập thuộc phần {folder_name}.**\n")
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+    except Exception as e:
+        print(f"Error processing {file_path}: {e}")
 
-        # --- BADGES ---
-        index_content.append(f"[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() ")
-        index_content.append(f"[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()\n")
+def generate_folder_index(root, rel_path, depth, subfolders, md_files):
+    # Filter files for listing (exclude the index itself)
+    list_files = [f for f in md_files if f.lower() != 'index.md']
+    list_files.sort()
 
-        # --- NAVIGATION ---
-        index_content.append(f"\n{generate_breadcrumb(rel_path)}")
-        index_content.append("\n---\n")
+    folder_name = os.path.basename(root)
+    index_content = ["<!-- Aero-Navigation-Start -->\n"]
+    
+    if folder_name == 'docs':
+        index_content.append(f"# 🚀 Master Index: Aero-HowtoLLMs\n")
+        index_content.append(f"> **Danh mục tổng hợp toàn bộ lộ trình và tài liệu nghiên cứu LLM.**\n")
+    else:
+        index_content.append(f"# 📂 Module: {folder_name}\n")
+        index_content.append(f"> **Tài liệu chuyên sâu và bài tập thuộc phần {folder_name}.**\n")
 
-        # --- SIDEBAR & CONTENT ---
-        index_content.append(generate_sidebar(depth))
-        index_content.append("\n---\n")
+    index_content.append(f"[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() ")
+    index_content.append(f"[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()\n")
+    index_content.append(f"\n{generate_breadcrumb(rel_path, False)}\n")
+    index_content.append("\n---\n")
+    index_content.append(generate_sidebar(depth))
+    index_content.append("\n---\n<!-- Aero-Navigation-End -->\n")
 
-        if subfolders:
-            index_content.append(f"## 📁 Thư mục con\n")
-            for sub in subfolders:
-                index_content.append(f"[{sub}]({sub}/index.md)")
-            index_content.append("\n")
+    if subfolders:
+        index_content.append(f"## 📁 Thư mục con\n")
+        for sub in subfolders:
+            index_content.append(f"[{sub}]({sub}/index.md)\n")
+        index_content.append("\n")
 
-        if md_files:
-            index_content.append(f"## 📄 Tài liệu chi tiết\n")
-            index_content.append("| Bài học | Liên kết |")
-            index_content.append("| :--- | :--- |")
-            for md in md_files:
-                title = get_title_from_md(os.path.join(root, md))
-                index_content.append(f"| {title} | [Xem bài viết →]({md}) |")
-            index_content.append("\n")
-        
-        # --- FOOTER ---
-        index_content.append(f"---\n")
-        index_content.append(f"## 🤝 Liên hệ & Đóng góp\n")
-        index_content.append(f"Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.\n\n")
-        index_content.append(f"> *\"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!\"* 🚀\n")
-        index_content.append(f"\n*Cập nhật tự động bởi Aero-Indexer - 2026*")
+    if list_files:
+        index_content.append(f"## 📄 Tài liệu chi tiết\n")
+        index_content.append("| Bài học | Liên kết |\n")
+        index_content.append("| :--- | :--- |\n")
+        for md in list_files:
+            title = get_title_from_md(os.path.join(root, md))
+            index_content.append(f"| {title} | [Xem bài viết →]({md}) |\n")
+        index_content.append("\n")
 
-        full_content = '\n'.join(index_content)
-        
-        # Write to index.md
-        index_path = os.path.join(root, 'index.md')
-        with open(index_path, 'w', encoding='utf-8') as f:
-            f.write(full_content)
-        
-        # Smart update for README.md: Inject styles but keep unique content
-        readme_path = os.path.join(root, 'README.md')
-        if os.path.exists(readme_path) and rel_path != ".":
-            try:
-                with open(readme_path, 'r', encoding='utf-8') as f:
-                    orig_lines = f.readlines()
-                
-                # Check if it was already updated (look for the indexer footer)
-                if any("Aero-Indexer" in line for line in orig_lines):
-                    # It's already our style or was overwritten
-                    with open(readme_path, 'w', encoding='utf-8') as f:
-                        f.write(full_content)
-                else:
-                    # It's an original README. Prepend header and append footer
-                    header = []
-                    header.append(f"# 📂 Module: {folder_name}\n")
-                    header.append(f"[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() ")
-                    header.append(f"[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()\n")
-                    header.append(f"\n{generate_breadcrumb(rel_path)}\n")
-                    header.append("\n---\n")
-                    header.append(generate_sidebar(depth))
-                    header.append("\n---\n")
-                    
-                    footer = []
-                    footer.append(f"\n---\n")
-                    footer.append(f"## 🤝 Liên hệ & Đóng góp\n")
-                    footer.append(f"Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.\n\n")
-                    footer.append(f"> *\"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!\"* 🚀\n")
-                    footer.append(f"\n*Cập nhật tự động bởi Aero-Indexer - 2026*")
-                    
-                    # Lessons Table (to be injected if not present)
-                    lessons_table = []
-                    if md_files:
-                        lessons_table.append(f"## 📄 Tài liệu chi tiết (Bổ sung)\n")
-                        lessons_table.append("| Bài học | Liên kết |")
-                        lessons_table.append("| :--- | :--- |")
-                        for md in md_files:
-                            title = get_title_from_md(os.path.join(root, md))
-                            lessons_table.append(f"| {title} | [Xem bài viết →]({md}) |")
-                        lessons_table.append("\n")
+    # Footer
+    index_content.append(f"<!-- Aero-Footer-Start -->\n---\n")
+    index_content.append(f"## 🤝 Liên hệ & Đóng góp\n")
+    index_content.append(f"Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.\n\n")
+    index_content.append(f"> *\"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!\"* 🚀\n")
+    index_content.append(f"\n*Cập nhật tự động bởi Aero-Indexer - 2026*\n<!-- Aero-Footer-End -->")
 
-                    # Construct new content: Header + Original + Lessons + Footer
-                    new_readme = header
-                    h1_found = False
-                    for line in orig_lines:
-                        if line.startswith('# ') and not h1_found:
-                            h1_found = True
-                            continue # Skip the first H1 as we added our own
-                        new_readme.append(line)
-                    
-                    new_readme.extend(lessons_table)
-                    new_readme.extend(footer)
-                    
-                    with open(readme_path, 'w', encoding='utf-8') as f:
-                        f.writelines(new_readme)
-            except Exception as e:
-                print(f"Error updating {readme_path}: {e}")
-            
-        print(f"Index created & Readme enhanced for {root}")
+    full_content = "".join(index_content)
+    index_path = os.path.join(root, 'index.md')
+    with open(index_path, 'w', encoding='utf-8') as f:
+        f.write(full_content)
+    
+    print(f"Generated index for {root}")
 
 if __name__ == "__main__":
     base_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    generate_indexes(base_directory)
+    process_all_markdowns(base_directory)

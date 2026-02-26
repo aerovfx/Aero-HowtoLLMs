@@ -6,13 +6,13 @@
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 
-[Home](../README.md) > **09-Quantitative-evaluations**
+[Home](../index.md) > **09-Quantitative-evaluations**
 
 ---
 
 ### 🧭 Quick Navigation
 
-- [🏠 Cổng tài liệu](../README.md)
+- [🏠 Cổng tài liệu](../index.md)
 - [📚 Module 01: LLM Course](../01-LLM_Course/index.md)
 - [🔢 Module 02: Tokenization](../02-Words-to-tokens-to-numbers/index.md)
 - [🏗️ Module 04: Build GPT](../04-buildGPT/index.md)

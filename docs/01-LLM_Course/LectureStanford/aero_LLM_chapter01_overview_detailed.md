@@ -347,7 +347,7 @@ npm run dev
 
 ---
 
-**Next:** [Chương 2: 5 Trụ Cột Của Việc Huấn Luyện →](./aero_LLM_chapter02_5pillars.md)
+**Next:** [Chương 2: 5 Trụ Cột Của Việc Huấn Luyện →](./aero_LLM_chapter02_5pillars_part1.md)
 
 ---
 

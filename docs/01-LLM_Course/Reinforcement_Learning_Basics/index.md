@@ -6,14 +6,14 @@
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 
-[Home](../README.md) > [01-LLM_Course](../index.md) > **Reinforcement_Learning_Basics**
+[Home](../index.md) > [01-LLM_Course](../index.md) > **Reinforcement_Learning_Basics**
 
 ---
 
 ### 🧭 Quick Navigation
 
-- [🏠 Cổng tài liệu](../../README.md)
-- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../index.md)
 - [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
 - [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
 - [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
@@ -35,7 +35,7 @@
 | 04_MDPvi.md | [Xem bài viết →](04_MDPvi.md) |
 | 05_PolicyVsPlanvi.md | [Xem bài viết →](05_PolicyVsPlanvi.md) |
 | 📘 Khóa học: Học Sâu Học Tăng Cường (Deep Reinforcement Learning) | [Xem bài viết →](06_Deep_Reinforcement_Learning_Course.md) |
-| 📂 Module: Reinforcement_Learning_Basics | [Xem bài viết →](README.md) |
+| 📂 Module: Reinforcement_Learning_Basics | [Xem bài viết →](index.md) |
 
 
 ---

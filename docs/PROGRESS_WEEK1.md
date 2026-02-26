@@ -170,9 +170,9 @@ Roadmap chi tiết 10-14 tháng bao gồm:
 
 ## 🔗 Related Documents
 
-- [Main Roadmap](/docs/ROADMAP_GPT4_EXPANSION.md)
-- [Architecture README](/llm_viz/src/llm/architectures/README.md)
-- [Original LLM Course](/docs/01-01-01-LLM_Course/README.md)
+- [Main Roadmap](./ROADMAP_GPT4_EXPANSION.md)
+- [Architecture README](../src/llm/architectures/README.md)
+- [Original LLM Course](./01-LLM_Course/index.md)
 
 ---
 

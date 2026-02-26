@@ -485,7 +485,7 @@ model = quantize_dynamic(model, dtype=torch.qint8)
 
 ---
 
-**Next:** [Chương 3: Pre-training → Post-training →](./aero_LLM_chapter03_training_pipeline.md)
+**Next:** [Chương 3: Pre-training → Post-training →](aero_LLM_chapter03_training_pipeline.md)
 
 ---
 

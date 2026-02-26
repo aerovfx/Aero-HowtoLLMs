@@ -7,10 +7,10 @@
 
 ## 📚 Mục Lục
 
-1. [Chương 1: Tổng Quan Về LLMs](#chương-1-tổng-quan-về-llms) | [📖 Chi tiết](./aero_LLM_chapter01_overview_detailed.md)
-2. [Chương 2: 5 Trụ Cột](#chương-2-5-trụ-cột-của-việc-huấn-luyện) | [📖 Part 1](./aero_LLM_chapter02_5pillars_part1.md) | [📖 Part 2](./aero_LLM_chapter02_5pillars_part2.md)
-3. [Chương 3: Pre-training → Post-training](#chương-3-quy-trình-từ-pre-training-đến-post-training) | [📖 Chi tiết](./aero_LLM_chapter03_training_pipeline.md)
-4. [Chương 4 & 5: Mechanisms & Evaluation](#chương-4-cơ-chế-hoạt-động-autoregressive--tokenization) | [📖 Chi tiết](./aero_LLM_chapter04_05_mechanisms_eval.md)
+1. [Chương 1: Tổng Quan Về LLMs](#chương-1-tổng-quan-về-llms) | [📖 Chi tiết](aero_LLM_chapter01_overview_detailed.md)
+2. [Chương 2: 5 Trụ Cột](#chương-2-5-trụ-cột-của-việc-huấn-luyện) | [📖 Part 1](aero_LLM_chapter02_5pillars_part1.md) | [📖 Part 2](aero_LLM_chapter02_5pillars_part2.md)
+3. [Chương 3: Pre-training → Post-training](#chương-3-quy-trình-từ-pre-training-đến-post-training) | [📖 Chi tiết](aero_LLM_chapter03_training_pipeline.md)
+4. [Chương 4 & 5: Mechanisms & Evaluation](#chương-4-cơ-chế-hoạt-động-autoregressive--tokenization) | [📖 Chi tiết](aero_LLM_chapter04_05_mechanisms_eval.md)
 
 ---
 
@@ -33,7 +33,7 @@ cd llm_viz && npm run dev
 
 **Ví dụ:** GPT-4 (1.76T params), Claude 3 Opus, Gemini Ultra, Llama 3
 
-[📖 **Chi tiết**](./aero_LLM_chapter01_overview_detailed.md)
+[📖 **Chi tiết**](aero_LLM_chapter01_overview_detailed.md)
 
 ---
 
@@ -47,7 +47,7 @@ cd llm_viz && npm run dev
 
 > 💡 Industry focus: **Data (35%) + Systems (10%) + Evaluation (15%)**
 
-[📖 **Part 1**](./aero_LLM_chapter02_5pillars_part1.md) | [📖 **Part 2**](./aero_LLM_chapter02_5pillars_part2.md)
+[📖 **Part 1**](aero_LLM_chapter02_5pillars_part1.md) | [📖 **Part 2**](aero_LLM_chapter02_5pillars_part2.md)
 
 ---
 
@@ -64,7 +64,7 @@ RLHF - Human preferences (1 week, $50K)
 ChatGPT ✅
 ```
 
-[📖 **Chi tiết**](./aero_LLM_chapter03_training_pipeline.md)
+[📖 **Chi tiết**](aero_LLM_chapter03_training_pipeline.md)
 
 ---
 
@@ -83,7 +83,7 @@ ChatGPT ✅
 3. **Human Eval:** Helpful, Honest, Harmless
 4. **Production:** < 500ms latency
 
-[📖 **Chi tiết**](./aero_LLM_chapter04_05_mechanisms_eval.md)
+[📖 **Chi tiết**](aero_LLM_chapter04_05_mechanisms_eval.md)
 
 ---
 

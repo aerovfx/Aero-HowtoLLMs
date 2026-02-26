@@ -593,7 +593,7 @@ const A11Y_FEATURES = {
 
 ---
 
-**Next:** [Implementation Plan →](./VISUALIZATION_IMPLEMENTATION_PLAN.md)
+**Next:** [Implementation Plan →](./WEEK3_MOE_IMPLEMENTATION.md)
 
 ---
 
