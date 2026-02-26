@@ -18,14 +18,16 @@
 ---
 <!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-[Advanced RAG with Vector Databases and Retrievers](Advanced RAG with Vector Databases and Retrievers/index.md)
+| Thư mục | Liên kết |
+| :--- | :--- |
+| **Advanced RAG with Vector Databases and Retrievers** | [Mở thư mục →](Advanced RAG with Vector Databases and Retrievers/index.md) |
 
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| 🏗️ LOCAL RAG STACK | [Xem bài viết →](FULL TEMPLATE: Local RAG với Ollama + Qdrant + FastAPI.md) |
-| 🏗️ RAG IMPLEMENTATION TEMPLATE (0 → PROD) | [Xem bài viết →](RAG IMPLEMENTATION TEMPLATE.md) |
-| 🚀 CASE STUDY: XÂY DỰNG HỆ RAG CHO HỆ THỐNG TRA CỨU TÀI LIỆU NỘI BỘ | [Xem bài viết →](rag_noibo.md) |
+| [🏗️ LOCAL RAG STACK](FULL TEMPLATE: Local RAG với Ollama + Qdrant + FastAPI.md) | [Xem bài viết →](FULL TEMPLATE: Local RAG với Ollama + Qdrant + FastAPI.md) |
+| [🏗️ RAG IMPLEMENTATION TEMPLATE (0 → PROD)](RAG IMPLEMENTATION TEMPLATE.md) | [Xem bài viết →](RAG IMPLEMENTATION TEMPLATE.md) |
+| [🚀 CASE STUDY: XÂY DỰNG HỆ RAG CHO HỆ THỐNG TRA CỨU TÀI LIỆU NỘI BỘ](rag_noibo.md) | [Xem bài viết →](rag_noibo.md) |
 
 <!-- Aero-Footer-Start -->
 ---

@@ -20,8 +20,8 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Giới Thiệu Khóa Học: Retrieval-Augmented Generation Nâng Cao với Cơ Sở Dữ Liệu Vector | [Xem bài viết →](01_course-introduction.md) |
-| Tổng Quan về Chứng Chỉ Chuyên Nghiệp về RAG và AI Tác Nhân (Agentic AI) | [Xem bài viết →](03_rag-and-agentic-ai-professional-certificate-overview.md) |
+| [Giới Thiệu Khóa Học: Retrieval-Augmented Generation Nâng Cao với Cơ Sở Dữ Liệu Vector](01_course-introduction.md) | [Xem bài viết →](01_course-introduction.md) |
+| [Tổng Quan về Chứng Chỉ Chuyên Nghiệp về RAG và AI Tác Nhân (Agentic AI)](03_rag-and-agentic-ai-professional-certificate-overview.md) | [Xem bài viết →](03_rag-and-agentic-ai-professional-certificate-overview.md) |
 
 <!-- Aero-Footer-Start -->
 ---

@@ -18,20 +18,22 @@
 ---
 <!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-[01 - Introduction](01 - Introduction/index.md)
-[02 - 1. Introduction to Large Language Models (LLMs)](02 - 1. Introduction to Large Language Models (LLMs)/index.md)
-[03 - 2. Utilizing LLMs with Prompt Engineering](03 - 2. Utilizing LLMs with Prompt Engineering/index.md)
-[04 - 3. Transfer Learning for NLP Tasks](04 - 3. Transfer Learning for NLP Tasks/index.md)
-[05 - 4. PEFT Fine-Tuning with LoRA](05 - 4. PEFT Fine-Tuning with LoRA/index.md)
-[06 - 5. Project Creating a Full NLP Solution](06 - 5. Project Creating a Full NLP Solution/index.md)
-[07 - Conclusion](07 - Conclusion/index.md)
-[Ex_Files_Fine_Tuning_for_LLMs](Ex_Files_Fine_Tuning_for_LLMs/index.md)
+| Thư mục | Liên kết |
+| :--- | :--- |
+| **01   Introduction** | [Mở thư mục →](01 - Introduction/index.md) |
+| **02   1. Introduction to Large Language Models (LLMs)** | [Mở thư mục →](02 - 1. Introduction to Large Language Models (LLMs)/index.md) |
+| **03   2. Utilizing LLMs with Prompt Engineering** | [Mở thư mục →](03 - 2. Utilizing LLMs with Prompt Engineering/index.md) |
+| **04   3. Transfer Learning for NLP Tasks** | [Mở thư mục →](04 - 3. Transfer Learning for NLP Tasks/index.md) |
+| **05   4. PEFT Fine Tuning with LoRA** | [Mở thư mục →](05 - 4. PEFT Fine-Tuning with LoRA/index.md) |
+| **06   5. Project Creating a Full NLP Solution** | [Mở thư mục →](06 - 5. Project Creating a Full NLP Solution/index.md) |
+| **07   Conclusion** | [Mở thư mục →](07 - Conclusion/index.md) |
+| **Ex Files Fine Tuning for LLMs** | [Mở thư mục →](Ex_Files_Fine_Tuning_for_LLMs/index.md) |
 
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Nghiên Cứu Về Fine-Tuning Large Language Models: Từ Transformer Đến LoRA | [Xem bài viết →](Fine-Tuning_Scientific_Article.md) |
-| Tài liệu tham khảo | [Xem bài viết →](references.md) |
+| [Nghiên Cứu Về Fine-Tuning Large Language Models: Từ Transformer Đến LoRA](Fine-Tuning_Scientific_Article.md) | [Xem bài viết →](Fine-Tuning_Scientific_Article.md) |
+| [Tài liệu tham khảo](references.md) | [Xem bài viết →](references.md) |
 
 <!-- Aero-Footer-Start -->
 ---

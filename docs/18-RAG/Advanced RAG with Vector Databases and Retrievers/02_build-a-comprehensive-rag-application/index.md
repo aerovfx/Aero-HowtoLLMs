@@ -18,8 +18,10 @@
 ---
 <!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-[01_introduction-to-faiss-for-rag](01_introduction-to-faiss-for-rag/index.md)
-[03_course-wrap-up](03_course-wrap-up/index.md)
+| Thư mục | Liên kết |
+| :--- | :--- |
+| **01 introduction to faiss for rag** | [Mở thư mục →](01_introduction-to-faiss-for-rag/index.md) |
+| **03 course wrap up** | [Mở thư mục →](03_course-wrap-up/index.md) |
 
 <!-- Aero-Footer-Start -->
 ---

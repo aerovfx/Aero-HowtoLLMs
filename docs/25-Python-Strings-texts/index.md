@@ -20,9 +20,9 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Nhập môn Python: Kỹ thuật Nội suy Chuỗi và F-strings (String Interpolation) | [Xem bài viết →](aero_LLM_01_String interpolation and f-strings.md) |
-| Nhập môn Python: Kỹ thuật Nhập và Phân tích Văn bản trực tuyến (Importing Text from the Web) | [Xem bài viết →](aero_LLM_02_Importing text from the web.md) |
-| Nhập môn Python: Kỹ thuật Xử lý và Phân tích Văn bản (Processing Text) | [Xem bài viết →](aero_LLM_03_Processing text.md) |
+| [Nhập môn Python: Kỹ thuật Nội suy Chuỗi và F-strings (String Interpolation)](aero_LLM_01_String interpolation and f-strings.md) | [Xem bài viết →](aero_LLM_01_String interpolation and f-strings.md) |
+| [Nhập môn Python: Kỹ thuật Nhập và Phân tích Văn bản trực tuyến (Importing Text from the Web)](aero_LLM_02_Importing text from the web.md) | [Xem bài viết →](aero_LLM_02_Importing text from the web.md) |
+| [Nhập môn Python: Kỹ thuật Xử lý và Phân tích Văn bản (Processing Text)](aero_LLM_03_Processing text.md) | [Xem bài viết →](aero_LLM_03_Processing text.md) |
 
 <!-- Aero-Footer-Start -->
 ---

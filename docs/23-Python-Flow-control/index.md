@@ -20,12 +20,12 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Nhập môn Python: Vòng lặp For và Kỹ thuật Lặp (For Loops) | [Xem bài viết →](aero_LLM_01_For loops.md) |
-| Nhập môn Python: Câu lệnh Điều kiện If-Else và Logic Nhị phân (If-Else Statements) | [Xem bài viết →](aero_LLM_02_If-else statements.md) |
-| Nhập môn Python: Kỹ thuật List Comprehension (Vòng lặp một dòng) | [Xem bài viết →](aero_LLM_03_List comprehension (single-line loops).md) |
-| Nhập môn Python: Kỹ thuật Khởi tạo Biến và Cấp phát Bộ nhớ (Initializing Variables) | [Xem bài viết →](aero_LLM_04_Initializing variables.md) |
-| Nhập môn Python: Hàm Enumerate và Kỹ thuật Đánh chỉ mục Tự động (Enumerate Iterables) | [Xem bài viết →](aero_LLM_05_Enumerate iterables.md) |
-| Nhập môn Python: Hàm Zip và Kỹ thuật Đồng bộ hóa Dữ liệu (Zip Multiple Iterables) | [Xem bài viết →](aero_LLM_06_Zip multiple iterables.md) |
+| [Nhập môn Python: Vòng lặp For và Kỹ thuật Lặp (For Loops)](aero_LLM_01_For loops.md) | [Xem bài viết →](aero_LLM_01_For loops.md) |
+| [Nhập môn Python: Câu lệnh Điều kiện If-Else và Logic Nhị phân (If-Else Statements)](aero_LLM_02_If-else statements.md) | [Xem bài viết →](aero_LLM_02_If-else statements.md) |
+| [Nhập môn Python: Kỹ thuật List Comprehension (Vòng lặp một dòng)](aero_LLM_03_List comprehension (single-line loops).md) | [Xem bài viết →](aero_LLM_03_List comprehension (single-line loops).md) |
+| [Nhập môn Python: Kỹ thuật Khởi tạo Biến và Cấp phát Bộ nhớ (Initializing Variables)](aero_LLM_04_Initializing variables.md) | [Xem bài viết →](aero_LLM_04_Initializing variables.md) |
+| [Nhập môn Python: Hàm Enumerate và Kỹ thuật Đánh chỉ mục Tự động (Enumerate Iterables)](aero_LLM_05_Enumerate iterables.md) | [Xem bài viết →](aero_LLM_05_Enumerate iterables.md) |
+| [Nhập môn Python: Hàm Zip và Kỹ thuật Đồng bộ hóa Dữ liệu (Zip Multiple Iterables)](aero_LLM_06_Zip multiple iterables.md) | [Xem bài viết →](aero_LLM_06_Zip multiple iterables.md) |
 
 <!-- Aero-Footer-Start -->
 ---

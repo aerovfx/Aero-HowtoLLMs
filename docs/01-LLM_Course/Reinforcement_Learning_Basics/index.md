@@ -20,17 +20,17 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| 01_WhatisReinforcementLearningEn.md | [Xem bài viết →](01_WhatisReinforcementLearningEn.md) |
-| 01_WhatisreinforcementLearningVi.md | [Xem bài viết →](01_WhatisreinforcementLearningVi.md) |
-| 02_Bellman EquationVi.md | [Xem bài viết →](02_Bellman EquationVi.md) |
-| 02_BellmanEquationEn.md | [Xem bài viết →](02_BellmanEquationEn.md) |
-| 03_The_Plan_in_Plankton'sAttackEn.md | [Xem bài viết →](03_The_Plan_in_Plankton'sAttackEn.md) |
-| 03_The_Plan_in_Plankton'sAttackVi.md | [Xem bài viết →](03_The_Plan_in_Plankton'sAttackVi.md) |
-| 04_MDPen.md | [Xem bài viết →](04_MDPen.md) |
-| 04_MDPvi.md | [Xem bài viết →](04_MDPvi.md) |
-| 05_PolicyVsPlanvi.md | [Xem bài viết →](05_PolicyVsPlanvi.md) |
-| 📘 Khóa học: Học Sâu Học Tăng Cường (Deep Reinforcement Learning) | [Xem bài viết →](06_Deep_Reinforcement_Learning_Course.md) |
-| 📂 Module: Reinforcement_Learning_Basics | [Xem bài viết →](README.md) |
+| [01_WhatisReinforcementLearningEn.md](01_WhatisReinforcementLearningEn.md) | [Xem bài viết →](01_WhatisReinforcementLearningEn.md) |
+| [01_WhatisreinforcementLearningVi.md](01_WhatisreinforcementLearningVi.md) | [Xem bài viết →](01_WhatisreinforcementLearningVi.md) |
+| [02_Bellman EquationVi.md](02_Bellman EquationVi.md) | [Xem bài viết →](02_Bellman EquationVi.md) |
+| [02_BellmanEquationEn.md](02_BellmanEquationEn.md) | [Xem bài viết →](02_BellmanEquationEn.md) |
+| [03_The_Plan_in_Plankton'sAttackEn.md](03_The_Plan_in_Plankton'sAttackEn.md) | [Xem bài viết →](03_The_Plan_in_Plankton'sAttackEn.md) |
+| [03_The_Plan_in_Plankton'sAttackVi.md](03_The_Plan_in_Plankton'sAttackVi.md) | [Xem bài viết →](03_The_Plan_in_Plankton'sAttackVi.md) |
+| [04_MDPen.md](04_MDPen.md) | [Xem bài viết →](04_MDPen.md) |
+| [04_MDPvi.md](04_MDPvi.md) | [Xem bài viết →](04_MDPvi.md) |
+| [05_PolicyVsPlanvi.md](05_PolicyVsPlanvi.md) | [Xem bài viết →](05_PolicyVsPlanvi.md) |
+| [📘 Khóa học: Học Sâu Học Tăng Cường (Deep Reinforcement Learning)](06_Deep_Reinforcement_Learning_Course.md) | [Xem bài viết →](06_Deep_Reinforcement_Learning_Course.md) |
+| [📂 Module: Reinforcement_Learning_Basics](README.md) | [Xem bài viết →](README.md) |
 
 <!-- Aero-Footer-Start -->
 ---

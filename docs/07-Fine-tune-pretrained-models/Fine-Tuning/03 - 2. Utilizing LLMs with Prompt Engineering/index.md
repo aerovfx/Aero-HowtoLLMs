@@ -20,13 +20,13 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Cơ Bản Về Prompt Engineering | [Xem bài viết →](01 - Basics of prompt engineering.md) |
-| Thiết Kế Prompt Hiệu Quả | [Xem bài viết →](02 - Crafting effective prompts.md) |
-| Prompt Engineering Với FLAN-T5 | [Xem bài viết →](03 - Prompt engineering with FLAN-T5.md) |
-| Demo Prompt Engineering Với FLAN-T5 | [Xem bài viết →](04 - Demo Prompt engineering with FLAN-T5.md) |
-| Học Tập Trong Ngữ Cảnh (In-Context Learning) và Mẫu Few-Shot với FLAN-T5 | [Xem bài viết →](05 - Demo Using ICL and Patterns while prompting.md) |
-| Nghiên Cứu Trường Hợp Thực Tế về Kỹ Thuật Prompt | [Xem bài viết →](06 - Case studies in prompt engineering.md) |
-| Giải Pháp Thiết Kế Prompt Dịch Thuật | [Xem bài viết →](07 - Solution Designing a translation prompt.md) |
+| [Cơ Bản Về Prompt Engineering](01 - Basics of prompt engineering.md) | [Xem bài viết →](01 - Basics of prompt engineering.md) |
+| [Thiết Kế Prompt Hiệu Quả](02 - Crafting effective prompts.md) | [Xem bài viết →](02 - Crafting effective prompts.md) |
+| [Prompt Engineering Với FLAN-T5](03 - Prompt engineering with FLAN-T5.md) | [Xem bài viết →](03 - Prompt engineering with FLAN-T5.md) |
+| [Demo Prompt Engineering Với FLAN-T5](04 - Demo Prompt engineering with FLAN-T5.md) | [Xem bài viết →](04 - Demo Prompt engineering with FLAN-T5.md) |
+| [Học Tập Trong Ngữ Cảnh (In-Context Learning) và Mẫu Few-Shot với FLAN-T5](05 - Demo Using ICL and Patterns while prompting.md) | [Xem bài viết →](05 - Demo Using ICL and Patterns while prompting.md) |
+| [Nghiên Cứu Trường Hợp Thực Tế về Kỹ Thuật Prompt](06 - Case studies in prompt engineering.md) | [Xem bài viết →](06 - Case studies in prompt engineering.md) |
+| [Giải Pháp Thiết Kế Prompt Dịch Thuật](07 - Solution Designing a translation prompt.md) | [Xem bài viết →](07 - Solution Designing a translation prompt.md) |
 
 <!-- Aero-Footer-Start -->
 ---

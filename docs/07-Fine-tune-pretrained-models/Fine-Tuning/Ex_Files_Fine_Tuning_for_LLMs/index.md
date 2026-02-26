@@ -18,7 +18,9 @@
 ---
 <!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-[Exercise Files](Exercise Files/index.md)
+| Thư mục | Liên kết |
+| :--- | :--- |
+| **Exercise Files** | [Mở thư mục →](Exercise Files/index.md) |
 
 <!-- Aero-Footer-Start -->
 ---

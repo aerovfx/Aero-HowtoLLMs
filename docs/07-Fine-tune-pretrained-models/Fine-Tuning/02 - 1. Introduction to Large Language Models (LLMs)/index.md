@@ -20,12 +20,12 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| LLMs Đang Cách Mạng Hóa AI | [Xem bài viết →](01 - LLMs Revolutionizing AI.md) |
-| Kiến Trúc Của LLMs | [Xem bài viết →](02 - The architecture of LLMs.md) |
-| Các Ứng Dụng Của LLMs | [Xem bài viết →](03 - Applications of LLMs.md) |
-| Các Cân Nhắc Đạo Đức Trong LLMs | [Xem bài viết →](04 - Ethical considerations in LLMs.md) |
-| So Sánh Các Mô Hình LLMs | [Xem bài viết →](05 - Comparing LLMs.md) |
-| FLAN-T5: Mô Hình Transformer Đa Năng | [Xem bài viết →](06 - FLAN-T5 in focus.md) |
+| [LLMs Đang Cách Mạng Hóa AI](01 - LLMs Revolutionizing AI.md) | [Xem bài viết →](01 - LLMs Revolutionizing AI.md) |
+| [Kiến Trúc Của LLMs](02 - The architecture of LLMs.md) | [Xem bài viết →](02 - The architecture of LLMs.md) |
+| [Các Ứng Dụng Của LLMs](03 - Applications of LLMs.md) | [Xem bài viết →](03 - Applications of LLMs.md) |
+| [Các Cân Nhắc Đạo Đức Trong LLMs](04 - Ethical considerations in LLMs.md) | [Xem bài viết →](04 - Ethical considerations in LLMs.md) |
+| [So Sánh Các Mô Hình LLMs](05 - Comparing LLMs.md) | [Xem bài viết →](05 - Comparing LLMs.md) |
+| [FLAN-T5: Mô Hình Transformer Đa Năng](06 - FLAN-T5 in focus.md) | [Xem bài viết →](06 - FLAN-T5 in focus.md) |
 
 <!-- Aero-Footer-Start -->
 ---

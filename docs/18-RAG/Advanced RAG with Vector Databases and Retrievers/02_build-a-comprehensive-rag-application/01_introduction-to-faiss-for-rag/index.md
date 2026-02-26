@@ -20,7 +20,7 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Giới Thiệu FAISS Cho RAG và So Sánh với ChromaDB | [Xem bài viết →](01_introduction-to-faiss-and-how-it-compares-to-chromadb.md) |
+| [Giới Thiệu FAISS Cho RAG và So Sánh với ChromaDB](01_introduction-to-faiss-and-how-it-compares-to-chromadb.md) | [Xem bài viết →](01_introduction-to-faiss-and-how-it-compares-to-chromadb.md) |
 
 <!-- Aero-Footer-Start -->
 ---

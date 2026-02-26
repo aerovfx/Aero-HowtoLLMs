@@ -142,8 +142,14 @@ def generate_folder_index(root, rel_path, depth, subfolders, md_files):
 
     if subfolders:
         index_content.append(f"## 📁 Thư mục con\n")
+        index_content.append("| Thư mục | Liên kết |\n")
+        index_content.append("| :--- | :--- |\n")
         for sub in subfolders:
-            index_content.append(f"[{sub}]({sub}/index.md)\n")
+            display_name = sub.replace("_", " ").replace("-", " ")
+            match = re.match(r'^\d+-(.*)', display_name)
+            if match:
+                display_name = match.group(1).strip()
+            index_content.append(f"| **{display_name}** | [Mở thư mục →]({sub}/index.md) |\n")
         index_content.append("\n")
 
     if list_files:
@@ -152,7 +158,8 @@ def generate_folder_index(root, rel_path, depth, subfolders, md_files):
         index_content.append("| :--- | :--- |\n")
         for md in list_files:
             title = get_title_from_md(os.path.join(root, md))
-            index_content.append(f"| {title} | [Xem bài viết →]({md}) |\n")
+            # Make the title itself a link as well for better UX
+            index_content.append(f"| [{title}]({md}) | [Xem bài viết →]({md}) |\n")
         index_content.append("\n")
 
     # Footer

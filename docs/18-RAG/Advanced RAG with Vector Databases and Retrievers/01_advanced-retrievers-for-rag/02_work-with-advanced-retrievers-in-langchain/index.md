@@ -20,8 +20,8 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Khám Phá Advanced Retrievers Trong LangChain - Phần 1 | [Xem bài viết →](01_explore-advanced-retrievers-in-langchain-part-1.md) |
-| Khám Phá Các Retriever Nâng Cao trong LangChain - Phần 2 | [Xem bài viết →](02_explore-advanced-retrievers-in-langchain-part-2.md) |
+| [Khám Phá Advanced Retrievers Trong LangChain - Phần 1](01_explore-advanced-retrievers-in-langchain-part-1.md) | [Xem bài viết →](01_explore-advanced-retrievers-in-langchain-part-1.md) |
+| [Khám Phá Các Retriever Nâng Cao trong LangChain - Phần 2](02_explore-advanced-retrievers-in-langchain-part-2.md) | [Xem bài viết →](02_explore-advanced-retrievers-in-langchain-part-2.md) |
 
 <!-- Aero-Footer-Start -->
 ---

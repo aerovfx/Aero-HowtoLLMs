@@ -20,12 +20,12 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Transfer Learning Trong LLMs | [Xem bài viết →](01 - Transfer learning in LLMs.md) |
-| Chọn Mô Hình Cho Transfer Learning | [Xem bài viết →](02 - Choosing models for transfer learning.md) |
-| Demo Transfer Learning với FLAN-T5 | [Xem bài viết →](03 - Demo Transfer learning with FLAN-T5.md) |
-| Đánh Giá Kết Quả Transfer Learning | [Xem bài viết →](04 - Evaluating transfer learning outcomes.md) |
-| Demo Đánh Giá Bản Dịch | [Xem bài viết →](05 - Demo Evaluating translations.md) |
-| Giải Pháp Nâng Cao Dịch Thuật với Transfer Learning | [Xem bài viết →](06 - Solution Enhancing translation with transfer learning.md) |
+| [Transfer Learning Trong LLMs](01 - Transfer learning in LLMs.md) | [Xem bài viết →](01 - Transfer learning in LLMs.md) |
+| [Chọn Mô Hình Cho Transfer Learning](02 - Choosing models for transfer learning.md) | [Xem bài viết →](02 - Choosing models for transfer learning.md) |
+| [Demo Transfer Learning với FLAN-T5](03 - Demo Transfer learning with FLAN-T5.md) | [Xem bài viết →](03 - Demo Transfer learning with FLAN-T5.md) |
+| [Đánh Giá Kết Quả Transfer Learning](04 - Evaluating transfer learning outcomes.md) | [Xem bài viết →](04 - Evaluating transfer learning outcomes.md) |
+| [Demo Đánh Giá Bản Dịch](05 - Demo Evaluating translations.md) | [Xem bài viết →](05 - Demo Evaluating translations.md) |
+| [Giải Pháp Nâng Cao Dịch Thuật với Transfer Learning](06 - Solution Enhancing translation with transfer learning.md) | [Xem bài viết →](06 - Solution Enhancing translation with transfer learning.md) |
 
 <!-- Aero-Footer-Start -->
 ---

@@ -20,7 +20,7 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Hướng dẫn về Môi trường Google Colab: Tạo, Làm việc và Lưu trữ Notebook | [Xem bài viết →](aero_LLM_01_Creating, working with, and saving Colab notebooks.md) |
+| [Hướng dẫn về Môi trường Google Colab: Tạo, Làm việc và Lưu trữ Notebook](aero_LLM_01_Creating, working with, and saving Colab notebooks.md) | [Xem bài viết →](aero_LLM_01_Creating, working with, and saving Colab notebooks.md) |
 
 <!-- Aero-Footer-Start -->
 ---

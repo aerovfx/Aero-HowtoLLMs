@@ -20,9 +20,9 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Bắt Đầu Fine-tuning LLMs | [Xem bài viết →](01 - Beginning to fine-tune your LLMs.md) |
-| Tận Dụng Tối Đa Khóa Học | [Xem bài viết →](02 - Getting the most out of this course.md) |
-| Kiểm Tra Phiên Bản | [Xem bài viết →](03 - Version check.md) |
+| [Bắt Đầu Fine-tuning LLMs](01 - Beginning to fine-tune your LLMs.md) | [Xem bài viết →](01 - Beginning to fine-tune your LLMs.md) |
+| [Tận Dụng Tối Đa Khóa Học](02 - Getting the most out of this course.md) | [Xem bài viết →](02 - Getting the most out of this course.md) |
+| [Kiểm Tra Phiên Bản](03 - Version check.md) | [Xem bài viết →](03 - Version check.md) |
 
 <!-- Aero-Footer-Start -->
 ---

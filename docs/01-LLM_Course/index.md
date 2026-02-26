@@ -18,13 +18,15 @@
 ---
 <!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-[LectureStanford](LectureStanford/index.md)
-[Reinforcement_Learning_Basics](Reinforcement_Learning_Basics/index.md)
+| Thư mục | Liên kết |
+| :--- | :--- |
+| **LectureStanford** | [Mở thư mục →](LectureStanford/index.md) |
+| **Reinforcement Learning Basics** | [Mở thư mục →](Reinforcement_Learning_Basics/index.md) |
 
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📂 Module: 01-LLM_Course | [Xem bài viết →](README.md) |
+| [📂 Module: 01-LLM_Course](README.md) | [Xem bài viết →](README.md) |
 
 <!-- Aero-Footer-Start -->
 ---

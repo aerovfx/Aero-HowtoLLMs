@@ -20,7 +20,7 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Tổng Kết Khóa Học: Advanced RAG với Cơ Sở Dữ Liệu Vector và Retrievers | [Xem bài viết →](01_course-wrap-up.md) |
+| [Tổng Kết Khóa Học: Advanced RAG với Cơ Sở Dữ Liệu Vector và Retrievers](01_course-wrap-up.md) | [Xem bài viết →](01_course-wrap-up.md) |
 
 <!-- Aero-Footer-Start -->
 ---

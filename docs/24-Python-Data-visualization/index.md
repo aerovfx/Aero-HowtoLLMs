@@ -20,9 +20,9 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Nhập môn Python: Kỹ thuật Trực quan hóa Dữ liệu với Matplotlib (Plotting Dots and Lines) | [Xem bài viết →](aero_LLM_01_Plotting dots and lines.md) |
-| Nhập môn Python: Hình học và Cấu trúc Biểu đồ con (Subplot Geometry) | [Xem bài viết →](aero_LLM_02_Subplot geometry.md) |
-| Nhập môn Python: Kỹ thuật Tinh chỉnh và Thẩm mỹ Biểu đồ (Making Graphs Look Nice) | [Xem bài viết →](aero_LLM_03_Making graphs look nice.md) |
+| [Nhập môn Python: Kỹ thuật Trực quan hóa Dữ liệu với Matplotlib (Plotting Dots and Lines)](aero_LLM_01_Plotting dots and lines.md) | [Xem bài viết →](aero_LLM_01_Plotting dots and lines.md) |
+| [Nhập môn Python: Hình học và Cấu trúc Biểu đồ con (Subplot Geometry)](aero_LLM_02_Subplot geometry.md) | [Xem bài viết →](aero_LLM_02_Subplot geometry.md) |
+| [Nhập môn Python: Kỹ thuật Tinh chỉnh và Thẩm mỹ Biểu đồ (Making Graphs Look Nice)](aero_LLM_03_Making graphs look nice.md) | [Xem bài viết →](aero_LLM_03_Making graphs look nice.md) |
 
 <!-- Aero-Footer-Start -->
 ---

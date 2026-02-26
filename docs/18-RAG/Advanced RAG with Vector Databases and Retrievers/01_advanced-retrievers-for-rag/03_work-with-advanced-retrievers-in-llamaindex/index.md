@@ -20,7 +20,7 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Các Retriever Nâng Cao trong LLAMAIndex | [Xem bài viết →](01_advanced-retrievers-in-llamaindex.md) |
+| [Các Retriever Nâng Cao trong LLAMAIndex](01_advanced-retrievers-in-llamaindex.md) | [Xem bài viết →](01_advanced-retrievers-in-llamaindex.md) |
 
 <!-- Aero-Footer-Start -->
 ---

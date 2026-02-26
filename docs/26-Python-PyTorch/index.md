@@ -20,11 +20,11 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Nhập môn PyTorch: Cơ sở về Lập trình Hướng đối tượng (Working with Classes) | [Xem bài viết →](aero_LLM_01_Working with classes.md) |
-| Nhập môn PyTorch: Kỹ thuật Xây dựng Lớp tùy chỉnh (Creating Custom Classes) | [Xem bài viết →](aero_LLM_02_Creating custom classes.md) |
-| Nhập môn PyTorch: Kiểu dữ liệu, Tensor và Kích thước (Datatypes, Tensors, and Dimensions) | [Xem bài viết →](aero_LLM_03_Datatypes, tensors, and dimensions.md) |
-| Nhập môn PyTorch: Kỹ thuật Tái cấu trúc và Biến đổi Hình dạng Tensor (Reshaping Tensors) | [Xem bài viết →](aero_LLM_04_Reshaping tensors.md) |
-| Nhập môn PyTorch: Kỹ thuật Tạo số Ngẫu nhiên và Phân phối Dữ liệu (Random Numbers) | [Xem bài viết →](aero_LLM_05_Random numbers.md) |
+| [Nhập môn PyTorch: Cơ sở về Lập trình Hướng đối tượng (Working with Classes)](aero_LLM_01_Working with classes.md) | [Xem bài viết →](aero_LLM_01_Working with classes.md) |
+| [Nhập môn PyTorch: Kỹ thuật Xây dựng Lớp tùy chỉnh (Creating Custom Classes)](aero_LLM_02_Creating custom classes.md) | [Xem bài viết →](aero_LLM_02_Creating custom classes.md) |
+| [Nhập môn PyTorch: Kiểu dữ liệu, Tensor và Kích thước (Datatypes, Tensors, and Dimensions)](aero_LLM_03_Datatypes, tensors, and dimensions.md) | [Xem bài viết →](aero_LLM_03_Datatypes, tensors, and dimensions.md) |
+| [Nhập môn PyTorch: Kỹ thuật Tái cấu trúc và Biến đổi Hình dạng Tensor (Reshaping Tensors)](aero_LLM_04_Reshaping tensors.md) | [Xem bài viết →](aero_LLM_04_Reshaping tensors.md) |
+| [Nhập môn PyTorch: Kỹ thuật Tạo số Ngẫu nhiên và Phân phối Dữ liệu (Random Numbers)](aero_LLM_05_Random numbers.md) | [Xem bài viết →](aero_LLM_05_Random numbers.md) |
 
 <!-- Aero-Footer-Start -->
 ---

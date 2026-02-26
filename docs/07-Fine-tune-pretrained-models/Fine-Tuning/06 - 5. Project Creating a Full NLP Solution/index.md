@@ -20,10 +20,10 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Giải Pháp: Fine-tuning Mô Hình Phân Tích Cảm Xúc | [Xem bài viết →](01 - Solution Fine-tuning the sentiment analysis model.md) |
-| Giải Pháp Fine-tuning Mô Hình Question Answering | [Xem bài viết →](02 - Solution Fine-tuning the Q&A model.md) |
-| Giải Pháp Fine-tuning Mô Hình Tóm Tắt với LoRA | [Xem bài viết →](03 - Solution Fine-tuning the summarization model.md) |
-| Demo Tích Hợp Mọi Thứ vào Giải Pháp | [Xem bài viết →](04 - Demo Integrating everything into our solution.md) |
+| [Giải Pháp: Fine-tuning Mô Hình Phân Tích Cảm Xúc](01 - Solution Fine-tuning the sentiment analysis model.md) | [Xem bài viết →](01 - Solution Fine-tuning the sentiment analysis model.md) |
+| [Giải Pháp Fine-tuning Mô Hình Question Answering](02 - Solution Fine-tuning the Q&A model.md) | [Xem bài viết →](02 - Solution Fine-tuning the Q&A model.md) |
+| [Giải Pháp Fine-tuning Mô Hình Tóm Tắt với LoRA](03 - Solution Fine-tuning the summarization model.md) | [Xem bài viết →](03 - Solution Fine-tuning the summarization model.md) |
+| [Demo Tích Hợp Mọi Thứ vào Giải Pháp](04 - Demo Integrating everything into our solution.md) | [Xem bài viết →](04 - Demo Integrating everything into our solution.md) |
 
 <!-- Aero-Footer-Start -->
 ---

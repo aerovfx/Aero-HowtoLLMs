@@ -18,9 +18,11 @@
 ---
 <!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-[01_welcome-to-the-course](01_welcome-to-the-course/index.md)
-[02_work-with-advanced-retrievers-in-langchain](02_work-with-advanced-retrievers-in-langchain/index.md)
-[03_work-with-advanced-retrievers-in-llamaindex](03_work-with-advanced-retrievers-in-llamaindex/index.md)
+| Thư mục | Liên kết |
+| :--- | :--- |
+| **01 welcome to the course** | [Mở thư mục →](01_welcome-to-the-course/index.md) |
+| **02 work with advanced retrievers in langchain** | [Mở thư mục →](02_work-with-advanced-retrievers-in-langchain/index.md) |
+| **03 work with advanced retrievers in llamaindex** | [Mở thư mục →](03_work-with-advanced-retrievers-in-llamaindex/index.md) |
 
 <!-- Aero-Footer-Start -->
 ---

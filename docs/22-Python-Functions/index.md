@@ -20,12 +20,12 @@
 ## 📄 Tài liệu chi tiết
 | Bài học | Liên kết |
 | :--- | :--- |
-| Nhập môn Python: Hàm, Đầu vào và Đầu ra (Functions, Inputs and Outputs) | [Xem bài viết →](aero_LLM_01_Inputs and outputs.md) |
-| Nhập môn Python: Thư viện NumPy và Thao tác Số học (The NumPy Library) | [Xem bài viết →](aero_LLM_02_The numpy library.md) |
-| Nhập môn Python: Các Phương pháp Tra cứu và Hỗ trợ (Getting Help) | [Xem bài viết →](aero_LLM_03_Getting help on functions.md) |
-| Nhập môn Python: Kỹ thuật Xây dựng Hàm (Creating Functions) | [Xem bài viết →](aero_LLM_04_Creating functions.md) |
-| Nhập môn Python: Cơ chế Sao chép Biến và Quản lý Bộ nhớ (Copying Variables) | [Xem bài viết →](aero_LLM_05_Copying (duplicating) variables.md) |
-| Nhập môn Python: Kỹ thuật Tạo số Ngẫu nhiên với NumPy (Generating Random Numbers) | [Xem bài viết →](aero_LLM_06_Generating random numbers.md) |
+| [Nhập môn Python: Hàm, Đầu vào và Đầu ra (Functions, Inputs and Outputs)](aero_LLM_01_Inputs and outputs.md) | [Xem bài viết →](aero_LLM_01_Inputs and outputs.md) |
+| [Nhập môn Python: Thư viện NumPy và Thao tác Số học (The NumPy Library)](aero_LLM_02_The numpy library.md) | [Xem bài viết →](aero_LLM_02_The numpy library.md) |
+| [Nhập môn Python: Các Phương pháp Tra cứu và Hỗ trợ (Getting Help)](aero_LLM_03_Getting help on functions.md) | [Xem bài viết →](aero_LLM_03_Getting help on functions.md) |
+| [Nhập môn Python: Kỹ thuật Xây dựng Hàm (Creating Functions)](aero_LLM_04_Creating functions.md) | [Xem bài viết →](aero_LLM_04_Creating functions.md) |
+| [Nhập môn Python: Cơ chế Sao chép Biến và Quản lý Bộ nhớ (Copying Variables)](aero_LLM_05_Copying (duplicating) variables.md) | [Xem bài viết →](aero_LLM_05_Copying (duplicating) variables.md) |
+| [Nhập môn Python: Kỹ thuật Tạo số Ngẫu nhiên với NumPy (Generating Random Numbers)](aero_LLM_06_Generating random numbers.md) | [Xem bài viết →](aero_LLM_06_Generating random numbers.md) |
 
 <!-- Aero-Footer-Start -->
 ---
