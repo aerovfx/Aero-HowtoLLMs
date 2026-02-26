@@ -37,7 +37,7 @@ $$
 
 $$
 
-Cov(X,Y) = \frac{1}{n-1} $\sum$_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
+Cov(X,Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
 
 $$
 
@@ -55,7 +55,7 @@ $$
 
 $$
 
-I(X;Y) = $\sum$_{x} $\sum$_{y} P(x,y) $\log$ $\le$ft( \frac{P(x,y)}{P(x)P(y)} \right)
+I(X;Y) = \sum_{x} \sum_{y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right)
 
 $$
 

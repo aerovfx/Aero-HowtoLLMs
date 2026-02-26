@@ -104,13 +104,22 @@ Thay vì DataLoader, một hàm sampling được xây dựng như sau:
 Kết quả có dạng:
 
 $$
-X, Y \in $\mathbb${R}^{B \times T}
+
+$$
+
+X, Y \in \mathbb{R}^{B \times T}
+
+$$
+
 $$
 
 Trong đó:
 
 * $B$: batch size,
-* $T = 256$: sequence length.
+
+$$
+* T = 256: sequence length.
+$$
 
 ---
 

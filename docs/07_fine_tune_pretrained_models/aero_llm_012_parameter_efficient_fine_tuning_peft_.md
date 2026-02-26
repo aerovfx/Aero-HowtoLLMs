@@ -64,7 +64,7 @@ $$
 
 $$
 
-P(X)=$\prod$_{i=1}^{n}P(x_i \mid x_1,\dots,x_{i-1};\theta)
+P(X)=\prod_{i=1}^{n}P(x_i \mid x_1,\dots,x_{i-1};\theta)
 
 $$
 
@@ -82,7 +82,7 @@ $$
 
 $$
 
-$\mathcal${L}(\theta) = -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P(y_i \mid x_i;\theta)
+$\mathcal${L}(\theta) = -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P($y_i$ \mid $x_i$;\theta)
 
 $$
 
@@ -94,7 +94,7 @@ $$
 
 $$
 
-\theta_{t+1} = \theta_t-\eta$\nabla$_\theta$\mathcal${L}
+\theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}
 
 $$
 
@@ -161,13 +161,25 @@ Các phương pháp này thường được triển khai thông qua thư viện 
 Adapter chèn các mô-đun nhỏ vào giữa các lớp Transformer:
 
 $$
+
+$$
+
 h' = h + W_{up}\sigma(W_{down}h)
+
+$$
+
 $$
 
 Trong đó:
 
-* $W_{down}\in$\mathbb${R}^{d\times r}$,
-* $W_{up}\in$\mathbb${R}^{r\times d}$,
+$$
+* W_{down}\in\mathbb{R}^{d\times r},
+$$
+
+$$
+* W_{up}\in\mathbb{R}^{r\times d},
+$$
+
 * $r \ll d$.
 
 Cấu trúc giống autoencoder nén–giải nén.
@@ -179,13 +191,25 @@ Cấu trúc giống autoencoder nén–giải nén.
 Số tham số adapter:
 
 $$
+
+$$
+
 P_{adapter}=2dr
+
+$$
+
 $$
 
 So với:
 
 $$
+
+$$
+
 P_{full}=d^2
+
+$$
+
 $$
 
 ⇒ $P_{adapter}\ll P_{full}$
@@ -199,19 +223,37 @@ $$
 Cho trọng số gốc:
 
 $$
-W\in$\mathbb${R}^{m\times n}
+
+$$
+
+W\in\mathbb{R}^{m\times n}
+
+$$
+
 $$
 
 LoRA biểu diễn:
 
 $$
+
+$$
+
 W' = W + BA
+
+$$
+
 $$
 
 với:
 
 $$
-B\in$\mathbb${R}^{m\times r},\quad A\in$\mathbb${R}^{r\times n}
+
+$$
+
+B\in\mathbb{R}^{m\times r},\quad A\in\mathbb{R}^{r\times n}
+
+$$
+
 $$
 
 và $r\ll \min(m,n$).
@@ -223,25 +265,49 @@ và $r\ll \min(m,n$).
 Số tham số:
 
 $$
+
+$$
+
 P_{LoRA}=r(m+n)
+
+$$
+
 $$
 
 So với:
 
 $$
+
+$$
+
 P_{full}=mn
+
+$$
+
 $$
 
 Ví dụ:
 
 $$
-* $m=n=1000$,
-$$
-
-* $r=100$:
 
 $$
+
+* m=n=1000,
+
+$$
+
+$$
+
+* r=100:
+
+$$
+
+$$
+
 P_{full}=10^6,\quad P_{LoRA}=2\times10^5
+
+$$
+
 $$
 
 ---
@@ -253,13 +319,18 @@ $$
 Thêm vector tiền tố $$P(:
 
 )$$
+
+$$
 X' = [P; X]
+$$
 
 $$
 với:
 $$
 
-P\in$\mathbb${R}^{k\times d}
+$$
+P\in\mathbb{R}^{k\times d}
+$$
 
 $$
 Đầu vào attention:
@@ -270,7 +341,13 @@ Q,K,V = (X'W_Q,X'W_K,X'W_V)
 $$
 
 $$
-Chỉ $$P( được huấn luyện. --- #### 4.3.2. Số tham số )$$ P_{prefix}=kd
+
+$$
+
+Chỉ P( được huấn luyện. --- #### 4.3.2. Số tham số ) P_{prefix}=kd
+
+$$
+
 $$
 
 Rất nhỏ so với toàn mô hình.
@@ -299,7 +376,7 @@ $$
 
 $$
 
-b_{t+1}=b_t-\eta$\nabla$_b$\mathcal${L}
+b_{t+1}=b_t-\eta\nabla_b\mathcal{L}
 
 $$
 
@@ -314,7 +391,13 @@ Giữ nguyên $W$.
 Bias chủ yếu dịch chuyển phân phối:
 
 $$
+
+$$
+
 P'(y|x)=P(y-b \mid x)
+
+$$
+
 $$
 
 Ảnh hưởng yếu đến cấu trúc biểu diễn.
@@ -333,7 +416,13 @@ Gọi:
 Tỷ lệ:
 
 $$
+
+$$
+
 r=\frac{P_{peft}}{P_{full}}\ll 1
+
+$$
+
 $$
 
 Thời gian huấn luyện:
@@ -342,7 +431,7 @@ $$
 
 $$
 
-T_{peft}$\approx$ rT_{full}
+T_{peft}\approx rT_{full}
 
 $$
 
@@ -384,7 +473,7 @@ $$
 
 $$
 
-Acc_{peft}$\le$ Acc_{full}
+Acc_{peft}\le Acc_{full}
 
 $$
 

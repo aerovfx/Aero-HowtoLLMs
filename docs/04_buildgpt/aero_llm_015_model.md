@@ -74,7 +74,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V)= \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d}}\right)V
+\text{Attention}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
 
 $$
 
@@ -98,13 +98,15 @@ $$
 
 $$
 
-M_{ij}= \begin{cases} 0 & j $\le$ i \\ -$\infty$ & j > i \end{cases}
+M_{ij}= \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
 
 $$
 
 $$
 
-Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-$\infty$$. 
+$$
+Mask được áp dụng bằng cách thay thế các phần tử bị che bởi -\infty.
+$$
 
 ---
 
@@ -113,7 +115,13 @@ Mask được áp dụng bằng cách thay thế các phần tử bị che bởi
 Trước attention, dữ liệu được chuẩn hóa:
 
 $$
+
+$$
+
 \hat{X}=\text{LayerNorm}(X)
+
+$$
+
 $$
 
 Sau đó, đầu ra attention được cộng trở lại:
@@ -158,7 +166,13 @@ Unembedding được chia sẻ trọng số với embedding (weight tying).
 Các ma trận trọng số:
 
 $$
-W_Q, W_K, W_V, W_0 \in $\mathbb${R}^{d \times d}
+
+$$
+
+W_Q, W_K, W_V, W_0 \in \mathbb{R}^{d \times d}
+
+$$
+
 $$
 
 Không sử dụng bias cho QKV, do LayerNorm đã xử lý dịch chuyển phân phối. 
@@ -243,7 +257,7 @@ Với trọng số khởi tạo ngẫu nhiên:
 Giá trị cross-entropy loss xấp xỉ lý thuyết:
 
 $$
-$\log$(|V|)
+\log(|V|)
 $$
 
 Cho thấy mô hình chưa học được thông tin ngôn ngữ. 
@@ -408,161 +422,85 @@ Mỗi block bao gồm hai sublayer chính:
 Dạng tổng quát:
 
 $$
+
+$$
+
 H^{(l)} = H^{(l-1)} + \text{MHSA}(\text{LN}(H^{(l-1)}))
+
+$$
+
 $$
 
 $$
 Y^{(l)} = H^{(l)} + \text{FFN}(\text{LN}(H^{(l)}))
 $$
 
-Trong đó:
-
-- $l$: chỉ số block,
-- LN: Layer Normalization.
-
----
-
-### 2.2. Kiến trúc Xếp chồng (Stacking)
-
-Với $L$ block, mô hình có dạng:
-
 $$
-X \rightarrow B_1 \rightarrow B_2 \rightarrow \dots \rightarrow B_L \rightarrow Y
+Trong đó: - l: chỉ số block, - LN: Layer Normalization. --- ### 2.2. Kiến trúc Xếp chồng (Stacking) Với L block, mô hình có dạng:
 $$
 
-Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh xạ phi tuyến sâu.
-
----
-
-### 2.3. Vai trò của Độ sâu (Depth)
-
-Độ sâu mô hình ảnh hưởng trực tiếp đến:
-
-- Khả năng trừu tượng hóa,
-- Năng lực ghi nhớ dài hạn,
-- Khả năng suy luận.
-
-Quan hệ thực nghiệm:
+X \rightarrow $B_1$ \rightarrow $B_2$ \rightarrow \dots \rightarrow $B_L$ \rightarrow Y
 
 $$
-\text{Capacity} $\propto$ L \times d^2
-$$
-
-với $L$ là số block, $d$ là embedding dimension.
-
----
-
-## 3. Cơ sở Lý thuyết
-
-### 3.1. Biểu diễn Phân cấp
-
-Multi-block Transformer tạo biểu diễn phân cấp:
-
-| Tầng | Vai trò |
-|------|----------|
-| Lower | Cú pháp, từ vựng |
-| Middle | Ngữ nghĩa |
-| Higher | Ngữ cảnh, suy luận |
-
-Mỗi block làm giàu thêm không gian biểu diễn.
-
----
-
-### 3.2. Hiện tượng Feature Composition
-
-Mỗi block thực hiện:
-
+Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh xạ phi tuyến sâu. --- ### 2.3. Vai trò của Độ sâu (Depth) Độ sâu mô hình ảnh hưởng trực tiếp đến: - Khả năng trừu tượng hóa, - Năng lực ghi nhớ dài hạn, - Khả năng suy luận. Quan hệ thực nghiệm:
 $$
 
 $$
+\text{Capacity} \propto L \times d^2
+$$
 
+$$
+với L là số block, d là embedding dimension. --- ## 3. Cơ sở Lý thuyết ### 3.1. Biểu diễn Phân cấp Multi-block Transformer tạo biểu diễn phân cấp: | Tầng | Vai trò | |------|----------| | Lower | Cú pháp, từ vựng | | Middle | Ngữ nghĩa | | Higher | Ngữ cảnh, suy luận | Mỗi block làm giàu thêm không gian biểu diễn. --- ### 3.2. Hiện tượng Feature Composition Mỗi block thực hiện:
+$$
+
+$$
 f_l(x) = x + g_l(x)
-
 $$
 
 $$
-
 Chuỗi block tạo thành:
-
 $$
 
 $$
-
 f(x)=f_L\circ \dots \circ f_1(x)
-
 $$
 
 $$
-
-Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh mẽ.
-
----
-
-### 3.3. Ổn định Gradient
-
-Residual connection cho phép:
-
+Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh mẽ. --- ### 3.3. Ổn định Gradient Residual connection cho phép:
 $$
 
 $$
-
-\frac{$\partial$ L}{$\partial$ x} $\approx$ 1 + \epsilon
-
+\frac{\partial L}{\partial x} \approx 1 + \epsilon
 $$
 
 $$
-
-Giúp tránh hiện tượng vanishing gradient khi tăng độ sâu.
-
----
-
-## 4. Phương pháp (Methodology)
-
-### 4.1. Mở rộng từ Single-Block
-
-Mô hình một block:
-
-Embedding → Attention → Output
-
-Mô hình multi-block:
-
-Embedding → Block1 → Block2 → ... → BlockL → Output
-
-Mỗi block độc lập tham số.
-
----
-
-### 4.2. Cấu trúc Block Chuẩn
-
-Mỗi block gồm:
-
-1. Pre-LayerNorm,
-2. Multi-Head Attention,
-3. Residual,
-4. LayerNorm,
-5. Feedforward,
-6. Residual.
-
-Đây là cấu hình được chứng minh ổn định trong huấn luyện LLM.
-
----
-
-### 4.3. Pseudocode Multi-Block Transformer
-
-Input: X0 (B×T×D)
+Giúp tránh hiện tượng vanishing gradient khi tăng độ sâu. --- ## 4. Phương pháp (Methodology) ### 4.1. Mở rộng từ Single-Block Mô hình một block: Embedding → Attention → Output Mô hình multi-block: Embedding → Block1 → Block2 → ... → BlockL → Output Mỗi block độc lập tham số. --- ### 4.2. Cấu trúc Block Chuẩn Mỗi block gồm: 1. Pre-LayerNorm, 2. Multi-Head Attention, 3. Residual, 4. LayerNorm, 5. Feedforward, 6. Residual. Đây là cấu hình được chứng minh ổn định trong huấn luyện LLM. --- ### 4.3. Pseudocode Multi-Block Transformer Input: X0 (B×T×D)
+$$
 
 for l = 1 → L:
 
 $$
+
+$$
+
 H = LN(Xl-1)
+
 $$
 
 $$
-A = MHSA$H$
+
+$$
+A = MHSAH
 $$
 
 $$
+
+$$
+
 U = Xl-1 + A
+
+$$
+
 $$
 
 $$
@@ -570,7 +508,13 @@ Z = LN(U)
 $$
 
 $$
+
+$$
+
 F = FFN(Z)
+
+$$
+
 $$
 
 $$
@@ -578,7 +522,13 @@ Xl = U + F
 $$
 
 $$
+
+$$
+
 Y = X_L
+
+$$
+
 $$
 
 return Y
@@ -600,7 +550,13 @@ class TransformerBlock(nn.Module):
         super().__init__()
 
 $$
+
+$$
+
 self.ln1 = nn.LayerNorm(d_model)
+
+$$
+
 $$
 
 $$
@@ -608,58 +564,91 @@ self.ln2 = nn.LayerNorm(d_model)
 $$
 
 $$
+
+$$
+
 self.attn = nn.MultiheadAttention(
+
+$$
+
 $$
 
 $$
 d_model, n_heads, batch_first=True
 $$
 
-        )
+$$
+)
+$$
 
 $$
 self.ffn = nn.Sequential(
 $$
 
-            nn.Linear(d_model, d_ff),
-            nn.GELU(),
-            nn.Linear(d_ff, d_model)
-        )
+$$
+nn.Linear(d_model, d_ff), nn.GELU(), nn.Linear(d_ff, d_model) )
+$$
 
 $$
 def forward(self, x, causal_mask=None):
 $$
 
 $$
-h = self.ln1$x$
+
+$$
+
+h = self.ln1x
+
+$$
+
 $$
 
 $$
 attn_out, _ = self.attn(
 $$
 
-            h, h, h,
+$$
+h, h, h,
+$$
 
 $$
 attn_mask=causal_mask,
 $$
 
 $$
+
+$$
+
 need_weights=False
+
+$$
+
 $$
 
         )
 
 $$
+
+$$
+
 x = x + attn_out
+
 $$
 
 $$
-h = self.ln2$x$
+
+$$
+h = self.ln2x
 $$
 
 $$
-x = x + self.ffn$h$
+
+$$
+
+x = x + self.ffnh
+
+$$
+
 $$
 
         return x
@@ -676,21 +665,39 @@ class Transformer(nn.Module):
         super().__init__()
 
 $$
+
+$$
+
 self.token_emb = nn.Embedding(
+
+$$
+
 $$
 
             vocab_size, d_model
         )
 
 $$
+
+$$
+
 self.pos_emb = nn.Embedding(
+
+$$
+
 $$
 
             max_len, d_model
         )
 
 $$
+
+$$
+
 self.blocks = nn.ModuleList([
+
+$$
+
 $$
 
             TransformerBlock(
@@ -700,7 +707,13 @@ $$
         ])
 
 $$
+
+$$
+
 self.ln_f = nn.LayerNorm(d_model)
+
+$$
+
 $$
 
 $$
@@ -708,7 +721,13 @@ self.head = nn.Linear(
 $$
 
 $$
+
+$$
+
 d_model, vocab_size, bias=False
+
+$$
+
 $$
 
         )
@@ -716,7 +735,13 @@ $$
     def forward(self, idx):
 
 $$
+
+$$
+
 B, T = idx.shape
+
+$$
+
 $$
 
 $$
@@ -724,234 +749,73 @@ pos = torch.arange(
 $$
 
 $$
+
+$$
+
 T, device=idx.device
+
+$$
+
 $$
 
         )
 
-        x = (
+$$
+x = (
+$$
+
             self.token_emb(idx)
             + self.pos_emb(pos)
         )
 
 $$
+
+$$
+
 mask = torch.triu(
+
+$$
+
 $$
 
             torch.ones(T, T),
-            diagonal=1
+
+$$
+diagonal=1
+$$
+
         ).bool().to(idx.device)
 
         for block in self.blocks:
 
 $$
+
+$$
+
 x = block(x, mask)
+
+$$
+
 $$
 
 $$
-x = self.ln_f$x$
+x = self.ln_fx
 $$
 
-        return self.head$x$
-````
-
----
-
-## 5. Thiết kế Thực nghiệm (Experimental Design)
-
-### 5.1. Cấu hình Mô hình
-
-| Tham số | Giá trị     |
-| ------- | ----------- |
-| Layers  | 2, 4, 8, 12 |
-| Heads   | 4, 8        |
-| Dim     | 256, 512    |
-| FFN     | 4×Dim       |
-
----
-
-### 5.2. Dữ liệu
-
-* Corpus: Wikipedia + Books (subset),
-* Tokens: 50M–200M,
-* Tokenizer: BPE.
-
----
-
-### 5.3. Quy trình Huấn luyện
-
-* Optimizer: AdamW,
-* LR: 3e-4,
-* Warmup: 5%,
-* Batch: 256,
-* Epochs: 20.
-
----
-
-## 6. Kết quả (Results)
-
-### 6.1. Ảnh hưởng của Số Block
-
-| Layers | Perplexity ↓ |
-| ------ | ------------ |
-| 2      | 38.5         |
-| 4      | 29.4         |
-| 8      | 21.7         |
-| 12     | 18.9         |
-
-Perplexity giảm khi tăng độ sâu.
-
----
-
-### 6.2. Hiệu năng Tính toán
-
-| Layers | Time/Step |
-| ------ | --------- |
-| 2      | 1.2 ms    |
-| 4      | 2.3 ms    |
-| 8      | 4.8 ms    |
-| 12     | 7.5 ms    |
-
-Chi phí tăng tuyến tính theo số block.
-
----
-
-### 6.3. Sử dụng Bộ nhớ
-
-Memory ≈ O(L·T·D)
-
-Với L lớn, memory trở thành bottleneck chính.
-
----
-
-## 7. Thảo luận (Discussion)
-
-### 7.1. Trade-off Depth vs Efficiency
-
-| Yếu tố    | Tăng Block                  |
-| --------- | --------------------------- |
-| Accuracy  | ↑                           |
-| Memory    | ↑                           |
-| Latency   | ↑                           |
-| Stability | ↓ (nếu không chuẩn hóa tốt) |
-
-Do đó, cần cân bằng giữa độ sâu và chi phí.
-
----
-
-### 7.2. Hiện tượng Over-Smoothing
-
-Khi L lớn:
-
-* Biểu diễn token trở nên giống nhau,
-* Giảm phân biệt ngữ nghĩa.
-
-Cần regularization và dropout.
-
----
-
-### 7.3. Tác động đến LLM Quy mô lớn
-
-Trong LLM hiện đại:
+$$
+return self.headx ```` --- ## 5. Thiết kế Thực nghiệm (Experimental Design) ### 5.1. Cấu hình Mô hình | Tham số | Giá trị     | | ------- | ----------- | | Layers  | 2, 4, 8, 12 | | Heads   | 4, 8        | | Dim     | 256, 512    | | FFN     | 4×Dim       | --- ### 5.2. Dữ liệu * Corpus: Wikipedia + Books (subset), * Tokens: 50M–200M, * Tokenizer: BPE. --- ### 5.3. Quy trình Huấn luyện * Optimizer: AdamW, * LR: 3e-4, * Warmup: 5%, * Batch: 256, * Epochs: 20. --- ## 6. Kết quả (Results) ### 6.1. Ảnh hưởng của Số Block | Layers | Perplexity ↓ | | ------ | ------------ | | 2      | 38.5         | | 4      | 29.4         | | 8      | 21.7         | | 12     | 18.9         | Perplexity giảm khi tăng độ sâu. --- ### 6.2. Hiệu năng Tính toán | Layers | Time/Step | | ------ | --------- | | 2      | 1.2 ms    | | 4      | 2.3 ms    | | 8      | 4.8 ms    | | 12     | 7.5 ms    | Chi phí tăng tuyến tính theo số block. --- ### 6.3. Sử dụng Bộ nhớ Memory ≈ O(L·T·D) Với L lớn, memory trở thành bottleneck chính. --- ## 7. Thảo luận (Discussion) ### 7.1. Trade-off Depth vs Efficiency | Yếu tố    | Tăng Block                  | | --------- | --------------------------- | | Accuracy  | ↑                           | | Memory    | ↑                           | | Latency   | ↑                           | | Stability | ↓ (nếu không chuẩn hóa tốt) | Do đó, cần cân bằng giữa độ sâu và chi phí. --- ### 7.2. Hiện tượng Over-Smoothing Khi L lớn: * Biểu diễn token trở nên giống nhau, * Giảm phân biệt ngữ nghĩa. Cần regularization và dropout. --- ### 7.3. Tác động đến LLM Quy mô lớn Trong LLM hiện đại:
+$$
 
 * L = 32–96,
+
+$$
+
+$$
+
 * D = 4k–8k,
+
+$$
+
+$$
+
 * Heads = 32–64.
-
-Multi-block là nhân tố quyết định năng lực suy luận.
-
----
-
-## 8. Hạn chế (Limitations)
-
-Nghiên cứu chưa xét:
-
-* Mixture-of-Experts,
-* Pipeline parallel,
-* Checkpointing,
-* FlashAttention.
-
----
-
-## 9. Hướng Phát triển (Future Work)
-
-Các hướng mở rộng:
-
-* DeepNorm / ScaleNorm,
-* Sparse Transformer,
-* Recurrent memory,
-* Modular Transformer,
-* Dynamic depth.
-
----
-
-## 10. Kết luận (Conclusion)
-
-Bài báo đã trình bày quá trình mở rộng từ mô hình attention đơn sang kiến trúc Multi-Block Transformer. Kết quả cho thấy:
-
-* Độ sâu giúp tăng năng lực biểu diễn,
-* Chi phí tăng tuyến tính,
-* Residual + LayerNorm là điều kiện bắt buộc.
-
-Multi-block Transformer là nền tảng cốt lõi của mọi LLM hiện đại.
-
----
-
-## Tài liệu tham khảo (References)
-
-[1] Vaswani et al., Attention Is All You Need, 2017.
-[2] Ba et al., Layer Normalization, 2016.
-[3] Radford et al., GPT-2, 2019.
-[4] Brown et al., GPT-3, 2020.
-[5] Xiong et al., On Layer Normalization in Transformers, 2020.
-
----
-<!-- Aero-Footer-Start -->
-
-## 📄 Tài liệu cùng chuyên mục
-| Bài học | Liên kết |
-| :--- | :--- |
-| [Mở rộng Kiến trúc GPT: Position Embedding, Layer Normalization, Weight Tying và Temperature Scaling](aero_llm_010_posion_embedding.md) | [Xem bài viết →](aero_llm_010_posion_embedding.md) |
-| [Biểu diễn Tính Nhân Quả Thời Gian trong Cơ Chế Attention bằng Đại Số Tuyến Tính](aero_llm_011_temporal_causality_via_linear_algebra_theory_.md) | [Xem bài viết →](aero_llm_011_temporal_causality_via_linear_algebra_theory_.md) |
-| [Cơ Chế Trung Bình Hóa Quá Khứ và Loại Bỏ Tương Lai trong Mô Hình Ngôn Ngữ Nhân Quả](aero_llm_012_averaging_the_past_while_ignoring_the_future.md) | [Xem bài viết →](aero_llm_012_averaging_the_past_while_ignoring_the_future.md) |
-| [Thuật Toán Attention trong Mô Hình Transformer: Cơ Sở Lý Thuyết, Cơ Chế Hoạt Động và Hàm Ý Ứng Dụng](aero_llm_013_the_attention_algorithm_theory_.md) | [Xem bài viết →](aero_llm_013_the_attention_algorithm_theory_.md) |
-| [Phân Tích và Triển Khai Cơ Chế Attention: So Sánh Cài Đặt Thủ Công và PyTorch Tối Ưu](aero_llm_014_codechallenge_code_attention.md) | [Xem bài viết →](aero_llm_014_codechallenge_code_attention.md) |
-| 📌 **[Phân Tích Kiến Trúc Mô Hình Ngôn Ngữ với Một Attention Head: Lý Thuyết, Triển Khai và Đánh Giá](aero_llm_015_model.md)** | [Xem bài viết →](aero_llm_015_model.md) |
-| [Phân Tích Cấu Trúc Transformer Block: Lý Thuyết, Cơ Chế Biểu Diễn và Vai Trò Trong Mô Hình Ngôn Ngữ](aero_llm_016_the_transformer_block_theory_.md) | [Xem bài viết →](aero_llm_016_the_transformer_block_theory_.md) |
-| [Cài Đặt Transformer Block Bằng PyTorch: Phân Tích Kiến Trúc, Luồng Dữ Liệu và Tối Ưu Hóa](aero_llm_017_the_transformer_block_code_.md) | [Xem bài viết →](aero_llm_017_the_transformer_block_code_.md) |
-| [Mô Hình Nhiều Transformer Blocks Trong Mạng Ngôn Ngữ: Kiến Trúc, Phân Cấp Biểu Diễn và Khả Năng Mở Rộng](aero_llm_018_model_4_multiple_transformer_blocks_.md) | [Xem bài viết →](aero_llm_018_model_4_multiple_transformer_blocks_.md) |
-| [aero llm 019 copy 10](aero_llm_019_copy_10.md) | [Xem bài viết →](aero_llm_019_copy_10.md) |
-| [aero llm 019 copy 11](aero_llm_019_copy_11.md) | [Xem bài viết →](aero_llm_019_copy_11.md) |
-| [aero llm 019 copy 12](aero_llm_019_copy_12.md) | [Xem bài viết →](aero_llm_019_copy_12.md) |
-| [aero llm 019 copy 13](aero_llm_019_copy_13.md) | [Xem bài viết →](aero_llm_019_copy_13.md) |
-| [aero llm 019 copy 9](aero_llm_019_copy_9.md) | [Xem bài viết →](aero_llm_019_copy_9.md) |
-| [Multi-Head Attention: Cơ Sở Lý Thuyết và Triển Khai Thực Tiễn](aero_llm_019_multihead_attention_theory_and_implementation.md) | [Xem bài viết →](aero_llm_019_multihead_attention_theory_and_implementation.md) |
-| [aero llm 01 intro](aero_llm_01_intro.md) | [Xem bài viết →](aero_llm_01_intro.md) |
-| [Tối Ưu Hóa Huấn Luyện Mô Hình Học Sâu Bằng GPU: Nguyên Lý và Thực Hành](aero_llm_020_working_on_the_gpu.md) | [Xem bài viết →](aero_llm_020_working_on_the_gpu.md) |
-| [Triển Khai Mô Hình GPT-2 Hoàn Chỉnh Trên GPU: Kiến Trúc, Tối Ưu Hóa và Đánh Giá Hiệu Năng](aero_llm_021_mo_hinh_gpt_2_hoan_chinh_tren_gpu.md) | [Xem bài viết →](aero_llm_021_mo_hinh_gpt_2_hoan_chinh_tren_gpu.md) |
-| [Đánh Giá Hiệu Năng GPT-2 Trên CPU và GPU: Thực Nghiệm Thời Gian Khởi Tạo, Suy Luận và Huấn Luyện](aero_llm_022_anh_gia_hieu_nang_gpt_2_tren_cpu_va_gpu.md) | [Xem bài viết →](aero_llm_022_anh_gia_hieu_nang_gpt_2_tren_cpu_va_gpu.md) |
-| [Khảo Sát Mô Hình GPT-2 Tiền Huấn Luyện của OpenAI: Kiến Trúc, Tham Số và Cơ Chế Sinh Văn Bản](aero_llm_023_inspecting_openai_s_gpt2.md) | [Xem bài viết →](aero_llm_023_inspecting_openai_s_gpt2.md) |
-| [Kiến Trúc Transformer và Triển Khai GPT-2 trên GPU: Phân Tích Toán Học và Hiệu Năng Tính Toán](aero_llm_024_summarizing_gpt_using_equations.md) | [Xem bài viết →](aero_llm_024_summarizing_gpt_using_equations.md) |
-| [Trực Quan Hóa Kiến Trúc GPT Thông Qua nano-GPT: Tiếp Cận Trực Quan trong Nghiên Cứu Mô Hình Ngôn Ngữ](aero_llm_025_visualizing_nano_gpt.md) | [Xem bài viết →](aero_llm_025_visualizing_nano_gpt.md) |
-| [Phân Tích Số Lượng Tham Số Trong Mô Hình GPT-2: Phương Pháp Định Lượng và Ý Nghĩa Kiến Trúc](aero_llm_026_codechallenge_how_many_parameters_part_1_.md) | [Xem bài viết →](aero_llm_026_codechallenge_how_many_parameters_part_1_.md) |
-| [Phân Bố Tham Số Trong GPT-2: So Sánh Attention, MLP và Layer Normalization](aero_llm_027_codechallenge_how_many_parameters_part_2_.md) | [Xem bài viết →](aero_llm_027_codechallenge_how_many_parameters_part_2_.md) |
-| [📘 Phân Tích Kiến Trúc GPT-2: Từ Cơ Chế Multi-Head Attention Đến Hiệu Năng Tính Toán Trên GPU](aero_llm_028_codechallenge_gpt2_trained_weights_distributions.md) | [Xem bài viết →](aero_llm_028_codechallenge_gpt2_trained_weights_distributions.md) |
-| [🧠 Phân Tích Nhân Quả Trong GPT-2: Vai Trò Của Ma Trận Query Thông Qua Can Thiệp Tham Số](aero_llm_029_codechallenge_do_we_really_need_q.md) | [Xem bài viết →](aero_llm_029_codechallenge_do_we_really_need_q.md) |
-| [Phân Tích Kiến Trúc và Cơ Chế Hoạt Động của Mô Hình Ngôn Ngữ Transformer Cơ Bản](aero_llm_02_transformer.md) | [Xem bài viết →](aero_llm_02_transformer.md) |
-| [Phân Tích Kỹ Thuật: So Sánh `nn.Embedding` và `nn.Linear` trong PyTorch](aero_llm_03_embedding_linear.md) | [Xem bài viết →](aero_llm_03_embedding_linear.md) |
-| [Phân Tích So Sánh Hàm Kích Hoạt GELU và ReLU trong Mô Hình Ngôn Ngữ Lớn: Góc Nhìn Lý Thuyết và Thực Nghiệm](aero_llm_04_gelu_vs_relu_academic_analysis.md) | [Xem bài viết →](aero_llm_04_gelu_vs_relu_academic_analysis.md) |
-| [Hàm Softmax và Tham Số Temperature trong Mô Hình Ngôn Ngữ Lớn: Phân Tích Toán Học và Thực Nghiệm](aero_llm_05_softmax_temperature_academic_analysis.md) | [Xem bài viết →](aero_llm_05_softmax_temperature_academic_analysis.md) |
-| [Phân Tích `torch.multinomial`: Lấy Mẫu Xác Suất trong Sinh Văn Bản với PyTorch](aero_llm_06_torch_multinomial_academic_analysis.md) | [Xem bài viết →](aero_llm_06_torch_multinomial_academic_analysis.md) |
-| [Phương Pháp Lấy Mẫu Token trong Sinh Văn Bản: Phân Tích So Sánh Greedy, Top-K, Top-P và Multinomial Sampling](aero_llm_07_token_sampling_methods.md) | [Xem bài viết →](aero_llm_07_token_sampling_methods.md) |
-| [Phân Tích Hành Vi Của Hàm Softmax Trong Mô Hình Học Sâu: Ảnh Hưởng Của Lặp, Phạm Vi Số Học Và Nhiệt Độ](aero_llm_08_ham_softbank.md) | [Xem bài viết →](aero_llm_08_ham_softbank.md) |
-| [Phân Tích Layer Normalization Trong Học Sâu: Cơ Sở Lý Thuyết, Ổn Định Số Học Và Ứng Dụng Thực Tiễn](aero_llm_09_layer_normalization.md) | [Xem bài viết →](aero_llm_09_layer_normalization.md) |
-| [kien truc mo hinh ngon ngu lon](kien_truc_mo_hinh_ngon_ngu_lon.md) | [Xem bài viết →](kien_truc_mo_hinh_ngon_ngu_lon.md) |
-
----
-## 🤝 Liên hệ & Đóng góp
-Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
-> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
-*Cập nhật tự động bởi Aero-Indexer - 2026*
-<!-- Aero-Footer-End -->

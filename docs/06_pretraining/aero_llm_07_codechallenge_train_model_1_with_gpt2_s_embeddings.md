@@ -62,7 +62,13 @@ Embedding từ mô hình tiền huấn luyện chứa thông tin ngữ nghĩa v�
 Embedding ánh xạ token rời rạc sang vector liên tục:
 
 $$
-E: V \rightarrow $\mathbb${R}^d
+
+$$
+
+E: V \rightarrow \mathbb{R}^d
+
+$$
+
 $$
 
 Trong đó:
@@ -70,7 +76,9 @@ Trong đó:
 * $V$ là tập từ vựng,
 * $d$ là số chiều embedding.
 
-Trong GPT-2, $d = 768$, do đó Model 1 phải điều chỉnh kích thước embedding để tương thích. 
+$$
+Trong GPT-2, d = 768, do đó Model 1 phải điều chỉnh kích thước embedding để tương thích.
+$$
 
 ---
 
@@ -81,7 +89,13 @@ Trong GPT-2, $d = 768$, do đó Model 1 phải điều chỉnh kích thước em
 ```python
 
 $$
+
+$$
+
 param.requires_grad = False
+
+$$
+
 $$
 
 Khi đó, gradient không được lan truyền qua tham số này, và trọng số không bị cập nhật.
@@ -122,7 +136,13 @@ Ví dụ:
 ```python
 
 $$
+
+$$
+
 model1.embedding.weight.data = gpt2.embedding.weight.data.clone()
+
+$$
+
 $$
 
 Việc sử dụng `.data` giúp loại bỏ thông tin gradient và metadata. 
@@ -143,7 +163,9 @@ $$
 
 $$
 
-Nếu $\Delta = 0$, việc sao chép thành công. 
+$$
+Nếu \Delta = 0, việc sao chép thành công.
+$$
 
 ---
 
@@ -171,7 +193,13 @@ Trong tài liệu, hai cấu hình B và C được phân tích chi tiết.
 ```python
 
 $$
+
+$$
+
 model.embedding.weight.requires_grad = False
+
+$$
+
 $$
 
 Để mở lại huấn luyện:
@@ -179,7 +207,13 @@ $$
 ```python
 
 $$
+
+$$
+
 model.embedding.weight.requires_grad = True
+
+$$
+
 $$
 
 ---

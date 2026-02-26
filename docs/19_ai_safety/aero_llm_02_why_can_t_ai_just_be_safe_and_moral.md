@@ -58,7 +58,7 @@ $$
 
 $$
 
-h_{out} = \text{LayerNorm}(h_{in} + $\sum$_{i=1}^{H} \text{Head}_i(h_{in}))
+h_{out} = \text{LayerNorm}(h_{in} + \sum_{i=1}^{H} \text{Head}_i(h_{in}))
 
 $$
 

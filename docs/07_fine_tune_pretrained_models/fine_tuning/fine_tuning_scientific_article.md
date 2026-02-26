@@ -65,7 +65,7 @@ $$
 
 $$
 
-\text{Attention}(Q, K, V) = \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
@@ -80,7 +80,13 @@ Trong đó:
 Multi-head attention cho phép mô hình tập trung vào nhiều vị trí khác nhau trong câu cùng lúc:
 
 $$
+
+$$
+
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^O
+
+$$
+
 $$
 
 $$
@@ -101,7 +107,7 @@ $$
 
 $$
 
-PE_{(pos, 2i)} = \sin$\le$ft(\frac{pos}{10000^{2i/d_{model}}}\right)
+PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)
 
 $$
 
@@ -111,7 +117,7 @@ $$
 
 $$
 
-PE_{(pos, 2i+1)} = \cos$\le$ft(\frac{pos}{10000^{2i/d_{model}}}\right)
+PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)
 
 $$
 
@@ -249,12 +255,17 @@ Trong đó:
 
 #### 6.2.1. Số Lượng Tham Số Cần Huấn Luyện
 
-Với kích thước ma trận gốc $n = 512$ và rank $r = 1$:
+$$
+Với kích thước ma trận gốc n = 512 và rank r = 1:
+$$
+
 - Số tham số cần fine-tune trong LoRA: $512 \times 1 \times 2 = 1,024$ tham số
 - Số tham số trong ma trận gốc: $512^2 = 262,144$ tham số
 - Giảm khoảng 256 lần [9]
 
-Nếu sử dụng floating-point 32 precision: $1,024 \times 32 = 32,768$ bytes thay vì hơn 2 triệu [9].
+$$
+Nếu sử dụng floating-point 32 precision: 1,024 \times 32 = 32,768 bytes thay vì hơn 2 triệu [9].
+$$
 
 ### 6.3. Lợi Ích của LoRA
 

@@ -29,21 +29,39 @@ Trong các mô hình Transformer, văn bản không được xử lý trực ti�
 Cho chuỗi đầu vào:
 
 $$
+
+$$
+
 X = (x_1, x_2, ..., x_n)
+
+$$
+
 $$
 
 Tokenizer thực hiện ánh xạ:
 
 $$
+
+$$
+
 f: X \rightarrow T = (t_1, t_2, ..., t_m)
+
+$$
+
 $$
 
 Trong đó:
-	•	x_i: ký tự hoặc byte
-	•	t_j: token trong từ vựng V
+	•	$x_i$: ký tự hoặc byte
+	•	$t_j$: token trong từ vựng V
 
 $$
-•	m $\le$q n
+
+$$
+
+•	m \leq n
+
+$$
+
 $$
 
 ⸻
@@ -67,7 +85,13 @@ Giả sử ta có tập dữ liệu huấn luyện D gồm các chuỗi ký tự
 Tần suất xuất hiện của cặp ký tự (a,b):
 
 $$
-\text{freq}(a,b) = $\sum$_{w \in D} \text{count}_{w}(a,b)
+
+$$
+
+\text{freq}(a,b) = \sum_{w \in D} \text{count}_{w}(a,b)
+
+$$
+
 $$
 
 Cặp được chọn để gộp:
@@ -77,7 +101,13 @@ $a^{\ast}, b^{\ast}$ = \arg\max_{(a,b)} \text{freq}(a,b)
 Sau mỗi bước gộp, từ vựng được cập nhật:
 
 $$
+
+$$
+
 V_{k+1} = V_k \cup \{ a^{\ast}b^{\ast} \}
+
+$$
+
 $$
 
 ⸻
@@ -108,9 +138,11 @@ Tiếp tục quá trình đến khi đạt kích thước từ vựng yêu cầu
 
 3. Biểu diễn Vector của Token
 
-Sau khi token hóa, mỗi token t_i \in V được ánh xạ sang embedding vector:
+Sau khi token hóa, mỗi token $t_i$ \in V được ánh xạ sang embedding vector:
 
-E: V \rightarrow $\mathbb${R}^d
+$$
+E: V \rightarrow \mathbb{R}^d
+$$
 
 Với:
 	•	d: chiều không gian embedding (ví dụ 768, 1024, 4096…)
@@ -118,19 +150,31 @@ Với:
 Chuỗi token:
 
 $$
+
+$$
+
 T = (t_1, t_2, ..., t_m)
+
+$$
+
 $$
 
 được chuyển thành ma trận embedding:
 
+$$
 \mathbf{X} =
+$$
+
 \begin{bmatrix}
 E$t_1$ \\
 E$t_2$ \\
 \vdots \\
 E$t_m$
 \end{bmatrix}
-\in $\mathbb${R}^{m \times d}
+
+$$
+\in \mathbb{R}^{m \times d}
+$$
 
 ⸻
 
@@ -152,16 +196,16 @@ Không xảy ra trường hợp “out-of-vocabulary”.
 
 Sau tokenization, mô hình học phân phối xác suất:
 
-P(t_i | t_1, ..., t_{i-1})
+P($t_i$ | $t_1$, ..., t_{i-1})
 
 Toàn bộ xác suất chuỗi:
 
-$P(T)$ = $\prod$_{i=1}^{m} P(t_i | t_{<i})
+$P(T)$ = $\prod$_{i=1}^{m} P($t_i$ | t_{<i})
 
 Loss function huấn luyện:
 
 $$
-$\mathcal${L} = - $\sum$_{i=1}^{m} $\log$ P(t_i  \mid  t_{\lt i})
+\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i  \mid  t_{\lt i})
 $$
 
 Tokenizer ảnh hưởng trực tiếp đến:
@@ -177,7 +221,9 @@ Tokenizer ảnh hưởng trực tiếp đến:
 
 Nếu tokenizer tạo quá nhiều token cho một từ hiếm:
 
-\text{computational cost} $\propto$ m^2
+$$
+\text{computational cost} \propto m^2
+$$
 
 Chi phí attention tăng nhanh khi m lớn.
 
@@ -188,7 +234,13 @@ Chi phí attention tăng nhanh khi m lớn.
 Entropy của hệ token:
 
 $$
-H$T$ = - $\sum$_{t \in V} $P(t)$\log $P(t)$
+
+$$
+
+HT = - \sum_{t \in V} P(t)\log P(t)
+
+$$
+
 $$
 
 Tokenizer tốt sẽ:
@@ -231,7 +283,9 @@ Tokenizer không chỉ là bước tiền xử lý, mà là thành phần quyế
 
 Về mặt toán học, tokenizer ảnh hưởng đến:
 
-m, \quad H$T$, \quad $\mathcal${L}, \quad $O(m^2)$
+$$
+m, \quad HT, \quad \mathcal{L}, \quad O(m^2)
+$$
 
 Do đó, việc tối ưu tokenizer có thể cải thiện cả hiệu suất lẫn chất lượng sinh ngôn ngữ của mô hình.
 

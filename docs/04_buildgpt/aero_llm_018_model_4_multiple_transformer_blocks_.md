@@ -110,7 +110,11 @@ Cách tiếp cận này giúp tránh:
 Việc khởi tạo block được thực hiện bằng list comprehension trong Python:
 
 ```python
-blocks = [TransformerBlock(...) for _ in range$N$]
+
+$$
+blocks = [TransformerBlock(...) for _ in rangeN]
+$$
+
 ````
 
 Cách làm này cho phép thay đổi độ sâu mô hình chỉ bằng một tham số.
@@ -416,7 +420,7 @@ $$
 
 $$
 
-\frac{$\partial$ L}{$\partial$ x_0} = $\prod$_{i=1}^{L} \frac{$\partial$ x_i}{$\partial$ x_{i-1}}
+\frac{\partial L}{\partial x_0} = \prod_{i=1}^{L} \frac{\partial x_i}{\partial x_{i-1}}
 
 $$
 
@@ -439,7 +443,7 @@ $$
 
 $$
 
-x_L = x_0 + $\sum$_{i=1}^{L} f_i(x_{i-1})
+x_L = x_0 + \sum_{i=1}^{L} f_i(x_{i-1})
 
 $$
 
@@ -457,7 +461,7 @@ $$
 
 $$
 
-\text{Memory} $\approx$ O(L \cdot T \cdot D)
+\text{Memory} \approx O(L \cdot T \cdot D)
 
 $$
 
@@ -518,7 +522,7 @@ $$
 
 $$
 
-\text{RMSNorm}(x) = \frac{x}{\sqrt{\frac{1}{d}$\sum$ x_i^2 + \epsilon}}
+\text{RMSNorm}(x) = \frac{x}{\sqrt{\frac{1}{d}\sum x_i^2 + \epsilon}}
 
 $$
 
@@ -565,7 +569,13 @@ $$
 với:
 
 $$
+
+$$
+
 \alpha = (2L)^{1/4}
+
+$$
+
 $$
 
 Giúp duy trì biên độ gradient khi L lớn.
@@ -598,7 +608,7 @@ $$
 
 $$
 
-g $\le$ftarrow \frac{g}{\max(1,\|g\|/c)}
+g \leftarrow \frac{g}{\max(1,\|g\|/c)}
 
 $$
 
@@ -613,7 +623,13 @@ Giúp tránh exploding gradient.
 Warmup tuyến tính:
 
 $$
+
+$$
+
 lr(t)=lr_{max}\cdot\frac{t}{T_{warmup}}
+
+$$
+
 $$
 
 Giảm shock ban đầu.
@@ -696,14 +712,22 @@ Là tiêu chuẩn cho mô hình >10B params.
 
 Input: X0
 
+$$
 for l = 1 → L:
+$$
 
 $$
 H = RMSNorm(Xl-1)
 $$
 
 $$
-A = FlashAttention$H$
+
+$$
+
+A = FlashAttentionH
+
+$$
+
 $$
 
 $$
@@ -711,7 +735,13 @@ U = Xl-1 + scale*A
 $$
 
 $$
+
+$$
+
 Z = RMSNorm(U)
+
+$$
+
 $$
 
 $$
@@ -719,514 +749,89 @@ F = GatedMLP(Z)
 $$
 
 $$
+
+$$
+
 Xl = U + scale*F
+
+$$
+
 $$
 
 $$
 Loss = CrossEntropy(XL)
 $$
 
-Backward + Clip + Update
-
----
-
-## 8. Pipeline Huấn Luyện Production
-
-### 8.1. Training Stack
-
-Dataset
-↓
-Tokenizer
-↓
-Distributed Loader
-↓
-Deep Transformer $100+$
-↓
-ZeRO + TP + PP
-↓
-Checkpoint System
-
----
-
-### 8.2. Hardware Mapping
-
-Hệ thống thường sử dụng GPU của  (A100/H100):
-
-| Thành phần | Cấu hình |
-|------------|----------|
-| Nodes | 32–512 |
-| GPUs/node | 8 |
-| Interconnect | NVLink + InfiniBand |
-
----
-
-## 9. Đánh Giá Thực Nghiệm (Results)
-
-### 9.1. Ảnh hưởng Độ Sâu
-
-| Layers | Perplexity ↓ | Stability |
-|--------|-------------|-----------|
-| 24 | 28.4 | High |
-| 48 | 21.6 | High |
-| 96 | 17.9 | Medium |
-| 128 | 16.8 | Low (no opt) |
-| 128 + opt | 16.7 | High |
-
-Tối ưu hóa là bắt buộc khi L > 80.
-
----
-
-### 9.2. Memory Usage
-
-| Setup | Peak VRAM |
-|-------|-----------|
-| Baseline | 78 GB |
-| +Checkpoint | 42 GB |
-| +ZeRO-3 | 19 GB |
-
----
-
-## 10. Thảo Luận (Discussion)
-
-### 10.1. Depth vs Width
-
-| Yếu tố | Depth | Width |
-|--------|-------|-------|
-| Reasoning | ↑ | → |
-| Stability | ↓ | ↑ |
-| Memory | ↑ | ↑↑ |
-
-LLM hiện đại ưu tiên tăng depth kết hợp width vừa phải.
-
----
-
-### 10.2. System-Oriented View
-
-Deep Transformer là:
-
-- Optimization problem,
-- Memory management problem,
-- Distributed system problem.
-
-Không còn là mô hình thuần toán học.
-
----
-
-### 10.3. Emergent Reasoning
-
-Nghiên cứu cho thấy suy luận đa bước thường xuất hiện ở tầng >60, chứng minh vai trò của độ sâu.
-
----
-
-## 11. Hạn Chế
-
-Nghiên cứu chưa bao gồm:
-
-1. Sparse/MoE deep blocks,
-2. Neuromorphic hardware,
-3. Online adaptation,
-4. Continual learning.
-
----
-
-## 12. Hướng Phát Triển
-
-Các hướng tương lai:
-
-- Adaptive depth,
-- Dynamic routing,
-- Hierarchical Transformer,
-- Neural scaling controllers,
-- Compiler co-design.
-
----
-
-## 13. Kết Luận (Conclusion)
-
-Bài báo đã phân tích toàn diện vấn đề tối ưu hóa Deep Transformer với hơn 100 tầng. Kết quả cho thấy:
-
-- Pre-LN + RMSNorm là nền tảng,
-- DeepNorm và residual scaling giúp ổn định,
-- FlashAttention và checkpointing giải quyết memory,
-- 3D parallelism quyết định khả năng scale.
-
-Deep optimization là điều kiện tiên quyết để xây dựng LLM thế hệ mới.
-
----
-
-## Tài Liệu Tham Khảo (References)
-
-[1] Vaswani et al., Attention Is All You Need, 2017.  
-[2] Wang et al., DeepNet: Scaling Transformers, 2022.  
-[3] Dao et al., FlashAttention, 2022.  
-[4] Rajbhandari et al., ZeRO, SC20.  
-[5] Shoeybi et al., Megatron-LM, 2019.  
-[6] Kaplan et al., Scaling Laws, 2020.  
-
----
-Dưới đây là **bài viết khoa học bằng tiếng Việt** về **kiến trúc huấn luyện mô hình 100B+ tham số**, trình bày theo chuẩn học thuật, định dạng **Markdown**, có bổ sung trích dẫn và bối cảnh hệ thống.
-
----
-
-# Kiến Trúc Huấn Luyện Mô Hình Ngôn Ngữ Lớn 100B+ Tham Số: Thiết Kế Hệ Thống, Tối Ưu Hóa và Khả Năng Mở Rộng
-
-## Tóm tắt (Abstract)
-
-Các mô hình ngôn ngữ quy mô trên 100 tỷ tham số đã trở thành nền tảng cho trí tuệ nhân tạo tổng quát, được phát triển bởi các tổ chức như  và . Tuy nhiên, việc huấn luyện các mô hình này đặt ra thách thức lớn về bộ nhớ, thông lượng tính toán, truyền thông liên GPU và độ ổn định tối ưu hóa. Bài báo này trình bày kiến trúc huấn luyện tiêu chuẩn cho mô hình 100B+ tham số, phân tích các kỹ thuật song song hóa đa chiều, quản lý bộ nhớ, tối ưu pipeline và chiến lược fault tolerance trong môi trường siêu máy tính AI.
-
----
-
-## 1. Giới thiệu (Introduction)
-
-Sự phát triển của LLM đã chuyển trọng tâm từ thiết kế kiến trúc mô hình sang thiết kế hệ thống phân tán quy mô lớn. Khi số tham số vượt 100B:
-
-- Một GPU đơn lẻ không thể lưu trữ mô hình,
-- Việc huấn luyện trở thành bài toán distributed systems,
-- Chi phí tính toán đạt mức hàng triệu USD.
-
-Do đó, cần một kiến trúc tổng thể (end-to-end architecture) cho training ở quy mô siêu lớn.
-
----
-
-## 2. Đặc Trưng Kỹ Thuật Của Mô Hình 100B+
-
-### 2.1. Quy Mô Tham Số
-
-Một mô hình 100B tham số yêu cầu:
-
+$$
+Backward + Clip + Update --- ## 8. Pipeline Huấn Luyện Production ### 8.1. Training Stack Dataset ↓ Tokenizer ↓ Distributed Loader ↓ Deep Transformer 100+ ↓ ZeRO + TP + PP ↓ Checkpoint System --- ### 8.2. Hardware Mapping Hệ thống thường sử dụng GPU của  (A100/H100): | Thành phần | Cấu hình | |------------|----------| | Nodes | 32–512 | | GPUs/node | 8 | | Interconnect | NVLink + InfiniBand | --- ## 9. Đánh Giá Thực Nghiệm (Results) ### 9.1. Ảnh hưởng Độ Sâu | Layers | Perplexity ↓ | Stability | |--------|-------------|-----------| | 24 | 28.4 | High | | 48 | 21.6 | High | | 96 | 17.9 | Medium | | 128 | 16.8 | Low (no opt) | | 128 + opt | 16.7 | High | Tối ưu hóa là bắt buộc khi L > 80. --- ### 9.2. Memory Usage | Setup | Peak VRAM | |-------|-----------| | Baseline | 78 GB | | +Checkpoint | 42 GB | | +ZeRO-3 | 19 GB | --- ## 10. Thảo Luận (Discussion) ### 10.1. Depth vs Width | Yếu tố | Depth | Width | |--------|-------|-------| | Reasoning | ↑ | → | | Stability | ↓ | ↑ | | Memory | ↑ | ↑↑ | LLM hiện đại ưu tiên tăng depth kết hợp width vừa phải. --- ### 10.2. System-Oriented View Deep Transformer là: - Optimization problem, - Memory management problem, - Distributed system problem. Không còn là mô hình thuần toán học. --- ### 10.3. Emergent Reasoning Nghiên cứu cho thấy suy luận đa bước thường xuất hiện ở tầng >60, chứng minh vai trò của độ sâu. --- ## 11. Hạn Chế Nghiên cứu chưa bao gồm: 1. Sparse/MoE deep blocks, 2. Neuromorphic hardware, 3. Online adaptation, 4. Continual learning. --- ## 12. Hướng Phát Triển Các hướng tương lai: - Adaptive depth, - Dynamic routing, - Hierarchical Transformer, - Neural scaling controllers, - Compiler co-design. --- ## 13. Kết Luận (Conclusion) Bài báo đã phân tích toàn diện vấn đề tối ưu hóa Deep Transformer với hơn 100 tầng. Kết quả cho thấy: - Pre-LN + RMSNorm là nền tảng, - DeepNorm và residual scaling giúp ổn định, - FlashAttention và checkpointing giải quyết memory, - 3D parallelism quyết định khả năng scale. Deep optimization là điều kiện tiên quyết để xây dựng LLM thế hệ mới. --- ## Tài Liệu Tham Khảo (References) [1] Vaswani et al., Attention Is All You Need, 2017. [2] Wang et al., DeepNet: Scaling Transformers, 2022. [3] Dao et al., FlashAttention, 2022. [4] Rajbhandari et al., ZeRO, SC20. [5] Shoeybi et al., Megatron-LM, 2019. [6] Kaplan et al., Scaling Laws, 2020. --- Dưới đây là **bài viết khoa học bằng tiếng Việt** về **kiến trúc huấn luyện mô hình 100B+ tham số**, trình bày theo chuẩn học thuật, định dạng **Markdown**, có bổ sung trích dẫn và bối cảnh hệ thống. --- # Kiến Trúc Huấn Luyện Mô Hình Ngôn Ngữ Lớn 100B+ Tham Số: Thiết Kế Hệ Thống, Tối Ưu Hóa và Khả Năng Mở Rộng ## Tóm tắt (Abstract) Các mô hình ngôn ngữ quy mô trên 100 tỷ tham số đã trở thành nền tảng cho trí tuệ nhân tạo tổng quát, được phát triển bởi các tổ chức như  và . Tuy nhiên, việc huấn luyện các mô hình này đặt ra thách thức lớn về bộ nhớ, thông lượng tính toán, truyền thông liên GPU và độ ổn định tối ưu hóa. Bài báo này trình bày kiến trúc huấn luyện tiêu chuẩn cho mô hình 100B+ tham số, phân tích các kỹ thuật song song hóa đa chiều, quản lý bộ nhớ, tối ưu pipeline và chiến lược fault tolerance trong môi trường siêu máy tính AI. --- ## 1. Giới thiệu (Introduction) Sự phát triển của LLM đã chuyển trọng tâm từ thiết kế kiến trúc mô hình sang thiết kế hệ thống phân tán quy mô lớn. Khi số tham số vượt 100B: - Một GPU đơn lẻ không thể lưu trữ mô hình, - Việc huấn luyện trở thành bài toán distributed systems, - Chi phí tính toán đạt mức hàng triệu USD. Do đó, cần một kiến trúc tổng thể (end-to-end architecture) cho training ở quy mô siêu lớn. --- ## 2. Đặc Trưng Kỹ Thuật Của Mô Hình 100B+ ### 2.1. Quy Mô Tham Số Một mô hình 100B tham số yêu cầu:
 $$
 
 $$
-
-100B \times 2 \text{ bytes} $\approx$ 200GB
-
+100B \times 2 \text{ bytes} \approx 200GB
 $$
 
 $$
-
-(chỉ cho FP16 weights).
-
-Khi tính optimizer state:
-
+(chỉ cho FP16 weights). Khi tính optimizer state:
 $$
+
 > 800GB
+
 $$
-
----
-
-### 2.2. Chi Phí Tính Toán
-
-FLOPs huấn luyện xấp xỉ:
-
+--- ### 2.2. Chi Phí Tính Toán FLOPs huấn luyện xấp xỉ:
 $$
 
 $$
-
-\text{FLOPs} $\approx$ 6 \times N \times T
-
+\text{FLOPs} \approx 6 \times N \times T
 $$
 
 $$
-
-Trong đó:
-
-- N: số tham số,
-- T: số token.
-
-Với 100B × 1T tokens:
-
+Trong đó: - N: số tham số, - T: số token. Với 100B × 1T tokens:
 $$
 
 $$
-
-$\approx$ 6 \times 10^{23} \text{ FLOPs}
-
+\approx 6 \times 10^{23} \text{ FLOPs}
 $$
 
 $$
-
----
-
-### 2.3. Yêu Cầu Hạ Tầng
-
-| Thành phần | Mức yêu cầu |
-|------------|-------------|
-| GPU | > 1000 |
-| VRAM | > 80GB/GPU |
-| Network | ≥ 400Gbps |
-| Sto18_rage | PB-scale |
-
----
-
-## 3. Kiến Trúc Phần Cứng (Hardware Architecture)
-
-### 3.1. GPU Cluster
-
-Hệ thống hiện đại chủ yếu sử dụng GPU của :
-
-| Model | VRAM | TFLOPS (BF16) |
-|-------|-------|--------------|
-| A100 | 80GB | 312 |
-| H100 | 80GB | 1000+ |
-
----
-
-### 3.2. Interconnect
-
-GPU ↔ NVLink ↔ Node ↔ InfiniBand ↔ Cluster
-
-Thông lượng:
-
-- NVLink: ~900 GB/s,
-- InfiniBand: 400–800 Gbps.
-
----
-
-### 3.3. AI Supercomputer
-
-Mô hình thường được train trên hệ thống như:
-
-- DGX SuperPOD,
-- Azure AI Supercluster,
-- TPU Pod.
-
----
-
-## 4. Kiến Trúc Song Song Hóa 3D (3D Parallelism)
-
-Huấn luyện 100B+ yêu cầu kết hợp 3 chiều:
-
-Data Parallel (DP)
-Tensor Parallel (TP)
-Pipeline Parallel (PP)
-
----
-
-### 4.1. Data Parallelism (DP)
-
-Mỗi GPU xử lý batch khác nhau.
-
-Ưu điểm:
-
-- Dễ triển khai,
-- Tăng throughput.
-
-Nhược điểm:
-
-- Gradient synchronization tốn băng thông.
-
----
-
-### 4.2. Tensor Parallelism (TP)
-
-Chia ma trận trọng số:
-
+--- ### 2.3. Yêu Cầu Hạ Tầng | Thành phần | Mức yêu cầu | |------------|-------------| | GPU | > 1000 | | VRAM | > 80GB/GPU | | Network | ≥ 400Gbps | | Sto18_rage | PB-scale | --- ## 3. Kiến Trúc Phần Cứng (Hardware Architecture) ### 3.1. GPU Cluster Hệ thống hiện đại chủ yếu sử dụng GPU của : | Model | VRAM | TFLOPS (BF16) | |-------|-------|--------------| | A100 | 80GB | 312 | | H100 | 80GB | 1000+ | --- ### 3.2. Interconnect GPU ↔ NVLink ↔ Node ↔ InfiniBand ↔ Cluster Thông lượng: - NVLink: ~900 GB/s, - InfiniBand: 400–800 Gbps. --- ### 3.3. AI Supercomputer Mô hình thường được train trên hệ thống như: - DGX SuperPOD, - Azure AI Supercluster, - TPU Pod. --- ## 4. Kiến Trúc Song Song Hóa 3D (3D Parallelism) Huấn luyện 100B+ yêu cầu kết hợp 3 chiều: Data Parallel (DP) Tensor Parallel (TP) Pipeline Parallel (PP) --- ### 4.1. Data Parallelism (DP) Mỗi GPU xử lý batch khác nhau. Ưu điểm: - Dễ triển khai, - Tăng throughput. Nhược điểm: - Gradient synchronization tốn băng thông. --- ### 4.2. Tensor Parallelism (TP) Chia ma trận trọng số:
 $$
 
 $$
-
 W = [W_1, W_2, ..., W_n]
-
 $$
 
 $$
-
-Phổ biến trong Megatron-LM.
-
----
-
-### 4.3. Pipeline Parallelism (PP)
-
-Chia mô hình theo layer:
-
-GPU1: L1–L20
-GPU2: L21–L40
-...
-
-Giảm memory nhưng tăng latency.
-
----
-
-### 4.4. 3D Parallel Topology
-
-Ví dụ cấu hình:
-
-| Loại | Số GPU |
-|------|---------|
-| DP | 64 |
-| TP | 8 |
-| PP | 8 |
-| Tổng | 4096 |
-
----
-
-## 5. Quản Lý Bộ Nhớ Quy Mô Lớn
-
-### 5.1. ZeRO Optimization
-
-ZeRO phân tán optimizer state:
-
-| Stage | Phân tán |
-|-------|----------|
-| 1 | Optimizer |
-| 2 | + Gradient |
-| 3 | + Parameters |
-
-ZeRO-3 là tiêu chuẩn cho 100B+.
-
----
-
-### 5.2. Activation Checkpointing
-
-Chỉ lưu checkpoint trung gian:
-
-- Giảm VRAM 60–70%,
-- Tăng FLOPs 20–30%.
-
----
-
-### 5.3. CPU / NVMe Offload
-
-GPU ↔ CPU RAM ↔ NVMe
-
-Giúp mở rộng memory ảo.
-
----
-
-## 6. Kiến Trúc Phần Mềm Huấn Luyện
-
-### 6.1. Training Stack
-
-Data Lake (PB)
-↓
-Streaming Loader
-↓
-Tokenizer
-↓
-Distributed Trainer
-↓
-Optimizer (ZeRO)
-↓
-Checkpoint System
-
----
-
-### 6.2. Framework
-
-Hệ sinh thái phổ biến:
-
-- PyTorch Distributed,
-- DeepSpeed,
-- Megatron-LM,
-- FSDP.
-
----
-
-### 6.3. Runtime Graph Optimization
-
-- Operator fusion,
-- Kernel autotuning,
-- CUDA graph.
-
----
-
-## 7. Training Pipeline Chuẩn Cho 100B+
-
-### 7.1. Tổng Thể
-
-Raw Data
-↓
-Cleaning
-↓
-Deduplication
-↓
-Tokenization
-↓
-Sharding
-↓
-Pretraining
-↓
-Evaluation
-
----
-
-### 7.2. Curriculum Learning
-
-Huấn luyện theo pha:
-
-1. Short context,
-2. Long context,
-3. Domain adaptation,
-4. Instruction tuning.
-
----
-
-### 7.3. Batch Scheduling
-
-Global batch:
+Phổ biến trong Megatron-LM. --- ### 4.3. Pipeline Parallelism (PP) Chia mô hình theo layer: GPU1: L1–L20 GPU2: L21–L40 ... Giảm memory nhưng tăng latency. --- ### 4.4. 3D Parallel Topology Ví dụ cấu hình: | Loại | Số GPU | |------|---------| | DP | 64 | | TP | 8 | | PP | 8 | | Tổng | 4096 | --- ## 5. Quản Lý Bộ Nhớ Quy Mô Lớn ### 5.1. ZeRO Optimization ZeRO phân tán optimizer state: | Stage | Phân tán | |-------|----------| | 1 | Optimizer | | 2 | + Gradient | | 3 | + Parameters | ZeRO-3 là tiêu chuẩn cho 100B+. --- ### 5.2. Activation Checkpointing Chỉ lưu checkpoint trung gian: - Giảm VRAM 60–70%, - Tăng FLOPs 20–30%. --- ### 5.3. CPU / NVMe Offload GPU ↔ CPU RAM ↔ NVMe Giúp mở rộng memory ảo. --- ## 6. Kiến Trúc Phần Mềm Huấn Luyện ### 6.1. Training Stack Data Lake (PB) ↓ Streaming Loader ↓ Tokenizer ↓ Distributed Trainer ↓ Optimizer (ZeRO) ↓ Checkpoint System --- ### 6.2. Framework Hệ sinh thái phổ biến: - PyTorch Distributed, - DeepSpeed, - Megatron-LM, - FSDP. --- ### 6.3. Runtime Graph Optimization - Operator fusion, - Kernel autotuning, - CUDA graph. --- ## 7. Training Pipeline Chuẩn Cho 100B+ ### 7.1. Tổng Thể Raw Data ↓ Cleaning ↓ Deduplication ↓ Tokenization ↓ Sharding ↓ Pretraining ↓ Evaluation --- ### 7.2. Curriculum Learning Huấn luyện theo pha: 1. Short context, 2. Long context, 3. Domain adaptation, 4. Instruction tuning. --- ### 7.3. Batch Scheduling Global batch:
+$$
 
 $$
 B_{global} = B_{local} \times DP
 $$
 
-Thường đạt 1M+ tokens/step.
-
----
-
-## 8. Fault Tolerance và Reliability
-
-### 8.1. Checkpointing
-
-Lưu:
-
-- Weights,
-- Optimizer,
-- RNG,
-- Sharding info.
-
-Chu kỳ: 15–30 phút.
-
----
-
-### 8.2. Elastic Training
-
-Cho phép:
-
-- GPU drop,
-- Node restart,
-- Dynamic rebalancing.
-
----
-
-### 8.3. Silent Error Detection
-
-- Gradient anomaly detection,
-- NaN guards,
-- Loss monitors.
-
----
-
-## 9. Pseudocode Huấn Luyện 100B+ Model
-
-Initialize Cluster
-Partition Model (TP, PP)
-Shard Optimizer (ZeRO-3)
-
-for epoch:
-for batch in stream:
+$$
+Thường đạt 1M+ tokens/step. --- ## 8. Fault Tolerance và Reliability ### 8.1. Checkpointing Lưu: - Weights, - Optimizer, - RNG, - Sharding info. Chu kỳ: 15–30 phút. --- ### 8.2. Elastic Training Cho phép: - GPU drop, - Node restart, - Dynamic rebalancing. --- ### 8.3. Silent Error Detection - Gradient anomaly detection, - NaN guards, - Loss monitors. --- ## 9. Pseudocode Huấn Luyện 100B+ Model Initialize Cluster Partition Model (TP, PP) Shard Optimizer (ZeRO-3) for epoch: for batch in stream:
+$$
 
 $$
 x = load(batch)
 $$
 
-    for stage in pipeline:
+$$
+for stage in pipeline:
+$$
 
 $$
 h = forward(stage, x)
 $$
 
 $$
+
+$$
+
 loss = compute_loss(h)
+
+$$
+
 $$
 
     backward(loss)
@@ -1237,7 +842,10 @@ $$
 
     optimizer.step()
 
-    if step % checkpoint == 0:
+$$
+if step % checkpoint == 0:
+$$
+
         save_state()
 
 ---

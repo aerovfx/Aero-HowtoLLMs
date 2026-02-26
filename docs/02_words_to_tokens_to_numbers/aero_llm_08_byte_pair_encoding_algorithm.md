@@ -17,7 +17,13 @@
 Như vậy, từ “lowest” có thể biểu diễn thành:
 
 $$
+
+$$
+
 \text{lowest} = \text{low} + \text{est}
+
+$$
+
 $$
 
 ---
@@ -32,13 +38,25 @@ Giả sử:
 Ma trận embedding:
 
 $$
-E \in $\mathbb${R}^{V \times d}
+
+$$
+
+E \in \mathbb{R}^{V \times d}
+
+$$
+
 $$
 
 Số tham số của embedding:
 
 $$
+
+$$
+
 \text{Params} = V \times d
+
+$$
+
 $$
 
 Nếu dùng word-level tokenization:
@@ -47,7 +65,7 @@ $$
 
 $$
 
-V $\approx$ 500,000
+V \approx 500,000
 
 $$
 
@@ -59,7 +77,7 @@ $$
 
 $$
 
-V $\approx$ 30,000 - 50,000
+V \approx 30,000 - 50,000
 
 $$
 
@@ -68,7 +86,13 @@ $$
 Giảm số tham số đáng kể:
 
 $$
+
+$$
+
 \Delta = (V_{word} - V_{BPE}) \times d
+
+$$
+
 $$
 
 Điều này giúp:
@@ -98,7 +122,7 @@ $$
 
 $$
 
-\text{Attention}(Q, K, V) = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} \right) V
+\text{Attention}(Q, K, V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V
 
 $$
 
@@ -133,13 +157,19 @@ Các mô hình như GPT sử dụng biến thể của BPE để xây dựng tok
 Giả sử tổng số token huấn luyện:
 
 $$
+
+$$
+
 T = 10^{11}
+
+$$
+
 $$
 
 Thời gian huấn luyện phụ thuộc vào:
 
 $$
-$\mathcal${O}(T \cdot L \cdot d^2)
+\mathcal{O}(T \cdot L \cdot d^2)
 $$
 
 Trong đó:

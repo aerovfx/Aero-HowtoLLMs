@@ -32,7 +32,11 @@
 
 ### ✅ Expert Loop:
 ```typescript
+
+$$
 for (let i = 0; i < moeBlock.experts.length; i++) {
+$$
+
     // Creates expert weight + output
     // Currently stacks in Y direction
 }
@@ -75,28 +79,54 @@ Aggregation
 #### Implementation Steps:
 1. **Calculate grid positions**
    ```typescript
-   const expertsPerRow = 4;
-   const expertRows = 2;
-   const expertW = (C * cell + margin) * 1.5; // Width per expert
-   const expertH = (C * cell + margin) * 2;   // Height per expert
+
+$$
+const expertsPerRow = 4;
+$$
+
+$$
+const expertRows = 2;
+$$
+
+$$
+const expertW = (C * cell + margin) * 1.5; // Width per expert
+$$
+
+$$
+const expertH = (C * cell + margin) * 2;   // Height per expert
+$$
+
    
-   for (let i = 0; i < numExperts; i++) {
+$$
+for (let i = 0; i < numExperts; i++) {
+$$
 
 $$
 const row = Math.floor(i / expertsPerRow);
 $$
 
 $$
-const col = i % expertsPerRow;
+
 $$
 
-       
+const col = i % expertsPerRow;
+
+$$
+
+$$
+
 $$
 const expertX = baseX + col * expertW;
 $$
 
 $$
+
+$$
+
 const expertY = baseY + row * expertH;
+
+$$
+
 $$
 
        
@@ -128,7 +158,11 @@ $$
 #### B. Color Coding
 ```typescript
 // Expert colors based on selection:
+
+$$
 const expertColor = (routingProb: number, isTopK: boolean) => {
+$$
+
     if (isTopK) {
         return interpolate(
             INACTIVE_COLOR,  // #888
@@ -168,16 +202,32 @@ interface ExpertUtilization {
 
 Before:
 ```typescript
+
+$$
 for (let i = 0; i < moeBlock.experts.length; i++) {
+$$
+
     // ...
-    y += h * cell + margin;  // Stacks vertically
+
+$$
+y += h * cell + margin;  // Stacks vertically
+$$
+
     // ...
-    y += C * cell + margin;
+
+$$
+y += C * cell + margin;
+$$
+
 }
 
 After:
 ```typescript
+
+$$
 const expertGrid = {
+$$
+
     cols: 4,
     rows: 2,
     cellW: (C * cell + margin) * 1.5,
@@ -186,97 +236,95 @@ const expertGrid = {
     baseY: y,
 };
 
+$$
 for (let i = 0; i < moeBlock.experts.length; i++) {
+$$
 
 $$
 const row = Math.floor(i / expertGrid.cols);
 $$
 
 $$
-const col = i % expertGrid.cols;
+
 $$
 
-    
+const col = i % expertGrid.cols;
+
+$$
+
+$$
+
 $$
 const expertX = expertGrid.baseX + col * expertGrid.cellW;
 $$
 
 $$
-const expertY = expertGrid.baseY + row * expertGrid.cellH;
+
 $$
 
-    
+const expertY = expertGrid.baseY + row * expertGrid.cellH;
+
+$$
+
+$$
+
 $$
 let expFcWeight = mk({
 $$
 
-        // ... existing code ...
-        x: expertX,  // NEW: Position in grid
-        y: expertY,
-    });
-    
+$$
+// ... existing code ... x: expertX,  // NEW: Position in grid y: expertY, });
+$$
+
 $$
 let expOut = mk({
 $$
 
-        // ... existing code ...
-        x: expertX,
-        y: expertY + compact_height,
-    });
-}
-
-**2. Router Visual Enhancement**
-
-```typescript
-// Add router block with visual connection indicator
+$$
+// ... existing code ... x: expertX, y: expertY + compact_height, }); } **2. Router Visual Enhancement** ```typescript // Add router block with visual connection indicator
+$$
 
 $$
 let routerBlock = mk({
 $$
 
-    t: 'i',
-    cx: numExperts,
-    cy: T,
-    // Position above expert grid
-    x: expertGrid.baseX + (expertGrid.cols * expertGrid.cellW) / 2,
-    y: expertGrid.baseY - margin * 4,
-    name: 'Router (Top-K Selection)',
-    // Custom rendering for routing visualization
-    special: BlkSpecial.MoERouter,
-});
-
-**3. Add Routing Pathway Lines**
-
-New helper function:
-```typescript
-function drawExpertRouting(
-    state: IProgramState,
-    routerBlock: IBlkDef,
-    experts: IBlkDef[],
-    topKIndices: number[],
-    probabilities: number[]
-) {
+$$
+t: 'i', cx: numExperts, cy: T, // Position above expert grid x: expertGrid.baseX + (expertGrid.cols * expertGrid.cellW) / 2, y: expertGrid.baseY - margin * 4, name: 'Router (Top-K Selection)', // Custom rendering for routing visualization special: BlkSpecial.MoERouter, }); **3. Add Routing Pathway Lines** New helper function: ```typescript function drawExpertRouting( state: IProgramState, routerBlock: IBlkDef, experts: IBlkDef[], topKIndices: number[], probabilities: number[] ) {
+$$
 
 $$
 const routerCenter = getBlockCenter(routerBlock);
 $$
 
-    
-    experts.forEach((expert, idx) => {
+$$
+experts.forEach((expert, idx) => {
+$$
 
 $$
 const isActive = topKIndices.includes(idx);
 $$
 
 $$
+
+$$
+
 const prob = probabilities[idx] || 0;
+
+$$
+
 $$
 
         
         if (isActive) {
 
 $$
+
+$$
+
 const expertCenter = getBlockCenter(expert);
+
+$$
+
 $$
 
             drawRoutingLine(
@@ -294,7 +342,13 @@ $$
         // Highlight expert block
 
 $$
+
+$$
+
 expert.highlight = isActive ? prob : 0;
+
+$$
+
 $$
 
     });
@@ -308,7 +362,13 @@ $$
 ```typescript
 
 $$
+
+$$
+
 const MoE_COLORS = {
+
+$$
+
 $$
 
     ROUTER: '#667eea',           // Blue-purple

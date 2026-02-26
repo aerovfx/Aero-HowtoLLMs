@@ -70,7 +70,13 @@ Tổng số tham số được tính bằng cách lặp qua `model.parameters()`
 ```python
 
 $$
+
+$$
+
 total = sum(p.numel() for p in model.parameters())
+
+$$
+
 $$
 
 Phương pháp này cho phép đếm chính xác toàn bộ tham số có thể huấn luyện. 
@@ -113,7 +119,7 @@ $$
 
 $$
 
-163M - 38M $\approx$ 124M
+163M - 38M \approx 124M
 
 $$
 
@@ -130,7 +136,13 @@ Kết quả này chứng minh rằng hai mô hình có kiến trúc tương đư
 Trong GPT-2, ma trận embedding đầu vào và ma trận unembedding đầu ra được chia sẻ:
 
 $$
+
+$$
+
 W_{embed} = W_{unembed}^T
+
+$$
+
 $$
 
 Điều này giúp:

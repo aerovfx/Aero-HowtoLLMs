@@ -76,7 +76,13 @@ Trong đó $\theta$ là tập tham số mô hình.
 Với token đặc biệt [CLS], vector biểu diễn:
 
 $$
-h_{CLS}\in$\mathbb${R}^d
+
+$$
+
+h_{CLS}\in\mathbb{R}^d
+
+$$
+
 $$
 
 được dùng cho phân loại:
@@ -92,7 +98,13 @@ $$
 $$
 
 $$
+
+$$
+
 \hat{y}=\text{softmax}(z)
+
+$$
+
 $$
 
 Trong đó (W,b) là tham số của tầng phân loại.
@@ -119,7 +131,7 @@ $$
 
 $$
 
-\theta^{\ast}=\arg\min_\theta $\mathcal${L}(\theta)
+\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
 
 $$
 
@@ -139,7 +151,7 @@ $$
 
 $$
 
-$\mathcal${D}={(x_i,y_i)}_{i=1}^{N}
+$\mathcal${D}={($x_i$,$y_i$)}_{i=1}^{N}
 
 $$
 
@@ -174,7 +186,9 @@ $$
 
 $$
 
-với $L=256$.
+$$
+với L=256.
+$$
 
 ---
 
@@ -194,7 +208,7 @@ $$
 
 $$
 
-\theta_{t+1} = \theta_t-\eta$\nabla$_\theta$\mathcal${L}_t
+\theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}_t
 
 $$
 
@@ -212,7 +226,13 @@ Theo , mỗi batch gồm:
 Vector nhãn:
 
 $$
+
+$$
+
 y=(\underbrace{0,\dots,0}*{32}, \underbrace{1,\dots,1}*{32})
+
+$$
+
 $$
 
 ---
@@ -239,7 +259,7 @@ $$
 
 $$
 
-y_i = \frac{1}{k} $\sum$_{j=i-w}^{i+w} x_j
+y_i = \frac{1}{k} \sum_{j=i-w}^{i+w} x_j
 
 $$
 
@@ -248,7 +268,13 @@ $$
 với:
 
 $$
+
+$$
+
 w=\frac{k-1}{2}
+
+$$
+
 $$
 
 ---
@@ -259,7 +285,9 @@ $$
 * Làm nổi bật xu hướng hội tụ,
 * Hỗ trợ trực quan hóa.
 
-Theo , giá trị $k=3$ cho kết quả cân bằng giữa mượt và trung thực.
+$$
+Theo , giá trị k=3 cho kết quả cân bằng giữa mượt và trung thực.
+$$
 
 ---
 
@@ -277,7 +305,7 @@ $$
 
 $$
 
-y_i $\approx$ \frac{1}{m}$\sum$ x_j,\quad m<k
+y_i \approx \frac{1}{m}\sum x_j,\quad m<k
 
 $$
 
@@ -295,7 +323,7 @@ $$
 
 $$
 
-\text{Acc} = \frac{1}{N} $\sum$_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
+\text{Acc} = \frac{1}{N} \sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
 
 $$
 
@@ -310,7 +338,7 @@ Theo tài liệu , độ chính xác đạt mức cao chỉ sau vài chục epoc
 Quá trình huấn luyện cho thấy:
 
 $$
-$\mathcal${L}_{initial} > $\mathcal${L}_{final}
+\mathcal{L}_{initial} > \mathcal{L}_{final}
 $$
 
 ⇒ mô hình hội tụ.
@@ -338,7 +366,13 @@ Theo kết quả trong :
 Quan hệ giữa loss và epoch:
 
 $$
-\frac{d$\mathcal${L}}{dt}<0
+
+$$
+
+\frac{d\mathcal{L}}{dt}<0
+
+$$
+
 $$
 
 Cho thấy xu hướng học ổn định.

@@ -76,12 +76,21 @@ $$
 Hàm tokenization:
 
 $$
-T: $\mathcal${X} \to V^T
+
+$$
+
+T: \mathcal{X} \to V^T
+
+$$
+
 $$
 
 với:
 
-* $\mathcal{X}$: không gian văn bản
+$$
+* \mathcal{X}: không gian văn bản
+$$
+
 * $V^T$: chuỗi các token ID
 
 Nếu chuỗi văn bản là $x$, ta có:
@@ -117,7 +126,7 @@ $$
 
 $$
 
-H(X) = -$\sum$_x P(x)$\log$ P(x)
+H(X) = -\sum_x P(x)\log P(x)
 
 $$
 
@@ -141,7 +150,13 @@ $$
 Ta cần biểu diễn thứ tự:
 
 $$
+
+$$
+
 i = 1,2,...,T
+
+$$
+
 $$
 
 Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến hoán vị.
@@ -188,7 +203,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V) = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)V
+\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
 
 $$
 
@@ -197,7 +212,13 @@ $$
 Nếu không có positional encoding:
 
 $$
+
+$$
+
 \text{Attention}(PX) = P\text{Attention}(X)
+
+$$
+
 $$
 
 → Không phân biệt thứ tự.
@@ -226,7 +247,7 @@ $$
 
 $$
 
-P(x) = $\prod$_{t=1}^{T} P(x_t  \mid  x_{\lt t})
+P(x) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t})
 
 $$
 
@@ -238,7 +259,7 @@ $$
 
 $$
 
-M_{ij} = \begin{cases} 0 & j $\le$ i \\ -$\infty$ & j > i \end{cases}
+M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
 
 $$
 
@@ -250,7 +271,7 @@ $$
 
 $$
 
-A = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} + M \right)
+A = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} + M \right)
 
 $$
 
@@ -265,7 +286,7 @@ $$
 Self-attention:
 
 $$
-$\mathcal${O}(T^2 d)
+\mathcal{O}(T^2 d)
 $$
 
 Nếu chiều dài chuỗi tăng gấp đôi:
@@ -274,7 +295,7 @@ $$
 
 $$
 
-\text{Compute} $\approx$ 4\times
+\text{Compute} \approx 4\times
 
 $$
 
@@ -308,19 +329,37 @@ $$
 Embedding:
 
 $$
-E \in $\mathbb${R}^{|V| \times d}
+
+$$
+
+E \in \mathbb{R}^{|V| \times d}
+
+$$
+
 $$
 
 Đầu vào:
 
 $$
-Z \in $\mathbb${R}^{T \times d}
+
+$$
+
+Z \in \mathbb{R}^{T \times d}
+
+$$
+
 $$
 
 Qua attention:
 
 $$
+
+$$
+
 Z' = \text{Transformer}(Z)
+
+$$
+
 $$
 
 ---
@@ -330,7 +369,13 @@ $$
 Trong RLHF:
 
 $$
+
+$$
+
 x = [\text{Prompt}; \text{Response}]
+
+$$
+
 $$
 
 Đánh số cho phép:
@@ -344,7 +389,7 @@ $$
 
 $$
 
-$\mathcal${L} = - $\sum$_{t \in R} $\log$ P(x_t  \mid  x_{\lt t})
+$\mathcal${L} = - $\sum$_{t \in R} $\log$ P($x_t$  \mid  x_{\lt t})
 
 $$
 

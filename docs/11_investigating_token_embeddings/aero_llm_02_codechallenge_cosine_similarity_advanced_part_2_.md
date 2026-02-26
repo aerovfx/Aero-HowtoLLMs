@@ -38,7 +38,9 @@ Embedding không còn là vector ngẫu nhiên đơn giản; chúng được hu�
 	•	Retrieval-Augmented Generation (RAG)
 	•	Vector database indexing
 
-Tuy nhiên, embedding thực tế không phân bố đều trong không gian $\mathbb${R}^d.
+$$
+Tuy nhiên, embedding thực tế không phân bố đều trong không gian \mathbb{R}^d.
+$$
 
 ⸻
 
@@ -46,24 +48,38 @@ Tuy nhiên, embedding thực tế không phân bố đều trong không gian $\m
 
 Giả sử:
 
-\mathbf{x}, \mathbf{y} \sim $\mathcal${N}(0, I_d)
+$$
+\mathbf{x}, \mathbf{y} \sim \mathcal{N}(0, I_d)
+$$
 
 Sau chuẩn hóa:
 
+$$
 \tilde{\mathbf{x}} = \frac{\mathbf{x}}{\|\mathbf{x}\|}
+$$
 
 Phân phối của:
 
+$$
 \cos \theta = \tilde{\mathbf{x}} \cdot \tilde{\mathbf{y}}
+$$
 
-Khi d \to $\infty$:
+$$
+Khi d \to \infty:
+$$
 
 \cos \theta \xrightarrow{p} 0
 
 Và phương sai:
 
 $$
-Var$\cos \theta$ $\approx$ \frac{1}{d}
+
+$$
+
+Var\cos \theta \approx \frac{1}{d}
+
+$$
+
 $$
 
 Điều này giải thích vì sao trong embedding dimension lớn (512–4096), các vector ngẫu nhiên gần như trực giao.
@@ -79,7 +95,13 @@ Anisotropy xảy ra khi embedding tập trung quanh một hướng ưu thế.
 Giả sử trung bình embedding:
 
 $$
-\mu = $\mathbb${E}[\mathbf{x}]
+
+$$
+
+\mu = \mathbb{E}[\mathbf{x}]
+
+$$
+
 $$
 
 Nếu:
@@ -106,7 +128,9 @@ bị chi phối bởi thành phần chung theo hướng \mu.
 
 Loại bỏ trung bình:
 
+$$
 \mathbf{x}' = \mathbf{x} - \mu
+$$
 
 ⸻
 
@@ -115,6 +139,12 @@ Loại bỏ trung bình:
 Cho ma trận hiệp phương sai:
 
 $$
-\Sigma = $\mathbb${E}[$\mathbf{x}-\mu
+
+$$
+
+\Sigma = \mathbb{E}[\mathbf{x}-\mu
+
+$$
+
 $$
 

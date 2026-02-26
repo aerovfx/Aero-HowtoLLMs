@@ -50,7 +50,7 @@ $$
 
 $$
 
-$\mathcal${D} = \{w_1, w_2, \dots, w_N\}
+$\mathcal${D} = \{$w_1$, $w_2$, \dots, $w_N$\}
 
 $$
 
@@ -104,7 +104,7 @@ $$
 
 $$
 
-f_k(p) = $\sum$_{w \in $\mathcal${D}} \text{count}(p, w)
+f_k(p) = \sum_{w \in \mathcal{D}} \text{count}(p, w)
 
 $$
 
@@ -186,7 +186,7 @@ Như vậy, bài toán trở thành:
 - Đếm tần suất tất cả cặp:
 
 $$
-$\mathcal${O}(T)
+\mathcal{O}(T)
 $$
 
 với $T$ là tổng số token trong tập dữ liệu.
@@ -194,7 +194,7 @@ với $T$ là tổng số token trong tập dữ liệu.
 - Chọn cặp lớn nhất:
 
 $$
-$\mathcal${O}(|P_k|)
+\mathcal{O}(|P_k|)
 $$
 
 ### 4.2 Tổng thể
@@ -202,7 +202,7 @@ $$
 Với $M$ vòng lặp:
 
 $$
-$\mathcal${O}(M \cdot T)
+\mathcal{O}(M \cdot T)
 $$
 
 Trong thực tế:
@@ -211,7 +211,7 @@ $$
 
 $$
 
-T $\approx$ 10^9 - 10^{12}
+T \approx 10^9 - 10^{12}
 
 $$
 
@@ -231,13 +231,25 @@ Do đó cần:
 Ma trận embedding:
 
 $$
-E \in $\mathbb${R}^{V \times d}
+
+$$
+
+E \in \mathbb{R}^{V \times d}
+
+$$
+
 $$
 
 Số tham số:
 
 $$
+
+$$
+
 \text{Params} = V \times d
+
+$$
+
 $$
 
 Ví dụ:
@@ -246,13 +258,25 @@ Ví dụ:
 - $d = 4096$
 
 $$
+
+$$
+
 \text{Params} = 204,800,000
+
+$$
+
 $$
 
 Nếu tăng $V$ lên 100,000:
 
 $$
+
+$$
+
 \text{Params} = 409,600,000
+
+$$
+
 $$
 
 Chi phí tăng gấp đôi.
@@ -264,7 +288,7 @@ Chi phí tăng gấp đôi.
 Attention có độ phức tạp:
 
 $$
-$\mathcal${O}(L^2 \cdot d)
+\mathcal{O}(L^2 \cdot d)
 $$
 
 Trong đó:
@@ -302,7 +326,13 @@ $$
 Trong khi WordPiece tối ưu:
 
 $$
-\max $\log$ P($\mathcal${D}  \mid  V_k)
+
+$$
+
+\max \log P(\mathcal{D}  \mid  V_k)
+
+$$
+
 $$
 
 ---
@@ -318,7 +348,7 @@ Giả sử:
 Chi phí huấn luyện xấp xỉ:
 
 $$
-$\mathcal${O}(T \cdot L \cdot d^2)
+\mathcal{O}(T \cdot L \cdot d^2)
 $$
 
 Việc chọn tokenizer ảnh hưởng trực tiếp đến:

@@ -31,12 +31,20 @@ Giả sử ta huấn luyện cùng một mô hình embedding nhiều lần với
 
 Ta thu được hai ma trận embedding:
 
-E^{(1)}, \quad E^{(2)} \in $\mathbb${R}^{V \times d}
+$$
+E^{(1)}, \quad E^{(2)} \in \mathbb{R}^{V \times d}
+$$
 
 Câu hỏi:
 
 $$
-E^{(1)} \stackrel{?}{$\approx$} E^{(2)}
+
+$$
+
+E^{(1)} \stackrel{?}{\approx} E^{(2)}
+
+$$
+
 $$
 
 Trên thực tế, các embedding không trùng khớp từng phần tử, nhưng có thể tương đương về cấu trúc hình học.
@@ -49,7 +57,9 @@ Trên thực tế, các embedding không trùng khớp từng phần tử, nhưn
 
 Ban đầu:
 
-\mathbf{v}_w^{(0)} \sim $\mathcal${N}$0, \sigma^2 I$
+$$
+\mathbf{v}_w^{(0)} \sim \mathcal{N}0, \sigma^2 I
+$$
 
 Các điểm xuất phát khác nhau dẫn đến nghiệm tối ưu khác nhau trong không gian phi lồi.
 
@@ -57,69 +67,62 @@ Các điểm xuất phát khác nhau dẫn đến nghiệm tối ưu khác nhau 
 
 2.2 Tính bất biến quay (Rotational Invariance)
 
-Giả sử Q \in $\mathbb${R}^{d \times d} là ma trận trực giao:
+$$
+Giả sử Q \in \mathbb{R}^{d \times d} là ma trận trực giao:
+$$
 
 $$
 Q^\top Q = I
 $$
 
+$$
 Nếu E là nghiệm tối ưu, thì:
+$$
 
 E' = EQ
 
+$$
 cũng là nghiệm tương đương vì:
+$$
 
 $$
 (EQ)(EQ)^\top = EQQ^\top E^\top = EE^\top
 $$
 
-Điều này giải thích vì sao embeddings giữa hai lần huấn luyện có thể khác nhau về tọa độ nhưng giống nhau về quan hệ tương đối.
-
-⸻
-
-3. Đo lường Độ Ổn Định
-
-3.1 So sánh trực tiếp bằng chuẩn Frobenius
-
-||E^{(1)} - E^{(2)}||_F
-
-Tuy nhiên cách này không hiệu quả do vấn đề quay không gian.
-
-⸻
-
-3.2 Procrustes Alignment
-
-Tìm ma trận quay tối ưu:
+$$
+Điều này giải thích vì sao embeddings giữa hai lần huấn luyện có thể khác nhau về tọa độ nhưng giống nhau về quan hệ tương đối. ⸻ 3. Đo lường Độ Ổn Định 3.1 So sánh trực tiếp bằng chuẩn Frobenius ||E^{(1)} - E^{(2)}||_F Tuy nhiên cách này không hiệu quả do vấn đề quay không gian. ⸻ 3.2 Procrustes Alignment Tìm ma trận quay tối ưu:
+$$
 
 $$
 Q^{\ast} = \arg\min_Q ||E^{(1)}Q - E^{(2)}||_F
 $$
 
+$$
 Sau căn chỉnh:
+$$
 
 Stability = ||E^{(1)}Q^* - E^{(2)}||_F
 
-Phương pháp này thường được dùng trong nghiên cứu ổn định embedding.
+$$
+Phương pháp này thường được dùng trong nghiên cứu ổn định embedding. ⸻ 3.3 Tương tự cosine trung bình Với mỗi từ w:
+$$
 
-⸻
+simw =
 
-3.3 Tương tự cosine trung bình
-
-Với mỗi từ w:
-
-sim$w$ =
-\frac{
-\mathbf{v}_w^{(1)} \cdot \mathbf{v}_w^{(2)}
-}{
-||\mathbf{v}_w^{(1)}||\,||\mathbf{v}_w^{(2)}||
-}
-
-Lấy trung bình trên toàn bộ từ vựng:
+$$
+\frac{ \mathbf{v}_w^{(1)} \cdot \mathbf{v}_w^{(2)} }{ ||\mathbf{v}_w^{(1)}||\,||\mathbf{v}_w^{(2)}|| } Lấy trung bình trên toàn bộ từ vựng:
+$$
 
 \overline{sim} =
 
 $$
-\frac{1}{V} $\sum$_{w=1}^{V} sim$w$
+
+$$
+
+\frac{1}{V} \sum_{w=1}^{V} simw
+
+$$
+
 $$
 
 ⸻
@@ -129,12 +132,15 @@ $$
 4.1 Hàm mục tiêu Skip-gram
 
 $$
-$\mathcal${L} =
+\mathcal{L} =
 $$
 
 - $\sum$_{(w,c)} $\log$
 \frac{\exp$\mathbf{v}_w^\top \mathbf{v}_c$}
-{$\sum$_{c'} \exp(\mathbf{v}_w^\top \mathbf{v}_{c'})}
+
+$$
+{\sum_{c'} \exp(\mathbf{v}_w^\top \mathbf{v}_{c'})}
+$$
 
 Hàm mất mát này phụ thuộc vào tích vô hướng:
 
@@ -143,15 +149,29 @@ Hàm mất mát này phụ thuộc vào tích vô hướng:
 Do đó nếu:
 
 $$
+
+$$
+
 \mathbf{v}'_w = Q\mathbf{v}_w
+
+$$
+
 $$
 
 thì:
 
 \mathbf{v}'_w{}^\top \mathbf{v}'_c
+
+$$
 =
+$$
+
 \mathbf{v}_w^\top Q^\top Q \mathbf{v}_c
+
+$$
 =
+$$
+
 \mathbf{v}_w^\top \mathbf{v}_c
 
 → Hàm mất mát không đổi.
@@ -168,7 +188,13 @@ Từ bài Code Challenge:
 Ví dụ:
 
 $$
-NN^{(1)}(king) $\approx$ NN^{(2)}(king)
+
+$$
+
+NN^{(1)}(king) \approx NN^{(2)}(king)
+
+$$
+
 $$
 
 ⸻
@@ -184,14 +210,20 @@ Khi d lớn:
 Theo phân tích bias–variance:
 
 $\mathbb${E}[$y - \hat{f}(x$)^2]
+
+$$
 =
+$$
+
 Bias^2 + Variance + \sigma^2
 
 ⸻
 
 6.2 Kích thước tập dữ liệu
 
-Khi số mẫu N \rightarrow $\infty$:
+$$
+Khi số mẫu N \rightarrow \infty:
+$$
 
 \hat{\theta}_N \rightarrow \theta^*
 
@@ -203,19 +235,25 @@ Theo định lý hội tụ, embeddings trở nên ổn định hơn.
 
 Trong kiến trúc của Ashish Vaswani:
 
+$$
 \mathbf{x}_i = \mathbf{e}_i + \mathbf{p}_i
+$$
 
 Các embedding được cập nhật qua nhiều lớp attention:
 
 Attention(Q,K,V)
+
+$$
 =
+$$
+
 \text{softmax}
 
 $$
-$\le$ft(
+\left(
 $$
 
-\frac{QK^\top}{\sqrt{d_k}}
+\frac{QK^\top}{\sqrt{$d_k$}}
 \right)V
 
 Do sự lan truyền gradient qua nhiều tầng, embeddings thường ổn định hơn so với mô hình nông.

@@ -15,7 +15,10 @@
 ---
 <!-- Aero-Navigation-End -->
 **Bellman's Equation**
-=====================
+
+$$
+=
+$$
 
 Bellman's Equation is a mathematical formula used in Reinforcement Learning to compute the optimal value of a policy (policy) in an environment. The equation was first developed by Richard Bellman in 1957.
 
@@ -24,7 +27,9 @@ Bellman's Equation is a mathematical formula used in Reinforcement Learning to c
 
 Bellman's Equation can be written as:
 
-V$s$ = max[ r + γ V(s') ]
+$$
+Vs = max[ r + γ V(s') ]
+$$
 
 where:
 
@@ -45,7 +50,9 @@ Let's consider a simple environment with two states: `s1` and `s2`, and two acti
 
 Bellman's Equation would be written as:
 
+$$
 V(s1) = max[ r1 + γ V(s2), r2 + γ V(s1) ]
+$$
 
 In this case, we need to compute the optimal value of the policy at state `s1` by comparing the values of two possible policies: one that takes action `a1` in state `s2`, and another that takes action `a2` in state `s1`.
 

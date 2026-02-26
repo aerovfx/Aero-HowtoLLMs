@@ -65,7 +65,7 @@ $$
 
 $$
 
-W_{t+1} = W_t - \eta $\nabla$ L(W_t)
+W_{t+1} = W_t - \eta \nabla L(W_t)
 
 $$
 
@@ -74,7 +74,10 @@ $$
 Trong đó:
 
 * $\eta$: learning rate,
-* $\nabla L(W_t$ ): gradient của hàm mất mát.
+
+$$
+* \nabla L(W_t ): gradient của hàm mất mát.
+$$
 
 Tuy nhiên, phương pháp này gặp hạn chế về tốc độ hội tụ và độ ổn định trong không gian nhiều chiều.
 
@@ -135,7 +138,13 @@ Do đó, Adam trở thành thuật toán phổ biến trong huấn luyện mạn
 Để hạn chế overfitting, hàm mất mát thường được mở rộng:
 
 $$
+
+$$
+
 L'(W) = L(W) + \lambda ||W||^2
+
+$$
+
 $$
 
 Trong đó $\lambda$ là hệ số regularization. 

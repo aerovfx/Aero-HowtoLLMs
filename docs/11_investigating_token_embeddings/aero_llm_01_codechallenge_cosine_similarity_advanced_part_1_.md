@@ -28,7 +28,10 @@ Cosine Similarity là một trong những thước đo cốt lõi trong xử lý
 
 1. Giới thiệu
 
-Trong NLP hiện đại, văn bản được ánh xạ sang vector trong không gian $\mathbb${R}^d thông qua embedding models. Các tổ chức như:
+$$
+Trong NLP hiện đại, văn bản được ánh xạ sang vector trong không gian \mathbb{R}^d thông qua embedding models. Các tổ chức như:
+$$
+
 	•	OpenAI
 	•	Google Research
 	•	Meta AI
@@ -45,22 +48,39 @@ Trong các hệ này, Cosine Similarity là thước đo chuẩn để so sánh 
 
 2. Định nghĩa Cosine Similarity
 
-Cho hai vector \mathbf{x}, \mathbf{y} \in $\mathbb${R}^d:
+$$
+Cho hai vector \mathbf{x}, \mathbf{y} \in \mathbb{R}^d:
+$$
 
-\text{cosine\_sim}$\mathbf{x}, \mathbf{y}$ =
+$$
+\text{cosine\_sim}\mathbf{x}, \mathbf{y} =
+$$
+
 \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|}
 
 Trong đó:
 	•	Tích vô hướng:
 
 $$
-\mathbf{x} \cdot \mathbf{y} = $\sum$_{i=1}^{d} x_i y_i
+
+$$
+
+\mathbf{x} \cdot \mathbf{y} = \sum_{i=1}^{d} x_i y_i
+
+$$
+
 $$
 
 	•	Chuẩn Euclid:
 
 $$
-\|\mathbf{x}\| = \sqrt{$\sum$_{i=1}^{d} x_i^2}
+
+$$
+
+\|\mathbf{x}\| = \sqrt{\sum_{i=1}^{d} x_i^2}
+
+$$
+
 $$
 
 ⸻
@@ -69,7 +89,9 @@ $$
 
 Cosine similarity đo cos của góc giữa hai vector:
 
+$$
 \cos \theta = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}
+$$
 
 Giá trị:
 	•	1 → cùng hướng
@@ -78,11 +100,16 @@ Giá trị:
 
 Trong embedding NLP, vector thường được chuẩn hóa:
 
+$$
 \tilde{\mathbf{x}} = \frac{\mathbf{x}}{\|\mathbf{x}\|}
+$$
 
 Khi đó:
 
-\text{cosine\_sim}$\mathbf{x}, \mathbf{y}$ =
+$$
+\text{cosine\_sim}\mathbf{x}, \mathbf{y} =
+$$
+
 \tilde{\mathbf{x}} \cdot \tilde{\mathbf{y}}
 
 ⸻
@@ -95,18 +122,22 @@ Trong không gian chiều cao d \gg 1:
 
 Theo lý thuyết xác suất:
 
-Nếu x_i, y_i \sim $\mathcal${N}(0,1)
-
 $$
-$\mathbb${E}[\mathbf{x} \cdot \mathbf{y}] = 0
+Nếu x_i, y_i \sim \mathcal{N}(0,1)
 $$
 
-Var$\mathbf{x} \cdot \mathbf{y}$ = d
+$$
+\mathbb{E}[\mathbf{x} \cdot \mathbf{y}] = 0
+$$
+
+$$
+Var\mathbf{x} \cdot \mathbf{y} = d
+$$
 
 Sau chuẩn hóa:
 
 $$
-$\mathbb${E}[\cos \theta] $\approx$ 0
+\mathbb{E}[\cos \theta] \approx 0
 $$
 
 Hiện tượng này gọi là concentration of measure.
@@ -117,17 +148,25 @@ Hiện tượng này gọi là concentration of measure.
 
 Khoảng cách Euclid:
 
+$$
 \|\mathbf{x} - \mathbf{y}\|^2 =
+$$
+
 \|\mathbf{x}\|^2 + \|\mathbf{y}\|^2 - 2\mathbf{x}\cdot\mathbf{y}
 
 Nếu chuẩn hóa:
 
+$$
 \|\tilde{\mathbf{x}} - \tilde{\mathbf{y}}\|^2 =
+$$
+
 2 - 2\cos \theta
 
 Do đó:
 
+$$
 \cos \theta = 1 - \frac{1}{2}\|\tilde{\mathbf{x}} - \tilde{\mathbf{y}}\|^2
+$$
 
 → Cosine similarity tương đương với Euclidean distance trong không gian chuẩn hóa.
 
@@ -137,13 +176,18 @@ Do đó:
 
 Một embedding model ánh xạ văn bản t thành vector:
 
-f_\theta$t$ \in $\mathbb${R}^d
+$$
+f_\thetat \in \mathbb{R}^d
+$$
 
-Xác suất chọn tài liệu d_i trong retrieval:
+Xác suất chọn tài liệu $d_i$ trong retrieval:
 
-$P(d_i\mid q)$ =
+$P($d_i$\mid q)$ =
 \frac{\exp$\alpha \cdot \cos(f(q$, f$d_i$))}
-{$\sum$_j \exp$\alpha \cdot \cos(f(q$, f$d_j$))}
+
+$$
+{\sum_j \exp\alpha \cdot \cos(f(q, fd_j))}
+$$
 
 Trong đó:
 	•	\alpha là temperature scaling
@@ -156,10 +200,12 @@ Theo Elements of Information Theory:
 
 Mutual information giữa hai vector embedding:
 
+$$
 I(X;Y) =
+$$
 
 $$
-$\mathbb${E}$\le$ft[
+\mathbb{E}\left[
 $$
 
 $\log$ \frac{P(X,Y)}{$P(X)$$P(Y)$}
@@ -174,12 +220,15 @@ Cosine similarity có thể xem như xấp xỉ thô của sự phụ thuộc tu
 Trong contrastive learning (ví dụ SimCLR):
 
 $$
-$\mathcal${L} =
+\mathcal{L} =
 $$
 
 - $\log$
 \frac{\exp$\cos(\mathbf{x}_i,\mathbf{x}_j$/\tau)}
-{$\sum$_k \exp$\cos(\mathbf{x}_i,\mathbf{x}_k$/\tau)}
+
+$$
+{\sum_k \exp\cos(\mathbf{x}_i,\mathbf{x}_k/\tau)}
+$$
 
 Trong đó:
 	•	\tau là temperature
@@ -191,12 +240,20 @@ Trong đó:
 
 Giả sử:
 
+$$
 S = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}
+$$
 
 Gradient theo \mathbf{x}:
 
 $$
-\frac{$\partial$ S}{$\partial$ \mathbf{x}} =
+
+$$
+
+\frac{\partial S}{\partial \mathbf{x}} =
+
+$$
+
 $$
 
 \frac{\mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}

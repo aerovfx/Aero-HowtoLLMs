@@ -37,12 +37,14 @@ Trong đó:
 	•	V: từ vựng token
 	•	V^*: chuỗi token
 
-Hai tokenizer khác nhau $\mathcal${T}_A và $\mathcal${T}_B sẽ tạo ra hai biểu diễn khác nhau cho cùng một chuỗi đầu vào x:
+$$
+Hai tokenizer khác nhau \mathcal{T}_A và \mathcal{T}_B sẽ tạo ra hai biểu diễn khác nhau cho cùng một chuỗi đầu vào x:
+$$
 
 $\mathcal${T}_A$x$ \neq $\mathcal${T}_B$x$
 
 Vấn đề đặt ra:
-Làm thế nào để ánh xạ chuỗi token từ không gian V_A^* sang V_B^* mà không mất thông tin?
+Làm thế nào để ánh xạ chuỗi token từ không gian $V_A$^* sang $V_B$^* mà không mất thông tin?
 
 ⸻
 
@@ -55,7 +57,13 @@ Làm thế nào để ánh xạ chuỗi token từ không gian V_A^* sang V_B^* 
 Thuật toán tối đa hóa xác suất:
 
 $$
-\arg\max_{s_1,\dots,s_k} $\prod$_{i=1}^{k} $P(s_i)$
+
+$$
+
+\arg\max_{s_1,\dots,s_k} \prod_{i=1}^{k} P(s_i)
+
+$$
+
 $$
 
 ⸻
@@ -78,7 +86,9 @@ Sau đó thay thế cặp phổ biến nhất.
 
 Tối ưu hóa:
 
-\max_{V} $\sum$_{x \in D} $\log$ $\sum$_{s \in $\mathcal${S}$x$} $\prod$_{i} $P(s_i)$
+$$
+\max_{V} \sum_{x \in D} \log \sum_{s \in \mathcal{S}x} \prod_{i} P(s_i)
+$$
 
 ⸻
 
@@ -86,30 +96,42 @@ Tối ưu hóa:
 
 Giả sử:
 
-$\mathcal${T}_A: \Sigma^* \rightarrow V_A^*
+$\mathcal${T}_A: \Sigma^* \rightarrow $V_A$^*
 
-$\mathcal${T}_B: \Sigma^* \rightarrow V_B^*
+$\mathcal${T}_B: \Sigma^* \rightarrow $V_B$^*
 
 Ta cần xây dựng:
 
-\Phi: V_A^* \rightarrow V_B^*
+\Phi: $V_A$^* \rightarrow $V_B$^*
 
 3.1 Điều kiện tồn tại ánh xạ chính xác
 
 Nếu tồn tại hàm giải mã:
 
-$\mathcal${D}_A: V_A^* \rightarrow \Sigma^*
+$\mathcal${D}_A: $V_A$^* \rightarrow \Sigma^*
 
 thì:
 
 $$
-\Phi = $\mathcal${T}_B \circ $\mathcal${D}_A
+
+$$
+
+\Phi = \mathcal{T}_B \circ \mathcal{D}_A
+
+$$
+
 $$
 
 Khi đó:
 
 $$
-\Phi$\mathcal{T}_A(x$) = $\mathcal${T}_B$x$
+
+$$
+
+\Phi\mathcal{T}_A(x) = \mathcal{T}_Bx
+
+$$
+
 $$
 
 ⸻
@@ -119,7 +141,13 @@ $$
 Nếu tokenizer không khả nghịch hoàn toàn, ta có sai số:
 
 $$
-\epsilon = d$\mathcal{D}_A($\mathcal${T}_A(x$), x)
+
+$$
+
+\epsilon = d\mathcal{D}_A(\mathcal{T}_A(x), x)
+
+$$
+
 $$
 
 Trong đó d là khoảng cách Levenshtein.
@@ -127,35 +155,43 @@ Trong đó d là khoảng cách Levenshtein.
 Entropy trước và sau:
 
 $$
-H_A = - $\sum$ p$t_i$\log p$t_i$
+
+$$
+
+H_A = - \sum pt_i\log pt_i
+
 $$
 
 $$
-H_B = - $\sum$ p$u_j$\log p$u_j$
+
+$$
+H_B = - \sum pu_j\log pu_j
 $$
 
+$$
 Độ chênh entropy:
+$$
 
 $$
 \Delta H = |H_A - H_B|
 $$
 
-Nếu \Delta H lớn → thay đổi cấu trúc phân bố token đáng kể.
-
-⸻
-
-5. Ảnh hưởng đến Độ dài Chuỗi và Self-Attention
-
-Giả sử văn bản có n ký tự.
-
-Số token:
-
 $$
-m_A = \frac{n}{$\mathbb${E}[L_A]}
+Nếu \Delta H lớn → thay đổi cấu trúc phân bố token đáng kể. ⸻ 5. Ảnh hưởng đến Độ dài Chuỗi và Self-Attention Giả sử văn bản có n ký tự. Số token:
 $$
 
 $$
-m_B = \frac{n}{$\mathbb${E}[L_B]}
+m_A = \frac{n}{\mathbb{E}[L_A]}
+$$
+
+$$
+
+$$
+
+m_B = \frac{n}{\mathbb{E}[L_B]}
+
+$$
+
 $$
 
 Self-attention có độ phức tạp:
@@ -165,13 +201,19 @@ $O(m^2)$
 Tỷ lệ chi phí:
 
 $$
-\frac{C_A}{C_B} = $\le$ft$\frac{m_A}{m_B}\right$^2
+
+$$
+
+\frac{C_A}{C_B} = \left\frac{m_A}{m_B}\right^2
+
+$$
+
 $$
 
 Nếu tokenizer B tạo token dài hơn:
 
-$\mathbb${E}[L_B] > $\mathbb${E}[L_A]
-\Rightarrow C_B < C_A
+$\mathbb${E}[$L_B$] > $\mathbb${E}[$L_A$]
+\Rightarrow $C_B$ < $C_A$
 
 ⸻
 
@@ -180,11 +222,11 @@ $\mathbb${E}[L_B] > $\mathbb${E}[L_A]
 Giả sử:
 
 $$
-$\mathcal${T}_A$x$ = $a_1, a_2, \dots, a_m$
+\mathcal{T}_Ax = a_1, a_2, \dots, a_m
 $$
 
 $$
-$\mathcal${T}_B$x$ = $b_1, b_2, \dots, b_k$
+\mathcal{T}_Bx = b_1, b_2, \dots, b_k
 $$
 
 Ta cần tìm ánh xạ căn chỉnh:
@@ -194,7 +236,13 @@ Ta cần tìm ánh xạ căn chỉnh:
 Tối ưu hóa:
 
 $$
-\min_{\pi} $\sum$_{i=1}^{m} d$\text{span}(a_i$, \text{span}$b_{\pi(i$}))
+
+$$
+
+\min_{\pi} \sum_{i=1}^{m} d\text{span}(a_i, \text{span}b_{\pi(i}))
+
+$$
+
 $$
 
 Đây tương đương bài toán căn chỉnh chuỗi động (dynamic programming).
@@ -205,12 +253,20 @@ $$
 
 Ta có thể định nghĩa ma trận chuyển đổi:
 
-M \in $\mathbb${R}^{|V_A| \times |V_B|}
+$$
+M \in \mathbb{R}^{|V_A| \times |V_B|}
+$$
 
 Trong đó:
 
 $$
-M_{ij} = $P(b_j \mid a_i)$
+
+$$
+
+M_{ij} = P(b_j \mid a_i)
+
+$$
+
 $$
 
 Nếu ánh xạ xác định:
@@ -220,7 +276,7 @@ M_{ij} \in \{0,1\}
 Nếu ánh xạ xác suất:
 
 $$
-$\sum$_j M_{ij} = 1
+\sum_j M_{ij} = 1
 $$
 
 ⸻
@@ -254,19 +310,31 @@ Bài toán chuyển đổi tokenizer thực chất là bài toán ánh xạ gi�
 Việc chuyển đổi giữa hai tokenizer có thể được mô hình hóa hình thức bằng:
 
 $$
-\Phi = $\mathcal${T}_B \circ $\mathcal${D}_A
+
+$$
+
+\Phi = \mathcal{T}_B \circ \mathcal{D}_A
+
+$$
+
 $$
 
 Sai số thông tin được đo bằng:
 
 $$
-\epsilon = d$\mathcal{D}_A($\mathcal${T}_A(x$), x)
+
+$$
+
+\epsilon = d\mathcal{D}_A(\mathcal{T}_A(x), x)
+
+$$
+
 $$
 
 Độ phức tạp tính toán phụ thuộc vào:
 
 $$
-O$\le$ft($\le$ft(\frac{n}{$\mathbb${E}[L]}\right)^2\right)
+O(\le)ft(\left(\frac{n}{\mathbb{E}[L]}\right)^2\right)
 $$
 
 Thiết kế tokenizer không chỉ là vấn đề tiền xử lý mà là một thành phần cấu trúc của toàn bộ kiến trúc Transformer.

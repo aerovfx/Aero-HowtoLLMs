@@ -33,7 +33,13 @@ Trong mỗi tầng Transformer, các Token được chiếu vào không gian Tru
 Giả sử có hai vector $\mathbf{u}$ và $\mathbf{v}$, độ tương đồng được tính theo:
 
 $$
+
+$$
+
 \text{Cosine Similarity}(\mathbf{u}, \mathbf{v}) = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\| \|\mathbf{v}\|}
+
+$$
+
 $$
 
 Thực nghiệm (Ví dụ trên GPT-2) cho thấy các kích hoạt đối với cùng một token ở những ngữ cảnh khác nhau luôn duy trì mức độ tương đồng nhất định. Đáng chú ý, các liên kết ma trận $K$ thường có sự tương đồng nội bộ lớn hơn $Q$, bộc lộ tính chất hấp thụ ngữ cảnh của khóa $K$.
@@ -43,7 +49,13 @@ RSA cho phép chúng ta trả lời câu hỏi: *Hình học không gian thông 
 Bằng cách xây dựng các ma trận khoảng cách / tương đồng $R_Q$ và $R_K$ cho tập n tokens, sau đó lấy chuỗi nửa tam giác trên (upper triangle) của cả 2 ma trận để tính hệ số tương quan tuyến tính (Pearson):
 
 $$
-r = \frac{$\sum$ (R_{Q,i} - \bar{R}_Q)(R_{K,i} - \bar{R}_K)}{\sqrt{$\sum$ (R_{Q,i} - \bar{R}_Q)^2 $\sum$ (R_{K,i} - \bar{R}_K)^2}}
+
+$$
+
+r = \frac{\sum (R_{Q,i} - \bar{R}_Q)(R_{K,i} - \bar{R}_K)}{\sqrt{\sum (R_{Q,i} - \bar{R}_Q)^2 \sum (R_{K,i} - \bar{R}_K)^2}}
+
+$$
+
 $$
 
 Các hiện tượng tụ cụm (grouping clustering) thường xảy ra, chứng minh mô hình xử lý một tập các từ đồng nghĩa học hoặc chung một phân lớp ngữ pháp gần nhau trong không gian học.
@@ -71,7 +83,7 @@ $$
 
 $$
 
-r^2_i = \frac{\sigma_i^2}{$\sum$_{j=1}^n \sigma_j^2} \times 100\%
+r^2_i = \frac{\sigma_i^2}{\sum_{j=1}^n \sigma_j^2} \times 100\%
 
 $$
 
@@ -91,7 +103,7 @@ $$
 
 $$
 
-\text{Cov}(X,Y) = \frac{1}{n-1} $\sum$_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})
+\text{Cov}(X,Y) = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})
 
 $$
 
@@ -104,7 +116,7 @@ $$
 
 $$
 
-I(X;Y) = $\sum$_{x,y} P(x,y) $\log$ $\le$ft( \frac{P(x,y)}{P(x)P(y)} \right) = H(X) + H(Y) - H(X,Y)
+I(X;Y) = \sum_{x,y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right) = H(X) + H(Y) - H(X,Y)
 
 $$
 
@@ -132,7 +144,7 @@ $$
 
 $$
 
-\text{Token Predicted}_l = \text{argmax}($\log$ (\text{Softmax}(Z_l)))
+\text{Token Predicted}_l = \text{argmax}(\log (\text{Softmax}(Z_l)))
 
 $$
 

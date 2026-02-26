@@ -57,7 +57,13 @@ Dropout được đề xuất bởi Srivastava et al. (2014) nhằm:
 Về mặt toán học, mỗi neuron được giữ lại với xác suất $p$:
 
 $$
+
+$$
+
 h' = m \odot h, \quad m \sim \text{Bernoulli}(p)
+
+$$
+
 $$
 
 Trong đó $h$ là vector đầu vào và $m$ là mặt nạ dropout.
@@ -142,7 +148,13 @@ $$
 Sau đó áp dụng:
 
 $$
+
+$$
+
 X' = \text{Dropout}(X)
+
+$$
+
 $$
 
 Việc này giúp giảm phụ thuộc vào các biểu diễn vị trí cố định.
@@ -164,13 +176,25 @@ Vấn đề phát sinh là hàm này không tự động tắt dropout khi `mode
 if self.training:
 
 $$
+
+$$
+
 drop_p = dropout
+
+$$
+
 $$
 
 else:
 
 $$
+
+$$
+
 drop_p = 0
+
+$$
+
 $$
 
 Cách này cho phép bật/tắt dropout động theo trạng thái mô hình. 
@@ -247,7 +271,7 @@ $$
 
 $$
 
-P_i = \frac{e^{z_i/T}}{$\sum$_j e^{z_j/T}}
+P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
 
 $$
 
@@ -264,7 +288,13 @@ Việc sử dụng logits giúp điều chỉnh mức độ ngẫu nhiên khi si
 Tác giả đề cập đến việc chia logits cho căn bậc hai của embedding dimension:
 
 $$
+
+$$
+
 z' = \frac{z}{\sqrt{d_{emb}}}
+
+$$
+
 $$
 
 Mặc dù không phổ biến trong LLM thương mại, kỹ thuật này giúp ổn định mô hình khi training ngắn hạn. 

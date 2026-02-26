@@ -32,7 +32,7 @@ $$
 
 $$
 
-\mathbf{v}_{50D} = \text{Upper}(S_{50D}) \in $\mathbb${R}^{\frac{20 \times 19}{2}}
+\mathbf{v}_{50D} = \text{Upper}(S_{50D}) \in \mathbb{R}^{\frac{20 \times 19}{2}}
 
 $$
 
@@ -42,7 +42,7 @@ $$
 
 $$
 
-\mathbf{v}_{300D} = \text{Upper}(S_{300D}) \in $\mathbb${R}^{190}
+\mathbf{v}_{300D} = \text{Upper}(S_{300D}) \in \mathbb{R}^{190}
 
 $$
 
@@ -65,14 +65,24 @@ Sự khác biệt trung bình cộng (Mean variance) này sẽ làm điểm Cosi
 Hệ số r Pearson:
 
 $$
+
+$$
+
 \text{RSA} = \rho(\mathbf{v}_{50D}, \mathbf{v}_{300D}) = \frac{\text{Cov}(\mathbf{v}_{50D}, \mathbf{v}_{300D})}{\sigma_{50D} \sigma_{300D}}
+
+$$
+
 $$
 
 Thuật toán này **trừ đi chính điểm trung bình tâm** (mean-centering data) mỗi bên, tước bỏ và cạo sạch yếu tố "Global offsets". 
 Hệ số Pearson chỉ xét hỏi một tính chất duy nhất của sự liên kết: *"Khi lực kết nối ở 50D nhích lên cao hơn, thì điểm tương quan 300D có nhích theo một nhịp điệu tương khắc hay không?"*
 
 ### Kết Luận Từ Chỉ Số
-Thực nghiệm rà quét đồ thị Scatter 190 cặp so sánh cho thấy $\text{RSA Score} $\approx$ \mathbf{0.90}$ (Cực kỳ mạnh). 
+
+$$
+Thực nghiệm rà quét đồ thị Scatter 190 cặp so sánh cho thấy \text{RSA Score} \approx \mathbf{0.90} (Cực kỳ mạnh).
+$$
+
 Một trục đường phân phối tuyến tính hẹp được nối kết chắc chắn, minh chứng cho một học thuyết quan trọng trong không gian Embeddings: **Bản ngã của một mạng lưới từ vựng không nằm ở trị số tuyệt đối của Không gian chiều, mà nằm ở Tỷ Lệ Khoảng Cách Tương Đối theo hệ quy chiếu.** Dù là 50D hay 300D, thứ tự logic (Semantic structures) của chúng là một bản chụp sao chép gần như đồng bộ vô cực.
 
 ---

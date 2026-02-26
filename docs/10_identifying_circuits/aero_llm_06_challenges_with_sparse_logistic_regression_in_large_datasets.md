@@ -30,7 +30,11 @@ Nhưng kịch bản Hồi quy dữ liệu lớn hoạt động theo một hệ Q
 ## 2. Thiết Lập Thí Nghiệm Đàn Áp (Methodology)
 
 ### 2.1. Ma Trận Giả Lập Hiệu Ứng Tuyệt Đối
-Ta tạo một tập dữ liệu giả lập (Mock dataset) với $N = 200$ (Token samples) chia làm 2 nhãn và $K = 3000$ (MLP Neurons).
+
+$$
+Ta tạo một tập dữ liệu giả lập (Mock dataset) với N = 200 (Token samples) chia làm 2 nhãn và K = 3000 (MLP Neurons).
+$$
+
 Thay vì lấy Tín hiệu từ Mạng Ngôn ngữ, ta định hình dữ liệu khởi tạo bằng Hàm Random Noise. Mấu chốt thí nghiệm, tại $100$ token nhãn $1$, ta tịnh tiến bù (Offset) thêm $+5$ hằng số kích hoạt cho toàn bộ 3000 nơ-ron. 
 Hệ quả: Cả 3000 Nơ-ron đều có sức mạnh phân loại (Effect size / Độ đo Cohen's d) cực kỳ kinh khủng, cho thấy sự ưu ái hoàn toàn với Category Label 1 thay vì Category Label 0. 
 

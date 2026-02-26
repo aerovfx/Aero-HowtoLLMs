@@ -137,7 +137,13 @@ Hiện tượng này được quan sát rõ trong giao diện trực quan.
 Sau softmax, attention output được nhân với V và ma trận chiếu $W_0$, sau đó cộng với residual:
 
 $$
+
+$$
+
 X' = X + \text{Attention}(X)
+
+$$
+
 $$
 
 Quá trình này giúp duy trì thông tin ban đầu và ổn định huấn luyện. 
@@ -190,7 +196,7 @@ $$
 
 $$
 
-P(w_i) = \frac{e^{l_i}}{$\sum$_j e^{l_j}}
+P(w_i) = \frac{e^{l_i}}{\sum_j e^{l_j}}
 
 $$
 

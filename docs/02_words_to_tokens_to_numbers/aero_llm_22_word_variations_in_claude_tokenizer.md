@@ -40,17 +40,23 @@ Trong đó:
 Một từ có nhiều biến thể hình thái:
 
 $$
+
+$$
+
 w_k = r + s_k
+
+$$
+
 $$
 
 với:
 	•	r: gốc từ (root)
-	•	s_k: hậu tố (suffix)
+	•	$s_k$: hậu tố (suffix)
 
 Tokenizer subword sẽ phân rã:
 
 $$
-$\mathcal${T}$w_k$ = $r, s_k$
+\mathcal{T}w_k = r, s_k
 $$
 
 Thay vì xem mỗi biến thể là một token độc lập.
@@ -62,26 +68,38 @@ Thay vì xem mỗi biến thể là một token độc lập.
 Giả sử một tập biến thể:
 
 $$
+
+$$
+
 W = \{w_1, w_2, \dots, w_K\}
+
+$$
+
 $$
 
 Trong đó:
 
 $$
+
+$$
+
 w_k = r + s_k
+
+$$
+
 $$
 
 Nếu xác suất xuất hiện:
 
-$P(w_k)$
+$P($w_k$)$
 
 thì xác suất của root:
 
-$P(r)$ = $\sum$_{k=1}^{K} $P(w_k)$
+$P(r)$ = $\sum$_{k=1}^{K} $P($w_k$)$
 
 Tokenizer hiệu quả sẽ học:
 
-$P(r)$ \gg $P(w_k)$
+$P(r)$ \gg $P($w_k$)$
 
 ⸻
 
@@ -90,7 +108,13 @@ $P(r)$ \gg $P(w_k)$
 3.1 Entropy ở mức từ
 
 $$
-H_W = -$\sum$_{k=1}^{K} $P(w_k)$\log $P(w_k)$
+
+$$
+
+H_W = -\sum_{k=1}^{K} P(w_k)\log P(w_k)
+
+$$
+
 $$
 
 ⸻
@@ -100,17 +124,29 @@ $$
 Giả sử tách thành root và suffix:
 
 $$
-H_{sub} = -$P(r)$\log $P(r)$ - $\sum$_{k} $P(s_k)$\log $P(s_k)$
+
+$$
+
+H_{sub} = -P(r)\log P(r) - \sum_{k} P(s_k)\log P(s_k)
+
+$$
+
 $$
 
 Vì:
 
-$P(r)$ = $\sum$_k $P(w_k)$
+$P(r)$ = $\sum$_k $P($w_k$)$
 
 nên:
 
 $$
-H_{sub} $\le$ H_W
+
+$$
+
+H_{sub} \le H_W
+
+$$
+
 $$
 
 (giảm entropy nhờ gom tần suất về root chung).
@@ -125,7 +161,9 @@ Giả sử:
 
 Compression ratio:
 
+$$
 R = \frac{n}{m}
+$$
 
 Nếu tokenizer tái sử dụng root cho nhiều biến thể:
 
@@ -138,7 +176,7 @@ $O(m^2)$
 Thay:
 
 $$
-O$\le$ft$\frac{n^2}{R^2}\right$
+O(\le)ft\frac{n^2}{R^2}\right
 $$
 
 ⸻
@@ -147,7 +185,9 @@ $$
 
 Theo George Kingsley Zipf:
 
-f$r$ $\propto$ \frac{1}{r^\alpha}
+$$
+fr \propto \frac{1}{r^\alpha}
+$$
 
 Root thường có thứ hạng thấp (tần suất cao).
 Suffix có phân bố đuôi dài.
@@ -162,12 +202,12 @@ Phân rã subword làm thay đổi hệ số:
 
 Giả sử xác suất sinh từ:
 
-$P(w_k)$ = $P(r)$$P(s_k \mid r)$
+$P($w_k$)$ = $P(r)$$P($s_k$ \mid r)$
 
 Log-likelihood:
 
 $$
-$\log$ $P(w_k)$ = $\log$ $P(r)$ + $\log$ $P(s_k \mid r)$
+\log P(w_k) = \log P(r) + \log P(s_k \mid r)
 $$
 
 Tokenizer subword xấp xỉ phân tích hình thái này.
@@ -178,7 +218,9 @@ Tokenizer subword xấp xỉ phân tích hình thái này.
 
 Tokenizer WordPiece trong BERT tối ưu:
 
-\arg\max_{s_1,\dots,s_m} $\prod$_i $P(s_i)$
+$$
+\arg\max_{s_1,\dots,s_m} \prod_i P(s_i)
+$$
 
 Trong khi các tokenizer hiện đại (như Claude) tối ưu theo tần suất byte hoặc subword linh hoạt hơn.
 
@@ -188,23 +230,39 @@ Trong khi các tokenizer hiện đại (như Claude) tối ưu theo tần suất
 
 Embedding:
 
-E: V \rightarrow $\mathbb${R}^d
+$$
+E: V \rightarrow \mathbb{R}^d
+$$
 
 Nếu các biến thể chia sẻ root:
 
 $$
-e$w_k$ $\approx$ e$r$ + e$s_k$
+
+$$
+
+ew_k \approx er + es_k
+
+$$
+
 $$
 
 Sai số:
 
 $$
-\delta_k = \| e$w_k$ - (e(r)+e$s_k$) \|_2
+
+$$
+
+\delta_k = \| ew_k - (e(r)+es_k) \|_2
+
+$$
+
 $$
 
 Tối ưu hóa:
 
-\min $\sum$_k \delta_k^2
+$$
+\min \sum_k \delta_k^2
+$$
 
 Điều này cải thiện khả năng tổng quát hóa.
 
@@ -219,7 +277,7 @@ $\nabla$ L$w_k$
 Nếu chia thành root và suffix:
 
 $$
-$\nabla$ L$r$ = $\sum$_k $\nabla$ L$w_k$
+\nabla Lr = \sum_k \nabla Lw_k
 $$
 
 → Tăng ổn định gradient.
@@ -230,7 +288,7 @@ $$
 
 Trong ngôn ngữ chắp dính:
 
-|s_k| \uparrow
+|$s_k$| \uparrow
 
 Tokenizer phải cân bằng giữa:
 	•	Giữ nguyên toàn bộ từ
@@ -239,7 +297,13 @@ Tokenizer phải cân bằng giữa:
 Tối ưu hóa đa mục tiêu:
 
 $$
-\min $\le$ft$\frac{n^2}{R^2} + \lambda \mid V\mid \right$
+
+$$
+
+\min \left\frac{n^2}{R^2} + \lambda \mid V\mid \right
+
+$$
+
 $$
 
 ⸻
@@ -264,22 +328,30 @@ Các hệ do Anthropic, OpenAI và Google phát triển đều áp dụng nguyê
 
 Phân rã biến thể từ có thể được mô hình hóa:
 
-$P(w_k)$ = $P(r)$$P(s_k \mid r)$
+$P($w_k$)$ = $P(r)$$P($s_k$ \mid r)$
 
 Entropy giảm khi:
 
 $$
-H_{sub} $\le$ H_W
+
+$$
+
+H_{sub} \le H_W
+
+$$
+
 $$
 
 Compression ratio:
 
+$$
 R = \frac{n}{m}
+$$
 
 Chi phí attention:
 
 $$
-O$\le$ft$\frac{n^2}{R^2}\right$
+O(\le)ft\frac{n^2}{R^2}\right
 $$
 
 Tokenizer hiện đại tận dụng cấu trúc hình thái để:

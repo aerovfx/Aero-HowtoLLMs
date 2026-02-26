@@ -44,7 +44,7 @@ $$
 
 $$
 
-Attention(Q, K, V) = softmax$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+Attention(Q, K, V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 

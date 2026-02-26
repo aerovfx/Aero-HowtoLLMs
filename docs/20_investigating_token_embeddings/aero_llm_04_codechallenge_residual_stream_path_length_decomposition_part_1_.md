@@ -25,7 +25,10 @@ Báo cáo này là bước tổng hòa các khái niệm về Độ dài đườ
 Trong một Transformer Block, vector ban đầu không bị biến đổi thẳng, mà nó chảy dọc theo dòng "Residual Stream". Ở mỗi block, hai nhánh rẽ (Attention và MLP) sẽ "đọc" vector này, giải quyết tính toán cục bộ, và cộng dồn lại vào dòng chính dòng giá trị "đã điều chỉnh" (adjustment vectors). 
 * Câu hỏi đặt ra là: Hai cơ chế này có hợp tác hay dẫm chân lên tính toán của nhau không? 
 * Nếu Cosine Similarity $\approx 1$: Cả Attention và MLP cùng đẩy Token Embedding về chung một hướng. Nghĩa là chúng tính toán những thông số dư thừa y hệt nhau.
-* Nếu Cosine Similarity $\approx 0$: Chúng đóng góp vào luồng chính những mảng kiến thức vuông góc (trực giao) hoàn toàn tách biệt.
+
+$$
+* Nếu Cosine Similarity \approx 0: Chúng đóng góp vào luồng chính những mảng kiến thức vuông góc (trực giao) hoàn toàn tách biệt.
+$$
 
 Bài thực hành này lập biểu đồ Cosine Similarity xuyên suốt 36 tầng của GPT-2 Large để kiểm chứng mức độ phân chia công việc (Labor division) của mô hình.
 

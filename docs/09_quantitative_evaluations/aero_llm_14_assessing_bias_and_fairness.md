@@ -55,9 +55,9 @@ Giả sử:
 
 Một hệ thống được coi là công bằng nếu:
 
-$P(\hat{Y}\mid A=a_1)$ $\approx$ $P(\hat{Y}\mid A=a_2)$
+$P(\hat{Y}\mid A=$a_1$)$ $\approx$ $P(\hat{Y}\mid A=$a_2$)$
 
-với mọi giá trị a_1, a_2.
+với mọi giá trị $a_1$, $a_2$.
 
 ⸻
 
@@ -71,7 +71,9 @@ $P(\hat{Y}=1\mid A=0)$ = $P(\hat{Y}=1\mid A=1)$
 
 Độ lệch DP:
 
-\Delta_{DP} = |$P(\hat{Y}=1\mid A=0)$ - $P(\hat{Y}=1\mid A=1)$|
+$$
+\Delta_{DP} = |P(\hat{Y}=1\mid A=0) - P(\hat{Y}=1\mid A=1)|
+$$
 
 Nếu \Delta_{DP} lớn → có thiên lệch.
 
@@ -103,12 +105,20 @@ Với mọi nhóm a.
 
 Một cách định lượng thiên lệch là so sánh phân phối dự đoán giữa các nhóm:
 
+$$
 D_{KL}(P_{A=0} || P_{A=1})
+$$
 
 Trong đó:
 
 $$
-D_{KL}(P||Q) = $\sum$_x $P(x)$\log \frac{$P(x)$}{Q$x$}
+
+$$
+
+D_{KL}(P||Q) = \sum_x P(x)\log \frac{P(x)}{Qx}
+
+$$
+
 $$
 
 Nếu:
@@ -124,12 +134,20 @@ D_{KL} \rightarrow 0
 Khác với phân loại nhị phân, LLM sinh chuỗi token:
 
 $$
-P_\theta$x_1,\dots,x_T$ = $\prod$_{t=1}^{T} P_\theta(x_t|x_{\lt t})
+
+$$
+
+P_\thetax_1,\dots,x_T = \prod_{t=1}^{T} P_\theta(x_t|x_{\lt t})
+
+$$
+
 $$
 
 Thiên lệch có thể đo bằng cách so sánh xác suất sinh câu liên quan đến nhóm A:
 
-Bias = $\mathbb${E}_{prompt \in G_1}[$\log$ P_\theta(response)] - $\mathbb${E}_{prompt \in G_2}[$\log$ P_\theta(response)]
+$$
+Bias = \mathbb{E}_{prompt \in G_1}[\log P_\theta(response)] - \mathbb{E}_{prompt \in G_2}[\log P_\theta(response)]
+$$
 
 ⸻
 
@@ -144,7 +162,13 @@ Tạo cặp prompt:
 Tính chênh lệch log-likelihood:
 
 $$
-\Delta = $\log$ P_\theta(r|he) - $\log$ P_\theta(r|she)
+
+$$
+
+\Delta = \log P_\theta(r|he) - \log P_\theta(r|she)
+
+$$
+
 $$
 
 ⸻
@@ -154,13 +178,25 @@ $$
 Sử dụng classifier phụ để ước lượng:
 
 $$
+
+$$
+
 Toxicity = P_{tox}(text)
+
+$$
+
 $$
 
 So sánh kỳ vọng theo nhóm:
 
 $$
-\Delta_{tox} = $\mathbb${E}[T|A=0] - $\mathbb${E}[T|A=1]
+
+$$
+
+\Delta_{tox} = \mathbb{E}[T|A=0] - \mathbb{E}[T|A=1]
+
+$$
+
 $$
 
 ⸻
@@ -170,13 +206,25 @@ $$
 Giả sử có hai nhóm:
 
 $$
+
+$$
+
 \mu_1 = 0.62, \quad \mu_2 = 0.54
+
+$$
+
 $$
 
 Kiểm định:
 
 $$
+
+$$
+
 t = \frac{\mu_1 - \mu_2}{\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}}
+
+$$
+
 $$
 
 Nếu p < 0.05 → khác biệt có ý nghĩa.
@@ -190,13 +238,25 @@ Theo Elements of Information Theory:
 Mutual Information giữa dự đoán và thuộc tính nhạy cảm:
 
 $$
-I$\hat{Y};A$ = $\sum$_{a,y} P(a,y)$\log$\frac{P(a,y)}{$P(a)$$P(y)$}
+
+$$
+
+I\hat{Y};A = \sum_{a,y} P(a,y)\log\frac{P(a,y)}{P(a)P(y)}
+
+$$
+
 $$
 
 Nếu:
 
 $$
-I$\hat{Y};A$ $\approx$ 0
+
+$$
+
+I\hat{Y};A \approx 0
+
+$$
+
 $$
 
 → ít phụ thuộc → công bằng hơn.
@@ -210,7 +270,7 @@ $$
 Thêm penalty:
 
 $$
-$\mathcal${L}_{total} = $\mathcal${L}_{task} + \lambda D_{KL}(P_{A=0}||P_{A=1})
+\mathcal{L}_{total} = \mathcal{L}_{task} + \lambda D_{KL}(P_{A=0}||P_{A=1})
 $$
 
 ⸻
@@ -220,7 +280,13 @@ $$
 Huấn luyện mô hình phụ đoán A:
 
 $$
-\min_\theta \max_\phi $\le$ft$\mathcal{L}_{task} - \lambda $\mathcal${L}_{adv} \right$
+
+$$
+
+\min_\theta \max_\phi \left\mathcal{L}_{task} - \lambda \mathcal{L}_{adv} \right
+
+$$
+
 $$
 
 ⸻
@@ -229,7 +295,9 @@ $$
 
 Tối ưu:
 
-\max_\theta $\mathbb${E}[R] - \beta D_{KL}$P_\theta \mid \mid P_{ref}$
+$$
+\max_\theta \mathbb{E}[R] - \beta D_{KL}P_\theta \mid \mid P_{ref}
+$$
 
 Trong đó reward bao gồm yếu tố fairness.
 

@@ -38,7 +38,7 @@ $$
 
 $$
 
-Loss_{BCE} = -\frac{1}{n} $\sum$_{i=1}^{n} $\le$ft[ y_i $\log$(p_i) + (1 - y_i) $\log$(1 - p_i) \right]
+Loss_{BCE} = -\frac{1}{n} \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1 - y_i) \log(1 - p_i) \right]
 
 $$
 
@@ -50,14 +50,20 @@ $$
 
 $$
 
-Loss_{Reg} = \lambda $\sum$_{k=1}^{K} |\beta_k|
+Loss_{Reg} = \lambda \sum_{k=1}^{K} |\beta_k|
 
 $$
 
 $$
 
 $$
-Tổng hợp quá trình tối ưu hàm mục tiêu: $\text{Minimize} $\le$ft( Loss_{BCE} + Loss_{Reg} \right)$.
+
+$$
+
+Tổng hợp quá trình tối ưu hàm mục tiêu: \text{Minimize} \left( Loss_{BCE} + Loss_{Reg} \right).
+
+$$
+
 $$
 
 Tham số Siêu định hình (Hyperparameter) $\lambda$ quyết định cường độ của độ Thưa (Sparsity). $\lambda$ càng lớn, áp lực dập $\beta_k \to 0$ càng gắt, tỷ lệ Mật độ các nơ-ron còn sống sót (Density constraint) càng nhỏ. Thư viện `scikit-learn` sử dụng nghịch đảo cường độ cực biên $C = \frac{1}{\lambda}$. 
@@ -75,7 +81,11 @@ Tiến hành chích xuất ma trận giá trị Activation tại đuôi Module $
 
 ### 3.2. Hiện Tượng Sập Mật Độ Nơ-ron (Extreme Sparsity Density)
 Bộ Dataset 200 điểm mẫu được phân tách theo tỷ lệ Test/Train )$140/60$.
-Sau khi huấn luyện mô hình Logistic kích hoạt mức phạt hằng số $C = 10$, mô hình sinh ra Dự báo $Accuracy / F1 Score$ tuyệt đối $100\%$. 
+
+$$
+Sau khi huấn luyện mô hình Logistic kích hoạt mức phạt hằng số C = 10, mô hình sinh ra Dự báo Accuracy / F1 Score tuyệt đối 100\%.
+$$
+
 Viễn cảnh siêu phân giải hiện ra từ hệ số $B$:
 - Hệ số **Sparsity = 99.6%** (2987 trên 3000 Nơ-ron bị vô hiệu hóa triệt để có $\beta = 0$).
 - Hệ số **Density = 0.4%** (Chỉ duy trì $13$ tế bào Nơ-ron sống sót tham chiến).

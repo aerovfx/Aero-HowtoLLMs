@@ -47,7 +47,7 @@ $$
 
 $$
 
-P(x_1,x_2,\dots,x_n)=$\prod$_{t=1}^{n}P(x_t \mid x_{\lt t};\theta)
+P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t \mid x_{\lt t};\theta)
 
 $$
 
@@ -64,7 +64,7 @@ $$
 
 $$
 
-\theta^{\ast}=\arg\max_\theta $\sum$_{i=1}^{N}$\log$ P(x^{(i)};\theta)
+\theta^{\ast}=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
 
 $$
 
@@ -80,7 +80,7 @@ $$
 
 $$
 
-\theta_{new}=\theta_{pre}-\eta$\nabla$_\theta L_{task}
+\theta_{new}=\theta_{pre}-\eta\nabla_\theta L_{task}
 
 $$
 
@@ -113,7 +113,7 @@ $$
 
 $$
 
-L_{cls}=-$\sum$_{i=1}^{N}y_i$\log$ p_i
+L_{cls}=-\sum_{i=1}^{N}y_i\log p_i
 
 $$
 
@@ -162,7 +162,7 @@ $$
 
 $$
 
-\theta_{t+1}=\theta_t-\eta$\nabla$_\theta L_t
+\theta_{t+1}=\theta_t-\eta\nabla_\theta L_t
 
 $$
 
@@ -178,7 +178,7 @@ $$
 
 $$
 
-t=k\times10,\quad k\in$\mathbb${N}
+t=k\times10,\quad k\in\mathbb{N}
 
 $$
 
@@ -190,7 +190,7 @@ $$
 
 $$
 
-Acc_t=\frac{1}{N}$\sum$_{i=1}^{N}$\mathbb${I}(\hat y_i=y_i)
+Acc_t=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\hat y_i=y_i)
 
 $$
 
@@ -234,7 +234,7 @@ $$
 
 $$
 
-L_{gen}=-\frac{1}{T}$\sum$_{t=1}^{T}$\log$ P(x_t \mid x_{\lt t})
+L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t \mid x_{\lt t})
 
 $$
 
@@ -250,7 +250,7 @@ $$
 
 $$
 
-Q=$\mathbb${E}[Acc]
+Q=\mathbb{E}[Acc]
 
 $$
 
@@ -297,7 +297,7 @@ $$
 
 $$
 
-Acc(t)=\alpha$\log$(t)+\beta
+Acc(t)=\alpha\log(t)+\beta
 
 $$
 
@@ -329,7 +329,7 @@ $$
 
 $$
 
-T_{total}$\approx$4\text{-}5\ \text{phút}
+T_{total}\approx4\text{-}5\ \text{phút}
 
 $$
 
@@ -341,7 +341,7 @@ $$
 
 $$
 
-\frac{T_{eval}}{T_{total}}$\approx$30%
+\frac{T_{eval}}{T_{total}}\approx30%
 
 $$
 
@@ -362,7 +362,13 @@ Theo , phương pháp đánh giá bằng mô hình thứ ba:
 Biểu diễn:
 
 $$
-Reliability$\propto$ Acc_{cls}
+
+$$
+
+Reliability\propto Acc_{cls}
+
+$$
+
 $$
 
 ---
@@ -428,7 +434,13 @@ $$
 Kết hợp:
 
 $$
+
+$$
+
 Monitoring=(Loss,Acc,Time,RAM)
+
+$$
+
 $$
 
 ---

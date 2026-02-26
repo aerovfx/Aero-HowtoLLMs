@@ -52,7 +52,7 @@ $$
 
 $$
 
-P(y=i \mid x) = \frac{e^{z_i}}{$\sum$_{j} e^{z_j}}
+P(y=i \mid x) = \frac{e^{z_i}}{\sum_{j} e^{z_j}}
 
 $$
 
@@ -66,7 +66,7 @@ $$
 
 $$
 
-$\log$ P(y=i \mid x) = z_i - $\log$ $\sum$_j e^{z_j}
+$\log$ P(y=i \mid x) = $z_i$ - $\log$ $\sum$_j e^{$z_j$}
 
 $$
 

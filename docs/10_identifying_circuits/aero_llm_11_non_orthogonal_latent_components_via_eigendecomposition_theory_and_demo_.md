@@ -37,13 +37,25 @@ Ta đặt 2 Ma trận Hiệp Phương Sai (Covariance Matrix):
 Mục đích là đi tìm một vector trọng số $W$ sao cho nó khuếch đại tối đa Ma trận $S$ và nén nhỏ tối đa Ma trận $R$. Hay định nghĩa bằng công thức Tỉ số Rayleigh Quotient:
 
 $$
+
+$$
+
 \Lambda = \frac{W^T \mathbf{S} W}{W^T \mathbf{R} W}
+
+$$
+
 $$
 
 Khi ta cần tìm Đạo hàm vi phân Lagrange (Bằng cách trói Buộc $W^T \mathbf{R} W = 1$), toàn bộ Biểu thức Toán học kinh điển này hóa giải dưới dạng Biểu thức Eigendecomposition trên Tích hiệp:
 
 $$
+
+$$
+
 \mathbf{R}^{-1} \mathbf{S} \ W = \Lambda W
+
+$$
+
 $$
 
 Tuy nhiên, nghịch lý là ở đây: Trong khi $\mathbf{R}^{-1}$ và $\mathbf{S}$ đều là ma trận Đối Xứng Phẳng (Symmetric), khi chúng cấu thành Phép nhân $\mathbf{R}^{-1} \mathbf{S}$, nó tạo thành Thể Đa Hình (Non-Symmetric). Hệ quả cực quan trọng của lý thuyết Tuyến tính: **Eigenvectors ($W$) tìm được sẽ mất tính Trực Giao (Orthogonal).** Thay vì các Vector xoay góc 90 độ Vuông vức, nó có thể nhọn hơn, xòe hơn, tự điều chỉnh linh động để men theo Dải Phân Tách dữ liệu thực thụ.
@@ -53,7 +65,13 @@ Vì cấu trúc Language Model sở hữu Feature Khổng Lồ, Ma trận $R$ s�
 Phương pháp "Shrinkage Regularized" ép phồng khối Ellipse xẹp lép này bằng cách độn lên một chút năng lượng vào Đường Chéo (Identity Matrix), mô phỏng bằng công thức:
 
 $$
+
+$$
+
 \tilde{\mathbf{R}} = (1 - \gamma)\mathbf{R} + \gamma \alpha \mathbf{I}
+
+$$
+
 $$
 
 **(Trong đó $\alpha$ là Trung bình dãy Giá trị riêng Eigenvalues).**

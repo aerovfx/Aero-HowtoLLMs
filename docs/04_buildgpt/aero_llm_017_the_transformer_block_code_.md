@@ -215,7 +215,13 @@ torch.nn.functional.scaled_dot_product_attention
 ````
 
 $$
+
+$$
+
 với tham số `is_causal=True`.
+
+$$
+
 $$
 
 Cách làm này:
@@ -244,7 +250,13 @@ Attention head xử lý toàn bộ embedding dimension trong phiên bản đơn 
 Multi-head attention chia embedding thành nhiều phần:
 
 $$
+
+$$
+
 d_{head} = \frac{d_{model}}{h}
+
+$$
+
 $$
 
 Mỗi head học một không gian quan hệ riêng.

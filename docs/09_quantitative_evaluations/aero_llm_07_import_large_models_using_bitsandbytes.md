@@ -45,13 +45,19 @@ Giả sử:
 
 Dung lượng bộ nhớ:
 
+$$
 Memory = 4N \text{ bytes}
+$$
 
 Ví dụ:
 
+$$
 N = 7 \times 10^9
+$$
 
+$$
 Memory = 28GB
+$$
 
 Điều này vượt quá khả năng của nhiều GPU phổ thông.
 
@@ -63,10 +69,16 @@ Memory = 28GB
 
 Lượng tử hóa là ánh xạ:
 
-w \in $\mathbb${R} \rightarrow \hat{w} \in $\mathbb${Z}_k
+$$
+w \in \mathbb{R} \rightarrow \hat{w} \in \mathbb{Z}_k
+$$
 
 Trong đó:
-	•	k = 2^b
+
+$$
+•	k = 2^b
+$$
+
 	•	b là số bit (8-bit, 4-bit,…)
 
 ⸻
@@ -81,18 +93,32 @@ $$
 
 Hệ số scale:
 
+$$
 s = \frac{w_{max} - w_{min}}{2^b - 1}
+$$
 
 Giá trị lượng tử hóa:
 
 $$
-\hat{w} = \text{round}$\le$ft$\frac{w - w_{min}}{s}\right$
+
+$$
+
+\hat{w} = \text{round}\left\frac{w - w_{min}}{s}\right
+
+$$
+
 $$
 
 Giải lượng tử:
 
 $$
-w $\approx$ s \hat{w} + w_{min}
+
+$$
+
+w \approx s \hat{w} + w_{min}
+
+$$
+
 $$
 
 ⸻
@@ -102,12 +128,20 @@ $$
 Sai số:
 
 $$
+
+$$
+
 \epsilon = w - \hat{w}
+
+$$
+
 $$
 
 Giả sử phân phối đều:
 
-Var$\epsilon$ = \frac{s^2}{12}
+$$
+Var\epsilon = \frac{s^2}{12}
+$$
 
 Khi giảm số bit b:
 	•	s tăng
@@ -122,23 +156,33 @@ Khi giảm số bit b:
 
 Với FP32:
 
+$$
 Memory_{32} = 32N \text{ bits}
+$$
 
 Với 8-bit:
 
+$$
 Memory_{8} = 8N \text{ bits}
+$$
 
 Giảm:
 
+$$
 \frac{Memory_{8}}{Memory_{32}} = \frac{1}{4}
+$$
 
 Với 4-bit:
 
+$$
 Memory_{4} = 4N \text{ bits}
+$$
 
 Giảm:
 
+$$
 \frac{Memory_{4}}{Memory_{32}} = \frac{1}{8}
+$$
 
 ⸻
 
@@ -147,19 +191,37 @@ Giảm:
 Transformer sử dụng:
 
 $$
+
+$$
+
 Y = XW
+
+$$
+
 $$
 
 Sau lượng tử hóa:
 
 $$
+
+$$
+
 Y = X\hat{W}
+
+$$
+
 $$
 
 Sai số lan truyền:
 
 $$
-\Delta Y = X$W - \hat{W}$
+
+$$
+
+\Delta Y = XW - \hat{W}
+
+$$
+
 $$
 
 Nếu:
@@ -179,7 +241,9 @@ Thư viện bitsandbytes triển khai:
 
 NF4 giả định trọng số phân phối chuẩn:
 
-w \sim $\mathcal${N}$0, \sigma^2$
+$$
+w \sim \mathcal{N}0, \sigma^2
+$$
 
 Mapping phi tuyến giúp giảm sai số so với lượng tử hóa tuyến tính.
 
@@ -190,37 +254,49 @@ Mapping phi tuyến giúp giảm sai số so với lượng tử hóa tuyến t�
 Hệ sinh thái của Hugging Face hỗ trợ:
 
 $$
+
+$$
+
 •	load_in_8bit=True
+
+$$
+
 $$
 
 $$
 •	load_in_4bit=True
 $$
 
-Giảm bộ nhớ GPU đáng kể mà không cần huấn luyện lại toàn bộ mô hình.
-
-⸻
-
-7. Ảnh hưởng đến Perplexity
-
-Perplexity:
-
 $$
-PP = \exp$\le$ft$- \frac{1}{N} $\sum$ $\log$ P(w_i$\right)
+Giảm bộ nhớ GPU đáng kể mà không cần huấn luyện lại toàn bộ mô hình. ⸻ 7. Ảnh hưởng đến Perplexity Perplexity:
 $$
 
+$$
+PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right)
+$$
+
+$$
 Sau lượng tử hóa:
+$$
 
 PP_{quant} = PP_{fp32} + \delta
 
+$$
 Trong thực nghiệm:
-
-$$
-•	8-bit: \delta $\approx$ 1\% - 3\%
 $$
 
 $$
-•	4-bit: \delta $\approx$ 3\% - 8\%
+•	8-bit: \delta \approx 1\% - 3\%
+$$
+
+$$
+
+$$
+
+•	4-bit: \delta \approx 3\% - 8\%
+
+$$
+
 $$
 
 Phụ thuộc kích thước mô hình.
@@ -246,7 +322,9 @@ Tốc độ thực tế tăng 1.5–2x trên GPU hỗ trợ INT8.
 
 Theo nghiên cứu scaling law của OpenAI:
 
-Loss$N$ = A N^{-\alpha}
+$$
+LossN = A N^{-\alpha}
+$$
 
 Nếu lượng tử hóa làm tăng loss một lượng nhỏ \delta,
 thì có thể bù bằng tăng nhẹ số tham số N.

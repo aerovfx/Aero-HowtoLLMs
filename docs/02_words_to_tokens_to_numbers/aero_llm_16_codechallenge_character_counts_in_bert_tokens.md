@@ -31,51 +31,53 @@ Bài viết này phân tích số lượng ký tự cấu thành mỗi token tro
 Trong BERT, văn bản đầu vào được token hóa bằng thuật toán WordPiece thành các subword token:
 
 $$
+
+$$
+
 S = (w_1, w_2, ..., w_n)
+
+$$
+
 $$
 
 $$
 T = (t_1, t_2, ..., t_m)
 $$
 
+$$
 Với:
-
-$$
-m $\ge$ n
 $$
 
-Mỗi token t_i có độ dài ký tự:
-
-$\ell$(t_i)
-
-Mục tiêu nghiên cứu:
-	1.	Phân bố xác suất của $\ell$(t)
-	2.	Độ dài trung bình token
-	3.	Ảnh hưởng đến chi phí self-attention
-
-⸻
-
-2. Mô hình Thống kê Phân bố Độ dài Token
-
-2.1 Định nghĩa
-
-Gọi:
-	•	V: tập từ vựng BERT
-
 $$
-•	|V| $\approx$ 30{,}000
+m \ge n
 $$
 
-	•	N_k: số token có độ dài ký tự bằng k
+$$
+Mỗi token t_i có độ dài ký tự: \ell((t_i) Mục tiêu nghiên cứu:
+$$
+
+1.	Phân bố xác suất của )\ell((t)
+
+$$
+2.	Độ dài trung bình token 3.	Ảnh hưởng đến chi phí self-attention ⸻ 2. Mô hình Thống kê Phân bố Độ dài Token 2.1 Định nghĩa Gọi: •	V: tập từ vựng BERT )
+$$
+
+•	|V| \approx 30{,}000
+
+$$
+
+$$
+
+	•	$N_k$: số token có độ dài ký tự bằng k
 
 Xác suất:
 
-$P(L = k)$ = \frac{N_k}{|V|}
+$P(L = k)$ = \frac{$N_k$}{|V|}
 
 Chuẩn hóa:
 
 $$
-$\sum$_{k=1}^{K_{\max}} $P(L=k)$ = 1
+\sum_{k=1}^{K_{\max}} P(L=k) = 1
 $$
 
 ⸻
@@ -85,7 +87,13 @@ $$
 Quan sát thực nghiệm cho thấy:
 
 $$
-N_k $\approx$ Ae^{-\lambda k}
+
+$$
+
+N_k \approx Ae^{-\lambda k}
+
+$$
+
 $$
 
 Suy ra:
@@ -95,7 +103,13 @@ $P(L=k)$ = (1-q)q^{k-1}
 Trong đó:
 
 $$
+
+$$
+
 q = e^{-\lambda}
+
+$$
+
 $$
 
 Đây là phân bố hình học rời rạc.
@@ -107,12 +121,14 @@ $$
 Kỳ vọng:
 
 $$
-$\mathbb${E}[L] = \frac{1}{1-q}
+\mathbb{E}[L] = \frac{1}{1-q}
 $$
 
 Phương sai:
 
-\mathrm{Var}$L$ = \frac{q}{(1-q)^2}
+$$
+\mathrm{Var}L = \frac{q}{(1-q)^2}
+$$
 
 Nếu q \to 1, phân bố có đuôi dài hơn (nhiều token dài).
 
@@ -125,7 +141,13 @@ Giả sử văn bản có tổng số ký tự n.
 Số token trung bình:
 
 $$
-m = \frac{n}{$\mathbb${E}[L]}
+
+$$
+
+m = \frac{n}{\mathbb{E}[L]}
+
+$$
+
 $$
 
 Self-attention trong Transformer encoder:
@@ -135,10 +157,12 @@ $O(m^2)$
 Thay vào:
 
 $$
-O$\le$ft($\le$ft(\frac{n}{$\mathbb${E}[L]}\right)^2\right)
+O(\le)ft(\left(\frac{n}{\mathbb{E}[L]}\right)^2\right)
 $$
 
-Khi $\mathbb${E}[L] \uparrow, chi phí giảm.
+$$
+Khi \mathbb{E}[L] \uparrow, chi phí giảm.
+$$
 
 ⸻
 
@@ -147,19 +171,37 @@ Khi $\mathbb${E}[L] \uparrow, chi phí giảm.
 Entropy theo phân bố độ dài:
 
 $$
-H_L = - $\sum$_{k} $P(L=k)$\log $P(L=k)$
+
+$$
+
+H_L = - \sum_{k} P(L=k)\log P(L=k)
+
+$$
+
 $$
 
 Thay phân bố hình học:
 
 $$
-H_L = - $\sum$_{k=1}^{$\infty$} (1-q)q^{k-1} $\log$[(1-q)q^{k-1}]
+
+$$
+
+H_L = - \sum_{k=1}^{\infty} (1-q)q^{k-1} \log[(1-q)q^{k-1}]
+
+$$
+
 $$
 
 Rút gọn:
 
 $$
-H_L = -$\log$(1-q) - \frac{q}{1-q}$\log$ q
+
+$$
+
+H_L = -\log(1-q) - \frac{q}{1-q}\log q
+
+$$
+
 $$
 
 Entropy càng lớn → độ đa dạng độ dài càng cao.
@@ -170,13 +212,21 @@ Entropy càng lớn → độ đa dạng độ dài càng cao.
 
 Tần suất token thường tuân theo:
 
-f$r$ $\propto$ \frac{1}{r^\alpha}
+$$
+fr \propto \frac{1}{r^\alpha}
+$$
 
 Trong đó:
 	•	r: thứ hạng token
 
 $$
-•	\alpha $\approx$ 1
+
+$$
+
+•	\alpha \approx 1
+
+$$
+
 $$
 
 Token ngắn thường:
@@ -185,7 +235,7 @@ Token ngắn thường:
 
 Do đó tồn tại tương quan nghịch:
 
-$\ell$(t) $\propto$ $\log$ r
+$\ell((t) )$\propto$$ $\log$ r
 
 ⸻
 
@@ -193,20 +243,34 @@ $\ell$(t) $\propto$ $\log$ r
 
 Embedding:
 
-E: V \rightarrow $\mathbb${R}^d
+$$
+E: V \rightarrow \mathbb{R}^d
+$$
 
 Ma trận embedding:
 
-W \in $\mathbb${R}^{|V| \times d}
+$$
+W \in \mathbb{R}^{|V| \times d}
+$$
 
 Bài toán tối ưu:
 
 $$
-\min_{V} $\le$ft( $\mathbb${E}[m] + \lambda |V| \right)
+
+$$
+
+\min_{V} \left( \mathbb{E}[m] + \lambda |V| \right)
+
+$$
+
 $$
 
 Trong đó:
-	•	$\mathbb${E}[m]: số token trung bình
+
+$$
+•	\mathbb{E}[m]: số token trung bình
+$$
+
 	•	|V|: kích thước từ vựng
 	•	\lambda: hệ số cân bằng
 
@@ -222,7 +286,13 @@ WordPiece	Trung bình	Thấp	Tối ưu
 Nếu xử lý ở mức ký tự:
 
 $$
+
+$$
+
 m = n
+
+$$
+
 $$
 
 Chi phí:
@@ -232,7 +302,13 @@ $O(n^2)$
 WordPiece giảm:
 
 $$
-m = \frac{n}{$\mathbb${E}[L]}
+
+$$
+
+m = \frac{n}{\mathbb{E}[L]}
+
+$$
+
 $$
 
 ⸻
@@ -259,13 +335,25 @@ $P(L=k)$ \sim q^{k-1}
 Tác động trực tiếp đến:
 
 $$
-m = \frac{n}{$\mathbb${E}[L]}
+
+$$
+
+m = \frac{n}{\mathbb{E}[L]}
+
+$$
+
 $$
 
 \text{Attention Cost} \sim $O(m^2)$
 
 $$
-H_L = - $\sum$ $P(L)$\log $P(L)$
+
+$$
+
+H_L = - \sum P(L)\log P(L)
+
+$$
+
 $$
 
 Thiết kế tokenizer là bài toán tối ưu đa mục tiêu giữa:

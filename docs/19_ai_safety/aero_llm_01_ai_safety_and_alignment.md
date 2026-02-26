@@ -80,7 +80,7 @@ $$
 Trong đó $W_U$ là ma trận Un-embedding matrix. Nếu xác suất $$P( chệch cao vào các từ vựng gây hại, ta có thể xây dựng trạm thẩm định (monitoring systems) giám sát độc lập.
 
 ### 3.2 Can thiệp Nhân quả (Causal Intervention) và Vector Khắc phục (Steering Vectors)
-Chỉ có hiện tượng tương quan (correlation) là không đủ, Mech Interp đòi hỏi Can thiệp Nhân quả (Causal Intervention). Nếu phát hiện một vi mạch (circuit) cấu thành bởi ma trận )$W_Q, W_K, W_V$ mang đặc tính thiên kiến (bias) hoặc không an toàn, ta có thể cô lập hướng không gian (direction) cụ thể $\mathbf{v}_{harmful}$ đại diện cho hành vi đó. 
+Chỉ có hiện tượng tương quan (correlation) là không đủ, Mech Interp đòi hỏi Can thiệp Nhân quả (Causal Intervention). Nếu phát hiện một vi mạch (circuit) cấu thành bởi ma trận )$W_Q, $W_K$, W_V$ mang đặc tính thiên kiến (bias) hoặc không an toàn, ta có thể cô lập hướng không gian (direction) cụ thể $\mathbf{v}_{harmful}$ đại diện cho hành vi đó. 
 
 Quá trình "thanh tẩy" (surgery) mô hình được thực hiện bằng cách bẻ lái (steering) activation trong lúc chạy (forward pass):
 

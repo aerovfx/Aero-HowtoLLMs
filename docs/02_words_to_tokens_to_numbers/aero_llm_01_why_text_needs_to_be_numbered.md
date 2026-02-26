@@ -91,7 +91,13 @@ Nhưng self-attention thuần túy là **bất biến hoán vị (permutation in
 Điều này có nghĩa:
 
 $$
+
+$$
+
 \text{Attention}(X) = \text{Attention}(PX)
+
+$$
+
 $$
 
 với $$P( là ma trận hoán vị.
@@ -109,7 +115,7 @@ Transformer nguyên bản sử dụng:
 )$$
 
 $$
-PE(pos, 2i) = \sin $\le$ft( \frac{pos}{10000^{2i/d}} \right)
+PE(pos, 2i) = \sin \left( \frac{pos}{10000^{2i/d}} \right)
 $$
 
 $$
@@ -117,11 +123,11 @@ $$
 $$
 
 $$
-PE(pos, 2i+1) = \cos $\le$ft( \frac{pos}{10000^{2i/d}} \right)
+PE(pos, 2i+1) = \cos \left( \frac{pos}{10000^{2i/d}} \right)
 $$
 
 $$
-Trong đó: * (pos): vị trí token * $i$: chỉ số chiều embedding * $d$: kích thước embedding Vector đầu vào:
+Trong đó: * (pos): vị trí token * i: chỉ số chiều embedding * d: kích thước embedding Vector đầu vào:
 $$
 
 $$
@@ -137,11 +143,11 @@ z_i = e_i + p_i
 $$
 
 $$
-với $p_i$ là tham số học được. Điều này cho phép mô hình tối ưu trực tiếp biểu diễn vị trí. --- # 4. Vai trò của đánh số trong Self-Attention Attention được tính:
+với p_i là tham số học được. Điều này cho phép mô hình tối ưu trực tiếp biểu diễn vị trí. --- # 4. Vai trò của đánh số trong Self-Attention Attention được tính:
 $$
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)V
+\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
 $$
 
 $$
@@ -153,7 +159,7 @@ Q = ZW_Q, \quad K = ZW_K
 $$
 
 $$
-Nếu $Z$ không chứa thông tin vị trí:
+Nếu Z không chứa thông tin vị trí:
 $$
 
 QK^T
@@ -171,15 +177,15 @@ attention có thể học: * Quan hệ xa * Phụ thuộc cú pháp * Quan hệ 
 $$
 
 $$
-P(x) = $\prod$_{t=1}^{T} P(x_t \mid x_{\lt t})
+P(x) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 $$
-Điều kiện $x_{\lt t}$ phụ thuộc trực tiếp vào thứ tự. Causal masking:
+Điều kiện x_{\lt t} phụ thuộc trực tiếp vào thứ tự. Causal masking:
 $$
 
 $$
-M_{ij} = \begin{cases} 0 & j $\le$ i \\ -$\infty$ & j > i \end{cases}
+M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
 $$
 
 $$
@@ -187,33 +193,37 @@ Ma trận attention thực tế:
 $$
 
 $$
-\text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} + M \right)
+\text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} + M \right)
 $$
 
 $$
-Đánh số vị trí cho phép xác định chính xác token nào thuộc $x_{\lt t}$. --- # 6. Đánh số và tối ưu hóa tính toán Self-attention có độ phức tạp:
+Đánh số vị trí cho phép xác định chính xác token nào thuộc x_{\lt t}. --- # 6. Đánh số và tối ưu hóa tính toán Self-attention có độ phức tạp:
 $$
 
 $\mathcal${O}(T^2 d)
 
 $$
-Khi tăng chiều dài văn bản $T$:
+Khi tăng chiều dài văn bản T:
 $$
 
-\text{Compute} $\propto$ T^2
+$$
+\text{Compute} \propto T^2
+$$
 
 $$
 Việc đánh số giúp: * Quản lý cửa sổ ngữ cảnh * Chia chunk * Triển khai sliding window --- # 7. Ảnh hưởng trong Reinforcement Learning from Human Feedback Trong RLHF, chuỗi gồm:
 $$
 
+$$
 x = [\text{Prompt}; \text{Response}]
+$$
 
 $$
 Đánh số cho phép: * Phân biệt phần prompt và response * Mask loss chính xác Loss:
 $$
 
 $$
-$\mathcal${L} = -$\sum$_{t \in R} $\log$ P(x_t \mid x_{\lt t})
+\mathcal{L} = -\sum_{t \in R} \log P(x_t \mid x_{\lt t})
 $$
 
 $$
@@ -221,7 +231,7 @@ Nếu không đánh số rõ ràng, mô hình không biết đâu là phần c�
 $$
 
 $$
-H(X) = - $\sum$_x P(x)$\log$ P(x)
+H(X) = - \sum_x P(x)\log P(x)
 $$
 
 $$

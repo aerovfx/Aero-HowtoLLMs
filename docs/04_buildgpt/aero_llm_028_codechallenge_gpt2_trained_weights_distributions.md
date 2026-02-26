@@ -51,7 +51,7 @@ $$
 
 $$
 
-Attention(Q,K,V) = softmax$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+Attention(Q,K,V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
@@ -90,10 +90,16 @@ Cách tiếp cận này cho phép mô hình học đồng thời nhiều mối q
 
 ### 2.3. Triển Khai Thực Tế
 
-Trong GPT-2, các ma trận (W_Q, W_K, W_V) được gộp thành một ma trận duy nhất:
+Trong GPT-2, các ma trận ($W_Q$, $W_K$, $W_V$) được gộp thành một ma trận duy nhất:
 
 $$
-C_{attn} \in $\mathbb${R}^{d \times 3d}
+
+$$
+
+C_{attn} \in \mathbb{R}^{d \times 3d}
+
+$$
+
 $$
 
 Giúp giảm chi phí bộ nhớ và tăng tốc truy xuất.

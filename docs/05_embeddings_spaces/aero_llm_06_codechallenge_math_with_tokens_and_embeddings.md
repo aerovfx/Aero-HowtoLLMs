@@ -30,7 +30,7 @@ $$
 
 $$
 
-$\mathcal${T} = (w_1, w_2, ..., w_n)
+$\mathcal${T} = ($w_1$, $w_2$, ..., $w_n$)
 
 $$
 
@@ -39,7 +39,13 @@ $$
 Bộ tokenizer thực hiện ánh xạ:
 
 $$
-\tau: $\mathcal${V}_{text} \rightarrow $\mathcal${V}_{token}
+
+$$
+
+\tau: \mathcal{V}_{text} \rightarrow \mathcal{V}_{token}
+
+$$
+
 $$
 
 Trong đó:
@@ -60,7 +66,13 @@ $$
 Mỗi token $t_i$ được biểu diễn ban đầu dưới dạng vector one-hot:
 
 $$
-\mathbf{x}_i \in $\mathbb${R}^{|V|}
+
+$$
+
+\mathbf{x}_i \in \mathbb{R}^{|V|}
+
+$$
+
 $$
 
 $$
@@ -82,7 +94,13 @@ $$
 Ta định nghĩa ma trận embedding:
 
 $$
-E \in $\mathbb${R}^{|V| \times d}
+
+$$
+
+E \in \mathbb{R}^{|V| \times d}
+
+$$
+
 $$
 
 Trong đó:
@@ -93,7 +111,13 @@ Trong đó:
 Vector embedding được tính:
 
 $$
+
+$$
+
 \mathbf{v}_i = \mathbf{x}_i E
+
+$$
+
 $$
 
 Do $\mathbf{x}_i$ là one-hot, nên:
@@ -117,7 +141,13 @@ Tức là lấy hàng thứ $t_i$ của ma trận embedding.
 Trong Transformer, embedding cuối cùng là tổng của:
 
 $$
+
+$$
+
 \mathbf{z}_i = \mathbf{v}_i + \mathbf{p}_i
+
+$$
+
 $$
 
 Trong đó $\mathbf{p}_i$ là positional encoding:
@@ -126,7 +156,7 @@ $$
 
 $$
 
-PE_{(pos,2k)} = \sin$\le$ft(\frac{pos}{10000^{2k/d}}\right)
+PE_{(pos,2k)} = \sin\left(\frac{pos}{10000^{2k/d}}\right)
 
 $$
 
@@ -136,7 +166,7 @@ $$
 
 $$
 
-PE_{(pos,2k+1)} = \cos$\le$ft(\frac{pos}{10000^{2k/d}}\right)
+PE_{(pos,2k+1)} = \cos\left(\frac{pos}{10000^{2k/d}}\right)
 
 $$
 
@@ -151,7 +181,13 @@ $$
 ### 5.1 Độ tương đồng Cosine
 
 $$
+
+$$
+
 \text{cosine}(\mathbf{v}_i,\mathbf{v}_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\|\|\mathbf{v}_j\|}
+
+$$
+
 $$
 
 Phản ánh mức độ tương đồng ngữ nghĩa.
@@ -166,7 +202,7 @@ $$
 
 $$
 
-\mathbf{v}_{king} - \mathbf{v}_{man} + \mathbf{v}_{woman} $\approx$ \mathbf{v}_{queen}
+\mathbf{v}_{king} - \mathbf{v}_{man} + \mathbf{v}_{woman} \approx \mathbf{v}_{queen}
 
 $$
 
@@ -184,7 +220,7 @@ $$
 
 $$
 
-$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P(w_t  \mid  w_{\lt t})
+$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P($w_t$  \mid  w_{\lt t})
 
 $$
 
@@ -206,7 +242,7 @@ $$
 
 $$
 
-\text{softmax}(z_i) = \frac{e^{z_i}} {$\sum$_{j=1}^{|V|} e^{z_j}}
+\text{softmax}(z_i) = \frac{e^{z_i}} {\sum_{j=1}^{|V|} e^{z_j}}
 
 $$
 
@@ -218,7 +254,7 @@ $$
 
 $$
 
-E $\le$ftarrow E - \eta $\nabla$_E $\mathcal${L}
+E \leftarrow E - \eta \nabla_E \mathcal{L}
 
 $$
 
@@ -233,19 +269,37 @@ Trong đó $\eta$ là learning rate.
 Giả sử:
 
 $$
-X \in $\mathbb${R}^{n \times d}
+
+$$
+
+X \in \mathbb{R}^{n \times d}
+
+$$
+
 $$
 
 Ma trận hiệp phương sai:
 
 $$
+
+$$
+
 \Sigma = \frac{1}{n} X^T X
+
+$$
+
 $$
 
 Giải bài toán trị riêng:
 
 $$
+
+$$
+
 \Sigma \mathbf{u} = \lambda \mathbf{u}
+
+$$
+
 $$
 
 Các trị riêng lớn cho biết chiều chiếm ưu thế của không gian ngữ nghĩa.
@@ -257,13 +311,25 @@ Các trị riêng lớn cho biết chiều chiếm ưu thế của không gian n
 Thường áp dụng chuẩn hóa:
 
 $$
+
+$$
+
 \hat{\mathbf{v}} = \frac{\mathbf{v}}{\|\mathbf{v}\|}
+
+$$
+
 $$
 
 Điều này làm:
 
 $$
+
+$$
+
 \|\hat{\mathbf{v}}\| = 1
+
+$$
+
 $$
 
 Giúp tăng ổn định khi tính attention và cosine similarity.
@@ -308,7 +374,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V) = \text{softmax}$\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)V
+\text{Attention}(Q,K,V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V
 
 $$
 

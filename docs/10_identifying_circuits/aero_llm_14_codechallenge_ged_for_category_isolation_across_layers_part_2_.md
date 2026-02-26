@@ -46,7 +46,11 @@ Vì GED tự sinh ra 2 Lớp Cột (2 Top Eigenvectors, 1 dùng S=Him_R=Her, 1 d
 ## 3. Khảo Sát & Phác Họa Hành Vi (Analysis)
 
 ### 3.1. Sự Sụp Đổ Tương Quan Cơ Tính (Correlation Plummeting)
-Khi Vẽ Trục $x=Layer$, $y=Pearson\ R\ (\mid Correlation\mid)$ giữa Khối Vector Hướng Pattern HIM và Khối Hướng HER. 
+
+$$
+Khi Vẽ Trục x=Layer, y=Pearson\ R\ (\mid Correlation\mid) giữa Khối Vector Hướng Pattern HIM và Khối Hướng HER.
+$$
+
 - Tại $4$ Layers đầu: $R$ rất cao. Phản ánh đúng Thực tại: "Him" và "Her" vốn cùng mang một Hệ đặc tính cú pháp (Grammar function) giống y hệt nhau làm Đại từ Nhân xưng (Pronouns). Sự khác biệt vật lý của mạng trong lúc vừa nhai Nuốt Token (Shallow layers) là RẤT ÍT. 
 - Tại Các Layers Cuối (Deeper layers): $R \to 0$. Transformer đã chuyển trạng thái từ việc Phân Tích Cú pháp Nội Tại $\to$ Tiến tới Tiên Đoán Tương Lai (Next-Token Prediction). Lúc này, Hành vi, Logic, Cấu trúc không gian của con Đực và con Cái rẽ nhánh hoàn toàn, khiến các Hàm Pattern bay ra hai phương trời riêng biệt.
 

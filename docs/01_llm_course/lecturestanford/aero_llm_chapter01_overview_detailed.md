@@ -40,7 +40,9 @@
 
 **Định nghĩa toán học:**
 
-P(x₁, x₂, ..., xₙ) = P(x₁) × P(x₂|x₁) × P(x₃|x₁,x₂) × ... × P(xₙ|x₁,...,xₙ₋₁)
+$$
+P(x₁, x₂, ..., xₙ) = P(x₁) × P(x₂ \mid x₁) × P(x₃ \mid x₁,x₂) × ... × P(xₙ \mid x₁,...,xₙ₋₁)
+$$
 
 Nói cách khác:
 - **Input:** Chuỗi văn bản (text sequence)
@@ -73,7 +75,10 @@ Trước Transformer (2017), các mô hình ngôn ngữ sử dụng:
 - **CNN**: Không phù hợp với sequences dài
 
 **Transformer** giải quyết vấn đề bằng **Self-Attention**:
+
+$$
 Attention(Q, K, V) = softmax(QKᵀ/√d) × V
+$$
 
 ### **Cấu Trúc Transformer Block**
 
@@ -336,7 +341,13 @@ npm run dev
 ## 🎯 Key Takeaways
 
 $$
+
+$$
+
 1. ✅ **LLM = Probability model** over token sequences
+
+$$
+
 $$
 
 2. ✅ **Transformer architecture** is the foundation

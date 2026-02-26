@@ -40,7 +40,7 @@ $$
 
 $$
 
-p(\text{password} | \text{context}) $\approx$ 0
+p(\text{password} | \text{context}) \approx 0
 
 $$
 

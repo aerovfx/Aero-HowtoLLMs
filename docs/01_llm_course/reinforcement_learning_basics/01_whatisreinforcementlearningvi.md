@@ -15,7 +15,10 @@
 ---
 <!-- Aero-Navigation-End -->
 **Reinforcement Learning (RL)**
-==========================
+
+$$
+=
+$$
 
 **Mô hình hóa**
 ---------------
@@ -83,7 +86,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
   - $P(s'\mid s, a)$: Xác suất chuyển từ trạng thái $s$ sang $s'$ khi thực hiện hành động $a$.  
   - $R(s, a, s')$: Phần thưởng nhận được.  
   - $\gamma$: Hệ số chiết khấu (discount factor).  
-- **Mục tiêu**: Tìm **policy** $\pi(a\mid s)$ tối ưu để tối đa tổng phần thưởng kỳ vọng $\mathbb{E}[$\sum$ \gamma^t R_t]$.
+- **Mục tiêu**: Tìm **policy** $\pi(a\mid s)$ tối ưu để tối đa tổng phần thưởng kỳ vọng $\mathbb{E}[$\sum$ \gamma^t $R_t$]$.
 
 ---
 
@@ -170,7 +173,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 ### **10. REINFORCE**  
 **Vai trò**: Policy gradient method cơ bản, tối ưu policy trực tiếp bằng cách **tăng xác suất các hành động mang lại phần thưởng cao**.  
 - **Công thức**:  
-  - $\nabla J(\theta) $\approx$ $\mathbb${E}[$\sum$_t $\nabla$_\theta $\log$ \pi(a_t\mid s_t; \theta) G_t]$.  
+  - $\nabla J(\theta) $\approx$ $\mathbb${E}[$\sum$_t $\nabla$_\theta $\log$ \pi($a_t$\mid $s_t$; \theta) $G_t$]$.  
 - **Đặc điểm**:  
   - **High variance** do sử dụng Monte Carlo returns $G_t$.  
   - Không cần value function (chỉ policy network).  

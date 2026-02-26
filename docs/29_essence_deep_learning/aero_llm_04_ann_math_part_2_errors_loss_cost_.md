@@ -58,7 +58,7 @@ $$
 
 $$
 
-J(w) = \frac{1}{N} $\sum$_{i=1}^{N} L_i
+J(w) = \frac{1}{N} \sum_{i=1}^{N} L_i
 
 $$
 

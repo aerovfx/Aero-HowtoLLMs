@@ -33,7 +33,11 @@ Báo cáo Phần 1 chuẩn bị tiền đề dữ liệu và chạy đánh giá 
 Trọng số tham chiếu sử dụng: `bert-large-uncased`. So sánh với bản Base, bản này sở hữu 24 Transformer Layers, kích thước luồng Embedded 1024 dimensions. Hệ nhúng chữ không phân biệt định hình viết hoa hay viết thường (Uncased).
 
 ### 2.2. Kiểm Thử Masked Language Model (MLM)
+
+$$
 Thay vì sinh chữ dự đoán cuối chuỗi, thuật toán khai báo biến chèn ngang `[MASK]` (ID=103 tokenizer) vào một vị trí trung tâm.
+$$
+
 Dữ liệu đầu vào:
 > "the way you do anything is the [MASK] you do everything"
 Việc xử lý Forward pass được giao phó cho GPU. Cuối cùng, vector logit điểm chốt (Final Output Logits) tại vị trí Index `[MASK]` đi vào CPU để xử lý.

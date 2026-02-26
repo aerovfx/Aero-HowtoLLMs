@@ -36,7 +36,7 @@ Khung toán học của RSA trải qua 3 bước cốt lõi:
 
 ### 2.1 Ma trận Khoảng Cách / Tương Quan Cục Bộ (Similarity Matrices)
 
-Cho ma trận nhúng $E_1 \in $\mathbb${R}^{N \times D_1}$ từ mô hình 1 (Ví dụ Word2Vec kích thước $D_1 = 300$) và $E_2 \in $\mathbb${R}^{N \times D_2}$ từ mô hình 2 (GPT, kích thước $D_2 = 768$), với $N$ là số lượng token ngôn ngữ chung giữa hai mô hình (phải đồng nhất thứ tự token).
+Cho ma trận nhúng $E_1 \in $\mathbb${R}^{N \times $D_1$}$ từ mô hình 1 (Ví dụ Word2Vec kích thước $D_1 = 300$) và $E_2 \in $\mathbb${R}^{N \times $D_2$}$ từ mô hình 2 (GPT, kích thước $D_2 = 768$), với $N$ là số lượng token ngôn ngữ chung giữa hai mô hình (phải đồng nhất thứ tự token).
 
 Bước đầu tiên, RSA tính toán các Ma trận Tương quan nội bộ (viết tắt là Representational Similarity Matrix - RSM) cho từng không gian chiều:
 
@@ -105,7 +105,13 @@ Số lượng các phần tử duy nhất sau khi bung ra là $\frac{N(N-1)}{2}$
 Bước cuối cùng là áp dụng hệ số Tương quan bình phương Pearson (hoặc Spearman rank correlation) giữa hai vector $\vec{v}_1$ và $\vec{v}_2$:
 
 $$
-\rho = \frac{$\sum$ (\vec{v}_1 - \mu_{\vec{v}_1})(\vec{v}_2 - \mu_{\vec{v}_2})}{\sigma_{\vec{v}_1} \sigma_{\vec{v}_2}}
+
+$$
+
+\rho = \frac{\sum (\vec{v}_1 - \mu_{\vec{v}_1})(\vec{v}_2 - \mu_{\vec{v}_2})}{\sigma_{\vec{v}_1} \sigma_{\vec{v}_2}}
+
+$$
+
 $$
 
 Nếu $\rho$ tiến sát tới 1, ta kết luận rằng bất chấp việc được huấn luyện ở những nguồn dữ liệu khác nhau với số lượng lớp nơ-ron khác nhau, hai mô hình này sử dụng cùng một cấu trúc hình học tương quan để bảo toàn ngữ nghĩa từ vựng.

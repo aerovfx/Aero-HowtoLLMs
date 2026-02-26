@@ -54,7 +54,7 @@ $$
 
 $$
 
-\theta_{t+1}=\theta_t-\eta $\nabla$_\theta L(\theta_t)
+\theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta_t)
 
 $$
 
@@ -65,9 +65,14 @@ Trong đó:
 * $\theta_t$: tham số tại bước $t$
 * $\eta$: learning rate
 * $L$: hàm mất mát
-* $\nabla_\theta L$: gradient
 
-Khi $\mid$\nabla$_\theta L\mid$ quá lớn, cập nhật tham số trở nên không ổn định.
+$$
+* \nabla_\theta L: gradient
+$$
+
+$$
+Khi \mid\nabla_\theta L\mid quá lớn, cập nhật tham số trở nên không ổn định.
+$$
 
 ---
 
@@ -76,7 +81,7 @@ Khi $\mid$\nabla$_\theta L\mid$ quá lớn, cập nhật tham số trở nên kh
 Chuẩn Euclid của gradient:
 
 $$
-|\mathbf{g}|*2=\sqrt{$\sum$*{i=1}^{n}g_i^2}
+|\mathbf{g}|*2=\sqrt{\sum*{i=1}^{n}g_i^2}
 $$
 
 Trong đó:
@@ -109,13 +114,13 @@ Theo tài liệu , thay vì cắt từng phần tử riêng lẻ, toàn bộ vec
 Với ngưỡng $c$, gradient sau clipping:
 
 $$
-\mathbf{g}_{clip}= \begin{cases} \mathbf{g} & \text{nếu } |\mathbf{g}|$\le$ c\ \frac{c}{|\mathbf{g}|}\mathbf{g} & \text{nếu } |\mathbf{g}|>c \end{cases}
+\mathbf{g}_{clip}= \begin{cases} \mathbf{g} & \text{nếu } |\mathbf{g}|\le c\ \frac{c}{|\mathbf{g}|}\mathbf{g} & \text{nếu } |\mathbf{g}|>c \end{cases}
 $$
 
 Điều này đảm bảo:
 
 $$
-|\mathbf{g}_{clip}|$\le$ c
+|\mathbf{g}_{clip}|\le c
 $$
 
 ---
@@ -177,7 +182,7 @@ $$
 
 $$
 
-\eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min})$\le$ft(1+\cos\frac{\pi t}{T}\right)
+\eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min})\left(1+\cos\frac{\pi t}{T}\right)
 
 $$
 
@@ -198,7 +203,7 @@ $$
 
 $$
 
-\eta_t=\eta_{max}$\le$ft(1-\frac{t}{T}\right)
+\eta_t=\eta_{max}\left(1-\frac{t}{T}\right)
 
 $$
 
@@ -243,7 +248,7 @@ $$
 
 $$
 
-L=$\sum$_{i=1}^{n}w_i^2
+L=\sum_{i=1}^{n}w_i^2
 
 $$
 

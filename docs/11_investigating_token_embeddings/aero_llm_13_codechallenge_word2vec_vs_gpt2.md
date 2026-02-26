@@ -33,23 +33,26 @@ Thuật toán dò ngược Try-Catch exception sẽ tạo được một tập m
 ## 2. Kiến Thiết Khối Phân Giải Cục Bộ
 
 Bất lực hoàn toàn trước phép trừ hoặc cộng tuyến tính giữa một vector 300D và 768D, phương pháp lấy đạo chéo bắt đầu với tính độc lập từng phe không gian một.
-Trích lấy cụm thông tin vector của $N=100$ token trong hai hộp không gian, áp dụng ma trận tích vô hướng khoảng cách chéo Cosine Similarity:
 
 $$
-
-$$
-
-S_{W2V} = \text{CosineSim}(E_{\text{w2v-100}}) \in $\mathbb${R}^{100 \times 100}
-
+Trích lấy cụm thông tin vector của N=100 token trong hai hộp không gian, áp dụng ma trận tích vô hướng khoảng cách chéo Cosine Similarity:
 $$
 
 $$
 
 $$
 
+S_{W2V} = \text{CosineSim}(E_{\text{w2v-100}}) \in \mathbb{R}^{100 \times 100}
+
 $$
 
-S_{GPT2} = \text{CosineSim}(E_{\text{gpt2-100}}) \in $\mathbb${R}^{100 \times 100}
+$$
+
+$$
+
+$$
+
+S_{GPT2} = \text{CosineSim}(E_{\text{gpt2-100}}) \in \mathbb{R}^{100 \times 100}
 
 $$
 
@@ -70,7 +73,13 @@ Quang phổ Cosine của Word2Vec luôn được chuẩn hóa rộng rãi nằm 
 Nếu giả tưởng ta ép ma trận Word2vec tịnh tiến xuống trừ đi $-1$ trị số (Mean Offset subtract 1), chỉ số Cosine Similarity đột ngột nhảy vực thay đổi phương hướng đồ thị toàn tập. Nhưng tính chất **Hệ số Pearson ($\rho$) không bao giờ gãy đổ**:
 
 $$
+
+$$
+
 \rho = \frac{\text{Cov}(v_{w2v}, v_{gpt2})}{\sigma_{\text{w2v}} \sigma_{\text{gpt2}}}
+
+$$
+
 $$
 
 Luật tính hiệp phương sai chia chuẩn độ lệch $Cov(X,Y)$ tự động loại bỏ mọi độ lệch trung bình tâm (global mean offsets shift), khiến Pearson Correlation chỉ xét dựa trên tính chất "*Chúng nhảy nhót lên và xuống cùng một biên độ hay không*". 

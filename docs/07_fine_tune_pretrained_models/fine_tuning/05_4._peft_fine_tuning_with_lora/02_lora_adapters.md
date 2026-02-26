@@ -36,7 +36,10 @@ Trong một lớp neural network điển hình, trọng số được biểu di�
 
 ### Giải Pháp LoRA
 
+$$
 Với kích thước ma trận n = 512 và rank r = 1:
+$$
+
 - Số tham số cần fine-tune trong LoRA: 512 × 1 × 2 = 1,024 tham số
 - Số tham số trong ma trận gốc: 512² = 262,144 tham số
 - **Giảm khoảng 256 lần!**

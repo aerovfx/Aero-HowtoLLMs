@@ -26,11 +26,20 @@ Embedding vị trí (positional embeddings) là thành phần cốt lõi giúp m
 
 Trong Transformer, embedding của một token tại vị trí t được biểu diễn bởi:
 
+$$
 \mathbf{z}_t = \mathbf{e}_t + \mathbf{p}_t
+$$
 
 Trong đó:
-	•	\mathbf{e}_t \in $\mathbb${R}^d: embedding ngữ nghĩa của token
-	•	\mathbf{p}_t \in $\mathbb${R}^d: embedding vị trí
+
+$$
+•	\mathbf{e}_t \in \mathbb{R}^d: embedding ngữ nghĩa của token
+$$
+
+$$
+•	\mathbf{p}_t \in \mathbb{R}^d: embedding vị trí
+$$
+
 	•	d: số chiều embedding
 
 Vấn đề cốt lõi: self-attention là bất biến theo hoán vị (permutation invariant). Nếu không có embedding vị trí, mô hình không phân biệt được:
@@ -48,123 +57,111 @@ Do đó, embedding vị trí cung cấp cấu trúc thứ tự cho mô hình.
 Trong Transformer ban đầu:
 
 $$
-\text{PE}(pos, 2i) = \sin$\le$ft$\frac{pos}{10000^{2i/d}}\right$
+
+$$
+
+\text{PE}(pos, 2i) = \sin\left\frac{pos}{10000^{2i/d}}\right
+
 $$
 
 $$
-\text{PE}(pos, 2i+1) = \cos$\le$ft$\frac{pos}{10000^{2i/d}}\right$
+
+$$
+\text{PE}(pos, 2i+1) = \cos\left\frac{pos}{10000^{2i/d}}\right
 $$
 
-Tính chất quan trọng:
-	•	Tạo ra phổ tần số đa dạng
-	•	Cho phép biểu diễn quan hệ tuyến tính giữa các vị trí
-	•	Không cần tham số học thêm
+$$
+Tính chất quan trọng: •	Tạo ra phổ tần số đa dạng •	Cho phép biểu diễn quan hệ tuyến tính giữa các vị trí •	Không cần tham số học thêm ⸻ 2.2 Embedding vị trí học được (GPT-2) Trong GPT-2, embedding vị trí được học như một ma trận tham số:
+$$
 
-⸻
+\mathbf{P} \in \mathbb{R}^{L \times d}
 
-2.2 Embedding vị trí học được (GPT-2)
-
-Trong GPT-2, embedding vị trí được học như một ma trận tham số:
-
-\mathbf{P} \in $\mathbb${R}^{L \times d}
-
-Với:
-	•	L: chiều dài tối đa chuỗi
-	•	d: số chiều embedding
-
-Vector vị trí tại t:
+$$
+Với: •	L: chiều dài tối đa chuỗi •	d: số chiều embedding Vector vị trí tại t:
+$$
 
 \mathbf{p}_t = \mathbf{P}[t]
 
+$$
 Các vector này được tối ưu thông qua gradient descent:
-
-$$
-\mathbf{P} $\le$ftarrow \mathbf{P} - \eta \frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{P}}
 $$
 
-Trong đó:
-	•	\eta: learning rate
-	•	$\mathcal${L}: hàm mất mát
-
-⸻
-
-3. Phân tích hình học của embedding vị trí
-
-3.1 Chuẩn vector (Vector Norm)
-
-Chuẩn L2 của embedding vị trí:
-
 $$
-\|\mathbf{p}_t\|_2 = \sqrt{$\sum$_{i=1}^{d} p_{t,i}^2}
+\mathbf{P} \leftarrow \mathbf{P} - \eta \frac{\partial \mathcal{L}}{\partial \mathbf{P}}
 $$
 
-Quan sát thực nghiệm:
-	•	Chuẩn tương đối ổn định theo vị trí
-	•	Không có sự bùng nổ norm ở cuối chuỗi
-
-Điều này giúp đảm bảo embedding vị trí không lấn át embedding token.
-
-⸻
-
-3.2 Độ tương đồng cosine
-
-Độ tương đồng cosine giữa hai vị trí:
-
-\cos$\theta$ =
-\frac{\mathbf{p}_t \cdot \mathbf{p}_s}
-{\|\mathbf{p}_t\| \|\mathbf{p}_s\|}
-
-Tính chất thực nghiệm:
-	•	\cos$\mathbf{p}_t, \mathbf{p}_{t+1}$ cao
-	•	Giảm dần khi khoảng cách |t-s| tăng
-	•	Tạo cấu trúc liên tục (smooth manifold)
-
-Có thể mô hình hoá xấp xỉ:
-
 $$
-\cos$\mathbf{p}_t, \mathbf{p}_{t+k}$ $\approx$ e^{-\alpha k}
+Trong đó: •	\eta: learning rate
 $$
 
-với \alpha > 0.
+•	\mathcal{L}: hàm mất mát
 
-⸻
+$$
+⸻ 3. Phân tích hình học của embedding vị trí 3.1 Chuẩn vector (Vector Norm) Chuẩn L2 của embedding vị trí:
+$$
 
-4. Phân tích sai phân (Difference Vectors)
+$$
+\|\mathbf{p}_t\|_2 = \sqrt{\sum_{i=1}^{d} p_{t,i}^2}
+$$
 
-Xét vector sai phân:
+$$
+Quan sát thực nghiệm: •	Chuẩn tương đối ổn định theo vị trí •	Không có sự bùng nổ norm ở cuối chuỗi Điều này giúp đảm bảo embedding vị trí không lấn át embedding token. ⸻ 3.2 Độ tương đồng cosine Độ tương đồng cosine giữa hai vị trí:
+$$
+
+\cos\theta =
+
+$$
+\frac{\mathbf{p}_t \cdot \mathbf{p}_s} {\|\mathbf{p}_t\| \|\mathbf{p}_s\|} Tính chất thực nghiệm: •	\cos\mathbf{p}_t, \mathbf{p}_{t+1} cao •	Giảm dần khi khoảng cách |t-s| tăng •	Tạo cấu trúc liên tục (smooth manifold) Có thể mô hình hoá xấp xỉ:
+$$
+
+$$
+\cos\mathbf{p}_t, \mathbf{p}_{t+k} \approx e^{-\alpha k}
+$$
+
+$$
+với \alpha > 0. ⸻ 4. Phân tích sai phân (Difference Vectors) Xét vector sai phân:
+$$
 
 $$
 \Delta_t = \mathbf{p}_{t+1} - \mathbf{p}_t
 $$
 
+$$
 Nếu embedding có cấu trúc tuyến tính, ta kỳ vọng:
-
-$$
-\Delta_t $\approx$ \Delta_{t+1}
 $$
 
-Thực nghiệm cho thấy:
-	•	Các \Delta_t gần song song nhau
-	•	Embedding vị trí gần như nằm trên một quỹ đạo tuyến tính trong không gian $\mathbb${R}^d
+$$
+\Delta_t \approx \Delta_{t+1}
+$$
 
+$$
+Thực nghiệm cho thấy: •	Các \Delta_t gần song song nhau
+$$
+
+•	Embedding vị trí gần như nằm trên một quỹ đạo tuyến tính trong không gian \mathbb{R}^d
+
+$$
 Điều này gợi ý:
-
-$$
-\mathbf{p}_t $\approx$ \mathbf{p}_0 + t\mathbf{v}
 $$
 
-với \mathbf{v} là vector hướng chính.
+$$
+\mathbf{p}_t \approx \mathbf{p}_0 + t\mathbf{v}
+$$
 
-⸻
-
-5. Phân tích thành phần chính (PCA)
-
-5.1 Ma trận hiệp phương sai
+$$
+với \mathbf{v} là vector hướng chính. ⸻ 5. Phân tích thành phần chính (PCA) 5.1 Ma trận hiệp phương sai
+$$
 
 \mathbf{C} =
 
 $$
-\frac{1}{L} $\sum$_{t=1}^{L}
+
+$$
+
+\frac{1}{L} \sum_{t=1}^{L}
+
+$$
+
 $$
 
 $\mathbf{p}_t - \bar{\mathbf{p}}$
@@ -173,13 +170,25 @@ $\mathbf{p}_t - \bar{\mathbf{p}}$^T
 Trong đó:
 
 $$
-\bar{\mathbf{p}} = \frac{1}{L} $\sum$_{t=1}^{L} \mathbf{p}_t
+
+$$
+
+\bar{\mathbf{p}} = \frac{1}{L} \sum_{t=1}^{L} \mathbf{p}_t
+
+$$
+
 $$
 
 Giải bài toán trị riêng:
 
 $$
+
+$$
+
 \mathbf{C}\mathbf{v}_i = \lambda_i \mathbf{v}_i
+
+$$
+
 $$
 
 5.2 Kết quả thực nghiệm
@@ -193,61 +202,56 @@ $$
 
 Self-attention:
 
+$$
 \text{Attention}(Q,K,V) =
-
-$$
-\text{softmax}$\le$ft(
 $$
 
-\frac{QK^T}{\sqrt{d_k}}
-\right)V
+$$
+\text{softmax}\left(
+$$
 
-Với:
+$$
+\frac{QK^T}{\sqrt{d_k}} \right)V Với:
+$$
 
 $$
 Q = ZW_Q, \quad
 $$
 
 $$
+
+$$
+
 K = ZW_K, \quad
+
+$$
+
 $$
 
 $$
 Z = E + P
 $$
 
+$$
 Suy ra:
+$$
 
 QK^T =
-$E + $P(W_QW_K^T)$E + P$^T
 
-Khai triển:
+$$
+E + P(W_QW_K^T)E + P(^T Khai triển:
+$$
 
 = EWE^T + PWP^T + EWP^T + PWE^T
 
-Embedding vị trí đóng góp trực tiếp vào ma trận attention scores.
+$$
+Embedding vị trí đóng góp trực tiếp vào ma trận attention scores. ⸻ 7. So sánh với các phương pháp khác Ngoài absolute positional embeddings, các phương pháp khác: •	Relative positional encoding •	RoPE (Rotary Positional Embedding) •	ALiBi Các phương pháp này mã hoá khoảng cách tương đối thay vì vị trí tuyệt đối, giúp cải thiện khả năng ngoại suy sang chuỗi dài. ⸻ 8. Thảo luận 8.1 Cấu trúc gần tuyến tính Embedding vị trí học được trong GPT-2 có đặc tính: )
+$$
 
-⸻
-
-7. So sánh với các phương pháp khác
-
-Ngoài absolute positional embeddings, các phương pháp khác:
-	•	Relative positional encoding
-	•	RoPE (Rotary Positional Embedding)
-	•	ALiBi
-
-Các phương pháp này mã hoá khoảng cách tương đối thay vì vị trí tuyệt đối, giúp cải thiện khả năng ngoại suy sang chuỗi dài.
-
-⸻
-
-8. Thảo luận
-
-8.1 Cấu trúc gần tuyến tính
-
-Embedding vị trí học được trong GPT-2 có đặc tính:
+\mathbf{p}_t \approx \mathbf{a} + t\mathbf{b} + \epsilon_t
 
 $$
-\mathbf{p}_t $\approx$ \mathbf{a} + t\mathbf{b} + \epsilon_t
+
 $$
 
 với nhiễu nhỏ \epsilon_t.

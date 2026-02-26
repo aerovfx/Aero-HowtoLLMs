@@ -34,7 +34,13 @@ Mọi mô hình học sâu trong PyTorch đều được xây dựng dựa trên
 Mặc dù trong mã nguồn chúng ta chỉ gọi đơn giản là một lớp, nhưng về bản chất toán học, PyTorch đang thực hiện:
 
 $$
+
+$$
+
 \text{Output} = X \cdot W^T + b
+
+$$
+
 $$
 
 - **Thực nghiệm đối chứng:** Nghiên cứu đã thực hiện tính toán thủ công bằng cách lấy ma trận trọng số và vector định kiến trực tiếp từ thuộc tính của mô hình, sau đó nhân với dữ liệu đầu vào. Kết quả cho thấy sự trùng khớp hoàn hảo với đầu ra của PyTorch.

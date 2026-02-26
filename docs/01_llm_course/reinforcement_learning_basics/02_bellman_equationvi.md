@@ -15,7 +15,10 @@
 ---
 <!-- Aero-Navigation-End -->
 **Bellman Equation**
-=====================
+
+$$
+=
+$$
 
 Bellman Equation là một công thức toán học được sử dụng trong học tập bổ trợ (Reinforcement Learning) để tính toán giá trị tối ưu của chính sách (policy) trong môi trường. Công thức này được phát triển bởi Richard Bellman vào năm 1957.
 
@@ -24,7 +27,9 @@ Bellman Equation là một công thức toán học được sử dụng trong h
 
 Bellman Equation có thể được viết như sau:
 
-V$s$ = max₃ₑ [r + γ V(s')]
+$$
+Vs = max₃ₑ [r + γ V(s')]
+$$
 
 जह:
 
@@ -45,7 +50,9 @@ Nếu chúng ta có một môi trường đơn giản với hai trạng thái: `
 
 Bellman Equation sẽ được viết như sau:
 
+$$
 V(s1) = max [r1 + γ V(s2), r2 + γ V(s1)]
+$$
 
 Trong trường hợp này, chúng ta cần tính toán giá trị tối ưu của chính sách tại trạng thái `s1` bằng cách so sánh giá trị của hai giá trị khác nhau: giá trị của chính sách tại trạng thái `s2` sau khi thực hiện hành động `a1`, và giá trị của chính sách tại trạng thái `s1` sau khi thực hiện hành động `a2`.
 

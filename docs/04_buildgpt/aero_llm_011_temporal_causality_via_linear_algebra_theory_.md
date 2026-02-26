@@ -47,7 +47,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V) = \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d}}\right)V
+\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
 
 $$
 
@@ -115,7 +115,7 @@ $$
 
 $$
 
-\text{softmax}(x_i) = \frac{e^{x_i}}{$\sum$_j e^{x_j}}
+\text{softmax}(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}
 
 $$
 
@@ -124,7 +124,13 @@ $$
 Nếu một phần tử có giá trị bằng 0:
 
 $$
+
+$$
+
 e^0 = 1 \neq 0
+
+$$
+
 $$
 
 Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suất bằng 0 sau softmax.
@@ -139,7 +145,7 @@ $$
 
 $$
 
-x_i = -$\infty$ \quad \text{với } i > t
+x_i = -\infty \quad \text{với } i > t
 
 $$
 
@@ -151,7 +157,7 @@ $$
 
 $$
 
-\lim_{x \to -$\infty$} e^x = 0
+\lim_{x \to -\infty} e^x = 0
 
 $$
 
@@ -163,7 +169,7 @@ $$
 
 $$
 
-\text{softmax}(-$\infty$) = 0
+\text{softmax}(-\infty) = 0
 
 $$
 
@@ -191,7 +197,13 @@ Cách tiếp cận này mang lại:
 Thay vì vector riêng lẻ, causal attention được biểu diễn bằng ma trận:
 
 $$
-M \in $\mathbb${R}^{T \times T}
+
+$$
+
+M \in \mathbb{R}^{T \times T}
+
+$$
+
 $$
 
 với:
@@ -200,7 +212,7 @@ $$
 
 $$
 
-M_{ij} = \begin{cases} 0 & \text{nếu } j $\le$ i \\ -$\infty$ & \text{nếu } j > i \end{cases}
+M_{ij} = \begin{cases} 0 & \text{nếu } j \le i \\ -\infty & \text{nếu } j > i \end{cases}
 
 $$
 
@@ -218,7 +230,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V) = \text{softmax} $\le$ft( \frac{QK^T}{\sqrt{d}} + M \right)V
+\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d}} + M \right)V
 
 $$
 
@@ -456,8 +468,14 @@ Algorithm 4: Generate-Causal-Mask$T$
 
 1:  Initialize M as matrix of size T × T
 
+$$
 2:  for i = 1 → T do
+$$
+
+$$
 3:      for j = 1 → T do
+$$
+
 4:          if j ≤ i then
 5:              M[i, j] ← 0
 6:          else
@@ -473,156 +491,139 @@ Algorithm 4: Generate-Causal-Mask$T$
 
 ### Giải thích
 
+$$
 * Phần tử ( M_{ij} = 0 ): cho phép attention,
-
-$$
-* Phần tử ( M_{ij} = -$\infty$ ): chặn attention,
 $$
 
-* Dạng tam giác dưới đảm bảo tính nhân quả.
+$$
+* Phần tử ( M_{ij} = -\infty ): chặn attention,
+$$
 
----
+$$
+* Dạng tam giác dưới đảm bảo tính nhân quả. --- ## B.3. Pseudocode: Attention với Causal Mask ### Thuật toán 5: Causal Self-Attention **Input:**
+$$
 
-## B.3. Pseudocode: Attention với Causal Mask
+* Query: ( Q \in \mathbb{R}^{T \times d} )
 
-### Thuật toán 5: Causal Self-Attention
+$$
 
-**Input:**
+$$
 
-* Query: ( Q \in $\mathbb${R}^{T \times d} )
-* Key: ( K \in $\mathbb${R}^{T \times d} )
-* Value: ( V \in $\mathbb${R}^{T \times d} )
-* Mask: ( M \in $\mathbb${R}^{T \times T} )
+* Key: ( K \in \mathbb{R}^{T \times d} )
 
+$$
+
+$$
+
+* Value: ( V \in \mathbb{R}^{T \times d} )
+
+$$
+
+$$
+
+* Mask: ( M \in \mathbb{R}^{T \times T} )
+
+$$
 **Output:**
+$$
 
-* Output: ( O \in $\mathbb${R}^{T \times d} )
+* Output: ( O \in \mathbb{R}^{T \times d} )
 
----
-
-```text
-Algorithm 5: Causal-Attention(Q, K, V, M)
-
-1:  S ← Q × Kᵀ
-2:  S ← S / sqrt$d$
-
-3:  S ← S + M
-
-4:  A ← softmax$S$
-
-5:  O ← A × V
-
-6:  return O
-
----
-
-### Giải thích
-
-* Bước (3) đảm bảo tương lai bị loại bỏ,
-* Softmax biến mask thành xác suất bằng 0,
-* Attention chỉ tập trung vào quá khứ.
-
----
-
-## B.4. Triển khai PyTorch: Causal Mask Cơ bản
-
-### B.4.1. Tạo Mask Tam giác
-
-```python
-import torch
-
----
-
-```python
+$$
+--- ```text Algorithm 5: Causal-Attention(Q, K, V, M) 1:  S ← Q × Kᵀ 2:  S ← S / sqrtd 3:  S ← S + M 4:  A ← softmaxS 5:  O ← A × V 6:  return O --- ### Giải thích * Bước (3) đảm bảo tương lai bị loại bỏ, * Softmax biến mask thành xác suất bằng 0, * Attention chỉ tập trung vào quá khứ. --- ## B.4. Triển khai PyTorch: Causal Mask Cơ bản ### B.4.1. Tạo Mask Tam giác ```python import torch --- ```python
+$$
 
 $$
 def generate_causal_mask(T, device=None):
 $$
 
-    """
-    Generate causal attention mask.
-
-    Args:
-        T (int): Sequence length
-        device (torch.device): Target device
-
-    Returns:
-        mask (Tensor): (T, T) boolean mask
-    """
+$$
+""" Generate causal attention mask. Args: T (int): Sequence length device (torch.device): Target device Returns: mask (Tensor): (T, T) boolean mask """
+$$
 
 $$
 mask = torch.triu(
 $$
 
-        torch.ones(T, T),
-        diagonal=1
-    )
+$$
+torch.ones(T, T),
+$$
 
-    if device is not None:
+diagonal=1
+
+$$
+) if device is not None:
+$$
 
 $$
 mask = mask.to(device)
 $$
 
-    return mask.bool()
-
----
-
-### Dạng Kết quả
+$$
+return mask.bool() --- ### Dạng Kết quả
+$$
 
 Ví dụ với `T = 4`:
 
-```text
-0 1 1 1
-0 0 1 1
-0 0 0 1
-0 0 0 0
-
-Trong đó:
+$$
+```text 0 1 1 1 0 0 1 1 0 0 0 1 0 0 0 0 Trong đó:
+$$
 
 * `1` = bị chặn,
+
+$$
+
+$$
+
 * `0` = cho phép.
 
----
-
-## B.5. Causal Mask với Giá trị -∞ (Logit Mask)
-
-Trong thực tế, mask thường được biểu diễn bằng giá trị âm lớn.
-
----
-
-### B.5.1. Mask dạng Float
-
-```python
+$$
+--- ## B.5. Causal Mask với Giá trị -∞ (Logit Mask) Trong thực tế, mask thường được biểu diễn bằng giá trị âm lớn. --- ### B.5.1. Mask dạng Float ```python
+$$
 
 $$
 def generate_causal_logit_mask(T, device=None):
 $$
 
-    """
-    Generate causal mask with -inf values.
-    """
+$$
+""" Generate causal mask with -inf values. """
+$$
 
 $$
 mask = torch.triu(
 $$
 
-        torch.ones(T, T),
-        diagonal=1
-    )
+$$
+torch.ones(T, T),
+$$
+
+diagonal=1
+
+$$
+)
+$$
 
 $$
 mask = mask.masked_fill(
 $$
 
-        mask == 1,
+$$
+mask == 1,
+$$
+
         float("-inf")
     )
 
     if device is not None:
 
 $$
+
+$$
+
 mask = mask.to(device)
+
+$$
+
 $$
 
     return mask
@@ -636,7 +637,13 @@ Dùng trực tiếp cho:
 ```python
 
 $$
+
+$$
+
 scores = scores + mask
+
+$$
+
 $$
 
 ---
@@ -654,53 +661,72 @@ class CausalAttention(torch.nn.Module):
         super().__init__()
 
 $$
+
+$$
+
 self.attn = torch.nn.MultiheadAttention(
+
+$$
+
 $$
 
             d_model,
             num_heads,
 
 $$
+
+$$
+
 batch_first=True
+
+$$
+
 $$
 
         )
 
     def forward(self, x):
 
-        B, T, _ = x.shape
+$$
+B, T, _ = x.shape
+$$
 
 $$
 mask = generate_causal_mask(
 $$
 
-            T, x.device
-        )
+$$
+T, x.device )
+$$
 
 $$
 out, weights = self.attn(
 $$
 
-            x, x, x,
+$$
+x, x, x,
+$$
 
 $$
 attn_mask=mask
 $$
 
-        )
-
-        return out, weights
-
----
-
-### Lưu ý
+$$
+) return out, weights --- ### Lưu ý
+$$
 
 $$
 * `attn_mask=True` → bị chặn,
 $$
 
 $$
+
+$$
+
 * `attn_mask=False` → cho phép.
+
+$$
+
 $$
 
 ---
@@ -724,52 +750,59 @@ def generate_incremental_mask(
     """
 
 $$
+
+$$
+
 total = past_len + current_len
+
+$$
+
 $$
 
 $$
 mask = torch.triu(
 $$
 
-        torch.ones(current_len, total),
+$$
+torch.ones(current_len, total),
+$$
 
 $$
 diagonal=1 + past_len
 $$
 
-    )
+$$
+) return mask.bool().to(device) --- ### Công dụng Dùng cho sinh từng token: ```text Past tokens | New token Chỉ cho phép new token nhìn về quá khứ. --- ## B.8. Ví dụ Hoàn chỉnh --- ### B.8.1. Demo Attention với Mask ```python def demo():
+$$
 
-    return mask.bool().to(device)
-
----
-
-### Công dụng
-
-Dùng cho sinh từng token:
-
-```text
-Past tokens | New token
-
-Chỉ cho phép new token nhìn về quá khứ.
-
----
-
-## B.8. Ví dụ Hoàn chỉnh
-
----
-
-### B.8.1. Demo Attention với Mask
-
-```python
-def demo():
-
-    B = 2
-    T = 5
-    D = 64
-    H = 4
+B = 2
 
 $$
+
+$$
+
+T = 5
+
+$$
+
+$$
+
+D = 64
+
+$$
+
+$$
+
+H = 4
+
+$$
+
+$$
+
 x = torch.randn(B, T, D)
+
+$$
+
 $$
 
 $$
@@ -777,13 +810,22 @@ attn = CausalAttention(D, H)
 $$
 
 $$
-out, w = attn$x$
+
+$$
+
+out, w = attnx
+
+$$
+
 $$
 
     print("Output:", out.shape)
     print("Weights:", w.shape)
 
+$$
 if __name__ == "__main__":
+$$
+
     demo()
 
 ---

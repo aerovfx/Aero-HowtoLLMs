@@ -63,7 +63,13 @@ Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó 
 Residual stream đóng vai trò như “dòng thông tin trung tâm”, nơi mọi phép biến đổi đều được cộng dồn:
 
 $$
+
+$$
+
 X_{out} = X_{in} + f(\text{LN}(X_{in}))
+
+$$
+
 $$
 
 Cấu trúc này giúp:
@@ -108,7 +114,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V)= \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d}}\right)V
+\text{Attention}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
 
 $$
 
@@ -168,7 +174,7 @@ $$
 
 $$
 
-d_{ff} $\approx$ 4d_{model}
+d_{ff} \approx 4d_{model}
 
 $$
 
@@ -232,7 +238,13 @@ Quy trình xử lý:
 Dạng tổng quát:
 
 $$
+
+$$
+
 X' = X + \text{Attn}(\text{LN}(X))
+
+$$
+
 $$
 
 $$
@@ -641,28 +653,44 @@ Quy trình xử lý:
 
 Input: X
 
-H1 = LN$X$
+$$
+H1 = LNX
+$$
 
 $$
 Q,K,V = Linear(H1)
 $$
 
 $$
+
+$$
+
 A = FlashAttention(Q,K,V, causal=True)
+
 $$
 
 $$
-U = X + W0$A$
+
+$$
+U = X + W0A
 $$
 
-H2 = LN$U$
+$$
+H2 = LNU
+$$
 
 $$
 F = MLP(H2)
 $$
 
 $$
+
+$$
+
 Y = U + F
+
+$$
+
 $$
 
 return Y
@@ -684,7 +712,13 @@ class FlashTransformerBlock(nn.Module):
         super().__init__()
 
 $$
+
+$$
+
 self.ln1 = nn.LayerNorm(d_model)
+
+$$
+
 $$
 
 $$
@@ -692,7 +726,13 @@ self.ln2 = nn.LayerNorm(d_model)
 $$
 
 $$
+
+$$
+
 self.qkv = nn.Linear(d_model, 3*d_model, bias=False)
+
+$$
+
 $$
 
 $$
@@ -700,7 +740,13 @@ self.proj = nn.Linear(d_model, d_model)
 $$
 
 $$
+
+$$
+
 self.ffn = nn.Sequential(
+
+$$
+
 $$
 
             nn.Linear(d_model, d_ff),
@@ -709,64 +755,106 @@ $$
         )
 
 $$
+
+$$
+
 self.n_heads = n_heads
+
+$$
+
 $$
 
 $$
 self.d_head = d_model // n_heads
 $$
 
-    def forward(self, x):
+$$
+def forward(self, x):
+$$
 
 $$
 B, T, D = x.shape
 $$
 
 $$
-h = self.ln1$x$
+
+$$
+
+h = self.ln1x
+
 $$
 
 $$
-qkv = self.qkv$h$
+
+$$
+qkv = self.qkvh
 $$
 
 $$
+
+$$
+
 qkv = qkv.view(B, T, 3,
+
+$$
+
 $$
 
                        self.n_heads,
                        self.d_head)
 
 $$
-q, k, v = qkv.unbind$dim=2$
+
+$$
+
+q, k, v = qkv.unbinddim=2
+
+$$
+
 $$
 
 $$
 attn = flash_attn_func(
 $$
 
-            q, k, v,
+$$
+q, k, v,
+$$
 
 $$
 causal=True
 $$
 
-        )
+$$
+)
+$$
 
 $$
 attn = attn.reshape(B, T, D)
 $$
 
 $$
+
+$$
+
 x = x + self.proj(attn)
+
 $$
 
 $$
-h = self.ln2$x$
+
+$$
+h = self.ln2x
 $$
 
 $$
-x = x + self.ffn$h$
+
+$$
+
+x = x + self.ffnh
+
+$$
+
 $$
 
         return x
@@ -983,7 +1071,13 @@ Residual Add
 Sử dụng RMSNorm hoặc Pre-LN:
 
 $$
+
+$$
+
 \hat{x} = \frac{x}{\sqrt{\text{Var}(x) + \epsilon}}
+
+$$
+
 $$
 
 Giúp ổn định gradient trong huấn luyện sâu.
@@ -1066,14 +1160,22 @@ Chỉ tính attention cho token mới.
 
 Input: X, KV_cache
 
-H1 = RMSNorm$X$
+$$
+H1 = RMSNormX
+$$
 
 $$
 QKV = Linear(H1)
 $$
 
 $$
+
+$$
+
 Q,K,V = Split(QKV)
+
+$$
+
 $$
 
 $$
@@ -1081,21 +1183,35 @@ K_cache, V_cache = UpdateCache(K, V)
 $$
 
 $$
+
+$$
+
 A = FlashAttention(Q, K_cache, V_cache)
+
 $$
 
 $$
-U = X + Proj$A$
+
+$$
+U = X + ProjA
 $$
 
-H2 = RMSNorm$U$
+$$
+H2 = RMSNormU
+$$
 
 $$
 F = GatedMLP(H2)
 $$
 
 $$
+
+$$
+
 Y = U + F
+
+$$
+
 $$
 
 return Y, KV_cache
@@ -1116,15 +1232,26 @@ class LLMBlock(nn.Module):
     def __init__(self, dim, heads, hidden):
         super().__init__()
 
-        self.norm1 = nn.RMSNorm(dim)
-        self.norm2 = nn.RMSNorm(dim)
+$$
+self.norm1 = nn.RMSNorm(dim)
+$$
+
+$$
+self.norm2 = nn.RMSNorm(dim)
+$$
 
 $$
 self.qkv = nn.Linear(dim, 3*dim, bias=False)
 $$
 
 $$
+
+$$
+
 self.proj = nn.Linear(dim, dim, bias=False)
+
+$$
+
 $$
 
 $$
@@ -1132,7 +1259,13 @@ self.gate = nn.Linear(dim, hidden, bias=False)
 $$
 
 $$
+
+$$
+
 self.up = nn.Linear(dim, hidden, bias=False)
+
+$$
+
 $$
 
 $$
@@ -1140,7 +1273,13 @@ self.down = nn.Linear(hidden, dim, bias=False)
 $$
 
 $$
+
+$$
+
 self.heads = heads
+
+$$
+
 $$
 
 $$
@@ -1148,7 +1287,13 @@ self.d = dim // heads
 $$
 
 $$
+
+$$
+
 def forward(self, x, k_cache=None, v_cache=None):
+
+$$
+
 $$
 
 $$
@@ -1156,29 +1301,49 @@ B, T, D = x.shape
 $$
 
 $$
-h = self.norm1$x$
+
+$$
+
+h = self.norm1x
+
 $$
 
 $$
-qkv = self.qkv$h$
+
+$$
+qkv = self.qkvh
 $$
 
 $$
+
+$$
+
 qkv = qkv.view(B, T, 3, self.heads, self.d)
+
+$$
+
 $$
 
 $$
 q, k, v = qkv.unbind(2)
 $$
 
-        if k_cache is not None:
+$$
+if k_cache is not None:
+$$
 
 $$
 k = torch.cat([k_cache, k], dim=1)
 $$
 
 $$
+
+$$
+
 v = torch.cat([v_cache, v], dim=1)
+
+$$
+
 $$
 
 $$
@@ -1186,7 +1351,13 @@ attn = flash_attn_func(q, k, v, causal=True)
 $$
 
 $$
+
+$$
+
 attn = attn.reshape(B, T, D)
+
+$$
+
 $$
 
 $$
@@ -1194,15 +1365,27 @@ x = x + self.proj(attn)
 $$
 
 $$
-h = self.norm2$x$
+
+$$
+
+h = self.norm2x
+
 $$
 
 $$
-gated = torch.silu(self.gate(h)) * self.up$h$
+
+$$
+gated = torch.silu(self.gate(h)) * self.uph
 $$
 
 $$
+
+$$
+
 x = x + self.down(gated)
+
+$$
+
 $$
 
         return x, k, v

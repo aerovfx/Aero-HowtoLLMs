@@ -63,7 +63,7 @@ $$
 
 $$
 
-Var(QK^T) $\approx$ d
+Var(QK^T) \approx d
 
 $$
 
@@ -75,7 +75,7 @@ $$
 
 $$
 
-\sigma $\approx$ \sqrt{d}
+\sigma \approx \sqrt{d}
 
 $$
 
@@ -91,7 +91,7 @@ $$
 
 $$
 
-Softmax(z_i) = \frac{e^{z_i}}{$\sum$_j e^{z_j}}
+Softmax(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
 
 $$
 
@@ -112,7 +112,13 @@ Theo tài liệu, đây là nguyên nhân chính khiến logits cần được k
 Để giảm phương sai của $QK^T$, Transformer áp dụng phép chia:
 
 $$
+
+$$
+
 A_{scaled} = \frac{QK^T}{\sqrt{d}}
+
+$$
+
 $$
 
 Phép scaling này đưa độ lệch chuẩn của ma trận attention về xấp xỉ 1, giúp Softmax hoạt động trong vùng ổn định. 
@@ -123,7 +129,9 @@ Phép scaling này đưa độ lệch chuẩn của ma trận attention về x�
 
 ### **3.1. Thí Nghiệm 1: Ma Trận Ngẫu Nhiên**
 
-Hai ma trận $Q, K \in $\mathbb${R}^{50 \times 50}$ được sinh từ phân phối Gaussian chuẩn.
+$$
+Hai ma trận Q, K \in \mathbb{R}^{50 \times 50} được sinh từ phân phối Gaussian chuẩn.
+$$
 
 Các đại lượng được tính:
 
@@ -138,7 +146,7 @@ $$
 
 $$
 
-\sigma(QK^T) $\approx$ \sqrt{50} $\approx$ 7
+\sigma(QK^T) \approx \sqrt{50} \approx 7
 
 $$
 
@@ -193,15 +201,27 @@ Các giá trị này được biểu diễn bằng histogram với trục y ở 
 Kết quả cho thấy:
 
 $$
-* $\sigma(Q$ $\approx$ 1),
+
+$$
+
+* \sigma(Q \approx 1),
+
 $$
 
 $$
-* $\sigma(K$ $\approx$ 1),
+
+$$
+* \sigma(K \approx 1),
 $$
 
 $$
-* $\sigma(QK^T$ $\approx$ \sqrt{d}).
+
+$$
+
+* \sigma(QK^T \approx \sqrt{d}).
+
+$$
+
 $$
 
 Điều này chứng minh rằng nhân ma trận làm tăng phương sai theo chiều không gian. 
@@ -268,7 +288,7 @@ $$
 
 $$
 
-P_i = \frac{e^{z_i/T}}{$\sum$_j e^{z_j/T}}
+P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
 
 $$
 

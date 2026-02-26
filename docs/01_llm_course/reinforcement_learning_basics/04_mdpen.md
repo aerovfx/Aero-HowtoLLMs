@@ -61,7 +61,13 @@ $$
 This can be expanded using the Bellman equation, which incorporates transitions and rewards:
 
 $$
+
+$$
+
 V_π(s) = R(s, a) + γE[V_π(s') | s, a, π]
+
+$$
+
 $$
 
 Where $s'$ is the next state after taking action a from state s.
@@ -72,7 +78,7 @@ $$
 
 $$
 
-V_{k+1}(s) = max_a [ R(s,a) + γ $\sum$_{s'} P(s' \mid s,a) V_k(s') ]
+V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_k(s') ]
 
 $$
 
@@ -88,7 +94,7 @@ $$
 
 $$
 
-Q_π(s,a) = R(s,a) + γ $\sum$_{s'} P(s' \mid s,a) V_π(s')
+Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_π(s')
 
 $$
 
@@ -101,7 +107,13 @@ Let me think about a concrete example. Suppose we're training an agent to play a
 Using Q-learning, the agent would update its Q-values based on experiences:
 
 $$
+
+$$
+
 Q(s,a) = Q(s,a) + α [ r + γ max_{a'} Q(s',a') - Q(s,a) ]
+
+$$
+
 $$
 
 Here, α is the learning rate, determining how much new information overrides old data.
@@ -152,7 +164,13 @@ $$
 - **Bellman Equation:**
 
 $$
+
+$$
+
 V_π(s) = R(s,a) + γE[V_π(s') | s, a, π]
+
+$$
+
 $$
 
 - **Value Iteration Update:**
@@ -161,7 +179,7 @@ $$
 
 $$
 
-V_{k+1}(s) = max_a [ R(s,a) + γ $\sum$_{s'} P(s' \mid s,a) V_k(s') ]
+V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_k(s') ]
 
 $$
 
@@ -173,7 +191,7 @@ $$
 
 $$
 
-Q_π(s,a) = R(s,a) + γ $\sum$_{s'} P(s' \mid s,a) V_π(s')
+Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_π(s')
 
 $$
 
@@ -182,7 +200,13 @@ $$
 - **Q-Learning Update:**
 
 $$
+
+$$
+
 Q(s,a) = Q(s,a) + α [ r + γ max_{a'} Q(s',a') - Q(s,a) ]
+
+$$
+
 $$
 
 Here, α is the learning rate.

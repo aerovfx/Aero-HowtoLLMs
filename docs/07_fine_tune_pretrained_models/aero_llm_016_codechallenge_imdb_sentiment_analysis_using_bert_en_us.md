@@ -56,7 +56,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V)=\text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
@@ -87,8 +87,8 @@ $$
 
 Trong đó:
 
-* (W_1,W_2): ma trận trọng số
-* (b_1,b_2): bias
+* ($W_1$,$W_2$): ma trận trọng số
+* ($b_1$,$b_2$): bias
 * $\sigma$: hàm kích hoạt (GELU)
 
 MLP giúp ánh xạ dữ liệu sang không gian đặc trưng phi tuyến.
@@ -103,7 +103,7 @@ $$
 
 $$
 
-L=-\frac{1}{N}$\sum$_{i=1}^{N} $\le$ft[y_i$\log$(p_i)+(1-y_i)$\log$(1-p_i)\right]
+L=-\frac{1}{N}\sum_{i=1}^{N} \left[y_i\log(p_i)+(1-y_i)\log(1-p_i)\right]
 
 $$
 
@@ -172,7 +172,7 @@ $$
 
 $$
 
-P_{total}=$\sum$_i |W_i|
+P_{total}=\sum_i |W_i|
 
 $$
 
@@ -182,14 +182,20 @@ $$
 
 $$
 
-P_{trainable}=$\sum$_{j \in T}|W_j|
+P_{trainable}=\sum_{j \in T}|W_j|
 
 $$
 
 $$
 
 $$
+
+$$
+
 R=\frac{P_{trainable}}{P_{total}}
+
+$$
+
 $$
 
 Trong đó:
@@ -203,7 +209,7 @@ $$
 
 $$
 
-R $\approx$ 0.5
+R \approx 0.5
 
 $$
 
@@ -221,7 +227,7 @@ $$
 
 $$
 
-\theta_{t+1}=\theta_t-\eta $\nabla$_\theta L(\theta)
+\theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta)
 
 $$
 
@@ -244,7 +250,13 @@ Sau mỗi 10 batch, tiến hành đánh giá tập kiểm tra.
 Độ chính xác được tính:
 
 $$
+
+$$
+
 Accuracy=\frac{TP+TN}{TP+TN+FP+FN}
+
+$$
+
 $$
 
 Kết quả trung bình:

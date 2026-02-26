@@ -72,7 +72,13 @@ $$
 - **Công thức Bellman:**
 
 $$
+
+$$
+
 V_π(s) = R(s,a) + γE[V_π(s') | s, a, π]
+
+$$
+
 $$
 
 - **Cập nhật giá trị iterarion (Value Iteration):**
@@ -81,7 +87,7 @@ $$
 
 $$
 
-V_{k+1}(s) = max_a [ R(s,a) + γ $\sum$_{s'} P(s' \mid s,a) V_k(s') ]
+V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_k(s') ]
 
 $$
 
@@ -93,7 +99,7 @@ $$
 
 $$
 
-Q_π(s,a) = R(s,a) + γ $\sum$_{s'} P(s' \mid s,a) V_π(s')
+Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_π(s')
 
 $$
 
@@ -102,7 +108,13 @@ $$
 - **Cập nhật Q-learning:**
 
 $$
+
+$$
+
 Q(s,a) = Q(s,a) + α [ r + γ max_{a'} Q(s',a') - Q(s,a) ]
+
+$$
+
 $$
 
 Trong đó, α là tốc độ học tập.

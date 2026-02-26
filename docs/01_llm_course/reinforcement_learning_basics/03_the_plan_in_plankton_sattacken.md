@@ -15,7 +15,10 @@
 ---
 <!-- Aero-Navigation-End -->
 **The Plan in Plankton's Attack**
-================================
+
+$$
+=
+$$
 
 In Plankton's Attack, also known as Deep Q-Networks (DQN), the "Plan" refers to a specific neural network architecture used to approximate the action-value function (Q-function).
 

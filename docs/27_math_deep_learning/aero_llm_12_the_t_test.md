@@ -35,7 +35,13 @@ Trong quá trình phát triển AI, chúng ta thường đặt câu hỏi: "Ki�
 Giá trị $t$ được tính toán dựa trên một nguyên lý đơn giản:
 
 $$
+
+$$
+
 t = \frac{\bar{x} - \bar{y}}{s / \sqrt{n}}
+
+$$
+
 $$
 
 Trong đó:

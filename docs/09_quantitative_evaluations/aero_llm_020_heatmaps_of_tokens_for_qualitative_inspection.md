@@ -30,7 +30,7 @@ Mỗi một `token` ($t_i$) ứng với một con số cụ thể thể hiện m
 
 Do môi trường lập trình thường xuất dữ liệu thông qua cửa sổ hiển thị (như matplotlib), các chữ cái (characters) cần sử dụng một font đồng nhịp như Monospace để tính diện tích.
 
-Với thiết lập: `Figure = 10 \times 2`, tỷ lệ cố định của 1 token sẽ được chuyển thành giá trị hình hộp (bounding box) cụ thể có tọa độ và chiều dài được lấy trực tiếp bởi thuật toán đồ họa. Từ đó lấy làm đơn vị cho $t_1, t_2...$
+Với thiết lập: `Figure = 10 \times 2`, tỷ lệ cố định của 1 token sẽ được chuyển thành giá trị hình hộp (bounding box) cụ thể có tọa độ và chiều dài được lấy trực tiếp bởi thuật toán đồ họa. Từ đó lấy làm đơn vị cho $t_1, $t_2$...$
 
 ### 1.2 Biến Đổi Tỷ Lệ (Min-Max Scaling)
 

@@ -54,7 +54,11 @@ Trong các biểu thức logic dài, việc sử dụng dấu ngoặc đơn giú
 
 ### 4.2. Gán kết quả Logic cho Biến
 Kết quả của một phép toán phức tạp có thể được lưu trữ vào một biến kiểu `bool`:
+
+$$
 *Ví dụ:* `outcome = (x * 2 == y)`.
+$$
+
 Việc lưu trữ này rất hữu ích để sử dụng làm điều kiện kiểm soát luồng (flow control) trong các đoạn mã tiếp theo của chương trình.
 
 ---

@@ -54,7 +54,13 @@ Ban đầu, dữ liệu được mã hóa bằng phương thức `tokenizer.enco
 ```python
 
 $$
+
+$$
+
 tokenizer(text, return_tensors="pt")
+
+$$
+
 $$
 
 Phương pháp này trả về tensor trực tiếp, thuận tiện cho huấn luyện, nhưng tạo ra tensor hai chiều (1 × N). Do đó, cần truy cập hàng đầu tiên để chuyển về dạng một chiều .
@@ -74,13 +80,25 @@ Sau đó, mô hình được yêu cầu sinh văn bản và tính tỷ lệ toke
 Việc sinh văn bản sử dụng hàm `generate` với các tham số quan trọng:
 
 $$
+
+$$
+
 * `do_sample=True`: đảm bảo tính ngẫu nhiên
+
+$$
+
 $$
 
 * `bad_words_ids`: loại bỏ token kết thúc (EOS)
 
 $$
+
+$$
+
 * `min_length = max_length`: đảm bảo độ dài cố định
+
+$$
+
 $$
 
 Loại bỏ token EOS giúp mô hình không dừng sớm khi sinh văn bản, từ đó thu được đủ số lượng token cần thiết cho phân tích .

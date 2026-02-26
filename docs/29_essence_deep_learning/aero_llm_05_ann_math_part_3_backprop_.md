@@ -39,7 +39,7 @@ $$
 
 $$
 
-w = w - \eta \cdot \frac{$\partial$ L}{$\partial$ w}
+w = w - \eta \cdot \frac{\partial L}{\partial w}
 
 $$
 

@@ -64,7 +64,7 @@ $$
 
 $$
 
-P(X)=$\prod$_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
+P(X)=\prod_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
 
 $$
 
@@ -97,7 +97,7 @@ $$
 
 $$
 
-$\mathcal${L}(\theta)= -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P(y_i\mid x_i;\theta)
+$\mathcal${L}(\theta)= -\frac{1}{N}$\sum$_{i=1}^{N} $\log$ P($y_i$\mid $x_i$;\theta)
 
 $$
 
@@ -109,7 +109,7 @@ $$
 
 $$
 
-\theta^{\ast}=\arg\min_\theta $\mathcal${L}(\theta)
+\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
 
 $$
 
@@ -119,7 +119,9 @@ $$
 
 ### 2.3. Self-Attention trong Transformer
 
-Cho đầu vào $X\in$\mathbb${R}^{n\times d}$:
+$$
+Cho đầu vào X\in\mathbb{R}^{n\times d}:
+$$
 
 $$
 
@@ -135,7 +137,7 @@ $$
 
 $$
 
-\text{Attn}(Q,K,V)= \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Attn}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
@@ -152,7 +154,11 @@ Cơ chế này cho phép mô hình học quan hệ giữa các dòng lệnh tron
 Theo tài liệu , phiên bản CodeGen-350M có:
 
 * 20 khối Transformer,
-* Kích thước embedding: $d=1024$,
+
+$$
+* Kích thước embedding: d=1024,
+$$
+
 * Từ vựng: khoảng 50.000 token,
 * Không có position embedding riêng biệt.
 
@@ -169,13 +175,25 @@ $$
 CodeGen sử dụng ma trận QKV ghép:
 
 $$
-W_{QKV}\in$\mathbb${R}^{d\times 3d}
+
+$$
+
+W_{QKV}\in\mathbb{R}^{d\times 3d}
+
+$$
+
 $$
 
 Thay vì ba ma trận riêng:
 
 $$
-W_Q,W_K,W_V\in$\mathbb${R}^{d\times d}
+
+$$
+
+W_Q,W_K,W_V\in\mathbb{R}^{d\times d}
+
+$$
+
 $$
 
 Cách làm này giúp tối ưu tốc độ tính toán.
@@ -199,7 +217,13 @@ $$
 với:
 
 $$
-W_1\in$\mathbb${R}^{d\times 4d},\quad W_2\in$\mathbb${R}^{4d\times d}
+
+$$
+
+W_1\in\mathbb{R}^{d\times 4d},\quad W_2\in\mathbb{R}^{4d\times d}
+
+$$
+
 $$
 
 ---
@@ -209,7 +233,13 @@ $$
 Số hàng embedding:
 
 $$
+
+$$
+
 N_{emb}=51,200
+
+$$
+
 $$
 
 Trong khi số token:
@@ -218,7 +248,7 @@ $$
 
 $$
 
-N_{tok}$\approx$ 50,257
+N_{tok}\approx 50,257
 
 $$
 
@@ -269,7 +299,7 @@ $$
 
 $$
 
-r=\frac{3000}{160000}$\approx$1.9%
+r=\frac{3000}{160000}\approx1.9%
 
 $$
 
@@ -289,7 +319,7 @@ $$
 
 $$
 
-$\mathcal${D}={x_1,\dots,x_N}
+$\mathcal${D}={$x_1$,\dots,$x_N$}
 
 $$
 
@@ -343,7 +373,7 @@ $$
 
 $$
 
-p_i=\frac{\exp(z_i/T)}{$\sum$_j\exp(z_j/T)}
+p_i=\frac{\exp(z_i/T)}{\sum_j\exp(z_j/T)}
 
 $$
 
@@ -366,7 +396,13 @@ Trong đó:
 Gọi:
 
 $$
+
+$$
+
 f(x)= \begin{cases} 1, & x\ \text{chạy được} \\ 0, & \text{lỗi} \end{cases}
+
+$$
+
 $$
 
 Tỷ lệ hợp lệ:
@@ -375,7 +411,7 @@ $$
 
 $$
 
-R=\frac{1}{M}$\sum$_{i=1}^{M}f(x_i)
+R=\frac{1}{M}\sum_{i=1}^{M}f(x_i)
 
 $$
 
@@ -425,7 +461,13 @@ Dữ liệu từ sách giải tích được dùng để fine-tune, giúp mô h�
 Hàm mục tiêu:
 
 $$
-\min_{\Delta\theta} $\mathcal${L}(\theta_0+\Delta\theta)
+
+$$
+
+\min_{\Delta\theta} \mathcal{L}(\theta_0+\Delta\theta)
+
+$$
+
 $$
 
 ---
@@ -438,7 +480,7 @@ $$
 
 $$
 
-P_{domain}(x)$\approx$ P_{data}(x)
+P_{domain}(x)\approx P_{data}(x)
 
 $$
 
@@ -455,13 +497,25 @@ $$
 Gọi:
 
 $$
+
+$$
+
 P=\text{số tham số}
+
+$$
+
 $$
 
 Chất lượng trung bình:
 
 $$
-Q$\propto$$\log$(P)
+
+$$
+
+Q\propto\log(P)
+
+$$
+
 $$
 
 Mô hình lớn sinh mã hợp lệ tốt hơn.
@@ -473,13 +527,25 @@ Mô hình lớn sinh mã hợp lệ tốt hơn.
 Giả sử:
 
 $$
-C$\propto$ P
+
+$$
+
+C\propto P
+
+$$
+
 $$
 
 Hiệu quả:
 
 $$
+
+$$
+
 E=\frac{Q}{C}
+
+$$
+
 $$
 
 Mô hình nhỏ có $E$ cao cho học tập, mô hình lớn phù hợp triển khai.

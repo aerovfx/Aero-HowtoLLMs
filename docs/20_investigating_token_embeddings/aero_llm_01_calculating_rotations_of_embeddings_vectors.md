@@ -34,7 +34,13 @@ Hệ số độ đo khoảng cách quen thuộc là Độ tương đồng Cosine
 Sử dụng công thức tích vô hướng và độ dài Norm vector:
 
 $$
+
+$$
+
 \cos(\theta) = \frac{\langle x, y \rangle}{\|x\| \cdot \|y\|}
+
+$$
+
 $$
 
 Ta cô lập hệ số góc $\theta$ bằng hàm lượng giác ngược (Arc Cosine):
@@ -43,7 +49,7 @@ $$
 
 $$
 
-\theta = \arccos$\le$ft(\frac{\langle x, y \rangle}{\|x\| \cdot \|y\|}\right)
+\theta = \arccos\left(\frac{\langle x, y \rangle}{\|x\| \cdot \|y\|}\right)
 
 $$
 

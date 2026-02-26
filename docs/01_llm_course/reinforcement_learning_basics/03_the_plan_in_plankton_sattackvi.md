@@ -15,7 +15,10 @@
 ---
 <!-- Aero-Navigation-End -->
 **Plan trong Plankton's Attack**
-=====================================
+
+$$
+=
+$$
 
 Trong Plankton's Attack, "Plan" tham khảo là một cấu trúc mạng thần kinh được sử dụng để ước tính hàm giá trị hành động (Q-function).
 

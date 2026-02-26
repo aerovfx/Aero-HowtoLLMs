@@ -50,7 +50,11 @@ Created 2 GPT-4 variants:
 
 **Code:**
 ```typescript
+
+$$
 let gpt4Shape: IModelShape = {
+$$
+
     B: 1,
     T: 8192,
     C: 12288,
@@ -64,7 +68,10 @@ let gpt4Shape: IModelShape = {
     isMoE: true,
 };
 
+$$
 let gpt4TurboShape: IModelShape = {
+$$
+
     ...gpt4Shape,
     T: 128000,  // 128K context
 };

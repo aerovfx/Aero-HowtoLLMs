@@ -55,19 +55,37 @@ Giả sử:
 Khi đó, Kullback–Leibler Divergence được định nghĩa:
 
 $$
-D_{KL}(P || Q) = $\sum$_{x} $P(x)$ $\log$ \frac{$P(x)$}{Q$x$}
+
+$$
+
+D_{KL}(P || Q) = \sum_{x} P(x) \log \frac{P(x)}{Qx}
+
+$$
+
 $$
 
 Nếu phân phối liên tục:
 
 $$
-D_{KL}(P || Q) = \int $P(x)$ $\log$ \frac{$P(x)$}{Q$x$} dx
+
+$$
+
+D_{KL}(P || Q) = \int P(x) \log \frac{P(x)}{Qx} dx
+
+$$
+
 $$
 
 2.2 Diễn giải
 
 $$
+
+$$
+
 •	D_{KL} = 0 khi P = Q
+
+$$
+
 $$
 
 	•	D_{KL} > 0 khi hai phân phối khác nhau
@@ -79,16 +97,26 @@ D_{KL}(P || Q) \neq D_{KL}(Q || P)
 Cross-entropy:
 
 $$
-H(P, Q) = - $\sum$_x $P(x)$ $\log$ Q$x$
+
+$$
+
+H(P, Q) = - \sum_x P(x) \log Qx
+
+$$
+
 $$
 
 Ta có:
 
-D_{KL}(P||Q) = H(P,Q) - H$$P(
+$$
+D_{KL}(P||Q) = H(P,Q) - HP(
+$$
 
 Perplexity:
 
+$$
 \text{PPL} = 2^{H(P,Q)}
+$$
 
 Điều này cho thấy KL divergence chính là phần “sai khác” giữa entropy thật và entropy mô hình.
 
@@ -110,7 +138,9 @@ MAUVE xây dựng đường cong giữa hai phân phối:
 
 Bằng cách xét họ phân phối hỗn hợp:
 
-R_\alpha = \alpha P + )$1-\alpha$Q
+$$
+R_\alpha = \alpha P + )1-\alphaQ
+$$
 
 Sau đó tính:
 
@@ -124,7 +154,13 @@ D_{KL}$Q \mid \mid R_\alpha$
 MAUVE được định nghĩa dựa trên diện tích dưới đường cong:
 
 $$
-\text{MAUVE} = \int_0^1 f$\alpha$ d\alpha
+
+$$
+
+\text{MAUVE} = \int_0^1 f\alpha d\alpha
+
+$$
+
 $$
 
 Trong đó f$\alpha$ phản ánh trade-off giữa hai hướng KL.
@@ -150,18 +186,30 @@ Rowan University và University of Washington công bố bộ dữ liệu HellaS
 
 4.2 Phương pháp đánh giá
 
-Giả sử có mô hình M, với mỗi câu hỏi có 4 đáp án a_i.
+Giả sử có mô hình M, với mỗi câu hỏi có 4 đáp án $a_i$.
 
 Xác suất lựa chọn:
 
 $$
-P(a_i  \mid  context) = \frac{\exp$\log p_\theta(a_i$)}{$\sum$_j \exp$\log p_\theta(a_j$)}
+
+$$
+
+P(a_i  \mid  context) = \frac{\exp\log p_\theta(a_i)}{\sum_j \exp\log p_\theta(a_j)}
+
+$$
+
 $$
 
 Accuracy:
 
 $$
-Acc = \frac{1}{N} $\sum$_{i=1}^N \mathbf{1}$\hat{y}_i = y_i$
+
+$$
+
+Acc = \frac{1}{N} \sum_{i=1}^N \mathbf{1}\hat{y}_i = y_i
+
+$$
+
 $$
 
 Song song, ta tính MAUVE giữa:
@@ -178,11 +226,21 @@ Song song, ta tính MAUVE giữa:
 
 Giả sử:
 
+$$
 D_{KL}^{small} = 1.8
-D_{KL}^{large} = 0.7
+$$
 
+$$
+D_{KL}^{large} = 0.7
+$$
+
+$$
 MAUVE^{small} = 0.42
+$$
+
+$$
 MAUVE^{large} = 0.78
+$$
 
 Điều này cho thấy mô hình lớn tiệm cận phân phối dữ liệu thật tốt hơn.
 
@@ -193,19 +251,31 @@ MAUVE^{large} = 0.78
 Trong không gian xác suất, mỗi mô hình tương ứng với một điểm trên simplex:
 
 $$
-$\sum$_i p_i = 1
+\sum_i p_i = 1
 $$
 
 KL divergence tương ứng với khoảng cách Bregman:
 
 $$
-D_\phi(p,q) = \phi$p$ - \phi$q$ - $\nabla$\phi$q$^\top (p-q)
+
+$$
+
+D_\phi(p,q) = \phip - \phiq - \nabla\phiq^\top (p-q)
+
+$$
+
 $$
 
 với:
 
 $$
-\phi$p$ = $\sum$_i p_i $\log$ p_i
+
+$$
+
+\phip = \sum_i p_i \log p_i
+
+$$
+
 $$
 
 MAUVE khai thác toàn bộ cấu trúc hình học thay vì chỉ một hướng chiếu như KL.

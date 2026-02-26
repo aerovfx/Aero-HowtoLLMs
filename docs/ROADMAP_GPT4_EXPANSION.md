@@ -202,7 +202,13 @@ class WebGPUModelRenderer {
     // Request GPU adapter
 
 $$
+
+$$
+
 const adapter = await navigator.gpu?.requestAdapter();
+
+$$
+
 $$
 
     if (!adapter) {
@@ -210,7 +216,13 @@ $$
     }
     
 $$
+
+$$
+
 this.device = await adapter.requestDevice();
+
+$$
+
 $$
 
     await this.setupPipelines();

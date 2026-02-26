@@ -27,20 +27,36 @@ Trong các mô hình phân loại và mô hình ngôn ngữ, hàm softmax đư�
 Trong bài toán phân loại nhiều lớp, mô hình xuất ra một vector logits:
 
 $$
-\mathbf{z} = $z_1, z_2, \dots, z_K$
+
+$$
+
+\mathbf{z} = z_1, z_2, \dots, z_K
+
+$$
+
 $$
 
 Softmax chuyển logits thành xác suất:
 
 \sigma$z_i$
+
+$$
 =
+$$
+
 \frac{\exp$z_i$}
 
 $$
-{$\sum$_{j=1}^{K} \exp$z_j$}
+
 $$
 
-Tuy nhiên, khi z_i có độ lớn lớn (|z| >> 1), phép tính \exp$z_i$ có thể gây lỗi số học.
+{\sum_{j=1}^{K} \expz_j}
+
+$$
+
+$$
+
+Tuy nhiên, khi $z_i$ có độ lớn lớn (|z| >> 1), phép tính \exp$z_i$ có thể gây lỗi số học.
 
 ⸻
 
@@ -51,19 +67,31 @@ Tuy nhiên, khi z_i có độ lớn lớn (|z| >> 1), phép tính \exp$z_i$ có 
 Trong chuẩn IEEE 754 (float32):
 
 $$
-\exp(88.7) $\approx$ 3.4 \times 10^{38}
+
+$$
+
+\exp(88.7) \approx 3.4 \times 10^{38}
+
+$$
+
 $$
 
 Nếu:
 
-z_i > 88
+$z_i$ > 88
 
 → overflow (vượt quá khả năng biểu diễn).
 
 Ngược lại:
 
 $$
-\exp(-100) $\approx$ 3.7 \times 10^{-44}
+
+$$
+
+\exp(-100) \approx 3.7 \times 10^{-44}
+
+$$
+
 $$
 
 → underflow (gần 0).
@@ -74,19 +102,33 @@ $$
 
 Giả sử:
 
+$$
 \mathbf{z} = (1000, 1001, 999)
+$$
 
 Ta có:
 
 $$
-\exp(1000) = $\infty$
+
+$$
+
+\exp(1000) = \infty
+
+$$
+
 $$
 
 Khi đó:
 
 \sigma$z_i$
+
+$$
 =
-\frac{$\infty$}{$\infty$}
+$$
+
+$$
+\frac{\infty}{\infty}
+$$
 
 → Không xác định (NaN).
 
@@ -97,20 +139,39 @@ Khi đó:
 Để tránh overflow, ta trừ đi giá trị lớn nhất:
 
 \sigma$z_i$
+
+$$
 =
-\frac{\exp(z_i - z_{max})}
-{$\sum$_j \exp(z_j - z_{max})}
+$$
+
+\frac{\exp($z_i$ - z_{max})}
+
+$$
+{\sum_j \exp(z_j - z_{max})}
+$$
 
 Trong đó:
 
 $$
+
+$$
+
 z_{max} = \max_j z_j
+
+$$
+
 $$
 
 Vì:
 
 $$
-\exp(z_i - z_{max}) $\le$ 1
+
+$$
+
+\exp(z_i - z_{max}) \le 1
+
+$$
+
 $$
 
 → đảm bảo ổn định số học.
@@ -122,13 +183,17 @@ $$
 Trong nhiều thư viện, ta dùng:
 
 $\log$ \sigma$z_i$
+
+$$
 =
-z_i
+$$
+
+$z_i$
 -
 $\log$
 
 $$
-$\le$ft(
+\left(
 $$
 
 $\sum$_j \exp$z_j$
@@ -139,21 +204,25 @@ $\sum$_j \exp$z_j$
 $\log$
 
 $$
-$\le$ft(
+\left(
 $$
 
 $\sum$_j \exp$z_j$
 \right)
+
+$$
 =
+$$
+
 z_{max}
 +
 $\log$
 
 $$
-$\le$ft(
+\left(
 $$
 
-$\sum$_j \exp(z_j - z_{max})
+$\sum$_j \exp($z_j$ - z_{max})
 \right)
 
 ⸻
@@ -163,15 +232,25 @@ $\sum$_j \exp(z_j - z_{max})
 Cross-entropy loss:
 
 $\mathcal${L}
+
+$$
 =
+$$
+
 -
-$\sum$_i y_i $\log$ \sigma$z_i$
+$\sum$_i $y_i$ $\log$ \sigma$z_i$
 
 Gradient:
 
-\frac{$\partial$ $\mathcal${L}}{$\partial$ z_i}
+$$
+\frac{\partial \mathcal{L}}{\partial z_i}
+$$
+
+$$
 =
-\sigma$z_i$ - y_i
+$$
+
+\sigma$z_i$ - $y_i$
 
 Nếu softmax không ổn định → gradient NaN → lan truyền lỗi qua backpropagation.
 
@@ -181,25 +260,43 @@ Nếu softmax không ổn định → gradient NaN → lan truyền lỗi qua ba
 
 Khi một logit rất lớn:
 
-z_k \gg z_j
+$z_k$ \gg $z_j$
 
 Ta có:
 
 $$
-\sigma$z_k$ $\approx$ 1
+
+$$
+
+\sigmaz_k \approx 1
+
+$$
+
 $$
 
 \quad
 
 $$
-\sigma$z_j$ $\approx$ 0
+
+$$
+
+\sigmaz_j \approx 0
+
+$$
+
 $$
 
 Gradient:
 
-\frac{$\partial$ $\mathcal${L}}{$\partial$ z_k}
+$$
+\frac{\partial \mathcal{L}}{\partial z_k}
+$$
+
+$$
 =
-1 - y_k
+$$
+
+1 - $y_k$
 
 Nếu dự đoán đúng và tự tin cao → gradient gần 0 → học chậm.
 
@@ -209,16 +306,25 @@ Nếu dự đoán đúng và tự tin cao → gradient gần 0 → học chậm.
 
 Độ điều kiện (condition number):
 
+$$
 \kappa =
-\frac{\max |z_i|}
-{\min |z_i|}
+$$
+
+\frac{\max |$z_i$|}
+{\min |$z_i$|}
 
 Khi \kappa lớn → dễ mất ổn định.
 
 Trong mô hình lớn (LLMs):
 
 $$
+
+$$
+
 z_i = \mathbf{w}_i^\top \mathbf{h}
+
+$$
+
 $$
 
 Nếu:
@@ -234,7 +340,13 @@ Nếu:
 Khi dùng float16:
 
 $$
-\exp(11) $\approx$ 59874
+
+$$
+
+\exp(11) \approx 59874
+
+$$
+
 $$
 
 Giới hạn nhỏ hơn float32 → dễ overflow hơn.
@@ -243,7 +355,7 @@ Giải pháp:
 	•	Loss scaling:
 
 $$
-$\mathcal${L}' = S \cdot $\mathcal${L}
+\mathcal{L}' = S \cdot \mathcal{L}
 $$
 
 Sau đó chia gradient cho S.
@@ -255,11 +367,22 @@ Sau đó chia gradient cho S.
 Softmax có thể điều chỉnh bằng nhiệt độ T:
 
 \sigma$z_i$
+
+$$
 =
+$$
+
 \frac{\exp$z_i/T$}
-{$\sum$_j \exp$z_j/T$}
+
+$$
+{\sum_j \expz_j/T}
+$$
+
 	•	T \rightarrow 0: phân phối sắc nét
-	•	T \rightarrow $\infty$: phân phối gần đều
+
+$$
+•	T \rightarrow \infty: phân phối gần đều
+$$
 
 Tuy nhiên nếu T quá nhỏ → logits hiệu dụng tăng → dễ overflow.
 
@@ -272,12 +395,12 @@ Softmax là nghiệm của bài toán tối ưu:
 \max_p
 
 $$
-$\le$ft(
+\left(
 $$
 
-$\sum$_i p_i z_i
+$\sum$_i $p_i$ $z_i$
 -
-$\sum$_i p_i $\log$ p_i
+$\sum$_i $p_i$ $\log$ $p_i$
 \right)
 
 Đây là dạng tối ưu hóa entropy tối đa.
@@ -298,9 +421,16 @@ Giải pháp cốt lõi:
 Đảm bảo:
 
 \sigma$z_i$
+
+$$
 =
-\frac{\exp(z_i - z_{max})}
-{$\sum$_j \exp(z_j - z_{max})}
+$$
+
+\frac{\exp($z_i$ - z_{max})}
+
+$$
+{\sum_j \exp(z_j - z_{max})}
+$$
 
 Ổn định số học là điều kiện tiên quyết để huấn luyện mô hình sâu thành công, đặc biệt trong các hệ thống lớn như mô hình ngôn ngữ hiện đại.
 

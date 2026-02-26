@@ -49,7 +49,13 @@ Bài viết này nhằm:
 Thí nghiệm sử dụng một mô hình cực kỳ đơn giản, chỉ gồm một tham số $w$, với mục tiêu học giá trị:
 
 $$
+
+$$
+
 w^{\ast} = \pi
+
+$$
+
 $$
 
 Tham số ban đầu được khởi tạo bằng 0 và được tối ưu hóa bằng các thuật toán khác nhau. 
@@ -61,7 +67,13 @@ Tham số ban đầu được khởi tạo bằng 0 và được tối ưu hóa 
 Hàm mất mát được sử dụng là Mean Squared Error (MSE):
 
 $$
+
+$$
+
 L(w) = (w - w^{\ast})^2
+
+$$
+
 $$
 
 Hàm này đảm bảo:
@@ -96,7 +108,7 @@ $$
 
 $$
 
-w_{t+1} = w_t - \eta $\nabla$ L(w_t)
+w_{t+1} = w_t - \eta \nabla L(w_t)
 
 $$
 
@@ -239,7 +251,7 @@ $$
 
 $$
 
-g_{total} = $\sum$_{i=1}^{k} g_i
+g_{total} = \sum_{i=1}^{k} g_i
 
 $$
 

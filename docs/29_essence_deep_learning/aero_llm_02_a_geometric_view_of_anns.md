@@ -25,7 +25,7 @@ Báo cáo này nghiên cứu về cách tiếp cận hình học để thấu hi
 
 Mọi bài toán học sâu đều bắt đầu bằng việc chuyển đổi dữ liệu thực tế thành các con số trong một không gian hình học:
 - **Định nghĩa:** Không gian đặc trưng là một hệ trục tọa độ nơi mỗi trục đại diện cho một tính chất (feature) của dữ liệu.
-- **Ví dụ thực tiễn:** Để dự đoán kết quả thi của sinh viên, chúng ta có hai trục: số giờ học ($x_1$) và số giờ ngủ ($x_2$). Mỗi sinh viên sẽ là một điểm tọa độ $(x_1, x_2)$ trong không gian 2 chiều này.
+- **Ví dụ thực tiễn:** Để dự đoán kết quả thi của sinh viên, chúng ta có hai trục: số giờ học ($x_1$) và số giờ ngủ ($x_2$). Mỗi sinh viên sẽ là một điểm tọa độ $($x_1$, $x_2$)$ trong không gian 2 chiều này.
 - **Tính đa chiều:** Trong các bài toán phức tạp, không gian này có thể lên đến hàng nghìn hoặc hàng triệu chiều, nơi mỗi chiều là một đặc trưng riêng biệt mà mô hình cần xử lý.
 
 ---
@@ -57,7 +57,7 @@ Mạng nơ-ron có thể được thiết kế để đưa ra hai loại kết q
 
 ## 4. Ý nghĩa của việc Học Trọng số
 
-Trong góc nhìn hình học, việc điều chỉnh các trọng số ($w_1, w_2, ...$) và bias ($b$) thực chất là các thao tác:
+Trong góc nhìn hình học, việc điều chỉnh các trọng số ($w_1, $w_2$, ...$) và bias ($b$) thực chất là các thao tác:
 - **Xoay:** Thay đổi trọng số khiến đường ranh giới xoay quanh không gian để tìm hướng phân tách tốt nhất.
 - **Dịch chuyển:** Thay đổi bias giúp dịch chuyển ranh giới ra khỏi gốc tọa độ để khớp với vị trí thực của các cụm dữ liệu.
 Quá trình Gradient Descent chính là "người dẫn đường" giúp mô hình thực hiện các thao tác xoay và dịch chuyển này cho đến khi ranh giới phân tách được dữ liệu một cách chính xác nhất.

@@ -60,7 +60,13 @@ Trong phương trình siêu đơn giản này, ta hoàn toàn có thể "diễn 
 Trong LLMs, kiến trúc cũng hoạt động bằng phép nhân ma trận và cộng vector tương tự, nhưng ở quy mô không gian hàng chục nghìn chiều (dimensions). Ví dụ, quy trình cập nhật vector token $x_i$ ở một tầng Attention được biểu thị phi tuyến như sau:
 
 $$
+
+$$
+
 x_{out} = \text{LayerNorm}(x_{in} + \text{Attention}(x_{in}) + \text{MLP}(x_{in}))
+
+$$
+
 $$
 
 Vấn đề phức tạp nằm ở chỗ các tham số không đại diện trực tiếp cho một thuộc tính duy nhất (như "số giờ học") mà diễn ra theo chuỗi tương tác (interactions) đa biến và phụ thuộc ngữ cảnh vô cùng tinh vi.

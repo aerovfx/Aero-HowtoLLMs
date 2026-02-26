@@ -48,7 +48,7 @@ $$
 
 $$
 
-$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P(x_t  \mid  x_{\lt t})
+$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P($x_t$  \mid  x_{\lt t})
 
 $$
 
@@ -227,7 +227,7 @@ $$
 
 $$
 
-0.05 \times 10^9 = 5 \times 10^7 \text{ giây} $\approx$ 580 \text{ ngày}
+0.05 \times 10^9 = 5 \times 10^7 \text{ giây} \approx 580 \text{ ngày}
 
 $$
 

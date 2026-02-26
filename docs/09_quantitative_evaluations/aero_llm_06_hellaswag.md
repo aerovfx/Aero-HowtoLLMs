@@ -57,16 +57,22 @@ Tuy nhiên mô hình ngôn ngữ phải tính xác suất cho từng lựa chọ
 
 Cho:
 	•	Ngữ cảnh: c
-	•	Tập 4 đáp án: \{a_1, a_2, a_3, a_4\}
+	•	Tập 4 đáp án: \{$a_1$, $a_2$, $a_3$, $a_4$\}
 
 Mô hình ước lượng:
 
-$P(a_i \mid c)$
+$P($a_i$ \mid c)$
 
 Đáp án được chọn:
 
 $$
-\hat{a} = \arg\max_{a_i} $P(a_i \mid c)$
+
+$$
+
+\hat{a} = \arg\max_{a_i} P(a_i \mid c)
+
+$$
+
 $$
 
 ⸻
@@ -75,18 +81,24 @@ $$
 
 Với mô hình kiểu GPT:
 
-$P(a_i \mid c)$ = $\prod$_{t=1}^{T_i} $P(w_t \mid c, w_{\lt t})$
+$P($a_i$ \mid c)$ = $\prod$_{t=1}^{$T_i$} $P($w_t$ \mid c, w_{\lt t})$
 
 Trong thực nghiệm, ta dùng log-likelihood:
 
 $$
-$\log$ $P(a_i \mid c)$ = $\sum$_{t=1}^{T_i} $\log$ $P(w_t \mid c, w_{\lt t})$
+\log P(a_i \mid c) = \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{\lt t})
 $$
 
 Để tránh thiên vị độ dài, thường dùng chuẩn hoá:
 
 $$
-Score$a_i$ = \frac{1}{T_i} $\sum$_{t=1}^{T_i} $\log$ $P(w_t \mid c, w_{\lt t})$
+
+$$
+
+Scorea_i = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{\lt t})
+
+$$
+
 $$
 
 ⸻
@@ -96,12 +108,20 @@ $$
 Với N câu hỏi:
 
 $$
-Accuracy = \frac{1}{N} $\sum$_{j=1}^{N} \mathbf{1}$\hat{a}^{(j$} = a^{$j$}_{\text{true}})
+
+$$
+
+Accuracy = \frac{1}{N} \sum_{j=1}^{N} \mathbf{1}\hat{a}^{(j} = a^{j}_{\text{true}})
+
+$$
+
 $$
 
 Baseline ngẫu nhiên:
 
+$$
 P_{\text{random}} = \frac{1}{4} = 25\%
+$$
 
 Hiệu năng con người ≈ 95%
 Các mô hình cũ (trước Transformer lớn) ≈ 30–40%
@@ -122,7 +142,13 @@ f_\theta$c, a_i$
 Giữ lại các mẫu mà:
 
 $$
-f_\theta$c, a_{\text{true}}$ - f_\theta$c, a_{\text{false}}$ $\approx$ 0
+
+$$
+
+f_\thetac, a_{\text{true}} - f_\thetac, a_{\text{false}} \approx 0
+
+$$
+
 $$
 
 Điều này làm bộ dữ liệu ngày càng khó.
@@ -134,7 +160,13 @@ $$
 Kiến trúc Transformer:
 
 $$
-Attention(Q,K,V) = \text{softmax}$\le$ft$\frac{QK^T}{\sqrt{d_k}}\right$V
+
+$$
+
+Attention(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
+
+$$
+
 $$
 
 Self-attention cho phép mô hình:
@@ -149,7 +181,13 @@ Self-attention cho phép mô hình:
 Perplexity đo:
 
 $$
-PP = \exp$\le$ft$- \frac{1}{N} $\sum$ $\log$ P(w_i$\right)
+
+$$
+
+PP = \exp\left- \frac{1}{N} \sum \log P(w_i\right)
+
+$$
+
 $$
 
 Trong khi HellaSwag đo:
@@ -166,17 +204,27 @@ Giả sử mô hình đạt accuracy \hat{p} trên N mẫu:
 
 Sai số chuẩn:
 
-SE = \sqrt{\frac{\hat{p}$1-\hat{p}$}{N}}
+$$
+SE = \sqrt{\frac{\hat{p}1-\hat{p}}{N}}
+$$
 
 Khoảng tin cậy 95%:
 
 \hat{p} \pm 1.96 \cdot SE
 
 Ví dụ:
-	•	N = 10,000
-	•	Accuracy = 0.80
 
+$$
+•	N = 10,000
+$$
+
+$$
+•	Accuracy = 0.80
+$$
+
+$$
 SE = \sqrt{\frac{0.8(0.2)}{10000}} = 0.004
+$$
 
 Khoảng tin cậy:
 
@@ -210,7 +258,9 @@ Kết quả không còn phản ánh khả năng tổng quát.
 
 Theo các nghiên cứu của OpenAI:
 
-Loss$N$ = A N^{-\alpha} + B
+$$
+LossN = A N^{-\alpha} + B
+$$
 
 Khi số tham số tăng → accuracy trên HellaSwag tăng gần theo hàm lũy thừa.
 

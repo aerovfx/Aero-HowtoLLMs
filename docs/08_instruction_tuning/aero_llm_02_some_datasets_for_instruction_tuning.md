@@ -65,7 +65,7 @@ $$
 Trong đó:
 
 * $x_t$ là token tại thời điểm $t$
-* (x_1, ..., x_{t-1}) là các token trước đó
+* ($x_1$, ..., x_{t-1}) là các token trước đó
 
 ---
 
@@ -77,7 +77,7 @@ $$
 
 $$
 
-$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P(x_t  \mid  x_{\lt t})
+$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P($x_t$  \mid  x_{\lt t})
 
 $$
 
@@ -100,7 +100,7 @@ $$
 
 $$
 
-\theta_{k+1} = \theta_k - \eta , $\nabla$_\theta $\mathcal${L}
+\theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
 
 $$
 
@@ -110,7 +110,10 @@ Trong đó:
 
 * $\theta$: tham số mô hình
 * $\eta$: tốc độ học (learning rate)
-* $\nabla_\theta $\mathcal${L}$: gradient của hàm mất mát
+
+$$
+* \nabla_\theta \mathcal{L}: gradient của hàm mất mát
+$$
 
 ---
 

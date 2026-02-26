@@ -32,7 +32,10 @@ Trong Python, khi thực hiện lệnh `B = A`, chúng ta không tạo ra một 
 
 ### 2.1. Đối với Danh sách (List)
 Sử dụng toán tử cắt lát toàn phần `[:]` là cách nhanh nhất để tạo ra một bản sao độc lập:
+
+$$
 *Ví dụ:* `B = A[:]`. Lúc này, Python sẽ cấp phát một vùng nhớ mới cho `B` và sao chép toàn bộ giá trị từ `A` sang.
+$$
 
 ### 2.2. Đối với Mảng NumPy và PyTorch
 Một mẹo lập trình phổ biến là thực hiện phép cộng ảo với số không:

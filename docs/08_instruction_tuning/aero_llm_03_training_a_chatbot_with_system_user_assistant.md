@@ -121,7 +121,7 @@ $$
 
 $$
 
-$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P(x_t  \mid  x_{\lt t})
+$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P($x_t$  \mid  x_{\lt t})
 
 $$
 
@@ -139,7 +139,7 @@ $$
 
 $$
 
-\theta_{k+1} = \theta_k - \eta , $\nabla$_\theta $\mathcal${L}
+\theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
 
 $$
 
@@ -178,7 +178,7 @@ $$
 
 $$
 
-PP = \exp$\le$ft(\frac{1}{T}$\mathcal${L}\right)
+PP = \exp\left(\frac{1}{T}\mathcal{L}\right)
 
 $$
 

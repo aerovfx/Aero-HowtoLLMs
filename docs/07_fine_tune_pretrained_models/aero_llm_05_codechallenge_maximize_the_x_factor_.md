@@ -42,13 +42,13 @@ Bên cạnh việc huấn luyện chuẩn trên dữ liệu lớn, tinh chỉnh 
 
 ### 2.1 Mô hình GPT-2
 
-GPT-2 là mô hình Transformer một chiều với kiến trúc tự hồi quy. Xác suất sinh chuỗi từ (x_1, x_2, ..., x_T) được mô hình hóa bởi:
+GPT-2 là mô hình Transformer một chiều với kiến trúc tự hồi quy. Xác suất sinh chuỗi từ ($x_1$, $x_2$, ..., $x_T$) được mô hình hóa bởi:
 
 $$
 
 $$
 
-P(x_1, ..., x_T)=$\prod$_{t=1}^{T} P(x_t \mid x_1,...,x_{t-1})
+P(x_1, ..., x_T)=\prod_{t=1}^{T} P(x_t \mid x_1,...,x_{t-1})
 
 $$
 
@@ -80,7 +80,7 @@ $$
 
 $$
 
-P(i \mid t)=\frac{e^{z_i}}{$\sum$_{j=1}^{V} e^{z_j}}
+P(i \mid t)=\frac{e^{z_i}}{\sum_{j=1}^{V} e^{z_j}}
 
 $$
 
@@ -92,7 +92,7 @@ $$
 
 $$
 
-$\log$ P(i \mid t)= z_i - $\log$$\le$ft($\sum$_{j=1}^{V} e^{z_j}\right)
+$\log$ P(i \mid t)= $z_i$ - $\log$$\le$ft($\sum$_{j=1}^{V} e^{$z_j$}\right)
 
 $$
 
@@ -108,7 +108,7 @@ $$
 
 $$
 
-D_{KL}(P||Q)=$\sum$_{i} P(i)$\log$\frac{P(i)}{Q(i)}
+D_{KL}(P||Q)=\sum_{i} P(i)\log\frac{P(i)}{Q(i)}
 
 $$
 
@@ -144,7 +144,13 @@ Cấu trúc mỗi block gồm:
 Đầu ra của mô hình có dạng tensor:
 
 $$
-O \in $\mathbb${R}^{B \times T \times V}
+
+$$
+
+O \in \mathbb{R}^{B \times T \times V}
+
+$$
+
 $$
 
 Trong đó:
@@ -156,7 +162,13 @@ Trong đó:
 Ví dụ:
 
 $$
-O \in $\mathbb${R}^{4 \times 64 \times 50257}
+
+$$
+
+O \in \mathbb{R}^{4 \times 64 \times 50257}
+
+$$
+
 $$
 
 ---
@@ -169,7 +181,7 @@ $$
 
 $$
 
-$\sum$_{i=1}^{V} P_i \neq 1
+$\sum$_{i=1}^{V} $P_i$ \neq 1
 
 $$
 
@@ -183,7 +195,7 @@ $$
 
 $$
 
-\text{LogSoftmax}(z_i)=$\log$\frac{e^{z_i}}{$\sum$_j e^{z_j}}
+\text{LogSoftmax}(z_i)=\log\frac{e^{z_i}}{\sum_j e^{z_j}}
 
 $$
 
@@ -198,7 +210,7 @@ Mới thu được phân phối hợp lệ.
 Tensor 3 chiều được reshape thành:
 
 $$
-$\mathbb${R}^{(B \times T) \times V}
+\mathbb{R}^{(B \times T) \times V}
 $$
 
 Cụ thể:
@@ -228,7 +240,13 @@ $$
 Trong đó:
 
 $$
+
+$$
+
 P_{target}(i)= \begin{cases} \alpha & \text{nếu token chứa "X"} \\ \beta & \text{ngược lại} \end{cases}
+
+$$
+
 $$
 
 với $\alpha > \beta$.
@@ -254,7 +272,7 @@ $$
 
 $$
 
-\theta_{t+1}=\theta_t - \eta$\nabla$_\theta $\mathcal${L}
+\theta_{t+1}=\theta_t - \eta\nabla_\theta \mathcal{L}
 
 $$
 
@@ -301,103 +319,22 @@ Hiện tượng overfitting rõ rệt.
 Chỉ số đánh giá:
 
 $$
+
+$$
+
 R = \frac{Số\ token\ chứa\ X}{Tổng\ token}
-$$
-
-Khi $\eta=10^{-4}$:
 
 $$
 
 $$
 
-R $\approx$ 1
+Khi \eta=10^{-4}:
 
 $$
 
 $$
 
-Cho thấy mô hình bị chi phối hoàn toàn bởi mục tiêu phụ.
+$$
+R \approx 1
+$$
 
----
-
-## 5. Thảo luận
-
-### 5.1 Ưu điểm
-
-* Linh hoạt điều chỉnh hành vi mô hình
-* Không cần huấn luyện lại từ đầu
-* Dễ mở rộng sang mục tiêu khác
-
----
-
-### 5.2 Hạn chế
-
-* Dễ quá khớp
-* Mất tính tự nhiên
-* Nhạy cảm với siêu tham số
-* Khó cân bằng nhiều mục tiêu
-
-Fine-tuning đòi hỏi nhiều thử nghiệm thực tế. 
-
----
-
-## 6. Kết luận
-
-Nghiên cứu đã trình bày phương pháp tinh chỉnh GPT-2 bằng hàm mất mát KL nhằm tối ưu hóa việc sinh token chứa “X”. Kết quả cho thấy learning rate là yếu tố quyết định đến hiệu quả và độ ổn định của mô hình.
-
-Hướng phát triển tương lai:
-
-* Multi-objective fine-tuning
-* Reinforcement Learning from Human Feedback
-* Regularization nâng cao
-* Human-in-the-loop training
-
----
-
-## Tài liệu tham khảo
-
-1. Code Challenge: *Maximize the X Factor*, “5 - CodeChallenge Maximize the X factor.txt”. 
-2. Vaswani et al. (2017). *Attention Is All You Need*.
-3. Radford et al. (2019). *Language Models are Unsupervised Multitask Learners*.
-4. Goodfellow et al. (2016). *Deep Learning*.
-
----
-<!-- Aero-Footer-Start -->
-
-## 📄 Tài liệu cùng chuyên mục
-| Bài học | Liên kết |
-| :--- | :--- |
-| [📂 Module: 07_fine_tune_pretrained_models](README.md) | [Xem bài viết →](README.md) |
-| [Fine-tuning Có Mục Tiêu và Đóng Băng Chính Xác Trọng Số Trong Mô Hình Ngôn Ngữ Lớn](aero_llm_010_codechallenge_fine_tuning_and_targeted_freezing_part_1_.md) | [Xem bài viết →](aero_llm_010_codechallenge_fine_tuning_and_targeted_freezing_part_1_.md) |
-| [Phân Tích Hiệu Quả Fine-tuning và Targeted Freezing (Phần 2): Đánh Giá Bằng Trực Quan Hóa và Chuẩn Ma Trận](aero_llm_011_codechallenge_fine_tuning_and_targeted_freezing_part_2_.md) | [Xem bài viết →](aero_llm_011_codechallenge_fine_tuning_and_targeted_freezing_part_2_.md) |
-| [Fine-tuning Hiệu Quả Tham Số (Parameter-Efficient Fine-Tuning – PEFT) Trong Mô Hình Ngôn Ngữ Lớn](aero_llm_012_parameter_efficient_fine_tuning_peft_.md) | [Xem bài viết →](aero_llm_012_parameter_efficient_fine_tuning_peft_.md) |
-| [Mô Hình CodeGen Cho Bài Toán Hoàn Thành Mã Nguồn: Kiến Trúc, Huấn Luyện và Ứng Dụng](aero_llm_013_codegen_for_code_completion.md) | [Xem bài viết →](aero_llm_013_codegen_for_code_completion.md) |
-| [Fine-tuning Mô Hình CodeGen Cho Bài Toán Giải Tích: Phương Pháp, Đánh Giá và Ứng Dụng](aero_llm_014_codechallenge_fine_tune_codegen_for_calculus.md) | [Xem bài viết →](aero_llm_014_codechallenge_fine_tune_codegen_for_calculus.md) |
-| [Tinh Chỉnh Mô Hình BERT Cho Bài Toán Phân Loại Cảm Xúc Văn Bản IMDb](aero_llm_015_fine_tuning_bert_for_classification.md) | [Xem bài viết →](aero_llm_015_fine_tuning_bert_for_classification.md) |
-| [📘 Ứng Dụng Mô Hình BERT Trong Phân Tích Cảm Xúc Đánh Giá Phim IMDB](aero_llm_016_codechallenge_imdb_sentiment_analysis_using_bert_en_us.md) | [Xem bài viết →](aero_llm_016_codechallenge_imdb_sentiment_analysis_using_bert_en_us.md) |
-| [📘 Ứng Dụng Gradient Clipping và Learning Rate Scheduler Trong Huấn Luyện Mô Hình Học Sâu](aero_llm_017_gradient_clipping_and_learning_rate_scheduler_part_1_en_us.md) | [Xem bài viết →](aero_llm_017_gradient_clipping_and_learning_rate_scheduler_part_1_en_us.md) |
-| [📘 Phân Tích Learning Rate Scheduler Trong Huấn Luyện Mô Hình Học Sâu Quy Mô Lớn](aero_llm_018_gradient_clipping_and_learning_rate_scheduler_part_2_.md) | [Xem bài viết →](aero_llm_018_gradient_clipping_and_learning_rate_scheduler_part_2_.md) |
-| [📘 Kết Hợp Gradient Clipping, Freezing và Learning Rate Scheduler Trong Fine-Tuning Mô Hình BERT](aero_llm_019_codechallenge_clip_freeze_and_schedule_bert.md) | [Xem bài viết →](aero_llm_019_codechallenge_clip_freeze_and_schedule_bert.md) |
-| [Tối Ưu Hóa Quá Trình Tiền Huấn Luyện Mô Hình Ngôn Ngữ Lớn: Phân Tích Các Chiến Lược Tính Toán và Học Tập](aero_llm_01_what_does_fine_tuning_mean.md) | [Xem bài viết →](aero_llm_01_what_does_fine_tuning_mean.md) |
-| [Lưu Trữ và Tải Lại Mô Hình Học Sâu Trong PyTorch và Hugging Face: Phương Pháp, Cấu Trúc và Đánh Giá](aero_llm_020_saving_and_loading_trained_models.md) | [Xem bài viết →](aero_llm_020_saving_and_loading_trained_models.md) |
-| [Ứng Dụng Mô Hình BERT Trong Phân Loại Văn Bản Văn Học: Trường Hợp Alice và Edgar](aero_llm_021_bert_decides_alice_or_edgar.md) | [Xem bài viết →](aero_llm_021_bert_decides_alice_or_edgar.md) |
-| [Đồng Tiến Hóa Mô Hình Sinh Văn Bản và Mô Hình Phân Loại: Trường Hợp Alice và Edgar](aero_llm_022_codechallenge_evolution_of_alice_and_edgar_part_1_.md) | [Xem bài viết →](aero_llm_022_codechallenge_evolution_of_alice_and_edgar_part_1_.md) |
-| [📘 Đánh Giá Mô Hình Sinh Văn Bản Thông Qua Phân Loại BERT: Nghiên Cứu Trường Hợp Alice và Edgar](aero_llm_023_codechallenge_evolution_of_alice_and_edgar_part_2_.md) | [Xem bài viết →](aero_llm_023_codechallenge_evolution_of_alice_and_edgar_part_2_.md) |
-| [Fine-tuning Mô hình GPT-2 trên Tác phẩm *Gulliver’s Travels*: Phân tích Thực nghiệm và Đánh giá Hiệu quả](aero_llm_02_fine_tune_a_pretrained_gpt2.md) | [Xem bài viết →](aero_llm_02_fine_tune_a_pretrained_gpt2.md) |
-| [Đánh giá Ảnh hưởng của Learning Rate trong Fine-tuning GPT-2 trên *Gulliver’s Travels*](aero_llm_03codechallenge_gulliver_s_learning_rates.md) | [Xem bài viết →](aero_llm_03codechallenge_gulliver_s_learning_rates.md) |
-| [Nghiên cứu Quy trình Sinh Văn bản từ Mô hình Ngôn ngữ Tiền Huấn luyện GPT-2](aero_llm_04_on_generating_text_from_pretrained_models.md) | [Xem bài viết →](aero_llm_04_on_generating_text_from_pretrained_models.md) |
-| 📌 **[Tinh Chỉnh Mô Hình GPT-2 Bằng Hàm Mất Mát KL Divergence Để Tối Ưu Hóa Việc Sinh Token Chứa Ký Tự “X”](aero_llm_05_codechallenge_maximize_the_x_factor_.md)** | [Xem bài viết →](aero_llm_05_codechallenge_maximize_the_x_factor_.md) |
-| [Tinh Chỉnh Mô Hình GPT-Neo Để Mô Phỏng Phong Cách Văn Học Alice in Wonderland và Edgar Allan Poe](aero_llm_06_alice_in_wonderland_and_edgar_allen_poe_with_gpt_neo_.md) | [Xem bài viết →](aero_llm_06_alice_in_wonderland_and_edgar_allen_poe_with_gpt_neo_.md) |
-| [Đánh Giá Định Lượng và Định Tính Mô Hình Ngôn Ngữ Sau Fine-tuning: Trường Hợp Văn Phong *Alice* và *Edgar Allan Poe*](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tunin.md) | [Xem bài viết →](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tunin.md) |
-| [Định Lượng Hiệu Quả Tinh Chỉnh Phong Cách Văn Học: Thử Thách Alice và Edgar](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tuning.md) | [Xem bài viết →](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tuning.md) |
-| [Mô Phỏng Hội Thoại Giữa Hai Mô Hình Ngôn Ngữ Sau Fine-tuning: Trường Hợp *Alice* và *Edgar*](aero_llm_08_codechallenge_a_chat_between_alice_and_edgar.md) | [Xem bài viết →](aero_llm_08_codechallenge_a_chat_between_alice_and_edgar.md) |
-| [Tinh Chỉnh Từng Phần Bằng Cách Đóng Băng Trọng Số Attention: Chiến Lược Tối Ưu Hóa Tham Số Cho LLM](aero_llm_09_partial_fine_tuning_by_freezing_attention_weights.md) | [Xem bài viết →](aero_llm_09_partial_fine_tuning_by_freezing_attention_weights.md) |
-
----
-## 🤝 Liên hệ & Đóng góp
-Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
-> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
-*Cập nhật tự động bởi Aero-Indexer - 2026*
-<!-- Aero-Footer-End -->

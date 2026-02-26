@@ -37,12 +37,20 @@ bằng 1.
 
 #### **2. Output Vector Production (Line 194-196)**
 **Before:**
+
+$$
 Finally, we can produce the output vector for our column (t = 5). We look at the (t = 5) row of the
+$$
+
 normalized self-attention matrix and for each element, multiply the corresponding V vector of the
 other columns element-wise.
 
 **After:**
+
+$$
 Cuối cùng, chúng ta có thể tạo ra vector đầu ra cho cột của mình (t = 5). Ta nhìn vào hàng (t = 5) của
+$$
+
 ma trận self-attention đã chuẩn hóa và với mỗi phần tử, nhân với vector V tương ứng
 của các cột khác theo từng phần tử.
 

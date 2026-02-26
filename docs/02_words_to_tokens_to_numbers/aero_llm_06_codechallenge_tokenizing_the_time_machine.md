@@ -75,7 +75,13 @@ $$
 ## 2.1 Chuẩn hóa chữ thường
 
 $$
+
+$$
+
 f_{lower}(x) = \text{lower}(x)
+
+$$
+
 $$
 
 Giúp giảm kích thước từ vựng:
@@ -91,7 +97,13 @@ $$
 Hàm lọc:
 
 $$
+
+$$
+
 f_{clean}(x) = x \setminus { \text{punctuation} }
+
+$$
+
 $$
 
 Mục tiêu:
@@ -121,7 +133,7 @@ $$
 
 $$
 
-T $\le$q n
+T \leq n
 
 $$
 
@@ -133,7 +145,7 @@ $$
 
 $$
 
-f(w) = $\sum$_{i=1}^{T} \mathbf{1}(w_i = w)
+f(w) = \sum_{i=1}^{T} \mathbf{1}(w_i = w)
 
 $$
 
@@ -149,7 +161,7 @@ $$
 
 $$
 
-V = { w \mid f(w) $\ge$q \delta }
+V = { w \mid f(w) \geq \delta }
 
 $$
 
@@ -176,7 +188,13 @@ $$
 Token $w_i$ được biểu diễn:
 
 $$
-x_i \in $\mathbb${R}^{M}
+
+$$
+
+x_i \in \mathbb{R}^{M}
+
+$$
+
 $$
 
 với:
@@ -203,7 +221,13 @@ Nhược điểm:
 Embedding matrix:
 
 $$
-E \in $\mathbb${R}^{M \times d}
+
+$$
+
+E \in \mathbb{R}^{M \times d}
+
+$$
+
 $$
 
 Vector embedding:
@@ -221,7 +245,13 @@ $$
 Do đó:
 
 $$
-e_i \in $\mathbb${R}^{d}
+
+$$
+
+e_i \in \mathbb{R}^{d}
+
+$$
+
 $$
 
 Khoảng cách cosine:
@@ -248,7 +278,7 @@ $$
 
 $$
 
-P(X) = $\prod$_{t=1}^{T} P(w_t \mid w_{\lt t})
+P(X) = \prod_{t=1}^{T} P(w_t \mid w_{\lt t})
 
 $$
 
@@ -284,7 +314,7 @@ $$
 
 $$
 
-P(w_t = j \mid w_{\lt t}) = \frac{\exp(z_{tj})} {$\sum$_{k=1}^{M} \exp(z_{tk})}
+P(w_t = j \mid w_{\lt t}) = \frac{\exp(z_{tj})} {\sum_{k=1}^{M} \exp(z_{tk})}
 
 $$
 
@@ -297,7 +327,7 @@ $$
 Self-attention:
 
 $$
-$\mathcal${O}(T^2 d)
+\mathcal{O}(T^2 d)
 $$
 
 Nếu văn bản dài như *The Time Machine* (~30,000 từ), chi phí tăng theo bình phương độ dài chuỗi.
@@ -318,7 +348,7 @@ $$
 
 $$
 
-H(W) = - $\sum$_{w \in V} P(w) $\log$ P(w)
+H(W) = - \sum_{w \in V} P(w) \log P(w)
 
 $$
 
@@ -327,13 +357,25 @@ $$
 Với:
 
 $$
+
+$$
+
 P(w) = \frac{f(w)}{T}
+
+$$
+
 $$
 
 Nếu phân bố Zipf:
 
 $$
-f(w_r) $\propto$ \frac{1}{r}
+
+$$
+
+f(w_r) \propto \frac{1}{r}
+
+$$
+
 $$
 
 trong đó $r$ là thứ hạng tần suất.
@@ -405,7 +447,13 @@ Thông qua ví dụ *The Time Machine*, ta thấy:
 Toàn bộ quá trình có thể được mô hình hóa:
 
 $$
-\Sigma^{\ast} \xrightarrow{\tau} V^{\ast} \xrightarrow{E} $\mathbb${R}^{T \times d}
+
+$$
+
+\Sigma^{\ast} \xrightarrow{\tau} V^{\ast} \xrightarrow{E} \mathbb{R}^{T \times d}
+
+$$
+
 $$
 
 đóng vai trò nền tảng cho mọi mô hình Transformer hiện đại.

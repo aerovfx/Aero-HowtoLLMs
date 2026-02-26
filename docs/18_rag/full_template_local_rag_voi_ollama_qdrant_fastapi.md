@@ -122,7 +122,13 @@ requests
 ```env
 
 $$
+
+$$
+
 QDRANT_URL=http://localhost:6333
+
+$$
+
 $$
 
 $$
@@ -130,29 +136,35 @@ COLLECTION_NAME=local_18_rag
 $$
 
 $$
+
+$$
+
 OLLAMA_URL=http://localhost:11434
+
+$$
+
 $$
 
 $$
 LLM_MODEL=llama3
 $$
 
----
-
-# 5️⃣ app/config.py
-
-```python
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+$$
+--- # 5️⃣ app/config.py ```python import os from dotenv import load_dotenv load_dotenv()
+$$
 
 $$
 QDRANT_URL = os.getenv("QDRANT_URL")
 $$
 
 $$
+
+$$
+
 COLLECTION = os.getenv("COLLECTION_NAME")
+
+$$
+
 $$
 
 $$
@@ -160,47 +172,59 @@ OLLAMA_URL = os.getenv("OLLAMA_URL")
 $$
 
 $$
+
+$$
+
 LLM_MODEL = os.getenv("LLM_MODEL")
+
+$$
+
 $$
 
 $$
 CHUNK_SIZE = 500
 $$
 
+$$
 OVERLAP = 80
+$$
 
 $$
 TOP_K = 5
 $$
 
----
-
-# 6️⃣ app/vector.py
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.models import VectorParams, Distance
-from .config import QDRANT_URL, COLLECTION
+$$
+--- # 6️⃣ app/vector.py ```python from qdrant_client import QdrantClient from qdrant_client.models import VectorParams, Distance from .config import QDRANT_URL, COLLECTION
+$$
 
 $$
 client = QdrantClient(url=QDRANT_URL)
 $$
 
+$$
 def init_collection(dim):
+$$
 
 $$
 names = [c.name for c in client.get_collections().collections]
 $$
 
-    if COLLECTION not in names:
-        client.create_collection(
+$$
+if COLLECTION not in names: client.create_collection(
+$$
 
 $$
 collection_name=COLLECTION,
 $$
 
 $$
+
+$$
+
 vectors_config=VectorParams(
+
+$$
+
 $$
 
 $$
@@ -208,7 +232,13 @@ size=dim,
 $$
 
 $$
+
+$$
+
 distance=Distance.COSINE
+
+$$
+
 $$
 
             )
@@ -219,63 +249,69 @@ def upsert(vectors, payloads, ids):
     client.upsert(
 
 $$
+
+$$
+
+collection_name=COLLECTION,
+
+$$
+
+$$
+
+points=[
+
+$$
+{ "id": ids[i], "vector": vectors[i], "payload": payloads[i] } for i in range(len(vectors)) ] ) def search(qvec, limit): return client.search(
+$$
+
+$$
 collection_name=COLLECTION,
 $$
 
-        points=[
-            {
-                "id": ids[i],
-                "vector": vectors[i],
-                "payload": payloads[i]
-            }
-            for i in range(len(vectors))
-        ]
-    )
-
-def search(qvec, limit):
-
-    return client.search(
-
-$$
-collection_name=COLLECTION,
 $$
 
 $$
+
 query_vector=qvec,
+
+$$
+
 $$
 
 $$
 limit=limit
 $$
 
-    )
-
----
-
-# 7️⃣ app/utils.py (Chunking)
-
-```python
-import uuid
-import tiktoken
-from pypdf import PdfReader
-from .config import CHUNK_SIZE, OVERLAP
+$$
+) --- # 7️⃣ app/utils.py (Chunking) ```python import uuid import tiktoken from pypdf import PdfReader from .config import CHUNK_SIZE, OVERLAP
+$$
 
 $$
 tokenizer = tiktoken.get_encoding("cl100k_base")
 $$
 
+$$
 def load_pdf(path):
+$$
 
 $$
 reader = PdfReader(path)
 $$
 
-    text = ""
+$$
+text = ""
+$$
 
     for p in reader.pages:
 
 $$
+
+$$
+
 text += p.extract_text() + "\n"
+
+$$
+
 $$
 
     return text
@@ -283,41 +319,41 @@ $$
 def chunk_text(text):
 
 $$
-tokens = tokenizer.encode(text)
+
 $$
 
-    chunks = []
+tokens = tokenizer.encode(text)
 
-    for i in range(0, len(tokens), CHUNK_SIZE - OVERLAP):
+$$
+
+$$
+
+chunks = []
+
+$$
+for i in range(0, len(tokens), CHUNK_SIZE - OVERLAP):
+$$
 
 $$
 chunk = tokens[i:i + CHUNK_SIZE]
 $$
 
-        chunks.append(tokenizer.decode(chunk))
-
-    return chunks
-
-def gen_ids(n):
-
-    return [str(uuid.uuid4()) for _ in range(n)]
-
----
-
-# 8️⃣ app/ingest.py $Embedding + Index$
-
-```python
-from sentence_transformers import SentenceTransformer
-
-from .utils import load_pdf, chunk_text, gen_ids
-from .vector import init_collection, upsert
+$$
+chunks.append(tokenizer.decode(chunk)) return chunks def gen_ids(n): return [str(uuid.uuid4()) for _ in range(n)] --- # 8️⃣ app/ingest.py Embedding + Index ```python from sentence_transformers import SentenceTransformer from .utils import load_pdf, chunk_text, gen_ids from .vector import init_collection, upsert
+$$
 
 $$
 model = SentenceTransformer("all-MiniLM-L6-v2")
 $$
 
 $$
+
+$$
+
 EMBED_DIM = 384
+
+$$
+
 $$
 
 def embed(texts):
@@ -325,7 +361,13 @@ def embed(texts):
     return model.encode(texts).tolist()
 
 $$
+
+$$
+
 def ingest_pdf(path, metadata={}):
+
+$$
+
 $$
 
 $$
@@ -333,14 +375,23 @@ text = load_pdf(path)
 $$
 
 $$
+
+$$
+
 chunks = chunk_text(text)
+
+$$
+
 $$
 
 $$
 vectors = embed(chunks)
 $$
 
-    payloads = [
+$$
+payloads = [
+$$
+
         {
             "text": chunks[i],
             **metadata
@@ -349,7 +400,13 @@ $$
     ]
 
 $$
+
+$$
+
 ids = gen_ids(len(chunks))
+
+$$
+
 $$
 
     init_collection(EMBED_DIM)
@@ -370,7 +427,13 @@ from .config import TOP_K, OLLAMA_URL, LLM_MODEL
 from sentence_transformers import SentenceTransformer
 
 $$
+
+$$
+
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+$$
+
 $$
 
 def embed_query(q):
@@ -380,11 +443,21 @@ def embed_query(q):
 def call_ollama(prompt):
 
 $$
+
+$$
+
 res = requests.post(
+
+$$
+
 $$
 
         f"{OLLAMA_URL}/api/generate",
-        json={
+
+$$
+json={
+$$
+
             "model": LLM_MODEL,
             "prompt": prompt,
             "stream": False
@@ -396,19 +469,34 @@ $$
 def ask(question):
 
 $$
+
+$$
+
 qvec = embed_query(question)
+
+$$
+
 $$
 
 $$
 docs = search(qvec, TOP_K)
 $$
 
-    context = "\n".join(
+$$
+context = "\n".join(
+$$
+
         [d.payload["text"] for d in docs]
     )
 
 $$
+
+$$
+
 prompt = f"""
+
+$$
+
 $$
 
 You are an internal assistant.
@@ -424,46 +512,54 @@ Answer:
 """
 
 $$
-answer = call_ollama(prompt)
+
 $$
 
-    sources = [d.id for d in docs]
+answer = call_ollama(prompt)
 
-    return {
-        "answer": answer,
-        "sources": sources
-    }
+$$
 
----
+$$
 
-# 🔟 app/main.py (API)
+sources = [d.id for d in docs]
 
-```python
-from fastapi import FastAPI, UploadFile, File
-import shutil
-
-from .ingest import ingest_pdf
-from .18_rag import ask
+$$
+return { "answer": answer, "sources": sources } --- # 🔟 app/main.py (API) ```python from fastapi import FastAPI, UploadFile, File import shutil from .ingest import ingest_pdf from .18_rag import ask
+$$
 
 $$
 app = FastAPI(title="Local RAG System")
 $$
 
+$$
 @app.post("/upload")
+$$
 
 $$
 async def upload(file: UploadFile = File(...)):
 $$
 
 $$
+
+$$
+
 path = f"data/{file.filename}"
+
+$$
+
 $$
 
     with open(path, "wb") as f:
         shutil.copyfileobj(file.file, f)
 
 $$
+
+$$
+
 n = ingest_pdf(path)
+
+$$
+
 $$
 
     return {"indexed_chunks": n}
@@ -512,7 +608,13 @@ POST /upload
 ### Hỏi AI
 
 $$
+
+$$
+
 POST /ask?q=Quy trình hoàn tiền năm 2024?
+
+$$
+
 $$
 
 ---
@@ -781,7 +883,13 @@ RTX 3060 12GB
 | Crash          | VRAM thiếu  |
 
 $$
+
+$$
+
 👉 80% lỗi = thiếu RAM.
+
+$$
+
 $$
 
 ---

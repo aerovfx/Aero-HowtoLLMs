@@ -56,7 +56,13 @@ Mỗi phương pháp tạo ra độ dài chuỗi $T$ và kích thước từ v�
 Mỗi token là một ký tự:
 
 $$
+
+$$
+
 V = \Sigma
+
+$$
+
 $$
 
 Chuỗi:
@@ -96,7 +102,7 @@ $$
 * Kích thước từ vựng nhỏ:
 
 $$
-|V| $\approx$ 100 - 500
+|V| \approx 100 - 500
 $$
 
 ---
@@ -106,170 +112,135 @@ $$
 Self-attention có độ phức tạp:
 
 $$
-$\mathcal${O}(T^2 d)
+\mathcal{O}(T^2 d)
 $$
 
 $$
-Vì $T = n$ lớn → chi phí tăng mạnh.
+Vì T = n lớn → chi phí tăng mạnh.
 $$
 
+$$
 Ví dụ: văn bản 1000 ký tự
+$$
 
 $$
 T_{char} = 1000
 $$
 
+$$
 Chi phí attention:
-
 $$
 
 $$
-
-$\propto$ 1000^2 = 10^6
-
+\propto 1000^2 = 10^6
 $$
 
 $$
-
----
-
-# 3. Tokenization mức từ (Word-Level)
-
-## 3.1 Định nghĩa
-
-Chuỗi:
-
+--- # 3. Tokenization mức từ (Word-Level) ## 3.1 Định nghĩa Chuỗi:
 $$
 
 $$
-
 X = (w_1, w_2, \dots, w_m)
-
 $$
 
 $$
-
 với:
-
 $$
+
 m < n
-$$
 
+$$
 Tập từ vựng:
+$$
 
 $$
 V = { w }
 $$
 
----
-
-## 3.2 Đặc điểm thống kê
-
-Phân bố tần suất từ tuân theo định luật Zipf:
-
 $$
-f(w_r) $\propto$ \frac{1}{r}
-$$
-
-trong đó $r$ là thứ hạng.
-
-Entropy:
-
+--- ## 3.2 Đặc điểm thống kê Phân bố tần suất từ tuân theo định luật Zipf:
 $$
 
 $$
-
-H(W) = -$\sum$_{w} P(w)$\log$ P(w)
-
+f(w_r) \propto \frac{1}{r}
 $$
 
 $$
-
----
-
-## 3.3 Nhược điểm
-
-Xác suất OOV:
-
+trong đó r là thứ hạng. Entropy:
 $$
 
 $$
-
-P(\text{OOV}) = 1 - $\sum$_{w \in V} P(w)
-
+H(W) = -\sum_{w} P(w)\log P(w)
 $$
 
 $$
-
-Vì từ vựng hữu hạn.
-
-Kích thước từ vựng lớn:
+--- ## 3.3 Nhược điểm Xác suất OOV:
+$$
 
 $$
+P(\text{OOV}) = 1 - \sum_{w \in V} P(w)
+$$
+
+$$
+Vì từ vựng hữu hạn. Kích thước từ vựng lớn:
+$$
+
 |V| $\approx$ 30,000 - 200,000
-$$
 
+$$
 Embedding matrix:
-
-$$
-E \in $\mathbb${R}^{|V| \times d}
 $$
 
-→ tiêu tốn bộ nhớ.
+$$
+E \in \mathbb{R}^{|V| \times d}
+$$
 
----
-
-# 4. Tokenization mức Subword
-
-Subword kết hợp ưu điểm của hai phương pháp trên.
-
-## 4.1 Byte Pair Encoding (BPE)
-
-BPE lặp lại:
+$$
+→ tiêu tốn bộ nhớ. --- # 4. Tokenization mức Subword Subword kết hợp ưu điểm của hai phương pháp trên. ## 4.1 Byte Pair Encoding (BPE) BPE lặp lại:
+$$
 
 $$
 (a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b)
 $$
 
+$$
 Cập nhật từ vựng:
-
 $$
 
 $$
-
 V_{k+1} = V_k \cup \{ab\}
+$$
 
+$$
+--- ## 4.2 Unigram Language Model Tối ưu:
+$$
+
+$$
+\max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z \mid \theta)
+$$
+
+$$
+Trong đó: * z: một phân tách hợp lệ
+$$
+
+* \mathcal{Z}(x_i): tập các phân tách
+
+$$
+--- ## 4.3 Độ dài chuỗi trung bình Giả sử:
+$$
+
+$$
+* Character-level: T_c = n
 $$
 
 $$
 
----
-
-## 4.2 Unigram Language Model
-
-Tối ưu:
-
-$$
-\max_{\theta} $\prod$_i $\sum$_{z \in $\mathcal${Z}(x_i)} P(z \mid \theta)
 $$
 
-Trong đó:
-
-* $z$: một phân tách hợp lệ
-* $\mathcal{Z}(x_i)$: tập các phân tách
-
----
-
-## 4.3 Độ dài chuỗi trung bình
-
-Giả sử:
+* Word-level: T_w = m
 
 $$
-* Character-level: $T_c = n$
-$$
 
-$$
-* Word-level: $T_w = m$
 $$
 
 * Subword-level: $T_s$
@@ -308,7 +279,7 @@ $$
 
 $$
 
-\text{Cost} = $\mathcal${O}(T^2 d)
+\text{Cost} = \mathcal{O}(T^2 d)
 
 $$
 
@@ -317,7 +288,7 @@ $$
 Embedding memory:
 
 $$
-$\mathcal${O}(|V| d)
+\mathcal{O}(|V| d)
 $$
 
 Subword tối ưu cân bằng hai yếu tố.
@@ -332,7 +303,7 @@ $$
 
 $$
 
-H(X) = -$\sum$_x P(x)$\log$ P(x)
+H(X) = -\sum_x P(x)\log P(x)
 
 $$
 
@@ -344,7 +315,7 @@ $$
 
 $$
 
-L $\approx$ \frac{H(X)}{$\log$ |V|}
+L \approx \frac{H(X)}{\log |V|}
 
 $$
 
@@ -365,7 +336,7 @@ $$
 
 $$
 
-Z = \text{Softmax} $\le$ft( \frac{QK^T}{\sqrt{d_k}} \right)V
+Z = \text{Softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
 
 $$
 
@@ -405,7 +376,7 @@ $$
 
 $$
 
-T_s $\approx$ 250 - 400
+T_s \approx 250 - 400
 
 $$
 
@@ -415,7 +386,7 @@ $$
 
 $$
 
-T_w $\approx$ 150 - 250
+T_w \approx 150 - 250
 
 $$
 
@@ -433,7 +404,7 @@ $$
 
 $$
 
-\min_{V} $\le$ft( \alpha T^2 + \beta |V| \right)
+\min_{V} \left( \alpha T^2 + \beta |V| \right)
 
 $$
 

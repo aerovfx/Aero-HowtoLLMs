@@ -30,7 +30,9 @@ Dựa trên tài liệu đính kèm về “Create your algorithmic rapper name�
 
 Tên nghệ danh (stage name) trong văn hóa hip-hop thường có cấu trúc:
 
+$$
 \text{Name} = \text{Prefix} + \text{Core Word} + \text{Modifier}
+$$
 
 Ví dụ:
 	•	Lil Storm
@@ -46,7 +48,13 @@ Mục tiêu là thiết kế một thuật toán tự động sinh tên có tín
 Giả sử:
 
 $$
+
+$$
+
 •	Tập tiền tố P = \{p_1, p_2, ..., p_a\}
+
+$$
+
 $$
 
 $$
@@ -54,19 +62,37 @@ $$
 $$
 
 $$
+
+$$
+
 •	Tập hậu tố M = \{m_1, m_2, ..., m_c\}
+
+$$
+
 $$
 
 Số lượng tên có thể sinh:
 
 $$
+
+$$
+
 N = a \times b \times c
+
+$$
+
 $$
 
 Nếu không bắt buộc hậu tố:
 
 $$
-N = a \times b \times $c + 1$
+
+$$
+
+N = a \times b \times c + 1
+
+$$
+
 $$
 
 ⸻
@@ -75,16 +101,16 @@ $$
 
 Thay vì chọn ngẫu nhiên đều, ta định nghĩa phân bố:
 
-$P(p_i)$, \quad $P(c_j)$, \quad $P(m_k)$
+$P($p_i$)$, \quad $P($c_j$)$, \quad $P($m_k$)$
 
 Xác suất sinh một tên cụ thể:
 
-$P(\text{Name})$ = $P(p_i)$ \cdot $P(c_j)$ \cdot $P(m_k)$
+$P(\text{Name})$ = $P($p_i$)$ \cdot $P($c_j$)$ \cdot $P($m_k$)$
 
 Tổng xác suất:
 
 $$
-$\sum$_{i,j,k} $P(p_i)$$P(c_j)$$P(m_k)$ = 1
+\sum_{i,j,k} P(p_i)P(c_j)P(m_k) = 1
 $$
 
 ⸻
@@ -94,13 +120,25 @@ $$
 Entropy đo mức độ đa dạng:
 
 $$
-H = - $\sum$_{n \in $\mathcal${N}} $P(n)$\log $P(n)$
+
+$$
+
+H = - \sum_{n \in \mathcal{N}} P(n)\log P(n)
+
+$$
+
 $$
 
 Nếu phân bố đều:
 
 $$
-H = $\log$ N
+
+$$
+
+H = \log N
+
+$$
+
 $$
 
 Entropy càng lớn → hệ càng sáng tạo.
@@ -112,12 +150,18 @@ Entropy càng lớn → hệ càng sáng tạo.
 Có thể mô hình hóa tên như chuỗi ký tự:
 
 $$
+
+$$
+
 S = (s_1, s_2, ..., s_n)
+
+$$
+
 $$
 
 Mô hình Markov bậc 1:
 
-$P(S)$ = $\prod$_{i=1}^{n} P(s_i | s_{i-1})
+$P(S)$ = $\prod$_{i=1}^{n} P($s_i$ | s_{i-1})
 
 Điều này cho phép sinh tên mới dựa trên thống kê ký tự của tập huấn luyện.
 
@@ -127,18 +171,30 @@ $P(S)$ = $\prod$_{i=1}^{n} P(s_i | s_{i-1})
 
 LLM sinh văn bản dựa trên:
 
-P(t_i | t_{<i})
+P($t_i$ | t_{<i})
 
 Với:
 
 $$
+
+$$
+
 \text{Name} = (t_1, t_2, ..., t_m)
+
+$$
+
 $$
 
 Self-attention:
 
 $$
-\text{Attention}(Q,K,V) = \text{softmax}$\le$ft$\frac{QK^T}{\sqrt{d}}\right$V
+
+$$
+
+\text{Attention}(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d}}\rightV
+
+$$
+
 $$
 
 Khác biệt chính:
@@ -151,7 +207,9 @@ Khác biệt chính:
 
 Giả sử ta định nghĩa hàm đánh giá:
 
-f$\text{Name}$ \in $\mathbb${R}
+$$
+f\text{Name} \in \mathbb{R}
+$$
 
 Ví dụ dựa trên:
 	•	Độ hiếm từ
@@ -191,15 +249,21 @@ $P(\text{Title} + \text{Alias})$ = 1 - \alpha
 
 Nếu:
 
+$$
 a=20, \quad b=100, \quad c=30
+$$
 
+$$
 N = 20 \times 100 \times 30 = 60{,}000
+$$
 
 Nếu thêm biến thể ký tự (ví dụ thay “s” bằng “$”):
 
 Giả sử mỗi ký tự có 2 biến thể:
 
+$$
 N' = N \cdot 2^k
+$$
 
 Với k là số ký tự có thể biến đổi.
 

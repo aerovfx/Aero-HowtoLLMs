@@ -37,19 +37,35 @@ Theo luận thuyết trên, khả năng thao túng phép Tương đồng Loại 
 Bằng việc gói gém cấu hình hàm Soft-coded nhận vào đầu vào linh hoạt:
 
 $$
+
+$$
+
 \mathbf{V}_{\text{Analogy}} = \mathbf{V}_{\text{Word1}} - \mathbf{V}_{\text{Word2}} + \mathbf{V}_{\text{Word3}}
+
+$$
+
 $$
 
 Thuật toán phóng chiếu mũi tên $V_{\text{Analogy}}$ rà quét qua tập 400.000 lượng từ điển của Word2Vec thông qua Cosine Similarity để xuất kho Top 10 ứng cử viên gần nhất.
 
 **Kiểm định 1 - Sự thần thánh hóa:**
-Lệnh: `Tree` so với `Leaf`  $\approx$ `?` so với `Petal`. Trực giác sinh học con người dễ dàng xuất kho từ `Flower`.
+
+$$
+Lệnh: `Tree` so với `Leaf`  \approx `?` so với `Petal`. Trực giác sinh học con người dễ dàng xuất kho từ `Flower`.
+$$
+
 Đội ngũ máy học trả về kết quả mờ mịt: Top ứng cử viên lộn xộn các từ `Willow Tree` (Cây Liễu).
 
 **Kiểm định 2 - Đảo chiều trục:**
 
 $$
-Lệnh: `Leaf` so với `Tree` $\approx$ `Petal` so với `Flower`.
+
+$$
+
+Lệnh: `Leaf` so với `Tree` \approx `Petal` so với `Flower`.
+
+$$
+
 $$
 
 Biên độ dự báo của mạng lưới từ vựng trượt dốc. Không có bất kỳ bóng dáng một đại lượng từ vựng nào nằm trong Top 10 chạm tới logic ý niệm. 
@@ -57,7 +73,13 @@ Biên độ dự báo của mạng lưới từ vựng trượt dốc. Không c�
 **Kiểm định 3 - Logic Giải Phẫu Người:**
 
 $$
-Lệnh: `Finger` so với `Hand` $\approx$ `?` so với `Foot`. Đáp án chuẩn hóa là `Toe` (Ngón chân).
+
+$$
+
+Lệnh: `Finger` so với `Hand` \approx `?` so với `Foot`. Đáp án chuẩn hóa là `Toe` (Ngón chân).
+
+$$
+
 $$
 
 Mô hình toán học mớm lại từ `Pinky` (Ngón út) trôi nổi trong không gian nhiễu vector.

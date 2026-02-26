@@ -61,7 +61,7 @@ $$
 
 $$
 
-P(X)=$\prod$_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
+P(X)=\prod_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
 
 $$
 
@@ -91,7 +91,7 @@ $$
 
 $$
 
-$\mathcal${L}(\theta) = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P(y_i\mid x_i;\theta)
+$\mathcal${L}(\theta) = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P($y_i$\mid $x_i$;\theta)
 
 $$
 
@@ -103,7 +103,7 @@ $$
 
 $$
 
-\theta^{\ast}=\arg\min_\theta $\mathcal${L}(\theta)
+\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
 
 $$
 
@@ -148,7 +148,13 @@ $$
 Trong đó:
 
 $$
-* $g_t=$\nabla$_\theta$\mathcal${L}_t$,
+
+$$
+
+* g_t=\nabla_\theta\mathcal{L}_t,
+
+$$
+
 $$
 
 * $\lambda$: hệ số weight decay.
@@ -172,7 +178,7 @@ $$
 
 $$
 
-$\mathcal${D}={x_1,x_2,\dots,x_N}
+$\mathcal${D}={$x_1$,$x_2$,\dots,$x_N$}
 
 $$
 
@@ -204,7 +210,9 @@ $$
 
 $$
 
-với $L=128$.
+$$
+với L=128.
+$$
 
 ---
 
@@ -230,7 +238,7 @@ $$
 
 $$
 
-\theta^{(T)}=\theta^{(0)}-$\sum$_{t=1}^{T}\eta$\nabla$_\theta$\mathcal${L}_t
+\theta^{(T)}=\theta^{(0)}-\sum_{t=1}^{T}\eta\nabla_\theta\mathcal{L}_t
 
 $$
 
@@ -294,7 +302,7 @@ $$
 
 $$
 
-p_i=\frac{\exp(z_i/T)}{$\sum$_j\exp(z_j/T)}
+p_i=\frac{\exp(z_i/T)}{\sum_j\exp(z_j/T)}
 
 $$
 
@@ -312,13 +320,22 @@ Trong đó:
 Mô hình sinh các biểu thức như:
 
 $$
+
+$$
+
 f(x)=10\sin(x^2)
+
+$$
+
 $$
 
 Sau đó ánh xạ sang SymPy:
 
 ```python
+
+$$
 f = 10*sin(x**2)
+$$
 
 Cho thấy khả năng học cú pháp toán học.
 
@@ -346,7 +363,7 @@ $$
 
 $$
 
-R=\frac{1}{M}$\sum$_{i=1}^{M}f(x_i)
+R=\frac{1}{M}\sum_{i=1}^{M}f(x_i)
 
 $$
 
@@ -355,7 +372,13 @@ $$
 với:
 
 $$
+
+$$
+
 f(x)= \begin{cases} 1,& \text{chạy được}\ 0,& \text{lỗi} \end{cases}
+
+$$
+
 $$
 
 ---
@@ -366,7 +389,7 @@ $$
 
 $$
 
-\text{PPL}=\exp$\le$ft(\frac{1}{N}$\sum$_{i=1}^{N}$\mathcal${L}_i\right)
+\text{PPL}=\exp\left(\frac{1}{N}\sum_{i=1}^{N}\mathcal{L}_i\right)
 
 $$
 
@@ -381,7 +404,13 @@ PPL thấp ⇒ mô hình dự đoán tốt.
 Dùng AST similarity:
 
 $$
+
+$$
+
 S=\frac{|AST_{gen}\cap AST_{ref}|}{|AST_{ref}|}
+
+$$
+
 $$
 
 ---
@@ -397,7 +426,7 @@ Theo tài liệu :
 Quan sát:
 
 $$
-$\mathcal${L}*{initial}>$\mathcal${L}*{final}
+\mathcal{L}*{initial}>\mathcal{L}*{final}
 $$
 
 Cho thấy mô hình hội tụ.
@@ -417,7 +446,13 @@ So với văn bản tự nhiên:
 Tỷ lệ đa dạng thấp:
 
 $$
+
+$$
+
 r=\frac{N_{unique}}{N_{total}}\ll1
+
+$$
+
 $$
 
 ⇒ học nhanh nhưng dễ overfit.

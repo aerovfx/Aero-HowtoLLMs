@@ -67,7 +67,11 @@ Khoảng cách vật lý giữa hai từ "coffee" được tính giản lược 
 Vì biến quãng cách là một chuỗi mang tính định hạng (ordinal variable - số nguyên ngắt quãng), việc dùng Tương quan Pearson là sai nguyên lý thống kê. Ta phải chuyển qua hệ số **Kendall's Tau** (Tương tự Pearson, chạy từ $-1 \to 1$).
 
 **Kết quả Scatter Plot kết nối:**
-Biểu đồ trải hiển thị mối tương quan nghịch đảo rõ rệt $\to$ `Hệ số r Kendall = -0.5`. 
+
+$$
+Biểu đồ trải hiển thị mối tương quan nghịch đảo rõ rệt \to `Hệ số r Kendall = -0.5`.
+$$
+
 - **Giải thích:** Hai từ "coffee" đứng càng gần nhau trong một câu, chỉ số M.I giữa biểu diễn không gian $Attention$ của chúng càng mãnh liệt. Khi hai từ bị đẩy ra xa nhau chừng vài chục định vị, tiểu lớp ngữ cảnh bị vỡ vụn, khiến khả năng san sẻ tương đồng ý niệm rơi thẳng đứng.
 
 ---

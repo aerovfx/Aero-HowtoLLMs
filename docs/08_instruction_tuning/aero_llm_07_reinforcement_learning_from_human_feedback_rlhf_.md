@@ -32,7 +32,7 @@ $$
 
 $$
 
-P(x_1, x_2, ..., x_T) = $\prod$_{t=1}^{T} P(x_t \mid x_{\lt t})
+P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 
 $$
 
@@ -63,7 +63,7 @@ $$
 
 $$
 
-\max_\theta $\mathbb${E}*{\tau \sim \pi*\theta} $\le$ft[ $\sum$_{t=0}^{T} \gamma^t r_t \right]
+\max_\theta \mathbb{E}*{\tau \sim \pi*\theta} \left[ \sum_{t=0}^{T} \gamma^t r_t \right]
 
 $$
 
@@ -87,7 +87,7 @@ $$
 
 $$
 
-$\mathcal${L}*{SFT} = - $\sum$*{t \in R} $\log$ P_\theta(x_t \mid x_{\lt t})
+$\mathcal${L}*{SFT} = - $\sum$*{t \in R} $\log$ P_\theta($x_t$ \mid x_{\lt t})
 
 $$
 
@@ -99,7 +99,7 @@ Mục tiêu: đưa mô hình về phân phối gần với hành vi mong muốn.
 
 ## 3.2. Bước 2 – Huấn luyện Reward Model
 
-Cho hai phản hồi ( y_1, y_2 ) với cùng prompt $x$, con người chọn phản hồi tốt hơn.
+Cho hai phản hồi ( $y_1$, $y_2$ ) với cùng prompt $x$, con người chọn phản hồi tốt hơn.
 
 Reward model $r_\phi(x,y$ ) được huấn luyện bằng loss Bradley-Terry:
 
@@ -128,7 +128,13 @@ $$
 Trong đó $\sigma$ là sigmoid:
 
 $$
+
+$$
+
 \sigma(z) = \frac{1}{1 + e^{-z}}
+
+$$
+
 $$
 
 ---
@@ -138,7 +144,13 @@ $$
 Sau khi có reward model, ta tối ưu policy:
 
 $$
-\max_\theta $\mathbb${E}*{x \sim \pi*\theta} $\le$ft[ r_\phi(x) - \beta D_{KL}(\pi_\theta | \pi_{ref}) \right]
+
+$$
+
+\max_\theta \mathbb{E}*{x \sim \pi*\theta} \left[ r_\phi(x) - \beta D_{KL}(\pi_\theta | \pi_{ref}) \right]
+
+$$
+
 $$
 
 Trong đó:
@@ -150,7 +162,7 @@ $$
 
 $$
 
-D_{KL}(P|Q) = $\sum$_x P(x)$\log$\frac{P(x)}{Q(x)}
+D_{KL}(P|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}
 
 $$
 
@@ -163,7 +175,13 @@ $$
 PPO tối ưu hàm mục tiêu:
 
 $$
-L^{CLIP}(\theta) = $\mathbb${E} $\le$ft[ \min $\le$ft( r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]
+
+$$
+
+L^{CLIP}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]
+
+$$
+
 $$
 
 Trong đó:
@@ -225,7 +243,7 @@ Giả sử:
 Self-attention:
 
 $$
-$\mathcal${O}(L \cdot T^2 \cdot d)
+\mathcal{O}(L \cdot T^2 \cdot d)
 $$
 
 Trong RLHF:
@@ -247,13 +265,25 @@ Mô hình có thể tối đa hóa reward model nhưng không thực sự tốt.
 Giả sử reward model xấp xỉ:
 
 $$
+
+$$
+
 r_\phi(x) = r_{true}(x) + \epsilon(x)
+
+$$
+
 $$
 
 Khi tối ưu:
 
 $$
-\max_\theta $\mathbb${E}[r_\phi(x)]
+
+$$
+
+\max_\theta \mathbb{E}[r_\phi(x)]
+
+$$
+
 $$
 
 Sai số $\epsilon(x$ ) có thể bị khai thác.
@@ -268,7 +298,7 @@ $$
 
 $$
 
-\pi_\theta $\approx$ \pi_{human}
+\pi_\theta \approx \pi_{human}
 
 $$
 

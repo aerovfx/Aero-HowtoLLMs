@@ -64,7 +64,7 @@ $$
 
 $$
 
-P(X) = $\prod$_{i=1}^{n} P(x_i \mid x_1, \dots, x_{i-1})
+P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, \dots, x_{i-1})
 
 $$
 
@@ -82,7 +82,9 @@ $$
 
 $$
 
-với $t_i \in $\mathbb${N}$.
+$$
+với t_i \in \mathbb{N}.
+$$
 
 ---
 
@@ -96,7 +98,7 @@ $$
 
 $$
 
-$\mathcal${L} = - \frac{1}{N} $\sum$_{i=1}^{N} $\log$ P(y_i \mid x_i)
+$\mathcal${L} = - \frac{1}{N} $\sum$_{i=1}^{N} $\log$ P($y_i$ \mid $x_i$)
 
 $$
 
@@ -111,7 +113,13 @@ Trong đó:
 Mục tiêu là:
 
 $$
-\min_{\theta} $\mathcal${L}(\theta)
+
+$$
+
+\min_{\theta} \mathcal{L}(\theta)
+
+$$
+
 $$
 
 với $\theta$ là tham số mô hình.
@@ -149,7 +157,7 @@ $$
 
 $$
 
-T'_i = \begin{cases} t_i, & \text{nếu } |decode(t_i)| $\ge$ 3 \\ -1, & \text{ngược lại} \end{cases}
+T'_i = \begin{cases} t_i, & \text{nếu } |decode(t_i)| \ge 3 \\ -1, & \text{ngược lại} \end{cases}
 
 $$
 
@@ -169,7 +177,7 @@ $$
 
 $$
 
-f(w) = $\sum$_{i=1}^{N} \mathbf{1}(T'_i = w)
+f(w) = \sum_{i=1}^{N} \mathbf{1}(T'_i = w)
 
 $$
 
@@ -178,7 +186,13 @@ $$
 Trong đó:
 
 $$
+
+$$
+
 \mathbf{1}(x) = \begin{cases} 1, & x = \text{đúng} \\ 0, & x = \text{sai} \end{cases}
+
+$$
+
 $$
 
 Chọn 100 token có (f(w)) lớn nhất:
@@ -215,7 +229,7 @@ $$
 
 $$
 
-p = \frac{1}{M} $\sum$_{i=1}^{M} \mathbf{1}(g_i \in S_{100})
+p = \frac{1}{M} \sum_{i=1}^{M} \mathbf{1}(g_i \in S_{100})
 
 $$
 
@@ -261,7 +275,13 @@ Mỗi mô hình sinh:
 Tổng:
 
 $$
+
+$$
+
 M = 1000
+
+$$
+
 $$
 
 token cho mỗi mô hình.
@@ -275,7 +295,13 @@ Token đầu vào ngẫu nhiên được loại bỏ.
 Dữ liệu được biểu diễn dưới dạng ma trận:
 
 $$
+
+$$
+
 P = \begin{bmatrix} p_{AA} & p_{AE} \ p_{EA} & p_{EE} \end{bmatrix}
+
+$$
+
 $$
 
 Trong đó:
@@ -297,7 +323,7 @@ $$
 
 $$
 
-p_{AA} $\approx$ p_{AE} $\approx$ p_{EA} $\approx$ p_{EE}
+p_{AA} \approx p_{AE} \approx p_{EA} \approx p_{EE}
 
 $$
 
@@ -342,7 +368,7 @@ $$
 
 $$
 
-\text{PPL} = \exp$\le$ft(\frac{1}{N}$\sum$_{i=1}^{N} $\mathcal${L}_i\right)
+\text{PPL} = \exp\left(\frac{1}{N}\sum_{i=1}^{N} \mathcal{L}_i\right)
 
 $$
 
@@ -351,7 +377,13 @@ $$
 * Embedding similarity:
 
 $$
+
+$$
+
 \cos(\theta) = \frac{u \cdot v}{|u||v|}
+
+$$
+
 $$
 
 * Đánh giá bằng LLM (LLM-as-Judge).

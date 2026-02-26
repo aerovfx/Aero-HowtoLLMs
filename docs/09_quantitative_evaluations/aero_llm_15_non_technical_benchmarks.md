@@ -77,7 +77,9 @@ Giả sử:
 
 Ta có:
 
+$$
 Truth\ Rate = \frac{\text{số câu trả lời đúng}}{\text{tổng số câu trả lời}}
+$$
 
 ⸻
 
@@ -86,7 +88,13 @@ Truth\ Rate = \frac{\text{số câu trả lời đúng}}{\text{tổng số câu 
 Đánh giá khả năng tuân thủ yêu cầu phức tạp:
 
 $$
-Compliance = \frac{1}{N}$\sum$_{i=1}^{N} \mathbf{1}(response_i \models instruction_i)
+
+$$
+
+Compliance = \frac{1}{N}\sum_{i=1}^{N} \mathbf{1}(response_i \models instruction_i)
+
+$$
+
 $$
 
 ⸻
@@ -95,27 +103,29 @@ $$
 
 3.1 Human Preference Modeling
 
-Giả sử có hai phản hồi r_1, r_2. Người đánh giá chọn r_1 với xác suất:
+Giả sử có hai phản hồi $r_1$, $r_2$. Người đánh giá chọn $r_1$ với xác suất:
 
-$P(r_1 \succ r_2)$ = \sigma$R_\theta(r_1$ - R_\theta$r_2$)
+$P($r_1$ \succ $r_2$)$ = \sigma$R_\theta(r_1$ - R_\theta$r_2$)
 
 Trong đó:
 	•	R_\theta là hàm reward
 	•	\sigma là sigmoid
 
-\sigma$x$ = \frac{1}{1+e^{-x}}
+$$
+\sigmax = \frac{1}{1+e^{-x}}
+$$
 
 ⸻
 
 3.2 Loss cho reward model
 
 $$
-$\mathcal${L} = - $\log$ \sigma$R_\theta(r_w$ - R_\theta$r_l$)
+\mathcal{L} = - \log \sigmaR_\theta(r_w - R_\thetar_l)
 $$
 
 với:
-	•	r_w: phản hồi được chọn
-	•	r_l: phản hồi bị loại
+	•	$r_w$: phản hồi được chọn
+	•	$r_l$: phản hồi bị loại
 
 ⸻
 
@@ -128,12 +138,20 @@ P_{tox}$x$
 Mức độc hại trung bình:
 
 $$
-Toxicity = $\mathbb${E}[P_{tox}(response)]
+
+$$
+
+Toxicity = \mathbb{E}[P_{tox}(response)]
+
+$$
+
 $$
 
 So sánh giữa các phiên bản mô hình:
 
+$$
 \Delta_{tox} = Toxicity_{modelA} - Toxicity_{modelB}
+$$
 
 ⸻
 
@@ -142,11 +160,17 @@ So sánh giữa các phiên bản mô hình:
 Một thước đo phổ biến là FactScore.
 
 Giả sử:
-	•	C_i là claim thứ i
-	•	V_i \in \{0,1\} là verified
+	•	$C_i$ là claim thứ i
+	•	$V_i$ \in \{0,1\} là verified
 
 $$
-FactScore = \frac{$\sum$_{i=1}^{K} V_i}{K}
+
+$$
+
+FactScore = \frac{\sum_{i=1}^{K} V_i}{K}
+
+$$
+
 $$
 
 ⸻
@@ -172,19 +196,31 @@ D_{KL}(P_{human} || P_{model})
 Giả sử có m tiêu chí:
 
 $$
+
+$$
+
 S = (s_1, s_2, ..., s_m)
+
+$$
+
 $$
 
 Điểm tổng hợp:
 
 $$
-Score_{overall} = $\sum$_{i=1}^{m} w_i s_i
+
+$$
+
+Score_{overall} = \sum_{i=1}^{m} w_i s_i
+
+$$
+
 $$
 
 với:
 
 $$
-$\sum$_{i=1}^{m} w_i = 1
+\sum_{i=1}^{m} w_i = 1
 $$
 
 ⸻
@@ -196,7 +232,13 @@ Theo Elements of Information Theory:
 Entropy phản ánh độ không chắc chắn:
 
 $$
-H$X$ = -$\sum$_x $P(x)$\log $P(x)$
+
+$$
+
+HX = -\sum_x P(x)\log P(x)
+
+$$
+
 $$
 
 Mô hình hallucinate nhiều → entropy cao nhưng không tương thích với dữ kiện thật.
@@ -207,7 +249,9 @@ Mô hình hallucinate nhiều → entropy cao nhưng không tương thích với
 
 Kiểm định bootstrap:
 
+$$
 CI_{95\%} = \bar{x} \pm 1.96 \frac{s}{\sqrt{n}}
+$$
 
 Nếu khoảng tin cậy không chồng lấp → khác biệt có ý nghĩa.
 

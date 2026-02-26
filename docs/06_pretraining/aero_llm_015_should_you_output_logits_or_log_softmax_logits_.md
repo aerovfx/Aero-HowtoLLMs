@@ -76,7 +76,7 @@ $$
 
 $$
 
-P_i = \frac{e^{z_i}}{$\sum$_j e^{z_j}}
+P_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
 
 $$
 
@@ -88,7 +88,7 @@ $$
 
 $$
 
-$\log$ P_i = z_i - $\log$ $\sum$_j e^{z_j}
+$\log$ $P_i$ = $z_i$ - $\log$ $\sum$_j e^{$z_j$}
 
 $$
 
@@ -128,7 +128,7 @@ $$
 
 $$
 
-\text{Output} = $\log$(\text{Softmax}(z))
+\text{Output} = \log(\text{Softmax}(z))
 
 $$
 
@@ -178,7 +178,13 @@ Khi sử dụng logits, cần áp dụng:
 ```python
 
 $$
+
+$$
+
 loss = nn.CrossEntropyLoss()(logits, targets)
+
+$$
+
 $$
 
 Hàm này tự động thực hiện log-softmax bên trong.
@@ -195,7 +201,7 @@ $$
 
 $$
 
-P_i = \frac{e^{z_i/T}}{$\sum$_j e^{z_j/T}}
+P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
 
 $$
 

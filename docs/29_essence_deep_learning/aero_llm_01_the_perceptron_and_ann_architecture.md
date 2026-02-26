@@ -24,8 +24,8 @@ Báo cáo này nghiên cứu về các khối xây dựng cơ bản của mạng
 ## 1. Cấu trúc của một Perceptron
 
 Perceptron là "tế bào" cơ bản của mọi kiến trúc học sâu. Nó hoạt động như một cỗ máy tính toán đơn giản với quy trình ba bước:
-1. **Tiếp nhận Đầu vào:** Một tập hợp các số thực đại diện cho dữ liệu đầu vào ($x_1, x_2, ..., x_n$).
-2. **Trọng số và Tính toán:** Mỗi đầu vào được nhân với một trọng số tương ứng ($w_1, w_2, ..., w_n$), sau đó được cộng dồn lại.
+1. **Tiếp nhận Đầu vào:** Một tập hợp các số thực đại diện cho dữ liệu đầu vào ($x_1, $x_2$, ..., x_n$).
+2. **Trọng số và Tính toán:** Mỗi đầu vào được nhân với một trọng số tương ứng ($w_1, $w_2$, ..., w_n$), sau đó được cộng dồn lại.
 3. **Đầu ra:** Kết quả tổng hợp (weighted sum) được chuyển đổi thành một giá trị đầu ra duy nhất.
 
 Về bản chất toán học, Perceptron thực hiện phép tính **tích vô hướng** giữa véc-tơ đầu vào $x$ và véc-tơ trọng số $w$:
@@ -34,7 +34,7 @@ $$
 
 $$
 
-y = x^T w = $\sum$_{i=1}^{n} x_i w_i
+y = x^T w = \sum_{i=1}^{n} x_i w_i
 
 $$
 
@@ -56,7 +56,13 @@ Perceptron thuần túy là một **mô hình tuyến tính**. Điều này có 
 Để mở rộng khả năng của mạng nơ-ron, chúng ta đưa kết quả của phép tính tuyến tính qua một hàm phi tuyến $\sigma$ (thường được gọi là hàm kích hoạt):
 
 $$
+
+$$
+
 \hat{y} = \sigma(x^T w)
+
+$$
+
 $$
 
 - **Ví dụ cơ bản:** Hàm signum (hàm dấu) trả về +1 nếu tổng lớn hơn 0 và -1 nếu ngược lại.

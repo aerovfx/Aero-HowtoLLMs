@@ -78,7 +78,7 @@ $$
 
 $$
 
-D_{KL}(Q||P) = $\sum$_i Q(i)$\log$\frac{Q(i)}{P(i)}
+D_{KL}(Q||P) = \sum_i Q(i)\log\frac{Q(i)}{P(i)}
 
 $$
 
@@ -151,7 +151,7 @@ $$
 
 $$
 
-Q_i = \frac{M_i}{$\sum$_j M_j}
+Q_i = \frac{M_i}{\sum_j M_j}
 
 $$
 

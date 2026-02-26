@@ -80,7 +80,13 @@ Jailbreaking là kỹ thuật lách qua các rào chắn bảo mật bằng các
 Dù là hộp đen, việc đánh giá vẫn dựa trên xác suất của chuỗi token đầu ra:
 
 $$
+
+$$
+
 P(T_{target}  \mid  T_{context}) = \text{Softmax}(Z)
+
+$$
+
 $$
 
 Trong đó $Z$ là logit đầu ra. Đánh giá hộp đen tập trung vào việc làm thế nào để thay đổi $T_{context}$ sao cho $P(T_{unsafe})$ đạt giá trị cực đại.

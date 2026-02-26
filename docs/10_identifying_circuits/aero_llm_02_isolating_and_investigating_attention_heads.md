@@ -22,7 +22,7 @@ Báo cáo trình bày phương pháp giải phẫu một trong những linh hồ
 ---
 
 ## 1. Mở Đầu (Introduction)
-Trong Mạng Mạch của Deep Learning, việc quy tụ hàng khối Head lại với nhau thông qua ma trận trộn tuyến tính $W_o$ (Linear mix matrix) là chìa khóa tổng hợp kiến thức ngôn ngữ. Tuy nhiên, nếu chúng ta có thể chẻ nhỏ và truy cập vào từng "Não bộ phụ" (Head) riêng lẻ đang phân tích gì, ta sẽ hiểu được cơ chế hoạt động vi mô (Mechanistic Interpretability). Công việc này đòi hỏi kết hợp phương trình Attention cốt lõi: $Softmax(\frac{QK^T}{\sqrt{d_k}})V$ kết hợp thao tác ma trận tinh vi.
+Trong Mạng Mạch của Deep Learning, việc quy tụ hàng khối Head lại với nhau thông qua ma trận trộn tuyến tính $W_o$ (Linear mix matrix) là chìa khóa tổng hợp kiến thức ngôn ngữ. Tuy nhiên, nếu chúng ta có thể chẻ nhỏ và truy cập vào từng "Não bộ phụ" (Head) riêng lẻ đang phân tích gì, ta sẽ hiểu được cơ chế hoạt động vi mô (Mechanistic Interpretability). Công việc này đòi hỏi kết hợp phương trình Attention cốt lõi: $Softmax(\frac{QK^T}{\sqrt{$d_k$}})V$ kết hợp thao tác ma trận tinh vi.
 
 ---
 

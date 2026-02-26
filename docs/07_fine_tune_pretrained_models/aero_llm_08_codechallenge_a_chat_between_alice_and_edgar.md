@@ -58,7 +58,7 @@ $$
 
 $$
 
-P(X) = $\prod$_{i=1}^{n} P(x_i \mid x_1, x_2, \dots, x_{i-1})
+P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, x_2, \dots, x_{i-1})
 
 $$
 
@@ -107,7 +107,7 @@ $$
 
 $$
 
-$\mathcal${L}(\theta) = -\frac{1}{N} $\sum$_{i=1}^{N} $\log$ P(y_i \mid x_i; \theta)
+$\mathcal${L}(\theta) = -\frac{1}{N} $\sum$_{i=1}^{N} $\log$ P($y_i$ \mid $x_i$; \theta)
 
 $$
 
@@ -119,7 +119,7 @@ $$
 
 $$
 
-\theta^{\ast} = \arg\min_{\theta} $\mathcal${L}(\theta)
+\theta^{\ast} = \arg\min_{\theta} \mathcal{L}(\theta)
 
 $$
 
@@ -233,7 +233,13 @@ $$
 Trong đó:
 
 $$
+
+$$
+
 model = \begin{cases} E, & k \text{ lẻ} \\ A, & k \text{ chẵn} \end{cases}
+
+$$
+
 $$
 
 ---
@@ -252,7 +258,7 @@ $$
 
 $$
 
-p_i = \frac{\exp(z_i / T)}{$\sum$_j \exp(z_j / T)}
+p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
 
 $$
 
@@ -281,7 +287,7 @@ $$
 
 $$
 
-M $\approx$ 500
+M \approx 500
 
 $$
 
@@ -390,7 +396,7 @@ $$
 
 $$
 
-H = -$\sum$_{i=1}^{V} p_i $\log$ p_i
+H = -\sum_{i=1}^{V} p_i \log p_i
 
 $$
 
@@ -405,7 +411,7 @@ $$
 
 $$
 
-D = \frac{1}{K}$\sum$_{k=1}^{K} |C_k|
+D = \frac{1}{K}\sum_{k=1}^{K} |C_k|
 
 $$
 

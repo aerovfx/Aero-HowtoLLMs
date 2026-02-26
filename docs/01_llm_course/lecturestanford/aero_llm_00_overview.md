@@ -44,7 +44,9 @@ cd llm_viz && npm run dev
 
 ## Chương 1: Tổng Quan Về LLMs
 
+$$
 **LLM** = Mô hình phân phối xác suất trên chuỗi tokens, dựa trên **Transformer**.
+$$
 
 **Ví dụ:** GPT-4 (1.76T params), Claude 3 Opus, Gemini Ultra, Llama 3
 
@@ -83,7 +85,10 @@ ChatGPT ✅
 
 ## Chương 4: Autoregressive & Tokenization
 
-**Autoregressive:** $P(x)$ = ∏ P(xᵢ | x₁...xᵢ₋₁)  
+$$
+**Autoregressive:** P(x) = ∏ P(xᵢ  \mid  x₁...xᵢ₋₁)
+$$
+
 **Tokenization:** BPE, ~100K vocab  
 **Issues:** Numbers, indentation, non-English
 

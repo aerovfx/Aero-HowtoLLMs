@@ -48,7 +48,13 @@ $$
 Trong bài toán này, chúng ta sử dụng một bộ phân loại $C$ để ước lượng xác suất hậu nghiệm:
 
 $$
+
+$$
+
 \hat{y} = C(x) = P(\text{Style} \mid x)
+
+$$
+
 $$
 
 ---
@@ -63,7 +69,7 @@ $$
 
 $$
 
-\text{Acc} = \frac{1}{N} $\sum$_{i=1}^{N} $\mathbb${1}(\arg\max C(x_i) = y_i)
+\text{Acc} = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}(\arg\max C(x_i) = y_i)
 
 $$
 
@@ -75,7 +81,7 @@ $$
 
 $$
 
-$\mathcal${L} = -\frac{1}{N} $\sum$_{i=1}^{N} y_i $\log$(\hat{y}_i)
+$\mathcal${L} = -\frac{1}{N} $\sum$_{i=1}^{N} $y_i$ $\log$(\hat{y}_i)
 
 $$
 
@@ -100,7 +106,13 @@ Theo , việc đánh giá không thực hiện liên tục để tiết kiệm t
 Tiến trình:
 
 $$
+
+$$
+
 t = \{10, 20, 30, \dots, T\}
+
+$$
+
 $$
 
 ---
@@ -115,7 +127,7 @@ $$
 
 $$
 
-\text{Acc}_{t=0} $\approx$ 0.5
+\text{Acc}_{t=0} \approx 0.5
 
 $$
 
@@ -134,7 +146,13 @@ $$
 Quan hệ giữa Loss của mô hình phân loại trên văn bản sinh và số bước huấn luyện:
 
 $$
-\frac{$\partial$ $\mathcal${L}_{cls}}{$\partial$ t} < 0
+
+$$
+
+\frac{\partial \mathcal{L}_{cls}}{\partial t} < 0
+
+$$
+
 $$
 
 Điều này xác nhận rằng mô hình sinh đang thực sự "di chuyển" trong không gian đặc trưng về phía vùng dữ liệu của Alice hoặc Edgar.

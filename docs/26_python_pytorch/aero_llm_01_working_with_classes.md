@@ -34,7 +34,10 @@ Dù OOP là một khái niệm lập trình tổng quát, nó đóng vai trò x�
 ## 2. Đối tượng Danh sách trong Python (Class List)
 
 ### 2.1. Bản chất của Danh sách
-Trong Python, khi chúng ta khởi tạo một danh sách bằng lệnh `L = list([1, 2, 3])`, chúng ta thực chất đang tạo ra một thực thể của lớp `list`. 
+
+$$
+Trong Python, khi chúng ta khởi tạo một danh sách bằng lệnh `L = list([1, 2, 3])`, chúng ta thực chất đang tạo ra một thực thể của lớp `list`.
+$$
 
 ### 2.2. Khám phá Thuộc tính bằng Hàm `dir()`
 Hàm `dir(đối_tượng)` là công cụ quan trọng để liệt kê toàn bộ "kho vũ khí" mà một thực thể sở hữu. Kết quả trả về bao gồm các thuộc tính ẩn (bắt đầu bằng dấu gạch dưới `__`) và các phương thức công khai mà chúng ta có thể tương tác trực tiếp.

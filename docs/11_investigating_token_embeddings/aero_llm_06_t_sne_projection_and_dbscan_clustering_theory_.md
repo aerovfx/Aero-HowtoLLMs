@@ -30,7 +30,13 @@ Kỹ thuật t-SNE, được nghiên cứu và tiên phong bởi Geoffrey Hinton
 Đầu tiên, quy chuyển chuẩn hàm Softmax lên ma trận Euclidean. Tại lớp không gian bậc cao $X$, khả năng để vector $x_j$ nằm kề $x_i$ được biểu diễn bởi mật độ xác suất hàm mũ (Gaussian Gaussian Distribution):
 
 $$
-p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{$\sum$_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)}
+
+$$
+
+p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)}
+
+$$
+
 $$
 
 Trong đó, $\sigma_i$ là phương sai (variance) chịu ảnh hưởng cấu hình phân tán kề lặp (Perplexity).
@@ -42,7 +48,7 @@ $$
 
 $$
 
-C = $\sum$_{i} KL(P_i \parallel Q_i) = $\sum$_{i,j} p_{ij} $\log$ \frac{p_{ij}}{q_{ij}}
+C = \sum_{i} KL(P_i \parallel Q_i) = \sum_{i,j} p_{ij} \log \frac{p_{ij}}{q_{ij}}
 
 $$
 
@@ -70,7 +76,13 @@ Mọi quần đảo nối chuỗi lẫn nhau nhờ $\epsilon$ hợp thức hóa 
 Ở lớp phân lớp toán học sâu hơn, cả t-SNE hay phân tập DBSCAN đều giải phẫu thông qua Ma trận Đồ Đồng Cấu Gram (Gram Matrix) của một bộ vi xử lý Vector nhúng:
 
 $$
+
+$$
+
 G_{E} = E \cdot E^T
+
+$$
+
 $$
 
 Khi các vector được phân bổ đơn vị với lượng Vector-norm chuẫn L2, Gram Matrix lập tức hóa thân thành khối ảnh chiếu Cosine Similarity Matrix. Nó tiết lộ những kiến trúc lưới đồ thị sắc sảo đang giấu nhẻm ở đám mây khối $n$-nghiệm phức loạn. 

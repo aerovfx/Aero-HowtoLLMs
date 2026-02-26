@@ -57,7 +57,7 @@ $$
 
 $$
 
-P(x_1,x_2,...,x_T)=$\prod$_{t=1}^{T}P(x_t \mid x_1,...,x_{t-1})
+P(x_1,x_2,...,x_T)=\prod_{t=1}^{T}P(x_t \mid x_1,...,x_{t-1})
 
 $$
 
@@ -86,7 +86,7 @@ $$
 
 $$
 
-\text{Attention}(Q,K,V)=\text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
@@ -119,7 +119,7 @@ $$
 
 $$
 
-P(i)=\frac{e^{z_i}}{$\sum$_{j=1}^{V}e^{z_j}}
+P(i)=\frac{e^{z_i}}{\sum_{j=1}^{V}e^{z_j}}
 
 $$
 
@@ -131,7 +131,7 @@ $$
 
 $$
 
-$\log$ P(i)=z_i-$\log$$\sum$_{j}e^{z_j}
+$\log$ P(i)=$z_i$-$\log$$\sum$_{j}e^{$z_j$}
 
 $$
 
@@ -181,7 +181,9 @@ $$
 
 $$
 
-Trong đó $V = 50257$ là kích thước từ vựng.
+$$
+Trong đó V = 50257 là kích thước từ vựng.
+$$
 
 Tokenizer của GPT-Neo trùng với GPT-2 tokenizer. 
 
@@ -195,7 +197,7 @@ $$
 
 $$
 
-$\mathcal${L}=-\frac{1}{T}$\sum$_{t=1}^{T}$\log$ P(x_t \mid x_{\lt t})
+$\mathcal${L}=-\frac{1}{T}$\sum$_{t=1}^{T}$\log$ P($x_t$ \mid x_{\lt t})
 
 $$
 
@@ -221,7 +223,7 @@ $$
 
 $$
 
-\theta_{k+1}=\theta_k-\eta$\nabla$_\theta$\mathcal${L}
+\theta_{k+1}=\theta_k-\eta\nabla_\theta\mathcal{L}
 
 $$
 
@@ -310,7 +312,7 @@ $$
 
 $$
 
-PPL = e^{$\mathcal${L}}
+PPL = e^{\mathcal{L}}
 
 $$
 

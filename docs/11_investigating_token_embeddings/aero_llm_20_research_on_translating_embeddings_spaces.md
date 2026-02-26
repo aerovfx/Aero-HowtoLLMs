@@ -35,7 +35,7 @@ $$
 
 $$
 
-E_2 $\approx$ E_1 \cdot W + b
+E_2 \approx E_1 \cdot W + b
 
 $$
 

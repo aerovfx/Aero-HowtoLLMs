@@ -39,50 +39,13 @@ def skip_layer_hook(module, input, output):
 Để xác nhận tầng đã bị bỏ qua, chúng ta đo lường chuẩn Frobenius của hiệu số Hidden States giữa các tầng liên tiếp:
 
 $$
-\Delta_{norm} = \|\mathbf{H}_{L} - \mathbf{H}_{L-1}\|_F
+
 $$
 
-Nếu $\Delta_{norm} = 0$ tại tầng $L$, điều đó có nghĩa là vector không hề thay đổi khi đi qua Transformer Block đó.
+\Delta_{norm} = \|\mathbf{H}_{L} - \mathbf{H}_{L-1}\|_F
 
----
+$$
 
-## 3. Kết Quả Thực Nghiệm (Results & Analysis)
+$$
 
-### 3.1. Triệt tiêu Trung thực (Faithful Ablation)
-Kết quả đo lường trên GPT-2 với câu mẫu: "There is a lot of liquid water on planet Earth" cho thấy tại tầng được cài Hook (ví dụ Layer 5), giá trị chênh lệch Norm rơi về chính xác bằng 0. 
-- **Lưu ý về Indexing:** Cần ghi nhớ sự khác biệt giữa chỉ số Transformer Block (bắt đầu từ 0) và chỉ số Hidden States (bắt đầu từ 1, do tầng 0 là Embedding nguyên bản). Sự lệch pha này phản ánh cấu trúc nội tại của thư viện Hugging Face.
-
-### 3.2. Can thiệp Thô vs. Phẫu thuật (Chainsaw vs. Surgical Knife)
-Báo cáo thừa nhận rằng việc cắt bỏ toàn bộ một tầng Transformer là một can thiệp mang tính "hủy diệt" diện rộng (Chainsaw ablation). Nó không tinh vi bằng việc vá hoạt hóa (Patching) hay can thiệp vào từng Attention Head cụ thể. Tuy nhiên, phương pháp này rất hữu ích để:
-1. Kiểm tra tính dư thừa (Redundancy) của một số tầng cụ thể.
-2. Xác nhận luồng residual stream hoạt động đúng như thiết kế logic.
-
----
-
-## 4. Kết Luận
-Việc "bỏ qua một tầng" minh chứng cho tính linh hoạt của Forward Hooks trong nghiên cứu Diễn giải cơ học nhân quả. Mặc dù hiếm khi được sử dụng như một giải pháp hiệu chỉnh mô hình trong thực tế, kỹ thuật này cung cấp một công cụ mạnh mẽ để hiểu về sự tích tụ thông tin dọc theo residual stream và vai trò không thể thay thế (hoặc có thể thay thế) của từng khối Transformer riêng lẻ.
-
----
-
-## Tài liệu tham khảo (Citations)
-1. Thử nghiệm Skip Layer trên GPT-2 dựa trên tài liệu `aero_LLM_06_Skip a layer.md`. Phân tích Norm difference để xác nhận sự triệt tiêu biến đổi tín hiệu.
-<!-- Aero-Footer-Start -->
-
-## 📄 Tài liệu cùng chuyên mục
-| Bài học | Liên kết |
-| :--- | :--- |
-| [Tác động Hạ nguồn của việc Thay đổi Quy mô Lớp sớm (Downstream Impact of Early Layer Scaling)](aero_llm_01_downstream_impact_of_early_layer_scaling.md) | [Xem bài viết →](aero_llm_01_downstream_impact_of_early_layer_scaling.md) |
-| [Thử thách Lập trình: Thay đổi Quy mô Hidden State và Tổn thất Token](aero_llm_02_codechallenge_hidden_state_scaling_and_token_loss.md) | [Xem bài viết →](aero_llm_02_codechallenge_hidden_state_scaling_and_token_loss.md) |
-| [Thử thách Lập trình: Dự đoán BERT với Nhiễu và Hoán vị (Noisy and Shuffled BERT Predictions)](aero_llm_03_codechallenge_noisy_and_shuffled_bert_predictions.md) | [Xem bài viết →](aero_llm_03_codechallenge_noisy_and_shuffled_bert_predictions.md) |
-| [Thử thách Lập trình: Đo lường và Hiệu chỉnh Định kiến Giới trong BERT](aero_llm_04_codechallenge_measure_and_correct_bert_s_bias.md) | [Xem bài viết →](aero_llm_04_codechallenge_measure_and_correct_bert_s_bias.md) |
-| [Vá Hoạt hóa và Tác vụ Nhận diện Tân ngữ Gián tiếp (Activation Patching and Indirect Object Identification)](aero_llm_05_activation_patching_with_indirect_object_identification.md) | [Xem bài viết →](aero_llm_05_activation_patching_with_indirect_object_identification.md) |
-| 📌 **[Bỏ qua một Tầng Transformer (Skip a Layer)](aero_llm_06_skip_a_layer.md)** | [Xem bài viết →](aero_llm_06_skip_a_layer.md) |
-
----
-## 🤝 Liên hệ & Đóng góp
-Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
-> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
-*Cập nhật tự động bởi Aero-Indexer - 2026*
-<!-- Aero-Footer-End -->
+Nếu \Delta_{norm} = 0 tại tầng L, điều đó có nghĩa là vector không hề thay đổi khi đi qua Transformer Block đó.

@@ -101,7 +101,13 @@ Cấu trúc này giúp duy trì ổn định gradient và tăng khả năng bi�
 Trong GPT-2, ba ma trận Query, Key và Value không được lưu riêng lẻ mà được gộp trong một ma trận duy nhất có kích thước:
 
 $$
+
+$$
+
 768 \times 2304 = 768 \times (3 \times 768)
+
+$$
+
 $$
 
 Cách thiết kế này giúp:

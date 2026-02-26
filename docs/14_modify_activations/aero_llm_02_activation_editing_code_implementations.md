@@ -29,7 +29,13 @@ Cú pháp tổng quát của Phẫu thuật Forward Hook:
 def my_hook(module, inputs, output):
 
 $$
+
+$$
+
 modified_output = output.clone()
+
+$$
+
 $$
 
     # [Inject, Zero-out, hay Scale tùy ý]
@@ -47,7 +53,11 @@ Thống kê Cơ bản: Khi Trích Xuất Attention Block $QKV$, ta thường tá
 
 ### Thí Nghiệm 2: Trỏ Trực Tiếp Theo Mốc Dimension (Direct Indexing)
 Nếu không muốn tách/khâu như trên, ta thao tác thẳng vào Block Gốc dựa trên độ Dài Chiều kích (Embedding Dimension).
-Với GPT-2 Small, $d\_model = 768$. Ma trận $QKV$ dài $768 \times 3 = 2304$. 
+
+$$
+Với GPT-2 Small, d\_model = 768. Ma trận QKV dài 768 \times 3 = 2304.
+$$
+
 - Để Tịt ngòi $10$ Vector của lớp **Q** cho Token Index số $4$: `output[0, 4, 0:10] = 0`
 - Để Tịt ngòi $10$ Vector của lớp **K** cho Token Index số $4$: `output[0, 4, 768 : 768+10] = 0`
 Phương pháp này chọc ngang vùng Core Tensor nên không bị lỗi View, nhưng đòi hỏi phải Hard-code phép Offset chỉ số rất mệt mỏi.

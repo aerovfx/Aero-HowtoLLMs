@@ -53,13 +53,25 @@ Từ vựng `galaxy`, `galaxies` (Ngân hà) lại bị t-SNE và DBscan đóng 
 Hậu quả của hiện tượng gom chéo siêu cụm dẫn đến thực nghiệm thứ 3: Xây dựng một móng ma trận Quét lưới vòng lặp For (Grid Search).
 
 $$
-1. **Khóa `min_samples = 3`**: Thử nghiệm Epsilon trượt biên từ $2 \to 20$.
+
+$$
+
+1. **Khóa `min_samples = 3`**: Thử nghiệm Epsilon trượt biên từ 2 \to 20.
+
+$$
+
 $$
 
 Đồ thị vạch lộ ra cấu trúc đồ thị đổ đèo tiêu chuẩn (Curve descending). Khi $Epsilon = 16$, độ bạo của mảng nối vòng làm 514 điểm nuốt nhau, báo cáo thuật toán có số lượng cụm $k$ trượt thẳng về mức $1 \to 3$ Cụm Mega. Không còn chi tiết nhỏ vi mô (Micro details collapsed).
 
 $$
-2. **Khóa `Epsilon = fixed`**: Khảo nghiệm tham số thứ 2, thay đổi Min-Samples từ $2 \to 20$.
+
+$$
+
+2. **Khóa `Epsilon = fixed`**: Khảo nghiệm tham số thứ 2, thay đổi Min-Samples từ 2 \to 20.
+
+$$
+
 $$
 
 3. **Hiệu Ứng Bảng Nóng Xoay Chiều (Heatmap Matrix Search)**: Chạy hai vòng lặp lồng chéo, tạo thành khung $19 \times 15$ giao diện Heatmaps để tìm ra "vành đai vàng - Goldilocks zone" nơi mà số cụm không nằm mấp mé 0 và cũng không vụn vỡ quá mức.

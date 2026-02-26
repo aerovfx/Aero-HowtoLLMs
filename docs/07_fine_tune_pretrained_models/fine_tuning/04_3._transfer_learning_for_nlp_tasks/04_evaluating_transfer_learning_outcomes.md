@@ -36,7 +36,10 @@ Hãy nghĩ về ROUGE như một thước đo về sự chồng chéo giữa vă
 
 Các từ chồng chéo: "the", "cat", "on", "the", "mat" (5 từ)
 Tổng số từ trong tham chiếu: 6 từ
+
+$$
 **ROUGE-1 = 5/6 = 83%**
+$$
 
 ## BLEU Là Gì?
 
@@ -50,7 +53,9 @@ Sử dụng cùng ví dụ:
 - Bản tạo: "The cat sat on the mat"
 - Tham chiếu: "The cat is sitting on the mat"
 
+$$
 BLEU-1 = 5/5 = 100%
+$$
 
 ## So Sánh ROUGE Và BLEU
 
@@ -66,21 +71,35 @@ Bạn có thể nghĩ về BLEU như một phép đo precision và ROUGE như m�
 from datasets import load_metric
 
 $$
+
+$$
+
 rouge = load_metric("rouge")
+
+$$
+
 $$
 
 $$
 results = rouge.compute(predictions=predictions, references=references)
 $$
 
+$$
 # Đánh giá với BLEU
+$$
 
 $$
 bleu = load_metric("bleu")
 $$
 
 $$
+
+$$
+
 results = bleu.compute(predictions=predictions, references=references)
+
+$$
+
 $$
 
 ## Kết Luận

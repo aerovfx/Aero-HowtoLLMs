@@ -38,7 +38,13 @@ Khởi tạo hệ thống không gian vector liên tục (Continuous Vector Spac
 Gọi $v_w \in $\mathbb${R}^D$ là biểu diễn vector $D$ chiều của từ $w$. Phương trình số học cốt lõi lấy ý tưởng từ quy luật hình bình hành (Parallelogram law):
 
 $$
+
+$$
+
 v_{analogy} = v_{king} - v_{man} + v_{woman}
+
+$$
+
 $$
 
 Đây là quá trình triệt tiêu (subtract) một vector thuộc tính trừu tượng (như *giới tính*) và tiêm (inject) vào một thành phần thuộc tính khác. 

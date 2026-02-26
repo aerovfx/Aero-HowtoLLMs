@@ -86,7 +86,13 @@ Sử dụng `sm.Logit(y, X).fit()` để tìm các hệ số $\beta$ tối ưu. 
 Sau khi có xác suất dự đoán từ `result.predict()`, chúng ta so sánh với nhãn thực tế theo ngưỡng 0.5:
 
 $$
+
+$$
+
 \text{Accuracy} = \frac{\text{Số dự đoán đúng}}{\text{Tổng số mẫu}}
+
+$$
+
 $$
 
 Thực nghiệm cho thấy ngay cả khi có sự trùng lắp (noise) giữa hai phân phối, Hồi quy Logistic vẫn trích xuất được ranh giới quyết định (decision boundary) tối ưu để tối đa hóa khả năng phân loại của nơ-ron.

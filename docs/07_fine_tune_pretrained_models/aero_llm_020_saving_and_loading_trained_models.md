@@ -73,7 +73,7 @@ $$
 
 $$
 
-\theta_{t+1} = \theta_t-\eta$\nabla$_\theta$\mathcal${L}_t
+\theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}_t
 
 $$
 
@@ -82,7 +82,10 @@ $$
 với:
 
 * $\eta$: learning rate,
-* $\mathcal{L}$: hàm mất mát.
+
+$$
+* \mathcal{L}: hàm mất mát.
+$$
 
 Mục tiêu của việc lưu mô hình là bảo toàn $\theta_T$ tại thời điểm hội tụ.
 
@@ -122,28 +125,30 @@ Cấu trúc:
 )$$
 
 $$
-$\mathcal${F}={f_1,f_2,\dots,f_k}
+\mathcal{F}={f_1,f_2,\dots,f_k}
 $$
 
 $$
-Trong đó $f_k$ chứa toàn bộ tham số. --- ### 3.2. File trọng số File `model.safetensors` chứa ma trận:
+Trong đó f_k chứa toàn bộ tham số. --- ### 3.2. File trọng số File `model.safetensors` chứa ma trận:
 $$
 
-W\in$\mathbb${R}^{d\times d'}
+$$
+W\in\mathbb{R}^{d\times d'}
+$$
 
 $$
 Dung lượng xấp xỉ:
 $$
 
 $$
-S$\approx$ 4\times P \text{ bytes}
+S\approx 4\times P \text{ bytes}
 $$
 
 $$
-với $$P( là số tham số dạng float32. Ví dụ GPT-2 small: )$$
+với P( là số tham số dạng float32. Ví dụ GPT-2 small: )
 $$
 
-S$\approx$ 474\text{ MB}
+S\approx 474\text{ MB}
 
 $$
 
@@ -164,7 +169,13 @@ $$
 Thực hiện ánh xạ:
 
 $$
-\theta \rightarrow $\mathcal${F}_{path}
+
+$$
+
+\theta \rightarrow \mathcal{F}_{path}
+
+$$
+
 $$
 
 ---
@@ -176,13 +187,25 @@ $$
 Theo tài liệu, embedding được thay bằng vector 1:
 
 $$
+
+$$
+
 E_{ij}=1,\ \forall i,j
+
+$$
+
 $$
 
 Thay vì:
 
 $$
-E_{ij}\sim $\mathcal${N}(0,\sigma^2)
+
+$$
+
+E_{ij}\sim \mathcal{N}(0,\sigma^2)
+
+$$
+
 $$
 
 Điều này giúp kiểm tra tính đúng đắn khi tải lại mô hình.
@@ -227,7 +250,7 @@ $$
 
 $$
 
-\theta_{load}$\approx$\theta_{save}
+\theta_{load}\approx\theta_{save}
 
 $$
 
@@ -261,7 +284,7 @@ $$
 
 $$
 
-\theta $\le$ftarrow \text{torch.load(file.pt)}
+\theta \leftarrow \text{torch.load(file.pt)}
 
 $$
 
@@ -282,7 +305,13 @@ Giúp khôi phục tham số.
 Sai số khôi phục:
 
 $$
+
+$$
+
 \varepsilon=|\theta_{load}-\theta_{orig}|_2
+
+$$
+
 $$
 
 Lý tưởng:
@@ -291,7 +320,7 @@ $$
 
 $$
 
-\varepsilon$\approx$ 0
+\varepsilon\approx 0
 
 $$
 
@@ -306,13 +335,25 @@ $$
 Theo , sử dụng:
 
 $$
-\text{zip}($\mathcal${F})\rightarrow file.zip
+
+$$
+
+\text{zip}(\mathcal{F})\rightarrow file.zip
+
+$$
+
 $$
 
 Tỷ lệ nén:
 
 $$
+
+$$
+
 r=\frac{S_{zip}}{S_{raw}}
+
+$$
+
 $$
 
 Thông thường:
@@ -321,7 +362,7 @@ $$
 
 $$
 
-r$\approx$ 0.8-0.9
+r\approx 0.8-0.9
 
 $$
 
@@ -334,13 +375,19 @@ với mô hình lớn.
 ### 6.2. Giải nén
 
 $$
-file.zip \rightarrow $\mathcal${F}'
+
+$$
+
+file.zip \rightarrow \mathcal{F}'
+
+$$
+
 $$
 
 Sao cho:
 
 $$
-$\mathcal${F}'\equiv$\mathcal${F}
+\mathcal{F}'\equiv\mathcal{F}
 $$
 
 ---
@@ -361,7 +408,7 @@ $$
 
 $$
 
-P(\text{lỗi})$\approx$ 0
+P(\text{lỗi})\approx 0
 
 $$
 
@@ -376,21 +423,35 @@ $$
 Cho input $x$:
 
 $$
+
+$$
+
 y_{old}=f(x;\theta_{old})
+
+$$
+
 $$
 
 $$
 y_{new}=f(x;\theta_{load})
 $$
 
+$$
 Sai lệch:
+$$
 
 $$
 \delta=|y_{old}-y_{new}|
 $$
 
 $$
-Nếu $\delta$\approx$0$ ⇒ khôi phục thành công.
+
+$$
+
+Nếu \delta\approx0 ⇒ khôi phục thành công.
+
+$$
+
 $$
 
 ---
@@ -400,7 +461,13 @@ $$
 Trường hợp kiểm chứng bằng vector 1:
 
 $$
+
+$$
+
 E_{ij}=1 \Rightarrow \text{mean}(E)=1
+
+$$
+
 $$
 
 Nếu đúng ⇒ tải đúng mô hình.
@@ -415,7 +482,7 @@ $$
 
 $$
 
-\sigma^2=\frac{1}{N}$\sum$(y_i-\bar{y})^2
+\sigma^2=\frac{1}{N}\sum(y_i-\bar{y})^2
 
 $$
 

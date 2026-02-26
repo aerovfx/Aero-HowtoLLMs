@@ -56,7 +56,13 @@ Cấu trúc này mô phỏng phiên bản tối giản của mô hình ngôn ng�
 Trong quá trình lan truyền thuận, dữ liệu được xử lý theo công thức:
 
 $$
+
+$$
+
 X_{emb} = Embedding(X)
+
+$$
+
 $$
 
 $$
@@ -85,7 +91,7 @@ $$
 
 $$
 
-P = $\log$(\text{softmax}(Z))
+P = \log(\text{softmax}(Z))
 
 $$
 
@@ -144,7 +150,7 @@ $$
 
 $$
 
-L = - $\log$ P(y \mid x)
+L = - \log P(y \mid x)
 
 $$
 
@@ -191,7 +197,9 @@ Mô hình và dữ liệu được chuyển sang GPU nhằm tăng tốc tính to
 
 ### 5.2. Thuật toán tối ưu
 
+$$
 Thuật toán AdamW được sử dụng với weight decay = 0.01:
+$$
 
 $$
 
@@ -243,7 +251,7 @@ $$
 
 $$
 
-P = e^{$\log$ p}
+P = e^{\log p}
 
 $$
 
@@ -269,14 +277,20 @@ $$
 
 $$
 
-L_{random} $\approx$ -$\log$$\le$ft(\frac{1}{V}\right)
+L_{random} \approx -\log\left(\frac{1}{V}\right)
 
 $$
 
 $$
 
 $$
-Với $V $\approx$ 50,000$, ta có $L $\approx$ 10.8$.
+
+$$
+
+Với V \approx 50,000, ta có L \approx 10.8.
+
+$$
+
 $$
 
 Sau huấn luyện, loss giảm xuống ~3.7.

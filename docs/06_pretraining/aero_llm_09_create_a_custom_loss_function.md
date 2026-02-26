@@ -44,7 +44,7 @@ $$
 
 $$
 
-$\mathcal${L} = - $\sum$_{i=1}^{N} y_i $\log$(\hat{y}_i)
+$\mathcal${L} = - $\sum$_{i=1}^{N} $y_i$ $\log$(\hat{y}_i)
 
 $$
 
@@ -56,7 +56,7 @@ Trong đó:
 * $\hat{y}_i$: xác suất dự đoán,
 * $N$: số lớp (token trong từ điển).
 
-Vì các token là các lớp rời rạc và loại trừ lẫn nhau, nên trong thực tế chỉ có một giá trị (y_i = 1), các giá trị còn lại bằng 0. Do đó, hàm mất mát có thể rút gọn thành:
+Vì các token là các lớp rời rạc và loại trừ lẫn nhau, nên trong thực tế chỉ có một giá trị ($y_i$ = 1), các giá trị còn lại bằng 0. Do đó, hàm mất mát có thể rút gọn thành:
 
 $$
 
@@ -99,7 +99,11 @@ class MyLoss(nn.Module):
         super(MyLoss, self).__init__()
 
     def forward(self, y_hat, y):
-        loss = ...
+
+$$
+loss = ...
+$$
+
         return loss
 
 Cấu trúc này tương tự như cách xây dựng một mô hình neural network, giúp dễ dàng tích hợp vào pipeline huấn luyện .
@@ -143,7 +147,9 @@ class MyLossL2(nn.Module):
     def forward(self, y_hat, y):
         return (y_hat - y) ** 2
 
+$$
 Theo tài liệu, khi giá trị mục tiêu là 5 và dự đoán là 2, L1 = 3 và L2 = 9 .
+$$
 
 ---
 

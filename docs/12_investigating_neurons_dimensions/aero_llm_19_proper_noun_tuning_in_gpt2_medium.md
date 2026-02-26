@@ -36,7 +36,13 @@ Do cấu trúc dữ liệu Wikipedia chứa mật độ danh từ riêng cao, ch
 ### 2.2. Chuẩn bị Mẫu So sánh
 
 $$
-Để hồi quy vận hành tối ưu, chúng ta thiết lập hai nhóm có kích thước bằng nhau ($n $\approx$ 220$):
+
+$$
+
+Để hồi quy vận hành tối ưu, chúng ta thiết lập hai nhóm có kích thước bằng nhau (n \approx 220):
+
+$$
+
 $$
 
 - **Nhóm Đích (Target):** Các danh từ riêng hợp lệ.

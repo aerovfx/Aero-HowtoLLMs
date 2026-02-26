@@ -26,7 +26,9 @@ Bài viết này trình bày quy trình xây dựng một mô hình học embedd
 
 Embedding là ánh xạ từ không gian rời rạc sang không gian vector liên tục:
 
-f: \{1,\dots,V\} \rightarrow $\mathbb${R}^d
+$$
+f: \{1,\dots,V\} \rightarrow \mathbb{R}^d
+$$
 
 Trong đó:
 	•	V: kích thước từ vựng
@@ -34,11 +36,15 @@ Trong đó:
 
 Ma trận embedding:
 
-\mathbf{E} \in $\mathbb${R}^{V \times d}
+$$
+\mathbf{E} \in \mathbb{R}^{V \times d}
+$$
 
 Vector của token w:
 
+$$
 \mathbf{e}_w = \mathbf{E}[w]
+$$
 
 Mục tiêu huấn luyện là tìm \mathbf{E} sao cho embedding phản ánh cấu trúc ngữ nghĩa và ngữ cảnh.
 
@@ -52,11 +58,16 @@ Xét mô hình đơn giản cho bài toán next-token prediction.
 
 Token đầu vào:
 
-\mathbf{x} \in $\mathbb${R}^{B \times L}
+$$
+\mathbf{x} \in \mathbb{R}^{B \times L}
+$$
 
 Sau embedding:
 
+$$
 \mathbf{H} =
+$$
+
 \mathbf{E}[\mathbf{x}]
 \in
 $\mathbb${R}^{B \times L \times d}
@@ -68,28 +79,42 @@ $\mathbb${R}^{B \times L \times d}
 Logits:
 
 \mathbf{Z}
+
+$$
 =
+$$
+
 \mathbf{H}
 \mathbf{W}
 +
 \mathbf{b}
 
 Với:
-	•	\mathbf{W} \in $\mathbb${R}^{d \times V}
-	•	\mathbf{b} \in $\mathbb${R}^{V}
+
+$$
+•	\mathbf{W} \in \mathbb{R}^{d \times V}
+$$
+
+$$
+•	\mathbf{b} \in \mathbb{R}^{V}
+$$
 
 ⸻
 
 2.3 Softmax
 
 $P(y=i \mid \mathbf{h})$
+
+$$
 =
+$$
+
 \frac{
 \exp$z_i$
 }{
 
 $$
-$\sum$_{j=1}^{V}
+\sum_{j=1}^{V}
 $$
 
 \exp$z_j$
@@ -102,28 +127,36 @@ $$
 3.1 Cross-Entropy
 
 $\mathcal${L}
+
+$$
 =
+$$
+
 -
 
 $$
-$\sum$_{t=1}^{L}
+\sum_{t=1}^{L}
 $$
 
 $\log$
-$P(y_t \mid x_{\lt t})$
+$P($y_t$ \mid x_{\lt t})$
 
 Trung bình trên batch:
 
 $\mathcal${L}_{batch}
+
+$$
 =
+$$
+
 \frac{1}{BL}
 
 $$
-$\sum$_{b=1}^{B}
+\sum_{b=1}^{B}
 $$
 
 $$
-$\sum$_{t=1}^{L}
+\sum_{t=1}^{L}
 $$
 
 $\mathcal${L}_{b,t}
@@ -134,18 +167,32 @@ $\mathcal${L}_{b,t}
 
 Gọi:
 
-\mathbf{p} = \text{softmax}$\mathbf{z}$
+$$
+\mathbf{p} = \text{softmax}\mathbf{z}
+$$
 
 Gradient theo logits:
 
-\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{z}}
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{z}}
+$$
+
+$$
 =
+$$
+
 \mathbf{p} - \mathbf{y}
 
 Gradient theo embedding:
 
-\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{e}_w}
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
+$$
+
+$$
 =
+$$
+
 \mathbf{W}
 $\mathbf{p} - \mathbf{y}$
 
@@ -154,13 +201,16 @@ Cập nhật:
 \mathbf{E}[w]
 
 $$
-$\le$ftarrow
+\leftarrow
 $$
 
 \mathbf{E}[w]
 -
 \eta
-\frac{$\partial$ $\mathcal${L}}{$\partial$ \mathbf{E}[w]}
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{E}[w]}
+$$
 
 ⸻
 
@@ -168,12 +218,18 @@ $$
 
 Trong các mô hình như GPT-2, ta thường buộc:
 
+$$
 \mathbf{W} = \mathbf{E}^T
+$$
 
 Khi đó:
 
-z_i
+$z_i$
+
+$$
 =
+$$
+
 \mathbf{h}^T
 \mathbf{e}_i
 
@@ -190,7 +246,11 @@ z_i
 Gradient embedding:
 
 \Delta \mathbf{e}_w
+
+$$
 =
+$$
+
 -
 \eta
 \mathbf{W}
@@ -199,13 +259,25 @@ $\mathbf{p}-\mathbf{y}$
 Khi token dự đoán đúng:
 
 $$
-\mathbf{p} $\approx$ \mathbf{y}
+
+$$
+
+\mathbf{p} \approx \mathbf{y}
+
+$$
+
 $$
 
 \Rightarrow
 
 $$
-\Delta \mathbf{e}_w $\approx$ 0
+
+$$
+
+\Delta \mathbf{e}_w \approx 0
+
+$$
+
 $$
 
 Khi sai:
@@ -219,7 +291,11 @@ Khi sai:
 Cosine similarity:
 
 \cos$\theta$
+
+$$
 =
+$$
+
 \frac{
 \mathbf{e}_a \cdot \mathbf{e}_b
 }{
@@ -238,13 +314,17 @@ Qua huấn luyện:
 Trong Skip-gram:
 
 $P(c \mid w)$
+
+$$
 =
+$$
+
 \frac{
 \exp$\mathbf{u}_c^T \mathbf{v}_w$
 }{
 
 $$
-$\sum$_{j=1}^{V}
+\sum_{j=1}^{V}
 $$
 
 \exp$\mathbf{u}_j^T \mathbf{v}_w$
@@ -259,15 +339,19 @@ $\log$ $P(c \mid w)$
 Negative Sampling:
 
 $\mathcal${L}
+
+$$
 =
+$$
+
 $\log$ \sigma$\mathbf{u}_c^T \mathbf{v}_w$
 +
 
 $$
-$\sum$_{k=1}^{K}
+\sum_{k=1}^{K}
 $$
 
-$\log$ \sigma$-\mathbf{u}_{n_k}^T \mathbf{v}_w$
+$\log$ \sigma$-\mathbf{u}_{$n_k$}^T \mathbf{v}_w$
 
 Mô hình embedding hiện đại có thể xem như mở rộng của cơ chế này trong không gian sâu (deep contextual space).
 
@@ -278,7 +362,11 @@ Mô hình embedding hiện đại có thể xem như mở rộng của cơ chế
 Trong Transformer:
 
 \mathbf{z}_t
+
+$$
 =
+$$
+
 \mathbf{e}_t
 +
 \mathbf{p}_t
@@ -286,22 +374,30 @@ Trong Transformer:
 Self-attention:
 
 \text{Attention}(Q,K,V)
+
+$$
 =
+$$
+
 \text{softmax}
 
 $$
-$\le$ft(
+\left(
 $$
 
-\frac{QK^T}{\sqrt{d_k}}
+\frac{QK^T}{\sqrt{$d_k$}}
 \right)V
 
 Embedding ảnh hưởng trực tiếp đến attention scores:
 
 QK^T
+
+$$
 =
+$$
+
 $\mathbf{E}+\mathbf{P}$W_Q
-W_K^T
+$W_K$^T
 $\mathbf{E}+\mathbf{P}$^T
 
 Do đó embedding không chỉ là bảng tra cứu mà là nền tảng cấu trúc toàn bộ mô hình.
@@ -319,7 +415,11 @@ $\mathbb${R}^{V \times d}
 Ma trận hiệp phương sai:
 
 \mathbf{C}
+
+$$
 =
+$$
+
 \frac{1}{V}
 \mathbf{E}^T
 \mathbf{E}
@@ -327,7 +427,11 @@ Ma trận hiệp phương sai:
 Giải bài toán trị riêng:
 
 \mathbf{C}\mathbf{v}_i
+
+$$
 =
+$$
+
 \lambda_i
 \mathbf{v}_i
 
@@ -341,24 +445,36 @@ Thực nghiệm cho thấy:
 
 Với tối ưu Adam:
 
-m_t
+$m_t$
+
+$$
 =
+$$
+
 \beta_1 m_{t-1}
 +
-$1-\beta_1$ g_t
+$1-\beta_1$ $g_t$
 
-v_t
+$v_t$
+
+$$
 =
+$$
+
 \beta_2 v_{t-1}
 +
-$1-\beta_2$ g_t^2
+$1-\beta_2$ $g_t$^2
 
 \theta_t
+
+$$
 =
+$$
+
 \theta_{t-1}
 -
 \eta
-\frac{m_t}{\sqrt{v_t}+\epsilon}
+\frac{$m_t$}{\sqrt{$v_t$}+\epsilon}
 
 Embedding thường hội tụ nhanh ở giai đoạn đầu do gradient lớn.
 

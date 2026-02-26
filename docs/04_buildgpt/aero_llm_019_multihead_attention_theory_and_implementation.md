@@ -66,7 +66,7 @@ $$
 Trong đó:
 
 * $X$: Ma trận embedding.
-* (W_Q, W_K, W_V): Ma trận trọng số huấn luyện.
+* ($W_Q$, $W_K$, $W_V$): Ma trận trọng số huấn luyện.
 
 Các chiều embedding được trộn lẫn thông qua phép nhân ma trận, không được giữ nguyên theo từng chiều ban đầu
 
@@ -80,7 +80,7 @@ $$
 
 $$
 
-\text{Attention}(Q, K, V) = \text{softmax}$\le$ft(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
@@ -132,7 +132,7 @@ $$
 
 $$
 
-\text{head}_i = \text{softmax}$\le$ft(\frac{Q_iK_i^T}{\sqrt{d_h}}\right)V_i
+\text{head}_i = \text{softmax}\left(\frac{Q_iK_i^T}{\sqrt{d_h}}\right)V_i
 
 $$
 
@@ -204,7 +204,7 @@ Một lớp multi-head attention thường bao gồm:
 
 * Số head: $H$
 * Kích thước mỗi head: $d_h$
-* Các ma trận: (W_Q, W_K, W_V, W_0)
+* Các ma trận: ($W_Q$, $W_K$, $W_V$, $W_0$)
 
 Các ma trận này ban đầu có kích thước $D \times D$ và chỉ được chia trong quá trình forward pass
 

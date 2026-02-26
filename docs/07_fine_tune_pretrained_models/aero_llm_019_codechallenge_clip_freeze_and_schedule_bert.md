@@ -48,7 +48,13 @@ Mục tiêu nghiên cứu:
 Cho mô hình tiền huấn luyện với tham số $\theta_0$. Fine-tuning nhằm tìm:
 
 $$
+
+$$
+
 \theta^{\ast}=\arg\min_{\theta}L(\theta;D_{task})
+
+$$
+
 $$
 
 Trong đó $D_{task}$ là tập dữ liệu mục tiêu.
@@ -60,7 +66,13 @@ Trong đó $D_{task}$ là tập dữ liệu mục tiêu.
 Giả sử tập tham số được huấn luyện là $T\subset\theta$:
 
 $$
+
+$$
+
 \theta=\theta_{freeze}\cup\theta_{train},\quad \theta_{freeze}\cap\theta_{train}=\emptyset
+
+$$
+
 $$
 
 Với:
@@ -97,7 +109,7 @@ $$
 
 $$
 
-\mathbf{g}*t=$\nabla$*\theta L(\theta_t)
+\mathbf{g}*t=\nabla*\theta L(\theta_t)
 
 $$
 
@@ -120,7 +132,7 @@ $$
 
 $$
 
-R=\frac{|\theta_{train}|}{|\theta_{total}|}$\approx$ 0.5
+R=\frac{|\theta_{train}|}{|\theta_{total}|}\approx 0.5
 
 $$
 
@@ -132,72 +144,58 @@ $$
 
 #### 3.2.1 Chuẩn hóa gradient
 
-Với ngưỡng $c=1$:
+$$
+Với ngưỡng c=1:
+$$
 
 $$
 \mathbf{g}'= \frac{c}{\max(|\mathbf{g}|,c)}\mathbf{g}
 $$
 
+$$
 Đảm bảo:
-
 $$
+
 |\mathbf{g}'|$\le$ c
+
 $$
-
----
-
-#### 3.2.2 Ảnh hưởng tới cập nhật
-
+--- #### 3.2.2 Ảnh hưởng tới cập nhật
 $$
 
 $$
-
 \theta_{t+1}=\theta_t-\eta_t\mathbf{g}'
-
 $$
 
 $$
-
-Giúp hạn chế gradient explosion.
-
----
-
-### 3.3 Learning Rate Scheduler
-
-#### 3.3.1 Warm-up
-
+Giúp hạn chế gradient explosion. --- ### 3.3 Learning Rate Scheduler #### 3.3.1 Warm-up
 $$
 
 $$
-
-\eta_t=\eta_{max}\frac{t}{T_{warm}},\quad t$\le$ T_{warm}
-
+\eta_t=\eta_{max}\frac{t}{T_{warm}},\quad t\le T_{warm}
 $$
 
 $$
-
----
-
-#### 3.3.2 Linear Decay
-
+--- #### 3.3.2 Linear Decay
 $$
 
 $$
-
-\eta_t=\eta_{max}$\le$ft(1-\frac{t}{T_{sched}}\right)
-
+\eta_t=\eta_{max}\left(1-\frac{t}{T_{sched}}\right)
 $$
 
 $$
-
 Trong đó:
-
 $$
+
 T_{sched}>T_{train}
+
 $$
 
 $$
-để tránh $\eta_t=0$.
+
+để tránh \eta_t=0.
+
+$$
+
 $$
 
 ---
@@ -236,7 +234,10 @@ Theo :
 * 300 batch huấn luyện
 * Warm-up 5%
 * Linear scheduler (450 steps)
-* Clipping: $c=1$
+
+$$
+* Clipping: c=1
+$$
 
 Theo dõi:
 
@@ -254,7 +255,7 @@ $$
 
 $$
 
-L=-$\sum$_{i=1}^{N}y_i$\log$(p_i)
+L=-\sum_{i=1}^{N}y_i\log(p_i)
 
 $$
 
@@ -275,7 +276,13 @@ $$
 Accuracy:
 
 $$
+
+$$
+
 Acc=\frac{TP+TN}{TP+TN+FP+FN}
+
+$$
+
 $$
 
 Kết quả:
@@ -300,7 +307,7 @@ $$
 
 $$
 
-G_t=|$\nabla$ W_t|
+G_t=|\nabla W_t|
 
 $$
 
@@ -325,7 +332,13 @@ $$
 Lượng thông tin bị mất:
 
 $$
+
+$$
+
 \Delta g= |\mathbf{g}|-|\mathbf{g}'|
+
+$$
+
 $$
 
 Với:
@@ -355,7 +368,7 @@ $$
 
 $$
 
-c(t)= \begin{cases} $\infty$ & t\lt T_0\ 1 & t$\ge$ T_0 \end{cases}
+c(t)= \begin{cases} \infty & t\lt T_0\ 1 & t\ge T_0 \end{cases}
 
 $$
 
@@ -378,7 +391,13 @@ Ba kỹ thuật phối hợp:
 Tác động tổng hợp:
 
 $$
-Stability$\propto$ f(F,C,S)
+
+$$
+
+Stability\propto f(F,C,S)
+
+$$
+
 $$
 
 ---

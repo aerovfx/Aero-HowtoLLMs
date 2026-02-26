@@ -34,7 +34,11 @@ Việc so sánh hình thái dữ liệu khi có và không có chuẩn hóa trun
 
 ### 2.1. Phân Tách Dữ Liệu Bằng Ma Trận Mặt Nạ (Matrix Masking)
 Do khối dữ liệu tensor gộp cả Q, K, V $(\text{size} = 2304)$, thực nghiệm xây dựng một ma trận mặt nạ bằng phép nhân ngoài (Outer Product) kết hợp trích xuất tam giác trên (Upper Triangular).
-Ta gán giá trị định danh: $Q = 1$, $K = 2$, $V = 3$ để tạo mốc lưới:
+
+$$
+Ta gán giá trị định danh: Q = 1, K = 2, V = 3 để tạo mốc lưới:
+$$
+
 - Tương tác nội bộ cụm: $Q-Q$ (nhân ra 1), $K-K$ (nhân ra 4), $V-V$ (nhân ra 9).
 - Tương tác chéo cụm: Ví dụ $Q-K$ (nhân ra 2), $Q-V$ (nhân ra 3)...
 Nhờ mạng mask này, hàm phân tích dễ dàng cô lập và quét được hàng trăm nghìn tương tác đơn lẻ cho từng thành phần (Targets/Non-targets/Random).

@@ -109,7 +109,13 @@ Việc kiểm tra này giúp xác nhận tính đúng đắn của quá trình k
 Một điểm quan trọng được chỉ ra là:
 
 $$
+
+$$
+
 W_{embedding} = W_{unembedding}
+
+$$
+
 $$
 
 Trong GPT-style models, trọng số embedding được gán trực tiếp cho output head, dẫn đến việc embedding thực chất bị chi phối bởi `nn.Linear`. 
@@ -132,7 +138,13 @@ Dữ liệu được trích xuất bằng:
 ```python
 
 $$
+
+$$
+
 weights = model.blocks[i].attn.qkv.weight.detach().cpu()
+
+$$
+
 $$
 
 ---
@@ -143,7 +155,10 @@ $$
 
 Kết quả cho thấy:
 
+$$
 * Bias vectors = 0,
+$$
+
 * Linear weights: std ≈ 0.02,
 * Position embeddings: std ≈ 0.044,
 * Token embeddings: std ≈ 0.02.

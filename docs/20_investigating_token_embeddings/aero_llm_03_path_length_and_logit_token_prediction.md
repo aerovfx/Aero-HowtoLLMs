@@ -36,7 +36,7 @@ $$
 
 $$
 
-\text{Path Length} = \|y - x\| = \sqrt{$\sum$ (y_i - x_i)^2}
+\text{Path Length} = \|y - x\| = \sqrt{\sum (y_i - x_i)^2}
 
 $$
 

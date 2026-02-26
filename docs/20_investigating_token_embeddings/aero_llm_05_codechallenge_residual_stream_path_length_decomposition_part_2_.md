@@ -34,7 +34,11 @@ Sử dụng công thức khoảng cách Euclide chéo lớp (Layer $i \to i-1$).
 Tại các block đầu của mô hình, sự giãn nở Path length vẫn âm ỉ, tuy nhiên khi tiến sâu vào những cỗ máy block ở đoạn cuối (chặng áp chót trước khi xuất ra Vocab Matrix), độ lớn của vector điều chỉnh từ cả 3 luồng (Attention, MLP, HS) tăng sực nức. Màu biểu đồ trải màu bung sáng mạnh ở khúc đuôi phản ánh "Cú đẩy cuối cùng" (Big Step Change) trước rào cản chọn từ tiếp theo.
 
 ### 2.2. Khớp Tương Quan Pearson R & Chỉ Báo Nhỉnh Hơn Của MLP
-Sử dụng phép tương quan biến $PL_{attn} $\le$ftrightarrow PL_{h\_states}$ và $PL_{mlp} $\le$ftrightarrow PL_{h\_states}$:
+
+$$
+Sử dụng phép tương quan biến PL_{attn} \leftrightarrow PL_{h\_states} và PL_{mlp} \leftrightarrow PL_{h\_states}:
+$$
+
 - Hầu hết các Transformer Layers, cường độ bơm tín hiệu của MLP có quan hệ gắn bó cao hơn nhiều (Correlation mạnh và Positive rõ ràng) so với nhánh vất vả hơn của Attention.
 - Sự thắng thế này hợp lý theo logic cơ học: Nhiệm vụ của Khối Attention là phóng tầm nhìn đi khắp chuỗi dài tóm bắt Context. Nhiệm vụ của MLP đóng vai trò nhào nặn Không gian chiều (Expand Dimensionality), biến vector thành hình dáng sẵn sàng cho quy trình phân lớp.  
 - Hơn nữa, vì MLP nằm đằng sau nút giao Attention, nó đã "ăn" theo phần nội tiết điều chỉnh đó, nghiễm nhiên hệ quả của MLP sẽ lan tỏa đậm hơn khi tới chặng đích kết thúc Transform Block.

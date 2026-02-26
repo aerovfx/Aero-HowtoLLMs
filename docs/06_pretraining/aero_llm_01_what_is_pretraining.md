@@ -86,7 +86,7 @@ $$
 
 $$
 
-$\mathcal${L} = - $\sum$_{t} $\log$ P(w_t  \mid  w_1,...,w_{t-1})
+$\mathcal${L} = - $\sum$_{t} $\log$ P($w_t$  \mid  $w_1$,...,w_{t-1})
 
 $$
 
@@ -106,7 +106,7 @@ $$
 
 $$
 
-\theta_{t+1} = \theta_t - \eta $\nabla$_\theta $\mathcal${L}
+\theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}
 
 $$
 

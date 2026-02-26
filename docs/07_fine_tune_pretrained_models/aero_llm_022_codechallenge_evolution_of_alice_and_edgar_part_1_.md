@@ -64,7 +64,7 @@ $$
 
 $$
 
-P(X)=$\prod$_{i=1}^{n}P(x_i\mid x_{\lt i};\theta_g)
+P(X)=\prod_{i=1}^{n}P(x_i\mid x_{\lt i};\theta_g)
 
 $$
 
@@ -79,7 +79,13 @@ Trong đó $\theta_g$ là tham số mô hình sinh.
 Với đầu ra [CLS]:
 
 $$
-h_{CLS}\in$\mathbb${R}^d
+
+$$
+
+h_{CLS}\in\mathbb{R}^d
+
+$$
+
 $$
 
 Bộ phân loại:
@@ -95,7 +101,13 @@ $$
 $$
 
 $$
+
+$$
+
 \hat{y}=\text{softmax}(z)
+
+$$
+
 $$
 
 Trong đó $\hat{y}$ là xác suất Alice/Edgar.
@@ -110,7 +122,7 @@ $$
 
 $$
 
-$\mathcal${L}_{gen} = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P(x_i\mid x_{\lt i})
+$\mathcal${L}_{gen} = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P($x_i$\mid x_{\lt i})
 
 $$
 
@@ -166,7 +178,7 @@ $$
 
 $$
 
-M_{fp16}$\approx$ \frac{1}{2}M_{fp32}
+M_{fp16}\approx \frac{1}{2}M_{fp32}
 
 $$
 
@@ -213,13 +225,25 @@ Theo tài liệu :
 Ma trận batch:
 
 $$
-B\in$\mathbb${R}^{64\times128}
+
+$$
+
+B\in\mathbb{R}^{64\times128}
+
+$$
+
 $$
 
 Vector nhãn:
 
 $$
+
+$$
+
 y=(\underbrace{0,\dots,0}*{32}, \underbrace{1,\dots,1}*{32})
+
+$$
+
 $$
 
 ---
@@ -231,7 +255,13 @@ $$
 Để đảm bảo đủ token BERT:
 
 $$
+
+$$
+
 L_{neo}=kL_{bert},\quad k>1
+
+$$
+
 $$
 
 Trong thực nghiệm:
@@ -240,7 +270,7 @@ $$
 
 $$
 
-k$\approx$4
+k\approx4
 
 $$
 
@@ -249,7 +279,13 @@ $$
 Sau đó cắt:
 
 $$
+
+$$
+
 X_{bert}=X_{neo}[1:L]
+
+$$
+
 $$
 
 ---
@@ -271,7 +307,13 @@ $$
 Ràng buộc sinh:
 
 $$
-x_t\notin$\mathcal${B}
+
+$$
+
+x_t\notin\mathcal{B}
+
+$$
+
 $$
 
 ---
@@ -305,7 +347,7 @@ $$
 
 $$
 
-\text{Acc} = \frac{1}{N}$\sum$_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
+\text{Acc} = \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
 
 $$
 
@@ -317,7 +359,7 @@ $$
 
 $$
 
-\text{Acc}$\approx$ 0.5
+\text{Acc}\approx 0.5
 
 $$
 
@@ -330,7 +372,7 @@ $$
 ### 5.2. Hàm mất mát BERT
 
 $$
-$\mathcal${L}*{cls}^{(t+1)} \lt  $\mathcal${L}*{cls}^{(t)}
+\mathcal{L}*{cls}^{(t+1)} \lt  \mathcal{L}*{cls}^{(t)}
 $$
 
 ⇒ mô hình sinh tiến gần phong cách mục tiêu.
@@ -372,7 +414,13 @@ Theo :
 Quan hệ tổng quát:
 
 $$
-\frac{d}{dt}$\mathcal${L}_{cls}<0
+
+$$
+
+\frac{d}{dt}\mathcal{L}_{cls}<0
+
+$$
+
 $$
 
 Cho thấy quá trình hội tụ.

@@ -50,7 +50,7 @@ $$
 
 $$
 
-\text{Bias Score} = $\log$ P(\text{"he"}) - $\log$ P(\text{"she"})
+\text{Bias Score} = \log P(\text{"he"}) - \log P(\text{"she"})
 
 $$
 

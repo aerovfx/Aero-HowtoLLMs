@@ -35,7 +35,10 @@
 **Reasoning (Suy luận)** là khả năng giải quyết các vấn đề phức tạp (như toán học, lập trình) thông qua một quy trình suy nghĩ nhiều bước (multi-step reasoning process).
 
 *   *Câu hỏi kiến thức:* "Thủ đô của Pháp là gì?" -> Paris. (Không cần suy luận).
+
+$$
 *   *Câu hỏi suy luận:* "Một con gấu sinh năm 2020, năm 2025 nó bao nhiêu tuổi?" -> Cần tính toán: 2025 - 2020 = 5.
+$$
 
 ---
 

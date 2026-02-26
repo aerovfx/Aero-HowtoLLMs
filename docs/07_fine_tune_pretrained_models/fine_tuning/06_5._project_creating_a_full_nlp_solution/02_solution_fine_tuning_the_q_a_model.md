@@ -51,7 +51,13 @@ from rouge_score import rouge_scorer
 # Tải tập dữ liệu SQuAD v2
 
 $$
+
+$$
+
 dataset = load_dataset("squad_v2", split="train")
+
+$$
+
 $$
 
 # Xem ví dụ
@@ -63,79 +69,111 @@ print(dataset[0])
 # Tải tokenizer
 
 $$
+
+$$
+
 model_name = "google/flan-t5-base"
+
+$$
+
 $$
 
 $$
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 $$
 
-def preprocess_qa(examples):
-    # Tạo prompt với format: context + question
-    inputs = []
-    for context, question in zip(examples['context'], examples['questions']):
+$$
+def preprocess_qa(examples): # Tạo prompt với format: context + question
+$$
+
+inputs = []
+
+$$
+for context, question in zip(examples['context'], examples['questions']):
+$$
 
 $$
 prompt = f"{context} Question: {question} Answer:"
 $$
 
-        inputs.append(prompt)
-    
-    # Xử lý câu trả lời
-    answers = []
-    for ans_text in examples['answers']:
-        if len(ans_text['text']) > 0:
-            answers.append(ans_text['text'][0])
-        else:
-            answers.append("")  # Câu trả lời trống
-    
-    # Tokenize
+$$
+inputs.append(prompt) # Xử lý câu trả lời
+$$
+
+answers = []
+
+$$
+for ans_text in examples['answers']: if len(ans_text['text']) > 0: answers.append(ans_text['text'][0]) else: answers.append("")  # Câu trả lời trống # Tokenize
+$$
 
 $$
 model_inputs = tokenizer(inputs, max_length=384, truncation=True, padding="max_length")
 $$
 
 $$
-labels = tokenizer(answers, max_length=128, truncation=True, padding="max_length")
+
 $$
 
-    
+labels = tokenizer(answers, max_length=128, truncation=True, padding="max_length")
+
+$$
+
+$$
+
 $$
 model_inputs["labels"] = labels["input_ids"]
 $$
 
-    return model_inputs
-
-# Giới hạn dữ liệu (SQuAD rất lớn)
+$$
+return model_inputs # Giới hạn dữ liệu (SQuAD rất lớn)
+$$
 
 $$
 train_data = dataset.select(range(25000))
 $$
 
 $$
+
+$$
+
 test_data = dataset.select(range(25000, 27000))
+
+$$
+
 $$
 
 # Áp dụng tiền xử lý
 
 $$
+
+$$
+
 train_data = train_data.map(preprocess_qa, batched=True)
+
+$$
+
 $$
 
 $$
 test_data = test_data.map(preprocess_qa, batched=True)
 $$
 
-### 2.4 Chuyển Đổi Sang TensorFlow
-
-```python
+$$
+### 2.4 Chuyển Đổi Sang TensorFlow ```python
+$$
 
 $$
 tf_train = train_data.to_tf_dataset(
 $$
 
 $$
+
+$$
+
 columns=["input_ids", "attention_mask"],
+
+$$
+
 $$
 
 $$
@@ -143,21 +181,35 @@ label_cols=["labels"],
 $$
 
 $$
+
+$$
+
 batch_size=16,
+
+$$
+
 $$
 
 $$
 shuffle=True
 $$
 
+$$
 )
+$$
 
 $$
 tf_test = test_data.to_tf_dataset(
 $$
 
 $$
+
+$$
+
 columns=["input_ids", "attention_mask"],
+
+$$
+
 $$
 
 $$
@@ -165,7 +217,13 @@ label_cols=["labels"],
 $$
 
 $$
+
+$$
+
 batch_size=16
+
+$$
+
 $$
 
 )
@@ -176,14 +234,26 @@ $$
 # Tải mô hình FLAN-T5-base
 
 $$
+
+$$
+
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+$$
+
 $$
 
 # Freeze các lớp đầu (transfer learning)
 for layer in model.layers[:3]:
 
 $$
+
+$$
+
 layer.trainable = False
+
+$$
+
 $$
 
 print(f"Tổng tham số: {model.count_params() / 1e6:.1f}M")
@@ -195,29 +265,39 @@ print(f"Tổng tham số: {model.count_params() / 1e6:.1f}M")
 model.compile(
 
 $$
+
+$$
+
 optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
+
+$$
+
 $$
 
 $$
 loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 $$
 
-)
-
-# Huấn luyện
-print("Bắt đầu huấn luyện...")
+$$
+) # Huấn luyện print("Bắt đầu huấn luyện...")
+$$
 
 $$
 history = model.fit(
 $$
 
-    tf_train,
+$$
+tf_train,
+$$
 
 $$
 validation_data=tf_test,
 $$
 
-    epochs=3
+$$
+epochs=3
+$$
+
 )
 
 ### 2.7 Đánh Giá với ROUGE
@@ -226,45 +306,83 @@ $$
 # Khởi tạo ROUGE scorer
 
 $$
+
+$$
+
 scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
+
+$$
+
 $$
 
 # Lấy một ví dụ từ test set
 
 $$
+
+$$
+
 batch = next(iter(tf_test))
+
+$$
+
 $$
 
 # Lấy một ví dụ cụ thể
 
 $$
+
+$$
+
 input_ids = batch['input_ids'][0:1]
+
+$$
+
 $$
 
 $$
 label_ids = batch['labels'][0:1]
 $$
 
+$$
 # Generate answer
+$$
 
 $$
 outputs = model.generate(input_ids)
 $$
 
 $$
+
+$$
+
 predicted_answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+$$
+
 $$
 
 # Reference
 
 $$
+
+$$
+
 reference = tokenizer.decode(label_ids[0], skip_special_tokens=True)
+
+$$
+
 $$
 
 # Tính ROUGE
 
 $$
+
+$$
+
 scores = scorer.score(reference, predicted_answer)
+
+$$
+
 $$
 
 print(f"Question: What is the capital of France?")
@@ -318,66 +436,19 @@ Trong SQuAD v2, có những câu hỏi không có câu trả lời. Chúng ta x�
 
 ```python
 # Kiểm tra và xử lý câu trả lời trống
+
+$$
 if len(answer['text']) == 0:
+$$
 
 $$
 answer_text = ""  # Model sẽ học "I don't know"
 $$
 
+$$
 else:
+$$
 
 $$
 answer_text = answer['text'][0]
 $$
-
-Điều này quan trọng để tránh **hallucination** - hiện tượng mô hình tạo ra câu trả lời không có thật.
-
-## 5. Bài Học Rút Ra
-
-### 5.1 Điểm Quan Trọng
-
-1. **Format prompt**: Context + Question + Answer
-2. **Xử lý câu trả lời trống**: Tránh hallucination
-3. **Đánh giá**: ROUGE cho QA
-
-### 5.2 Khuyến Nghị
-
-- Sử dụng FLAN-T5-large để cải thiện kết quả
-- Tăng số lượng dữ liệu huấn luyện
-- Fine-tune nhiều epoch hơn
-
-## 6. Kết Luận
-
-Bài tập này đã hướng dẫn chúng ta cách:
-1. Fine-tune FLAN-T5 cho tác vụ Question Answering
-2. Xử lý dữ liệu SQuAD v2
-3. Áp dụng transfer learning
-4. Đánh giá với ROUGE
-
-Question Answering là một tác vụ quan trọng trong các ứng dụng chatbot và hệ thống hỗ trợ thông minh.
-
-## Tài Liệu Tham Khảo
-
-1. Rajpurkar, P., et al. (2018). "Know What You Don't Know: Unanswerable Questions for SQuAD." *ACL 2018*.
-
-2. Alberti, C., et al. (2019). "Synthetic Data for Natural Language Inference." *EMNLP 2019*.
-
-3. Devlin, J., et al. (2019). "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding." *NAACL 2019*.
-<!-- Aero-Footer-Start -->
-
-## 📄 Tài liệu cùng chuyên mục
-| Bài học | Liên kết |
-| :--- | :--- |
-| [Giải Pháp: Fine-tuning Mô Hình Phân Tích Cảm Xúc](01_solution_fine_tuning_the_sentiment_analysis_model.md) | [Xem bài viết →](01_solution_fine_tuning_the_sentiment_analysis_model.md) |
-| 📌 **[Giải Pháp Fine-tuning Mô Hình Question Answering](02_solution_fine_tuning_the_q_a_model.md)** | [Xem bài viết →](02_solution_fine_tuning_the_q_a_model.md) |
-| [Giải Pháp Fine-tuning Mô Hình Tóm Tắt với LoRA](03_solution_fine_tuning_the_summarization_model.md) | [Xem bài viết →](03_solution_fine_tuning_the_summarization_model.md) |
-| [Demo Tích Hợp Mọi Thứ vào Giải Pháp](04_demo_integrating_everything_into_our_solution.md) | [Xem bài viết →](04_demo_integrating_everything_into_our_solution.md) |
-
----
-## 🤝 Liên hệ & Đóng góp
-Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
-> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
-*Cập nhật tự động bởi Aero-Indexer - 2026*
-<!-- Aero-Footer-End -->

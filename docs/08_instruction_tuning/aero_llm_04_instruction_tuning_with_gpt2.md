@@ -128,7 +128,7 @@ $$
 
 $$
 
-P(X) = $\prod$_{t=1}^{T} P(x_t  \mid  x_{\lt t})
+P(X) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t})
 
 $$
 
@@ -144,7 +144,7 @@ $$
 
 $$
 
-$\mathcal${L} = - \frac{1}{T} $\sum$_{t=1}^{T} y_t $\log$(\hat{y}_t)
+$\mathcal${L} = - \frac{1}{T} $\sum$_{t=1}^{T} $y_t$ $\log$(\hat{y}_t)
 
 $$
 
@@ -217,7 +217,7 @@ $$
 
 $$
 
-PP = \exp($\mathcal${L})
+PP = \exp(\mathcal{L})
 
 $$
 
@@ -231,80 +231,19 @@ Mô hình được đánh giá trên các tập kiểm thử instruction.
 
 ## 7. Thực nghiệm minh họa
 
-Giả sử tập huấn luyện gồm $N=10.000$ mẫu, sau 5 epoch huấn luyện, hàm mất mát hội tụ:
-
+$$
+Giả sử tập huấn luyện gồm N=10.000 mẫu, sau 5 epoch huấn luyện, hàm mất mát hội tụ:
 $$
 
 $$
-
-$\mathcal${L}_{final} $\approx$ 1.95
-
+\mathcal{L}_{final} \approx 1.95
 $$
 
 $$
-
 Tương ứng:
-
 $$
 
 $$
-
-PP $\approx$ e^{1.95} $\approx$ 7.03
-
+PP \approx e^{1.95} \approx 7.03
 $$
 
-$$
-
----
-
-## 8. Hạn chế
-
-* Hiệu năng phụ thuộc mạnh vào dữ liệu
-* Khó mở rộng với dữ liệu lớn
-* Dễ overfitting nếu dữ liệu nhỏ
-
----
-
-## 9. Hướng phát triển
-
-* Kết hợp RLHF
-* Instruction đa ngôn ngữ
-* Huấn luyện phân tán
-* Tối ưu mô hình nhẹ
-
----
-
-## 10. Kết luận
-
-Instruction Tuning giúp GPT-2 chuyển từ mô hình sinh văn bản tổng quát sang mô hình có khả năng tuân thủ yêu cầu người dùng. Việc kết hợp dữ liệu có cấu trúc và tối ưu hóa toán học đóng vai trò then chốt trong nâng cao chất lượng chatbot.
-
----
-
-## Tài liệu tham khảo
-
-1. Radford, A. et al. (2019). Language Models are Unsupervised Multitask Learners.
-2. Brown, T. et al. (2020). Language Models are Few-Shot Learners.
-3. Wei, J. et al. (2022). Finetuned Language Models Are Zero-Shot Learners.
-4. Ouyang, L. et al. (2022). Training Language Models with Human Feedback.
-5. Video: Instruction Tuning with GPT-2 (File đính kèm).
-<!-- Aero-Footer-Start -->
-
-## 📄 Tài liệu cùng chuyên mục
-| Bài học | Liên kết |
-| :--- | :--- |
-| [Instruction Tuning (Tinh Chỉnh Bằng Chỉ Thị) Trong Các Mô Hình Ngôn Ngữ Lớn (LLMs)](aero_llm_01_what_is_instruction_tuning.md) | [Xem bài viết →](aero_llm_01_what_is_instruction_tuning.md) |
-| [Instruction Tuning trong Mô hình Ngôn ngữ Lớn](aero_llm_02_some_datasets_for_instruction_tuning.md) | [Xem bài viết →](aero_llm_02_some_datasets_for_instruction_tuning.md) |
-| [Huấn luyện Chatbot theo Instruction Tuning và Mô hình System–User–Assistant](aero_llm_03_training_a_chatbot_with_system_user_assistant.md) | [Xem bài viết →](aero_llm_03_training_a_chatbot_with_system_user_assistant.md) |
-| 📌 **[Instruction Tuning với GPT-2 trong Huấn luyện Mô hình Ngôn ngữ](aero_llm_04_instruction_tuning_with_gpt2.md)** | [Xem bài viết →](aero_llm_04_instruction_tuning_with_gpt2.md) |
-| [aero llm 05 codechallenge instruction tuning gpt2 large part 1](aero_llm_05_codechallenge_instruction_tuning_gpt2_large_part_1_.md) | [Xem bài viết →](aero_llm_05_codechallenge_instruction_tuning_gpt2_large_part_1_.md) |
-| [Phân tích nâng cao quá trình Instruction Tuning cho GPT-2 Large: Ổn định huấn luyện, động học gradient và tối ưu hoá tính toán](aero_llm_06_codechallenge_instruction_tuning_gpt2_large_part_2_.md) | [Xem bài viết →](aero_llm_06_codechallenge_instruction_tuning_gpt2_large_part_2_.md) |
-| [Reinforcement Learning from Human Feedback (RLHF): Cơ sở lý thuyết, mô hình toán học và ứng dụng trong huấn luyện mô hình ngôn ngữ lớn](aero_llm_07_reinforcement_learning_from_human_feedback_rlhf_.md) | [Xem bài viết →](aero_llm_07_reinforcement_learning_from_human_feedback_rlhf_.md) |
-
----
-## 🤝 Liên hệ & Đóng góp
-Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
-> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
-*Cập nhật tự động bởi Aero-Indexer - 2026*
-<!-- Aero-Footer-End -->

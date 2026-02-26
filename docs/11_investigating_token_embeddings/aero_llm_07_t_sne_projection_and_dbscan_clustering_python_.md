@@ -25,7 +25,10 @@ Nghiên cứu dưới đây sẽ lột trần từng ngóc ngách của quá tr�
 
 ## 1. Gram-Matrix: Bức Tranh Tổng Thể Nội Tại Tiền Mật Độ
 
-Để tránh quá tải thị giác, ta cắt gọn một Ma trận con 100 Tokens đầu tiên $\mathbf{E}_{\text{sub}} \in $\mathbb${R}^{100 \times 768}$ từ GPT-2. 
+$$
+Để tránh quá tải thị giác, ta cắt gọn một Ma trận con 100 Tokens đầu tiên \mathbf{E}_{\text{sub}} \in \mathbb{R}^{100 \times 768} từ GPT-2.
+$$
+
 Lập tức tạo ngay Gram-Matrix $\mathbf{G} = \mathbf{E}_{\text{sub}} \cdot \mathbf{E}_{\text{sub}}^T \in $\mathbb${R}^{100 \times 100}$. Hình ảnh chéo đối xứng phơi bày một trật tự sâu sắc không thể thấy khi nhìn ngang Matrix:
 Các ô chấm vuông đậm đặc xuất hiện liên kết chéo cho các nhóm Tín hiệu đặc thù: (Chữ số Arab, Dấu câu Punctuation, Hệ thống Cấu trúc chữ cái Alphabetical Capital - Lowercase). Gram-Matrix dọn đường trước ranh giới hệ ý niệm.
 

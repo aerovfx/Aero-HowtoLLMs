@@ -50,13 +50,13 @@ Quá trình Instruction Tuning về bản chất vẫn tuân thủ các định 
 
 ### 3.1 Mô hình Xác Suất Tự Hồi Quy (Autoregressive Probability Model)
 
-Khi đầu vào là một chuỗi token $X = (x_1, x_2, ..., x_t)$, mạng mô hình sẽ được huấn luyện để học cách cực đại hóa xác suất có điều kiện của toàn bộ chuỗi:
+Khi đầu vào là một chuỗi token $X = ($x_1$, $x_2$, ..., $x_t$)$, mạng mô hình sẽ được huấn luyện để học cách cực đại hóa xác suất có điều kiện của toàn bộ chuỗi:
 
 $$
 
 $$
 
-P_\theta(X) = $\prod$_{t=1}^{T} P_\theta(x_t \mid x_{\lt t})
+P_\theta(X) = \prod_{t=1}^{T} P_\theta(x_t \mid x_{\lt t})
 
 $$
 
@@ -68,13 +68,13 @@ Trong phương trình thống kê trên:
 
 ### 3.2 Huấn luyện với Hàm Mất Mát Negative Log-Likelihood (NLL)
 
-Trọng tâm của pha Instruction Tuning (SFT - Supervised Fine Tuning), chúng ta chỉ muốn tính toán lỗi trên phạm vi mô hình sinh ra phần phản hồi $Y = (y_1, y_2, ..., y_N)$ khi cho trước biểu thức Chỉ thị $I$. Hàm mục tiêu (Objective function) dựa trên Cross-Entropy Loss được thiết lập lại dưới biểu diễn NLL (Negative Log-Likelihood) để che vạch (masking) phần lệnh gốc:
+Trọng tâm của pha Instruction Tuning (SFT - Supervised Fine Tuning), chúng ta chỉ muốn tính toán lỗi trên phạm vi mô hình sinh ra phần phản hồi $Y = ($y_1$, $y_2$, ..., $y_N$)$ khi cho trước biểu thức Chỉ thị $I$. Hàm mục tiêu (Objective function) dựa trên Cross-Entropy Loss được thiết lập lại dưới biểu diễn NLL (Negative Log-Likelihood) để che vạch (masking) phần lệnh gốc:
 
 $$
 
 $$
 
-$\mathcal${L}_{SFT}(\theta) = - \frac{1}{N} $\sum$_{i=1}^{N} $\log$ P_\theta(y_i \mid I, y_{\lt i})
+$\mathcal${L}_{SFT}(\theta) = - \frac{1}{N} $\sum$_{i=1}^{N} $\log$ P_\theta($y_i$ \mid I, y_{\lt i})
 
 $$
 
@@ -90,13 +90,15 @@ $$
 
 $$
 
-\theta_{k+1} = \theta_k - \eta \cdot $\nabla$_\theta $\mathcal${L}_{SFT}
+\theta_{k+1} = \theta_k - \eta \cdot \nabla_\theta \mathcal{L}_{SFT}
 
 $$
 
 $$
 
-Trong đó, $\eta$ là hệ số tốc độ học (learning rate), và $\nabla_\theta $\mathcal${L}_{SFT}$ biểu trưng cho đạo hàm riêng vi phân của hàm mất mát. 
+$$
+Trong đó, \eta là hệ số tốc độ học (learning rate), và \nabla_\theta \mathcal{L}_{SFT} biểu trưng cho đạo hàm riêng vi phân của hàm mất mát.
+$$
 
 ---
 
@@ -107,7 +109,7 @@ Instruction Tuning (hay còn được định danh là Supervised Fine-Tuning - 
 Khi kết hợp với quy trình RLHF (điển hình bằng thuật toán PPO), hàm tối ưu của mô hình sẽ trải qua quá trình Regularization với $Kullback–Leibler (KL) divergence$ nhằm tránh việc mô hình suy sụp hoàn toàn hình dáng vốn có (mode collapse) so với bản chuẩn Instruction Tuning ban đầu:
 
 $$
-$\mathcal${L}_{RL} = $\mathbb${E}_{x \sim \pi_\theta}[R(x, y)] - \beta D_{KL}(\pi_\theta \mid \mid \pi_{ref})
+\mathcal{L}_{RL} = \mathbb{E}_{x \sim \pi_\theta}[R(x, y)] - \beta D_{KL}(\pi_\theta \mid \mid \pi_{ref})
 $$
 
 Tham số ràng buộc $\pi_{ref}$ ở đây chính là bộ khung mô hình được giải xuất ra từ việc chắt lọc qua Instruction Tuning. KL Divergence ép mô hình duy trì sự linh hoạt tri thức nền của SFT trong lúc dần hội tụ lại với hàng rào an toàn cực hình do môi trường con người định ra.

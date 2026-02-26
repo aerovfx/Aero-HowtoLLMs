@@ -47,7 +47,7 @@ $$
 
 $$
 
-r^2_i = $\le$ft( \frac{\sigma_i^2}{$\sum$_{j} \sigma_j^2} \right) \times 100\%
+r^2_i = \left( \frac{\sigma_i^2}{\sum_{j} \sigma_j^2} \right) \times 100\%
 
 $$
 

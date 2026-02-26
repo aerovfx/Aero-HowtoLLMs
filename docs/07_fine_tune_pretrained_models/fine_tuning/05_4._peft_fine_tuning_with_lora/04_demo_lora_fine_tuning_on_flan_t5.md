@@ -43,11 +43,21 @@ Chúng ta tải tokenizer của mô hình:
 
 ```python
 class LoraLayer(tf.keras.layers.Layer):
-    def __init__(self, rank=8, **kwargs):
+
+$$
+def __init__(self, rank=8, **kwargs):
+$$
+
         super().__init__(**kwargs)
 
 $$
+
+$$
+
 self.rank = rank
+
+$$
+
 $$
 
         
@@ -55,35 +65,65 @@ $$
         # Tạo ma trận A và B
 
 $$
+
+$$
+
 self.A = self.add_weight(
-$$
-
-            name="A",
-            shape=(shape[0], self.rank),
 
 $$
+
+$$
+
+name="A",
+
+$$
+
+$$
+
+shape=(shape[0], self.rank),
+
+$$
+
+$$
+
 initializer="random_normal",
+
+$$
+
 $$
 
 $$
 trainable=True
 $$
 
-        )
+$$
+)
+$$
 
 $$
 self.B = self.add_weight(
 $$
 
-            name="B", 
-            shape=(self.rank, shape[1]),
+$$
+name="B",
+$$
+
+$$
+shape=(self.rank, shape[1]),
+$$
 
 $$
 initializer="random_normal",
 $$
 
 $$
+
+$$
+
 trainable=True
+
+$$
+
 $$
 
         )
