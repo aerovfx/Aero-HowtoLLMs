@@ -229,14 +229,11 @@ print(f"Average BLEU Score: {avg_bleu:.4f}")
 ### 4.2 Hiệu Suất Tương Đối
 
 $$
-
 \text{Efficiency Gain} = \frac{\text{Time}_{Full}}{\text{Time}_{LoRA}} \approx 10x
-
 $$
 
 $$
 \text{Parameter Reduction} = \frac{247M - 16M}{247M} \approx 93\%
-
 $$
 
 ## 5. Bài Học Rút Ra

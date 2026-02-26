@@ -34,14 +34,11 @@ Fine-tuning truyền thống yêu cầu:
 LoRA giới thiệu ma trận hạng thấp (low-rank matrices) để thay thế việc cập nhật trực tiếp các weights:
 
 $$
-
 W_{new} = W_{original} + \Delta W
-
 $$
 
 $$
 \Delta W = A \times B
-
 $$
 
 Trong đó:
@@ -180,9 +177,7 @@ model.fit(tf_train, epochs=3)
 ### 4.2 Công Thức Tính Tham Số LoRA
 
 $$
-
 \text{Params}_{LoRA} = 2 \times d \times r
-
 $$
 
 Trong đó:

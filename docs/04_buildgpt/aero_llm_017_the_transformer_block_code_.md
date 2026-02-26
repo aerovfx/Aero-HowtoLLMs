@@ -51,14 +51,11 @@ Bài viết này nhằm:
 Một Transformer Block dạng Pre-LayerNorm gồm hai sublayer:
 
 $$
-
 Y_1 = X + \text{Attention}(\text{LN}(X))
-
 $$
 
 $$
 Y_2 = Y_1 + \text{MLP}(\text{LN}(Y_1))
-
 $$
 
 Trong đó:
@@ -134,19 +131,15 @@ X → LN → Attention → +X
 MLP gồm ba bước:
 
 $$
-
 H = \text{LN}(Y_1)
-
 $$
 
 $$
 Z = W_2(\sigma(W_1 H))
-
 $$
 
 $$
 Y_2 = Y_1 + Z
-
 $$
 
 Trong đó:
@@ -219,9 +212,7 @@ Attention head xử lý toàn bộ embedding dimension trong phiên bản đơn 
 Multi-head attention chia embedding thành nhiều phần:
 
 $$
-
 d_{head} = \frac{d_{model}}{h}
-
 $$
 
 Mỗi head học một không gian quan hệ riêng.
@@ -252,9 +243,7 @@ Ví dụ thực nghiệm:
 Tensor đầu vào:
 
 $$
-
 (5, 8, 128)
-
 $$
 
 ---
@@ -264,9 +253,7 @@ $$
 Qua mỗi block, kích thước được bảo toàn:
 
 $$
-
 (B, T, D) \rightarrow (B, T, D)
-
 $$
 
 Đảm bảo khả năng xếp chồng nhiều layer.

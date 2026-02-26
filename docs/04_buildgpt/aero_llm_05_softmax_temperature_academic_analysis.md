@@ -112,17 +112,13 @@ Bài viết được tổ chức như sau:
 **Hằng số Euler:**
 
 $$
-
 e = 2.71828182845904523536\ldots
-
 $$
 
 **Hàm exponential:**
 
 $$
-
 f(x) = e^x
-
 $$
 
 **Tính chất quan trọng cho Softmax:**
@@ -130,9 +126,7 @@ $$
 **Property 1: Strict Positivity**
 
 $$
-
 e^x > 0 \quad \forall x \in \mathbb{R}
-
 $$
 
 **Ý nghĩa:**
@@ -143,9 +137,7 @@ $$
 **Property 2: Non-linear Growth**
 
 $$
-
 \frac{d}{dx}e^x = e^x
-
 $$
 
 **Hành vi:**
@@ -196,9 +188,7 @@ plt.grid(True, alpha=0.3)
 **Mathematical definition:**
 
 $$
-
 \sigma(\mathbf{z})_i = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
-
 $$
 
 Trong đó:
@@ -209,9 +199,7 @@ Trong đó:
 **Vectorized form:**
 
 $$
-
 \sigma(\mathbf{z}) = \frac{\exp(\mathbf{z})}{\sum \exp(\mathbf{z})}
-
 $$
 
 **NumPy implementation:**
@@ -234,41 +222,31 @@ def softmax(z):
 **Input (logits):**
 
 $$
-
 \mathbf{z} = [2.0, 1.0, 0.1]
-
 $$
 
 **Step 1: Exponentiate**
 
 $$
-
 \exp(\mathbf{z}) = [e^{2.0}, e^{1.0}, e^{0.1}] = [7.39, 2.72, 1.11]
-
 $$
 
 **Step 2: Sum**
 
 $$
-
 \text{sum} = 7.39 + 2.72 + 1.11 = 11.22
-
 $$
 
 **Step 3: Normalize**
 
 $$
-
 \sigma(\mathbf{z}) = \left[\frac{7.39}{11.22}, \frac{2.72}{11.22}, \frac{1.11}{11.22}\right] = [0.659, 0.242, 0.099]
-
 $$
 
 **Verification:**
 
 $$
-
 0.659 + 0.242 + 0.099 = 1.000 \quad \checkmark
-
 $$
 
 ### 2.3 Softmax như Probability Distribution
@@ -281,9 +259,7 @@ Một hàm $P(X)$ là probability function nếu thỏa mãn hai điều kiện:
 **Condition 1: Non-negativity**
 
 $$
-
 P(x) \geq 0 \quad \forall x
-
 $$
 
 **Condition 2: Normalization**
@@ -291,17 +267,13 @@ $$
 Cho discrete events:
 
 $$
-
 \sum_{x} P(x) = 1
-
 $$
 
 Cho continuous events:
 
 $$
-
 \int_{-\infty}^{\infty} P(x) \, dx = 1
-
 $$
 
 #### 2.3.2 Softmax Thỏa Mãn Probability Axioms
@@ -320,25 +292,19 @@ Cho bất kỳ $z_i \in \mathbb{R}$:
 **Part 2: Normalization**
 
 $$
-
 \sum_{i=1}^K \sigma(\mathbf{z})_i = \sum_{i=1}^K \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}
-
 $$
 
 Factor out constant denominator:
 
 $$
-
 = \frac{1}{\sum_{j=1}^K e^{z_j}} \sum_{i=1}^K e^{z_i}
-
 $$
 
 Numerator equals denominator:
 
 $$
-
 = \frac{\sum_{i=1}^K e^{z_i}}{\sum_{j=1}^K e^{z_j}} = 1
-
 $$
 
 ✓
@@ -367,9 +333,7 @@ Probabilities:            [0.0001, 0.0336, 0.0017, 0.9645, 0.0002]
 **Softmax with temperature parameter $T$:**
 
 $$
-
 \sigma_T(\mathbf{z})_i = \frac{e^{z_i/T}}{\sum_{j=1}^{K} e^{z_j/T}} = \frac{\exp(z_i/T)}{\sum_{j=1}^K \exp(z_j/T)}
-
 $$
 
 **Notation:**
@@ -380,18 +344,14 @@ $$
 Khi exponent phức tạp, sử dụng $\exp(\cdot)$ thay vì $e^{(\cdot)}$:
 
 $$
-
 \sigma_T(\mathbf{z})_i = \frac{\exp(z_i/T)}{\sum_j \exp(z_j/T)}
-
 $$
 
 #### 3.1.2 Behavior với Different Temperature Values
 **Case 1: T = 1 (Standard)**
 
 $$
-
 \sigma_1(\mathbf{z}) = \frac{e^{z_i}}{\sum_j e^{z_j}}
-
 $$
 
 - Normal Softmax
@@ -399,9 +359,7 @@ $$
 **Case 2: T > 1 (High Temperature)**
 
 $$
-
 \sigma_T(\mathbf{z}) = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}} \quad \text{with } T > 1
-
 $$
 
 **Effect:**
@@ -412,9 +370,7 @@ $$
 **Case 3: T < 1 (Low Temperature)**
 
 $$
-
 \sigma_T(\mathbf{z}) = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}} \quad \text{with } T < 1
-
 $$
 
 **Effect:**
@@ -425,9 +381,7 @@ $$
 **Case 4: T → 0 (Zero Temperature Limit)**
 
 $$
-
 \lim_{T \to 0} \sigma_T(\mathbf{z}) = \text{one-hot}(\arg\max \mathbf{z})
-
 $$
 
 **Effect:**
@@ -437,9 +391,7 @@ $$
 **Case 5: T → ∞ (Infinite Temperature Limit)**
 
 $$
-
 \lim_{T \to \infty} \sigma_T(\mathbf{z}) = \text{uniform}(K)
-
 $$
 
 **Effect:**
@@ -586,25 +538,19 @@ probs_high = softmax(logits / 10)
 **Log-Softmax:**
 
 $$
-
 \log \sigma(\mathbf{z})_i = \log \left( \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}} \right)
-
 $$
 
 **Simplified using log properties:**
 
 $$
-
 \log \sigma(\mathbf{z})_i = z_i - \log \sum_{j=1}^K e^{z_j}
-
 $$
 
 **Với temperature:**
 
 $$
-
 \log \sigma_T(\mathbf{z})_i = \frac{z_i}{T} - \log \sum_{j=1}^K e^{z_j/T}
-
 $$
 
 **Alternative name:** Log-probabilities
@@ -630,42 +576,33 @@ grad = prob * (1 - prob)  # → 0 if prob ≈ 0
 **Log transformation properties:**
 
 $$
-
 \log(0.1) = -2.3
-
 $$
 
 $$
 \log(0.01) = -4.6
-
 $$
 
 $$
 \log(0.001) = -6.9
-
 $$
 
 $$
 \log(10^{-8}) = -18.4
-
 $$
 
 **Visual effect:**
 Linear scale:
 
 $$
-
 0.001, 0.01, 0.1
-
 $$
 
 |____|____|____
 Log scale:
 
 $$
-
 -6.9, -4.6, -2.3
-
 $$
 
 |______|______|
@@ -679,17 +616,13 @@ $$
 **Property 1:** $\log(a/b) = \log(a) - \log(b)$
 
 $$
-
 \log \sigma(\mathbf{z})_i = \log(e^{z_i}) - \log\left(\sum_j e^{z_j}\right)
-
 $$
 
 **Property 2:** $\log(e^x) = x$
 
 $$
-
 = z_i - \log\left(\sum_j e^{z_j}\right)
-
 $$
 
 **Interpretation:**
@@ -699,17 +632,13 @@ $$
 **Softmax output range:**
 
 $$
-
 \sigma(\mathbf{z})_i \in (0, 1]
-
 $$
 
 **Log-Softmax output range:**
 
 $$
-
 \log \sigma(\mathbf{z})_i \in (-\infty, 0]
-
 $$
 
 **Relationship:**
@@ -779,22 +708,17 @@ log_probs = np.log(probs)  # → [-inf, -1000, 0]
 **Better approach:**
 
 $$
-
 \log \sigma(\mathbf{z})_i = z_i - \log \sum_{j=1}^K e^{z_j}
-
 $$
 
 **Further stabilization (LogSumExp trick):**
 
 $$
-
 \log \sum_{j=1}^K e^{z_j} = \log \left( e^{z_{\max}} \sum_{j=1}^K e^{z_j - z_{\max}} \right)
-
 $$
 
 $$
 = z_{\max} + \log \sum_{j=1}^K e^{z_j - z_{\max}}
-
 $$
 
 **Stable implementation:**
@@ -1099,9 +1023,7 @@ top_p = 1.0
 **Cross-entropy với Softmax:**
 
 $$
-
 \mathcal{L} = -\sum_{i=1}^K y_i \log(\sigma(\mathbf{z})_i)
-
 $$
 
 Trong đó:
@@ -1110,9 +1032,7 @@ Trong đó:
 **Với Log-Softmax:**
 
 $$
-
 \mathcal{L} = -\sum_{i=1}^K y_i \cdot \log\sigma(\mathbf{z})_i
-
 $$
 
 **PyTorch implementation:**
@@ -1132,9 +1052,7 @@ loss = F.cross_entropy(logits, targets)
 **Softmax gradient:**
 
 $$
-
 \frac{\partial \sigma_i}{\partial z_j} = \sigma_i(\delta_{ij} - \sigma_j)
-
 $$
 
 Trong đó $\delta_{ij}$ là Kronecker delta.
@@ -1148,9 +1066,7 @@ Trong đó $\delta_{ij}$ là Kronecker delta.
 **Formula:**
 
 $$
-
 \text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right) \mathbf{V}
-
 $$
 
 **Softmax role:**
@@ -1307,9 +1223,7 @@ def validate_temperature(logits, T):
 **Reparameterization trick cho discrete sampling:**
 
 $$
-
 \text{Gumbel-Softmax}(\mathbf{z}, \tau)_i = \frac{\exp((z_i + g_i)/\tau)}{\sum_j \exp((z_j + g_j)/\tau)}
-
 $$
 
 Trong đó $g_i \sim \text{Gumbel}(0,1)$
@@ -1318,9 +1232,7 @@ Trong đó $g_i \sim \text{Gumbel}(0,1)$
 **Alternative to Softmax cho sparse outputs:**
 
 $$
-
 \text{sparsemax}(\mathbf{z}) = \arg\min_{\mathbf{p} \in \Delta^{K-1}} \|\mathbf{p} - \mathbf{z}\|^2
-
 $$
 
 **Property:** Can produce exactly 0 probabilities
@@ -1711,107 +1623,83 @@ if __name__ == "__main__":
 **Setup:**
 
 $$
-
 \sigma_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
-
 $$
 
 **Derivative w.r.t. $z_j$:**
 **Case 1: $i = j$**
 
 $$
-
 \frac{\partial \sigma_i}{\partial z_i} = \frac{e^{z_i} \sum_k e^{z_k} - e^{z_i} \cdot e^{z_i}}{(\sum_k e^{z_k})^2}
-
 $$
 
 $$
 = \frac{e^{z_i}}{\sum_k e^{z_k}} \cdot \frac{\sum_k e^{z_k} - e^{z_i}}{\sum_k e^{z_k}}
-
 $$
 
 $$
 = \sigma_i (1 - \sigma_i)
-
 $$
 
 **Case 2: $i \neq j$**
 
 $$
-
 \frac{\partial \sigma_i}{\partial z_j} = \frac{0 \cdot \sum_k e^{z_k} - e^{z_i} \cdot e^{z_j}}{(\sum_k e^{z_k})^2}
-
 $$
 
 $$
 = -\frac{e^{z_i}}{\sum_k e^{z_k}} \cdot \frac{e^{z_j}}{\sum_k e^{z_k}}
-
 $$
 
 $$
 = -\sigma_i \sigma_j
-
 $$
 
 **Unified form:**
 
 $$
-
 \frac{\partial \sigma_i}{\partial z_j} = \sigma_i(\delta_{ij} - \sigma_j)
-
 $$
 
 Trong đó $\delta_{ij}$ là Kronecker delta:
 
 $$
-
 \delta_{ij} = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}
-
 $$
 
 ### B.2 Cross-Entropy Loss Gradient
 **Loss function:**
 
 $$
-
 \mathcal{L} = -\sum_i y_i \log \sigma_i
-
 $$
 
 **Gradient w.r.t. logit $z_j$:**
 
 $$
-
 \frac{\partial \mathcal{L}}{\partial z_j} = -\sum_i y_i \frac{\partial \log \sigma_i}{\partial z_j}
-
 $$
 
 $$
 = -\sum_i y_i \frac{1}{\sigma_i} \frac{\partial \sigma_i}{\partial z_j}
-
 $$
 
 $$
 = -\sum_i y_i \frac{1}{\sigma_i} \sigma_i(\delta_{ij} - \sigma_j)
-
 $$
 
 $$
 = -\sum_i y_i (\delta_{ij} - \sigma_j)
-
 $$
 
 $$
 = -y_j + \sigma_j \sum_i y_i
-
 $$
 
 Vì $\sum_i y_i = 1$ (one-hot):
 
 $$
-
 = \sigma_j - y_j
-
 $$
 
 **Result:**
@@ -1820,21 +1708,13 @@ $$
 **With temperature:**
 
 $$
-
 \sigma_T(z_i) = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
-
 $$
 
 **Derivative w.r.t. T:**
 
 $$
-
 \frac{\partial \sigma_T}{\partial T} = -\frac{1}{T^2} \left( \frac{z_i e^{z_i/T}}{\sum_j e^{z_j/T}} - \frac{e^{z_i/T} \sum_j z_j e^{z_j/T}}{(\sum_j e^{z_j/T})^2} \right)
-
 $$
 
 After simplification:
-
-$$
-
-= -\frac{1}{T^2} \sigma_T(z_i) (z_i - \mathbb{E}_{z \sim \sigma_T}[z])

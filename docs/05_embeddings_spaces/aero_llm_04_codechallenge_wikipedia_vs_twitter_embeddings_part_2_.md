@@ -27,9 +27,7 @@ Trong nghiên cứu xử lý ngôn ngữ tự nhiên (NLP), các mô hình embed
 Word embedding ánh xạ mỗi từ $w$ vào một vector $\mathbf{v}_w \in \mathbb{R}^d$, trong đó:
 
 $$
-
 f: w \rightarrow \mathbf{v}_w
-
 $$
 
 với $d$ là số chiều của không gian nhúng.
@@ -37,14 +35,11 @@ với $d$ là số chiều của không gian nhúng.
 Khi hai mô hình embedding được huấn luyện trên hai tập dữ liệu khác nhau (ví dụ: văn bản bách khoa và tweet ngắn), ta có:
 
 $$
-
 f_{wiki}(w) = \mathbf{v}_w^{(wiki)}
-
 $$
 
 $$
 f_{twitter}(w) = \mathbf{v}_w^{(twitter)}
-
 $$
 
 Do khác biệt về miền dữ liệu và phân bố ngôn ngữ, các vector thu được không thể so sánh trực tiếp từng chiều.
@@ -56,9 +51,7 @@ Do khác biệt về miền dữ liệu và phân bố ngôn ngữ, các vector 
 Để đo mức độ tương đồng giữa hai từ $w_i$ và $w_j$ trong cùng một mô hình, ta sử dụng **cosine similarity**:
 
 $$
-
 \text{cosine}(\mathbf{v}_i, \mathbf{v}_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
-
 $$
 
 Trong đó:
@@ -67,17 +60,13 @@ Trong đó:
 - $\|\mathbf{v}_i\|$ là chuẩn Euclid:
 
 $$
-
 \|\mathbf{v}_i\| = \sqrt{\sum_{k=1}^{d} v_{ik}^2}
-
 $$
 
 Cosine similarity nằm trong khoảng:
 
 $$
-
 -1 \leq \text{cosine} \leq 1
-
 $$
 
 Quan sát thực nghiệm cho thấy trong một số cặp từ, embedding từ Twitter cho giá trị cosine cao hơn so với embedding từ Wikipedia, phản ánh tính ngữ cảnh gần gũi hơn trong văn bản mạng xã hội.
@@ -89,9 +78,7 @@ Quan sát thực nghiệm cho thấy trong một số cặp từ, embedding từ
 Mặc dù có thể so sánh cosine similarity trong *cùng một mô hình*, ta không thể so sánh trực tiếp:
 
 $$
-
 \mathbf{v}_w^{(wiki)} \neq \mathbf{v}_w^{(twitter)}
-
 $$
 
 Lý do:
@@ -103,9 +90,7 @@ Lý do:
 Giả sử tồn tại một ma trận quay trực giao $\mathbf{R}$:
 
 $$
-
 \mathbf{v}_w^{(twitter)} \approx \mathbf{R} \mathbf{v}_w^{(wiki)}
-
 $$
 
 Khi đó, tọa độ khác nhau nhưng cấu trúc tương đối có thể vẫn được bảo toàn.
@@ -125,17 +110,13 @@ Giả sử ta có tập $n$ từ trong câu:
 Ta xây dựng ma trận tương đồng $S \in \mathbb{R}^{n \times n}$:
 
 $$
-
 S_{ij} = \text{cosine}(\mathbf{v}_i, \mathbf{v}_j)
-
 $$
 
 Ta có:
 
 $$
-
 S^{(wiki)} \quad \text{và} \quad S^{(twitter)}
-
 $$
 
 ---
@@ -145,17 +126,13 @@ $$
 Ta vector hóa phần tam giác trên (không tính đường chéo):
 
 $$
-
 \mathbf{s}^{(wiki)}, \quad \mathbf{s}^{(twitter)}
-
 $$
 
 Sau đó tính hệ số tương quan Pearson:
 
 $$
-
 r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})} {\sqrt{\sum (x_i - \bar{x})^2} \sqrt{\sum (y_i - \bar{y})^2}}
-
 $$
 
 Nếu:
@@ -173,14 +150,11 @@ Nếu:
 Với mỗi từ $w$ trong câu:
 
 $$
-
 \text{index}_{wiki}(w)
-
 $$
 
 $$
 \text{index}_{twitter}(w)
-
 $$
 
 Lưu ý: Một số từ có thể không xuất hiện (ví dụ: chữ hoa “The”).
@@ -190,14 +164,11 @@ Lưu ý: Một số từ có thể không xuất hiện (ví dụ: chữ hoa “
 ### Bước 2: Trích xuất embedding
 
 $$
-
 \mathbf{v}_w^{(wiki)} = E^{(wiki)}[\text{index}(w)]
-
 $$
 
 $$
 \mathbf{v}_w^{(twitter)} = E^{(twitter)}[\text{index}(w)]
-
 $$
 
 ---
@@ -205,9 +176,7 @@ $$
 ### Bước 3: Tính ma trận tương đồng
 
 $$
-
 S^{(model)}_{ij} = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
-
 $$
 
 ---
@@ -215,9 +184,7 @@ $$
 ### Bước 4: Tính tương quan giữa hai ma trận
 
 $$
-
 \text{RSA score} = \text{corr}(\mathbf{s}^{(wiki)}, \mathbf{s}^{(twitter)})
-
 $$
 
 ---
@@ -256,9 +223,7 @@ So sánh embedding giữa Wikipedia và Twitter không thể thực hiện bằn
 Về mặt toán học:
 
 $$
-
 \text{So sánh trực tiếp vector} \neq \text{So sánh cấu trúc quan hệ}
-
 $$
 
 RSA cung cấp một khung lý thuyết mạnh mẽ để nghiên cứu tính ổn định và khả năng chuyển giao của biểu diễn học sâu trong NLP.

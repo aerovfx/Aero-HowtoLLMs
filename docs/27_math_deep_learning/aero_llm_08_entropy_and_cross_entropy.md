@@ -44,9 +44,7 @@ Cross-Entropy là công cụ để so sánh hai phân phối xác suất khác n
 Đối với các bài toán phân loại nhị phân (có/không, mèo/chó), công thức Cross-Entropy được đơn giản hóa thành:
 
 $$
-
 BCE = -[p \log(q) + (1-p) \log(1-q)]
-
 $$
 
 Trong thực tế học sâu, vì $p$ thường chỉ bằng 0 hoặc 1, công thức này lại càng đơn giản hơn: nó chỉ đơn thuần là giá trị âm logarit của xác suất mà mô hình gán cho lớp đúng. Nếu mô hình càng tự tin vào lớp đúng, giá trị mất mát (loss) càng nhỏ.

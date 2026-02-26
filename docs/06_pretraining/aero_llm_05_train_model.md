@@ -56,27 +56,21 @@ Cấu trúc này mô phỏng phiên bản tối giản của mô hình ngôn ng�
 Trong quá trình lan truyền thuận, dữ liệu được xử lý theo công thức:
 
 $$
-
 X_{emb} = Embedding(X)
-
 $$
 
 $$
 H = GELU(X_{emb})
-
 $$
 
 $$
 Z = Unembedding(H)
-
 $$
 
 Sau đó, log-softmax được áp dụng để tạo phân phối xác suất:
 
 $$
-
 P = \log(\text{softmax}(Z))
-
 $$
 
 Việc xuất log-softmax giúp tương thích với hàm mất mát Negative Log-Likelihood. 
@@ -101,9 +95,7 @@ Tập dữ liệu gồm:
 Mỗi mẫu dữ liệu có dạng:
 
 $$
-
 (X_1, X_2, ..., X_8) \rightarrow (X_2, X_3, ..., X_9)
-
 $$
 
 Cách tiếp cận này phù hợp với bài toán dự đoán token tiếp theo.
@@ -131,9 +123,7 @@ Các tham số chính:
 Hàm mất mát được sử dụng là NLLLoss:
 
 $$
-
 L = - \log P(y|x)
-
 $$
 
 Hàm này yêu cầu đầu vào là log-softmax.
@@ -156,14 +146,11 @@ PyTorch yêu cầu tensor 2D cho loss. Do đó, dữ liệu cần được resha
 Giải pháp:
 
 $$
-
 Output \rightarrow (B \cdot T) \times V
-
 $$
 
 $$
 Target \rightarrow (B \cdot T)
-
 $$
 
 Cách làm này cho phép tính loss trên toàn bộ chuỗi.
@@ -183,9 +170,7 @@ Mô hình và dữ liệu được chuyển sang GPU nhằm tăng tốc tính to
 Thuật toán AdamW được sử dụng với weight decay = 0.01:
 
 $$
-
 \theta_{t+1} = \theta_t - \eta \hat{g}_t - \eta \lambda \theta_t
-
 $$
 
 AdamW giúp ổn định quá trình huấn luyện.
@@ -225,9 +210,7 @@ Mô hình sinh token bằng phương pháp sampling:
 Do mô hình xuất log-softmax, cần nghịch đảo bằng hàm mũ:
 
 $$
-
 P = e^{\log p}
-
 $$
 
 Điều này đảm bảo xác suất hợp lệ.
@@ -247,9 +230,7 @@ Mô hình học được token `\r` (carriage return), gây ghi đè khi in ra m
 Loss ban đầu khoảng 11, tương ứng với dự đoán ngẫu nhiên:
 
 $$
-
 L_{random} \approx -\log\left(\frac{1}{V}\right)
-
 $$
 
 Với $V \approx 50,000$, ta có $L \approx 10.8$. 

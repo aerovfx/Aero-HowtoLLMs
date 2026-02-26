@@ -45,9 +45,7 @@ Mục tiêu của bài báo là phân tích có hệ thống các kỹ thuật n
 Trong GPT, mỗi token được ánh xạ thành vector thông qua embedding:
 
 $$
-
 E_{tok} \in \mathbb{R}^{V \times d}
-
 $$
 
 với $V$ là kích thước từ vựng, $d$ là chiều embedding.
@@ -55,9 +53,7 @@ với $V$ là kích thước từ vựng, $d$ là chiều embedding.
 Position embedding được định nghĩa:
 
 $$
-
 E_{pos} \in \mathbb{R}^{L \times d}
-
 $$
 
 với $L$ là độ dài chuỗi tối đa.
@@ -65,9 +61,7 @@ với $L$ là độ dài chuỗi tối đa.
 Biểu diễn đầu vào:
 
 $$
-
 X = E_{tok}(w_i) + E_{pos}(i)
-
 $$
 
 Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự mà không cần kiến trúc hồi quy.
@@ -79,14 +73,11 @@ Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự 
 Layer normalization chuẩn hóa theo chiều embedding:
 
 $$
-
 \hat{x} = \frac{x - \mu}{\sigma + \epsilon}
-
 $$
 
 $$
 y = \gamma \hat{x} + \beta
-
 $$
 
 Trong đó $\mu, \sigma$ được tính theo từng token.
@@ -104,9 +95,7 @@ Tác dụng chính:
 Weight tying ràng buộc:
 
 $$
-
 W_{out} = E_{tok}^T
-
 $$
 
 Trong đó $W_{out}$ là ma trận unembedding.
@@ -126,9 +115,7 @@ Trong đó $W_{out}$ là ma trận unembedding.
 Logits cuối cùng được chuẩn hóa:
 
 $$
-
 z' = \frac{z}{\sqrt{d}}
-
 $$
 
 Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với giả thuyết lý thuyết.
@@ -138,9 +125,7 @@ Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với
 Trong suy luận:
 
 $$
-
 p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
-
 $$
 
 - $T < 1$: sinh văn bản quyết định hơn,
@@ -188,9 +173,7 @@ Scaled Logits
 Loss lý thuyết của mô hình ngẫu nhiên:
 
 $$
-
 \mathcal{L}_{theory} = \log(V)
-
 $$
 
 với (V) là vocab size.
@@ -760,25 +743,19 @@ Với:
 Chi phí forward:
 
 $$
-
 O(L \cdot T^2 \cdot d)
-
 $$
 
 Bộ nhớ:
 
 $$
-
 O(L \cdot T \cdot d)
-
 $$
 
 Khi dùng KV-cache:
 
 $$
-
 O(L \cdot T \cdot d)
-
 $$
 
 ---

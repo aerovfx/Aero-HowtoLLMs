@@ -46,14 +46,11 @@ Mỗi block Transformer gồm hai thành phần chính:
 Đầu ra của một block:
 
 $$
-
 h' = \text{LayerNorm}(x + \text{MSA}(x))
-
 $$
 
 $$
 y = \text{LayerNorm}(h' + \text{MLP}(h'))
-
 $$
 
 ---
@@ -63,17 +60,13 @@ $$
 Khi đóng băng một lớp, chúng ta đặt thuộc tính:
 
 $$
-
 \text{requires\_grad} = \text{False}
-
 $$
 
 Điều này dẫn đến việc bỏ qua tính toán gradient cho các tham số đó trong quá trình lan truyền ngược (backpropagation):
 
 $$
-
 \frac{\partial \mathcal{L}}{\partial W_{attention}} = 0
-
 $$
 
 ---
@@ -83,9 +76,7 @@ $$
 Nếu gọi $P_{total}$ là tổng tham số và $P_{trainable}$ là tham số được cập nhật:
 
 $$
-
 R = \frac{P_{trainable}}{P_{total}}
-
 $$
 
 Trong bài toán đóng băng Attention, tỷ lệ này thường dao động quanh mức 0.5 (tương đương 50% tham số), giúp tiết kiệm đáng kể tài nguyên GPU.
@@ -131,9 +122,7 @@ Theo dữ liệu từ , kết quả thống kê cho thấy:
 Mặc dù đóng băng một phần quan trọng của mô hình, đồ thị hàm mất mát ($\mathcal{L}$) vẫn cho thấy xu hướng giảm ổn định:
 
 $$
-
 \lim_{t \to \infty} \mathcal{L}(t) = \mathcal{L}_{min}
-
 $$
 
 Đặc biệt, việc đóng băng Attention giúp giảm hiện tượng "catastrophic forgetting" (quên kiến thức cũ), vì các cấu trúc ngôn ngữ cơ bản trong Attention được giữ nguyên.

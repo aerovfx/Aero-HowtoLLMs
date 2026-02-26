@@ -44,9 +44,7 @@ Trước khi thực hiện đồng bộ RSA, mỗi phương trình Cosine Simila
 Phương trình tạo Mask $S_{idx}$ là nhân chéo Vector các ID nhãn nhóm. Sau đó, công thức CSI được xác định:
 
 $$
-
 CSI = \frac{\text{Mean}(S_{\text{within-categories}})}{\text{Mean}(S_{\text{between-categories}})}
-
 $$
 
 Trong đó:

@@ -62,9 +62,7 @@ Embedding từ mô hình tiền huấn luyện chứa thông tin ngữ nghĩa v�
 Embedding ánh xạ token rời rạc sang vector liên tục:
 
 $$
-
 E: V \rightarrow \mathbb{R}^d
-
 $$
 
 Trong đó:
@@ -130,9 +128,7 @@ Việc sử dụng `.data` giúp loại bỏ thông tin gradient và metadata.
 Để kiểm tra quá trình copy, hai embedding được trừ cho nhau:
 
 $$
-
 \Delta = E_{model1} - E_{GPT2}
-
 $$
 
 Nếu $\Delta = 0$, việc sao chép thành công. 
@@ -175,9 +171,7 @@ model.embedding.weight.requires_grad = True
 Optimizer sử dụng là AdamW, với khả năng kiểm soát regularization tốt hơn Adam.
 
 $$
-
 \theta_{t+1} = \theta_t - \eta \hat{g}_t - \eta \lambda \theta_t
-
 $$
 
 ---

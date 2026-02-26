@@ -48,9 +48,7 @@ Mục tiêu của bài báo này là:
 Đầu vào của mô hình là chuỗi token được ánh xạ thành embedding:
 
 $$
-
 X = E_{token} + E_{pos}
-
 $$
 
 Trong đó:
@@ -67,9 +65,7 @@ Position embedding cho phép mô hình nhận biết thứ tự chuỗi.
 Attention trong mô hình được định nghĩa:
 
 $$
-
 \text{Attention}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-
 $$
 
 Trong đó:
@@ -87,9 +83,7 @@ Hệ số $\sqrt{d}$ giúp ổn định giá trị softmax.
 Mô hình sử dụng causal mask để đảm bảo tính tự hồi quy:
 
 $$
-
 M_{ij}= \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
-
 $$
 
 Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-\infty$. 
@@ -101,17 +95,13 @@ Mask được áp dụng bằng cách thay thế các phần tử bị che bởi
 Trước attention, dữ liệu được chuẩn hóa:
 
 $$
-
 \hat{X}=\text{LayerNorm}(X)
-
 $$
 
 Sau đó, đầu ra attention được cộng trở lại:
 
 $$
-
 Y = X + \text{Attention}(\hat{X})
-
 $$
 
 Cấu trúc residual giúp:
@@ -144,9 +134,7 @@ Unembedding được chia sẻ trọng số với embedding (weight tying).
 Các ma trận trọng số:
 
 $$
-
 W_Q, W_K, W_V, W_0 \in \mathbb{R}^{d \times d}
-
 $$
 
 Không sử dụng bias cho QKV, do LayerNorm đã xử lý dịch chuyển phân phối. 
@@ -231,9 +219,7 @@ Với trọng số khởi tạo ngẫu nhiên:
 Giá trị cross-entropy loss xấp xỉ lý thuyết:
 
 $$
-
 \log(|V|)
-
 $$
 
 Cho thấy mô hình chưa học được thông tin ngôn ngữ. 
@@ -398,14 +384,11 @@ Mỗi block bao gồm hai sublayer chính:
 Dạng tổng quát:
 
 $$
-
 H^{(l)} = H^{(l-1)} + \text{MHSA}(\text{LN}(H^{(l-1)}))
-
 $$
 
 $$
 Y^{(l)} = H^{(l)} + \text{FFN}(\text{LN}(H^{(l)}))
-
 $$
 
 Trong đó:
@@ -420,9 +403,7 @@ Trong đó:
 Với $L$ block, mô hình có dạng:
 
 $$
-
 X \rightarrow B_1 \rightarrow B_2 \rightarrow \dots \rightarrow B_L \rightarrow Y
-
 $$
 
 Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh xạ phi tuyến sâu.
@@ -440,9 +421,7 @@ Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh x�
 Quan hệ thực nghiệm:
 
 $$
-
 \text{Capacity} \propto L \times d^2
-
 $$
 
 với $L$ là số block, $d$ là embedding dimension.
@@ -470,17 +449,13 @@ Mỗi block làm giàu thêm không gian biểu diễn.
 Mỗi block thực hiện:
 
 $$
-
 f_l(x) = x + g_l(x)
-
 $$
 
 Chuỗi block tạo thành:
 
 $$
-
 f(x)=f_L\circ \dots \circ f_1(x)
-
 $$
 
 Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh mẽ.
@@ -492,9 +467,7 @@ Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh 
 Residual connection cho phép:
 
 $$
-
 \frac{\partial L}{\partial x} \approx 1 + \epsilon
-
 $$
 
 Giúp tránh hiện tượng vanishing gradient khi tăng độ sâu.

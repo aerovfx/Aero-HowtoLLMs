@@ -67,9 +67,7 @@ Train–test split là phương pháp chia dữ liệu thành hai phần:
 Trong nghiên cứu này, dữ liệu được chia theo tỷ lệ:
 
 $$
-
 90% \text{ training} \quad + \quad 10% \text{ testing}
-
 $$
 
 Cách tiếp cận này giúp đảm bảo tập test chưa từng được mô hình quan sát trong quá trình huấn luyện. 
@@ -89,9 +87,7 @@ Nguồn dữ liệu là tác phẩm *The Time Machine* từ Gutenberg Project, �
 Mỗi mẫu dữ liệu gồm một chuỗi 8 token đầu vào và token mục tiêu tương ứng. Cấu trúc dữ liệu có dạng:
 
 $$
-
 (x_1, x_2, \dots, x_8) \rightarrow (x_2, x_3, \dots, x_9)
-
 $$
 
 Cách xây dựng này phù hợp với bài toán dự đoán token tiếp theo. 
@@ -140,9 +136,7 @@ Kết quả mô hình ban đầu là log-softmax, nên chưa phải phân phối
 Phân phối xác suất được khôi phục bằng:
 
 $$
-
 P = e^{\log p}
-
 $$
 
 Sau chuyển đổi, mỗi hàng của ma trận đầu ra có tổng bằng 1, xác nhận tính hợp lệ. 
@@ -205,9 +199,7 @@ Kết quả này cho thấy mô hình đã học được các đặc trưng cơ
 Quan sát cho thấy ở giai đoạn đầu:
 
 $$
-
 Loss_{test} < Loss_{train}
-
 $$
 
 Nguyên nhân là do train loss trung bình bao gồm giai đoạn đầu khi mô hình chưa học được gì, trong khi test loss được tính sau khi mô hình đã cải thiện. 

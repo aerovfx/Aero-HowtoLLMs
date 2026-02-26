@@ -37,9 +37,7 @@ Các mô hình ngôn ngữ hiện đại như Transformer hoạt động dựa t
 Giả sử tồn tại một vector kích hoạt $x \in \mathbb{R}^T$, biểu diễn thông tin tại các thời điểm trong quá khứ. Một vector trọng số $w \in \mathbb{R}^T$ được sử dụng để tính tổng có trọng số:
 
 $$
-
 y = \sum_{i=1}^{T} w_i x_i
-
 $$
 
 Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng đều, dẫn đến trung bình cộng của các giá trị quá khứ. Tuy nhiên, cách tiếp cận này không phản ánh mức độ quan trọng khác nhau giữa các thời điểm. 
@@ -51,9 +49,7 @@ Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng 
 Để đảm bảo tổng trọng số bằng 1 và ổn định số học, hàm softmax được sử dụng:
 
 $$
-
 w_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
-
 $$
 
 Trong đó $z_i$ là logit ban đầu. Softmax có đặc tính:
@@ -71,9 +67,7 @@ Nhờ đó, mô hình tập trung mạnh hơn vào các thời điểm quan tr�
 Một cách trực quan để loại bỏ tương lai là gán trọng số bằng 0 cho các vị trí sau thời điểm hiện tại. Tuy nhiên, khi áp dụng softmax:
 
 $$
-
 e^0 = 1
-
 $$
 
 các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò rỉ thông tin tương lai. Điều này làm suy giảm tính nhân quả của mô hình. 
@@ -85,17 +79,13 @@ các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò r
 Để giải quyết vấn đề trên, các vị trí tương lai được gán giá trị:
 
 $$
-
 z_i = -\infty
-
 $$
 
 Khi đó:
 
 $$
-
 e^{-\infty} = 0
-
 $$
 
 Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đảm bảo không ảnh hưởng đến kết quả. Đây là nền tảng toán học của causal masking. 
@@ -109,9 +99,7 @@ Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đ�
 Ma trận mask $M \in \mathbb{R}^{T \times T}$ được định nghĩa như sau:
 
 $$
-
 M_{ij} = \begin{cases} 0, & j \leq i \\ -\infty, & j > i \end{cases}
-
 $$
 
 Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. 
@@ -123,17 +111,13 @@ Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn v�
 Trong cơ chế self-attention, điểm số được tính bằng:
 
 $$
-
 S = \frac{QK^T}{\sqrt{d_k}}
-
 $$
 
 Sau đó áp dụng mask:
 
 $$
-
 S' = S + M
-
 $$
 
 và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các vị trí tương lai bị triệt tiêu hoàn toàn. 
@@ -160,9 +144,7 @@ Kết quả cho thấy tổng mỗi hàng luôn bằng 1, xác nhận tính hợ
 Khi áp dụng mask, các hàng của ma trận attention có dạng:
 
 $$
-
 [1], [0.5, 0.5], [0.33, 0.33, 0.33], ...
-
 $$
 
 Điều này phản ánh số lượng phần tử hợp lệ tăng dần theo thời gian, dẫn đến sự phân tán xác suất. 
@@ -270,9 +252,7 @@ Sự phát triển của các mô hình ngôn ngữ lớn (LLM) đặt ra yêu c
 Trong kiến trúc Transformer chuẩn, cơ chế self-attention với causal mask có độ phức tạp:
 
 $$
-
 O(T^2)
-
 $$
 
 với $T$ là độ dài chuỗi. Khi $T$ đạt hàng chục nghìn hoặc hơn, chi phí này trở nên không khả thi trong thực tế.
@@ -293,9 +273,7 @@ Bài báo này tập trung phân tích cơ sở lý thuyết và thực nghiệm
 Causal attention tiêu chuẩn yêu cầu tính toán:
 
 $$
-
 QK^T \in \mathbb{R}^{T \times T}
-
 $$
 
 dẫn đến:
@@ -345,9 +323,7 @@ Cho block size là $B$, thuật toán hoạt động như sau:
 Nhờ đó, bộ nhớ giảm từ:
 
 $$
-
 O(T^2) \rightarrow O(Td)
-
 $$
 
 ---
@@ -357,19 +333,15 @@ $$
 FlashAttention sử dụng softmax tích lũy:
 
 $$
-
 m_i = \max(m_{i-1}, s_i)
-
 $$
 
 $$
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
-
 $$
 
 $$
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
-
 $$
 
 Cách này cho phép tính softmax mà không cần lưu toàn bộ logits.
@@ -393,9 +365,7 @@ FlashAttention mang lại:
 Trong FlashAttention, causal mask được tích hợp trực tiếp vào quá trình duyệt block:
 
 $$
-
 j > i \Rightarrow \text{skip}
-
 $$
 
 thay vì sử dụng ma trận mask tường minh.
@@ -447,9 +417,7 @@ Mục tiêu: duy trì ổn định khi kéo dài chuỗi.
 Chỉ attention với tập con token:
 
 $$
-
 O(T \sqrt{T})
-
 $$
 
 Ví dụ:
@@ -477,17 +445,13 @@ Giảm phụ thuộc vào full attention.
 Xấp xỉ softmax:
 
 $$
-
 \text{Attention}(Q,K,V) \approx \phi(Q)\phi(K)^TV
-
 $$
 
 Độ phức tạp:
 
 $$
-
 O(Td^2)
-
 $$
 
 Tuy nhiên thường giảm độ chính xác.
@@ -521,9 +485,7 @@ Trong inference:
 Độ phức tạp:
 
 $$
-
 O(T)
-
 $$
 
 cho mỗi bước sinh.
@@ -535,9 +497,7 @@ cho mỗi bước sinh.
 Chuỗi dài được chia thành các segment:
 
 $$
-
 [x_1,...,x_n], [x_{n+1},...,x_{2n}], ...
-
 $$
 
 Attention được thực hiện theo khối, giảm chi phí.
@@ -673,9 +633,7 @@ FlashAttention là kỹ thuật tính toán attention theo từng block nhằm:
 Trong bối cảnh autoregressive LLM, FlashAttention được kết hợp với **causal constraint** để đảm bảo:
 
 $$
-
 j > i \Rightarrow \text{masked}
-
 $$
 
 Phần này trình bày:
@@ -765,19 +723,15 @@ Algorithm 6: Causal-FlashAttention(Q, K, V, B)
 FlashAttention dùng công thức:
 
 $$
-
 m_i = \max(m_{i-1}, s_i)
-
 $$
 
 $$
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
-
 $$
 
 $$
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
-
 $$
 
 Giúp:

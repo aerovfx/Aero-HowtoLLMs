@@ -166,9 +166,7 @@ Một điểm quan trọng trong bài tập này là chúng ta đang dịch từ
 ### 4.2 Mô Hình Toán Học
 
 $$
-
 \text{BLEU}_{\text{avg}} = \frac{1}{N} \sum_{i=1}^{N} \text{BLEU}(ref_i, hyp_i)
-
 $$
 
 Trong đó:

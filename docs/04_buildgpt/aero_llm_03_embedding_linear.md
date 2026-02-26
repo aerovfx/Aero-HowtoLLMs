@@ -176,9 +176,7 @@ vector = one_hot @ l.weight  # Shape: [70]
 Phương pháp one-hot emulation mô phỏng chính xác cách `nn.Embedding` hoạt động:
 
 $$
-
 \mathbf{v} = \mathbf{e}_i^T \mathbf{W}
-
 $$
 
 Trong đó:
@@ -253,17 +251,13 @@ print(l2.weight.std())   # ≈ 1.0
 **Công thức Kaiming Uniform:**
 
 $$
-
 \text{bound} = \sqrt{\frac{6}{(1 + a^2) \times \text{fan\_in}}}
-
 $$
 
 Với ReLU $a=0$:
 
 $$
-
 \text{bound} = \sqrt{\frac{6}{\text{fan\_in}}}
-
 $$
 
 **Expected Statistics:**

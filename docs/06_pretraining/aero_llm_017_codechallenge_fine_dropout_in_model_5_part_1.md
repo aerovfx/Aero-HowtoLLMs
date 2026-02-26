@@ -57,9 +57,7 @@ Dropout được đề xuất bởi Srivastava et al. (2014) nhằm:
 Về mặt toán học, mỗi neuron được giữ lại với xác suất $p$:
 
 $$
-
 h' = m \odot h, \quad m \sim \text{Bernoulli}(p)
-
 $$
 
 Trong đó $h$ là vector đầu vào và $m$ là mặt nạ dropout.
@@ -132,17 +130,13 @@ Chiến lược này đảm bảo regularization trên toàn bộ luồng xử l
 Embedding được tính bằng:
 
 $$
-
 X = E_{token} + E_{position}
-
 $$
 
 Sau đó áp dụng:
 
 $$
-
 X' = \text{Dropout}(X)
-
 $$
 
 Việc này giúp giảm phụ thuộc vào các biểu diễn vị trí cố định.
@@ -175,9 +169,7 @@ Cách này cho phép bật/tắt dropout động theo trạng thái mô hình.
 Sau khi các attention head được kết hợp và chiếu tuyến tính, dropout được áp dụng trước residual connection:
 
 $$
-
 H = X + \text{Dropout}(\text{Attention}(X))
-
 $$
 
 Điều này giúp giảm hiện tượng overfitting trong attention sub-layer.
@@ -189,17 +181,13 @@ $$
 MLP có dạng:
 
 $$
-
 \text{FFN}(x) = W_2 \sigma(W_1 x)
-
 $$
 
 Sau FFN, dropout được áp dụng:
 
 $$
-
 H = X + \text{Dropout}(\text{FFN}(X))
-
 $$
 
 Cách làm này phù hợp với thiết kế chuẩn của Transformer.
@@ -225,9 +213,7 @@ Theo tài liệu, việc này là một phần trong bài tập thứ hai.
 Trong hàm generate, xác suất được tính bằng:
 
 $$
-
 P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
-
 $$
 
 với $T$ là temperature.
@@ -241,9 +227,7 @@ Việc sử dụng logits giúp điều chỉnh mức độ ngẫu nhiên khi si
 Tác giả đề cập đến việc chia logits cho căn bậc hai của embedding dimension:
 
 $$
-
 z' = \frac{z}{\sqrt{d_{emb}}}
-
 $$
 
 Mặc dù không phổ biến trong LLM thương mại, kỹ thuật này giúp ổn định mô hình khi training ngắn hạn. 

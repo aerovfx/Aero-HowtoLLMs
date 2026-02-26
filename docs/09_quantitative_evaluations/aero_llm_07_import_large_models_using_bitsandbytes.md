@@ -76,9 +76,7 @@ Trong đó:
 Cho trọng số w nằm trong khoảng:
 
 $$
-
 w_{min}, w_{max}
-
 $$
 
 Hệ số scale:

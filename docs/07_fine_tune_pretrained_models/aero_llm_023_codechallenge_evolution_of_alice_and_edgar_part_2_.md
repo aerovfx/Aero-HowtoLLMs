@@ -44,9 +44,7 @@ Mục tiêu nghiên cứu:
 Xét mô hình sinh:
 
 $$
-
 P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t|x_{<t};\theta)
-
 $$
 
 Trong đó:
@@ -57,9 +55,7 @@ Trong đó:
 Mục tiêu huấn luyện:
 
 $$
-
 \theta^*=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
-
 $$
 
 ---
@@ -69,9 +65,7 @@ $$
 Fine-tuning điều chỉnh tham số trên tập dữ liệu nhỏ:
 
 $$
-
 \theta_{new}=\theta_{pre}-\eta\nabla_\theta L_{task}
-
 $$
 
 Với:
@@ -86,9 +80,7 @@ Với:
 BERT được dùng để phân loại văn bản:
 
 $$
-
 f(x;\phi): X\rightarrow {0,1}
-
 $$
 
 Trong đó:
@@ -100,9 +92,7 @@ Trong đó:
 Hàm mất mát:
 
 $$
-
 L_{cls}=-\sum_{i=1}^{N}y_i\log p_i
-
 $$
 
 ---
@@ -121,9 +111,7 @@ Theo , hệ thống gồm:
 Tập tham số:
 
 $$
-
 \Theta={\theta_A,\theta_E,\phi}
-
 $$
 
 ---
@@ -141,9 +129,7 @@ Mỗi vòng lặp gồm:
 Cập nhật tham số:
 
 $$
-
 \theta_{t+1}=\theta_t-\eta\nabla_\theta L_t
-
 $$
 
 ---
@@ -153,17 +139,13 @@ $$
 Do chi phí tính toán lớn, việc đánh giá chỉ thực hiện theo chu kỳ:
 
 $$
-
 t=k\times10,\quad k\in\mathbb{N}
-
 $$
 
 Độ chính xác:
 
 $$
-
 Acc_t=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\hat y_i=y_i)
-
 $$
 
 ---
@@ -173,9 +155,7 @@ $$
 Theo , huấn luyện đồng thời ba mô hình đòi hỏi bộ nhớ GPU lớn:
 
 $$
-
 RAM_{total}=RAM_A+RAM_E+RAM_B+RAM_D
-
 $$
 
 Trong đó:
@@ -185,9 +165,7 @@ Trong đó:
 Điều kiện:
 
 $$
-
 RAM_{total}<RAM_{GPU}
-
 $$
 
 ---
@@ -199,9 +177,7 @@ $$
 Loss của mô hình sinh:
 
 $$
-
 L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
-
 $$
 
 ---
@@ -211,17 +187,13 @@ $$
 Hiệu suất sinh được đo bằng độ chính xác phân loại:
 
 $$
-
 Q=\mathbb{E}[Acc]
-
 $$
 
 Nếu:
 
 $$
-
 Q>0.9
-
 $$
 
 ⇒ mô hình sinh thể hiện rõ phong cách.
@@ -231,9 +203,7 @@ $$
 ### 4.3 Mối quan hệ giữa loss và accuracy
 
 $$
-
 Corr(L_{gen},Acc)<0
-
 $$
 
 ⇒ loss giảm thì accuracy tăng.
@@ -241,9 +211,7 @@ $$
 Tuy nhiên:
 
 $$
-
 L_{gen}\to0\Rightarrow Overfitting
-
 $$
 
 ---
@@ -260,9 +228,7 @@ Theo :
 Biểu diễn:
 
 $$
-
 Acc(t)=\alpha\log(t)+\beta
-
 $$
 
 với $\alpha>0$.
@@ -274,9 +240,7 @@ với $\alpha>0$.
 Quan sát:
 
 $$
-
 L_{gen}(t)\downarrow
-
 $$
 
 nhưng không về 0.
@@ -290,17 +254,13 @@ nhưng không về 0.
 Thời gian huấn luyện:
 
 $$
-
 T_{total}\approx4\text{-}5\ \text{phút}
-
 $$
 
 Tỷ lệ dành cho đánh giá:
 
 $$
-
 \frac{T_{eval}}{T_{total}}\approx30%
-
 $$
 
 ---
@@ -318,9 +278,7 @@ Theo , phương pháp đánh giá bằng mô hình thứ ba:
 Biểu diễn:
 
 $$
-
 Reliability\propto Acc_{cls}
-
 $$
 
 ---
@@ -336,9 +294,7 @@ Một số hạn chế:
 Ví dụ:
 
 $$
-
 Acc_{cls}\not\Rightarrow Quality_{human}
-
 $$
 
 ---
@@ -348,9 +304,7 @@ $$
 Theo , các bộ phát hiện AI có độ tin cậy thấp:
 
 $$
-
 P(error)>0.3
-
 $$
 
 ⇒ Có thể gây hiểu nhầm.
@@ -370,9 +324,7 @@ $$
 Tiêu chuẩn:
 
 $$
-
 Acc>0.85
-
 $$
 
 ---
@@ -382,9 +334,7 @@ $$
 Mô hình tổng quát:
 
 $$
-
 Gen_1,Gen_2,\dots,Gen_n \xrightarrow{Eval} Classifier
-
 $$
 
 ---
@@ -394,9 +344,7 @@ $$
 Kết hợp:
 
 $$
-
 Monitoring=(Loss,Acc,Time,RAM)
-
 $$
 
 ---

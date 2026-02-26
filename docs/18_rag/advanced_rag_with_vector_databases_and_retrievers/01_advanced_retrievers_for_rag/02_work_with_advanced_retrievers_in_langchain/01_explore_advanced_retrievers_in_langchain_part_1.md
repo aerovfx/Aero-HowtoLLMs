@@ -74,9 +74,7 @@ Query Text
     ↓
 
 $$
-
 Embedding Model
-
 $$
 
 ↓
@@ -84,9 +82,7 @@ Query Vector
     ↓
 
 $$
-
 Vector Similarity Search
-
 $$
 
 ↓
@@ -120,9 +116,7 @@ docs = retriever.get_relevant_documents("What is AI?")
 Tìm kiếm dựa trên độ tương đồng cosine:
 
 $$
-
 \text{similarity}(A, B) = \frac{A \cdot B}{||A|| \cdot ||B||}
-
 $$
 
 ```python
@@ -150,9 +144,7 @@ retriever = vectorstore.as_retriever(
 **Công thức MMR:**
 
 $$
-
 \text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{sim}(Q, D_i) - (1-\lambda) \cdot \max_{D_j \in S} \text{sim}(D_i, D_j) \right]
-
 $$
 
 Trong đó:

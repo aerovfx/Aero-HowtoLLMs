@@ -33,9 +33,7 @@ Transfer learning là kỹ thuật cho phép sử dụng kiến thức từ mộ
 ### 1.2 Lợi Ích
 
 $$
-
 \text{Efficiency} \propto \frac{\text{Pre-trained Knowledge}}{\text{New Task Data}}
-
 $$
 
 - Giảm thời gian huấn luyện
@@ -178,9 +176,7 @@ print(f"Translation: {translation}")
 Mô hình FLAN-T5 sử dụng kiến trúc Encoder-Decoder:
 
 $$
-
 \text{Output} = \text{Decoder}(\text{Encoder}(X), Y_{<t})
-
 $$
 
 Trong đó:
@@ -192,9 +188,7 @@ Trong đó:
 Hiệu quả của transfer learning có thể được biểu diễn:
 
 $$
-
 \eta_{TL} = \frac{||\theta^*_{new} - \theta_{pre}||}{||\theta_{new}||} \times 100\%
-
 $$
 
 Với LoRA, $\eta_{TL}$ thường < 5%, cho thấy chỉ một phần nhỏ tham số cần được điều chỉnh.

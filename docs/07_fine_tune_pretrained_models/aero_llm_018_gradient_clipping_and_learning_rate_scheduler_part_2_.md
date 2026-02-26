@@ -48,9 +48,7 @@ Mục tiêu nghiên cứu:
 Quy trình cập nhật tham số:
 
 $$
-
 \theta_{t+1}=\theta_t-\eta_t \nabla_\theta L(\theta_t)
-
 $$
 
 Trong đó:
@@ -73,9 +71,7 @@ Learning rate ảnh hưởng trực tiếp tới:
 Khi:
 
 $$
-
 \eta_t \to 0 \Rightarrow \theta_{t+1}\approx \theta_t
-
 $$
 
 ⇒ quá trình học gần như dừng lại.
@@ -99,9 +95,7 @@ Theo , learning rate tăng dần trong giai đoạn đầu.
 Warm-up tuyến tính:
 
 $$
-
 \eta_t=\eta_{max}\cdot\frac{t}{T_{warm}},\quad t\le T_{warm}
-
 $$
 
 Trong đó:
@@ -123,17 +117,13 @@ Cosine scheduler làm giảm learning rate theo hàm cosin.
 Với $C$ chu kỳ:
 
 $$
-
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min}) \left(1+\cos\frac{2\pi Ct}{T}\right)
-
 $$
 
 Trường hợp $C=\frac{1}{2}$:
 
 $$
-
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min}) \left(1+\cos\frac{\pi t}{T}\right)
-
 $$
 
 ---
@@ -157,9 +147,7 @@ Giảm learning rate tuyến tính sau warm-up.
 #### 3.3.2 Công thức
 
 $$
-
 \eta_t= \begin{cases} \eta_{max}\frac{t}{T_{warm}} & t\le T_{warm}\ \eta_{max}\left(1-\frac{t-T_{warm}}{T-T_{warm}}\right) & t>T_{warm} \end{cases}
-
 $$
 
 ---
@@ -169,9 +157,7 @@ $$
 Theo , việc khai báo số bước khác với thực tế giúp:
 
 $$
-
 T_{sched}>T_{train} \Rightarrow \eta_t>0
-
 $$
 
 trong suốt quá trình huấn luyện.
@@ -183,9 +169,7 @@ trong suốt quá trình huấn luyện.
 Cập nhật tham số tổng quát:
 
 $$
-
 \theta_{t+1}=\theta_t-\eta_t\cdot \frac{c}{\max(|\mathbf{g}|,c)}\mathbf{g}
-
 $$
 
 Trong đó:
@@ -207,9 +191,7 @@ Theo tài liệu , mô hình gồm:
 Hàm mất mát:
 
 $$
-
 L=-\log\frac{e^{w_1}}{e^{w_1}+e^{w_2}}
-
 $$
 
 ---
@@ -225,9 +207,7 @@ Quan sát thực nghiệm:
 Đồ thị:
 
 $$
-
 w(t)\propto \int_0^t \eta_s ds
-
 $$
 
 ---
@@ -243,9 +223,7 @@ $$
 Trường hợp $\eta_t=0$:
 
 $$
-
 \theta_{t+1}=\theta_t
-
 $$
 
 ⇒ không học.
@@ -270,9 +248,7 @@ $$
 Theo , hệ thống học sâu cần giữ giá trị trong miền ổn định:
 
 $$
-
 |\theta_i|<M,\quad |g_i|<K
-
 $$
 
 Các kỹ thuật hỗ trợ:

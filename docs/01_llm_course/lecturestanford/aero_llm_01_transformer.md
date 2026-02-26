@@ -76,9 +76,7 @@ Trước Transformer, RNN (Recurrent Neural Networks) và LSTM là chuẩn mực
 Mỗi token được chiếu thành 3 vector: **Query $Q$**, **Key $K$**, **Value $V$**.
 
 $$
-
 \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-
 $$
 
 *   **Q (Truy vấn):** Tôi đang tìm kiếm thông tin gì?

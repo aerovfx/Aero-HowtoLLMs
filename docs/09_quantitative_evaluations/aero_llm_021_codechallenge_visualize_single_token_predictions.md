@@ -39,9 +39,7 @@ $$
 Mô hình sẽ dự đoán:
 
 $$
-
 P(t_{i} | t_1\dots t_{i-1})
-
 $$
 
 ### 1.1 Tính Toán Softmax Xác Suất Của Ký Tự Ngay Trước Đó
@@ -49,9 +47,7 @@ Bởi ngôn ngữ (Language Model) luôn đóng vai trò phỏng đoán Token ch
 Mảng dự báo được đưa qua một hàm:
 
 $$
-
 \text{LogSoftmax}(Z_i) = \log\left(\frac{e^{Z_i}}{\sum e^{Z_k}}\right) = Z_i - \log\left(\sum e^{Z_k}\right)
-
 $$
 
 LogSoftmax ổn định số học và mang lại sự tinh vi về khoảng độ, vì các xác suất kề $0$ bị làm nhòe. Giá trị logit càng lớn hơn thì độ tương quan với giá trị số âm (xướng lên 0) càng bé dần. Từ đó, xác suất từ token đúng nhất sẽ được trích xuất (Indexed target word).

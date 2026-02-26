@@ -131,9 +131,7 @@ Kết quả: Token cuối cùng mang thông tin tổng hợp từ toàn bộ chu
 **Hàm Softmax:**
 
 $$
-
 \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{V} e^{x_j}}
-
 $$
 
 **Đặc điểm:**
@@ -226,9 +224,7 @@ Output: [batch_size, seq_len, vocab]    = [5, 8, 100000]
 **GELU (Gaussian Error Linear Unit):**
 
 $$
-
 \text{GELU}(x) = x \cdot \Phi(x)
-
 $$
 
 Trong đó Φ$x$ là hàm phân phối chuẩn tích lũy.

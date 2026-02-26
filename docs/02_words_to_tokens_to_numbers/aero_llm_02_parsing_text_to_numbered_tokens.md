@@ -70,17 +70,13 @@ $$
 Giả sử tập từ vựng $V$ có kích thước:
 
 $$
-
 |V| = N
-
 $$
 
 Hàm tokenization:
 
 $$
-
 T: \mathcal{X} \to V^T
-
 $$
 
 với:
@@ -91,9 +87,7 @@ với:
 Nếu chuỗi văn bản là $x$, ta có:
 
 $$
-
 T(x) = (t_1, t_2, ..., t_T)
-
 $$
 
 Mỗi $t_i \in {1,2,...,N}$
@@ -114,9 +108,7 @@ Thuật toán lặp:
 Quá trình tối ưu hóa nhằm giảm entropy:
 
 $$
-
 H(X) = -\sum_x P(x)\log P(x)
-
 $$
 
 BPE giúp:
@@ -131,17 +123,13 @@ BPE giúp:
 Sau tokenization:
 
 $$
-
 (t_1, t_2, ..., t_T)
-
 $$
 
 Ta cần biểu diễn thứ tự:
 
 $$
-
 i = 1,2,...,T
-
 $$
 
 Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến hoán vị.
@@ -153,17 +141,13 @@ Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến h
 Mỗi token ID được ánh xạ:
 
 $$
-
 e_i = E(t_i)
-
 $$
 
 Vector đầu vào cuối cùng:
 
 $$
-
 z_i = e_i + p_i
-
 $$
 
 Trong đó:
@@ -177,17 +161,13 @@ Trong đó:
 Attention được định nghĩa:
 
 $$
-
 \text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
-
 $$
 
 Nếu không có positional encoding:
 
 $$
-
 \text{Attention}(PX) = P\text{Attention}(X)
-
 $$
 
 → Không phân biệt thứ tự.
@@ -195,9 +175,7 @@ $$
 Khi thêm $p_i$:
 
 $$
-
 Z = E + P
-
 $$
 
 ma trận attention phản ánh quan hệ phụ thuộc có hướng.
@@ -209,25 +187,19 @@ ma trận attention phản ánh quan hệ phụ thuộc có hướng.
 Trong mô hình tự hồi quy (GPT):
 
 $$
-
 P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
-
 $$
 
 Mask:
 
 $$
-
 M_{ij} = \begin{cases} 0 & j \le i \ -\infty & j > i \end{cases}
-
 $$
 
 Ma trận attention thực tế:
 
 $$
-
 A = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} + M \right)
-
 $$
 
 Đánh số token cho phép xác định chính xác vị trí $i$.
@@ -239,17 +211,13 @@ $$
 Self-attention:
 
 $$
-
 \mathcal{O}(T^2 d)
-
 $$
 
 Nếu chiều dài chuỗi tăng gấp đôi:
 
 $$
-
 \text{Compute} \approx 4\times
-
 $$
 
 Do đó việc tokenization hiệu quả giúp:
@@ -280,25 +248,19 @@ $$
 Embedding:
 
 $$
-
 E \in \mathbb{R}^{|V| \times d}
-
 $$
 
 Đầu vào:
 
 $$
-
 Z \in \mathbb{R}^{T \times d}
-
 $$
 
 Qua attention:
 
 $$
-
 Z' = \text{Transformer}(Z)
-
 $$
 
 ---
@@ -308,9 +270,7 @@ $$
 Trong RLHF:
 
 $$
-
 x = [\text{Prompt}; \text{Response}]
-
 $$
 
 Đánh số cho phép:
@@ -321,9 +281,7 @@ $$
 Loss:
 
 $$
-
 \mathcal{L} = - \sum_{t \in R} \log P(x_t | x_{<t})
-
 $$
 
 ---
@@ -339,9 +297,7 @@ Quá trình parsing text to numbered tokens là:
 Nếu bỏ bước này:
 
 $$
-
 \text{Model} \to \text{Không thể huấn luyện}
-
 $$
 
 ---
