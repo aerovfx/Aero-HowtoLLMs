@@ -127,7 +127,7 @@ Trong đó:
 f$x$ =
 \begin{cases}
 $x/x_{max}$^\alpha & x < x_{max} \\
-1 & \text{otherwise}
+1 & \\text{otherwise}
 \end{cases}
 
 Khác với Word2Vec, GloVe khai thác thống kê toàn cục.

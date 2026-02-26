@@ -58,7 +58,7 @@ $$
 $$
 
 $$
-x_{ij} = \begin{cases} 1 & \text{nếu } j = t_i \\ 0 & \text{ngược lại} \end{cases}
+x_{ij} = \begin{cases} 1 & \\text{nếu } j = t_i \\ 0 & \\text{ngược lại} \end{cases}
 $$
 
 Đây là không gian rất cao chiều và không hiệu quả về mặt tính toán.

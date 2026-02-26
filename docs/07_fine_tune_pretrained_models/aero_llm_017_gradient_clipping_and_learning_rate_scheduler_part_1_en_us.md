@@ -103,7 +103,7 @@ Theo tài liệu , thay vì cắt từng phần tử riêng lẻ, toàn bộ vec
 Với ngưỡng $c$, gradient sau clipping:
 
 $$
-\mathbf{g}_{clip}= \begin{cases} \mathbf{g} & \text{nếu } |\mathbf{g}|\le c\ \frac{c}{|\mathbf{g}|}\mathbf{g} & \text{nếu } |\mathbf{g}|>c \end{cases}
+\mathbf{g}_{clip}= \begin{cases} \\mathbf{g} & \\text{nếu } |\mathbf{g}|\le c\ \\frac{c}{|\mathbf{g}|}\mathbf{g} & \\text{nếu } |\mathbf{g}|>c \end{cases}
 $$
 
 Điều này đảm bảo:

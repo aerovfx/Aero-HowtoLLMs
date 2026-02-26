@@ -180,7 +180,7 @@ $$
 Trong đó:
 
 $$
-P_{target}(i)= \begin{cases} \alpha & \text{nếu token chứa "X"} \ \beta & \text{ngược lại} \end{cases}
+P_{target}(i)= \begin{cases} \\alpha & \\text{nếu token chứa "X"} \\ \beta & \\text{ngược lại} \end{cases}
 $$
 
 với $\alpha > \beta$.

@@ -57,8 +57,8 @@ với:
 
 x_i =
 \begin{cases}
-1 & \text{nếu } i = w \\
-0 & \text{ngược lại}
+1 & \\text{nếu } i = w \\
+0 & \\text{ngược lại}
 \end{cases}
 
 Embedding thực chất là phép nhân ma trận:

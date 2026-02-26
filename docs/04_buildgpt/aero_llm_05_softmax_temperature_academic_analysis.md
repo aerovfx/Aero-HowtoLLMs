@@ -1664,7 +1664,7 @@ $$
 Trong đó $\delta_{ij}$ là Kronecker delta:
 
 $$
-\delta_{ij} = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}
+\delta_{ij} = \begin{cases} 1 & \\text{if } i = j \\ 0 & \\text{if } i \\neq j \end{cases}
 $$
 
 ### B.2 Cross-Entropy Loss Gradient

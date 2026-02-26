@@ -161,7 +161,7 @@ $$
 với:
 
 $$
-M_{ij} = \begin{cases} 0 & \text{nếu } j \le i \\ -\infty & \text{nếu } j > i \end{cases}
+M_{ij} = \begin{cases} 0 & \\text{nếu } j \\le i \\ -\infty & \\text{nếu } j > i \end{cases}
 $$
 
 Ma trận này có dạng tam giác dưới.

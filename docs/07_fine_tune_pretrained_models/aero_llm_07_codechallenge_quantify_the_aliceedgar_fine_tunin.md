@@ -116,7 +116,7 @@ $$
 Chỉ giữ lại token có độ dài ≥ 3 ký tự:
 
 $$
-T'_i = \begin{cases} t_i, & \text{nếu } |decode(t_i)| \ge 3 \ -1, & \text{ngược lại} \end{cases}
+T'_i = \begin{cases} t_i, & \\text{nếu } |decode(t_i)| \\ge 3 \\ -1, & \\text{ngược lại} \end{cases}
 $$
 
 Các token có giá trị (-1) bị loại bỏ.
@@ -136,7 +136,7 @@ $$
 Trong đó:
 
 $$
-\mathbf{1}(x) = \begin{cases} 1, & x = \text{đúng} \ 0, & x = \text{sai} \end{cases}
+\mathbf{1}(x) = \begin{cases} 1, & x = \\text{đúng} \\ 0, & x = \\text{sai} \end{cases}
 $$
 
 Chọn 100 token có (f(w)) lớn nhất:

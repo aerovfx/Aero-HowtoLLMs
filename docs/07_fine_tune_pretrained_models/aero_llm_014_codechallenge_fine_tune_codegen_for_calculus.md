@@ -262,7 +262,7 @@ $$
 với:
 
 $$
-f(x)= \begin{cases} 1,& \text{chạy được}\ 0,& \text{lỗi} \end{cases}
+f(x)= \begin{cases} 1,& \\text{chạy được}\ 0,& \\text{lỗi} \end{cases}
 $$
 
 ---

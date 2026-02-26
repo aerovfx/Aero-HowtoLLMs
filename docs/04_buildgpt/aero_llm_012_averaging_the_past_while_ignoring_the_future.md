@@ -99,7 +99,7 @@ Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đ�
 Ma trận mask $M \in \mathbb{R}^{T \times T}$ được định nghĩa như sau:
 
 $$
-M_{ij} = \begin{cases} 0, & j \leq i \\ -\infty, & j > i \end{cases}
+M_{ij} = \begin{cases} 0, & j \\leq i \\ -\infty, & j > i \end{cases}
 $$
 
 Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. 

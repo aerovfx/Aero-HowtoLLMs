@@ -147,7 +147,7 @@ Giảm learning rate tuyến tính sau warm-up.
 #### 3.3.2 Công thức
 
 $$
-\eta_t= \begin{cases} \eta_{max}\frac{t}{T_{warm}} & t\le T_{warm}\ \eta_{max}\left(1-\frac{t-T_{warm}}{T-T_{warm}}\right) & t>T_{warm} \end{cases}
+\eta_t= \begin{cases} \\eta_{max}\frac{t}{T_{warm}} & t\le T_{warm}\ \\eta_{max}\left(1-\frac{t-T_{warm}}{T-T_{warm}}\right) & t>T_{warm} \end{cases}
 $$
 
 ---

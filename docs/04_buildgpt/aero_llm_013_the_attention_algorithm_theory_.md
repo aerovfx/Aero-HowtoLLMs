@@ -83,7 +83,7 @@ Các ma trận này được huấn luyện trong quá trình tối ưu và giú
 Trong mô hình sinh chuỗi, cần ngăn token nhìn thấy thông tin tương lai:
 
 $$
-M_{ij} = \begin{cases} 0, & j \le i \ -\infty, & j > i \end{cases}
+M_{ij} = \begin{cases} 0, & j \\le i \\ -\infty, & j > i \end{cases}
 $$
 
 Mask này đảm bảo tính tự hồi quy và tránh rò rỉ thông tin.
