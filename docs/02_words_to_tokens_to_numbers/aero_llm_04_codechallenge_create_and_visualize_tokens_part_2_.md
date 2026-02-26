@@ -198,7 +198,9 @@ Mục tiêu:
 
 $$
 D_{KL}(P|Q)
-===========
+$$
+
+$$
 \sum_{i,j} P_{ij}
 \log
 \frac{P_{ij}}{Q_{ij}}
@@ -252,7 +254,9 @@ Softmax:
 
 $$
 P(x_t | x_{<t})
-===============
+$$
+
+$$
 \frac
 {\exp(z_t W_{out})}
 {\sum_j \exp(z_j W_{out})}
