@@ -198,7 +198,7 @@ Giúp đo mức độ tương đồng ngữ nghĩa.
 Theo mô hình tự hồi quy:
 
 $$
-P(X) = \prod_{t=1}^{T} P(w_t \mid w_{<t})
+P(X) = \prod_{t=1}^{T} P(w_t \mid w_{\lt t})
 $$
 
 Mạng Transformer tính:
@@ -216,7 +216,7 @@ $$
 Softmax:
 
 $$
-P(w_t = j \mid w_{<t}) =
+P(w_t = j \mid w_{\lt t}) =
 \frac{\exp(z_{tj})}
 {\sum_{k=1}^{M} \exp(z_{tk})}
 $$

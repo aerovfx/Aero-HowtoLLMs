@@ -102,7 +102,7 @@ P(y=i \mid \mathbf{h})
 -
 \sum_{t=1}^{L}
 \log
-P(y_t \mid x_{<t})
+P(y_t \mid x_{\lt t})
 
 Trung bình trên batch:
 

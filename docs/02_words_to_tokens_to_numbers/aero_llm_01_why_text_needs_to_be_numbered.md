@@ -171,10 +171,10 @@ attention có thể học:
 Mô hình GPT tối ưu:
 
 $$
-P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+P(x) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
-Điều kiện (x_{<t}) phụ thuộc trực tiếp vào thứ tự.
+Điều kiện (x_{\lt t}) phụ thuộc trực tiếp vào thứ tự.
 
 Causal masking:
 
@@ -195,7 +195,7 @@ $$
 \right)
 $$
 
-Đánh số vị trí cho phép xác định chính xác token nào thuộc (x_{<t}).
+Đánh số vị trí cho phép xác định chính xác token nào thuộc (x_{\lt t}).
 
 ---
 
@@ -237,7 +237,7 @@ $$
 Loss:
 
 $$
-\mathcal{L} = -\sum_{t \in R} \log P(x_t | x_{<t})
+\mathcal{L} = -\sum_{t \in R} \log P(x_t \mid x_{\lt t})
 $$
 
 Nếu không đánh số rõ ràng, mô hình không biết đâu là phần cần tối ưu.

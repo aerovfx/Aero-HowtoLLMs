@@ -106,7 +106,7 @@ P(S) = \prod_{i=1}^{n} P(s_i | s_{i-1})
 
 LLM sinh văn bản dựa trên:
 
-P(t_i | t_{<i})
+P(t_i \mid t_{\lt i})
 
 Với:
 

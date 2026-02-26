@@ -29,13 +29,13 @@ Bài viết này tiếp tục phân tích quá trình instruction tuning cho GPT
 GPT-2 tối ưu hoá xác suất chuỗi:
 
 $$
-P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 Hàm mất mát cross-entropy:
 
 $$
-\mathcal{L}(\theta) = - \sum_{t=1}^{T} \log P_\theta(x_t \mid x_{<t})
+\mathcal{L}(\theta) = - \sum_{t=1}^{T} \log P_\theta(x_t \mid x_{\lt t})
 $$
 
 Trong instruction tuning, chuỗi đầu vào có cấu trúc:
@@ -47,7 +47,7 @@ $$
 Và loss chỉ tính trên phần response:
 
 $$
-\mathcal{L}*{SFT} = - \sum*{t \in R} \log P_\theta(x_t \mid x_{<t})
+\mathcal{L}*{SFT} = - \sum*{t \in R} \log P_\theta(x_t \mid x_{\lt t})
 $$
 
 ---
@@ -71,7 +71,7 @@ Gradient kỳ vọng:
 
 $$
 \mathbb{E}[\nabla_\theta \mathcal{L}]
-= - \mathbb{E} \left[ \sum_{t \in R} \nabla_\theta \log P_\theta(x_t \mid x_{<t}) \right]
+= - \mathbb{E} \left[ \sum_{t \in R} \nabla_\theta \log P_\theta(x_t \mid x_{\lt t}) \right]
 $$
 
 Điều này dẫn tới hiện tượng:

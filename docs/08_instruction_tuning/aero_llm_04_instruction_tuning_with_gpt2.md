@@ -103,7 +103,7 @@ Trong đó BOS, SEP, EOS là các token đặc biệt.
 GPT-2 mô hình hóa xác suất chuỗi:
 
 $$
-P(X) = \prod_{t=1}^{T} P(x_t | x_{<t})
+P(X) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 ---

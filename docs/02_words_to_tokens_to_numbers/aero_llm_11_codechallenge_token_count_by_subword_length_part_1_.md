@@ -171,7 +171,7 @@ Unigram LM	Xác suất	Linh hoạt	Cao
 
 Loss function:
 
-\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i | t_{<i})
+\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i \mid t_{\lt i})
 
 Vì m phụ thuộc tokenizer nên:
 	•	Tokenizer ảnh hưởng trực tiếp đến giá trị loss

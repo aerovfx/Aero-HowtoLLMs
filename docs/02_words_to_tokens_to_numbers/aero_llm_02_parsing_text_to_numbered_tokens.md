@@ -180,7 +180,7 @@ ma trận attention phản ánh quan hệ phụ thuộc có hướng.
 Trong mô hình tự hồi quy (GPT):
 
 $$
-P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+P(x) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 Mask:
@@ -275,7 +275,7 @@ $$
 Loss:
 
 $$
-\mathcal{L} = - \sum_{t \in R} \log P(x_t | x_{<t})
+\mathcal{L} = - \sum_{t \in R} \log P(x_t \mid x_{\lt t})
 $$
 
 ---

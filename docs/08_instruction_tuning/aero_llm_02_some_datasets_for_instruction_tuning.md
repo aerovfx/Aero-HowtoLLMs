@@ -74,13 +74,13 @@ Trong đó:
 Trong Instruction Tuning, hàm mất mát thường dùng là:
 
 $$
-\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
+\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t \mid x_{\lt t})
 $$
 
 Trong đó:
 
 * (T) là độ dài chuỗi
-* (x_{<t}) là các token trước thời điểm (t)
+* (x_{\lt t}) là các token trước thời điểm (t)
 
 Hàm này đo lường mức độ sai khác giữa phân phối dự đoán và dữ liệu thực.
 

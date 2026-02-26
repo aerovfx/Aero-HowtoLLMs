@@ -143,11 +143,11 @@ P(t_i | t_1, ..., t_{i-1})
 
 Toàn bộ xác suất chuỗi:
 
-P(T) = \prod_{i=1}^{m} P(t_i | t_{<i})
+P(T) = \prod_{i=1}^{m} P(t_i \mid t_{\lt i})
 
 Loss function huấn luyện:
 
-\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i | t_{<i})
+\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i \mid t_{\lt i})
 
 Tokenizer ảnh hưởng trực tiếp đến:
 	•	Độ dài chuỗi m

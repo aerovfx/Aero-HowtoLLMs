@@ -55,7 +55,7 @@ $$
 Xác suất sinh:
 
 $$
-P(X)=\prod_{i=1}^{n}P(x_i\mid x_{<i};\theta_g)
+P(X)=\prod_{i=1}^{n}P(x_i\mid x_{\lt i};\theta_g)
 $$
 
 Trong đó (\theta_g) là tham số mô hình sinh.
@@ -91,7 +91,7 @@ Trong đó (\hat{y}) là xác suất Alice/Edgar.
 $$
 \mathcal{L}_{gen}
 =================
--\frac{1}{N}\sum_{i=1}^{N}\log P(x_i\mid x_{<i})
+-\frac{1}{N}\sum_{i=1}^{N}\log P(x_i\mid x_{\lt i})
 $$
 
 #### (b) Mô hình phân loại

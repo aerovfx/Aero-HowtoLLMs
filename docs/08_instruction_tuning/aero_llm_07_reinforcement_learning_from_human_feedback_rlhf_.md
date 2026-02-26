@@ -29,7 +29,7 @@ Reinforcement Learning from Human Feedback (RLHF) là phương pháp huấn luy�
 Các mô hình ngôn ngữ như GPT-2 hay GPT-3 được huấn luyện theo mục tiêu dự đoán token kế tiếp:
 
 $$
-P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 Tuy nhiên, mục tiêu tối đa hóa likelihood không đảm bảo mô hình:
@@ -76,7 +76,7 @@ Huấn luyện trên dữ liệu cặp (instruction, response):
 
 $$
 \mathcal{L}*{SFT}
-= - \sum*{t \in R} \log P_\theta(x_t \mid x_{<t})
+= - \sum*{t \in R} \log P_\theta(x_t \mid x_{\lt t})
 $$
 
 Mục tiêu: đưa mô hình về phân phối gần với hành vi mong muốn.

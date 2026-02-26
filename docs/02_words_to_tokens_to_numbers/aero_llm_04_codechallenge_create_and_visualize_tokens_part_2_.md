@@ -66,8 +66,7 @@ $$
 $$
 
 $$
-\frac{e_i \cdot e_j}
-{|e_i||e_j|}
+\frac{e_i \cdot e_j}{|e_i||e_j|}
 $$
 
 Nếu:
@@ -112,10 +111,7 @@ Không gian embedding ban đầu bị biến đổi phi tuyến.
 Attention matrix:
 
 $$
-A = \text{softmax}
-\left(
-\frac{QK^T}{\sqrt{d_k}}
-\right)
+A = \text{softmax} \left(\frac{QK^T}{\sqrt{d_k}}\right)
 $$
 
 Phần tử:
@@ -181,17 +177,11 @@ $$
 Trong đó:
 
 $$
-P_{ij} =
-\frac
-{\exp(-|x_i - x_j|^2 / 2\sigma^2)}
-{\sum_{k,l} \exp(-|x_k - x_l|^2 / 2\sigma^2)}
+P_{ij} = \frac{\exp(-|x_i - x_j|^2 / 2\sigma^2)}{\sum_{k,l} \exp(-|x_k - x_l|^2 / 2\sigma^2)}
 $$
 
 $$
-Q_{ij} =
-\frac
-{(1 + |y_i - y_j|^2)^{-1}}
-{\sum_{k,l}(1 + |y_k - y_l|^2)^{-1}}
+Q_{ij} = \frac{(1 + |y_i - y_j|^2)^{-1}}{\sum_{k,l}(1 + |y_k - y_l|^2)^{-1}}
 $$
 
 Mục tiêu:
@@ -201,9 +191,7 @@ D_{KL}(P|Q)
 $$
 
 $$
-\sum_{i,j} P_{ij}
-\log
-\frac{P_{ij}}{Q_{ij}}
+\sum_{i,j} P_{ij} \log \frac{P_{ij}}{Q_{ij}}
 $$
 
 Kết quả:
@@ -256,9 +244,7 @@ P(x_t \mid x_{\lt t})
 $$
 
 $$
-\frac
-{\exp(z_t W_{out})}
-{\sum_j \exp(z_j W_{out})}
+\frac{\exp(z_t W_{out})}{\sum_j \exp(z_j W_{out})}
 $$
 
 Việc trực quan hóa logits cho thấy:

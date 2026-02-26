@@ -142,7 +142,7 @@ GPT (Radford et al.) dựa trên kiến trúc Transformer từ bài báo của A
 
 Mô hình xác suất:
 
-P(w_1,\dots,w_T) = \prod_{t=1}^{T} P(w_t \mid w_{<t})
+P(w_1,\dots,w_T) = \prod_{t=1}^{T} P(w_t \mid w_{\lt t})
 
 ⸻
 
@@ -167,7 +167,7 @@ O(n^2 d)
 
 Cross-entropy:
 
-\mathcal{L} = - \sum_{t=1}^{T} \log P(w_t \mid w_{<t})
+\mathcal{L} = - \sum_{t=1}^{T} \log P(w_t \mid w_{\lt t})
 
 GPT sinh văn bản theo hướng trái → phải (autoregressive).
 
@@ -210,7 +210,7 @@ Không còn là ánh xạ cố định.
 Mô hình	Xác suất	Phạm vi ngữ cảnh	Embedding
 Word2Vec	P(w_O|w_I)	Cục bộ	Tĩnh
 GloVe	\log X_{ij}	Toàn cục	Tĩnh
-GPT	P(w_t|w_{<t})	Trái	Ngữ cảnh
+GPT	P(w_t\mid w_{\lt t})	Trái	Ngữ cảnh
 BERT	P(w_t|w_{\setminus M})	Hai chiều	Ngữ cảnh
 
 
@@ -224,7 +224,7 @@ H = - \sum P(w_1,\dots,w_T)\log P(w_1,\dots,w_T)
 
 GPT mô hình hóa trực tiếp:
 
-H = - \sum_{t} \log P(w_t \mid w_{<t})
+H = - \sum_{t} \log P(w_t \mid w_{\lt t})
 
 Perplexity:
 

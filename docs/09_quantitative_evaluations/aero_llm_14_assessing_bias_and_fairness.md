@@ -121,7 +121,7 @@ D_{KL} \rightarrow 0
 
 Khác với phân loại nhị phân, LLM sinh chuỗi token:
 
-P_\theta(x_1,\dots,x_T) = \prod_{t=1}^{T} P_\theta(x_t|x_{<t})
+P_\theta(x_1,\dots,x_T) = \prod_{t=1}^{T} P_\theta(x_t\mid x_{\lt t})
 
 Thiên lệch có thể đo bằng cách so sánh xác suất sinh câu liên quan đến nhóm A:
 

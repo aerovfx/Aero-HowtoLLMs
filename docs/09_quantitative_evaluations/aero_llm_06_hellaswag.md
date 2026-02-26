@@ -73,15 +73,15 @@ P(a_i \mid c)
 
 Với mô hình kiểu GPT:
 
-P(a_i \mid c) = \prod_{t=1}^{T_i} P(w_t \mid c, w_{<t})
+P(a_i \mid c) = \prod_{t=1}^{T_i} P(w_t \mid c, w_{\lt t})
 
 Trong thực nghiệm, ta dùng log-likelihood:
 
-\log P(a_i \mid c) = \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{<t})
+\log P(a_i \mid c) = \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{\lt t})
 
 Để tránh thiên vị độ dài, thường dùng chuẩn hoá:
 
-Score(a_i) = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{<t})
+Score(a_i) = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P(w_t \mid c, w_{\lt t})
 
 ⸻
 

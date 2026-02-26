@@ -92,15 +92,15 @@ Do đó, thông tin ký tự r không được biểu diễn trực tiếp mà n
 
 LLM học phân phối:
 
-P(t_i | t_{<i})
+P(t_i \mid t_{\lt i})
 
 Toàn chuỗi:
 
-P(T) = \prod_{i=1}^{m} P(t_i | t_{<i})
+P(T) = \prod_{i=1}^{m} P(t_i \mid t_{\lt i})
 
 Mô hình không tối ưu cho phép toán đếm ký tự, mà tối ưu cho:
 
-\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i | t_{<i})
+\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i \mid t_{\lt i})
 
 Tức là tối thiểu hóa cross-entropy giữa token dự đoán và token thật.
 

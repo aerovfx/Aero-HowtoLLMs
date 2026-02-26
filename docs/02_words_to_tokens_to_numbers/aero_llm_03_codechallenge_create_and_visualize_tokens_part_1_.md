@@ -264,7 +264,7 @@ Bước 4: Visualization
 Mô hình GPT tối ưu:
 
 $$
-P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+P(x) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 Token là đơn vị cơ bản của xác suất.
@@ -275,7 +275,7 @@ $$
 \mathcal{L}
 ===========
 -\sum_{t=1}^{T}
-\log P(x_t | x_{<t})
+\log P(x_t \mid x_{\lt t})
 $$
 
 Nếu tokenization không tốt:

@@ -96,7 +96,7 @@ nếu hai chuỗi tương đương về mặt ngữ nghĩa.
 Mô hình ngôn ngữ tối ưu xác suất:
 
 $$
-P(X) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+P(X) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 Tuy nhiên, nếu làm việc ở mức ký tự:
@@ -272,7 +272,7 @@ Các mô hình GPT sử dụng biến thể của BPE hoặc byte-level BPE.
 Xác suất sinh token:
 
 $$
-P(w_t | w_{<t}) =
+P(w_t \mid w_{\lt t}) =
 \frac{\exp(z_t W_{out})}
 {\sum_j \exp(z_j W_{out})}
 $$

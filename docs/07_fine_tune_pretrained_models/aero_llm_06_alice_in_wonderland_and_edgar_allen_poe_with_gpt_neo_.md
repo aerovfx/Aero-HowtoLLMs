@@ -156,7 +156,7 @@ Tokenizer của GPT-Neo trùng với GPT-2 tokenizer.
 Mô hình sử dụng Negative Log-Likelihood Loss:
 
 $$
-\mathcal{L}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+\mathcal{L}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t\mid x_{\lt t})
 $$
 
 Hàm này đo độ phù hợp giữa phân phối dự đoán và dữ liệu thực tế.

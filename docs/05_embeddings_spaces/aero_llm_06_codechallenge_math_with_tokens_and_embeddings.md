@@ -158,13 +158,13 @@ $$
 \mathcal{L}
 =
 - \sum_{t=1}^{T}
-\log P(w_t | w_{<t})
+\log P(w_t \mid w_{\lt t})
 $$
 
 Với:
 
 $$
-P(w_t | w_{<t})
+P(w_t \mid w_{\lt t})
 =
 \text{softmax}(W_o h_t)
 $$
