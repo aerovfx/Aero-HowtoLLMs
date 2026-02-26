@@ -145,7 +145,18 @@ def generate_indexes(base_dir):
                     footer.append(f"> *\"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!\"* 🚀\n")
                     footer.append(f"\n*Cập nhật tự động bởi Aero-Indexer - 2026*")
                     
-                    # Construct new content: Header + Original (skipping original H1 if redundant) + Footer
+                    # Lessons Table (to be injected if not present)
+                    lessons_table = []
+                    if md_files:
+                        lessons_table.append(f"## 📄 Tài liệu chi tiết (Bổ sung)\n")
+                        lessons_table.append("| Bài học | Liên kết |")
+                        lessons_table.append("| :--- | :--- |")
+                        for md in md_files:
+                            title = get_title_from_md(os.path.join(root, md))
+                            lessons_table.append(f"| {title} | [Xem bài viết →]({md}) |")
+                        lessons_table.append("\n")
+
+                    # Construct new content: Header + Original + Lessons + Footer
                     new_readme = header
                     h1_found = False
                     for line in orig_lines:
@@ -153,6 +164,8 @@ def generate_indexes(base_dir):
                             h1_found = True
                             continue # Skip the first H1 as we added our own
                         new_readme.append(line)
+                    
+                    new_readme.extend(lessons_table)
                     new_readme.extend(footer)
                     
                     with open(readme_path, 'w', encoding='utf-8') as f:
@@ -160,7 +173,7 @@ def generate_indexes(base_dir):
             except Exception as e:
                 print(f"Error updating {readme_path}: {e}")
             
-        print(f"Index created/Readme styled for {root}")
+        print(f"Index created & Readme enhanced for {root}")
 
 if __name__ == "__main__":
     base_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
