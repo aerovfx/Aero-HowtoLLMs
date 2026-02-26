@@ -101,7 +101,7 @@ Câu hỏi trung tâm:
 **Công thức toán học:**
 
 $$
-\text{ReLU}(x) = \max(0, x) = \begin{cases} x & \\text{if } x > 0 \\ 0 & \\text{if } x \\leq 0 \end{cases}
+\text{ReLU}(x) = \max(0, x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}
 $$
 
 **Triển khai NumPy:**
@@ -121,7 +121,7 @@ def relu(x):
 **Công thức:**
 
 $$
-\frac{d}{dx}\text{ReLU}(x) = \begin{cases} 1 & \\text{if } x > 0 \\ 0 & \\text{if } x < 0 \\ \\text{undefined} & \\text{if } x = 0 \end{cases}
+\frac{d}{dx}\text{ReLU}(x) = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x < 0 \\ \text{undefined} & \text{if } x = 0 \end{cases}
 $$
 
 **Vấn đề quan trọng:**

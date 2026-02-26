@@ -173,7 +173,7 @@ $$
 Trong đó:
 
 $$
-model = \begin{cases} E, & k \\text{ lẻ} \\ A, & k \\text{ chẵn} \end{cases}
+model = \begin{cases} E, & k \text{ lẻ} \\ A, & k \text{ chẵn} \end{cases}
 $$
 
 ---

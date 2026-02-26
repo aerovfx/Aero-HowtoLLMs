@@ -186,7 +186,7 @@ Theo tài liệu , chỉ huấn luyện:
 Mô tả toán học:
 
 $$
-\theta_i = \begin{cases} \\text{trainable}, & i \\in \\mathcal{A}_{6+} \\ \\text{frozen}, & \\text{ngược lại} \end{cases}
+\theta_i = \begin{cases} \text{trainable}, & i \in \mathcal{A}_{6+} \\ \text{frozen}, & \text{ngược lại} \end{cases}
 $$
 
 với $\mathcal{A}_{6+}$ là tập attention layer từ block 6 trở lên.
@@ -319,7 +319,7 @@ $$
 #### Đóng băng từng phần theo thời gian
 
 $$
-\theta_i(t)= \begin{cases} \\text{frozen}, & t<t_0\ \\text{trainable}, & t\ge t_0 \end{cases}
+\theta_i(t)= \begin{cases} \text{frozen}, & t<t_0\ \text{trainable}, & t\ge t_0 \end{cases}
 $$
 
 #### Kết hợp LoRA/Adapter

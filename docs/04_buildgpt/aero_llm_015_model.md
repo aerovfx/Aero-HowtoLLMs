@@ -83,7 +83,7 @@ Hệ số $\sqrt{d}$ giúp ổn định giá trị softmax.
 Mô hình sử dụng causal mask để đảm bảo tính tự hồi quy:
 
 $$
-M_{ij}= \begin{cases} 0 & j \\le i \\ -\infty & j > i \end{cases}
+M_{ij}= \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
 $$
 
 Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-\infty$. 

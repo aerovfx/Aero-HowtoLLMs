@@ -290,7 +290,7 @@ Theo , clipping sớm có thể:
 Giải pháp:
 
 $$
-c(t)= \begin{cases} \\infty & t<T_0\ 1 & t\ge T_0 \end{cases}
+c(t)= \begin{cases} \infty & t<T_0\ 1 & t\ge T_0 \end{cases}
 $$
 
 (Delayed clipping)

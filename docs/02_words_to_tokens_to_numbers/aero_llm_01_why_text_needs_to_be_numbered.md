@@ -173,7 +173,7 @@ $$
 Causal masking:
 
 $$
-M_{ij} = \begin{cases} 0 & j \\le i \\ -\infty & j > i \end{cases}
+M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
 $$
 
 Ma trận attention thực tế:

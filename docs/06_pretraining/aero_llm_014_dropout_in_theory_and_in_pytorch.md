@@ -96,7 +96,7 @@ This reduction may negatively affect downstream operations such as Softmax.
 To compensate, modern frameworks use inverted dropout:
 
 $$
-\tilde{h}_i = \begin{cases} \\frac{h_i}{1-p}, & \\text{if } m_i = 1 \\ 0, & \\text{otherwise} \end{cases}
+\tilde{h}_i = \begin{cases} \frac{h_i}{1-p}, & \text{if } m_i = 1 \\ 0, & \text{otherwise} \end{cases}
 $$
 
 This preserves the expected activation magnitude during training.

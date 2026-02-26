@@ -394,7 +394,7 @@ Cách chia này giúp:
 Trong mô hình tự hồi quy, mỗi head đều áp dụng causal mask:
 
 $$
-M_{ij} = \begin{cases} 0 & j \\le i \\ -\infty & j > i \end{cases}
+M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
 $$
 
 Mask này đảm bảo không rò rỉ thông tin tương lai.

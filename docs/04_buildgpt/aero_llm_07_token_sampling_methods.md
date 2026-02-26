@@ -426,7 +426,7 @@ $$
 $$
 
 $$
-P_K(w) = \begin{cases} \\frac{p_w}{\sum_{w' \\in \\mathcal{V}_K} p_{w'}} & \\text{if } w \\in \\mathcal{V}_K \\ 0 & \\text{otherwise} \end{cases}
+P_K(w) = \begin{cases} \frac{p_w}{\sum_{w' \in \mathcal{V}_K} p_{w'}} & \text{if } w \in \mathcal{V}_K \\ 0 & \text{otherwise} \end{cases}
 $$
 
 **PyTorch implementation:**
@@ -555,7 +555,7 @@ $$
 **Sampling distribution:**
 
 $$
-P_P(w) = \begin{cases} \\frac{p_w}{\sum_{w' \\in \\mathcal{V}_P} p_{w'}} & \\text{if } w \\in \\mathcal{V}_P \\ 0 & \\text{otherwise} \end{cases}
+P_P(w) = \begin{cases} \frac{p_w}{\sum_{w' \in \mathcal{V}_P} p_{w'}} & \text{if } w \in \mathcal{V}_P \\ 0 & \text{otherwise} \end{cases}
 $$
 
 **PyTorch implementation:**

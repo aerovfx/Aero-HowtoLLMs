@@ -120,7 +120,7 @@ Trong đó:
 **Brevity Penalty:**
 
 $$
-\text{BP} = \begin{cases} 1 & \\text{nếu } c > r \\ e^{(1-r/c)} & \\text{nếu } c \\leq r \end{cases}
+\text{BP} = \begin{cases} 1 & \text{nếu } c > r \\ e^{(1-r/c)} & \text{nếu } c \leq r \end{cases}
 $$
 
 ### 4.3 Triển Khai

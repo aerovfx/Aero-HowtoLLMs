@@ -124,7 +124,7 @@ Trước huấn luyện, không có token nào chứa “X” trong 200 token si
 Một vector mask được xây dựng:
 
 $$
-M_i = \begin{cases} 1, & \\text{nếu token } i \\text{ chứa X}\ 0, & \\text{ngược lại} \end{cases}
+M_i = \begin{cases} 1, & \text{nếu token } i \text{ chứa X}\ 0, & \text{ngược lại} \end{cases}
 $$
 
 Sau đó được chuẩn hóa thành phân phối xác suất:

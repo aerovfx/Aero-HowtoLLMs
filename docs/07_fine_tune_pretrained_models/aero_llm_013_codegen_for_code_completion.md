@@ -276,7 +276,7 @@ Trong đó:
 Gọi:
 
 $$
-f(x)= \begin{cases} 1, & x\ \\text{chạy được} \\ 0, & \\text{lỗi} \end{cases}
+f(x)= \begin{cases} 1, & x\ \text{chạy được} \\ 0, & \text{lỗi} \end{cases}
 $$
 
 Tỷ lệ hợp lệ:

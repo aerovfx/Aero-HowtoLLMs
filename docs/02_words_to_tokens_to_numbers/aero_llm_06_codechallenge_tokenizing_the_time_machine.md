@@ -152,7 +152,7 @@ $$
 với:
 
 $$
-x_{ij} = \begin{cases} 1 & \\text{nếu } j = id(w_i) \\ 0 & \\text{ngược lại} \end{cases}
+x_{ij} = \begin{cases} 1 & \text{nếu } j = id(w_i) \\ 0 & \text{ngược lại} \end{cases}
 $$
 
 Nhược điểm:

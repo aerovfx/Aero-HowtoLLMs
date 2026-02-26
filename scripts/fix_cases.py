@@ -5,20 +5,27 @@ def fix_cases_syntax(content):
     # Tìm các khối cases: \begin{cases} ... \end{cases}
     def internal_fix(match):
         inner = match.group(1)
-        # Nếu thấy " \ " (khoảng trắng + backslash + khoảng trắng) mà không phải " \\ "
-        # Hoặc các pattern phổ biến của lỗi merge
         
-        # 1. Phát hiện các điểm ngắt dòng tiềm năng trong cases (thường có dấu \ hoặc \ dán liền)
-        # Sửa: text \ -\infty -> text \\ -\infty
-        # Sửa: text \ 0 -> text \\ 0
-        new_inner = re.sub(r'(\s)\\(\s|-|\d|[a-zA-Z])', r'\1\\\\\2', inner)
+        # 1. Sửa lỗi nhân đôi backslash cho các ký tự toán học (như \le, \infty) 
+        # mà bị script trước đó làm hỏng thành \\le, \\infty
+        # Chúng ta chỉ muốn \\ ở cuối dòng logic.
         
-        # Đảm bảo không bị nhân đôi quá đà nếu đã có \\
-        new_inner = new_inner.replace('\\\\\\\\', '\\\\')
+        # Đầu tiên, đưa tất cả \\ về \ ngoại trừ những chỗ thực sự là xuống dòng
+        # Nhưng làm vậy hơi khó. Hãy thử pattern:
+        # Nếu thấy \\ tiếp theo là một chữ cái (a-z) thì khả năng cao là symbol
+        inner = re.sub(r'\\\\([a-zA-Z])', r'\\\1', inner)
         
-        return f'\\begin{{cases}}{new_inner}\\end{{cases}}'
+        # 2. Bây giờ, tìm các điểm ngắt dòng thực sự. 
+        # Trong các file bị hỏng, chúng thường là " \ " hoặc " \\ " (nhưng bị dính vào symbol)
+        # Hoặc đơn giản là ta cần một dấu \\ giữa các điều kiện.
+        
+        # Giả sử cấu trúc là: giá trị & điều kiện \ giá trị & điều kiện
+        # Ta tìm các dấu \ nằm giữa các cụm điều kiện.
+        # Một dấu hiệu tốt là \ theo sau bởi một dấu trừ (cho -\infty) hoặc một con số.
+        inner = re.sub(r'\s\\\s(-?\d+|-\\infty|\\infty)', r' \\\\ \1', inner)
+        
+        return f'\\begin{{cases}}{inner}\\end{{cases}}'
 
-    # Regex bắt khối cases
     content = re.sub(r'\\begin\{cases\}([\s\S]*?)\\end\{cases\}', internal_fix, content)
     
     return content
@@ -36,7 +43,7 @@ def run_fix(directory):
                 if new_content != old_content:
                     with open(path, 'w', encoding='utf-8') as f:
                         f.write(new_content)
-                    print(f"Fixed Cases: {path}")
+                    print(f"Refined Cases: {path}")
 
 if __name__ == "__main__":
     run_fix("/Users/pixibox/Aero-HowtoLLMs/docs")
