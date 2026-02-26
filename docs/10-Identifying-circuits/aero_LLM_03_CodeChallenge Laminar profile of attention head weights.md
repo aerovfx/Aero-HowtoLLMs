@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [10 Identifying circuits](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Thử Thách Lập Trình: Biểu Diễn Phân Bố Nhiệt Laminar Của Trọng Số Chú Ý
 
 ## Tóm tắt (Abstract)
@@ -44,3 +60,12 @@ Việc khảo sát Profiler nhiệt độ Attention là minh chứng số học 
 
 ## Tài Liệu Tham Khảo (Citations)
 1. Thử thách đồng nhất Tensor biến thiên trên mô hình Pythia 2.8B trong `aero_LLM_03_CodeChallenge Laminar profile of attention head weights.md`. Mô phỏng cấu trúc trích xuất vòng lặp kép và kỹ thuật đồ họa KDE 2D Heatmaps.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

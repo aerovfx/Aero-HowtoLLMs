@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [20 Investigating token embeddings](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Phân Khảo Token Embeddings: Đo Lường Góc Quay Của Vector Biểu Diễn
 
 ## Tóm tắt (Abstract)
@@ -56,3 +72,12 @@ Việc ứng dụng toán học hình chiếu (Arc Cosine) biến việc theo d�
 
 ## Tài Liệu Tham Khảo (Citations)
 1. Thí nghiệm đo đạc từ thư viện lệnh ngầm tại `aero_LLM_01_Calculating rotations of embeddings vectors.md` (Triển khai công thức toán Arc Cosine cho Embeddings và thống kê Independent T-test).
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

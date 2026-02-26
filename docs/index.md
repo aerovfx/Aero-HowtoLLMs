@@ -1,16 +1,12 @@
+<!-- Aero-Navigation-Start -->
 # 🚀 Master Index: Aero-HowtoLLMs
-
 > **Danh mục tổng hợp toàn bộ lộ trình và tài liệu nghiên cứu LLM.**
-
-[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
-[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
-
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 **Home**
 
 ---
-
-### 🧭 Quick Navigation
+### 🧭 Điều hướng nhanh
 
 - [🏠 Cổng tài liệu](index.md)
 - [📚 Module 01: LLM Course](01-LLM_Course/index.md)
@@ -18,11 +14,10 @@
 - [🏗️ Module 04: Build GPT](04-buildGPT/index.md)
 - [🎯 Module 07: Fine-tuning](07-Fine-tune-pretrained-models/index.md)
 - [🔍 Module 19: AI Safety](19-AI-safety/index.md)
-
+- [🐍 Module 20: Python for AI](20-Python-Colab-notebooks/index.md)
 ---
-
+<!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-
 [01-LLM_Course](01-LLM_Course/index.md)
 [02-Words-to-tokens-to-numbers](02-Words-to-tokens-to-numbers/index.md)
 [03-Python-Indexing-and-slicing](03-Python-Indexing-and-slicing/index.md)
@@ -55,9 +50,7 @@
 [28-Gradient-descent](28-Gradient-descent/index.md)
 [29-Essence-deep-learning](29-Essence-deep-learning/index.md)
 
-
 ## 📄 Tài liệu chi tiết
-
 | Bài học | Liên kết |
 | :--- | :--- |
 | 🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS! | [Xem bài viết →](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) |
@@ -69,21 +62,18 @@
 | ✅ Week 3 Progress: MoE Grid Layout Complete! | [Xem bài viết →](PROGRESS_WEEK3.md) |
 | ✅ Week 4 Complete: Router Visualization & Color Coding! | [Xem bài viết →](PROGRESS_WEEK4_COMPLETE.md) |
 | 🎯 Week 4 Progress: Router Visualization (Part 1) | [Xem bài viết →](PROGRESS_WEEK4_PART1.md) |
-| � Kho Tài Liệu Aero-HowtoLLMs | [Xem bài viết →](index.md) |
+| � Kho Tài Liệu Aero-HowtoLLMs | [Xem bài viết →](README.md) |
 | 🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures | [Xem bài viết →](ROADMAP_GPT4_EXPANSION.md) |
 | 🎯 LLM Training Pipeline - 3D Visualization System Design | [Xem bài viết →](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) |
 | 🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement | [Xem bài viết →](WEEK3_MOE_IMPLEMENTATION.md) |
 | 🚀 Roadmap Học Hybrid AI (6 Tháng) | [Xem bài viết →](roadmapHybridAI.md) |
 
-
+<!-- Aero-Footer-Start -->
 ---
-
 ## 🤝 Liên hệ & Đóng góp
-
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
 
 > *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
 
-
 *Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

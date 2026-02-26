@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [15 Interpretability](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Các Khái Niệm, Thuật Ngữ và Phương Pháp Trong Diễn Giải Cơ Chế (Mech Interp)
 
 ## Tóm tắt
@@ -66,3 +82,12 @@ Một vốn từ vựng hệ thống và các khái niệm thiết kế nền t�
 2. **Olah, C., et al. (2020).** *Zoom In: An Introduction to Circuits.* Distill.
 3. **Casper, S., et al. (2023).** *Open Problems and Fundamental Limitations of Reinforcement Learning from Human Feedback.*
 4. **Alain, G., & Bengio, Y. (2016).** *Understanding intermediate layers using linear classifier probes.* ICLR Workshop.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

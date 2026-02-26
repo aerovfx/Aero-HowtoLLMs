@@ -18,35 +18,45 @@ def generate_breadcrumb(rel_path, is_file=False):
         return "**Home**"
     
     parts = rel_path.split(os.sep)
-    breadcrumb = ["[Home](../" * len(parts) + "README.md)" if is_file else "[Home](../" * (len(parts)-1) + "README.md)"]
-    
-    # Recalculate Home link based on depth
+    # Root Home link pointing to the main index.md
     depth = len(parts)
-    home_link = "../" * depth + "README.md"
-    breadcrumb = [f"[Home]({home_link})"]
+    # File is one level deeper than its base directory
+    steps_to_root = depth + (1 if is_file else 0)
+    home_link = "../" * steps_to_root + "index.md"
+    breadcrumb = [f"[🏠 Home]({home_link})"]
 
     for i, part in enumerate(parts):
-        depth_back = len(parts) - (i + 1)
-        # If it's a file, we are one level deeper than its directory
-        actual_depth_back = depth_back + (1 if is_file else 0)
-        link = "../" * actual_depth_back + "index.md"
+        # Calculate how many levels to go back to reach this part's index.md
+        # Part i depth relative to root: i + 1
+        steps_back = depth - (i + 1)
+        if is_file:
+            steps_back += 1
         
+        link = "../" * steps_back + "index.md"
+        
+        # Clean up the part name for display (e.g. remove numbering)
+        display_name = part.replace("_", " ").replace("-", " ")
+        match = re.match(r'^\d+-(.*)', display_name)
+        if match:
+            display_name = match.group(1).strip()
+
         if i == len(parts) - 1 and not is_file:
-            breadcrumb.append(f"**{part}**")
+            breadcrumb.append(f"**{display_name}**")
         else:
-            breadcrumb.append(f"[{part}]({link})")
+            breadcrumb.append(f"[{display_name}]({link})")
             
     return " > ".join(breadcrumb)
 
 def generate_sidebar(depth):
     prefix = "../" * depth
-    sidebar = ["### 🧭 Quick Navigation\n"]
-    sidebar.append(f"- [🏠 Cổng tài liệu]({prefix}README.md)")
+    sidebar = ["### 🧭 Điều hướng nhanh\n"]
+    sidebar.append(f"- [🏠 Cổng tài liệu]({prefix}index.md)")
     sidebar.append(f"- [📚 Module 01: LLM Course]({prefix}01-LLM_Course/index.md)")
     sidebar.append(f"- [🔢 Module 02: Tokenization]({prefix}02-Words-to-tokens-to-numbers/index.md)")
     sidebar.append(f"- [🏗️ Module 04: Build GPT]({prefix}04-buildGPT/index.md)")
     sidebar.append(f"- [🎯 Module 07: Fine-tuning]({prefix}07-Fine-tune-pretrained-models/index.md)")
     sidebar.append(f"- [🔍 Module 19: AI Safety]({prefix}19-AI-safety/index.md)")
+    sidebar.append(f"- [🐍 Module 20: Python for AI]({prefix}20-Python-Colab-notebooks/index.md)")
     return "\n".join(sidebar)
 
 def process_all_markdowns(base_dir):

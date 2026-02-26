@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../../../../index.md) > [18 RAG](../../../../index.md) > [Advanced RAG with Vector Databases and Retrievers](../../../index.md) > [01 advanced retrievers for rag](../../index.md) > [01 welcome to the course](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../../../../index.md)
+- [📚 Module 01: LLM Course](../../../../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../../../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../../../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../../../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../../../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../../../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Giới Thiệu Khóa Học: Retrieval-Augmented Generation Nâng Cao với Cơ Sở Dữ Liệu Vector
 
 ## Tổng Quan
@@ -322,3 +338,12 @@ Khóa học này sẽ giúp bạn:
 4. Malkov, Y.A., & Yashunin, D. (2018). "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs". *IEEE TPAMI 2018*.
 
 5. Robertson, S., & Zaragoza, H. (2009). "The probabilistic relevance framework: BM25 and beyond". *Foundations and Trends in Information Retrieval*, 3(4), 333-389.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

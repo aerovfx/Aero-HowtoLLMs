@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [04 buildGPT](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 ## 1. Giới thiệu
 
 Việc xây dựng LLM từ đầu đưa ra một nghịch lý cơ bản trong giáo dục học máy đương đại: nó cấu thành một phương pháp học tập thiết yếu trong khi đồng thời đại diện cho một cách tiếp cận không hiệu quả đối với việc triển khai mô hình thực tế. Nghiên cứu này khám phá mâu thuẫn rõ ràng này và phân định các bối cảnh phù hợp cho từng cách tiếp cận.
@@ -83,3 +99,12 @@ Việc xây dựng LLM từ đầu chiếm một vị trí đặc biệt trong g
 ## 7. Nhận Xét Kết Thúc
 
 Hành trình giáo dục này—xây dựng kiến trúc GPT-2 từ các nguyên tắc nền tảng—đại diện cho một sự kiện có thể xảy ra duy nhất trong sự nghiệp của hầu hết các học viên, tuy nhiên giá trị sư phạm của nó biện minh cho khoản đầu tư đáng kể về thời gian và nỗ lực cần thiết.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

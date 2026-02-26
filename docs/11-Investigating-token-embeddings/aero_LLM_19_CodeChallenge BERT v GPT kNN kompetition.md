@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [11 Investigating token embeddings](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Cạnh Tranh Tìm Từ Đồng Nghĩa BERT vs GPT: Cơ Chế Tokenization Đa Ký Tự
 
 ## Tóm tắt
@@ -48,3 +64,12 @@ Việc sáp nhập mã độc lập không giết chết nội hàm, nó tạo r
 1. **Bojanowski, P., et al. (2017).** *Enriching Word Vectors with Subword Information.* TACL (Cùng kiến trúc token hoá subword ảnh hưởng k-NN).
 2. **Sennrich, H., et al. (2016).** *Neural Machine Translation of Rare Words with Subword Units.* ACL.
 3. Tài liệu thực hành lập trình *BERT v GPT kNN kompetition.*
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

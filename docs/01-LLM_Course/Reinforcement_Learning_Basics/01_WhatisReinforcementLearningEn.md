@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../../index.md) > [01 LLM Course](../../index.md) > [Reinforcement Learning Basics](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../../index.md)
+- [📚 Module 01: LLM Course](../../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 Reinforcement Learning (RL) is a type of Machine Learning that involves training an agent to make decisions in an environment to maximize a reward signal.
 
 Key Concepts:
@@ -35,3 +51,12 @@ Challenges and Limitations:
 Exploration-Exploitation Trade-off : The agent must balance exploration and exploitation, which can be challenging in high-dimensional state and action spaces.
 Overfitting : RL algorithms may suffer from overfitting if the environment is too complex or if the reward signal is not well-defined.
 Scalability : Large-scale RL problems can be computationally expensive to solve.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

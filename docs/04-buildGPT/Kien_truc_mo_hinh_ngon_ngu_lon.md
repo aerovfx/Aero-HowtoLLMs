@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [04 buildGPT](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 ## Định nghĩa về hệ thống AI xử lý và tạo ngôn ngữ giống con người (cụ thể là LLM) đại diện cho bước tiến hóa cao nhất hiện tại trong lĩnh vực Xử lý Ngôn ngữ Tự nhiên (NLP).
 
 Dưới đây là các điểm cốt lõi trong bối cảnh rộng hơn:
@@ -111,4 +127,12 @@ Vì Base Model chỉ giỏi "nói leo" theo văn bản chứ chưa biết cách 
 *   **Chuyển đổi mục đích:** Sau *Pre-training*, mô hình (Base Model) chỉ giỏi việc "tự động hoàn thiện" văn bản (autocomplete) dựa trên xác suất. *Instruction Tuning* thay đổi hành vi này, dạy mô hình cách hiểu và thực hiện các mệnh lệnh cụ thể như "tóm tắt", "dịch", hoặc "trả lời câu hỏi", biến nó thành một trợ lý hữu ích (Chatbot),.
 *   **Dữ liệu huấn luyện:** Khác với văn bản thô của pre-training, giai đoạn này sử dụng các tập dữ liệu được biên soạn kỹ lưỡng dưới dạng các kịch bản tương tác (cặp câu hỏi - trả lời) để mô hình học cấu trúc đối thoại,.
 *   **Thiết lập rào cản:** Đây là lúc mô hình bắt đầu học các quy tắc ứng xử, bao gồm việc tuân thủ các ràng buộc đạo đức và từ chối các yêu cầu gây hại hoặc bất hợp pháp.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
 
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

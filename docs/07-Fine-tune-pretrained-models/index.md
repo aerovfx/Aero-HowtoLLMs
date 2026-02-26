@@ -1,36 +1,29 @@
+<!-- Aero-Navigation-Start -->
 # 📂 Module: 07-Fine-tune-pretrained-models
-
 > **Tài liệu chuyên sâu và bài tập thuộc phần 07-Fine-tune-pretrained-models.**
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
-[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
-[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
-
-
-[Home](../index.md) > **07-Fine-tune-pretrained-models**
+[🏠 Home](../index.md) > **07 Fine tune pretrained models**
 
 ---
-
-### 🧭 Quick Navigation
+### 🧭 Điều hướng nhanh
 
 - [🏠 Cổng tài liệu](../index.md)
 - [📚 Module 01: LLM Course](../01-LLM_Course/index.md)
 - [🔢 Module 02: Tokenization](../02-Words-to-tokens-to-numbers/index.md)
 - [🏗️ Module 04: Build GPT](../04-buildGPT/index.md)
-- [🎯 Module 07: Fine-tuning](index.md)
+- [🎯 Module 07: Fine-tuning](../07-Fine-tune-pretrained-models/index.md)
 - [🔍 Module 19: AI Safety](../19-AI-safety/index.md)
-
+- [🐍 Module 20: Python for AI](../20-Python-Colab-notebooks/index.md)
 ---
-
+<!-- Aero-Navigation-End -->
 ## 📁 Thư mục con
-
 [Fine-Tuning](Fine-Tuning/index.md)
 
-
 ## 📄 Tài liệu chi tiết
-
 | Bài học | Liên kết |
 | :--- | :--- |
-| 📂 Module: 07-Fine-tune-pretrained-models | [Xem bài viết →](index.md) |
+| 📂 Module: 07-Fine-tune-pretrained-models | [Xem bài viết →](README.md) |
 | Fine-tuning Có Mục Tiêu và Đóng Băng Chính Xác Trọng Số Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_010_CodeChallenge Fine-tuning and targeted freezing (part 1).md) |
 | Phân Tích Hiệu Quả Fine-tuning và Targeted Freezing (Phần 2): Đánh Giá Bằng Trực Quan Hóa và Chuẩn Ma Trận | [Xem bài viết →](aero_LLM_011_CodeChallenge Fine-tuning and targeted freezing (part 2).md) |
 | Fine-tuning Hiệu Quả Tham Số (Parameter-Efficient Fine-Tuning – PEFT) Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_012_Parameter-efficient fine-tuning (PEFT).md) |
@@ -56,15 +49,12 @@
 | Mô Phỏng Hội Thoại Giữa Hai Mô Hình Ngôn Ngữ Sau Fine-tuning: Trường Hợp *Alice* và *Edgar* | [Xem bài viết →](aero_LLM_08_CodeChallenge A chat between Alice and Edgar.md) |
 | Tinh Chỉnh Từng Phần Bằng Cách Đóng Băng Trọng Số Attention: Chiến Lược Tối Ưu Hóa Tham Số Cho LLM | [Xem bài viết →](aero_LLM_09_Partial fine-tuning by freezing attention weights.md) |
 
-
+<!-- Aero-Footer-Start -->
 ---
-
 ## 🤝 Liên hệ & Đóng góp
-
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
 
 > *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
 
-
 *Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

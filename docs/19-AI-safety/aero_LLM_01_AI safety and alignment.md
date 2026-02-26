@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../index.md) > [19 AI safety](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../index.md)
+- [📚 Module 01: LLM Course](../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Đánh giá An toàn AI (AI Safety) và Sự Căn chỉnh (Alignment) thông qua Khả năng Diễn giải Cơ chế (Mechanistic Interpretability)
 
 ## Tóm tắt
@@ -93,3 +109,12 @@ An toàn AI không chỉ là câu chuyện của luân lý mà là bài toán c�
 5. **Elhage, N., et al. (2021).** *A Mathematical Framework for Transformer Circuits.* Transformer Circuits Thread.
 6. **Olah, C., et al. (2020).** *Zoom In: An Introduction to Circuits.* Distill.
 7. **Räuköll, D. et al. (2023).** *Mechanistic Interpretability connects AI Safety and Architectural Understanding.*
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

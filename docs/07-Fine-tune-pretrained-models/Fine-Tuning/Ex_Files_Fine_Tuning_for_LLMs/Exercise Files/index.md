@@ -1,9 +1,9 @@
 <!-- Aero-Navigation-Start -->
-# 📂 Module: 03_course-wrap-up
-> **Tài liệu chuyên sâu và bài tập thuộc phần 03_course-wrap-up.**
+# 📂 Module: Exercise Files
+> **Tài liệu chuyên sâu và bài tập thuộc phần Exercise Files.**
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
-[🏠 Home](../../../../index.md) > [18 RAG](../../../index.md) > [Advanced RAG with Vector Databases and Retrievers](../../index.md) > [02 build a comprehensive rag application](../index.md) > **03 course wrap up**
+[🏠 Home](../../../../index.md) > [07 Fine tune pretrained models](../../../index.md) > [Fine Tuning](../../index.md) > [Ex Files Fine Tuning for LLMs](../index.md) > **Exercise Files**
 
 ---
 ### 🧭 Điều hướng nhanh
@@ -17,11 +17,6 @@
 - [🐍 Module 20: Python for AI](../../../../20-Python-Colab-notebooks/index.md)
 ---
 <!-- Aero-Navigation-End -->
-## 📄 Tài liệu chi tiết
-| Bài học | Liên kết |
-| :--- | :--- |
-| Tổng Kết Khóa Học: Advanced RAG với Cơ Sở Dữ Liệu Vector và Retrievers | [Xem bài viết →](01_course-wrap-up.md) |
-
 <!-- Aero-Footer-Start -->
 ---
 ## 🤝 Liên hệ & Đóng góp

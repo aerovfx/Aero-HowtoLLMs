@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../../../../index.md) > [18 RAG](../../../../index.md) > [Advanced RAG with Vector Databases and Retrievers](../../../index.md) > [02 build a comprehensive rag application](../../index.md) > [01 introduction to faiss for rag](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../../../../index.md)
+- [📚 Module 01: LLM Course](../../../../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../../../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../../../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../../../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../../../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../../../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Giới Thiệu FAISS Cho RAG và So Sánh với ChromaDB
 
 ## Tổng Quan
@@ -341,3 +357,12 @@ FAISS phù hợp cho ứng dụng cần hiệu suất cao và kiểm soát full,
 4. Milvus Documentation. (2024). "Milvus: A Purpose-Built Vector Database". https://milvus.io/docs
 
 5. G淡水. (2023). "FAISS: Efficient Similarity Search and Clustering of Dense Vectors". *GitHub Repository*.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

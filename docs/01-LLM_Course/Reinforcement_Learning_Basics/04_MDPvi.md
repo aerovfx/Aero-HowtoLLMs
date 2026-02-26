@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../../index.md) > [01 LLM Course](../../index.md) > [Reinforcement Learning Basics](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../../index.md)
+- [📚 Module 01: LLM Course](../../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 **Markov Decision Process (MDP)**
 
 Trong Reinforcement Learning, một Markov Decision Process (MDP) là một formal hóa để mô tả các vấn đề quyết định. Nó được sử dụng rộng rãi trong nhiều lĩnh vực như kinh tế học, kỹ thuật số, và khoa học tự nhiên.
@@ -77,4 +93,12 @@ Một ví dụ về MDP là một hệ thống kiểm soát giao thông. Trong t
 MDP là một công cụ quan trọng trong lĩnh vực Reinforcement Learning. Nó được sử dụng rộng rãi để mô tả các vấn đề quyết định và giải quyết chúng thông qua các phương pháp như sự tương tác và sự quan sát, phương pháp động học, hoặc phương pháp phân tích.
 
 Tóm lại, MDP là một formal hóa để mô tả các vấn đề quyết định trong Reinforcement Learning. Nó có thể được mô tả bởi các tính chất như khối lượng, động lực, và tính bất định. Có nhiều phương pháp giải quyết MDP, bao gồm sự tương tác và sự quan sát, phương pháp động học, hoặc phương pháp phân tích.
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
 
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

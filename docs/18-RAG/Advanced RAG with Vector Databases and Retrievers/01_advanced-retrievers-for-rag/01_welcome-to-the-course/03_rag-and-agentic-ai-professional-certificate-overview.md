@@ -1,3 +1,19 @@
+
+<!-- Aero-Navigation-Start -->
+[🏠 Home](../../../../../index.md) > [18 RAG](../../../../index.md) > [Advanced RAG with Vector Databases and Retrievers](../../../index.md) > [01 advanced retrievers for rag](../../index.md) > [01 welcome to the course](../index.md)
+
+---
+### 🧭 Điều hướng nhanh
+
+- [🏠 Cổng tài liệu](../../../../../index.md)
+- [📚 Module 01: LLM Course](../../../../../01-LLM_Course/index.md)
+- [🔢 Module 02: Tokenization](../../../../../02-Words-to-tokens-to-numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../../../../04-buildGPT/index.md)
+- [🎯 Module 07: Fine-tuning](../../../../../07-Fine-tune-pretrained-models/index.md)
+- [🔍 Module 19: AI Safety](../../../../../19-AI-safety/index.md)
+- [🐍 Module 20: Python for AI](../../../../../20-Python-Colab-notebooks/index.md)
+---
+<!-- Aero-Navigation-End -->
 # Tổng Quan về Chứng Chỉ Chuyên Nghiệp về RAG và AI Tác Nhân (Agentic AI)
 
 ## Giới Thiệu
@@ -76,3 +92,12 @@ Chương trình này cung cấp cho bạn chuyên môn để xây dựng và tri
 4. Meta AI. (2025). *FAISS: Facebook AI Similarity Search*. https://faiss.ai/
 5. Chromadb. (2025). *Chroma: The AI-native open-source embedding database*. https://www.trychroma.com/
 6. OpenAI. (2025). *Whisper: General-purpose speech recognition model*. https://openai.com/index/whisper/
+<!-- Aero-Footer-Start -->
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->
