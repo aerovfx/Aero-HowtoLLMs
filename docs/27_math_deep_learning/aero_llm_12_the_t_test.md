@@ -33,9 +33,7 @@ Trong quá trình phát triển AI, chúng ta thường đặt câu hỏi: "Ki�
 ## 2. Công thức và Cơ chế vận hành
 
 Giá trị $t$ được tính toán dựa trên một nguyên lý đơn giản:
-
-t = \frac{\bar{x} - \bar{y}}{s / \sqrt{n}}
-
+$$t = \frac{\bar{x} - \bar{y}}{s / \sqrt{n}}$$
 Trong đó:
 - **Tử số:** Khoảng cách giữa hai giá trị trung bình.
 - **Mẫu số:** Độ lệch chuẩn được chuẩn hóa theo kích thước mẫu (nhiễu).
@@ -47,7 +45,7 @@ Trong đó:
 
 Sau khi có giá trị $t$, chúng ta quy đổi nó sang giá trị $p$ (p-value):
 - **Ngưỡng 0.05:** Đây là ngưỡng phổ biến nhất trong khoa học. Nếu $p < 0.05$, có ít hơn 5% khả năng sự khác biệt này xảy ra do ngẫu nhiên. Chúng ta bác bỏ $H_0$ và kết luận mô hình có sự cải tiến thực sự.
-- **Trường hợp $p $\ge$q 0.05$:** Không đủ bằng chứng để kết luận sự khác biệt. Trong ngữ cảnh học sâu, điều này có nghĩa là kiến trúc mới không mang lại lợi ích thực chất so với kiến trúc cũ, mặc dù con số trung bình có thể trông cao hơn một chút.
+- **Trường hợp $p \geq 0.05$:** Không đủ bằng chứng để kết luận sự khác biệt. Trong ngữ cảnh học sâu, điều này có nghĩa là kiến trúc mới không mang lại lợi ích thực chất so với kiến trúc cũ, mặc dù con số trung bình có thể trông cao hơn một chút.
 
 ---
 

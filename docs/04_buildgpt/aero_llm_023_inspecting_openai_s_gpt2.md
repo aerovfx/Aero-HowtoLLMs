@@ -49,6 +49,8 @@ Việc sử dụng nền tảng này cho phép:
 * Chuẩn hóa giao diện lập trình.
 * Dễ dàng mở rộng sang các mô hình khác.
 
+
+
 ---
 
 ### 2.2. Tải mô hình và tokenizer
@@ -57,6 +59,7 @@ Mô hình GPT-2 Small được tải bằng lệnh:
 
 ```python
 AutoModelForCausalLM.from_pretrained("gpt2")
+```
 
 Phiên bản này có khoảng 124 triệu tham số và tương ứng với GPT-2 Small, trùng với cấu hình của Model 5 trong các bài thực hành trước đó 
 
@@ -92,6 +95,8 @@ Mỗi khối bao gồm:
 
 Cấu trúc này giúp duy trì ổn định gradient và tăng khả năng biểu diễn.
 
+
+
 ---
 
 ## 4. Cơ chế Multi-Head Attention và QKV
@@ -100,7 +105,9 @@ Cấu trúc này giúp duy trì ổn định gradient và tăng khả năng bi�
 
 Trong GPT-2, ba ma trận Query, Key và Value không được lưu riêng lẻ mà được gộp trong một ma trận duy nhất có kích thước:
 
+$$
 768 \times 2304 = 768 \times (3 \times 768)
+$$
 
 Cách thiết kế này giúp:
 
@@ -108,17 +115,21 @@ Cách thiết kế này giúp:
 * Tối ưu thực thi trên GPU.
 * Đơn giản hóa kiến trúc.
 
+
+
 ---
 
 ### 4.2. Ma trận chiếu (Projection Matrix)
 
-Sau khi tính attention, kết quả được nhân với ma trận chiếu $W_0$ kích thước:
+Sau khi tính attention, kết quả được nhân với ma trận chiếu (W_0) kích thước:
 
 $$
 768 \times 768
 $$
 
 Ma trận này giúp tổng hợp thông tin từ các head attention khác nhau.
+
+
 
 ---
 
@@ -136,6 +147,8 @@ Kết quả cho thấy:
 
 * Tổng tham số: ~163 triệu
 * Tham số thực (sau weight tying): ~124 triệu
+
+
 
 ---
 
@@ -191,6 +204,8 @@ Do bản chất xác suất, GPT-2 có xu hướng:
 
 Điều này phản ánh hạn chế của mô hình trong việc nắm bắt ngữ cảnh dài hạn.
 
+
+
 ---
 
 ## 7. Thảo luận
@@ -202,6 +217,8 @@ Việc khảo sát GPT-2 tiền huấn luyện cho thấy:
 * Cấu trúc mô hình có tính mô-đun cao.
 * Có thể truy cập và phân tích chi tiết từng thành phần.
 * Phù hợp cho nghiên cứu diễn giải (mechanistic interpretability).
+
+
 
 ---
 

@@ -32,7 +32,7 @@ Giá trị trung bình ($\bar{x}$ hoặc $\mu$) là con số đại diện cho "
 ## 2. Phương sai: Thước đo Độ phân tán
 
 Phương sai ($\sigma^2$) đo lường mức độ "trải rộng" của dữ liệu xung quanh giá trị trung bình.
-- **Cơ chế Bình phương:** Việc bình phương các hiệu số $($x_i$ - \bar{x})^2$ phục vụ hai mục đích:
+- **Cơ chế Bình phương:** Việc bình phương các hiệu số $(x_i - \bar{x})^2$ phục vụ hai mục đích:
     1. Triệt tiêu các giá trị âm (đảm bảo phương sai luôn dương).
     2. Khuếch đại tầm ảnh hưởng của các giá trị ngoại lai (outliers), giúp mô hình nhạy bén hơn với các sai số lớn.
 - **So sánh với MAD:** Xu hướng sử dụng giá trị tuyệt đối thay vì bình phương dẫn đến thước đo **Mean Absolute Difference (MAD)**. Trong học sâu, MAD là cơ sở của chính quy hóa L1, trong khi Phương sai là cơ sở của chính quy hóa L2.
@@ -51,11 +51,7 @@ Phương sai ($\sigma^2$) đo lường mức độ "trải rộng" của dữ li
 Trong thống kê, phương sai hiệu chỉnh (không chệch) yêu cầu chia cho $n-1$ thay vì $n$. Điều này giúp loại bỏ sai số hệ thống khi ta ước lượng phương sai của quần thể từ một mẫu nhỏ.
 
 ### 4.2. Tham số `ddof` trong NumPy
-
-$$
-Mặc định, hàm `np.var()` chia cho n (`ddof=0`). Để có kết quả thống kê chuẩn xác (unbiased), lập trình viên phải chỉ định `ddof=1`.
-$$
-
+Mặc định, hàm `np.var()` chia cho $n$ (`ddof=0`). Để có kết quả thống kê chuẩn xác (unbiased), lập trình viên phải chỉ định `ddof=1`. 
 - **Lưu ý thực tiễn:** Trong học sâu, do kích thước tập dữ liệu (batch size) thường rất lớn, sự khác biệt giữa việc chia cho $n$ hay $n-1$ trở nên không đáng kể. Tuy nhiên, việc hiểu rõ tham số này là dấu hiệu của một kỹ sư AI có nền tảng toán học vững chắc.
 
 ---

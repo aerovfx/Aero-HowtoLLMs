@@ -33,9 +33,7 @@ Nghiên cứu quan sát là việc định tuyến (push) tokens qua mô hình v
 ### 1.2 Can thiệp Nhân quả (Intervention-based / Causal)
 Nghiên cứu can thiệp tiến hành sửa đổi, thao túng cấu trúc giá trị trực tiếp. Thay vì chỉ đọc dữ liệu từ Hook, nhà nghiên cứu sẽ sử dụng Hook để ghi đè (overwrite), chặn (ablate), hoặc kết hợp giá trị tính toán ngay trên luồng chạy.
 Ví dụ: Thay thế activation $h_l$ bằng một giá trị cố định hoặc một vector nhiễu $\epsilon$:
-
-h'_l = h_l + \epsilon
-
+$$ h'_l = h_l + \epsilon $$
 Việc theo dõi xem kết quả thay đổi này ảnh hưởng đến vector đầu ra (output behavior) thế nào tạo ra **bằng chứng nhân quả (Causal evidence)** nhằm khẳng định sự tham gia của node đó vào vi mạch tổng thể.
 
 Dù can thiệp mang lại bằng chứng đáng tin cậy hơn, hệ thống LLM sở hữu số lượng biến số khổng lồ, khiến không gian tìm kiếm trở nên bất khả thi nếu không có các mô hình quan sát hướng dẫn trước. 

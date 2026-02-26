@@ -23,10 +23,7 @@ Báo cáo này nghiên cứu về hàm Softmax, một phép biến đổi phi tu
 
 ## 1. Cơ sở Toán học: Số mũ Tự nhiên ($e$)
 
-$$
-Hàm Softmax dựa trên hằng số Euler e \approx 2.718. Hai đặc tính của hàm số mũ e^x quyết định tính khả thi của Softmax:
-$$
-
+Hàm Softmax dựa trên hằng số Euler $e \approx 2.718$. Hai đặc tính của hàm số mũ $e^x$ quyết định tính khả thi của Softmax:
 - **Tính Dương tuyệt đối:** $e^x$ luôn lớn hơn 0 với mọi giá trị $x$ (ngay cả khi $x$ âm). Điều này đảm bảo xác suất đầu ra không bao giờ bị âm.
 - **Tốc độ Tăng trưởng:** Hàm số mũ khuếch đại các giá trị lớn và thu nhỏ các giá trị nhỏ một cách nhanh chóng, tạo ra sự phân tách rõ rệt giữa các lớp đối tượng.
 
@@ -35,9 +32,7 @@ $$
 ## 2. Công thức và Cơ chế Chuẩn hóa
 
 Giả sử có một tập hợp các số thực $z$, hàm Softmax cho phần tử thứ $i$ được định nghĩa là:
-
-\sigma(z)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}
-
+$$\sigma(z)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}$$
 - **Tử số:** Chuyển đổi giá trị thô sang không gian số mũ.
 - **Mẫu số:** Tổng của toàn bộ các giá trị sau khi lấy số mũ, đóng vai trò là hệ số chuẩn hóa.
 - **Hệ quả:** Tập hợp đầu ra luôn nằm trong khoảng $(0, 1)$ và có tổng bằng chính xác $1.0$. Đặc tính này cho phép chúng ta coi đầu ra của mạng nơ-ron như một phân phối xác suất.
@@ -58,11 +53,7 @@ Các mô hình AI thường xuất ra các con số tùy ý (gọi là logits) k
 Phép toán có thể thực hiện chỉ với một dòng mã: `np.exp(z) / np.sum(np.exp(z))`. Cách tiếp cận này giúp nhà nghiên cứu nắm vững bản chất toán học nhưng thiếu tối ưu hóa cho các tensor đa chiều phức tạp.
 
 ### 4.2. PyTorch (Tiếp cận Hướng đối tượng)
-
-$$
 PyTorch cung cấp lớp `nn.Softmax(dim=...)`. Điểm lưu ý quan trọng là tham số `dim`:
-$$
-
 - Phải chỉ định rõ chiều nào sẽ được chuẩn hóa (ví dụ `dim=0` cho vectơ hàng).
 - PyTorch yêu cầu dữ liệu đầu vào phải là `torch.Tensor`, việc đưa vào một danh sách thông thường (`list`) sẽ dẫn đến lỗi logic.
 

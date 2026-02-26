@@ -26,7 +26,7 @@ Các tiêu đề báo chí khoa học đại chúng thường sử dụng một 
 
 Hai kỳ phùng địch thủ thời tiền-Transformer là *GloVe* và *Word2Vec* nắm giữ hai cơ chế trích xuất ma trận (Factorization) khác biệt. 
 - **GloVe (Global Vectors):** Thiết lập mạng lưới phân giải ma trận đếm số lần quy tẩm cận kề tần suất từ vựng (Co-occurrence text mapping). Nó nắm trong tay cấu trúc vĩ mô toàn thể tài liệu.
-- **Word2Vec $CBoW / Skip-gram$:** Thiết lập mô hình hồi quy trọng số nhắm vào việc điền từ còn thiếu giữa bộ vi mô khung cửa lưới (Context windows prediction). Việc mô phỏng chuỗi học tương tự quy luật Neural Networks hiện đại giúp Word2Vec bén nhạy triệt để với các quy luật giao thoa ngữ nghĩa học (Semantic relationships). 
+- **Word2Vec (CBoW / Skip-gram):** Thiết lập mô hình hồi quy trọng số nhắm vào việc điền từ còn thiếu giữa bộ vi mô khung cửa lưới (Context windows prediction). Việc mô phỏng chuỗi học tương tự quy luật Neural Networks hiện đại giúp Word2Vec bén nhạy triệt để với các quy luật giao thoa ngữ nghĩa học (Semantic relationships). 
 
 Theo luận thuyết trên, khả năng thao túng phép Tương đồng Loại suy Toán học (Math analogies) của Word2Vec 300D được kỳ vọng phá vỡ ngưỡng cực hạn mà công cụ GloVe 50D để lại.
 
@@ -35,29 +35,21 @@ Theo luận thuyết trên, khả năng thao túng phép Tương đồng Loại 
 ## 2. Kiểm Định Thất Bại Với Hàm Khai Khai Khái Niệm Tự Động (Soft-Coded Function)
 
 Bằng việc gói gém cấu hình hàm Soft-coded nhận vào đầu vào linh hoạt:
-
-\mathbf{V}_{\text{Analogy}} = \mathbf{V}_{\text{Word1}} - \mathbf{V}_{\text{Word2}} + \mathbf{V}_{\text{Word3}}
-
+$$
+\mathbf{V}_{\text{Analogy}} = \mathbf{V}_{\text{Word1}} - \mathbf{V}_{\text{Word2}} + \mathbf{V}_{\text{Word3}} 
+$$
 Thuật toán phóng chiếu mũi tên $V_{\text{Analogy}}$ rà quét qua tập 400.000 lượng từ điển của Word2Vec thông qua Cosine Similarity để xuất kho Top 10 ứng cử viên gần nhất.
 
 **Kiểm định 1 - Sự thần thánh hóa:**
-
-$$
-Lệnh: `Tree` so với `Leaf`  \approx `?` so với `Petal`. Trực giác sinh học con người dễ dàng xuất kho từ `Flower`.
-$$
-
+Lệnh: `Tree` so với `Leaf`  $\approx$ `?` so với `Petal`. Trực giác sinh học con người dễ dàng xuất kho từ `Flower`.
 Đội ngũ máy học trả về kết quả mờ mịt: Top ứng cử viên lộn xộn các từ `Willow Tree` (Cây Liễu).
 
 **Kiểm định 2 - Đảo chiều trục:**
-
-Lệnh: `Leaf` so với `Tree` \approx `Petal` so với `Flower`.
-
+Lệnh: `Leaf` so với `Tree` $\approx$ `Petal` so với `Flower`.
 Biên độ dự báo của mạng lưới từ vựng trượt dốc. Không có bất kỳ bóng dáng một đại lượng từ vựng nào nằm trong Top 10 chạm tới logic ý niệm. 
 
 **Kiểm định 3 - Logic Giải Phẫu Người:**
-
-Lệnh: `Finger` so với `Hand` \approx `?` so với `Foot`. Đáp án chuẩn hóa là `Toe` (Ngón chân).
-
+Lệnh: `Finger` so với `Hand` $\approx$ `?` so với `Foot`. Đáp án chuẩn hóa là `Toe` (Ngón chân).
 Mô hình toán học mớm lại từ `Pinky` (Ngón út) trôi nổi trong không gian nhiễu vector.
 
 ---

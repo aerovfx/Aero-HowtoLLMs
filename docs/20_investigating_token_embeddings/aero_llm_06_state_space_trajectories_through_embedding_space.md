@@ -50,12 +50,8 @@ Khi rải đường viền theo Layer:
 - *Hiện tượng bất đồng thuận:* Từ sai ngữ pháp (`"round"`) bộc lộ sự nhiễu loạn xa cách so với trục bình quân của hai đại từ chuẩn. Mô hình ý thức được rủi ro ngữ nghĩa của `"round"` và xoay xở xử lý nó bằng sự vặn xoắn phức tạp hơn (Additional rotations). Sự phân rã ở Final Layer cực kỳ dị dạng, bung rộng mãnh liệt như một lưới sao rải rác.
 
 ### 3.2. Giới Hạn Của Thành Phần Chính (The Scree Plot Trade-off)
-
-$$
-Đồ thị phân bổ Scree Plot thể hiện: 3 tháp Thành phần đầu tiên nắm giữ khống chế \approx 80\% tín hiệu cốt lõi (PC1 cắn 62%, PC2 10%, PC3 7.5%).
-$$
-
-Tuy tỷ lệ nén vượt mốc đa số, 20% phương sai rải rác ở đằng sau đã bị cắt cụt không thương tiếc. Mặc định của PCA coi: "Sự phân tán càng rộng thì càng chứa vựa thông tin mạnh nhất" $Variance = Relevance$. Thực tế vận hành LLMs phủ quyết điều này: Những quy luật ý nghĩa mỏng như tờ giấy (chiếm 0.1% phương sai) có thể định hình toàn bộ tư duy logic của mô hình đối với Token. Nên việc giản lược State-space trajectories chứa đựng một rủi ro Diễn dịch Quá Mức (Overinterpreting).
+Đồ thị phân bổ Scree Plot thể hiện: 3 tháp Thành phần đầu tiên nắm giữ khống chế $\approx 80\%$ tín hiệu cốt lõi (PC1 cắn 62%, PC2 10%, PC3 7.5%).
+Tuy tỷ lệ nén vượt mốc đa số, 20% phương sai rải rác ở đằng sau đã bị cắt cụt không thương tiếc. Mặc định của PCA coi: "Sự phân tán càng rộng thì càng chứa vựa thông tin mạnh nhất" (Variance = Relevance). Thực tế vận hành LLMs phủ quyết điều này: Những quy luật ý nghĩa mỏng như tờ giấy (chiếm 0.1% phương sai) có thể định hình toàn bộ tư duy logic của mô hình đối với Token. Nên việc giản lược State-space trajectories chứa đựng một rủi ro Diễn dịch Quá Mức (Overinterpreting).
 
 ---
 

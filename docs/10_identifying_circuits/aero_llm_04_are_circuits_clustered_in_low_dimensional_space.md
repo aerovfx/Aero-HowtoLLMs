@@ -37,10 +37,7 @@ Khoảng $30\%$ lượng Neurons rơi vào ngưỡng Ý nghĩa thống kê (Stat
 Thay vì làm việc với số lượng chiều quá lớn, 1523 nơ-ron này được chích qua ba phễu giảm chiều / phân cụm:
 1. **t-SNE (t-Distributed Stochastic Neighbor Embedding):** Ép trục tạo ra không gian 2 chiều (2D projection).
 2. **DBSCAN (Density-Based Spatial Clustering of Applications with Noise):** Tự động phát hiện đốm tập trung thông qua bán kính khuếch tán.
-
-$$
-3. **K-Means Clustering:** Bắt ép chia cắt các điểm lân cận thành K = 13 Lõi Cấu trúc (Centroids).
-$$
+3. **K-Means Clustering:** Bắt ép chia cắt các điểm lân cận thành $K = 13$ Lõi Cấu trúc (Centroids).
 
 ---
 

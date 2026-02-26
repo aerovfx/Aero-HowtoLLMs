@@ -49,21 +49,19 @@ Trong bối cảnh này, hai công cụ nổi bật là:
 2.1 Định nghĩa
 
 Giả sử:
-	•	$P(x)$: phân phối dữ liệu thật
-	•	Q$x$: phân phối sinh từ mô hình
+	•	P(x): phân phối dữ liệu thật
+	•	Q(x): phân phối sinh từ mô hình
 
 Khi đó, Kullback–Leibler Divergence được định nghĩa:
 
-D_{KL}(P || Q) = \sum_{x} P(x) \log \frac{P(x)}{Qx}
+D_{KL}(P || Q) = \sum_{x} P(x) \log \frac{P(x)}{Q(x)}
 
 Nếu phân phối liên tục:
 
-D_{KL}(P || Q) = \int P(x) \log \frac{P(x)}{Qx} dx
+D_{KL}(P || Q) = \int P(x) \log \frac{P(x)}{Q(x)} dx
 
 2.2 Diễn giải
-
-•	D_{KL} = 0 khi P = Q
-
+	•	D_{KL} = 0 khi P = Q
 	•	D_{KL} > 0 khi hai phân phối khác nhau
 	•	Không đối xứng:
 D_{KL}(P || Q) \neq D_{KL}(Q || P)
@@ -72,19 +70,15 @@ D_{KL}(P || Q) \neq D_{KL}(Q || P)
 
 Cross-entropy:
 
-H(P, Q) = - \sum_x P(x) \log Qx
+H(P, Q) = - \sum_x P(x) \log Q(x)
 
 Ta có:
 
-$$
-D_{KL}(P||Q) = H(P,Q) - HP(
-$$
+D_{KL}(P||Q) = H(P,Q) - H(P)
 
 Perplexity:
 
-$$
 \text{PPL} = 2^{H(P,Q)}
-$$
 
 Điều này cho thấy KL divergence chính là phần “sai khác” giữa entropy thật và entropy mô hình.
 
@@ -106,14 +100,12 @@ MAUVE xây dựng đường cong giữa hai phân phối:
 
 Bằng cách xét họ phân phối hỗn hợp:
 
-$$
-R_\alpha = \alpha P + )1-\alphaQ
-$$
+R_\alpha = \alpha P + (1-\alpha)Q
 
 Sau đó tính:
 
-D_{KL}$P \mid \mid R_\alpha$
-D_{KL}$Q \mid \mid R_\alpha$
+D_{KL}(P || R_\alpha)
+D_{KL}(Q || R_\alpha)
 
 Đường cong này tạo thành một frontier tương tự ROC curve.
 
@@ -121,9 +113,9 @@ D_{KL}$Q \mid \mid R_\alpha$
 
 MAUVE được định nghĩa dựa trên diện tích dưới đường cong:
 
-\text{MAUVE} = \int_0^1 f\alpha d\alpha
+\text{MAUVE} = \int_0^1 f(\alpha) d\alpha
 
-Trong đó f$\alpha$ phản ánh trade-off giữa hai hướng KL.
+Trong đó f(\alpha) phản ánh trade-off giữa hai hướng KL.
 
 Giá trị MAUVE ∈ [0,1]:
 	•	Gần 1 → phân phối gần nhau
@@ -146,15 +138,15 @@ Rowan University và University of Washington công bố bộ dữ liệu HellaS
 
 4.2 Phương pháp đánh giá
 
-Giả sử có mô hình M, với mỗi câu hỏi có 4 đáp án $a_i$.
+Giả sử có mô hình M, với mỗi câu hỏi có 4 đáp án a_i.
 
 Xác suất lựa chọn:
 
-P(a_i  \mid  context) = \frac{\exp\log p_\theta(a_i)}{\sum_j \exp\log p_\theta(a_j)}
+P(a_i | context) = \frac{\exp(\log p_\theta(a_i))}{\sum_j \exp(\log p_\theta(a_j))}
 
 Accuracy:
 
-Acc = \frac{1}{N} \sum_{i=1}^N \mathbf{1}\hat{y}_i = y_i
+Acc = \frac{1}{N} \sum_{i=1}^N \mathbf{1}(\hat{y}_i = y_i)
 
 Song song, ta tính MAUVE giữa:
 	•	Tập văn bản đúng
@@ -170,9 +162,11 @@ Song song, ta tính MAUVE giữa:
 
 Giả sử:
 
-$$
-D_{KL}^{small} = 1.8 D_{KL}^{large} = 0.7 MAUVE^{small} = 0.42 MAUVE^{large} = 0.78
-$$
+D_{KL}^{small} = 1.8
+D_{KL}^{large} = 0.7
+
+MAUVE^{small} = 0.42
+MAUVE^{large} = 0.78
 
 Điều này cho thấy mô hình lớn tiệm cận phân phối dữ liệu thật tốt hơn.
 
@@ -182,17 +176,15 @@ $$
 
 Trong không gian xác suất, mỗi mô hình tương ứng với một điểm trên simplex:
 
-$$
 \sum_i p_i = 1
-$$
 
 KL divergence tương ứng với khoảng cách Bregman:
 
-D_\phi(p,q) = \phip - \phiq - \nabla\phiq^\top (p-q)
+D_\phi(p,q) = \phi(p) - \phi(q) - \nabla\phi(q)^\top (p-q)
 
 với:
 
-\phip = \sum_i p_i \log p_i
+\phi(p) = \sum_i p_i \log p_i
 
 MAUVE khai thác toàn bộ cấu trúc hình học thay vì chỉ một hướng chiếu như KL.
 

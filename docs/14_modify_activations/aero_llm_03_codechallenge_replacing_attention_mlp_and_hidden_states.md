@@ -34,11 +34,7 @@ Mục tiêu là xác định và đưa về giá trị 0 toàn bộ ma trận $K
 - **Thực thi:** Tách ma trận $QKV \to$ Clone ma trận $K \to$ Gán 0 cho vùng Index tương ứng $\to$ Concatenate lại.
 
 ### 2.2. Bài tập 2: Bơm Nhiễu Gaussian vào MLP (MLP Noise Injection)
-
-$$
-Thay thế các Neuron MLP có chỉ số chẵn (0, 2, 4...) bằng nhiễu Gaussian có trung bình \mu=10.
-$$
-
+Thay thế các Neuron MLP có chỉ số chẵn (0, 2, 4...) bằng nhiễu Gaussian có trung bình $\mu=10$.
 - **Phân tích:** Đây là một can thiệp "phi tự nhiên" vì phân phối hoạt hóa thực tế của MLP (sau khi qua GELU) thường dịch chuyển âm hoặc bị triệt tiêu về 0 để tạo tính thưa (Sparsity). Việc bơm nhiễu với $\mu=10$ tạo ra một sự lệch pha phân phối (Out-of-distribution) cực lớn, giúp quan sát rõ rệt sự hỗn loạn của tín hiệu truyền đi.
 
 ### 2.3. Bài tập 3 & 4: Thay đổi quy mô Hidden States (Hidden State Scaling)

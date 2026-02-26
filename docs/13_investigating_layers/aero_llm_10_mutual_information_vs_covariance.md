@@ -32,9 +32,7 @@ Dù có chung mục đích, cách chúng đánh giá dữ liệu lại nằm ở
 ### 2.1. Hiệp Phương Sai (Covariance)
 Covariance là một đo lường "tuyến tính" thuần tuý và được lấy trực tiếp trên giá trị tuyệt đối của dữ liệu.
 Đối với 2 biến trung tâm hóa (mean-centered) X và Y:
-
-Cov(X,Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
-
+$$ Cov(X,Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y}) $$
 **Ưu điểm:**
 - Nhanh, mạnh và cực kỳ ổn định về mặt số học.
 - Bảo tồn tỷ lệ (scale) của dữ liệu (Ví dụ: dữ liệu đơn vị "mét" thì covariance đơn vị "mét vuông"). Tính chất này đặc biệt hữu dụng với các bài toán truy vết biên độ (Magnitude Tracking).
@@ -42,9 +40,7 @@ Cov(X,Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
 
 ### 2.2. Thông Tin Tương Hỗ (Mutual Information - MI)
 MI không lấy theo số liệu gốc mà phân rã dữ liệu vào ma trận Histogram trước, sau đó tính toán trên không gian xác suất (probability distribution).
-
-I(X;Y) = \sum_{x} \sum_{y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right)
-
+$$ I(X;Y) = \sum_{x} \sum_{y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right) $$
 **Ưu điểm:**
 - Đoán nhận được cả cấu trúc tương quan tuyến tính lẫn phi tuyến tính (đường cong).
 - Giải phóng khỏi rào cản tỷ lệ (scale-independence). MI của 1 triệu hay 1 tỷ cũng không làm thay đổi giá trị thông tin nền tảng.

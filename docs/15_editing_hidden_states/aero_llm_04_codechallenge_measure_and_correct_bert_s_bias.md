@@ -30,16 +30,12 @@ Báo cáo này thực hiện một "cuộc phẫu thuật" nhân quả nhằm ph
 
 ### 2.1. Kỹ thuật Trộn Vector (Weighted Vector Mixing)
 Thay vì triệt tiêu hay bơm nhiễu, chúng ta sử dụng một hàm Hook để thực hiện phép tổ hợp tuyến tính giữa hai vector:
-
-\mathbf{v}_{new} = w_1 \cdot \mathbf{v}_{natural} + w_2 \cdot \mathbf{v}_{external}
-
+$$ \mathbf{v}_{new} = w_1 \cdot \mathbf{v}_{natural} + w_2 \cdot \mathbf{v}_{external} $$
 Trong đó $\mathbf{v}_{natural}$ là vector mô hình tự tính toán cho token [MASK], và $\mathbf{v}_{external}$ là vector thu được từ một lần chạy trước đó có chứa đại từ đích ("she"). 
 
 ### 2.2. Chỉ số Định kiến (Bias Score)
 Định nghĩa chỉ số định kiến dựa trên sự chênh lệch Log Softmax:
-
-\text{Bias Score} = \log P(\text{"he"}) - \log P(\text{"she"})
-
+$$ \text{Bias Score} = \log P(\text{"he"}) - \log P(\text{"she"}) $$
 - **Dương:** Thiên kiến nam giới.
 - **Âm:** Thiên kiến nữ giới.
 - **0:** Trung hòa giới tính (Lý tưởng).

@@ -46,11 +46,7 @@ Các từ như "peanut butter" thường bị chia thành nhiều tokens (ví d�
 - **Giải thích khoa học:** Điều này phản ánh tần suất xuất hiện cùng nhau của các khái niệm này trên Internet (tranh luận về pizza dứa cực kỳ phổ biến) hơn là một "sở thích" thực sự của AI.
 
 ### 3.2. Hiệu ứng của Can thiệp Siêu vi (Precision Ablation)
-
-$$
-Khi thực hiện vòng lặp kép qua mọi layer và mọi head (36 layers \times 20 heads = 720 kịch bản):
-$$
-
+Khi thực hiện vòng lặp kép qua mọi layer và mọi head (36 layers $\times$ 20 heads = 720 kịch bản):
 - **Phân tán:** Các điểm dữ liệu (cosine similarity sau can thiệp) cụm lại rất sát đường baseline của mô hình sạch.
 - **Thống kê:** Phép thử T-test (đã hiệu chỉnh Bonferroni) cho thấy hầu như không có sự thay đổi nào có ý nghĩa thống kê. 
 - **Ý nghĩa:** Mối liên kết giữa "Dứa" và "Pizza" trong GPT-2 Large bền vững đến mức một can thiệp đơn lẻ vào một Head tại một Token không đủ để tạo ra sự dịch chuyển đáng kể. Điều này tương phản với các can thiệp "búa tạ" (như scaling toàn bộ layer) đã thấy ở các bài học trước.

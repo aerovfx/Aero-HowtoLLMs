@@ -37,23 +37,25 @@ $$
 Tokenization thực hiện ánh xạ:
 
 $$
-\tau : \Sigma^{\ast} \rightarrow V^{\ast}
+\tau : \Sigma^* \rightarrow V^*
 $$
 
 trong đó:
 
-* $\Sigma$: tập ký tự
-* $V$: từ vựng token
-* $V^{\ast}$: chuỗi token
+* (\Sigma): tập ký tự
+* (V): từ vựng token
+* (V^*): chuỗi token
 
 Ví dụ với *The Time Machine*:
 
+```
 The Time Machine by H. G. Wells
+```
 
 Sau xử lý có thể thành:
 
 $$
-\text{"the"}, \text{"time"}, \text{"machine"}, \text{"by"}, \text{"h"}, \text{"g"}, \text{"wells"}
+[\text{"the"}, \text{"time"}, \text{"machine"}, \text{"by"}, \text{"h"}, \text{"g"}, \text{"wells"}]
 $$
 
 ---
@@ -103,7 +105,7 @@ $$
 T \leq n
 $$
 
-Tần suất xuất hiện của từ $w$:
+Tần suất xuất hiện của từ (w):
 
 $$
 f(w) = \sum_{i=1}^{T} \mathbf{1}(w_i = w)
@@ -119,7 +121,7 @@ $$
 V = { w \mid f(w) \geq \delta }
 $$
 
-với $\delta$ là ngưỡng tối thiểu.
+với (\delta) là ngưỡng tối thiểu.
 
 Kích thước từ vựng:
 
@@ -137,16 +139,20 @@ $$
 
 # 5. Biểu diễn One-Hot
 
-Token $w_i$ được biểu diễn:
+Token (w_i) được biểu diễn:
 
-$$  
+$$
 x_i \in \mathbb{R}^{M}
 $$
 
 với:
 
-$$  
-x_{ij} = \begin{cases} 1 & \text{nếu } j = id(w_i) \\ 0 & \text{ngược lại} \end{cases}
+$$
+x_{ij} =
+\begin{cases}
+1 & \text{nếu } j = id(w_i) \
+0 & \text{ngược lại}
+\end{cases}
 $$
 
 Nhược điểm:
@@ -179,7 +185,8 @@ $$
 Khoảng cách cosine:
 
 $$
-\cos(e_i, e_j) = \frac{e_i \cdot e_j}{|e_i||e_j|}
+\cos(e_i, e_j) =
+\frac{e_i \cdot e_j}{|e_i||e_j|}
 $$
 
 Giúp đo mức độ tương đồng ngữ nghĩa.
@@ -191,7 +198,7 @@ Giúp đo mức độ tương đồng ngữ nghĩa.
 Theo mô hình tự hồi quy:
 
 $$
-P(X) = \prod_{t=1}^{T} P(w_t \mid w_{\lt t})
+P(X) = \prod_{t=1}^{T} P(w_t \mid w_{<t})
 $$
 
 Mạng Transformer tính:
@@ -209,7 +216,9 @@ $$
 Softmax:
 
 $$
-P(w_t = j \mid w_{\lt t}) = \frac{\exp(z_{tj})} {\sum_{k=1}^{M} \exp(z_{tk})}
+P(w_t = j \mid w_{<t}) =
+\frac{\exp(z_{tj})}
+{\sum_{k=1}^{M} \exp(z_{tk})}
 $$
 
 ---
@@ -226,7 +235,7 @@ Nếu văn bản dài như *The Time Machine* (~30,000 từ), chi phí tăng the
 
 Do đó, tokenization tối ưu giúp:
 
-* Giảm $T$
+* Giảm (T)
 * Giảm bộ nhớ
 * Tăng tốc huấn luyện
 
@@ -252,7 +261,7 @@ $$
 f(w_r) \propto \frac{1}{r}
 $$
 
-trong đó $r$ là thứ hạng tần suất.
+trong đó (r) là thứ hạng tần suất.
 
 Điều này cho thấy:
 
@@ -277,7 +286,7 @@ $$
 w = s_1 s_2 \dots s_k
 $$
 
-với $s_i \in V_{subword}$
+với (s_i \in V_{subword})
 
 Đảm bảo:
 
@@ -315,7 +324,7 @@ Thông qua ví dụ *The Time Machine*, ta thấy:
 Toàn bộ quá trình có thể được mô hình hóa:
 
 $$
-\Sigma^{\ast} \xrightarrow{\tau} V^{\ast} \xrightarrow{E} \mathbb{R}^{T \times d}
+\Sigma^* \xrightarrow{\tau} V^* \xrightarrow{E} \mathbb{R}^{T \times d}
 $$
 
 đóng vai trò nền tảng cho mọi mô hình Transformer hiện đại.

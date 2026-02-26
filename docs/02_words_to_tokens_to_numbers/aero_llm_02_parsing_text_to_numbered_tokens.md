@@ -41,17 +41,21 @@ Ví dụ:
 
 Sau tokenization có thể trở thành:
 
-"AI", " is", " powerful"
+$$
+["AI", " is", " powerful"]
+$$
 
 Và được ánh xạ thành:
 
-50256, 318, 3665
+$$
+[50256, 318, 3665]
+$$
 
 ---
 
 # 2. Tokenization: Cơ sở toán học
 
-Giả sử tập từ vựng $V$ có kích thước:
+Giả sử tập từ vựng (V) có kích thước:
 
 $$
 |V| = N
@@ -59,21 +63,22 @@ $$
 
 Hàm tokenization:
 
+$$
 T: \mathcal{X} \to V^T
+$$
 
 với:
 
+* ( \mathcal{X} ): không gian văn bản
+* (V^T): chuỗi các token ID
+
+Nếu chuỗi văn bản là (x), ta có:
+
 $$
-* \mathcal{X}: không gian văn bản
-$$
-
-* $V^T$: chuỗi các token ID
-
-Nếu chuỗi văn bản là $x$, ta có:
-
 T(x) = (t_1, t_2, ..., t_T)
+$$
 
-Mỗi $t_i \in {1,2,...,N}$
+Mỗi (t_i \in {1,2,...,N})
 
 ---
 
@@ -81,7 +86,7 @@ Mỗi $t_i \in {1,2,...,N}$
 
 GPT sử dụng BPE để xử lý từ hiếm.
 
-Giả sử ban đầu ta có tập ký tự $C$.
+Giả sử ban đầu ta có tập ký tự (C).
 Thuật toán lặp:
 
 1. Tìm cặp ký tự xuất hiện nhiều nhất
@@ -90,11 +95,13 @@ Thuật toán lặp:
 
 Quá trình tối ưu hóa nhằm giảm entropy:
 
+$$
 H(X) = -\sum_x P(x)\log P(x)
+$$
 
 BPE giúp:
 
-* Giảm độ dài chuỗi $T$
+* Giảm độ dài chuỗi (T)
 * Tăng hiệu quả tính toán
 
 ---
@@ -109,7 +116,9 @@ $$
 
 Ta cần biểu diễn thứ tự:
 
+$$
 i = 1,2,...,T
+$$
 
 Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến hoán vị.
 
@@ -119,15 +128,19 @@ Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến h
 
 Mỗi token ID được ánh xạ:
 
+$$
 e_i = E(t_i)
+$$
 
 Vector đầu vào cuối cùng:
 
+$$
 z_i = e_i + p_i
+$$
 
 Trong đó:
 
-* $p_i$: vector vị trí
+* (p_i): vector vị trí
 
 ---
 
@@ -135,17 +148,28 @@ Trong đó:
 
 Attention được định nghĩa:
 
-\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
+$$
+\text{Attention}(Q,K,V)
+=======================
+\text{softmax}
+\left(
+\frac{QK^T}{\sqrt{d_k}}
+\right)V
+$$
 
 Nếu không có positional encoding:
 
+$$
 \text{Attention}(PX) = P\text{Attention}(X)
+$$
 
 → Không phân biệt thứ tự.
 
-Khi thêm $p_i$:
+Khi thêm (p_i):
 
+$$
 Z = E + P
+$$
 
 ma trận attention phản ánh quan hệ phụ thuộc có hướng.
 
@@ -155,17 +179,30 @@ ma trận attention phản ánh quan hệ phụ thuộc có hướng.
 
 Trong mô hình tự hồi quy (GPT):
 
-P(x) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t})
+$$
+P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+$$
 
 Mask:
 
-M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
+$$
+M_{ij} =
+\begin{cases}
+0 & j \le i \
+-\infty & j > i
+\end{cases}
+$$
 
 Ma trận attention thực tế:
 
-A = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} + M \right)
+$$
+A = \text{softmax}
+\left(
+\frac{QK^T}{\sqrt{d_k}} + M
+\right)
+$$
 
-Đánh số token cho phép xác định chính xác vị trí $i$.
+Đánh số token cho phép xác định chính xác vị trí (i).
 
 ---
 
@@ -179,11 +216,13 @@ $$
 
 Nếu chiều dài chuỗi tăng gấp đôi:
 
+$$
 \text{Compute} \approx 4\times
+$$
 
 Do đó việc tokenization hiệu quả giúp:
 
-* Giảm $T$
+* Giảm (T)
 * Giảm chi phí huấn luyện
 
 ---
@@ -196,19 +235,27 @@ Giả sử câu:
 
 Tokenization:
 
-1543, 4673, 318, 4996
+$$
+[1543, 4673, 318, 4996]
+$$
 
 Embedding:
 
+$$
 E \in \mathbb{R}^{|V| \times d}
+$$
 
 Đầu vào:
 
+$$
 Z \in \mathbb{R}^{T \times d}
+$$
 
 Qua attention:
 
+$$
 Z' = \text{Transformer}(Z)
+$$
 
 ---
 
@@ -216,7 +263,9 @@ Z' = \text{Transformer}(Z)
 
 Trong RLHF:
 
+$$
 x = [\text{Prompt}; \text{Response}]
+$$
 
 Đánh số cho phép:
 
@@ -225,7 +274,9 @@ x = [\text{Prompt}; \text{Response}]
 
 Loss:
 
-$\mathcal${L} = - $\sum$_{t \in R} $\log$ P($x_t$  \mid  x_{\lt t})
+$$
+\mathcal{L} = - \sum_{t \in R} \log P(x_t | x_{<t})
+$$
 
 ---
 

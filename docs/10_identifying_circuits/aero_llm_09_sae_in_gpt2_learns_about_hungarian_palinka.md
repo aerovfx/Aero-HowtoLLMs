@@ -44,11 +44,7 @@ Thay vì chèn ép mọi thông số, ta chỉ bảo toàn Các kết quả $K$ 
 ## 3. Khảo Sát & Giải Phẫu Mô Hình (Analysis)
 
 ### 3.1. Tính Trạng Không Gian Hoạt Hóa Siêu Phân Tán (Sparsity Distribution)
-
-$$
-Hậu huấn luyện bằng Adam Optimizer (100\ Epochs, LR=0.0001), kết quả Density Matrix (Mật độ tín hiệu) phơi bày cảnh sắc hoang tàn:
-$$
-
+Hậu huấn luyện bằng Adam Optimizer ($100\ Epochs, LR=0.0001$), kết quả Density Matrix (Mật độ tín hiệu) phơi bày cảnh sắc hoang tàn:
 - Mức độ Mật độ thưa toàn khối (Sparsity Volume) tàn lụi cực mạnh, khiến tổng Cấu trúc lưới chỉ còn $\sim 6.5\%$ sống sót. 
 - Diễn giải đa hình thái: Trong số hơn $6000$ Vi mạch tiềm ẩn (Latent Components): 
   - Phần lớn (Hơn phân nửa) **Tuyệt đối không phản ứng (Tịt ngòi 100%)** trước bất cứ một Token nào trong tổng số 220 Từ vựng đầu vào.
@@ -64,7 +60,7 @@ Sự thất bại cục bộ trong việc dò tìm ra "Mạch ý nghĩa tuyệt 
 ---
 
 ## 4. Kết Luận
-Autoencoder là thiết chế dò tìm Siêu Khái Niệm cực mạnh, nhưng nó không phải Mũi Tên Bạc thuật giả kim. Khi thao tác trên Datasets thực tế nhưng thiếu khối lượng mẫu, hành động Cưỡng ép Tính chênh lệch $Top-K / Tied Weights$ có thể gây ra hiện tượng Phân Mạch Giả (Proxy Circuits) có điểm số Toán học cao nhưng phi ý nghĩa Logic (Semantic Invalidity). Nó nhấn mạnh tiêu chuẩn vàng: Trong Giải diễn Cơ học, Thống Kê Điểm Số bắt buộc phải được đi đôi với Quá Trình Soi Đo Trực Quan (Visual Inspection) một cách chặt chẽ. Ở chương tiếp theo, ta sẽ dùng SAE để quét qua toàn bộ cấu trúc Laminar nhiều tầng cắt thay vì đâm trụ một mỏ đơn lẻ.
+Autoencoder là thiết chế dò tìm Siêu Khái Niệm cực mạnh, nhưng nó không phải Mũi Tên Bạc thuật giả kim. Khi thao tác trên Datasets thực tế nhưng thiếu khối lượng mẫu, hành động Cưỡng ép Tính chênh lệch (Top-K / Tied Weights) có thể gây ra hiện tượng Phân Mạch Giả (Proxy Circuits) có điểm số Toán học cao nhưng phi ý nghĩa Logic (Semantic Invalidity). Nó nhấn mạnh tiêu chuẩn vàng: Trong Giải diễn Cơ học, Thống Kê Điểm Số bắt buộc phải được đi đôi với Quá Trình Soi Đo Trực Quan (Visual Inspection) một cách chặt chẽ. Ở chương tiếp theo, ta sẽ dùng SAE để quét qua toàn bộ cấu trúc Laminar nhiều tầng cắt thay vì đâm trụ một mỏ đơn lẻ.
 
 ---
 

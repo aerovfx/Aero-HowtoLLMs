@@ -17,7 +17,7 @@
 # Giải phẫu Nội tại Mô hình bằng Hooks: Kỹ thuật Trích xuất Hoạt hóa (Extracting Activations via Hooks)
 
 ## Tóm tắt (Abstract)
-Báo cáo này hướng dẫn phương pháp sử dụng "Hooks" – các hàm can thiệp đặc biệt trong PyTorch – để truy cập và trích xuất dữ liệu từ các lớp ẩn bên trong Transformer. Trong khi các phương thức thông thường chỉ cho phép quan sát Logits đầu ra hoặc Hidden States của toàn bộ khối Transformer, kỹ thuật Hook cho phép nhà nghiên cứu cô lập các thành phần vi mô như ma trận Query $Q$, Key $K$, Value $V$ hoặc các lớp MLP. Báo cáo cũng thảo luận về cơ chế quản lý Hook (đăng ký và gỡ bỏ) và cách quản lý bộ nhớ thông qua việc ghi đè hoặc tích lũy dữ liệu.
+Báo cáo này hướng dẫn phương pháp sử dụng "Hooks" – các hàm can thiệp đặc biệt trong PyTorch – để truy cập và trích xuất dữ liệu từ các lớp ẩn bên trong Transformer. Trong khi các phương thức thông thường chỉ cho phép quan sát Logits đầu ra hoặc Hidden States của toàn bộ khối Transformer, kỹ thuật Hook cho phép nhà nghiên cứu cô lập các thành phần vi mô như ma trận Query (Q), Key (K), Value (V) hoặc các lớp MLP. Báo cáo cũng thảo luận về cơ chế quản lý Hook (đăng ký và gỡ bỏ) và cách quản lý bộ nhớ thông qua việc ghi đè hoặc tích lũy dữ liệu.
 
 ---
 

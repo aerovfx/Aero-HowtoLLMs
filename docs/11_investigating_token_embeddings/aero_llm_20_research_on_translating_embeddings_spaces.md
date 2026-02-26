@@ -30,12 +30,13 @@ Dù vậy, một luồng triết học và kiến trúc học thuyết (Alignmen
 
 ### 1.1 Tìm Phép Biến Đổi Vô Hướng Biên Dịch Chéo (Cross-lingual / Cross-model Mapping)
 Nếu hệ học của hai mô hình là chung quy luật, thì về mặt lý thuyết thuần túy Toán Hình Học, có thể ánh xạ (map) từ vựng không gian này sang không gian kia (Translation Mapping) bằng bộ khung quy tắc bao gồm ma trận xoay (Rotation $W$) và co dãn chiều (Scaling matrix $S$):
-
-E_2 \approx E_1 \cdot W + b
-
+$$
+E_2 \approx E_1 \cdot W + b 
+$$
 Việc dịch chuyển này thường được nỗ lực đạt thông qua Căn chỉnh Procrustes Trực giao (Orthogonal Procrustes problem), một bài toán tìm ma trận trực giao tối ưu để chồng khít hai khối vector mà không sử dụng sự uốn nắn phi tuyến. Trọng điểm chi phí mất mát:
-
+$$
 \text{Loss} = \| E_1 W - E_2 \|_F^2 \quad \text{với điều kiện } W^\top W = I
+$$
 
 ---
 
@@ -44,7 +45,7 @@ Việc dịch chuyển này thường được nỗ lực đạt thông qua Căn
 Việc thiết lập những hàm biên dịch đồng quy mô cho mô hình Embeddings gặp phải rào cản chí mạng là "Sự Di Động" (Dynamism) của mô hình hóa. 
 
 ### Rào cản Kiến trúc Attention so với Từ vựng tĩnh
-- **Mô Hình Tĩnh $Word2Vec / GloVe$:** Sở hữu kết cấu lưới một-đối-một cứng rắn, "Trái táo" mãi mãi là 1 điểm ảnh Euclidean không đổi ở tọa độ tuyệt đối.
+- **Mô Hình Tĩnh (Word2Vec / GloVe):** Sở hữu kết cấu lưới một-đối-một cứng rắn, "Trái táo" mãi mãi là 1 điểm ảnh Euclidean không đổi ở tọa độ tuyệt đối.
 - **Mô Hình Động Theo Ngữ Cảnh (Transformer / GPT / BERT):** "Trái táo" khi kết hợp cùng chuỗi hội thoại về "Apple M2" và "Apple Pie" sẽ bị bẻ cong thành các ma trận nhúng biến dị dựa trên ma trận tỷ trọng lưới lưu ý (Attention weights remapping). 
 
 Do đó, vector nhúng trong Transformer không bao giờ là bất di bất dịch, chúng sẽ trượt đi, uốn lượn tại dòng Residual Stream để lấp đầy sự nhiễu loạn ngẫu nhiên của các nút Sampling có nhiệt độ (Softmax Sampling with Temperature T).

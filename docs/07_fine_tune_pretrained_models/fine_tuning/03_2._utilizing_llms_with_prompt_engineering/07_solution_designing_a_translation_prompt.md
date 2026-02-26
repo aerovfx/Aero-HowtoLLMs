@@ -45,8 +45,8 @@ Tập dữ liệu CNN DailyMail ban đầu được thiết kế cho tác vụ t
 from datasets import load_dataset
 
 # Tải tập dữ liệu CNN DailyMail
-
 dataset = load_dataset("cnn_dailymail", "3.0.0", split="train[:3%]")
+```
 
 ### 2.2 Bước 2: Tiền Xử Lý Dữ Liệu
 
@@ -57,18 +57,15 @@ Do giới hạn về bộ nhớ GPU, chúng ta thực hiện:
 
 ```python
 # Tạo prompt cho few-shot learning
-
 def create_translation_prompt(article, translation, task="translate English to Spanish"):
-
     return f"{task}: {article}\n{translation}"
+```
 
 ### 2.3 Bước 3: Xây Dựng Prompt Few-Shot
 
 ```python
 # Ví dụ few-shot
-
 few_shot_examples = """
-
 translate English to Spanish: The quick brown fox jumps over the lazy dog.
 El rápido zorro marrón salta sobre el perro perezoso.
 
@@ -80,23 +77,19 @@ Me encanta aprender nuevos idiomas.
 
 translate English to Spanish:
 """
+```
 
 ### 2.4 Bước 4: Huấn Luyện và Dịch Thuật
 
 ```python
 # Tạo prompt hoàn chỉnh
-
 full_prompt = few_shot_examples + test_article
 
 # Tokenize và tạo đầu ra
-
 inputs = tokenizer(full_prompt, return_tensors="pt")
-
-$$
 outputs = model.generate(**inputs, max_length=500)
-$$
-
 translation = tokenizer.decode(outputs[0])
+```
 
 ## 3. Kết Quả
 
@@ -128,7 +121,7 @@ Học đa phương thức là quá trình kết hợp nhiều loại dữ liệu
 
 ### 4.2 Mô Hình Toán Học
 
-\text{Translation} = f_{\theta}( \text{FewShotExamples} \oplus \text{NewInput} )
+$$\text{Translation} = f_{\theta}( \text{FewShotExamples} \oplus \text{NewInput} )$$
 
 Trong đó:
 - $f_{\theta}$ là mô hình ngôn ngữ với tham số $\theta$

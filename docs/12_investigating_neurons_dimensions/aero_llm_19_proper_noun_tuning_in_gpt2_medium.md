@@ -34,9 +34,7 @@ Do cấu trúc dữ liệu Wikipedia chứa mật độ danh từ riêng cao, ch
 2. **Loại trừ Đầu câu:** Để tránh nhầm lẫn với các từ được viết hoa do đứng đầu câu, chúng ta kiểm tra token ngay phía trước. Nếu token đó kết thúc bằng dấu chấm (.), dấu chấm hỏi (?) hoặc dấu chấm than (!), token hiện tại sẽ bị loại khỏi nhóm danh từ riêng.
 
 ### 2.2. Chuẩn bị Mẫu So sánh
-
-Để hồi quy vận hành tối ưu, chúng ta thiết lập hai nhóm có kích thước bằng nhau (n \approx 220):
-
+Để hồi quy vận hành tối ưu, chúng ta thiết lập hai nhóm có kích thước bằng nhau ($n \approx 220$):
 - **Nhóm Đích (Target):** Các danh từ riêng hợp lệ.
 - **Nhóm Đối chứng (Comparison):** Các token khác được chọn ngẫu nhiên từ cùng một batch dữ liệu (bao gồm động từ, giới từ, số, v.v.).
 
@@ -50,7 +48,7 @@ Thực hiện hồi quy trên 4096 nơ-ron và áp dụng hiệu chỉnh Bonferr
 - **Beta Âm ($\beta < 0$):** Chỉ thị các nơ-ron bị ức chế hoạt hóa khi gặp danh từ riêng. Mặc dù khó diễn giải hơn, hiện tượng này tương đồng với cơ chế ức chế chọn lọc (selective inhibition) thường thấy trong thần kinh học sinh học.
 
 ### 3.2. Trực quan hóa Beta vs. P-value
-Biểu đồ scatter plot giữa hệ số hồi quy và $-$\log$(p)$ cho thấy một cấu trúc hình phễu: các nơ-ron có hiệu ứng mạnh nhất ($\beta$ lớn) cũng đồng thời là các nơ-ron có ý nghĩa thống kê cao nhất.
+Biểu đồ scatter plot giữa hệ số hồi quy và $-\log(p)$ cho thấy một cấu trúc hình phễu: các nơ-ron có hiệu ứng mạnh nhất ($\beta$ lớn) cũng đồng thời là các nơ-ron có ý nghĩa thống kê cao nhất.
 
 ---
 

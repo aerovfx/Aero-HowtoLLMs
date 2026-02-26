@@ -32,11 +32,7 @@ Từ chương "Biến Latent vs Biến Manifest", khoa học Giải diễn (Inte
 Autoencoder truyền thống thường là Kiến trúc Cổ chai (Bottleneck), nhằm nén Không gian $D_{input}$ xuống không gian $D_{latent} \ll D_{input}$. Ngược lại, Sparse Autoencoders (SAEs) chạy bằng chiến thuật "Nở Phình và Quét Sạch" (Overcomplete and Sparse Expansions): 
 Tầng Tiềm ẩn (Latent layer) $D_{latent}$ được cố tình mở rộng lớn hơn Tầng Hiển ngôn Đầu vào (Input Variables). Sự mở rộng này có thể gây ra hiện tượng học Vẹt (Identity Matrix) cực đại để sinh ra Lỗi Zero Output Error.
 Đế giải bài toán này, Hàm Thất Thoát của SAEs gánh vác tới 3 yếu tố:
-
-$$
-1. **Mean Squared Error (MSE):** Hàm đối sánh sự chênh lệch (Difference) giữa Đầu vào và Đầu ra: \frac{1}{N}\sum (x_i - \hat{x}_i)^2.
-$$
-
+1. **Mean Squared Error (MSE):** Hàm đối sánh sự chênh lệch (Difference) giữa Đầu vào và Đầu ra: $\frac{1}{N}\sum (x_i - \hat{x}_i)^2$. 
 2. **L1 Penalty (Sparsity Constraint):** Hàm cưỡng ép Mật độ Tắt (Zero-activation Density) trên Tầng Latent, ép các kết quả kích hoạt phân tán phải cô đọng lại một vài Điểm chói nhỏ (Sparse nodes).
 3. **Decorrelation Loss (Covariance Penalty):** Giảm thiểu Tổng Bình Phương của các Trọng số Nằm ngoài Cạnh chéo chính $Tr(\Sigma_{off-diagonal}^2)$, bức tử các Nodes trong không gian Tiềm ẩn không được phép học các thông tin trùng lặp (Redundant Info) của nhau.
 

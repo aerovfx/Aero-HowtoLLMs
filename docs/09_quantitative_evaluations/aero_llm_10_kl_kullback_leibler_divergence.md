@@ -29,8 +29,8 @@ Bài viết này trình bày cơ sở lý thuyết và ứng dụng của phân 
 1. Giới thiệu
 
 Trong học máy, ta thường cần đo khoảng cách giữa hai phân phối xác suất:
-	•	Phân phối thực $P(x)$
-	•	Phân phối mô hình Q$x$
+	•	Phân phối thực P(x)
+	•	Phân phối mô hình Q(x)
 
 Phân kỳ KL đo mức “mất mát thông tin” khi dùng Q để xấp xỉ P.
 
@@ -40,17 +40,17 @@ Phân kỳ KL đo mức “mất mát thông tin” khi dùng Q để xấp xỉ
 
 2.1 Trường hợp rời rạc
 
-D_{KL}P \\mid  Q = \sum_{x} P(x) \log \frac{P(x)}{Qx}
+D_{KL}(P \| Q) = \sum_{x} P(x) \log \frac{P(x)}{Q(x)}
 
 Điều kiện:
 
-Q$x$ > 0 \quad \text{nếu } $P(x)$ > 0
+Q(x) > 0 \quad \text{nếu } P(x) > 0
 
 ⸻
 
 2.2 Trường hợp liên tục
 
-D_{KL}P \\mid  Q = \int P(x) \log \frac{P(x)}{Qx} dx
+D_{KL}(P \| Q) = \int P(x) \log \frac{P(x)}{Q(x)} dx
 
 ⸻
 
@@ -58,11 +58,11 @@ D_{KL}P \\mid  Q = \int P(x) \log \frac{P(x)}{Qx} dx
 
 3.1 Không âm (Non-negativity)
 
-D_{KL}P \\mid  Q \ge 0
+D_{KL}(P \| Q) \ge 0
 
 và
 
-D_{KL}P \\mid  Q = 0 \iff P = Q
+D_{KL}(P \| Q) = 0 \iff P = Q
 
 Chứng minh dựa trên bất đẳng thức Jensen.
 
@@ -70,7 +70,7 @@ Chứng minh dựa trên bất đẳng thức Jensen.
 
 3.2 Không đối xứng
 
-D_{KL}$P \\mid  Q$ \neq D_{KL}$Q \\mid  $P(
+D_{KL}(P \| Q) \neq D_{KL}(Q \| P)
 
 Do đó KL không phải là metric.
 
@@ -80,19 +80,17 @@ Do đó KL không phải là metric.
 
 Cross-entropy:
 
-H(P, Q) = - \sum_x P)x \log Qx
+H(P, Q) = - \sum_x P(x) \log Q(x)
 
 Entropy:
 
-HP( = - \sum_x P)x \log P(x)
+H(P) = - \sum_x P(x) \log P(x)
 
 Ta có:
 
-$$
-D_{KL}P \\mid  Q = H(P, Q) - HP(
-$$
+D_{KL}(P \| Q) = H(P, Q) - H(P)
 
-Trong huấn luyện mô hình, vì H)$$P( không phụ thuộc vào tham số mô hình, nên tối thiểu hóa cross-entropy tương đương tối thiểu hóa KL divergence.
+Trong huấn luyện mô hình, vì H(P) không phụ thuộc vào tham số mô hình, nên tối thiểu hóa cross-entropy tương đương tối thiểu hóa KL divergence.
 
 ⸻
 
@@ -104,15 +102,11 @@ Với mô hình dự đoán token:
 
 Hàm mất mát:
 
-$$
-\mathcal{L})\theta = D_{KL}P_{data} \\mid  P_\theta
-$$
+\mathcal{L}(\theta) = D_{KL}(P_{data} \| P_\theta)
 
 Tối ưu:
 
-$$
-\theta^{\ast} = \arg\min_\theta D_{KL}P_{data} \\mid  P_\theta
-$$
+\theta^* = \arg\min_\theta D_{KL}(P_{data} \| P_\theta)
 
 ⸻
 
@@ -120,13 +114,11 @@ $$
 
 Perplexity:
 
-PP = \exp\leftH(P_{data}, P_\theta\right)
+PP = \exp\left(H(P_{data}, P_\theta)\right)
 
 Vì:
 
-$$
-HP_{data}, P_\theta = HP_{data} + D_{KL}P_{data} \\mid  P_\theta
-$$
+H(P_{data}, P_\theta) = H(P_{data}) + D_{KL}(P_{data} \| P_\theta)
 
 → Giảm KL → giảm perplexity.
 
@@ -136,12 +128,10 @@ $$
 
 Trong Reinforcement Learning from Human Feedback (RLHF), ta tối ưu:
 
-$$
-\max_\theta \mathbb{E}_{x \sim P_\theta}[Rx] - \beta D_{KL}P_\theta \\mid  P_{ref}
-$$
+\max_\theta \mathbb{E}_{x \sim P_\theta}[R(x)] - \beta D_{KL}(P_\theta \| P_{ref})
 
 Trong đó:
-	•	R$x$: reward model
+	•	R(x): reward model
 	•	P_{ref}: mô hình tham chiếu
 	•	\beta: hệ số điều chỉnh
 
@@ -155,21 +145,34 @@ Thành phần KL giúp:
 
 Giả sử:
 
-P = \mathcal{N}\mu_1, \sigma_1^2
+P = \mathcal{N}(\mu_1, \sigma_1^2)
+Q = \mathcal{N}(\mu_2, \sigma_2^2)
 
-$$
-Q = \mathcal{N}\mu_2, \sigma_2^2 Ta có:
-$$
+Ta có:
 
-D_{KL}P \\mid  Q =
+D_{KL}(P \| Q) =
+\log \frac{\sigma_2}{\sigma_1}
++ \frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2\sigma_2^2}
+- \frac{1}{2}
 
-$$
-\log \frac{\sigma_2}{\sigma_1} + \frac{\sigma_1^2 + \mu_1 - \mu_2^2}{2\sigma_2^2} - \frac{1}{2} Công thức này thường dùng trong Variational Autoencoder (VAE). ⸻ 9. KL Divergence và Self-Attention Trong Transformer: P_\thetaw_t = \text{softmax}Wh_t Huấn luyện tối thiểu hóa: D_{KL}P_{data} \\mid  P_\theta Cơ chế self-attention:
-$$
+Công thức này thường dùng trong Variational Autoencoder (VAE).
+
+⸻
+
+9. KL Divergence và Self-Attention
+
+Trong Transformer:
+
+P_\theta(w_t) = \text{softmax}(Wh_t)
+
+Huấn luyện tối thiểu hóa:
+
+D_{KL}(P_{data} \| P_\theta)
+
+Cơ chế self-attention:
 
 Attention(Q,K,V) =
-
-\text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
+\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 Giúp mô hình xây dựng phân phối xác suất chính xác hơn.
 
@@ -183,9 +186,7 @@ Theo lý thuyết thông tin của Claude Shannon:
 
 Nếu:
 
-$$
-D_{KL}P \\mid  Q = 2
-$$
+D_{KL}(P \| Q) = 2
 
 → Trung bình ta mất 2 nat thông tin mỗi mẫu.
 
@@ -197,9 +198,7 @@ $$
 
 Giữa teacher T và student S:
 
-$$
-\mathcal{L} = D_{KL}P_T \\mid  P_S
-$$
+\mathcal{L} = D_{KL}(P_T \| P_S)
 
 ⸻
 
@@ -221,7 +220,7 @@ D_{KL}(q(z) \| p(z|x))
 
 12. Hạn chế của KL Divergence
 	1.	Không đối xứng
-	2.	Nhạy khi Q$x$ \to 0
+	2.	Nhạy khi Q(x) \to 0
 	3.	Không phải metric
 
 Trong một số trường hợp, Jensen-Shannon divergence được dùng thay thế.

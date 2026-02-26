@@ -29,19 +29,13 @@ Trái ngược với "Entropy nhiệt động lực học" tập trung vào sự
 
 ### 1.1. Công Thức Toán Học
 Dành cho một biến biến thiên ngẫu nhiên (hoặc các đặc trưng categorical/continuous bins):
-
-H(X) = - \sum_{i=1}^{n} P(x_i) \log P(x_i)
-
-Do $P($x_i$) \in [0, 1]$ nên hệ số logarit sẽ mang dấu âm, dấu trừ phía ngoài giúp triệt tiêu và giữ giá trị Entropy $H$ luôn dương.
+$$ H(X) = - \sum_{i=1}^{n} P(x_i) \log P(x_i) $$
+Do $P(x_i) \in [0, 1]$ nên hệ số logarit sẽ mang dấu âm, dấu trừ phía ngoài giúp triệt tiêu và giữ giá trị Entropy $H$ luôn dương.
 
 ### 1.2. Xử Lý Các Trùng Lặp Số Học (Numerical Errors)
 Do đặc thù logarit không xác định tại mốc 0, khi thực nghiệm phân vùng histogram trên một dữ liệu nơ-ron dày đặc, nhiều bin sẽ xuất hiện giá trị $P=0$. Để khắc phục, công thức code thực tế thêm cực trị tàn dư nhỏ (epsilon $\epsilon$) vào lõi tính:
-
-H(X) = - \sum P(X) \log(P(X) + \epsilon)
-
-$$
-Nếu P=0, \log(\epsilon) \times 0 vẫn sẽ triệt tiêu trở về 0, tránh sụp đổ vòng lặp hàm hàm log.
-$$
+$$ H(X) = - \sum P(X) \log(P(X) + \epsilon) $$
+Nếu $P=0$, $\log(\epsilon) \times 0$ vẫn sẽ triệt tiêu trở về $0$, tránh sụp đổ vòng lặp hàm hàm log.
 
 ---
 
@@ -51,14 +45,11 @@ Nếu cho 2 biến $X$ và $Y$, **Mutual Information - $I(X;Y)$** là tỷ trọ
 
 ### 2.1. Tiếp Cận Bằng Biểu Đồ Venn (Entropy Giao Thoa)
 Có thể đo lường MI bằng cách tính toán hàm lượng Entropy nguyên bản và Entropy hợp bộ (Joint-Entropy):
-
-I(X;Y) = H(X) + H(Y) - H(X,Y)
-
+$$ I(X;Y) = H(X) + H(Y) - H(X,Y) $$
 Nói cách khác, nó là phần "giao nhau" của giới hạn độ bất định giữa $X$ và $Y$. 
 
 ### 2.2. Tiếp Cận Bằng Phương Trình Phân Phối Cụ Thể
-
-I(X;Y) = \sum_{x \in X} \sum_{y \in Y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right)
+$$ I(X;Y) = \sum_{x \in X} \sum_{y \in Y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right) $$
 
 ---
 
@@ -67,7 +58,7 @@ I(X;Y) = \sum_{x \in X} \sum_{y \in Y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)
 Dữ liệu đặc tính nơ-ron là các phân phối biến liên tục (continuous arrays), không phải các danh mục (discrete). Điều này tạo ra một rào cản đo lường khi ta buộc phải ép dữ liệu về các mặt lưới tần suất 2D (2D Histograms).
 
 1. **Sai số do thủ công chia Histograms:**
-   - Khi đo lường biến mảng $x$ và biến vô định $y$ không liên kết (Tức $I = 0$ tuyệt đối theo lý thuyết), việc gom nhóm dữ liệu thủ công vào 15 bins hoặc phân tách bằng phân vị (Percentiles) vẫn trả về kết quả ảo $(I $\approx$ 0.4 \to 0.5)$. Kết quả Histogram đính kèm một lực lượng "sai lệch tĩnh" (constant bias).
+   - Khi đo lường biến mảng $x$ và biến vô định $y$ không liên kết (Tức $I = 0$ tuyệt đối theo lý thuyết), việc gom nhóm dữ liệu thủ công vào 15 bins hoặc phân tách bằng phân vị (Percentiles) vẫn trả về kết quả ảo $(I \approx 0.4 \to 0.5)$. Kết quả Histogram đính kèm một lực lượng "sai lệch tĩnh" (constant bias).
 2. **Khắc phục bằng Công Cụ Cốt Lõi (Scikit-Learn Regression):**
    - Thay vì đếm điểm số theo ô, phương pháp Non-parametric Kernel Density Estimators thuộc hàm thư viện `mutual_info_regression` của Sklearn cho phép định đoán chính xác nhất dải phân bổ xác suất, giúp đẩy Mutual Information trả về trân diện ở ngưỡng xấp xỉ $0.0$.
    - **Đánh đổi:** Hàm Sklearn chạy cực lỳ chậm. Do đó ở các kiến trúc LLMs phân giải hàng tỷ thông số, ta vẫn ưu tiên Histogram Method vì thực chất độ lệch Bias luôn đi ngang tự nhiên, không làm sai khác tính đối chiếu tỷ lệ.

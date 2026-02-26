@@ -48,13 +48,17 @@ Trong các mô hình như GPT-2, văn bản được chia thành các token dự
 
 Xác suất dự đoán token được tính bằng:
 
-P(y=i \mid x) = \frac{e^{z_i}}{\sum_{j} e^{z_j}}
+$$
+P(y=i|x) = \frac{e^{z_i}}{\sum_{j} e^{z_j}}
+$$
 
-Trong đó $z_i$ là logit của token $i$.
+Trong đó ( z_i ) là logit của token ( i ).
 
 Log-softmax được sử dụng để ổn định số học:
 
-$\log$ P(y=i \mid x) = $z_i$ - $\log$ $\sum$_j e^{$z_j$}
+$$
+\log P(y=i|x) = z_i - \log \sum_j e^{z_j}
+$$
 
 ### 2.3 Lan truyền ngược trong LLM
 
@@ -69,6 +73,7 @@ Trong quá trình huấn luyện, gradient được lan truyền qua toàn bộ 
 * Văn bản: *Gulliver’s Travels* (Project Gutenberg)
 * Tokenizer: GPT-2 tokenizer
 * Khoảng 20% từ vựng xuất hiện ít nhất một lần trong văn bản
+
 
 ### 3.2 Phân loại token
 
@@ -149,6 +154,8 @@ Kết quả cho thấy:
 * Token hiếm bị suy giảm
 * Token không xuất hiện bị triệt tiêu mạnh
 
+
+
 ---
 
 ## 5. Thảo luận (Discussion)
@@ -225,6 +232,7 @@ Kết quả này giúp giải thích hành vi của LLM trong thực tế và cu
 ## Tài liệu tham khảo (References)
 
 1. Tài liệu hướng dẫn CodeChallenge: *What happens to unused tokens*
+
 
 2. Vaswani, A. et al. (2017). *Attention Is All You Need*. NeurIPS.
 

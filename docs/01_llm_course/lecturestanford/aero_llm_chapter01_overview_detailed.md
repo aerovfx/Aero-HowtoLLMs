@@ -40,9 +40,9 @@
 
 **Định nghĩa toán học:**
 
-$$
-P(x₁, x₂, ..., xₙ) = P(x₁) × P(x₂ \mid x₁) × P(x₃ \mid x₁,x₂) × ... × P(xₙ \mid x₁,...,xₙ₋₁)
-$$
+```
+P(x₁, x₂, ..., xₙ) = P(x₁) × P(x₂|x₁) × P(x₃|x₁,x₂) × ... × P(xₙ|x₁,...,xₙ₋₁)
+```
 
 Nói cách khác:
 - **Input:** Chuỗi văn bản (text sequence)
@@ -75,13 +75,13 @@ Trước Transformer (2017), các mô hình ngôn ngữ sử dụng:
 - **CNN**: Không phù hợp với sequences dài
 
 **Transformer** giải quyết vấn đề bằng **Self-Attention**:
-
-$$
+```
 Attention(Q, K, V) = softmax(QKᵀ/√d) × V
-$$
+```
 
 ### **Cấu Trúc Transformer Block**
 
+```
 Input Embedding
     ↓
 [Position Embedding] ─┐
@@ -98,13 +98,10 @@ Feed-Forward (MLP)    │
     ↓                 │
 Add & Norm ←──────────┘ (Residual Connection)
     ↓
-
-$$
-Repeat N times
-$$
-
-↓
+[Repeat N times]
+    ↓
 Output Layer
+```
 
 ### **Thành phần chính:**
 
@@ -191,6 +188,7 @@ Output Layer
 
 **🔥 Mixture of Experts (MoE):**
 
+```
 Input
   ↓
 Embedding
@@ -210,13 +208,10 @@ Embedding
 │ Aggregation         │
 └─────────────────────┘
   ↓
-
-$$
-Repeat 120 layers
-$$
-
-↓
+[Repeat 120 layers]
+  ↓
 Output
+```
 
 **Thông số kỹ thuật:**
 
@@ -241,7 +236,7 @@ Output
 | Active params | 175B | **~220B** |
 | Multimodal | ❌ | **✅ (Vision)** |
 | Context | 2K-4K | **32K-128K** |
-| Training cost | ~$4M \mid **~$100M** |
+| Training cost | ~$4M | **~$100M** |
 
 ### **Ưu điểm MoE:**
 
@@ -323,6 +318,7 @@ cd llm_viz
 npm run dev
 # Open: http://localhost:3002/llm
 # Select: GPT-4 model
+```
 
 **Các phần có thể explore:**
 - ✅ Token & Position Embeddings
@@ -341,7 +337,6 @@ npm run dev
 ## 🎯 Key Takeaways
 
 1. ✅ **LLM = Probability model** over token sequences
-
 2. ✅ **Transformer architecture** is the foundation
 3. ✅ **GPT-4 uses MoE** for efficiency at scale
 4. ✅ **Emergent abilities** appear at 100B+ params
@@ -362,7 +357,7 @@ npm run dev
 - Fast.ai: Practical Deep Learning
 
 **Interactive:**
-- Our visualization tool $llm_viz$
+- Our visualization tool (llm_viz)
 - Transformer Explainer (Poloclub)
 - LLM Visualization (bbycroft)
 

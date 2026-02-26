@@ -25,11 +25,11 @@ Bài báo cáo thực nghiệm so sánh phương pháp trích lọc các mảng 
 ## 1. Bản Đồ Mật Độ Và Khoảng Cách Xa Tương Đối
 
 Thực nghiệm bắt đầu với một từ hạt giống (Seed Token) không có chuỗi không gian xen vào, ví dụ: cụm `"ring"`.
-Thuật toán lấy vetor mã của `ring` càn quét đo khoảng cách Euclidean Distance ($\\mid  \vec{a} - \vec{b} \\mid$) so với hằng số $50.000$ (tập Vocab) các véctơ mã trong cả BERT và GPT-2. Các hệ quả trực quan:
+Thuật toán lấy vetor mã của `ring` càn quét đo khoảng cách Euclidean Distance ($\| \vec{a} - \vec{b} \|$) so với hằng số $50.000$ (tập Vocab) các véctơ mã trong cả BERT và GPT-2. Các hệ quả trực quan:
 - **Biểu Đồ Lệch Histograms:** Đường hình chuông (Gaussian curves) của GPT-2 và BERT có phân bố bình thường mượt mà và tập trung xa dần về khu vực trung bình. Cả hai đều chừa lại một dải siêu hẹp (Long-tail) từ khoảng cách cực tiểu cho vài Token siêu liên đới, trong khi lượng lớn hàng chục ngàn từ ở phương trời xa thẩm.
 - Tuy nhiên, quần thể không trung chuẩn (Non-normalized points) của BERT được giữ co lại dầy đặc, trong khi GPT-2 tạo độ dãn mật độ vector cao hơn hàng chuỗi chỉ mục.
 
-Khi Normalized Matrix ($\\mid \vec{v}\\mid = 1$), lực kéo của độ dài vector bị triệt biến, biến đồ thị Histogram Euclidean của hai gã khổng lồ này đè lên nhau trùng khớp thành một biểu đồ hợp vĩ duy nhất, hé lộ sức mạnh thực sự của hướng góc Vector (Direction Angles).
+Khi Normalized Matrix ($\|\vec{v}\| = 1$), lực kéo của độ dài vector bị triệt biến, biến đồ thị Histogram Euclidean của hai gã khổng lồ này đè lên nhau trùng khớp thành một biểu đồ hợp vĩ duy nhất, hé lộ sức mạnh thực sự của hướng góc Vector (Direction Angles).
 
 ---
 
@@ -51,7 +51,7 @@ Thử thách bùng nổ khi sử dụng tìm kiếm đồng nghĩa cho hạt gi�
 - Bật Tokenize của GPT-2: Chữ `"beauty"` bị cưa xẻ nát bung thành **2 Tokens độc lập**.
 
 Không thể dùng thước dây k-NN cho 2 ngọn véc-tơ độc lập, kiến trúc sư chỉ được phép chọn 1 trong 2 giải pháp:
-1. Tính khoảng cách 50.000 điểm từ véc-tơ $\vec{v}_1$, làm tương tự cho $\vec{v}_2$. Sau đó cộng Average 50.000 cặp khoảng cách (Khoảng cách kéo trung bình).
+1. Tính khoảng cách 50.000 điểm từ véc-tơ $\vec{v}_1$, làm tương tự cho $\vec{v}_2$. Sau đó cộng Ave18_rage 50.000 cặp khoảng cách (Khoảng cách kéo trung bình).
 2. Ép trung bình 2 Véc-tơ bằng hàm nhúng Vector (Mean Pooling) $\vec{E}_{\text{seed}} = \frac{\vec{v}_1 + \vec{v}_2}{2}$. Sau đó dùng một Vector duy nhất này phóng chổi quét mạng lưới Không gian (Option 2).
 
 Nếu dùng Mean-Pooling phương thức 2, không gian phân hóa trả bề một hệ tương đệ từ đồng nghĩa ấn tượng đỉnh điểm: Dải GPT-2 bắn ra `beautiful, gorgeous, pretty, wonderful, lovely`.

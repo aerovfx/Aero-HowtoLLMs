@@ -26,7 +26,7 @@ Trong bài học này, chúng ta sẽ khám phá các chiến lược để tậ
 
 Lĩnh vực AI thay đổi liên tục với các breakthrough mới:
 
-\text{Innovation Rate} = f(\text{time}) \uparrow
+$$\text{Innovation Rate} = f(\text{time}) \uparrow$$
 
 Điều này đòi hỏi:
 - Cập nhật kiến thức thường xuyên
@@ -106,7 +106,9 @@ Lĩnh vực AI thay đổi liên tục với các breakthrough mới:
 4. **Machine Translation**: Dịch thuật đa ngôn ngữ
 
 **Quy trình:**
+```
 Project Idea → Research → Implementation → Evaluation → Deployment
+```
 
 ## 4. Lộ Trình Học Tập
 

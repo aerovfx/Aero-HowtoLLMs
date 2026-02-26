@@ -26,16 +26,20 @@ Trong các mô hình ngôn ngữ hiện đại như [GPT-2](chatgpt://generic-en
 
 Giả sử ta có chuỗi văn bản:
 
-$\mathcal${T} = ($w_1$, $w_2$, ..., $w_n$)
+$$
+\mathcal{T} = (w_1, w_2, ..., w_n)
+$$
 
 Bộ tokenizer thực hiện ánh xạ:
 
+$$
 \tau: \mathcal{V}_{text} \rightarrow \mathcal{V}_{token}
+$$
 
 Trong đó:
 
-- $\mathcal{V}_{text}$: tập từ tự nhiên
-- $\mathcal{V}_{token}$: tập token rời rạc
+- \( \mathcal{V}_{text} \): tập từ tự nhiên
+- \( \mathcal{V}_{token} \): tập token rời rạc
 
 Kết quả là dãy chỉ số:
 
@@ -47,11 +51,19 @@ $$
 
 ## 2. One-hot Encoding
 
-Mỗi token $t_i$ được biểu diễn ban đầu dưới dạng vector one-hot:
+Mỗi token \( t_i \) được biểu diễn ban đầu dưới dạng vector one-hot:
 
+$$
 \mathbf{x}_i \in \mathbb{R}^{|V|}
+$$
 
-x_{ij} = \begin{cases} 1 & \text{nếu } j = t_i \\ 0 & \text{ngược lại} \end{cases}
+$$
+x_{ij} =
+\begin{cases}
+1 & \text{nếu } j = t_i \\
+0 & \text{ngược lại}
+\end{cases}
+$$
 
 Đây là không gian rất cao chiều và không hiệu quả về mặt tính toán.
 
@@ -61,22 +73,28 @@ x_{ij} = \begin{cases} 1 & \text{nếu } j = t_i \\ 0 & \text{ngược lại} \e
 
 Ta định nghĩa ma trận embedding:
 
+$$
 E \in \mathbb{R}^{|V| \times d}
+$$
 
 Trong đó:
 
-- $|V\mid$: kích thước từ vựng
-- $d$: số chiều embedding
+- \( |V| \): kích thước từ vựng
+- \( d \): số chiều embedding
 
 Vector embedding được tính:
 
+$$
 \mathbf{v}_i = \mathbf{x}_i E
+$$
 
-Do $\mathbf{x}_i$ là one-hot, nên:
+Do \( \mathbf{x}_i \) là one-hot, nên:
 
+$$
 \mathbf{v}_i = E_{t_i}
+$$
 
-Tức là lấy hàng thứ $t_i$ của ma trận embedding.
+Tức là lấy hàng thứ \( t_i \) của ma trận embedding.
 
 ---
 
@@ -84,13 +102,19 @@ Tức là lấy hàng thứ $t_i$ của ma trận embedding.
 
 Trong Transformer, embedding cuối cùng là tổng của:
 
+$$
 \mathbf{z}_i = \mathbf{v}_i + \mathbf{p}_i
+$$
 
-Trong đó $\mathbf{p}_i$ là positional encoding:
+Trong đó \( \mathbf{p}_i \) là positional encoding:
 
+$$
 PE_{(pos,2k)} = \sin\left(\frac{pos}{10000^{2k/d}}\right)
+$$
 
+$$
 PE_{(pos,2k+1)} = \cos\left(\frac{pos}{10000^{2k/d}}\right)
+$$
 
 Điều này giúp mô hình nhận biết thứ tự chuỗi.
 
@@ -100,7 +124,12 @@ PE_{(pos,2k+1)} = \cos\left(\frac{pos}{10000^{2k/d}}\right)
 
 ### 5.1 Độ tương đồng Cosine
 
-\text{cosine}(\mathbf{v}_i,\mathbf{v}_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j} {\|\mathbf{v}_i\|\|\mathbf{v}_j\|}
+$$
+\text{cosine}(\mathbf{v}_i,\mathbf{v}_j)
+=
+\frac{\mathbf{v}_i \cdot \mathbf{v}_j}
+{\|\mathbf{v}_i\|\|\mathbf{v}_j\|}
+$$
 
 Phản ánh mức độ tương đồng ngữ nghĩa.
 
@@ -110,7 +139,12 @@ Phản ánh mức độ tương đồng ngữ nghĩa.
 
 Trong nhiều mô hình, quan hệ tuyến tính có thể xuất hiện:
 
-\mathbf{v}_{king} - \mathbf{v}_{man} + \mathbf{v}_{woman} \approx \mathbf{v}_{queen}
+$$
+\mathbf{v}_{king} - \mathbf{v}_{man}
++ \mathbf{v}_{woman}
+\approx
+\mathbf{v}_{queen}
+$$
 
 Điều này cho thấy không gian embedding học được cấu trúc ngữ nghĩa tuyến tính.
 
@@ -120,19 +154,35 @@ Trong nhiều mô hình, quan hệ tuyến tính có thể xuất hiện:
 
 Trong mô hình tự hồi quy như GPT-2, hàm mất mát là:
 
-$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P($w_t$  \mid  w_{\lt t})
+$$
+\mathcal{L}
+=
+- \sum_{t=1}^{T}
+\log P(w_t | w_{<t})
+$$
 
 Với:
 
-P(w_t  \mid  w_{\lt t}) = \text{softmax}(W_o h_t)
+$$
+P(w_t | w_{<t})
+=
+\text{softmax}(W_o h_t)
+$$
 
-\text{softmax}(z_i) = \frac{e^{z_i}} {\sum_{j=1}^{|V|} e^{z_j}}
+$$
+\text{softmax}(z_i)
+=
+\frac{e^{z_i}}
+{\sum_{j=1}^{|V|} e^{z_j}}
+$$
 
 Gradient lan truyền ngược để cập nhật ma trận embedding:
 
+$$
 E \leftarrow E - \eta \nabla_E \mathcal{L}
+$$
 
-Trong đó $\eta$ là learning rate.
+Trong đó \( \eta \) là learning rate.
 
 ---
 
@@ -140,15 +190,21 @@ Trong đó $\eta$ là learning rate.
 
 Giả sử:
 
+$$
 X \in \mathbb{R}^{n \times d}
+$$
 
 Ma trận hiệp phương sai:
 
+$$
 \Sigma = \frac{1}{n} X^T X
+$$
 
 Giải bài toán trị riêng:
 
+$$
 \Sigma \mathbf{u} = \lambda \mathbf{u}
+$$
 
 Các trị riêng lớn cho biết chiều chiếm ưu thế của không gian ngữ nghĩa.
 
@@ -158,11 +214,16 @@ Các trị riêng lớn cho biết chiều chiếm ưu thế của không gian n
 
 Thường áp dụng chuẩn hóa:
 
-\hat{\mathbf{v}} = \frac{\mathbf{v}}{\|\mathbf{v}\|}
+$$
+\hat{\mathbf{v}} =
+\frac{\mathbf{v}}{\|\mathbf{v}\|}
+$$
 
 Điều này làm:
 
+$$
 \|\hat{\mathbf{v}}\| = 1
+$$
 
 Giúp tăng ổn định khi tính attention và cosine similarity.
 
@@ -172,13 +233,23 @@ Giúp tăng ổn định khi tính attention và cosine similarity.
 
 Self-attention tính:
 
+$$
 Q = XW_Q
-
+$$
+$$
 K = XW_K
-
+$$
+$$
 V = XW_V
+$$
 
-\text{Attention}(Q,K,V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V
+$$
+\text{Attention}(Q,K,V)
+=
+\text{softmax}\left(
+\frac{QK^T}{\sqrt{d_k}}
+\right)V
+$$
 
 Embedding ban đầu đóng vai trò nền tảng cho toàn bộ phép biến đổi này.
 
@@ -189,7 +260,17 @@ Embedding ban đầu đóng vai trò nền tảng cho toàn bộ phép biến đ
 Quá trình từ văn bản đến embedding có thể tóm tắt:
 
 $$
-\text{Text} \rightarrow \text{Token} \rightarrow \text{One-hot} \rightarrow \text{Embedding} \rightarrow \text{Attention} \rightarrow \text{Contextual Representation}
+\text{Text}
+\rightarrow
+\text{Token}
+\rightarrow
+\text{One-hot}
+\rightarrow
+\text{Embedding}
+\rightarrow
+\text{Attention}
+\rightarrow
+\text{Contextual Representation}
 $$
 
 Về mặt toán học:

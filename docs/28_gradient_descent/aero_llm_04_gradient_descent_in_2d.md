@@ -25,8 +25,8 @@ Báo cáo này nghiên cứu về việc mở rộng thuật toán Hạ giang (G
 
 Khi làm việc với hàm số nhiều biến (ví dụ $f(x, y)$), sự thay đổi của hàm số phụ thuộc vào từng biến số một cách độc lập:
 - **Đạo hàm riêng (Partial Derivative):** Là đạo hàm của hàm số theo một biến (ví dụ $x$), trong khi coi biến còn lại ($y$) là hằng số. Ký hiệu bằng biểu tượng "del" ($\partial$).
-- **Gradient ($\nabla$):** Là một véc-tơ chứa tất cả các đạo hàm riêng của hàm số. Trong không gian 2D, gradient là $\nabla f = [\frac{$\partial$ f}{$\partial$ x}, \frac{$\partial$ f}{$\partial$ y}]$.
-- **Ý nghĩa:** Gradient chỉ hướng mà hàm số tăng nhanh nhất. Trong học sâu, chúng ta luôn đi theo hướng ngược lại với gradient ($-$\nabla$$) để tìm điểm thấp nhất.
+- **Gradient ($\nabla$):** Là một véc-tơ chứa tất cả các đạo hàm riêng của hàm số. Trong không gian 2D, gradient là $\nabla f = [\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}]$.
+- **Ý nghĩa:** Gradient chỉ hướng mà hàm số tăng nhanh nhất. Trong học sâu, chúng ta luôn đi theo hướng ngược lại với gradient ($-\nabla$) để tìm điểm thấp nhất.
 
 ---
 

@@ -26,7 +26,7 @@ Trong các mô hình ngôn ngữ tự hồi quy, việc đảm bảo tính nhân
 
 Các mô hình ngôn ngữ hiện đại như Transformer hoạt động dựa trên cơ chế attention, trong đó mỗi token được phép truy cập thông tin từ các token khác trong chuỗi. Tuy nhiên, đối với các bài toán sinh chuỗi tự hồi quy, mô hình không được phép sử dụng thông tin từ tương lai.
 
-Để giải quyết vấn đề này, causal mask được sử dụng nhằm giới hạn phạm vi attention, chỉ cho phép mỗi vị trí truy cập vào quá khứ và hiện tại. Tài liệu nghiên cứu trình bày chi tiết cách hiện thực hóa cơ chế này bằng đại số tuyến tính và lập trình song song. 
+Để giải quyết vấn đề này, causal mask được sử dụng nhằm giới hạn phạm vi attention, chỉ cho phép mỗi vị trí truy cập vào quá khứ và hiện tại. Tài liệu nghiên cứu trình bày chi tiết cách hiện thực hóa cơ chế này bằng đại số tuyến tính và lập trình song song. :contentReference[oaicite:0]{index=0}
 
 ---
 
@@ -34,11 +34,13 @@ Các mô hình ngôn ngữ hiện đại như Transformer hoạt động dựa t
 
 ### 2.1. Trung bình hóa thông tin quá khứ
 
-Giả sử tồn tại một vector kích hoạt $x \in $\mathbb${R}^T$, biểu diễn thông tin tại các thời điểm trong quá khứ. Một vector trọng số $w \in $\mathbb${R}^T$ được sử dụng để tính tổng có trọng số:
+Giả sử tồn tại một vector kích hoạt \( x \in \mathbb{R}^T \), biểu diễn thông tin tại các thời điểm trong quá khứ. Một vector trọng số \( w \in \mathbb{R}^T \) được sử dụng để tính tổng có trọng số:
 
+$$
 y = \sum_{i=1}^{T} w_i x_i
+$$
 
-Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng đều, dẫn đến trung bình cộng của các giá trị quá khứ. Tuy nhiên, cách tiếp cận này không phản ánh mức độ quan trọng khác nhau giữa các thời điểm. 
+Trong trường hợp đơn giản, \( w \) có thể được khởi tạo đồng đều, dẫn đến trung bình cộng của các giá trị quá khứ. Tuy nhiên, cách tiếp cận này không phản ánh mức độ quan trọng khác nhau giữa các thời điểm. :contentReference[oaicite:1]{index=1}
 
 ---
 
@@ -46,15 +48,17 @@ Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng 
 
 Để đảm bảo tổng trọng số bằng 1 và ổn định số học, hàm softmax được sử dụng:
 
+$$
 w_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
+$$
 
-Trong đó $z_i$ là logit ban đầu. Softmax có đặc tính:
+Trong đó \( z_i \) là logit ban đầu. Softmax có đặc tính:
 
 - Khuếch đại giá trị lớn,
 - Giảm ảnh hưởng của giá trị nhỏ,
 - Tạo phân phối xác suất hợp lệ.
 
-Nhờ đó, mô hình tập trung mạnh hơn vào các thời điểm quan trọng trong quá khứ. 
+Nhờ đó, mô hình tập trung mạnh hơn vào các thời điểm quan trọng trong quá khứ. :contentReference[oaicite:2]{index=2}
 
 ---
 
@@ -62,9 +66,11 @@ Nhờ đó, mô hình tập trung mạnh hơn vào các thời điểm quan tr�
 
 Một cách trực quan để loại bỏ tương lai là gán trọng số bằng 0 cho các vị trí sau thời điểm hiện tại. Tuy nhiên, khi áp dụng softmax:
 
+$$
 e^0 = 1
+$$
 
-các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò rỉ thông tin tương lai. Điều này làm suy giảm tính nhân quả của mô hình. 
+các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò rỉ thông tin tương lai. Điều này làm suy giảm tính nhân quả của mô hình. :contentReference[oaicite:3]{index=3}
 
 ---
 
@@ -72,13 +78,17 @@ các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò r
 
 Để giải quyết vấn đề trên, các vị trí tương lai được gán giá trị:
 
+$$
 z_i = -\infty
+$$
 
 Khi đó:
 
+$$
 e^{-\infty} = 0
+$$
 
-Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đảm bảo không ảnh hưởng đến kết quả. Đây là nền tảng toán học của causal masking. 
+Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đảm bảo không ảnh hưởng đến kết quả. Đây là nền tảng toán học của causal masking. :contentReference[oaicite:4]{index=4}
 
 ---
 
@@ -86,13 +96,17 @@ Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đ�
 
 ### 3.1. Xây dựng ma trận nhân quả
 
+Ma trận mask \( M \in \mathbb{R}^{T \times T} \) được định nghĩa như sau:
+
 $$
-Ma trận mask M \in \mathbb{R}^{T \times T} được định nghĩa như sau:
+M_{ij} =
+\begin{cases}
+0, & j \leq i \\
+-\infty, & j > i
+\end{cases}
 $$
 
-M_{ij} = \begin{cases} 0, & j \leq i \\ -\infty, & j > i \end{cases}
-
-Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. 
+Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. :contentReference[oaicite:5]{index=5}
 
 ---
 
@@ -100,13 +114,17 @@ Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn v�
 
 Trong cơ chế self-attention, điểm số được tính bằng:
 
+$$
 S = \frac{QK^T}{\sqrt{d_k}}
+$$
 
 Sau đó áp dụng mask:
 
+$$
 S' = S + M
+$$
 
-và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các vị trí tương lai bị triệt tiêu hoàn toàn. 
+và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các vị trí tương lai bị triệt tiêu hoàn toàn. :contentReference[oaicite:6]{index=6}
 
 ---
 
@@ -119,7 +137,7 @@ và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các 
 3. Softmax theo hàng,
 4. Kiểm tra tổng xác suất.
 
-Kết quả cho thấy tổng mỗi hàng luôn bằng 1, xác nhận tính hợp lệ của phương pháp. 
+Kết quả cho thấy tổng mỗi hàng luôn bằng 1, xác nhận tính hợp lệ của phương pháp. :contentReference[oaicite:7]{index=7}
 
 ---
 
@@ -133,7 +151,7 @@ $$
 [1], [0.5, 0.5], [0.33, 0.33, 0.33], ...
 $$
 
-Điều này phản ánh số lượng phần tử hợp lệ tăng dần theo thời gian, dẫn đến sự phân tán xác suất. 
+Điều này phản ánh số lượng phần tử hợp lệ tăng dần theo thời gian, dẫn đến sự phân tán xác suất. :contentReference[oaicite:8]{index=8}
 
 ---
 
@@ -145,7 +163,7 @@ So với chuẩn hóa tuyến tính, softmax tạo ra:
 - Tăng tính thưa (sparsity),
 - Giảm nhiễu từ các token ít liên quan.
 
-Nhờ đó, mô hình có xu hướng tập trung vào các mốc quan trọng trong chuỗi. 
+Nhờ đó, mô hình có xu hướng tập trung vào các mốc quan trọng trong chuỗi. :contentReference[oaicite:9]{index=9}
 
 ---
 
@@ -157,7 +175,7 @@ So sánh các phương pháp tạo mask cho thấy:
 - Việc sử dụng `-inf` từ Python nhanh hơn một số hàm PyTorch,
 - Tuy nhiên, trong thực tế, các phép toán này thường được fuse trên GPU.
 
-Do đó, chi phí tạo mask không phải là nút thắt chính. 
+Do đó, chi phí tạo mask không phải là nút thắt chính. :contentReference[oaicite:10]{index=10}
 
 ---
 
@@ -165,7 +183,7 @@ Do đó, chi phí tạo mask không phải là nút thắt chính.
 
 ### 5.1. Ý nghĩa đối với mô hình tự hồi quy
 
-Causal masking cho phép huấn luyện song song toàn bộ chuỗi trong khi vẫn giữ được tính nhân quả. Đây là ưu điểm quan trọng so với phương pháp xử lý tuần tự bằng vòng lặp. 
+Causal masking cho phép huấn luyện song song toàn bộ chuỗi trong khi vẫn giữ được tính nhân quả. Đây là ưu điểm quan trọng so với phương pháp xử lý tuần tự bằng vòng lặp. :contentReference[oaicite:11]{index=11}
 
 ---
 
@@ -177,7 +195,7 @@ Việc kết hợp softmax với giá trị âm vô cực:
 - Giảm gradient không ổn định,
 - Cải thiện hội tụ.
 
-Điều này cho thấy thiết kế attention chịu ảnh hưởng mạnh từ phân tích số học. 
+Điều này cho thấy thiết kế attention chịu ảnh hưởng mạnh từ phân tích số học. :contentReference[oaicite:12]{index=12}
 
 ---
 
@@ -189,7 +207,7 @@ Nghiên cứu hiện tại tồn tại một số hạn chế:
 2. Chưa đánh giá trong bối cảnh mô hình cực lớn,
 3. Chưa xét tới các biến thể sparse attention.
 
-Các hướng mở rộng này cần được nghiên cứu thêm. 
+Các hướng mở rộng này cần được nghiên cứu thêm. :contentReference[oaicite:13]{index=13}
 
 ---
 
@@ -201,7 +219,7 @@ Các kết quả trong nghiên cứu có thể áp dụng cho:
 - Xây dựng inference engine,
 - Thiết kế hệ thống sinh văn bản thời gian thực.
 
-Causal mask là thành phần cốt lõi trong các hệ thống như GPT, LLaMA và Claude. 
+Causal mask là thành phần cốt lõi trong các hệ thống như GPT, LLaMA và Claude. :contentReference[oaicite:14]{index=14}
 
 ---
 
@@ -213,7 +231,7 @@ Bài báo đã phân tích cơ chế trung bình hóa quá khứ và loại bỏ
 
 ## Tài liệu tham khảo (References)
 
-[1] Tài liệu “Ave18_raging the Past While Ignoring the Future (Code)”, Video Transcript và Demo, 2024. 
+[1] Tài liệu “Ave18_raging the Past While Ignoring the Future (Code)”, Video Transcript và Demo, 2024. :contentReference[oaicite:15]{index=15}
 
 [2] Vaswani, A. et al. (2017). *Attention Is All You Need*. NeurIPS.
 
@@ -225,6 +243,7 @@ Dưới đây là **bài viết khoa học mở rộng sang FlashAttention và L
 
 ---
 
+```md
 # Mở Rộng Cơ Chế Causal Attention với FlashAttention và Ngữ Cảnh Dài (Long Context)
 
 ## Tóm tắt (Abstract)
@@ -241,7 +260,7 @@ $$
 O(T^2)
 $$
 
-với $T$ là độ dài chuỗi. Khi $T$ đạt hàng chục nghìn hoặc hơn, chi phí này trở nên không khả thi trong thực tế.
+với \(T\) là độ dài chuỗi. Khi \(T\) đạt hàng chục nghìn hoặc hơn, chi phí này trở nên không khả thi trong thực tế.
 
 Hai hướng tiếp cận chính để giải quyết vấn đề là:
 
@@ -258,14 +277,16 @@ Bài báo này tập trung phân tích cơ sở lý thuyết và thực nghiệm
 
 Causal attention tiêu chuẩn yêu cầu tính toán:
 
+$$
 QK^T \in \mathbb{R}^{T \times T}
+$$
 
 dẫn đến:
 
-- Thời gian: $O(T^2 d)$,
-- Bộ nhớ: $O(T^2)$.
+- Thời gian: \(O(T^2 d)\),
+- Bộ nhớ: \(O(T^2)\).
 
-Với $T > 8k$, chi phí này vượt quá khả năng GPU phổ thông.
+Với \(T > 8k\), chi phí này vượt quá khả năng GPU phổ thông.
 
 ---
 
@@ -291,13 +312,13 @@ FlashAttention được thiết kế dựa trên ba nguyên lý:
 2. Recompute (tính lại softmax khi cần),
 3. IO-aware (tối ưu truy cập bộ nhớ).
 
-Thay vì lưu toàn bộ ma trận $T \times T$, FlashAttention xử lý từng block nhỏ.
+Thay vì lưu toàn bộ ma trận \(T \times T\), FlashAttention xử lý từng block nhỏ.
 
 ---
 
 ### 3.2. Thuật toán FlashAttention Causal
 
-Cho block size là $B$, thuật toán hoạt động như sau:
+Cho block size là \(B\), thuật toán hoạt động như sau:
 
 - Chia Q, K, V thành các block,
 - Duyệt từng block theo thứ tự nhân quả,
@@ -316,11 +337,17 @@ $$
 
 FlashAttention sử dụng softmax tích lũy:
 
+$$
 m_i = \max(m_{i-1}, s_i)
+$$
 
+$$
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
+$$
 
+$$
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
+$$
 
 Cách này cho phép tính softmax mà không cần lưu toàn bộ logits.
 
@@ -422,7 +449,9 @@ Giảm phụ thuộc vào full attention.
 
 Xấp xỉ softmax:
 
+$$
 \text{Attention}(Q,K,V) \approx \phi(Q)\phi(K)^TV
+$$
 
 Độ phức tạp:
 
@@ -447,7 +476,11 @@ Các LLM hiện đại thường kết hợp:
 
 Sơ đồ tổng quát:
 
+```
+
 Input → Embedding → FlashAttention → FFN → Memory → Output
+
+```
 
 ---
 
@@ -587,6 +620,7 @@ Bài báo đã phân tích mở rộng causal attention sang FlashAttention và 
 [5] Beltagy et al. (2020). Longformer.
 
 [6] Katharopoulos et al. (2020). Linear Transformers.
+```
 
 ---
 
@@ -602,7 +636,7 @@ Dưới đây là phần **Pseudocode + PyTorch Implementation cho Causal FlashA
 
 FlashAttention là kỹ thuật tính toán attention theo từng block nhằm:
 
-* Tránh lưu ma trận $QK^T$,
+* Tránh lưu ma trận (QK^T),
 * Giảm bộ nhớ từ (O(T^2)) xuống (O(Td)),
 * Tăng tốc độ trên GPU.
 
@@ -628,17 +662,14 @@ Phần này trình bày:
 
 **Input**
 
-$$
-* Query: Q \in \mathbb{R}^{T \times d} * Key: K \in \mathbb{R}^{T \times d} * Value: V \in \mathbb{R}^{T \times d}
-$$
-
-* Block size: $B$
+* Query: ( Q \in \mathbb{R}^{T \times d} )
+* Key: ( K \in \mathbb{R}^{T \times d} )
+* Value: ( V \in \mathbb{R}^{T \times d} )
+* Block size: ( B )
 
 **Output**
 
-$$
-* Output: O \in \mathbb{R}^{T \times d}
-$$
+* Output: ( O \in \mathbb{R}^{T \times d} )
 
 ---
 
@@ -681,6 +712,7 @@ Algorithm 6: Causal-FlashAttention(Q, K, V, B)
 18: end for
 
 19: return O
+```
 
 ---
 
@@ -701,11 +733,17 @@ Algorithm 6: Causal-FlashAttention(Q, K, V, B)
 
 FlashAttention dùng công thức:
 
+$$
 m_i = \max(m_{i-1}, s_i)
+$$
 
+$$
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
+$$
 
+$$
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
+$$
 
 Giúp:
 
@@ -726,6 +764,7 @@ Giúp:
 ```python
 import torch
 import math
+```
 
 ---
 
@@ -734,9 +773,7 @@ def causal_flash_attention(
     Q,
     K,
     V,
-
-block_size=128
-
+    block_size=128
 ):
     """
     Naive causal FlashAttention (educational).
@@ -750,119 +787,168 @@ block_size=128
         O: (B, T, D)
     """
 
-B, T, D = Q.shape
+    B, T, D = Q.shape
+    device = Q.device
 
-$$
-device = Q.device
-$$
+    O = torch.zeros_like(Q)
 
-O = torch.zeros_like(Q)
+    scale = 1.0 / math.sqrt(D)
 
-scale = 1.0 / math.sqrt(D)
+    for b in range(B):
 
-$$
-for b in range(B): for i in range(0, T, block_size): qi = Q[b, i:i+block_size]      # (Bi, D)
-$$
+        for i in range(0, T, block_size):
 
-oi = torch.zeros_like(qi)
+            qi = Q[b, i:i+block_size]      # (Bi, D)
+            oi = torch.zeros_like(qi)
 
-$$
-mi = torch.full( (qi.size(0),), -float("inf"), device=device ) li = torch.zeros( qi.size(0), device=device ) for j in range(0, i+block_size, block_size): kj = K[b, j:j+block_size]
-$$
+            mi = torch.full(
+                (qi.size(0),),
+                -float("inf"),
+                device=device
+            )
 
-vj = V[b, j:j+block_size]
+            li = torch.zeros(
+                qi.size(0),
+                device=device
+            )
 
-$$
-S = qi @ kj.T * scale # Causal mask inside block q_pos = torch.arange( i, i+qi.size(0), device=device ).unsqueeze(1) k_pos = torch.arange( j, j+kj.size(0), device=device ).unsqueeze(0) mask = k_pos > q_pos
-$$
+            for j in range(0, i+block_size, block_size):
 
-S = S.masked_fill(
+                kj = K[b, j:j+block_size]
+                vj = V[b, j:j+block_size]
 
+                S = qi @ kj.T * scale
+
+                # Causal mask inside block
+                q_pos = torch.arange(
+                    i, i+qi.size(0),
+                    device=device
+                ).unsqueeze(1)
+
+                k_pos = torch.arange(
+                    j, j+kj.size(0),
+                    device=device
+                ).unsqueeze(0)
+
+                mask = k_pos > q_pos
+
+                S = S.masked_fill(
                     mask,
                     -float("inf")
                 )
 
-mij = torch.max(S, dim=1).values
+                mij = torch.max(S, dim=1).values
 
-$$
-mi_new = torch.maximum(mi, mij)
-$$
+                mi_new = torch.maximum(mi, mij)
 
-P = torch.exp(
-
+                P = torch.exp(
                     S - mi_new.unsqueeze(1)
                 )
 
-$$
-li = (
-$$
-
+                li = (
                     li * torch.exp(mi - mi_new)
-
-$$
-+ P.sum(dim=1)
-$$
-
+                    + P.sum(dim=1)
                 )
 
-$$
-oi = (
-$$
-
+                oi = (
                     oi * torch.exp(mi - mi_new).unsqueeze(1)
                     + P @ vj
                 )
 
-mi = mi_new
+                mi = mi_new
 
-$$
-O[b, i:i+block_size] = ( oi / li.unsqueeze(1) ) return O --- ### C.4.2. Wrapper Module ```python class CausalFlashAttention(torch.nn.Module): def __init__( self, d_model, block_size=128 ): super().__init__() self.block_size = block_size
-$$
+            O[b, i:i+block_size] = (
+                oi / li.unsqueeze(1)
+            )
 
-self.qkv = torch.nn.Linear(
+    return O
+```
 
+---
+
+### C.4.2. Wrapper Module
+
+```python
+class CausalFlashAttention(torch.nn.Module):
+
+    def __init__(
+        self,
+        d_model,
+        block_size=128
+    ):
+        super().__init__()
+
+        self.block_size = block_size
+
+        self.qkv = torch.nn.Linear(
             d_model,
             3 * d_model,
-
-bias=False
-
+            bias=False
         )
 
-self.proj = torch.nn.Linear(
-
+        self.proj = torch.nn.Linear(
             d_model,
             d_model
         )
 
     def forward(self, x):
 
-B, T, D = x.shape
+        B, T, D = x.shape
 
-$$
-qkv = self.qkv(x)
-$$
+        qkv = self.qkv(x)
 
-Q, K, V = qkv.chunk(3, dim=-1)
+        Q, K, V = qkv.chunk(3, dim=-1)
 
-$$
-out = causal_flash_attention( Q, K, V, self.block_size ) return self.proj(out) --- ## C.5. Tích hợp vào Transformer Block --- ```python class FlashGPTBlock(torch.nn.Module): def __init__( self, d_model, block_size=128 ): super().__init__() self.ln1 = torch.nn.LayerNorm(d_model)
-$$
+        out = causal_flash_attention(
+            Q, K, V,
+            self.block_size
+        )
 
-self.ln2 = torch.nn.LayerNorm(d_model)
+        return self.proj(out)
+```
 
-$$
-self.attn = CausalFlashAttention( d_model, block_size ) self.ffn = torch.nn.Sequential( torch.nn.Linear(d_model, 4*d_model), torch.nn.GELU(), torch.nn.Linear(4*d_model, d_model) ) def forward(self, x): h = self.ln1(x)
-$$
+---
 
-x = x + self.attn(h)
+## C.5. Tích hợp vào Transformer Block
 
-$$
-h = self.ln2(x)
-$$
+---
 
-x = x + self.ffn(h)
+```python
+class FlashGPTBlock(torch.nn.Module):
+
+    def __init__(
+        self,
+        d_model,
+        block_size=128
+    ):
+        super().__init__()
+
+        self.ln1 = torch.nn.LayerNorm(d_model)
+        self.ln2 = torch.nn.LayerNorm(d_model)
+
+        self.attn = CausalFlashAttention(
+            d_model,
+            block_size
+        )
+
+        self.ffn = torch.nn.Sequential(
+            torch.nn.Linear(d_model, 4*d_model),
+            torch.nn.GELU(),
+            torch.nn.Linear(4*d_model, d_model)
+        )
+
+    def forward(self, x):
+
+        h = self.ln1(x)
+
+        x = x + self.attn(h)
+
+        h = self.ln2(x)
+
+        x = x + self.ffn(h)
 
         return x
+```
 
 ---
 
@@ -873,27 +959,25 @@ x = x + self.ffn(h)
 ```python
 def demo():
 
-$$
-B = 2 T = 512 D = 256 x = torch.randn(B, T, D).cuda()
-$$
+    B = 2
+    T = 512
+    D = 256
 
-model = FlashGPTBlock(
+    x = torch.randn(B, T, D).cuda()
 
+    model = FlashGPTBlock(
         D,
-
-block_size=128
-
+        block_size=128
     ).cuda()
 
-y = model(x)
+    y = model(x)
 
     print("Output:", y.shape)
 
-$$
-if __name__ == "__main__":
-$$
 
+if __name__ == "__main__":
     demo()
+```
 
 ---
 
@@ -901,6 +985,7 @@ $$
 
 ```text
 Output: torch.Size([2, 512, 256])
+```
 
 ---
 
@@ -912,6 +997,7 @@ Thay bằng:
 
 ```python
 from flash_attn import flash_attn_func
+```
 
 ---
 
@@ -920,14 +1006,14 @@ from flash_attn import flash_attn_func
 ```python
 from flash_attn import flash_attn_func
 
+
 def flash_attn_forward(q, k, v):
 
     return flash_attn_func(
         q, k, v,
-
-causal=True
-
+        causal=True
     )
+```
 
 Ưu điểm:
 

@@ -40,17 +40,21 @@ Trong học sâu, quá trình huấn luyện mô hình được xem như một b
 
 Trong huấn luyện LLMs, hàm Cross-Entropy (CE) và Negative Log-Likelihood (NLL) thường được sử dụng:
 
-$\mathcal${L} = - $\sum$_{i=1}^{N} $y_i$ $\log$(\hat{y}_i)
+$$
+\mathcal{L} = - \sum_{i=1}^{N} y_i \log(\hat{y}_i)
+$$
 
 Trong đó:
 
-* $y_i$: nhãn thật (one-hot encoding),
-* $\hat{y}_i$: xác suất dự đoán,
-* $N$: số lớp (token trong từ điển).
+* (y_i): nhãn thật (one-hot encoding),
+* (\hat{y}_i): xác suất dự đoán,
+* (N): số lớp (token trong từ điển).
 
-Vì các token là các lớp rời rạc và loại trừ lẫn nhau, nên trong thực tế chỉ có một giá trị ($y_i$ = 1), các giá trị còn lại bằng 0. Do đó, hàm mất mát có thể rút gọn thành:
+Vì các token là các lớp rời rạc và loại trừ lẫn nhau, nên trong thực tế chỉ có một giá trị (y_i = 1), các giá trị còn lại bằng 0. Do đó, hàm mất mát có thể rút gọn thành:
 
-$\mathcal${L} = -$\log$(\hat{y}_{target})
+$$
+\mathcal{L} = -\log(\hat{y}_{target})
+$$
 
 Theo tài liệu, PyTorch triển khai Cross-Entropy Loss và NLL Loss theo cách gần tương đương, trong đó NLL yêu cầu đầu vào ở dạng log-softmax .
 
@@ -83,12 +87,9 @@ class MyLoss(nn.Module):
         super(MyLoss, self).__init__()
 
     def forward(self, y_hat, y):
-
-$$
-loss = ...
-$$
-
+        loss = ...
         return loss
+```
 
 Cấu trúc này tương tự như cách xây dựng một mô hình neural network, giúp dễ dàng tích hợp vào pipeline huấn luyện .
 
@@ -98,11 +99,15 @@ Cấu trúc này tương tự như cách xây dựng một mô hình neural netw
 
 #### **L1 Loss (Mean Absolute Error)**
 
-$\mathcal${L}_{L1} = |y - \hat{y}|
+$$
+\mathcal{L}_{L1} = |y - \hat{y}|
+$$
 
 #### **L2 Loss (Mean Squared Error)**
 
-$\mathcal${L}_{L2} = (y - \hat{y})^2
+$$
+\mathcal{L}_{L2} = (y - \hat{y})^2
+$$
 
 Cài đặt trong PyTorch:
 
@@ -111,13 +116,13 @@ class MyLossL1(nn.Module):
     def forward(self, y_hat, y):
         return torch.abs(y_hat - y)
 
+
 class MyLossL2(nn.Module):
     def forward(self, y_hat, y):
         return (y_hat - y) ** 2
+```
 
-$$
 Theo tài liệu, khi giá trị mục tiêu là 5 và dự đoán là 2, L1 = 3 và L2 = 9 .
-$$
 
 ---
 

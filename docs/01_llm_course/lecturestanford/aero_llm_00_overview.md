@@ -37,6 +37,7 @@
 ```bash
 cd llm_viz && npm run dev
 # → http://localhost:3002/llm
+```
 
 ✅ **100% Vietnamese** | ✅ **MoE Expert Grid** | ✅ **Interactive**
 
@@ -44,9 +45,7 @@ cd llm_viz && npm run dev
 
 ## Chương 1: Tổng Quan Về LLMs
 
-$$
 **LLM** = Mô hình phân phối xác suất trên chuỗi tokens, dựa trên **Transformer**.
-$$
 
 **Ví dụ:** GPT-4 (1.76T params), Claude 3 Opus, Gemini Ultra, Llama 3
 
@@ -71,6 +70,7 @@ $$
 ## Chương 3: Pre-training → Post-training
 
 **Pipeline:**
+```
 Pre-training (100 days, $100M)
   ↓
 SFT - 50K examples (3 days, $10K)
@@ -78,6 +78,7 @@ SFT - 50K examples (3 days, $10K)
 RLHF - Human preferences (1 week, $50K)
   ↓
 ChatGPT ✅
+```
 
 [📖 **Chi tiết**](aero_LLM_chapter03_training_pipeline.md)
 
@@ -85,10 +86,7 @@ ChatGPT ✅
 
 ## Chương 4: Autoregressive & Tokenization
 
-$$
-**Autoregressive:** P(x) = ∏ P(xᵢ  \mid  x₁...xᵢ₋₁)
-$$
-
+**Autoregressive:** P(x) = ∏ P(xᵢ | x₁...xᵢ₋₁)  
 **Tokenization:** BPE, ~100K vocab  
 **Issues:** Numbers, indentation, non-English
 

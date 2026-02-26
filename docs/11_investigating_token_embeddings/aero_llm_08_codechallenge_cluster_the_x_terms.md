@@ -26,7 +26,7 @@ Giáo trình thực nghiệm tiếp nối sự kết hợp của Không Gian Ké
 
 Thử thách khởi đầu không phải thuật toán không gian mà ở cơ chế khai lọc từ vựng. Trí thông minh của ngôn ngữ lớn luôn bị rào cản bởi rác (Noises). Bộ lọc lưới chài được đặt mục tiêu: 
 - Token chỉ được sở hữu bộ gõ chứa kí tự `"x"`.
-- Token bị chặn ép độ dài chữ trong khoảng tự do từ $4 $\le$q L $\le$q 8$, cấm không tính cả khoảng cách đệm đầu Prefix. 
+- Token bị chặn ép độ dài chữ trong khoảng tự do từ $4 \leq L \leq 8$, cấm không tính cả khoảng cách đệm đầu Prefix. 
 
 Ví dụ với lệnh chặn lùi không gian: `token = " exp"`. Do khoảng cách trắng đầu, Token này có tổng chiều dài String Lenght $= 4$, nhưng bỏ đi khoảng trắng sẽ thành `exp` (Độ dài bằng $3$). Buộc từ này rớt khỏi thang đếm.
 Hay token `" axis"` (5 chữ cái, gồm khoảng trắng) bị lọc thành `axis` (Độ dài $4$) vượt cửa môn lưới lọt vào mảng dữ liệu phân tích.
@@ -52,12 +52,9 @@ Từ vựng `galaxy`, `galaxies` (Ngân hà) lại bị t-SNE và DBscan đóng 
 
 Hậu quả của hiện tượng gom chéo siêu cụm dẫn đến thực nghiệm thứ 3: Xây dựng một móng ma trận Quét lưới vòng lặp For (Grid Search).
 
-1. **Khóa `min_samples = 3`**: Thử nghiệm Epsilon trượt biên từ 2 \to 20.
-
+1. **Khóa `min_samples = 3`**: Thử nghiệm Epsilon trượt biên từ $2 \to 20$. 
 Đồ thị vạch lộ ra cấu trúc đồ thị đổ đèo tiêu chuẩn (Curve descending). Khi $Epsilon = 16$, độ bạo của mảng nối vòng làm 514 điểm nuốt nhau, báo cáo thuật toán có số lượng cụm $k$ trượt thẳng về mức $1 \to 3$ Cụm Mega. Không còn chi tiết nhỏ vi mô (Micro details collapsed).
-
-2. **Khóa `Epsilon = fixed`**: Khảo nghiệm tham số thứ 2, thay đổi Min-Samples từ 2 \to 20.
-
+2. **Khóa `Epsilon = fixed`**: Khảo nghiệm tham số thứ 2, thay đổi Min-Samples từ $2 \to 20$. 
 3. **Hiệu Ứng Bảng Nóng Xoay Chiều (Heatmap Matrix Search)**: Chạy hai vòng lặp lồng chéo, tạo thành khung $19 \times 15$ giao diện Heatmaps để tìm ra "vành đai vàng - Goldilocks zone" nơi mà số cụm không nằm mấp mé 0 và cũng không vụn vỡ quá mức.
 
 Tính "Chỉnh đốn thủ công - Cherry picking" của giới học viện Machine Learning bộc lộ rõ: Kỹ sư có thể nhìn biểu đồ Scatter, và nắn gân các hệ số `Epsilon` / `Min_Samples` cho tới khi máy móc rặn ra đúng thành quả mà trực giác mong đợi. Cách gọt giũa này tạo ra sự bẻ cong công lý trong khoa học dữ liệu, minh định cho một kết luận: "Kế hoạch phân rã Unsupervised Clustering" không thực tế mang hàm lượng khách quan trừ phi đi kèm một bằng chứng lưới tham số mở để minh bạch sai số.

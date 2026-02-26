@@ -28,7 +28,9 @@ Reinforcement Learning from Human Feedback (RLHF) là phương pháp huấn luy�
 
 Các mô hình ngôn ngữ như GPT-2 hay GPT-3 được huấn luyện theo mục tiêu dự đoán token kế tiếp:
 
-P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
+$$
+P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+$$
 
 Tuy nhiên, mục tiêu tối đa hóa likelihood không đảm bảo mô hình:
 
@@ -44,19 +46,24 @@ RLHF được đề xuất để giải quyết khoảng cách giữa tối ưu 
 
 Trong RL cổ điển, ta có:
 
-* Trạng thái: $s$
-* Hành động: $a$
-* Chính sách: $\pi_\theta(a\mids$ )
+* Trạng thái: ( s )
+* Hành động: ( a )
+* Chính sách: ( \pi_\theta(a|s) )
 * Phần thưởng: ( r(s,a) )
 
 Mục tiêu tối ưu:
 
-\max_\theta \mathbb{E}*{\tau \sim \pi*\theta} \left[ \sum_{t=0}^{T} \gamma^t r_t \right]
+$$
+\max_\theta \mathbb{E}*{\tau \sim \pi*\theta}
+\left[
+\sum_{t=0}^{T} \gamma^t r_t
+\right]
+$$
 
 Trong RLHF:
 
-* Trạng thái $s$: prompt (instruction)
-* Hành động $a$: chuỗi phản hồi
+* Trạng thái ( s ): prompt (instruction)
+* Hành động ( a ): chuỗi phản hồi
 * Reward: điểm đánh giá từ con người hoặc reward model
 
 ---
@@ -67,7 +74,10 @@ Trong RLHF:
 
 Huấn luyện trên dữ liệu cặp (instruction, response):
 
-$\mathcal${L}*{SFT} = - $\sum$*{t \in R} $\log$ P_\theta($x_t$ \mid x_{\lt t})
+$$
+\mathcal{L}*{SFT}
+= - \sum*{t \in R} \log P_\theta(x_t \mid x_{<t})
+$$
 
 Mục tiêu: đưa mô hình về phân phối gần với hành vi mong muốn.
 
@@ -75,19 +85,27 @@ Mục tiêu: đưa mô hình về phân phối gần với hành vi mong muốn.
 
 ## 3.2. Bước 2 – Huấn luyện Reward Model
 
-Cho hai phản hồi ( $y_1$, $y_2$ ) với cùng prompt $x$, con người chọn phản hồi tốt hơn.
+Cho hai phản hồi ( y_1, y_2 ) với cùng prompt ( x ), con người chọn phản hồi tốt hơn.
 
-Reward model $r_\phi(x,y$ ) được huấn luyện bằng loss Bradley-Terry:
+Reward model ( r_\phi(x,y) ) được huấn luyện bằng loss Bradley-Terry:
 
-P(y_1 \succ y_2) = \frac{e^{r_\phi(x,y_1)}}{e^{r_\phi(x,y_1)} + e^{r_\phi(x,y_2)}}
+$$
+P(y_1 \succ y_2)
+= \frac{e^{r_\phi(x,y_1)}}{e^{r_\phi(x,y_1)} + e^{r_\phi(x,y_2)}}
+$$
 
 Loss:
 
-$\mathcal${L}*{RM} = - $\log$ \sigma(r*\phi(x,y_{chosen}) - r_\phi(x,y_{rejected}))
+$$
+\mathcal{L}*{RM}
+= - \log \sigma(r*\phi(x,y_{chosen}) - r_\phi(x,y_{rejected}))
+$$
 
-Trong đó $\sigma$ là sigmoid:
+Trong đó ( \sigma ) là sigmoid:
 
+$$
 \sigma(z) = \frac{1}{1 + e^{-z}}
+$$
 
 ---
 
@@ -95,14 +113,22 @@ Trong đó $\sigma$ là sigmoid:
 
 Sau khi có reward model, ta tối ưu policy:
 
-\max_\theta \mathbb{E}*{x \sim \pi*\theta} \left[ r_\phi(x) - \beta D_{KL}(\pi_\theta | \pi_{ref}) \right]
+$$
+\max_\theta
+\mathbb{E}*{x \sim \pi*\theta}
+\left[
+r_\phi(x) - \beta D_{KL}(\pi_\theta | \pi_{ref})
+\right]
+$$
 
 Trong đó:
 
-* $\pi_{ref}$: mô hình SFT ban đầu
-* $D_{KL}$: KL divergence
+* ( \pi_{ref} ): mô hình SFT ban đầu
+* ( D_{KL} ): KL divergence
 
+$$
 D_{KL}(P|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}
+$$
 
 ---
 
@@ -110,13 +136,27 @@ D_{KL}(P|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}
 
 PPO tối ưu hàm mục tiêu:
 
-L^{CLIP}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]
+$$
+L^{CLIP}(\theta)
+= \mathbb{E}
+\left[
+\min
+\left(
+r_t(\theta) A_t,
+\text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t
+\right)
+\right]
+$$
 
 Trong đó:
 
-r_t(\theta) = \frac{\pi_\theta(a_t|s_t)} {\pi_{\theta_{old}}(a_t|s_t)}
+$$
+r_t(\theta)
+= \frac{\pi_\theta(a_t|s_t)}
+{\pi_{\theta_{old}}(a_t|s_t)}
+$$
 
-$A_t$: advantage estimate.
+(A_t): advantage estimate.
 
 Clipping giúp:
 
@@ -135,7 +175,11 @@ $$
 
 Với KL:
 
-$\mathcal${L} = $\mathbb${E}[r(x)] * \beta D_{KL}(\pi_\theta | \pi_{ref})
+$$
+\mathcal{L}
+= \mathbb{E}[r(x)]
+* \beta D_{KL}(\pi_\theta | \pi_{ref})
+$$
 
 KL đóng vai trò như regularizer:
 
@@ -148,9 +192,9 @@ KL đóng vai trò như regularizer:
 
 Giả sử:
 
-* $L$: số layer
-* $T$: chiều dài chuỗi
-* $d$: embedding dimension
+* (L): số layer
+* (T): chiều dài chuỗi
+* (d): embedding dimension
 
 Self-attention:
 
@@ -176,13 +220,17 @@ Mô hình có thể tối đa hóa reward model nhưng không thực sự tốt.
 
 Giả sử reward model xấp xỉ:
 
+$$
 r_\phi(x) = r_{true}(x) + \epsilon(x)
+$$
 
 Khi tối ưu:
 
+$$
 \max_\theta \mathbb{E}[r_\phi(x)]
+$$
 
-Sai số $\epsilon(x$ ) có thể bị khai thác.
+Sai số ( \epsilon(x) ) có thể bị khai thác.
 
 ---
 
@@ -190,7 +238,9 @@ Sai số $\epsilon(x$ ) có thể bị khai thác.
 
 Ta muốn:
 
+$$
 \pi_\theta \approx \pi_{human}
+$$
 
 Nhưng reward chỉ là xấp xỉ.
 

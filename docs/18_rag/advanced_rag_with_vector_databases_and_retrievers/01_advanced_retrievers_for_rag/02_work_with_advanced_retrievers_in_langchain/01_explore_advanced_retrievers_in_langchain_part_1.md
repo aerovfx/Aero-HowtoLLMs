@@ -37,6 +37,7 @@ class Retriever(ABC):
     ) -> List[Document]:
         """Nhận query và trả về documents liên quan"""
         pass
+```
 
 ### 1.2 Sự Khác Biệt với Vector Store
 
@@ -54,42 +55,70 @@ class Retriever(ABC):
 from langchain_core.documents import Document
 
 # Ví dụ usage
-
 retriever = vectorstore.as_retriever()
 
 # Truy xuất documents
+query = "What is machine learning?"
+documents = retriever.get_relevant_documents(query)
 
-$$
-query = "What is machine learning?" documents = retriever.get_relevant_documents(query) for doc in documents: print(doc.page_content) print(doc.metadata) ## 2. Vector Store-Based Retriever ### 2.1 Nguyên Lý Hoạt Động Vector store-based retriever hoạt động theo các bước sau: Query Text ↓
-$$
+for doc in documents:
+    print(doc.page_content)
+    print(doc.metadata)
+```
 
-Embedding Model
+## 2. Vector Store-Based Retriever
 
-$$
-↓ Query Vector ↓
-$$
+### 2.1 Nguyên Lý Hoạt Động
 
-Vector Similarity Search
+Vector store-based retriever hoạt động theo các bước sau:
 
-$$
-↓ Top-K Similar Documents ### 2.2 Quy Trình Chi Tiết ```python from langchain.vectorstores import Chroma from langchain.embeddings import OpenAIEmbeddings # Khởi tạo vector store vectorstore = Chroma.from_documents(
-$$
+```
+Query Text
+    ↓
+[Embedding Model]
+    ↓
+Query Vector
+    ↓
+[Vector Similarity Search]
+    ↓
+Top-K Similar Documents
+```
 
-documents=texts,
+### 2.2 Quy Trình Chi Tiết
 
-$$
-embedding=OpenAIEmbeddings() ) # Chuyển đổi thành retriever retriever = vectorstore.as_retriever(
-$$
+```python
+from langchain.vectorstores import Chroma
+from langchain.embeddings import OpenAIEmbeddings
 
-search_type="similarity",
-
-$$
-search_kwargs={"k": 4} ) # Truy xuất docs = retriever.get_relevant_documents("What is AI?") ### 2.3 Các Loại Tìm Kiếm #### 2.3.1 Similarity Search Tìm kiếm dựa trên độ tương đồng cosine: \text{similarity}(A, B) = \frac{A \cdot B}{||A|| \cdot ||B||} ```python retriever = vectorstore.as_retriever(
-$$
-
-search_type="similarity"
-
+# Khởi tạo vector store
+vectorstore = Chroma.from_documents(
+    documents=texts,
+    embedding=OpenAIEmbeddings()
 )
+
+# Chuyển đổi thành retriever
+retriever = vectorstore.as_retriever(
+    search_type="similarity",
+    search_kwargs={"k": 4}
+)
+
+# Truy xuất
+docs = retriever.get_relevant_documents("What is AI?")
+```
+
+### 2.3 Các Loại Tìm Kiếm
+
+#### 2.3.1 Similarity Search
+
+Tìm kiếm dựa trên độ tương đồng cosine:
+
+$$\text{similarity}(A, B) = \frac{A \cdot B}{||A|| \cdot ||B||}$$
+
+```python
+retriever = vectorstore.as_retriever(
+    search_type="similarity"
+)
+```
 
 #### 2.3.2 Maximum Marginal Relevance (MMR)
 
@@ -99,28 +128,19 @@ MMR giúp cân bằng giữa:
 
 ```python
 # Cấu hình MMR
-
 retriever = vectorstore.as_retriever(
-
-$$
-search_type="mmr",
-$$
-
-search_kwargs={
-
+    search_type="mmr",
+    search_kwargs={
         "k": 4,           # Số lượng documents
         "fetch_k": 20,    # Số lượng lấy trước khi lọc
-
-"lambda_mult": 0.5  # 0 = relevance, 1 = diversity
-
+        "lambda_mult": 0.5  # 0 = relevance, 1 = diversity
     }
 )
+```
 
 **Công thức MMR:**
 
-$$
-\text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{sim}(Q, D_i) - (1-\lambda) \cdot \max_{D_j \in S} \text{sim}(D_i, D_j) \right]
-$$
+$$\text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{sim}(Q, D_i) - (1-\lambda) \cdot \max_{D_j \in S} \text{sim}(D_i, D_j) \right]$$
 
 Trong đó:
 - $Q$: Query
@@ -138,24 +158,17 @@ from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import LLMChainExtractor
 
 # Tạo compressor
-
 compressor = LLMChainExtractor.from_llm(ChatOpenAI(temperature=0))
 
 # Tạo compression retriever
-
 compression_retriever = ContextualCompressionRetriever(
-
-$$
-base_compressor=compressor,
-$$
-
-base_retriever=vectorstore.as_retriever()
-
+    base_compressor=compressor,
+    base_retriever=vectorstore.as_retriever()
 )
 
 # Truy xuất với compression
-
 docs = compression_retriever.get_relevant_documents(query)
+```
 
 ### 3.2 Ensemble Retriever
 
@@ -165,20 +178,18 @@ Kết hợp nhiều retrievers:
 from langchain.retrievers import EnsembleRetriever
 
 # Khởi tạo các retrievers
-
 retriever1 = vectorstore.as_retriever(search_kwargs={"k": 2})
-
 retriever2 = bm25_retriever  # BM25 retriever
 
-$$
-# Ensemble ensemble = EnsembleRetriever( retrievers=[retriever1, retriever2], weights=[0.5, 0.5]
-$$
-
+# Ensemble
+ensemble = EnsembleRetriever(
+    retrievers=[retriever1, retriever2],
+    weights=[0.5, 0.5]
 )
 
 # Truy xuất
-
 docs = ensemble.get_relevant_documents(query)
+```
 
 ## 4. Tối Ưu Hiệu Suất
 
@@ -195,44 +206,47 @@ docs = ensemble.get_relevant_documents(query)
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # Cấu hình text splitter
-
 text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200,
+    separators=["\n\n", "\n", " ", ""]
+)
 
-$$
-chunk_size=1000,
-$$
+# Split documents
+docs = text_splitter.split_documents(raw_documents)
+```
 
-chunk_overlap=200,
+### 4.2 Embedding Optimization
 
-separators=["\n\n", "\n", " ", ""]
+```python
+from langchain.embeddings import HuggingFaceEmbeddings
 
-$$
-) # Split documents docs = text_splitter.split_documents(raw_documents) ### 4.2 Embedding Optimization ```python from langchain.embeddings import HuggingFaceEmbeddings # Sử dụng embedding tối ưu embeddings = HuggingFaceEmbeddings(
-$$
+# Sử dụng embedding tối ưu
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={'device': 'cpu'}
+)
+```
 
-model_name="sentence-transformers/all-MiniLM-L6-v2",
+## 5. Best Practices
 
-$$
-model_kwargs={'device': 'cpu'} ) ## 5. Best Practices ### 5.1 Chọn K Value ```python # Thử nghiệm với các giá trị k khác nhau for k in [2, 4, 8, 16]: retriever = vectorstore.as_retriever(search_kwargs={"k": k})
-$$
+### 5.1 Chọn K Value
 
-docs = retriever.get_relevant_documents(query)
-
+```python
+# Thử nghiệm với các giá trị k khác nhau
+for k in [2, 4, 8, 16]:
+    retriever = vectorstore.as_retriever(search_kwargs={"k": k})
+    docs = retriever.get_relevant_documents(query)
     # Đánh giá kết quả
+```
 
 ### 5.2 Filtering
 
 ```python
 # Lọc theo metadata
-
 retriever = vectorstore.as_retriever(
-
-$$
-search_type="similarity",
-$$
-
-search_kwargs={
-
+    search_type="similarity",
+    search_kwargs={
         "k": 4,
         "filter": {
             "source": "blog",
@@ -240,6 +254,7 @@ search_kwargs={
         }
     }
 )
+```
 
 ## 6. Kết Luận
 

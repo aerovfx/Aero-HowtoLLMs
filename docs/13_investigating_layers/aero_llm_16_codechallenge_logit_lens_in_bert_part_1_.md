@@ -33,11 +33,7 @@ Báo cáo Phần 1 chuẩn bị tiền đề dữ liệu và chạy đánh giá 
 Trọng số tham chiếu sử dụng: `bert-large-uncased`. So sánh với bản Base, bản này sở hữu 24 Transformer Layers, kích thước luồng Embedded 1024 dimensions. Hệ nhúng chữ không phân biệt định hình viết hoa hay viết thường (Uncased).
 
 ### 2.2. Kiểm Thử Masked Language Model (MLM)
-
-$$
 Thay vì sinh chữ dự đoán cuối chuỗi, thuật toán khai báo biến chèn ngang `[MASK]` (ID=103 tokenizer) vào một vị trí trung tâm.
-$$
-
 Dữ liệu đầu vào:
 > "the way you do anything is the [MASK] you do everything"
 Việc xử lý Forward pass được giao phó cho GPU. Cuối cùng, vector logit điểm chốt (Final Output Logits) tại vị trí Index `[MASK]` đi vào CPU để xử lý.
@@ -51,9 +47,7 @@ Hàm mục tiêu được trích xuất bằng cách định vị Argmax cao nh�
 
 ### 3.2. Hiệu Chỉnh Đầu Ra Thành Z-Score (Z-Score Standardization)
 Thay vì sử dụng Logits thô hoặc Softmax phi tuyến tính, ta làm phẳng định danh toàn bộ mảng Logit 30,522 bằng phân phối chuẩn Standardized Normal Distribution (Z-Score):
-
-Z_i = \frac{X_i - \mu_{vocab}}{\sigma_{vocab}}
-
+$$ Z_i = \frac{X_i - \mu_{vocab}}{\sigma_{vocab}} $$
 Đồ thị phân vạch vạch trần ưu thế cực trị của BERT: Từ ngữ được dự đoán "way" bắn vọt lên biên độ $Z > 10$ (10 độ lệch chuẩn). Tính năng Z-score không những khử độ chệch độ lớn tự do của các LLM, mà còn đảm bảo chắc chắn rằng đối với một ngữ cảnh đúng đắn, mô hình sẽ dồn toàn bộ lực chú ý kéo cách biệt Token đáp án ra thật xa khởi nhiễu thông dụng của đại từ vựng. 
 
 ---

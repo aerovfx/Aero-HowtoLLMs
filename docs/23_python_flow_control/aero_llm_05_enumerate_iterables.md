@@ -23,9 +23,7 @@ Báo cáo này nghiên cứu về hàm `enumerate()`, một công cụ tối ưu
 
 ## 1. Hạn chế của Phương pháp Lặp truyền thống
 Thông thường, để truy cập vị trí của một phần tử, lập trình viên sử dụng cấu trúc:
-
 `for i in range(len(danh_sách)): giá_trị = danh_sách[i]`
-
 - **Nhược điểm:** Cú pháp rườm rà, dễ gây lỗi chỉ mục (index out of range) và khó đọc khi xử lý các cấu trúc dữ liệu phức tạp.
 
 ---

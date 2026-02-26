@@ -23,12 +23,9 @@ Báo cáo này nghiên cứu về hàm logarit, một công cụ toán học kh�
 
 ## 1. Bản chất và Mối quan hệ Nghịch đảo
 
-$$
-Hàm logarit tự nhiên (\ln hoặc \log) là phép toán ngược của hàm số mũ tự nhiên:
-$$
-
+Hàm logarit tự nhiên ($\ln$ hoặc $\log$) là phép toán ngược của hàm số mũ tự nhiên:
 - **Tính triệt tiêu:** $\log(e^x) = x$. Khả năng này cực kỳ hữu ích trong việc "mở khóa" các tham số nằm trong số mũ của các hàm kích hoạt như Softmax hay Sigmoid.
-- **Đồ thị:** Ngược lại với $e^x$ tăng trưởng bùng nổ, logarit tăng trưởng rất chậm và chỉ xác định với giá trị dương ($x > 0$). Khi $x$ tiến dần về 0, logarit tiến về âm vô cùng ($-$\infty$$).
+- **Đồ thị:** Ngược lại với $e^x$ tăng trưởng bùng nổ, logarit tăng trưởng rất chậm và chỉ xác định với giá trị dương ($x > 0$). Khi $x$ tiến dần về 0, logarit tiến về âm vô cùng ($-\infty$).
 
 ---
 

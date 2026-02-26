@@ -33,21 +33,15 @@ Trong đó:
 
 Embedding ánh xạ token sang không gian liên tục:
 
-$$
 f: \{1,\dots,V\} \rightarrow \mathbb{R}^d
-$$
 
 Ma trận embedding:
 
-$$
 \mathbf{E} \in \mathbb{R}^{V \times d}
-$$
 
 Vector embedding của token w:
 
-$$
 \mathbf{e}_w = \mathbf{E}[w]
-$$
 
 ⸻
 
@@ -57,26 +51,19 @@ $$
 
 Token w có thể biểu diễn bằng vector one-hot:
 
-$$
 \mathbf{x} \in \mathbb{R}^V
-$$
 
 với:
 
 x_i =
-
 \begin{cases}
-
 1 & \text{nếu } i = w \\
-
 0 & \text{ngược lại}
 \end{cases}
 
 Embedding thực chất là phép nhân ma trận:
 
-$$
 \mathbf{e}_w = \mathbf{x}^T \mathbf{E}
-$$
 
 Vì \mathbf{x} là one-hot nên phép nhân này tương đương với chọn một hàng trong ma trận.
 
@@ -90,32 +77,25 @@ Giả sử bài toán dự đoán từ tiếp theo (next-token prediction).
 
 Logits:
 
-$$
 \mathbf{z} = \mathbf{W}\mathbf{e}_w + \mathbf{b}
-$$
 
 Xác suất:
 
-$P(y=i \mid w)$ =
-\frac{\exp$z_i$}
-
-{\sum_{j=1}^{V} \expz_j}
+P(y=i \mid w) =
+\frac{\exp(z_i)}
+{\sum_{j=1}^{V} \exp(z_j)}
 
 ⸻
 
 3.2 Hàm mất mát Cross-Entropy
 
-$$
 \mathcal{L} = -\sum_{i=1}^{V} y_i \log P(y=i)
-$$
 
-Với $y_i$ là vector nhãn one-hot.
+Với y_i là vector nhãn one-hot.
 
 Do đó:
 
-$$
 \mathcal{L} = -\log P(y = y_{\text{true}})
-$$
 
 ⸻
 
@@ -123,32 +103,25 @@ $$
 
 Gradient theo logits:
 
-$$
-\frac{\partial \mathcal{L}}{\partial z_i} = P(y=i) - y_i Gradient theo embedding:
-$$
+\frac{\partial \mathcal{L}}{\partial z_i}
+= P(y=i) - y_i
+
+Gradient theo embedding:
 
 \frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
+= \mathbf{W}^T ( \mathbf{p} - \mathbf{y})
 
-= \mathbf{W}^T \mathbf{p} - \mathbf{y}
-
-$$
 Gradient theo ma trận embedding:
-$$
 
 \frac{\partial \mathcal{L}}{\partial \mathbf{E}[w]}
-
 = \frac{\partial \mathcal{L}}{\partial \mathbf{e}_w}
 
 Cập nhật bằng gradient descent:
 
 \mathbf{E}[w] \leftarrow
-
 \mathbf{E}[w]
 - \eta
-
-$$
 \frac{\partial \mathcal{L}}{\partial \mathbf{E}[w]}
-$$
 
 Trong đó:
 	•	\eta: learning rate
@@ -163,23 +136,15 @@ Trong mô hình Skip-gram của Tomas Mikolov:
 
 Mục tiêu:
 
-$$
 \max \sum_{(w,c)}
-$$
-
-$\log$ $P(c \mid w)$
+\log P(c \mid w)
 
 Với:
 
-$P(c \mid w)$
-
-$$
+P(c \mid w)
 =
-$$
-
-\frac{\exp$\mathbf{u}_c^T \mathbf{v}_w$}
-
-{\sum_{j=1}^{V} \exp\mathbf{u}_j^T \mathbf{v}_w}
+\frac{\exp(\mathbf{u}_c^T \mathbf{v}_w)}
+{\sum_{j=1}^{V} \exp(\mathbf{u}_j^T \mathbf{v}_w)}
 
 Trong đó:
 	•	\mathbf{v}_w: embedding trung tâm
@@ -187,18 +152,11 @@ Trong đó:
 
 Để giảm chi phí tính toán, Negative Sampling được sử dụng:
 
-$$
 \mathcal{L} =
-$$
-
-$\log$ \sigma$\mathbf{u}_c^T \mathbf{v}_w$
+\log \sigma(\mathbf{u}_c^T \mathbf{v}_w)
 +
-
-$$
 \sum_{k=1}^{K}
-$$
-
-$\log$ \sigma$-\mathbf{u}_{$n_k$}^T \mathbf{v}_w$
+\log \sigma(-\mathbf{u}_{n_k}^T \mathbf{v}_w)
 
 ⸻
 
@@ -206,37 +164,22 @@ $\log$ \sigma$-\mathbf{u}_{$n_k$}^T \mathbf{v}_w$
 
 Trong Transformer:
 
-$$
 \mathbf{z}_t =
-$$
-
 \mathbf{e}_t + \mathbf{p}_t
 
 Self-attention:
 
 \text{Attention}(Q,K,V)
-
-$$
 =
-$$
-
 \text{softmax}
-
-$$
 \left(
-$$
-
-\frac{QK^T}{\sqrt{$d_k$}}
+\frac{QK^T}{\sqrt{d_k}}
 \right)V
 
 Với:
 
 Q = ZW_Q, \quad
-
-$$
 K = ZW_K, \quad
-$$
-
 V = ZW_V
 
 Embedding ảnh hưởng trực tiếp đến attention scores.
@@ -248,17 +191,9 @@ Embedding ảnh hưởng trực tiếp đến attention scores.
 7.1 Chuẩn vector
 
 \|\mathbf{e}_w\|
-
-$$
 =
-$$
-
 \sqrt{
-
-$$
 \sum_{i=1}^{d}
-$$
-
 e_{w,i}^2
 }
 
@@ -268,12 +203,8 @@ Token phổ biến thường có norm lớn hơn do được cập nhật nhiề
 
 7.2 Độ tương đồng cosine
 
-\cos$\theta$
-
-$$
+\cos(\theta)
 =
-$$
-
 \frac{
 \mathbf{e}_a \cdot \mathbf{e}_b
 }{
@@ -289,11 +220,7 @@ Ví dụ quan hệ tuyến tính nổi tiếng:
 \mathbf{e}_{\text{man}}
 +
 \mathbf{e}_{\text{woman}}
-
-$$
 \approx
-$$
-
 \mathbf{e}_{\text{queen}}
 
 ⸻
@@ -302,18 +229,12 @@ $$
 
 Xét ma trận embedding:
 
-$$
 \mathbf{E} \in \mathbb{R}^{V \times d}
-$$
 
 Ma trận hiệp phương sai:
 
 \mathbf{C}
-
-$$
 =
-$$
-
 \frac{1}{V}
 \mathbf{E}^T
 \mathbf{E}
@@ -321,11 +242,7 @@ $$
 Giải:
 
 \mathbf{C}\mathbf{v}_i
-
-$$
 =
-$$
-
 \lambda_i \mathbf{v}_i
 
 Kết quả thực nghiệm:
@@ -343,18 +260,15 @@ Các thuật toán tối ưu phổ biến:
 
 Ví dụ Adam cập nhật:
 
-m_t = \beta_1 m_{t-1} + 1-\beta_1g_t
+m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t
 
-$$
-v_t = \beta_2 v_{t-1} + 1-\beta_2g_t^2
-$$
+v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2
 
 \theta_t =
-
 \theta_{t-1}
 -
 \eta
-\frac{$m_t$}{\sqrt{$v_t$}+\epsilon}
+\frac{m_t}{\sqrt{v_t}+\epsilon}
 
 Embedding được cập nhật đồng thời với toàn bộ mô hình.
 

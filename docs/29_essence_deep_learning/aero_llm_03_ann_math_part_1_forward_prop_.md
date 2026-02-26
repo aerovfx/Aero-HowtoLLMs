@@ -25,13 +25,10 @@ Báo cáo này nghiên cứu về cơ chế lan truyền xuôi (forward propagat
 
 Lan truyền xuôi là quá trình dữ liệu đi từ trái sang phải qua mạng nơ-ron. Đối với một perceptron đơn lẻ, quy trình này được tóm gọn qua hai bước:
 1. **Thành phần Tuyến tính:** Tính tổng có trọng số của các đầu vào, bao gồm cả thành phần định kiến (bias).
-
-z = x^T w + b
-
-Trong đó, $b$ có thể được hấp thụ vào tích vô hướng bằng cách thêm một hằng số 1 vào véc-tơ đầu vào.
+   $$z = x^T w + b$$
+   Trong đó, $b$ có thể được hấp thụ vào tích vô hướng bằng cách thêm một hằng số 1 vào véc-tơ đầu vào.
 2. **Thành phần Phi tuyến (Hàm kích hoạt):** Kết quả $z$ được đưa qua một hàm phi tuyến $\sigma$ để tạo ra giá trị dự đoán cuối cùng $\hat{y}$.
-
-\hat{y} = \sigma(z)
+   $$\hat{y} = \sigma(z)$$
 
 ---
 
@@ -40,7 +37,7 @@ Trong đó, $b$ có thể được hấp thụ vào tích vô hướng bằng c�
 Trong không gian đặc trưng (ví dụ: giờ học và giờ ngủ), mỗi bộ trọng số $w$ sẽ xác định một siêu phẳng phân tách:
 - **Ý nghĩa:** Tại vị trí mà $\hat{y} = 0$ (hoặc $\hat{y} = 0.5$ đối với hàm Sigmoid), đó chính là ranh giới nơi mô hình thay đổi quyết định từ loại này sang loại khác.
 - **Phân loại Tuyến tính:** Nếu không có hàm kích hoạt phi tuyến, mô hình chỉ có thể tạo ra các ranh giới là đường thẳng (trong không gian 2D) hoặc mặt phẳng.
-- **Tính toán:** Các cặp giá trị đầu vào $($x_1$, $x_2$)$ nằm về một phía của ranh giới sẽ được gán cho Lớp 1, và phía ngược lại là Lớp 2.
+- **Tính toán:** Các cặp giá trị đầu vào $(x_1, x_2)$ nằm về một phía của ranh giới sẽ được gán cho Lớp 1, và phía ngược lại là Lớp 2.
 
 ---
 

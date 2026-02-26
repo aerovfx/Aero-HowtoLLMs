@@ -82,9 +82,11 @@ Giai đoạn này giúp chuyển base model thành sản phẩm thương mại t
 
 Pre-training dựa trên bài toán dự đoán token:
 
-$\mathcal${L} = - $\sum$_{t} $\log$ P($w_t$  \mid  $w_1$,...,w_{t-1})
+$$
+\mathcal{L} = - \sum_{t} \log P(w_t | w_1,...,w_{t-1})
+$$
 
-Trong đó $w_t$ là token tại vị trí $t$.
+Trong đó (w_t) là token tại vị trí (t).
 
 Mô hình tự học từ dữ liệu mà không cần nhãn thủ công 
 
@@ -94,9 +96,11 @@ Mô hình tự học từ dữ liệu mà không cần nhãn thủ công
 
 Quá trình huấn luyện sử dụng thuật toán gradient descent để cập nhật tham số:
 
+$$
 \theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}
+$$
 
-với $\eta$ là learning rate.
+với (\eta) là learning rate.
 
 Cơ chế này tương tự huấn luyện các mạng học sâu truyền thống.
 
@@ -165,6 +169,8 @@ Do đó, pre-training không chỉ là vấn đề kỹ thuật mà còn mang t�
 | Giá/GPU           | ~$10,000         |
 | Chi phí phần cứng | ~$250M           |
 | Hạ tầng phụ trợ   | ~$200M           |
+
+
 
 ---
 

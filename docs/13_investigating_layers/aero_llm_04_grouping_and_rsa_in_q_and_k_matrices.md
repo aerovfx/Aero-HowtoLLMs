@@ -17,7 +17,7 @@
 # Phân Tích Sự Phân Cụm và Tương Đồng Biểu Diễn (RSA) Trong Ma Trận Q và K
 
 ## Tóm tắt (Abstract)
-Nghiên cứu này chuyển hướng từ việc khảo sát sự nhất quán của một token đích mang các ngữ cảnh khác nhau sang việc đánh giá cách mô hình ngôn ngữ (như GPT-2 Medium) mã hóa các từ đích riêng biệt (thuộc 3 nhóm ngữ nghĩa) dưới cùng một ngữ cảnh chung. Thông qua hai chỉ số quan trọng là **Chỉ số Chọn lọc Phân nhóm (Selectivity Index)** và **Phân tích Tương đồng Biểu diễn (Representational Similarity Analysis - RSA)** đối với ma trận truy vấn $Q$ và khóa $K$, báo cáo chứng minh một điều mạnh mẽ: không gian học được của trí tuệ nhân tạo có xu hướng gom cụm định hướng từ vựng (grouping category) và các cách thức chia sẻ tính tương đồng biểu diễn tại mạng cấu trúc Q và K là đồng dạng đến kinh ngạc.
+Nghiên cứu này chuyển hướng từ việc khảo sát sự nhất quán của một token đích mang các ngữ cảnh khác nhau sang việc đánh giá cách mô hình ngôn ngữ (như GPT-2 Medium) mã hóa các từ đích riêng biệt (thuộc 3 nhóm ngữ nghĩa) dưới cùng một ngữ cảnh chung. Thông qua hai chỉ số quan trọng là **Chỉ số Chọn lọc Phân nhóm (Selectivity Index)** và **Phân tích Tương đồng Biểu diễn (Representational Similarity Analysis - RSA)** đối với ma trận truy vấn (Q) và khóa (K), báo cáo chứng minh một điều mạnh mẽ: không gian học được của trí tuệ nhân tạo có xu hướng gom cụm định hướng từ vựng (grouping category) và các cách thức chia sẻ tính tương đồng biểu diễn tại mạng cấu trúc Q và K là đồng dạng đến kinh ngạc.
 
 ---
 
@@ -37,9 +37,7 @@ Mục tiêu chính: Trả lời câu hỏi *"Liệu kiến trúc của Q có hi�
 
 ### 2.2. Đo Lường Sự Chọn Lọc Kéo Cụm (Selectivity Index)
 Chỉ số (Index) này tính tỷ lệ giữa mức liên kết "cùng loại" và "kích thước chéo loại":
-
-\text{Selectivity Index} = \frac{\text{Average}(\text{Cosine}_{cùng\ nhóm})}{\text{Average}(\text{Cosine}_{khác\ nhóm})}
-
+$$ \text{Selectivity Index} = \frac{\text{Ave18_rage}(\text{Cosine}_{cùng\ nhóm})}{\text{Ave18_rage}(\text{Cosine}_{khác\ nhóm})} $$
 Thông qua thuật toán Matrix Mask, ta áp cho cụm nhóm Vũ trụ, Nội thất, Trái cây để tính tổng điểm. Kết quả cho điểm số $> 1.0$ là một bằng chứng rõ nét của hiệu ứng nơ-ron phân nhóm đặc trưng.
 
 ### 2.3. Phân Tích Tương Đồng Biểu Diễn (RSA - Representational Similarity Analysis)

@@ -31,7 +31,7 @@ Mẫu phân tích không được để ngẫu nhiên. Chúng ta tiến hành m�
 2. Nhóm **Nội thất (Furniture):** *chair, sofa, couch, desk,...*
 3. Nhóm **Hoa Quả (Fruit):** *apple, banana, kiwi, peach,...*
 
-Hệ ma trận cục bộ (Sub-matrices) được tạo ra cho cả 2 phía sẽ là $M_{50D} \in $\mathbb${R}^{20 \times 50}$ và $M_{300D} \in $\mathbb${R}^{20 \times 300}$. Mặc dù hai ma trận này không có cùng một hệ giải tích cơ bản, tuy nhiên, ma trận Tương quan Cosine giữa 20 từ ghép cặp (tương tác tự thân) lại luôn luôn trả về chung một kích thước là $20 \times 20$. Đây chính là "Cây cầu nối RSA".
+Hệ ma trận cục bộ (Sub-matrices) được tạo ra cho cả 2 phía sẽ là $M_{50D} \in \mathbb{R}^{20 \times 50}$ và $M_{300D} \in \mathbb{R}^{20 \times 300}$. Mặc dù hai ma trận này không có cùng một hệ giải tích cơ bản, tuy nhiên, ma trận Tương quan Cosine giữa 20 từ ghép cặp (tương tác tự thân) lại luôn luôn trả về chung một kích thước là $20 \times 20$. Đây chính là "Cây cầu nối RSA".
 
 ---
 
@@ -42,9 +42,9 @@ Trước khi thực hiện đồng bộ RSA, mỗi phương trình Cosine Simila
 ### Chỉ Số Kháng Nhiễu Category Selectivity Index (CSI) 
 Ý tưởng của CSI là so sánh: **Liệu độ gắn kết cấu trúc CÙNG một mạng (Wihtin-category) có áp đảo lực gắn kết độ lêch GIỮA các mạng sai lệch (Between-category) hay không.**
 Phương trình tạo Mask $S_{idx}$ là nhân chéo Vector các ID nhãn nhóm. Sau đó, công thức CSI được xác định:
-
+$$
 CSI = \frac{\text{Mean}(S_{\text{within-categories}})}{\text{Mean}(S_{\text{between-categories}})}
-
+$$
 Trong đó:
 - Dữ liệu thuộc **Within-category** (Tự thân trong nhóm) = Trích xuất các Block vuông nằm trên đường chéo Heatmap. 
 - Dữ liệu thuộc **Between-category** (Xiên chéo giữa 2 nhóm, vd: Bàn ghế so với Vũ trụ) = Trích xuất các dải tọa độ Background của Heatmap.
@@ -60,8 +60,54 @@ Phương sai độ lệch vi phân của 50D cũng tản mác dữ dội hơn, t
 Để kiểm chứng tính xác đáng của luận điểm CSI, phân cụm mật độ phi tuyến được bổ sung. Đồ thị chuyển hóa mô hình tọa độ từ Không gian Euclid $N$-chiều xuống mặt phẳng hiển thị vi mô (2D mapping).
 
 Sử dụng chuỗi hàm liên hợp:
+1. `t-SNE(perplexity=5...)` làm bứt gãy sự liên kế giả để hình thành hạt.
+2. `DBSCAN(epsilon=0.5, min_samples=2)` khóa hạt nhân vi mô tạo chuỗi liên hợp ranh giới.
 
-$$
-1. `t-SNE(perplexity=5...)` làm bứt gãy sự liên kế giả để hình thành hạt. 2. `DBSCAN(epsilon=0.5, min_samples=2)` khóa hạt nhân vi mô tạo chuỗi liên hợp ranh giới.
-$$
+Ngạc nhiên thay, dù cho 300D có chỉ số kháng nhiễu CSI đỉnh cao hơn, nhưng thuật toán cấu trúc DBSCAN trên **cả 50D và 300D đều chia ra đúng 3 mảng cụm nội thất - không gian - trái cây giống hệt nhau.**
+Tùy vào hạt giống ngẫu nhiên (Random Initializations), đôi khi từ "*Kiwi*" lại bị văng khỏi mảng trái cây và rơi vào lõi Vũ trụ, hoặc chìm vào Độc lập phân lập (Ungrouped Outliers). Sự hỗn loạn nhẹ này chứng thực một chân lý: Các thuật toán t-SNE hoạt động dựa theo quy luật Láng giềng t-Student không quan tâm tới chuẩn khoảng cách xa tuyến tính, do đó không bị lung lay bởi kích thước đa chiều mà dựa vào sức mạnh quy hội cấu trúc cục bộ.
 
+*(Mời xem tiếp CodeChallenge Compare embeddings with RSA part 2 để đi vào ma trận Correlation chéo)*.
+
+---
+
+## Tài liệu tham khảo
+
+1. **Pennington, J., et al. (2014).** *GloVe: Global Vectors for Word Representation.* EMNLP (Thông tin về Vector 50D và 300D).
+2. **Kriegeskorte, N., et al. (2008).** *Representational similarity analysis.* 
+3. Giảng nghĩa kỹ thuật khoa học dữ liệu *Compare embeddings with RSA (part 1)*.
+<!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [aero llm 01 codechallenge cosine similarity advanced part 1](aero_llm_01_codechallenge_cosine_similarity_advanced_part_1_.md) | [Xem bài viết →](aero_llm_01_codechallenge_cosine_similarity_advanced_part_1_.md) |
+| [aero llm 02 codechallenge cosine similarity advanced part 2](aero_llm_02_codechallenge_cosine_similarity_advanced_part_2_.md) | [Xem bài viết →](aero_llm_02_codechallenge_cosine_similarity_advanced_part_2_.md) |
+| [Theo Dõi Dòng Chảy Cosine Similarity Trên Trục Văn Bản Chuyên Tuần Tự (Word Sequences)](aero_llm_03_codechallenge_cosine_similarity_in_word_sequences.md) | [Xem bài viết →](aero_llm_03_codechallenge_cosine_similarity_in_word_sequences.md) |
+| [Nghệ Thuật Vẽ Bản Đồ Nhiệt Ma Trận Nhúng Bằng Cường Độ Từ (Coloring Cosine Similarity)](aero_llm_04_codechallenge_coloring_cosine_similarity.md) | [Xem bài viết →](aero_llm_04_codechallenge_coloring_cosine_similarity.md) |
+| [Ảo Ảnh Của Trí Tuệ Toán Học Trong Ngôn Ngữ: Sức Mạnh Của Random Embeddings](aero_llm_05_codechallenge_can_random_embeddings_be_interpreted.md) | [Xem bài viết →](aero_llm_05_codechallenge_can_random_embeddings_be_interpreted.md) |
+| [Phương Pháp T-SNE Và Thuật Toán Phân Cụm DBSCAN: Chiếu Không Gian Đa Chiều Cho LLMs](aero_llm_06_t_sne_projection_and_dbscan_clustering_theory_.md) | [Xem bài viết →](aero_llm_06_t_sne_projection_and_dbscan_clustering_theory_.md) |
+| [Phân Cụm Ngữ Nghĩa Qua Phép Chiếu t-SNE & Mật Độ DBSCAN (Python)](aero_llm_07_t_sne_projection_and_dbscan_clustering_python_.md) | [Xem bài viết →](aero_llm_07_t_sne_projection_and_dbscan_clustering_python_.md) |
+| [Thách Thức Code: Tìm Lỗ Hổng Phân Cụm Bằng Bộ Lọc Bảng Chữ Cái Chữ X](aero_llm_08_codechallenge_cluster_the_x_terms.md) | [Xem bài viết →](aero_llm_08_codechallenge_cluster_the_x_terms.md) |
+| [Phân Rã Token, Nhúng Và Phân Cụm Biểu Tượng Emojis Bằng Đồ Thị Mật Độ](aero_llm_09_codechallenge_tokenize_embed_and_cluster_happy_emojis.md) | [Xem bài viết →](aero_llm_09_codechallenge_tokenize_embed_and_cluster_happy_emojis.md) |
+| [Phân Tích RSA (Representational Similarity Analysis) Giữa Các Mô Hình Ngôn Ngữ](aero_llm_10_rsa_representational_similarity_analysis_.md) | [Xem bài viết →](aero_llm_10_rsa_representational_similarity_analysis_.md) |
+| 📌 **[Phân Tích Độ Lệch RSA (Part 1): So Sánh Sự Bất Đồng Giữa Không Gian GloVe 50D và 300D](aero_llm_11_codechallenge_compare_embeddings_with_rsa_part_1_.md)** | [Xem bài viết →](aero_llm_11_codechallenge_compare_embeddings_with_rsa_part_1_.md) |
+| [Phân Tích Độ Lệch RSA (Part 2): Đối Chiếu Tương Quan Pearson Cho Khoảng Cách Cosine](aero_llm_12_codechallenge_compare_embeddings_with_rsa_part_2_.md) | [Xem bài viết →](aero_llm_12_codechallenge_compare_embeddings_with_rsa_part_2_.md) |
+| [So Sánh Không Gian Nhúng: Word2Vec Và GPT-2 Qua Phân Tích RSA](aero_llm_13_codechallenge_word2vec_vs_gpt2.md) | [Xem bài viết →](aero_llm_13_codechallenge_word2vec_vs_gpt2.md) |
+| [Bố Cục Đồ Thị Mạng (Network Graph) Thông Qua Ma Trận Cosine Similarity](aero_llm_14_codechallenge_graph_representation_of_cosine_similarities.md) | [Xem bài viết →](aero_llm_14_codechallenge_graph_representation_of_cosine_similarities.md) |
+| [Số Học Tuyến Tính và Rút Trích Tương Đồng Giữa Các Từ Nhúng (Word Embeddings Analogies)](aero_llm_15_embeddings_arithmetic_and_analogies.md) | [Xem bài viết →](aero_llm_15_embeddings_arithmetic_and_analogies.md) |
+| [Vỡ Mộng Về Số Học Vector Tương Đương (Soft-Coded Analogies) Trên Word2Vec](aero_llm_16_codechallenge_soft_coded_analogies_in_word2vec.md) | [Xem bài viết →](aero_llm_16_codechallenge_soft_coded_analogies_in_word2vec.md) |
+| [Thiết Lập Và Diễn Giải Trục Ngữ Nghĩa Tuyến Tính (Linear Semantic Axes)](aero_llm_17_creating_and_interpreting_linear_semantic_axes.md) | [Xem bài viết →](aero_llm_17_creating_and_interpreting_linear_semantic_axes.md) |
+| [Khai Thác Thuật Toán k-NN Cho Tìm Kiếm Từ Đồng Nghĩa Trên BERT](aero_llm_18_knn_for_synonym_searching_in_bert.md) | [Xem bài viết →](aero_llm_18_knn_for_synonym_searching_in_bert.md) |
+| [Cạnh Tranh Tìm Từ Đồng Nghĩa BERT vs GPT: Cơ Chế Tokenization Đa Ký Tự](aero_llm_19_codechallenge_bert_v_gpt_knn_kompetition.md) | [Xem bài viết →](aero_llm_19_codechallenge_bert_v_gpt_knn_kompetition.md) |
+| [Sự Dịch Chuyển Và Đồng Tồn Biểu Diễn Giữa Các Không Gian Nhúng](aero_llm_20_research_on_translating_embeddings_spaces.md) | [Xem bài viết →](aero_llm_20_research_on_translating_embeddings_spaces.md) |
+| [Phân Tích Chùm Quang Phổ Suy Biến (Singular Value Spectrum) Của Không Gian Nhúng](aero_llm_21_singular_value_spectrum_of_embeddings_submatrices.md) | [Xem bài viết →](aero_llm_21_singular_value_spectrum_of_embeddings_submatrices.md) |
+| [Ánh Xạ SVD Các Dải Điểm Nhúng Có Quan Hệ Chéo](aero_llm_22_codechallenge_svd_projections_of_related_embeddings.md) | [Xem bài viết →](aero_llm_22_codechallenge_svd_projections_of_related_embeddings.md) |
+
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

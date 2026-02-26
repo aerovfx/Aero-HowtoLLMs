@@ -27,11 +27,7 @@ Trong PyTorch, việc huấn luyện mô hình được lặp lại qua các k�
 
 1. **`optimizer.zero_grad()`:** Xóa bỏ các gradient từ vòng lặp trước. Đây là bước bắt buộc vì PyTorch có cơ chế tích lũy gradient mặc định (có lợi cho việc huấn luyện các mô hình khổng lồ trên phần cứng hạn chế, nhưng cần được xóa sạch trong hầu hết các trường hợp thông thường).
 2. **Forward Pass & Loss Calculation:** Đưa dữ liệu qua mô hình để nhận dự đoán $\hat{y}$ và so sánh với thực tế $y$ để tính toán hàm mất mát (loss).
-
-$$
 3. **`loss.backward()`:** Tính toán đạo hàm (gradient) của hàm mất mát đối với tất cả các tham số có thuộc tính `requires_grad=True`.
-$$
-
 4. **`optimizer.step()`:** Cập nhật các trọng số dựa trên các gradient vừa tính được và tốc độ học (learning rate).
 5. **Monitoring (Tùy chọn):** Lưu trữ lịch sử mất mát hoặc in báo cáo tiến độ để theo dõi quá trình hội tụ.
 
@@ -39,11 +35,8 @@ $$
 
 ## 2. Đối chứng với Giải tích
 
-$$
-Nghiên cứu thực hiện tối ưu hóa hàm số f(x) = 3x^2 - 2x + 3 để minh chứng cơ chế học:
-$$
-
-- **Lời giải giải tích:** Bằng cách tính đạo hàm $f'(x) = 6x - 2$ và đặt bằng 0, ta tìm được điểm cực tiểu chính xác tại $x = 1/3 $\approx$ 0.333$.
+Nghiên cứu thực hiện tối ưu hóa hàm số $f(x) = 3x^2 - 2x + 3$ để minh chứng cơ chế học:
+- **Lời giải giải tích:** Bằng cách tính đạo hàm $f'(x) = 6x - 2$ và đặt bằng 0, ta tìm được điểm cực tiểu chính xác tại $x = 1/3 \approx 0.333$.
 - **Thực nghiệm PyTorch:** Sau 80 kỷ nguyên huấn luyện, mô hình khởi tạo tại $x = -1$ đã hội tụ về giá trị $\approx 0.32$.
 - **Phân tích:** Dù không đạt đến con số tuyệt đối do các yếu tố như tốc độ học và số lượng vòng lặp, nhưng kết quả cho thấy mô hình đã di chuyển chuẩn xác về phía cực tiểu toàn cục của hàm số.
 
@@ -51,10 +44,7 @@ $$
 
 ## 3. Vai trò của Gradient trong Đối tượng Tensor
 
-$$
 Khi một Tensor được khởi tạo với `requires_grad=True`, nó không chỉ lưu trữ một con số mà còn là một cấu trúc dữ liệu phức tạp:
-$$
-
 - **`w.grad`:** Lưu trữ giá trị đạo hàm hiện tại. Khi giá trị này tiến gần về 0, điều đó có nghĩa là mô hình đã ở rất gần điểm tối ưu.
 - **Dòng chảy Gradient:** Nếu `w.grad` mang dấu âm, thuật toán sẽ đẩy trọng số sang bên phải (tăng giá trị) và ngược lại, đảm bảo mô hình luôn di chuyển ngược hướng với độ dốc của hàm mất mát.
 

@@ -36,10 +36,7 @@ Trong một lớp neural network điển hình, trọng số được biểu di�
 
 ### Giải Pháp LoRA
 
-$$
 Với kích thước ma trận n = 512 và rank r = 1:
-$$
-
 - Số tham số cần fine-tune trong LoRA: 512 × 1 × 2 = 1,024 tham số
 - Số tham số trong ma trận gốc: 512² = 262,144 tham số
 - **Giảm khoảng 256 lần!**
@@ -56,12 +53,12 @@ LoRA thực hiện tương đương hoặc tốt hơn so với fine-tuning về 
 
 LoRA đề xuất sử dụng phân rã hạng thấp:
 
-W' = W + \Delta W = W + BA
+$$W' = W + \Delta W = W + BA$$
 
 Trong đó:
 - $W$: Ma trận trọng số pre-trained (đông cứng)
-- $B \in $\mathbb${R}^{d \times r}$: Ma trận hạng thấp thứ nhất
-- $A \in $\mathbb${R}^{r \times d}$: Ma trận hạng thấp thứ hai
+- $B \in \mathbb{R}^{d \times r}$: Ma trận hạng thấp thứ nhất
+- $A \in \mathbb{R}^{r \times d}$: Ma trận hạng thấp thứ hai
 - $r \ll d$: Rank của ma trận thích nghi
 
 ## Kết Luận

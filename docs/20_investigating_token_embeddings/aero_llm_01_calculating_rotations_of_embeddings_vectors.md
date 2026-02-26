@@ -32,13 +32,9 @@ Tuy nhiên, khi mũi tên vector rẽ nước đi sâu vào các lớp mô hình
 ### 2.1. Phương Trình Chuyển Trục (Rotation Formula)
 Hệ số độ đo khoảng cách quen thuộc là Độ tương đồng Cosine (Cosine Similarity). Tuy nhiên, để tính được cường độ chệch phương bằng hình học rõ ràng, khái niệm *Góc (Angle)* được giới thiệu.
 Sử dụng công thức tích vô hướng và độ dài Norm vector:
-
-\cos(\theta) = \frac{\langle x, y \rangle}{\|x\| \cdot \|y\|}
-
+$$ \cos(\theta) = \frac{\langle x, y \rangle}{\|x\| \cdot \|y\|} $$
 Ta cô lập hệ số góc $\theta$ bằng hàm lượng giác ngược (Arc Cosine):
-
-\theta = \arccos\left(\frac{\langle x, y \rangle}{\|x\| \cdot \|y\|}\right)
-
+$$ \theta = \arccos\left(\frac{\langle x, y \rangle}{\|x\| \cdot \|y\|}\right) $$
 Kết quả ra đơn vị Radians, được nhân với tỷ số $180 / \pi$ để trả về đơn vị độ (Degrees). Điểm ưu việt của góc quay là loại bỏ nhiễu đến từ độ giãn nở (Vector Lengths) của các Activation Norms.
 
 ### 2.2. Dữ Liệu Input (Targeted Setup)

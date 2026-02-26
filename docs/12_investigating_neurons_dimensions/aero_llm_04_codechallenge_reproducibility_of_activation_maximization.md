@@ -46,7 +46,7 @@ Xây dựng hàm `train_optimization` để tự động hóa:
 
 ### 3.1. Sự Phân tán của Kết quả (Null Results)
 Thực nghiệm cho thấy trong số 50 tokens thu được, có tới 48 tokens là duy nhất. Chỉ có 2 trường hợp lặp lại (ví dụ: token "sup"). 
-- **Diễn giải:** Tỷ lệ lặp lại $2/50$ là vô cùng nhỏ, điều này chứng tỏ nơ-ron đích không có một "ngôn ngữ mẹ đẻ" cố định mà chúng ta có thể dễ dàng giải mã được bằng phương pháp này.
+- **Diễn giải:** Tỷ lệ lặp lại (2/50) là vô cùng nhỏ, điều này chứng tỏ nơ-ron đích không có một "ngôn ngữ mẹ đẻ" cố định mà chúng ta có thể dễ dàng giải mã được bằng phương pháp này.
 
 ### 3.2. Hiệu ứng của Điểm khởi đầu (Initialization Bias)
 Mặc dù mọi thông số huấn luyện (optimizer, loss function, model weights) là cố định, sự khác biệt duy nhất là nhiễu khởi tạo. Việc kết quả bị phân tán mạnh mẽ chỉ ra rằng nơ-ron đang phản ứng với các cấu trúc toán học trừu tượng trong embedding không gian – những cấu trúc này có thể được thỏa mãn bởi nhiều tổ hợp token khác nhau một cách ngẫu nhiên.

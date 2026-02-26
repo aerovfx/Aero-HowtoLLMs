@@ -63,6 +63,7 @@ Số tham số trong mỗi tensor được tính bằng:
 
 ```python
 p.numel()
+```
 
 Tổng số tham số cho từng nhóm được cộng dồn trong quá trình lặp qua `named_parameters()` 
 
@@ -72,7 +73,9 @@ Tổng số tham số cho từng nhóm được cộng dồn trong quá trình l
 
 Do số lượng tham số tuyệt đối giữa các mô hình khác nhau rất lớn, nghiên cứu sử dụng tỷ lệ phần trăm để biểu diễn:
 
+$$
 \text{Percentage} = \frac{\text{Parameters of sublayer}}{\text{Total parameters}} \times 100%
+$$
 
 Kết quả được thể hiện bằng biểu đồ cột (bar plot) để so sánh trực quan 
 
@@ -84,8 +87,8 @@ Kết quả được thể hiện bằng biểu đồ cột (bar plot) để so 
 
 Trong GPT-2, lớp Attention bao gồm:
 
-* Ma trận QKV gộp $C_attn$,
-* Ma trận chiếu đầu ra $C_proj$.
+* Ma trận QKV gộp (C_attn),
+* Ma trận chiếu đầu ra (C_proj).
 
 Các ma trận này chịu trách nhiệm học quan hệ phụ thuộc ngữ cảnh giữa các token 
 
@@ -95,8 +98,8 @@ Các ma trận này chịu trách nhiệm học quan hệ phụ thuộc ngữ c�
 
 MLP bao gồm hai lớp tuyến tính:
 
-1. Lớp mở rộng chiều $FC / W1$,
-2. Lớp thu hẹp chiều $Projection / W2$.
+1. Lớp mở rộng chiều (FC / W1),
+2. Lớp thu hẹp chiều (Projection / W2).
 
 Cấu trúc này tạo ra sự mở rộng không gian đặc trưng, dẫn đến số lượng tham số lớn 
 
@@ -155,12 +158,16 @@ Do đó, tỷ lệ phần trăm của Attention và MLP trong tổng mô hình n
 
 Layer Normalization sử dụng hai tham số chính:
 
-* Tham số scale $(\gamma$),
-* Tham số shift $(\beta$).
+* Tham số scale ((\gamma)),
+* Tham số shift ((\beta)).
 
 Công thức:
 
+$$
 y = \gamma \frac{x - \mu}{\sigma} + \beta
+$$
+
+
 
 ---
 
@@ -206,6 +213,8 @@ Bài tập giúp người học:
 * Hiểu cấu trúc tham số thực tế,
 * Rèn luyện kỹ năng đọc mô hình,
 * Chuẩn bị cho nghiên cứu interpretability.
+
+
 
 ---
 

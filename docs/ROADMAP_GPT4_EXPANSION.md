@@ -35,11 +35,13 @@
 - [ ] Update `Program.ts` để support multiple architectures
 
 **Files cần tạo:**
+```
 src/llm/architectures/
 ├── BaseArchitecture.ts
 ├── Gpt4Architecture.ts
 ├── ClaudeArchitecture.ts
 └── GeminiArchitecture.ts
+```
 
 ### **Milestone 1.2: GPT-4 MoE Visualization** (Tuần 3-6)
 - [ ] Implement Mixture of Experts layer layout
@@ -71,7 +73,7 @@ src/llm/architectures/
 ## 🔥 Phase 2: Modern Architectures & Multimodal (3-4 tháng)
 
 ### **Milestone 2.1: Claude Architecture** (Tuần 13-16)
-- [ ] Long-context visualization $100K+ tokens$
+- [ ] Long-context visualization (100K+ tokens)
 - [ ] Constitutional AI components
 - [ ] Attention pattern optimization display
 
@@ -91,6 +93,7 @@ interface MultimodalInput {
   image?: ImageData;
   audio?: AudioBuffer;
 }
+```
 
 ### **Milestone 2.3: Interactive Comparison Mode** (Tuần 23-26)
 - [ ] Side-by-side architecture view
@@ -109,7 +112,7 @@ interface MultimodalInput {
 ## ⚡ Phase 3: Advanced Features & Optimization (2-3 tháng)
 
 ### **Milestone 3.1: Real-time Inference Visualization** (Tuần 27-30)
-- [ ] Connect to inference API $vLLM/TGI$
+- [ ] Connect to inference API (vLLM/TGI)
 - [ ] Stream intermediate activations
 - [ ] Token-by-token generation display
 - [ ] Attention pattern evolution
@@ -189,6 +192,7 @@ interface IModelSpec {
     expertLayout?: 'grid' | 'circular';
   };
 }
+```
 
 ### **2. WebGPU Rendering Pipeline**
 
@@ -200,16 +204,12 @@ class WebGPUModelRenderer {
   
   async initialize() {
     // Request GPU adapter
-
-const adapter = await navigator.gpu?.requestAdapter();
-
+    const adapter = await navigator.gpu?.requestAdapter();
     if (!adapter) {
       throw new Error('WebGPU not supported');
     }
     
-
-this.device = await adapter.requestDevice();
-
+    this.device = await adapter.requestDevice();
     await this.setupPipelines();
   }
   
@@ -222,6 +222,7 @@ this.device = await adapter.requestDevice();
     this.batchRenderLayers();
   }
 }
+```
 
 ### **3. Progressive Loading Strategy**
 
@@ -241,6 +242,7 @@ class ProgressiveModelLoader {
     yield this.loadDetails();
   }
 }
+```
 
 ---
 
@@ -274,7 +276,7 @@ class ProgressiveModelLoader {
 
 ### **User Engagement:**
 - [ ] 10K+ monthly active users (6 months post-launch)
-- [ ] Average session >5 minutes
+- [ ] Ave18_rage session >5 minutes
 - [ ] <10% bounce rate on landing
 - [ ] 1K+ GitHub stars
 
@@ -331,20 +333,20 @@ class ProgressiveModelLoader {
 ## 📄 Tài liệu cùng chuyên mục
 | Bài học | Liên kết |
 | :--- | :--- |
-| [🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS!](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) | [Xem bài viết →](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) |
-| [🎉 100% LOCALIZATION COMPLETE!](LOCALIZATION_100_COMPLETE.md) | [Xem bài viết →](LOCALIZATION_100_COMPLETE.md) |
-| [✅ LOCALIZATION FOUNDATION COMPLETE!](LOCALIZATION_SUMMARY.md) | [Xem bài viết →](LOCALIZATION_SUMMARY.md) |
-| [✅ Việt Hóa Walkthrough - Self Attention Complete!](LOCALIZATION_WALKTHROUGH04.md) | [Xem bài viết →](LOCALIZATION_WALKTHROUGH04.md) |
-| [✅ Phase 1 - Week 1: Foundation Complete!](PROGRESS_WEEK1.md) | [Xem bài viết →](PROGRESS_WEEK1.md) |
-| [✅ Week 2 Progress: GPT-4 Integration Complete!](PROGRESS_WEEK2.md) | [Xem bài viết →](PROGRESS_WEEK2.md) |
-| [✅ Week 3 Progress: MoE Grid Layout Complete!](PROGRESS_WEEK3.md) | [Xem bài viết →](PROGRESS_WEEK3.md) |
-| [✅ Week 4 Complete: Router Visualization & Color Coding!](PROGRESS_WEEK4_COMPLETE.md) | [Xem bài viết →](PROGRESS_WEEK4_COMPLETE.md) |
-| [🎯 Week 4 Progress: Router Visualization (Part 1)](PROGRESS_WEEK4_PART1.md) | [Xem bài viết →](PROGRESS_WEEK4_PART1.md) |
 | [� Kho Tài Liệu Aero-HowtoLLMs](README.md) | [Xem bài viết →](README.md) |
-| 📌 **[🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures](ROADMAP_GPT4_EXPANSION.md)** | [Xem bài viết →](ROADMAP_GPT4_EXPANSION.md) |
-| [🎯 LLM Training Pipeline - 3D Visualization System Design](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) | [Xem bài viết →](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) |
-| [🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement](WEEK3_MOE_IMPLEMENTATION.md) | [Xem bài viết →](WEEK3_MOE_IMPLEMENTATION.md) |
-| [🚀 Roadmap Học Hybrid AI (6 Tháng)](roadmapHybridAI.md) | [Xem bài viết →](roadmapHybridAI.md) |
+| [🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS!](completion_visualization_and_chapters.md) | [Xem bài viết →](completion_visualization_and_chapters.md) |
+| [🎉 100% LOCALIZATION COMPLETE!](localization_100_complete.md) | [Xem bài viết →](localization_100_complete.md) |
+| [✅ LOCALIZATION FOUNDATION COMPLETE!](localization_summary.md) | [Xem bài viết →](localization_summary.md) |
+| [✅ Việt Hóa Walkthrough - Self Attention Complete!](localization_walkthrough04.md) | [Xem bài viết →](localization_walkthrough04.md) |
+| [✅ Phase 1 - Week 1: Foundation Complete!](progress_week1.md) | [Xem bài viết →](progress_week1.md) |
+| [✅ Week 2 Progress: GPT-4 Integration Complete!](progress_week2.md) | [Xem bài viết →](progress_week2.md) |
+| [✅ Week 3 Progress: MoE Grid Layout Complete!](progress_week3.md) | [Xem bài viết →](progress_week3.md) |
+| [✅ Week 4 Complete: Router Visualization & Color Coding!](progress_week4_complete.md) | [Xem bài viết →](progress_week4_complete.md) |
+| [🎯 Week 4 Progress: Router Visualization (Part 1)](progress_week4_part1.md) | [Xem bài viết →](progress_week4_part1.md) |
+| 📌 **[🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures](roadmap_gpt4_expansion.md)** | [Xem bài viết →](roadmap_gpt4_expansion.md) |
+| [🚀 Roadmap Học Hybrid AI (6 Tháng)](roadmaphybridai.md) | [Xem bài viết →](roadmaphybridai.md) |
+| [🎯 LLM Training Pipeline - 3D Visualization System Design](visualization_system_design_spec.md) | [Xem bài viết →](visualization_system_design_spec.md) |
+| [🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement](week3_moe_implementation.md) | [Xem bài viết →](week3_moe_implementation.md) |
 
 ---
 ## 🤝 Liên hệ & Đóng góp

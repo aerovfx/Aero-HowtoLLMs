@@ -42,24 +42,30 @@ Mục tiêu của nghiên cứu gồm:
 
 Cho chuỗi token:
 
+$$
 X = (x_1, x_2, \dots, x_n)
+$$
 
 Xác suất sinh chuỗi được mô hình hóa như sau:
 
+$$
 P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, x_2, \dots, x_{i-1})
+$$
 
 Trong đó:
 
-* $x_i$ là token thứ $i$,
+* (x_i) là token thứ (i),
 * mỗi token phụ thuộc vào toàn bộ ngữ cảnh trước đó.
 
 ---
 
 ### 2.2. Biểu diễn ngữ cảnh (Context Window)
 
-Cửa sổ ngữ cảnh tại bước $t$:
+Cửa sổ ngữ cảnh tại bước (t):
 
+$$
 C_t = (x_1, x_2, \dots, x_t)
+$$
 
 Mô hình sinh token tiếp theo dựa trên:
 
@@ -77,13 +83,21 @@ $$
 
 ### 2.3. Fine-tuning mô hình
 
-Quá trình fine-tuning cập nhật tham số $\theta$ thông qua hàm mất mát Cross-Entropy:
+Quá trình fine-tuning cập nhật tham số (\theta) thông qua hàm mất mát Cross-Entropy:
 
-$\mathcal${L}(\theta) = -\frac{1}{N} $\sum$_{i=1}^{N} $\log$ P($y_i$ \mid $x_i$; \theta)
+$$
+\mathcal{L}(\theta)
+===================
+-\frac{1}{N}
+\sum_{i=1}^{N}
+\log P(y_i \mid x_i; \theta)
+$$
 
 Mục tiêu:
 
-\theta^{\ast} = \arg\min_{\theta} \mathcal{L}(\theta)
+$$
+\theta^* = \arg\min_{\theta} \mathcal{L}(\theta)
+$$
 
 ---
 
@@ -108,11 +122,15 @@ $$
 
 Hội thoại bắt đầu bằng prompt ban đầu:
 
+$$
 S_0 = \text{``Hello, my name is Alice.''}
+$$
 
 Sau tokenization:
 
+$$
 T_0 = (t_1, t_2, \dots, t_k)
+$$
 
 Chuỗi này được đưa vào mô hình E.
 
@@ -128,15 +146,19 @@ $$
 G_E^{(1)} \sim P(\cdot \mid T_0; \theta_E)
 $$
 
-Sinh ra $m$ token:
+Sinh ra (m) token:
 
+$$
 G_E^{(1)} = (g_1, \dots, g_m)
+$$
 
 #### Bước 2: Cập nhật ngữ cảnh
 
+$$
 C_1 = T_0 \oplus G_E^{(1)}
+$$
 
-với $\oplus$ là phép nối chuỗi.
+với (\oplus) là phép nối chuỗi.
 
 #### Bước 3: Alice sinh phản hồi
 
@@ -146,13 +168,21 @@ $$
 
 #### Bước 4: Lặp
 
-Quá trình được lặp lại $K$ lần:
+Quá trình được lặp lại (K) lần:
 
+$$
 C_{k+1} = C_k \oplus G_{model}^{(k)}
+$$
 
 Trong đó:
 
-model = \begin{cases} E, & k \text{ lẻ} \\ A, & k \text{ chẵn} \end{cases}
+$$
+model =
+\begin{cases}
+E, & k \text{ lẻ} \
+A, & k \text{ chẵn}
+\end{cases}
+$$
 
 ---
 
@@ -166,12 +196,14 @@ $$
 
 với:
 
+$$
 p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
+$$
 
 Trong đó:
 
-* $z_i$: logit,
-* $T$: temperature.
+* (z_i): logit,
+* (T): temperature.
 
 ---
 
@@ -187,7 +219,9 @@ Theo tài liệu gốc :
 
 Tổng số token sinh:
 
+$$
 M \approx 500
+$$
 
 ---
 
@@ -195,7 +229,9 @@ M \approx 500
 
 Chỉ in ra token mới sinh:
 
+$$
 G^{(k)} = C_k[|C_{k-1}|+1 : |C_k|]
+$$
 
 Điều này giúp tránh in lại toàn bộ lịch sử.
 
@@ -219,13 +255,15 @@ Ví dụ: Edgar sinh “astan-”, Alice hoàn thiện thành “astonishment”
 
 Khác với chatbot chuyên dụng, hai mô hình trong nghiên cứu:
 
-* Không có token đặc biệt cho vai trò $user/assistant$,
+* Không có token đặc biệt cho vai trò (user/assistant),
 * Không được huấn luyện hội thoại,
 * Chỉ thực hiện “hoàn thành chuỗi” (sequence completion).
 
 Do đó, hội thoại thực chất là:
 
+$$
 \hat{X} = \arg\max_X P(X \mid C_0)
+$$
 
 chứ không phải đối thoại có mục đích.
 
@@ -260,53 +298,37 @@ Có thể mở rộng bằng:
 
 Ví dụ, bổ sung token vai trò:
 
+[ <USER>, <ASSISTANT>
 $$
-<USER>, <ASSISTANT>
-$$
-
 giúp mô hình học cấu trúc đối thoại.
-
 ---
-
 ## 6. Đánh giá định lượng bổ trợ
-
 Có thể đo mức ổn định hội thoại bằng entropy:
-
+$$
 H = -\sum_{i=1}^{V} p_i \log p_i
-
+$$
 Entropy cao → phản hồi đa dạng.
 Entropy thấp → phản hồi lặp.
-
 Hoặc độ dài phụ thuộc ngữ cảnh:
-
+$$
 D = \frac{1}{K}\sum_{k=1}^{K} |C_k|
-
+$$
 ---
-
 ## 7. Kết luận
-
 Nghiên cứu cho thấy việc cho hai mô hình ngôn ngữ fine-tuning “trò chuyện” với nhau là một phương pháp trực quan để khảo sát khả năng duy trì ngữ cảnh và phong cách.
-
 Mặc dù chưa đạt đến mức hội thoại thực sự, phương pháp này:
-
 * Giúp hiểu rõ cơ chế sinh token,
 * Minh họa vai trò của context window,
 * Là nền tảng cho nghiên cứu chatbot chuyên sâu.
-
 Trong tương lai, việc kết hợp instruction tuning và đánh giá đa chiều sẽ giúp cải thiện chất lượng đối thoại.
-
 ---
-
 ## Tài liệu tham khảo
-
 1. Tài liệu hướng dẫn mô phỏng hội thoại giữa Alice và Edgar 
 2. Vaswani et al. (2017). *Attention Is All You Need*.
 3. Jurafsky, D., & Martin, J. (2023). *Speech and Language Processing*.
 4. OpenAI (2024). *Large Language Model Evaluation Guide*.
-
 ---
 <!-- Aero-Footer-Start -->
-
 ## 📄 Tài liệu cùng chuyên mục
 | Bài học | Liên kết |
 | :--- | :--- |
@@ -335,12 +357,10 @@ Trong tương lai, việc kết hợp instruction tuning và đánh giá đa chi
 | [Định Lượng Hiệu Quả Tinh Chỉnh Phong Cách Văn Học: Thử Thách Alice và Edgar](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tuning.md) | [Xem bài viết →](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tuning.md) |
 | 📌 **[Mô Phỏng Hội Thoại Giữa Hai Mô Hình Ngôn Ngữ Sau Fine-tuning: Trường Hợp *Alice* và *Edgar*](aero_llm_08_codechallenge_a_chat_between_alice_and_edgar.md)** | [Xem bài viết →](aero_llm_08_codechallenge_a_chat_between_alice_and_edgar.md) |
 | [Tinh Chỉnh Từng Phần Bằng Cách Đóng Băng Trọng Số Attention: Chiến Lược Tối Ưu Hóa Tham Số Cho LLM](aero_llm_09_partial_fine_tuning_by_freezing_attention_weights.md) | [Xem bài viết →](aero_llm_09_partial_fine_tuning_by_freezing_attention_weights.md) |
-
 ---
 ## 🤝 Liên hệ & Đóng góp
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
-
 > *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
 *Cập nhật tự động bởi Aero-Indexer - 2026*
 <!-- Aero-Footer-End -->
+$$

@@ -38,11 +38,9 @@ Tại Layer 3, dữ liệu kích hoạt của mỗi từ "coffee" tương ứng 
 ### 2.2. Xử Lý Các Điểm Dữ Liệu Cực Đoan (Extreme Values)
 Khi quan sát biểu đồ hoạt động của mạng LLM, thường xuất hiện khoảng 1-2 điểm nhiễu (neurons) có cường độ kích hoạt "phóng vút" lên rất cao so với đám mây phân bổ trung tâm. Mặc dù đây là các tín hiệu mạng bình thường (không phải lỗi bộ nhớ), hiện tượng cực đỉnh (extreme values) lại phá nát các thuật toán đo chia Histogram của MI.
 
-**Cách khắc phục:** Không gian hóa Z-Score.
-
-Z = \frac{x_i - \bar{x}}{\sigma}
-
-Áp dụng Z-score cho cả 2 vector. Bất kỳ giá trị nào có $\midZ\mid > 4$ (Vượt quá 4 lần độ lệch chuẩn) sẽ bị gán cờ Outlier và dạt bỏ khỏi danh sách đo MI. 
+**Cách khắc phục:** Không gian hóa Z-Score. 
+$$ Z = \frac{x_i - \bar{x}}{\sigma} $$
+Áp dụng Z-score cho cả 2 vector. Bất kỳ giá trị nào có $|Z| > 4$ (Vượt quá 4 lần độ lệch chuẩn) sẽ bị gán cờ Outlier và dạt bỏ khỏi danh sách đo MI. 
 Việc cắt tỉa dữ liệu thừa (Trimmed Data) này giúp đẩy MI từ một con số bị dìm do nhiễu $\to$ phục hồi lại điểm tương hỗ cốt lõi, phản biện lại nhược điểm của công thức histogram Manual.
 
 ---
@@ -59,11 +57,7 @@ Khoảng cách vật lý giữa hai từ "coffee" được tính giản lược 
 Vì biến quãng cách là một chuỗi mang tính định hạng (ordinal variable - số nguyên ngắt quãng), việc dùng Tương quan Pearson là sai nguyên lý thống kê. Ta phải chuyển qua hệ số **Kendall's Tau** (Tương tự Pearson, chạy từ $-1 \to 1$).
 
 **Kết quả Scatter Plot kết nối:**
-
-$$
-Biểu đồ trải hiển thị mối tương quan nghịch đảo rõ rệt \to `Hệ số r Kendall = -0.5`.
-$$
-
+Biểu đồ trải hiển thị mối tương quan nghịch đảo rõ rệt $\to$ `Hệ số r Kendall = -0.5`. 
 - **Giải thích:** Hai từ "coffee" đứng càng gần nhau trong một câu, chỉ số M.I giữa biểu diễn không gian $Attention$ của chúng càng mãnh liệt. Khi hai từ bị đẩy ra xa nhau chừng vài chục định vị, tiểu lớp ngữ cảnh bị vỡ vụn, khiến khả năng san sẻ tương đồng ý niệm rơi thẳng đứng.
 
 ---

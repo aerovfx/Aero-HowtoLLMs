@@ -32,9 +32,7 @@ How many r’s are in “strawberry”?
 
 Đáp án đúng:
 
-$$
 \text{count}("r", "strawberry") = 3
-$$
 
 Tuy nhiên, nhiều LLM từng trả lời sai (ví dụ: 2).
 
@@ -52,25 +50,19 @@ S = (s_1, s_2, ..., s_n)
 
 Với:
 
-$$
 S = \text{"strawberry"}
-$$
 
 Nếu xử lý ở mức ký tự:
 
-$$
 n = 10
-$$
 
 Và:
 
-$$
-\sum_{i=1}^{10} \mathbf{1}s_i = r = 3
-$$
+\sum_{i=1}^{10} \mathbf{1}(s_i = r) = 3
 
 Trong đó:
 
-\mathbf{1}$\cdot$
+\mathbf{1}(\cdot)
 
 là hàm chỉ thị.
 
@@ -100,17 +92,15 @@ Do đó, thông tin ký tự r không được biểu diễn trực tiếp mà n
 
 LLM học phân phối:
 
-P($t_i$ | t_{<i})
+P(t_i | t_{<i})
 
 Toàn chuỗi:
 
-$P(T)$ = $\prod$_{i=1}^{m} P($t_i$ | t_{<i})
+P(T) = \prod_{i=1}^{m} P(t_i | t_{<i})
 
 Mô hình không tối ưu cho phép toán đếm ký tự, mà tối ưu cho:
 
-$$
-\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i  \mid  t_{\lt i})
-$$
+\mathcal{L} = - \sum_{i=1}^{m} \log P(t_i | t_{<i})
 
 Tức là tối thiểu hóa cross-entropy giữa token dự đoán và token thật.
 
@@ -122,13 +112,11 @@ Tức là tối thiểu hóa cross-entropy giữa token dự đoán và token th
 
 Bài toán đếm yêu cầu:
 
-fS = \sum_{i=1}^{n} \mathbf{1}s_i = r
+f(S) = \sum_{i=1}^{n} \mathbf{1}(s_i = r)
 
 Nhưng mô hình chỉ có:
 
-$$
-gT = \text{argmax}_{y} P(y  \mid  T)
-$$
+g(T) = \text{argmax}_{y} P(y | T)
 
 Không có bước lặp tuần tự ở mức ký tự.
 
@@ -138,15 +126,11 @@ Không có bước lặp tuần tự ở mức ký tự.
 
 Embedding:
 
-$$
-Et \in \mathbb{R}^d
-$$
+E(t) \in \mathbb{R}^d
 
 Thông tin về ký tự r nằm phân tán trong không gian:
 
-$$
 E(\text{"strawberry"}) = f(E(\text{"straw"}), E(\text{"berry"}))
-$$
 
 Không tồn tại biến riêng biệt đếm số lần xuất hiện của r.
 
@@ -156,7 +140,7 @@ Không tồn tại biến riêng biệt đếm số lần xuất hiện của r.
 
 Self-attention:
 
-\text{Attention}(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d_k}}\rightV
+\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng số học chính xác trên ký tự.
 
@@ -166,7 +150,7 @@ Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng s�
 
 Giả sử mô hình ước lượng xác suất:
 
-$P(Y = k \mid  S)$
+P(Y = k | S)
 
 Trong đó:
 	•	Y: số lượng r
@@ -174,7 +158,7 @@ Trong đó:
 
 Do không huấn luyện trực tiếp cho nhiệm vụ đếm:
 
-$P(Y=2)$ $\approx$ $P(Y=3)$
+P(Y=2) \approx P(Y=3)
 
 Nếu trong dữ liệu huấn luyện, mẫu “2” phổ biến hơn, mô hình có thể thiên lệch.
 
@@ -184,19 +168,14 @@ Nếu trong dữ liệu huấn luyện, mẫu “2” phổ biến hơn, mô hì
 
 Thuật toán truyền thống:
 
-$O(n)$
+O(n)
 
 Pseudo-code:
 
-$$
 count = 0
-$$
-
 for char in string:
-
-$$
-if char == 'r': count += 1
-$$
+    if char == 'r':
+        count += 1
 
 LLM không thực thi thuật toán tuần tự như vậy.
 
@@ -206,7 +185,7 @@ LLM không thực thi thuật toán tuần tự như vậy.
 
 Entropy của chuỗi ký tự:
 
-HS = - \sum_{c \in \Sigma} P(c)\log P(c)
+H(S) = - \sum_{c \in \Sigma} P(c)\log P(c)
 
 LLM tối ưu hóa dự đoán token, không tối ưu hóa:
 
@@ -231,17 +210,15 @@ Nhưng vẫn không đảm bảo 100% chính xác vì không phải mô hình sy
 
 Ta có thể định nghĩa:
 
-h_\thetaS \approx \sum_{i=1}^{n} \mathbf{1}s_i = r
+h_\theta(S) \approx \sum_{i=1}^{n} \mathbf{1}(s_i = r)
 
 Với:
 
-$$
 \theta = \text{tham số mô hình}
-$$
 
 Sai số kỳ vọng:
 
-$\mathbb${E}[$h_\theta(S$ - f$S$)^2]
+\mathbb{E}[(h_\theta(S) - f(S))^2]
 
 Không được tối ưu trực tiếp trong huấn luyện LLM.
 
@@ -266,9 +243,7 @@ Sai số đếm ký tự có thể giải thích bởi:
 
 \text{Token-level modeling} \neq \text{Character-level counting}
 
-$$
 \min \mathcal{L}_{\text{cross-entropy}} \not\Rightarrow \min \mathcal{L}_{\text{counting}}
-$$
 
 Do đó, nhiệm vụ tưởng chừng đơn giản lại không phù hợp tự nhiên với mục tiêu tối ưu của LLM.
 

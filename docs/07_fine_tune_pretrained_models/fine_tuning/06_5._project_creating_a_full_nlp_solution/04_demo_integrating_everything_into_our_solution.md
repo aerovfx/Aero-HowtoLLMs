@@ -35,11 +35,13 @@ Một chatbot hoàn chỉnh bao gồm:
 
 ### 1.2 Luồng Hoạt Động
 
+```
 User Input → Sentiment Analysis → Response Generation
                   ↓
             Summarization → Conversation History
                   ↓
             Question Answering → (if question detected)
+```
 
 ## 2. Triển Khai Chi Tiết
 
@@ -50,6 +52,7 @@ User Input → Sentiment Analysis → Response Generation
 
 from flask import Flask, request, jsonify
 import requests
+```
 
 ### 2.2 Tải Các Mô Hình
 
@@ -57,24 +60,22 @@ import requests
 from transformers import TFAutoModelForSeq2SeqLM, AutoTokenizer
 
 # Tải mô hình phân tích cảm xúc
-
 sentiment_model = TFAutoModelForSeq2SeqLM.from_pretrained("path/to/sentiment_model")
+sentiment_tokenizer = AutoTokenizer.from_pretrained("path/to/sentiment_tokenizer")
 
-$$
-sentiment_tokenizer = AutoTokenizer.from_pretrained("path/to/sentiment_tokenizer") # Tải mô hình tóm tắt summarization_model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
-$$
-
+# Tải mô hình tóm tắt
+summarization_model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
 summarization_tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
 
 # Tải mô hình QA
-
 qa_model = TFAutoModelForSeq2SeqLM.from_pretrained("path/to/qa_model")
+qa_tokenizer = AutoTokenizer.from_pretrained("path/to/qa_tokenizer")
 
-$$
-qa_tokenizer = AutoTokenizer.from_pretrained("path/to/qa_tokenizer") # Tải mô hình text generation (GPT-2) from transformers import TFGPT2LMHeadModel generation_model = TFGPT2LMHeadModel.from_pretrained("gpt2")
-$$
-
+# Tải mô hình text generation (GPT-2)
+from transformers import TFGPT2LMHeadModel
+generation_model = TFGPT2LMHeadModel.from_pretrained("gpt2")
 generation_tokenizer = AutoTokenizer.from_pretrained("gpt2")
+```
 
 ### 2.3 Định Nghĩa Các Hàm Chức Năng
 
@@ -83,91 +84,111 @@ generation_tokenizer = AutoTokenizer.from_pretrained("gpt2")
 ```python
 def summarize_conversation(conversation_history):
     """Tóm tắt toàn bộ cuộc trò chuyện"""
+    prompt = "summarize: " + " ".join(conversation_history)
+    
+    inputs = summarization_tokenizer(prompt, return_tensors="tf", max_length=512)
+    outputs = summarization_model.generate(**inputs, max_length=150)
+    
+    return summarization_tokenizer.decode(outputs[0], skip_special_tokens=True)
+```
 
-prompt = "summarize: " + " ".join(conversation_history)
+#### 2.3.2 Trả Lời Câu Hỏi
 
-$$
-inputs = summarization_tokenizer(prompt, return_tensors="tf", max_length=512)
-$$
-
-outputs = summarization_model.generate(**inputs, max_length=150)
-
-$$
-return summarization_tokenizer.decode(outputs[0], skip_special_tokens=True) #### 2.3.2 Trả Lời Câu Hỏi ```python def answer_question(context, question): """Trả lời câu hỏi dựa trên context""" prompt = f"{context} Question: {question} Answer:"
-$$
-
-inputs = qa_tokenizer(prompt, return_tensors="tf", max_length=384)
-
-$$
-outputs = qa_model.generate(**inputs, max_length=128)
-$$
-
-return qa_tokenizer.decode(outputs[0], skip_special_tokens=True)
+```python
+def answer_question(context, question):
+    """Trả lời câu hỏi dựa trên context"""
+    prompt = f"{context} Question: {question} Answer:"
+    
+    inputs = qa_tokenizer(prompt, return_tensors="tf", max_length=384)
+    outputs = qa_model.generate(**inputs, max_length=128)
+    
+    return qa_tokenizer.decode(outputs[0], skip_special_tokens=True)
+```
 
 #### 2.3.3 Tạo Phản Hồi
 
 ```python
 def generate_response(user_message, sentiment):
     """Tạo phản hồi dựa trên cảm xúc"""
-
-$$
-if sentiment == "negative": prompt = f"The user is angry. Their message: {user_message}" else: prompt = user_message
-$$
-
-inputs = generation_tokenizer(prompt, return_tensors="tf")
-
-$$
-outputs = generation_model.generate(**inputs, max_length=100)
-$$
-
-return generation_tokenizer.decode(outputs[0], skip_special_tokens=True)
+    if sentiment == "negative":
+        prompt = f"The user is angry. Their message: {user_message}"
+    else:
+        prompt = user_message
+    
+    inputs = generation_tokenizer(prompt, return_tensors="tf")
+    outputs = generation_model.generate(**inputs, max_length=100)
+    
+    return generation_tokenizer.decode(outputs[0], skip_special_tokens=True)
+```
 
 #### 2.3.4 Phân Tích Cảm Xúc
 
 ```python
 def analyze_sentiment(message):
     """Phân tích cảm xúc của tin nhắn"""
+    prompt = f"sst2 sentence: {message}"
+    
+    inputs = sentiment_tokenizer(prompt, return_tensors="tf")
+    outputs = sentiment_model.generate(**inputs)
+    
+    result = sentiment_tokenizer.decode(outputs[0], skip_special_tokens=True)
+    
+    return "negative" if "negative" in result.lower() else "positive"
+```
 
-prompt = f"sst2 sentence: {message}"
+### 2.4 Tạo Flask App
 
-$$
-inputs = sentiment_tokenizer(prompt, return_tensors="tf")
-$$
+```python
+app = Flask(__name__)
 
-outputs = sentiment_model.generate(**inputs)
-
-$$
-result = sentiment_tokenizer.decode(outputs[0], skip_special_tokens=True) return "negative" if "negative" in result.lower() else "positive" ### 2.4 Tạo Flask App ```python app = Flask(__name__) # Lưu trữ lịch sử cuộc trò chuyện conversation_history = []
-$$
-
+# Lưu trữ lịch sử cuộc trò chuyện
+conversation_history = []
 conversation_summary = []
 
 @app.route('/reset', methods=['POST'])
-
-$$
-def reset(): """Reset cuộc trò chuyện""" global conversation_history, conversation_summary # Tóm tắt cuộc trò chuyện trước khi reset if conversation_history: summary = summarize_conversation(conversation_history) conversation_summary.append(summary) conversation_history = [] return jsonify({"summary": summary})
-$$
+def reset():
+    """Reset cuộc trò chuyện"""
+    global conversation_history, conversation_summary
+    
+    # Tóm tắt cuộc trò chuyện trước khi reset
+    if conversation_history:
+        summary = summarize_conversation(conversation_history)
+        conversation_summary.append(summary)
+    
+    conversation_history = []
+    return jsonify({"summary": summary})
 
 @app.route('/greet', methods=['GET'])
-
-$$
-def greet(): """Chào hỏi""" return jsonify({"message": "Hello! How can I help you today?"})
-$$
+def greet():
+    """Chào hỏi"""
+    return jsonify({"message": "Hello! How can I help you today?"})
 
 @app.route('/chat', methods=['POST'])
-
-$$
-def chat(): """Xử lý tin nhắn chat""" global conversation_history # Lấy tin nhắn từ request user_message = request.json.get('message') # Thêm vào lịch sử conversation_history.append(user_message) # Phân tích cảm xúc sentiment = analyze_sentiment(user_message) # Kiểm tra loại tin nhắn if "summarize" in user_message.lower(): response = summarize_conversation(conversation_history) elif "?" in user_message: # Sử dụng QA model context = " ".join(conversation_history[-5:])
-$$
-
-response = answer_question(context, user_message)
-
+def chat():
+    """Xử lý tin nhắn chat"""
+    global conversation_history
+    
+    # Lấy tin nhắn từ request
+    user_message = request.json.get('message')
+    
+    # Thêm vào lịch sử
+    conversation_history.append(user_message)
+    
+    # Phân tích cảm xúc
+    sentiment = analyze_sentiment(user_message)
+    
+    # Kiểm tra loại tin nhắn
+    if "summarize" in user_message.lower():
+        response = summarize_conversation(conversation_history)
+    
+    elif "?" in user_message:
+        # Sử dụng QA model
+        context = " ".join(conversation_history[-5:])
+        response = answer_question(context, user_message)
     
     else:
         # Sử dụng text generation
-
-response = generate_response(user_message, sentiment)
-
+        response = generate_response(user_message, sentiment)
     
     # Lưu phản hồi vào lịch sử
     conversation_history.append(response)
@@ -177,9 +198,9 @@ response = generate_response(user_message, sentiment)
         "sentiment": sentiment
     })
 
-$$
-if __name__ == '__main__': app.run(port=5000)
-$$
+if __name__ == '__main__':
+    app.run(port=5000)
+```
 
 ## 3. Kiểm Tra Chatbot
 
@@ -188,8 +209,8 @@ $$
 ```python
 # Khởi động Flask app trong background
 import subprocess
-
 subprocess.Popen(["python", "chatbot.py"], stdout=open("nohup.out", "w"))
+```
 
 ### 3.2 Các Lệnh Test
 
@@ -199,40 +220,31 @@ import requests
 BASE_URL = "http://localhost:5000"
 
 # Test greeting
-
 response = requests.get(f"{BASE_URL}/greet")
-
 print(response.json())
 
 # Test chat - câu hỏi
-
 response = requests.post(f"{BASE_URL}/chat", json={
-
     "message": "What is the capital of France?"
 })
 print(response.json())
 
 # Test chat - tóm tắt
-
 response = requests.post(f"{BASE_URL}/chat", json={
-
     "message": "Summarize this conversation"
 })
 print(response.json())
 
 # Test chat - tin nhắn thường
-
 response = requests.post(f"{BASE_URL}/chat", json={
-
     "message": "I want to build an app"
 })
 print(response.json())
 
 # Test reset
-
 response = requests.post(f"{BASE_URL}/reset")
-
 print(response.json())
+```
 
 ### 3.3 Kết Quả Mẫu
 
@@ -248,6 +260,7 @@ print(response.json())
 
 ### 4.1 Sơ Đồ Luồng Dữ Liệu
 
+```
 ┌─────────────┐     ┌──────────────────┐
 │  User      │────>│  Sentiment        │
 │  Input     │     │  Analysis         │
@@ -261,6 +274,7 @@ print(response.json())
 │ (if asked)  │     │  Answer          │  │  Generation │
 └─────────────┘     │  (if "?")        │  └─────────────┘
                     └──────────────────┘
+```
 
 ### 4.2 Ưu và Nhược Điểm
 

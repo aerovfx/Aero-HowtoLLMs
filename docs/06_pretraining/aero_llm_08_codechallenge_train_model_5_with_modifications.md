@@ -46,7 +46,7 @@ Mục tiêu của bài viết là phân tích tác động của các yếu tố
 GPT-2 là mô hình ngôn ngữ tự hồi quy sử dụng kiến trúc Transformer Decoder. Nó học phân phối xác suất:
 
 $$
-P(x_t  \mid  x_1, x_2, \dots, x_{t-1})
+P(x_t | x_1, x_2, \dots, x_{t-1})
 $$
 
 Trong đó, mỗi token được dự đoán dựa trên ngữ cảnh trước đó.
@@ -103,15 +103,16 @@ Thay vì DataLoader, một hàm sampling được xây dựng như sau:
 
 Kết quả có dạng:
 
+$$
 X, Y \in \mathbb{R}^{B \times T}
+$$
 
 Trong đó:
 
-* $B$: batch size,
+* (B): batch size,
+* (T = 256): sequence length.
 
-$$
-* T = 256: sequence length.
-$$
+
 
 ---
 
@@ -119,7 +120,9 @@ $$
 
 Target được dịch sang phải một token so với input:
 
+$$
 Y_i = X_{i+1}
+$$
 
 Điều này phù hợp với bài toán language modeling tự hồi quy. 
 
@@ -167,13 +170,17 @@ Loss được tính bằng cross-entropy và được ghi lại sau mỗi 100 ba
 * Giảm nhanh trong vài trăm bước,
 * Hội tụ sớm.
 
+
+
 ---
 
 ### 5.2. Đánh Giá Định Tính
 
 Trước huấn luyện, mô hình sinh chuỗi lặp vô nghĩa:
 
+```
 ions ions ions ions...
+```
 
 Sau huấn luyện, văn bản sinh ra có:
 
@@ -269,6 +276,7 @@ Nghiên cứu khẳng định rằng ngay cả với dữ liệu hạn chế và
 ## Tài Liệu Tham Khảo (References)
 
 [1] CodeChallenge: Train Model 5 with Modifications, Lecture Transcript.
+
 
 ---
 <!-- Aero-Footer-Start -->

@@ -31,11 +31,7 @@ Hệ số Beta dương ($\beta > 0$) sẽ trực tiếp đồng nghĩa với vi�
 
 ### 1.2. Kỹ thuật Xử lý Hồi quy trên 5120 nơ-ron
 Do tính chất đa dạng của dữ liệu hoạt hóa nơ-ron, một số đơn vị có thể gây lỗi cho thuật toán ước lượng phi tuyến. Các biện pháp kỹ thuật được áp dụng bao gồm:
-
-$$
 1. **Tăng cường lặp:** Thiết lập `maxiter=3000` để hỗ trợ hội tụ trong các trường hợp phân tách dữ liệu phức tạp.
-$$
-
 2. **Khối ngoại lệ (Try-Except):** Bảo vệ chương trình khỏi bị dừng đột ngột bởi các nơ-ron có dữ liệu quá nhiễu hoặc tách rời hoàn hảo (perfect separability), đồng thời đánh dấu các trường hợp này bằng giá trị `NaN`.
 3. **Phân tách Tham số:** Chỉ tập trung vào hệ số góc (slope) của biến nhãn, loại bỏ tham số hằng số (intercept) vì nó chỉ đại diện cho mức hoạt hóa nền của nơ-ron.
 

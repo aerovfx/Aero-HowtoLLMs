@@ -30,11 +30,9 @@ Dựa trên tài liệu đính kèm “Zipf’s Law in Characters and Tokens”,
 
 Trong ngôn ngữ tự nhiên, tần suất xuất hiện của đơn vị ngôn ngữ (ký tự, từ, token) không phân bố đều mà tuân theo quy luật lũy thừa, được biết đến là Luật Zipf, do George Kingsley Zipf đề xuất.
 
-Nếu r là thứ hạng của một đơn vị (1 là phổ biến nhất), thì tần suất f$r$ được xấp xỉ bởi:
+Nếu r là thứ hạng của một đơn vị (1 là phổ biến nhất), thì tần suất f(r) được xấp xỉ bởi:
 
-$$
-fr \propto \frac{1}{r^\alpha}
-$$
+f(r) \propto \frac{1}{r^\alpha}
 
 với:
 
@@ -48,24 +46,19 @@ Luật này xuất hiện ở cả mức ký tự và mức token.
 
 Gọi:
 	•	\Sigma: bảng chữ cái
-
-$$
-•	|\Sigma| = K
-$$
+	•	|\Sigma| = K
 
 Sắp xếp ký tự theo tần suất giảm dần.
 
-f_cr = C r^{-\alpha_c}
+f_c(r) = C r^{-\alpha_c}
 
 Tổng xác suất:
 
-$$
-\sum_{r=1}^{K} f_cr = 1
-$$
+\sum_{r=1}^{K} f_c(r) = 1
 
 Chuẩn hóa:
 
-C = \left\sum_{r=1}^{K} r^{-\alpha_c} \right^{-1}
+C = \left( \sum_{r=1}^{K} r^{-\alpha_c} \right)^{-1}
 
 Với tiếng Anh:
 
@@ -79,11 +72,11 @@ Do bảng chữ cái nhỏ (26–100 ký tự), phân bố có đuôi ngắn.
 
 Với token (subword), kích thước từ vựng:
 
-|V| $\approx$ 30{,}000
+|V| \approx 30{,}000
 
 Phân bố:
 
-f_tr = C' r^{-\alpha_t}
+f_t(r) = C' r^{-\alpha_t}
 
 Thông thường:
 
@@ -97,23 +90,23 @@ Phân bố token có đuôi dài hơn nhiều so với ký tự.
 
 Entropy ký tự:
 
-H_c = - \sum_{r=1}^{K} f_cr\log f_cr
+H_c = - \sum_{r=1}^{K} f_c(r)\log f_c(r)
 
 Entropy token:
 
-H_t = - \sum_{r=1}^{|V|} f_tr\log f_tr
+H_t = - \sum_{r=1}^{|V|} f_t(r)\log f_t(r)
 
 Với phân bố Zipf:
 
-H \approx \log Z\alpha + \frac{\alpha}{Z\alpha} \sum_{r} r^{-\alpha}\log r
+H \approx \log Z(\alpha) + \frac{\alpha}{Z(\alpha)} \sum_{r} r^{-\alpha}\log r
 
 Trong đó:
 
-Z\alpha = \sum_{r=1}^{N} r^{-\alpha}
+Z(\alpha) = \sum_{r=1}^{N} r^{-\alpha}
 
 Vì |V| \gg K, nên:
 
-$H_t$ > $H_c$
+H_t > H_c
 
 ⸻
 
@@ -125,9 +118,7 @@ Giả sử văn bản có:
 
 Compression ratio:
 
-$$
 R = \frac{n}{m}
-$$
 
 Theo bảo toàn thông tin:
 
@@ -137,7 +128,7 @@ Suy ra:
 
 R \approx \frac{H_t}{H_c}
 
-Nếu $H_t$ tăng (do đuôi dài của Zipf), R tăng → chuỗi token ngắn hơn.
+Nếu H_t tăng (do đuôi dài của Zipf), R tăng → chuỗi token ngắn hơn.
 
 ⸻
 
@@ -145,11 +136,11 @@ Nếu $H_t$ tăng (do đuôi dài của Zipf), R tăng → chuỗi token ngắn 
 
 Self-attention có độ phức tạp:
 
-$O(m^2)$
+O(m^2)
 
-$$
-Thay m = \frac{n}{R}: O(\le)ft\frac{n^2}{R^2}\right
-$$
+Thay m = \frac{n}{R}:
+
+O\left(\frac{n^2}{R^2}\right)
 
 Vì luật Zipf tạo ra:
 	•	Ít token cực kỳ phổ biến
@@ -157,9 +148,7 @@ Vì luật Zipf tạo ra:
 
 Gradient trong huấn luyện sẽ:
 
-$$
-\text{Var}\nabla \uparrow
-$$
+\text{Var}(\nabla) \uparrow
 
 đối với token hiếm.
 
@@ -195,7 +184,7 @@ T \approx N_1 \log |V|
 	•	Bảng chữ cái nhỏ
 	•	Phân bố ít cực đoan
 
-8.2 Ở mức token $WordPiece/BPE$
+8.2 Ở mức token (WordPiece/BPE)
 
 Áp dụng trong BERT và GPT-2:
 	•	Một số token cực phổ biến (“the”, “##ing”)
@@ -219,7 +208,7 @@ Nếu từ vựng quá lớn:
 
 Tối ưu hóa:
 
-\min_{|V|} \left\frac{n^2}{R^2} + \lambda |V\mid \right
+\min_{|V|} \left( \frac{n^2}{R^2} + \lambda |V| \right)
 
 ⸻
 
@@ -239,13 +228,11 @@ Các hệ như Google và OpenAI đã chọn kích thước từ vựng nhằm c
 
 Luật Zipf trong ký tự và token được mô tả bởi:
 
-$$
-fr \propto r^{-\alpha}
-$$
+f(r) \propto r^{-\alpha}
 
 Entropy:
 
-H = -\sum fr\log fr
+H = -\sum f(r)\log f(r)
 
 Compression ratio:
 
@@ -253,9 +240,7 @@ R \approx \frac{H_t}{H_c}
 
 Chi phí attention:
 
-$$
-O(\le)ft\frac{n^2}{R^2}\right
-$$
+O\left(\frac{n^2}{R^2}\right)
 
 Do đó, phân bố lũy thừa không chỉ là hiện tượng ngôn ngữ học mà còn ảnh hưởng trực tiếp đến hiệu năng tính toán của mô hình ngôn ngữ.
 

@@ -68,7 +68,6 @@ Cách tổ chức này cho phép lặp qua các mô hình một cách hệ thố
 Tổng số tham số được tính bằng cách lặp qua `model.parameters()`:
 
 ```python
-
 total = sum(p.numel() for p in model.parameters())
 ```
 
@@ -132,6 +131,8 @@ $$
 * Cải thiện khả năng tổng quát hóa,
 * Tăng tính ổn định huấn luyện.
 
+
+
 ---
 
 ### 5.2. Xác minh bằng tương quan
@@ -152,8 +153,8 @@ $$
 
 Trong đó:
 
-* $W$: trọng số (weights),
-* $b$: độ lệch (bias).
+* (W): trọng số (weights),
+* (b): độ lệch (bias).
 
 Weights quyết định mức độ ảnh hưởng của đầu vào, trong khi bias cho phép dịch chuyển phân phối. 
 
@@ -193,6 +194,8 @@ Bài tập đếm tham số giúp người học:
 * Hiểu rõ cấu trúc nội tại của LLM,
 * Rèn luyện kỹ năng phân tích mô hình,
 * Liên kết lý thuyết và thực hành.
+
+
 
 ---
 

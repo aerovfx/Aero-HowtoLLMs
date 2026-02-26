@@ -135,7 +135,9 @@ Kết quả mô hình ban đầu là log-softmax, nên chưa phải phân phối
 
 Phân phối xác suất được khôi phục bằng:
 
+$$
 P = e^{\log p}
+$$
 
 Sau chuyển đổi, mỗi hàng của ma trận đầu ra có tổng bằng 1, xác nhận tính hợp lệ. 
 
@@ -168,12 +170,15 @@ Trong quá trình đánh giá, gradient được vô hiệu hóa bằng:
 
 ```python
 with torch.no_grad():
+```
 
 Cơ chế này giúp:
 
 * Giảm chi phí tính toán,
 * Tiết kiệm bộ nhớ,
 * Tăng tốc độ suy luận.
+
+
 
 ---
 
@@ -197,7 +202,7 @@ Kết quả này cho thấy mô hình đã học được các đặc trưng cơ
 Quan sát cho thấy ở giai đoạn đầu:
 
 $$
-Loss_{test} \lt  Loss_{train}
+Loss_{test} < Loss_{train}
 $$
 
 Nguyên nhân là do train loss trung bình bao gồm giai đoạn đầu khi mô hình chưa học được gì, trong khi test loss được tính sau khi mô hình đã cải thiện. 
@@ -259,6 +264,7 @@ Nghiên cứu này đặt nền móng cho việc xây dựng hệ thống huấn
 ## Tài Liệu Tham Khảo (References)
 
 [1] CodeChallenge Add a Test Set, Lecture Transcript.
+
 
 ---
 <!-- Aero-Footer-Start -->

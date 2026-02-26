@@ -22,7 +22,7 @@ Báo cáo trình bày phương pháp giải phẫu một trong những linh hồ
 ---
 
 ## 1. Mở Đầu (Introduction)
-Trong Mạng Mạch của Deep Learning, việc quy tụ hàng khối Head lại với nhau thông qua ma trận trộn tuyến tính $W_o$ (Linear mix matrix) là chìa khóa tổng hợp kiến thức ngôn ngữ. Tuy nhiên, nếu chúng ta có thể chẻ nhỏ và truy cập vào từng "Não bộ phụ" (Head) riêng lẻ đang phân tích gì, ta sẽ hiểu được cơ chế hoạt động vi mô (Mechanistic Interpretability). Công việc này đòi hỏi kết hợp phương trình Attention cốt lõi: $Softmax(\frac{QK^T}{\sqrt{$d_k$}})V$ kết hợp thao tác ma trận tinh vi.
+Trong Mạng Mạch của Deep Learning, việc quy tụ hàng khối Head lại với nhau thông qua ma trận trộn tuyến tính $W_o$ (Linear mix matrix) là chìa khóa tổng hợp kiến thức ngôn ngữ. Tuy nhiên, nếu chúng ta có thể chẻ nhỏ và truy cập vào từng "Não bộ phụ" (Head) riêng lẻ đang phân tích gì, ta sẽ hiểu được cơ chế hoạt động vi mô (Mechanistic Interpretability). Công việc này đòi hỏi kết hợp phương trình Attention cốt lõi: $Softmax(\frac{QK^T}{\sqrt{d_k}})V$ kết hợp thao tác ma trận tinh vi.
 
 ---
 
@@ -30,7 +30,7 @@ Trong Mạng Mạch của Deep Learning, việc quy tụ hàng khối Head lại
 
 ### 2.1. Nhắc Lại Thuật Toán Attention và Mặt Nạ Causal Label (Masking)
 $Q$ (Query) đại diện cho "Token hiện tại đang tìm kiếm gì?", còn $K$ (Keys) đại diện cho "Các token cũ giữ thông tin gì đáng giá?". Tích vô hướng $QK^T$ đo lường sự tương thích. 
-Tuy nhiên, Transformer là bộ dự báo chuỗi theo thời gian (Autoregressive), nó bắt buộc không được "Nhìn trộm" tương lai. Lớp Mặt Nạ $M$ (Masking matrix) được phủ lên $QK^T$: Các tọa độ ở tam giác dưới (Quá khứ) nhận mức $1$, tọa độ ở tam giác trên (Tương lai) nhận $-$\infty$$. Khi qua hàm phi tuyến kích hoạt $Softmax$, hàm số $e^{-$\infty$}$ biến mất thành điểm $0$ tuyệt đối. 
+Tuy nhiên, Transformer là bộ dự báo chuỗi theo thời gian (Autoregressive), nó bắt buộc không được "Nhìn trộm" tương lai. Lớp Mặt Nạ $M$ (Masking matrix) được phủ lên $QK^T$: Các tọa độ ở tam giác dưới (Quá khứ) nhận mức $1$, tọa độ ở tam giác trên (Tương lai) nhận $-\infty$. Khi qua hàm phi tuyến kích hoạt $Softmax$, hàm số $e^{-\infty}$ biến mất thành điểm $0$ tuyệt đối. 
 *Hệ quả dị biệt:* Mảnh Token đầu tiên của chuỗi không có quá khứ, nên toàn bộ thông số liên kết ngược bị xóa sổ $\to$ tự gán $100\%$ lực chú ý vào chính bản thân nó (Outlier error).
 
 ### 2.2. Trích Xuất Attention Đầu Phụ (Heads Isolation)

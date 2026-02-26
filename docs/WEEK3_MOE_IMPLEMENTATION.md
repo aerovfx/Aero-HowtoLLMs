@@ -32,14 +32,11 @@
 
 ### ✅ Expert Loop:
 ```typescript
-
-$$
 for (let i = 0; i < moeBlock.experts.length; i++) {
-$$
-
     // Creates expert weight + output
     // Currently stacks in Y direction
 }
+```
 
 ### ✅ Aggregation:
 - `mlpResidual` - Combines expert outputs
@@ -51,6 +48,7 @@ $$
 ### **Phase 1: Grid Layout (Week 3)**
 
 #### Current (Vertical Stack):
+```
 Router
 ↓
 Expert 0
@@ -63,8 +61,10 @@ Expert 6
 Expert 7
 ↓
 Aggregation
+```
 
 #### Target (2x4 Grid):
+```
       Router (Top)
          ↓
    ┌─────┴─────┐
@@ -75,26 +75,26 @@ Aggregation
    └─────┬─────┘
          ↓
    Aggregation
+```
 
 #### Implementation Steps:
 1. **Calculate grid positions**
    ```typescript
-
-$$
-const expertsPerRow = 4; const expertRows = 2; const expertW = (C * cell + margin) * 1.5; // Width per expert const expertH = (C * cell + margin) * 2;   // Height per expert for (let i = 0; i < numExperts; i++) { const row = Math.floor(i / expertsPerRow);
-$$
-
-const col = i % expertsPerRow;
-
-$$
-const expertX = baseX + col * expertW;
-$$
-
-const expertY = baseY + row * expertH;
-
+   const expertsPerRow = 4;
+   const expertRows = 2;
+   const expertW = (C * cell + margin) * 1.5; // Width per expert
+   const expertH = (C * cell + margin) * 2;   // Height per expert
+   
+   for (let i = 0; i < numExperts; i++) {
+       const row = Math.floor(i / expertsPerRow);
+       const col = i % expertsPerRow;
+       
+       const expertX = baseX + col * expertW;
+       const expertY = baseY + row * expertH;
        
        // Create expert blocks at (expertX, expertY)
    }
+   ```
 
 2. **Compact expert representation**
    - Show only: Weight block + Output block per expert
@@ -117,15 +117,12 @@ const expertY = baseY + row * expertH;
 - Parameters count
 - Current routing probability  
 - Active/Inactive status
+```
 
 #### B. Color Coding
 ```typescript
 // Expert colors based on selection:
-
-$$
 const expertColor = (routingProb: number, isTopK: boolean) => {
-$$
-
     if (isTopK) {
         return interpolate(
             INACTIVE_COLOR,  // #888
@@ -135,12 +132,14 @@ $$
     }
     return INACTIVE_COLOR;
 };
+```
 
 #### C. Routing Lines
 ```typescript
 // Draw connections from router to top-K experts
 drawRoutingPath(routerOutput, expert0, routingProb0);
 drawRoutingPath(routerOutput, expert1, routingProb1);
+```
 
 #### D. Expert Utilization Heatmap
 ```typescript
@@ -152,6 +151,7 @@ interface ExpertUtilization {
 }
 
 // Visualize as background color intensity
+```
 
 ---
 
@@ -165,32 +165,17 @@ interface ExpertUtilization {
 
 Before:
 ```typescript
-
-$$
 for (let i = 0; i < moeBlock.experts.length; i++) {
-$$
-
     // ...
-
-$$
-y += h * cell + margin;  // Stacks vertically
-$$
-
+    y += h * cell + margin;  // Stacks vertically
     // ...
-
-$$
-y += C * cell + margin;
-$$
-
+    y += C * cell + margin;
 }
+```
 
 After:
 ```typescript
-
-$$
 const expertGrid = {
-$$
-
     cols: 4,
     rows: 2,
     cellW: (C * cell + margin) * 1.5,
@@ -199,29 +184,63 @@ $$
     baseY: y,
 };
 
-$$
-for (let i = 0; i < moeBlock.experts.length; i++) { const row = Math.floor(i / expertGrid.cols);
-$$
+for (let i = 0; i < moeBlock.experts.length; i++) {
+    const row = Math.floor(i / expertGrid.cols);
+    const col = i % expertGrid.cols;
+    
+    const expertX = expertGrid.baseX + col * expertGrid.cellW;
+    const expertY = expertGrid.baseY + row * expertGrid.cellH;
+    
+    let expFcWeight = mk({
+        // ... existing code ...
+        x: expertX,  // NEW: Position in grid
+        y: expertY,
+    });
+    
+    let expOut = mk({
+        // ... existing code ...
+        x: expertX,
+        y: expertY + compact_height,
+    });
+}
+```
 
-const col = i % expertGrid.cols;
+**2. Router Visual Enhancement**
 
-$$
-const expertX = expertGrid.baseX + col * expertGrid.cellW;
-$$
+```typescript
+// Add router block with visual connection indicator
+let routerBlock = mk({
+    t: 'i',
+    cx: numExperts,
+    cy: T,
+    // Position above expert grid
+    x: expertGrid.baseX + (expertGrid.cols * expertGrid.cellW) / 2,
+    y: expertGrid.baseY - margin * 4,
+    name: 'Router (Top-K Selection)',
+    // Custom rendering for routing visualization
+    special: BlkSpecial.MoERouter,
+});
+```
 
-const expertY = expertGrid.baseY + row * expertGrid.cellH;
+**3. Add Routing Pathway Lines**
 
-$$
-let expFcWeight = mk({ // ... existing code ... x: expertX,  // NEW: Position in grid y: expertY, }); let expOut = mk({ // ... existing code ... x: expertX, y: expertY + compact_height, }); } **2. Router Visual Enhancement** ```typescript // Add router block with visual connection indicator let routerBlock = mk({ t: 'i', cx: numExperts, cy: T, // Position above expert grid x: expertGrid.baseX + (expertGrid.cols * expertGrid.cellW) / 2, y: expertGrid.baseY - margin * 4, name: 'Router (Top-K Selection)', // Custom rendering for routing visualization special: BlkSpecial.MoERouter, }); **3. Add Routing Pathway Lines** New helper function: ```typescript function drawExpertRouting( state: IProgramState, routerBlock: IBlkDef, experts: IBlkDef[], topKIndices: number[], probabilities: number[] ) { const routerCenter = getBlockCenter(routerBlock); experts.forEach((expert, idx) => { const isActive = topKIndices.includes(idx);
-$$
-
-const prob = probabilities[idx] || 0;
-
+New helper function:
+```typescript
+function drawExpertRouting(
+    state: IProgramState,
+    routerBlock: IBlkDef,
+    experts: IBlkDef[],
+    topKIndices: number[],
+    probabilities: number[]
+) {
+    const routerCenter = getBlockCenter(routerBlock);
+    
+    experts.forEach((expert, idx) => {
+        const isActive = topKIndices.includes(idx);
+        const prob = probabilities[idx] || 0;
         
         if (isActive) {
-
-const expertCenter = getBlockCenter(expert);
-
+            const expertCenter = getBlockCenter(expert);
             drawRoutingLine(
                 state.render,
                 routerCenter,
@@ -235,11 +254,10 @@ const expertCenter = getBlockCenter(expert);
         }
         
         // Highlight expert block
-
-expert.highlight = isActive ? prob : 0;
-
+        expert.highlight = isActive ? prob : 0;
     });
 }
+```
 
 ---
 
@@ -247,14 +265,13 @@ expert.highlight = isActive ? prob : 0;
 
 ### Color Scheme:
 ```typescript
-
 const MoE_COLORS = {
-
     ROUTER: '#667eea',           // Blue-purple
     ACTIVE_EXPERT: '#10a37f',    // OpenAI green
     INACTIVE_EXPERT: '#6e6e80',  // Gray
     ROUTING_PATH: '#a78bfa',     // Light purple
 };
+```
 
 ### Expert Block Size:
 - **Compact mode:** Show only weight + output (2 small blocks)
@@ -300,20 +317,20 @@ const MoE_COLORS = {
 ## 📄 Tài liệu cùng chuyên mục
 | Bài học | Liên kết |
 | :--- | :--- |
-| [🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS!](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) | [Xem bài viết →](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) |
-| [🎉 100% LOCALIZATION COMPLETE!](LOCALIZATION_100_COMPLETE.md) | [Xem bài viết →](LOCALIZATION_100_COMPLETE.md) |
-| [✅ LOCALIZATION FOUNDATION COMPLETE!](LOCALIZATION_SUMMARY.md) | [Xem bài viết →](LOCALIZATION_SUMMARY.md) |
-| [✅ Việt Hóa Walkthrough - Self Attention Complete!](LOCALIZATION_WALKTHROUGH04.md) | [Xem bài viết →](LOCALIZATION_WALKTHROUGH04.md) |
-| [✅ Phase 1 - Week 1: Foundation Complete!](PROGRESS_WEEK1.md) | [Xem bài viết →](PROGRESS_WEEK1.md) |
-| [✅ Week 2 Progress: GPT-4 Integration Complete!](PROGRESS_WEEK2.md) | [Xem bài viết →](PROGRESS_WEEK2.md) |
-| [✅ Week 3 Progress: MoE Grid Layout Complete!](PROGRESS_WEEK3.md) | [Xem bài viết →](PROGRESS_WEEK3.md) |
-| [✅ Week 4 Complete: Router Visualization & Color Coding!](PROGRESS_WEEK4_COMPLETE.md) | [Xem bài viết →](PROGRESS_WEEK4_COMPLETE.md) |
-| [🎯 Week 4 Progress: Router Visualization (Part 1)](PROGRESS_WEEK4_PART1.md) | [Xem bài viết →](PROGRESS_WEEK4_PART1.md) |
 | [� Kho Tài Liệu Aero-HowtoLLMs](README.md) | [Xem bài viết →](README.md) |
-| [🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures](ROADMAP_GPT4_EXPANSION.md) | [Xem bài viết →](ROADMAP_GPT4_EXPANSION.md) |
-| [🎯 LLM Training Pipeline - 3D Visualization System Design](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) | [Xem bài viết →](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) |
-| 📌 **[🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement](WEEK3_MOE_IMPLEMENTATION.md)** | [Xem bài viết →](WEEK3_MOE_IMPLEMENTATION.md) |
-| [🚀 Roadmap Học Hybrid AI (6 Tháng)](roadmapHybridAI.md) | [Xem bài viết →](roadmapHybridAI.md) |
+| [🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS!](completion_visualization_and_chapters.md) | [Xem bài viết →](completion_visualization_and_chapters.md) |
+| [🎉 100% LOCALIZATION COMPLETE!](localization_100_complete.md) | [Xem bài viết →](localization_100_complete.md) |
+| [✅ LOCALIZATION FOUNDATION COMPLETE!](localization_summary.md) | [Xem bài viết →](localization_summary.md) |
+| [✅ Việt Hóa Walkthrough - Self Attention Complete!](localization_walkthrough04.md) | [Xem bài viết →](localization_walkthrough04.md) |
+| [✅ Phase 1 - Week 1: Foundation Complete!](progress_week1.md) | [Xem bài viết →](progress_week1.md) |
+| [✅ Week 2 Progress: GPT-4 Integration Complete!](progress_week2.md) | [Xem bài viết →](progress_week2.md) |
+| [✅ Week 3 Progress: MoE Grid Layout Complete!](progress_week3.md) | [Xem bài viết →](progress_week3.md) |
+| [✅ Week 4 Complete: Router Visualization & Color Coding!](progress_week4_complete.md) | [Xem bài viết →](progress_week4_complete.md) |
+| [🎯 Week 4 Progress: Router Visualization (Part 1)](progress_week4_part1.md) | [Xem bài viết →](progress_week4_part1.md) |
+| [🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures](roadmap_gpt4_expansion.md) | [Xem bài viết →](roadmap_gpt4_expansion.md) |
+| [🚀 Roadmap Học Hybrid AI (6 Tháng)](roadmaphybridai.md) | [Xem bài viết →](roadmaphybridai.md) |
+| [🎯 LLM Training Pipeline - 3D Visualization System Design](visualization_system_design_spec.md) | [Xem bài viết →](visualization_system_design_spec.md) |
+| 📌 **[🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement](week3_moe_implementation.md)** | [Xem bài viết →](week3_moe_implementation.md) |
 
 ---
 ## 🤝 Liên hệ & Đóng góp

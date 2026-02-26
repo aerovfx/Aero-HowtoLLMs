@@ -28,7 +28,7 @@ Một trong những nguyên lý cốt lõi của kiến trúc Transformer là m�
 
 ## 2. Phương Pháp Thực Nghiệm (Methodology)
 
-### 2.1. Vị trí Cấy Hook $C_proj$
+### 2.1. Vị trí Cấy Hook (C_proj)
 Để lấy được "độ lệch" cuối cùng của mỗi phân đoạn, chúng ta cấy Hook vào lớp `c_proj` (output projection) của cả Attention và MLP. Đây là điểm cuối cùng trước khi các giá trị điều chỉnh được cộng ngược trở lại vào residual stream.
 
 ### 2.2. Quản lý Đồ thị Tính toán (Gradient Detachment)
@@ -41,13 +41,11 @@ Khi mô hình không ở chế độ `eval()`, các tensor trích xuất qua Hoo
 ## 3. Kết Quả Thực Nghiệm: Tái cấu trúc Hoạt hóa
 
 ### 3.1. Sự bảo tồn Tín hiệu (Laminar Correlation)
-Đồ thị phân tán giữa đầu ra của Tầng 10 và Tầng 11 cho thấy sự tương quan cực mạnh ($r $\approx$ 1.0$). Điều này khẳng định rằng Hidden State không bị thay đổi hoàn toàn sau mỗi Transformer Block mà chỉ bị biến đổi nhẹ.
+Đồ thị phân tán giữa đầu ra của Tầng 10 và Tầng 11 cho thấy sự tương quan cực mạnh ($r \approx 1.0$). Điều này khẳng định rằng Hidden State không bị thay đổi hoàn toàn sau mỗi Transformer Block mà chỉ bị biến đổi nhẹ.
 
 ### 3.2. Công thức Tái cấu trúc (The Reconstruction Formula)
 Giá trị hoạt hóa của Tầng $L+1$ có thể được dự đoán chính xác tuyệt đối bằng công thức:
-
-\mathbf{H}_{L+1} = \mathbf{H}_L + \Delta_{Attention} + \Delta_{MLP}
-
+$$ \mathbf{H}_{L+1} = \mathbf{H}_L + \Delta_{Attention} + \Delta_{MLP} $$
 Thực nghiệm cho thấy khi cộng các giá trị trích xuất từ Hook ($\Delta$) vào Hidden State hiện tại, ta thu được kết quả khớp hoàn hảo với Hidden State của tầng tiếp theo trích xuất từ `output.hidden_states`.
 
 ### 3.3. Hiện tượng Ngoại lai (Outlier Handling)

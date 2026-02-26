@@ -47,18 +47,20 @@ Mục tiêu của bài viết là:
 
 Trong attention, ba ma trận chính được xây dựng:
 
-* Query $Q$
-* Key $K$
-* Value $V$
+* Query (Q)
+* Key (K)
+* Value (V)
 
 Chúng được tính như sau:
 
+$$
 Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+$$
 
 Trong đó:
 
-* $X$: Ma trận embedding.
-* ($W_Q$, $W_K$, $W_V$): Ma trận trọng số huấn luyện.
+* (X): Ma trận embedding.
+* (W_Q, W_K, W_V): Ma trận trọng số huấn luyện.
 
 Các chiều embedding được trộn lẫn thông qua phép nhân ma trận, không được giữ nguyên theo từng chiều ban đầu
 
@@ -68,9 +70,12 @@ Các chiều embedding được trộn lẫn thông qua phép nhân ma trận, k
 
 Với một head, attention được tính theo công thức:
 
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+\text{Attention}(Q, K, V)
+= \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
 
-Trong đó $d_k$ là số chiều của vector key.
+Trong đó (d_k) là số chiều của vector key.
 
 ---
 
@@ -78,27 +83,34 @@ Trong đó $d_k$ là số chiều của vector key.
 
 ### 3.1. Phân tách thành nhiều Head
 
-Multi-head attention chia các ma trận Q, K, V thành $H$ phần không chồng lấn:
+Multi-head attention chia các ma trận Q, K, V thành (H) phần không chồng lấn:
 
+$$
 Q = [Q_1, Q_2, ..., Q_H]
+$$
 
 Mỗi head có kích thước:
 
+$$
 d_h = \frac{D}{H}
+$$
 
-với $D$ là số chiều embedding.
+với (D) là số chiều embedding.
 
-Việc chia này yêu cầu $D$ chia hết cho $H$
+Việc chia này yêu cầu (D) chia hết cho (H)
 
 ---
 
 ### 3.2. Attention trên từng Head
 
-Với mỗi head $i$:
+Với mỗi head (i):
 
-\text{head}_i = \text{softmax}\left(\frac{Q_iK_i^T}{\sqrt{d_h}}\right)V_i
+$$
+\text{head}_i =
+\text{softmax}\left(\frac{Q_iK_i^T}{\sqrt{d_h}}\right)V_i
+$$
 
-Hệ số chuẩn hóa được điều chỉnh theo số chiều mới $D/H$
+Hệ số chuẩn hóa được điều chỉnh theo số chiều mới (D/H)
 
 ---
 
@@ -106,9 +118,11 @@ Hệ số chuẩn hóa được điều chỉnh theo số chiều mới $D/H$
 
 Sau khi tính attention cho từng head, kết quả được ghép nối:
 
+$$
 A = \text{Concat}(\text{head}_1,...,\text{head}_H)W_0
+$$
 
-Trong đó $W_0$ là ma trận tuyến tính dùng để trộn thông tin giữa các head.
+Trong đó (W_0) là ma trận tuyến tính dùng để trộn thông tin giữa các head.
 
 Không sử dụng hàm phi tuyến tại bước này nhằm tránh làm mất thông tin học được từ từng head
 
@@ -154,11 +168,11 @@ Theo tài liệu, lý do chính là:
 
 Một lớp multi-head attention thường bao gồm:
 
-* Số head: $H$
-* Kích thước mỗi head: $d_h$
-* Các ma trận: ($W_Q$, $W_K$, $W_V$, $W_0$)
+* Số head: (H)
+* Kích thước mỗi head: (d_h)
+* Các ma trận: (W_Q, W_K, W_V, W_0)
 
-Các ma trận này ban đầu có kích thước $D \times D$ và chỉ được chia trong quá trình forward pass
+Các ma trận này ban đầu có kích thước (D \times D) và chỉ được chia trong quá trình forward pass
 
 ---
 
@@ -168,15 +182,13 @@ Quy trình cơ bản:
 
 1. Tính Q, K, V từ embedding.
 2. Reshape thành dạng:
-
 $$
-(B, T, H, d_h)
+   (B, T, H, d_h)
 $$
-
 3. Hoán vị chiều để phù hợp với hàm attention.
 4. Tính attention song song.
 5. Ghép các head.
-6. Nhân với $W_0$.
+6. Nhân với (W_0).
 
 Việc hoán vị chiều giúp tối ưu cho GPU, dù gây thêm chi phí xử lý
 

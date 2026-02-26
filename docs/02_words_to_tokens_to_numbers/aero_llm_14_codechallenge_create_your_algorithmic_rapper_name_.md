@@ -30,9 +30,7 @@ Dựa trên tài liệu đính kèm về “Create your algorithmic rapper name�
 
 Tên nghệ danh (stage name) trong văn hóa hip-hop thường có cấu trúc:
 
-$$
 \text{Name} = \text{Prefix} + \text{Core Word} + \text{Modifier}
-$$
 
 Ví dụ:
 	•	Lil Storm
@@ -46,14 +44,9 @@ Mục tiêu là thiết kế một thuật toán tự động sinh tên có tín
 2. Mô hình Tổ hợp Cơ bản
 
 Giả sử:
-
-•	Tập tiền tố P = \{p_1, p_2, ..., p_a\}
-
-$$
-•	Tập từ lõi C = \{c_1, c_2, ..., c_b\}
-$$
-
-•	Tập hậu tố M = \{m_1, m_2, ..., m_c\}
+	•	Tập tiền tố P = \{p_1, p_2, ..., p_a\}
+	•	Tập từ lõi C = \{c_1, c_2, ..., c_b\}
+	•	Tập hậu tố M = \{m_1, m_2, ..., m_c\}
 
 Số lượng tên có thể sinh:
 
@@ -61,7 +54,7 @@ N = a \times b \times c
 
 Nếu không bắt buộc hậu tố:
 
-N = a \times b \times c + 1
+N = a \times b \times (c + 1)
 
 ⸻
 
@@ -69,17 +62,15 @@ N = a \times b \times c + 1
 
 Thay vì chọn ngẫu nhiên đều, ta định nghĩa phân bố:
 
-$P($p_i$)$, \quad $P($c_j$)$, \quad $P($m_k$)$
+P(p_i), \quad P(c_j), \quad P(m_k)
 
 Xác suất sinh một tên cụ thể:
 
-$P(\text{Name})$ = $P($p_i$)$ \cdot $P($c_j$)$ \cdot $P($m_k$)$
+P(\text{Name}) = P(p_i) \cdot P(c_j) \cdot P(m_k)
 
 Tổng xác suất:
 
-$$
 \sum_{i,j,k} P(p_i)P(c_j)P(m_k) = 1
-$$
 
 ⸻
 
@@ -105,7 +96,7 @@ S = (s_1, s_2, ..., s_n)
 
 Mô hình Markov bậc 1:
 
-$P(S)$ = $\prod$_{i=1}^{n} P($s_i$ | s_{i-1})
+P(S) = \prod_{i=1}^{n} P(s_i | s_{i-1})
 
 Điều này cho phép sinh tên mới dựa trên thống kê ký tự của tập huấn luyện.
 
@@ -115,7 +106,7 @@ $P(S)$ = $\prod$_{i=1}^{n} P($s_i$ | s_{i-1})
 
 LLM sinh văn bản dựa trên:
 
-P($t_i$ | t_{<i})
+P(t_i | t_{<i})
 
 Với:
 
@@ -123,7 +114,7 @@ Với:
 
 Self-attention:
 
-\text{Attention}(Q,K,V) = \text{softmax}\left\frac{QK^T}{\sqrt{d}}\rightV
+\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
 
 Khác biệt chính:
 	•	Thuật toán tổ hợp → quy tắc tường minh
@@ -135,9 +126,7 @@ Khác biệt chính:
 
 Giả sử ta định nghĩa hàm đánh giá:
 
-$$
-f\text{Name} \in \mathbb{R}
-$$
+f(\text{Name}) \in \mathbb{R}
 
 Ví dụ dựa trên:
 	•	Độ hiếm từ
@@ -146,7 +135,7 @@ Ví dụ dựa trên:
 
 Bài toán tối ưu:
 
-\max_{\text{Name}} f$\text{Name}$
+\max_{\text{Name}} f(\text{Name})
 
 Có thể dùng thuật toán:
 	•	Beam search
@@ -167,9 +156,9 @@ Hoặc:
 
 Ví dụ cấu trúc xác suất:
 
-$P(\text{Adj} + \text{Noun})$ = \alpha
+P(\text{Adj} + \text{Noun}) = \alpha
 
-$P(\text{Title} + \text{Alias})$ = 1 - \alpha
+P(\text{Title} + \text{Alias}) = 1 - \alpha
 
 ⸻
 
@@ -177,17 +166,15 @@ $P(\text{Title} + \text{Alias})$ = 1 - \alpha
 
 Nếu:
 
-$$
-a=20, \quad b=100, \quad c=30 N = 20 \times 100 \times 30 = 60{,}000
-$$
+a=20, \quad b=100, \quad c=30
+
+N = 20 \times 100 \times 30 = 60{,}000
 
 Nếu thêm biến thể ký tự (ví dụ thay “s” bằng “$”):
 
 Giả sử mỗi ký tự có 2 biến thể:
 
-$$
 N' = N \cdot 2^k
-$$
 
 Với k là số ký tự có thể biến đổi.
 
@@ -200,6 +187,7 @@ Kiểm soát cấu trúc	Cao	Thấp
 Sáng tạo	Trung bình	Cao
 Tính giải thích	Rõ ràng	Phân tán
 Độ phức tạp	O(1) sinh tên	O(m²) attention
+
 
 ⸻
 
@@ -220,15 +208,15 @@ Hệ tổ hợp tối ưu theo công thức:
 
 Việc sinh tên rapper bằng thuật toán có thể được mô hình hóa như:
 
-$\mathcal${G}: (P, C, M) \rightarrow \text{Name}
+\mathcal{G}: (P, C, M) \rightarrow \text{Name}
 
 Với:
 
-|$\mathcal${N}| = a \cdot b \cdot c
+|\mathcal{N}| = a \cdot b \cdot c
 
 Và:
 
-$P(\text{Name})$ = $\prod$ P(component)
+P(\text{Name}) = \prod P(component)
 
 Kết hợp lý thuyết xác suất, entropy và mô hình ngôn ngữ cho phép xây dựng hệ sinh tên vừa đa dạng vừa có kiểm soát.
 

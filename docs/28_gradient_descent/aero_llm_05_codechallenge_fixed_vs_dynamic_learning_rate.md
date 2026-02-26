@@ -46,11 +46,7 @@ Nghiên cứu phân tích hai chiến lược điều chỉnh động phổ bi�
 ## 3. Kết quả Thực nghiệm và Phân tích Hội tụ
 
 Thông qua việc chạy đồng thời ba kịch bản huấn luyện:
-
-$$
-1. **Time-based Learning Rate (Xanh lá):** Thường giành chiến thắng về tốc độ và độ chính xác. Đạt đến mục tiêu x=0.5 chỉ sau 10 epoch thay vì 50.
-$$
-
+1. **Time-based Learning Rate (Xanh lá):** Thường giành chiến thắng về tốc độ và độ chính xác. Đạt đến mục tiêu $x=0.5$ chỉ sau 10 epoch thay vì 50.
 2. **Gradient-based Learning Rate (Cam):** Thể hiện tính thích nghi tốt với địa hình hàm số nhưng cần sự chuẩn hóa (scaling) phù hợp để tránh làm tăng $\eta$ quá mức.
 3. **Fixed Learning Rate (Xanh dương):** Hội tụ chậm và thường dừng lại ở một sai số lớn hơn so với các phương pháp động.
 

@@ -31,7 +31,7 @@ Hiểu được sự phân bố nhiệm vụ của lớp MLP theo chiều dọc 
 ### 2.1. Tự động hóa trích xuất đặc trưng (Exercise 1 & 2)
 - **Tối ưu hóa:** Thay vì chạy vòng lặp thủ công, chúng ta chuẩn bị trước `target_indices` để Hook có thể truy cập ngay lập tức vào vị trí token "him/her".
 - **Dynamic Hook Logic:** Phép thử T-test (kèm hiệu chỉnh đa so sánh FDR) được thực thi ngay trong Forward Pass của dữ liệu nền (baseline dataset).
-- **Lưu trữ:** Kết quả được lưu dưới dạng từ điển các vector Boolean $True/False$ cho từng tầng, sẵn sàng cho việc can thiệp.
+- **Lưu trữ:** Kết quả được lưu dưới dạng từ điển các vector Boolean (True/False) cho từng tầng, sẵn sàng cho việc can thiệp.
 
 ### 2.2. Phân tích Tỷ lệ Neurons đặc hiệu
 Tính toán tỷ lệ phần trăm các neurons cho thấy sự khác biệt có ý nghĩa thống kê giữa "him" và "her" tại mỗi tầng. Quan sát này giúp sơ đồ hóa "mật độ tri thức giới tính" theo độ sâu của Transformer.

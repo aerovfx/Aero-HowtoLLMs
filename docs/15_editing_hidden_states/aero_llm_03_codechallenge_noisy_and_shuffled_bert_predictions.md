@@ -33,7 +33,7 @@ Can thiệp nhân quả lên Hidden States không chỉ giới hạn ở việc 
 - **Dữ liệu:** "Pay no attention to that man [MASK] the curtain". Target: "behind".
 
 ### 2.2. Bơm Nhiễu Gaussian Động (Exercise 4)
-- **Kỹ thuật:** Thay vì hoán vị, ta cộng thêm nhiễu $\epsilon \sim $\mathcal${N}(0, \sigma^2)$ vào vector nguyên bản.
+- **Kỹ thuật:** Thay vì hoán vị, ta cộng thêm nhiễu $\epsilon \sim \mathcal{N}(0, \sigma^2)$ vào vector nguyên bản.
 - **Tinh chỉnh:** Giá trị $\sigma$ được tính toán động dựa trên độ lệch chuẩn thực tế của chính các vector tại tầng đó: `noise = torch.randn_like(hidden) * hidden.std() * scale_index`. Điều này đảm bảo nhiễu luôn có tỷ lệ tương xứng với cường độ tín hiệu nội tại của mô hình.
 
 ---

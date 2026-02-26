@@ -47,9 +47,7 @@ Dữ liệu tại `c_proj` có kích thước `[batch, tokens, heads * head_dim]
 
 ### 3.2. Giải thích Toán học về sự khác biệt
 Đầu ra của một Transformer Block ($x_{out}$) được mô tả bởi phương trình:
-
-x_{out} = x_{in} + \Delta Attention(LN(x_{in})) + \Delta MLP(LN(x_{in} + \Delta Attention))
-
+$$x_{out} = x_{in} + \Delta Attention(LN(x_{in})) + \Delta MLP(LN(x_{in} + \Delta Attention))$$
 Trong đó:
 - $\Delta Attention$ là tổng đóng góp của tất cả các heads.
 - Can thiệp của chúng ta chỉ nhắm vào $1/N_{heads}$ của thành phần $\Delta Attention$ tại duy nhất một vị trí token.

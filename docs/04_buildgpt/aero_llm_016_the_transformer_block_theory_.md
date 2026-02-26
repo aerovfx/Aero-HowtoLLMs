@@ -18,6 +18,7 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt**, được xâ
 
 ---
 
+```md
 # Phân Tích Cấu Trúc Transformer Block: Lý Thuyết, Cơ Chế Biểu Diễn và Vai Trò Trong Mô Hình Ngôn Ngữ
 
 ## Tóm tắt (Abstract)
@@ -30,7 +31,7 @@ Transformer block là đơn vị kiến trúc cơ bản trong các mô hình ng�
 
 Transformer đã trở thành kiến trúc chủ đạo trong lĩnh vực xử lý ngôn ngữ tự nhiên và mô hình ngôn ngữ lớn. Thành phần cốt lõi của kiến trúc này là Transformer block, được xếp chồng nhiều lần để tạo thành mạng sâu.
 
-Tài liệu “The Transformer Block (Theory)” trình bày chi tiết cấu trúc một block, bao gồm attention sublayer và MLP sublayer, cùng với cơ chế residual và layer normalization. 
+Tài liệu “The Transformer Block (Theory)” trình bày chi tiết cấu trúc một block, bao gồm attention sublayer và MLP sublayer, cùng với cơ chế residual và layer normalization. :contentReference[oaicite:0]{index=0}
 
 Mục tiêu của bài báo này là:
 
@@ -52,9 +53,13 @@ Một Transformer block gồm hai thành phần chính:
 
 Cả hai đều tuân theo cấu trúc chung:
 
+```
+
 Input → LayerNorm → Sublayer → Residual Add
 
-Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó cộng trở lại thông qua residual connection. 
+```
+
+Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó cộng trở lại thông qua residual connection. :contentReference[oaicite:1]{index=1}
 
 ---
 
@@ -62,7 +67,9 @@ Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó 
 
 Residual stream đóng vai trò như “dòng thông tin trung tâm”, nơi mọi phép biến đổi đều được cộng dồn:
 
+$$
 X_{out} = X_{in} + f(\text{LN}(X_{in}))
+$$
 
 Cấu trúc này giúp:
 
@@ -74,7 +81,7 @@ Cấu trúc này giúp:
 
 ### 2.3. Pre-Layer Normalization
 
-Tài liệu sử dụng kiến trúc Pre-LN, trong đó chuẩn hóa được thực hiện trước mỗi sublayer. 
+Tài liệu sử dụng kiến trúc Pre-LN, trong đó chuẩn hóa được thực hiện trước mỗi sublayer. :contentReference[oaicite:2]{index=2}
 
 Điều này giúp:
 
@@ -94,7 +101,7 @@ Attention sublayer bao gồm ba bước:
 2. Tính attention,
 3. Residual addition.
 
-Do đó, khi nhắc đến “attention block”, thực chất là nói đến toàn bộ chuỗi xử lý này. 
+Do đó, khi nhắc đến “attention block”, thực chất là nói đến toàn bộ chuỗi xử lý này. :contentReference[oaicite:3]{index=3}
 
 ---
 
@@ -102,7 +109,10 @@ Do đó, khi nhắc đến “attention block”, thực chất là nói đến 
 
 Self-attention được định nghĩa:
 
-\text{Attention}(Q,K,V)= \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+$$
+\text{Attention}(Q,K,V)=
+\text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+$$
 
 Trong đó:
 
@@ -110,7 +120,7 @@ Trong đó:
 - Key đại diện cho các token tham chiếu,
 - Value chứa thông tin ngữ nghĩa.
 
-Attention cho phép token phân phối thông tin một cách phụ thuộc ngữ cảnh. 
+Attention cho phép token phân phối thông tin một cách phụ thuộc ngữ cảnh. :contentReference[oaicite:4]{index=4}
 
 ---
 
@@ -132,13 +142,15 @@ Theo tài liệu, attention thực hiện quá trình “crosstalk” giữa cá
 
 MLP sublayer gồm hai lớp tuyến tính và một hàm phi tuyến:
 
+$$
 \text{MLP}(x)=W_2 \sigma(W_1 x)
+$$
 
 Trong đó:
 
-- $W_1$: mở rộng chiều,
-- $W_2$: thu hẹp chiều,
-- $\sigma$: hàm kích hoạt (GELU/ReLU).
+- \(W_1\): mở rộng chiều,
+- \(W_2\): thu hẹp chiều,
+- \(\sigma\): hàm kích hoạt (GELU/ReLU).
 
 ---
 
@@ -146,12 +158,14 @@ Trong đó:
 
 Thông thường:
 
+$$
 d_{ff} \approx 4d_{model}
+$$
 
 Ví dụ trong GPT-2:
 
-- $d_{model}=768$,
-- $d_{ff}=3072$. 
+- \(d_{model}=768\),
+- \(d_{ff}=3072\). :contentReference[oaicite:5]{index=5}
 
 Cơ chế này cho phép mô hình tạm thời làm việc trong không gian chiều cao hơn.
 
@@ -165,17 +179,19 @@ Mở rộng chiều kết hợp phi tuyến cho phép:
 - Tuyến tính hóa các quan hệ phi tuyến,
 - Tăng khả năng phân biệt đặc trưng.
 
-Ví dụ minh họa trong tài liệu cho thấy dữ liệu không tuyến tính có thể trở nên tuyến tính khi mở rộng chiều. 
+Ví dụ minh họa trong tài liệu cho thấy dữ liệu không tuyến tính có thể trở nên tuyến tính khi mở rộng chiều. :contentReference[oaicite:6]{index=6}
 
 ---
 
 ### 4.4. MLP và Tính Phi Thời Gian
 
-Khác với attention, MLP không sử dụng thông tin vị trí hay quan hệ thời gian. 
+Khác với attention, MLP không sử dụng thông tin vị trí hay quan hệ thời gian. :contentReference[oaicite:7]{index=7}
 
 Nó chỉ xử lý từng token độc lập:
 
+$$
 y_i = \text{MLP}(x_i)
+$$
 
 Do đó, MLP đóng vai trò biến đổi đặc trưng cục bộ.
 
@@ -197,15 +213,18 @@ Quy trình xử lý:
 
 Dạng tổng quát:
 
+$$
 X' = X + \text{Attn}(\text{LN}(X))
-
+$$
+$$
 Y = X' + \text{MLP}(\text{LN}(X'))
+$$
 
 ---
 
 ### 5.2. Single-Head Attention trong Mô Hình
 
-Tài liệu tập trung vào trường hợp một attention head. 
+Tài liệu tập trung vào trường hợp một attention head. :contentReference[oaicite:8]{index=8}
 
 Đây là bước trung gian để hiểu:
 
@@ -258,7 +277,7 @@ Thực nghiệm cho thấy việc loại bỏ MLP làm giảm đáng kể chất
 
 ### 6.3. Tương tác Attention–MLP
 
-Attention trộn thông tin giữa token, trong khi MLP biến đổi nội tại từng token. 
+Attention trộn thông tin giữa token, trong khi MLP biến đổi nội tại từng token. :contentReference[oaicite:9]{index=9}
 
 Sự kết hợp này tạo nên khả năng biểu diễn mạnh mẽ.
 
@@ -342,18 +361,20 @@ Kết quả cho thấy Transformer block là đơn vị chức năng trung tâm 
 
 ## Tài liệu tham khảo (References)
 
-[1] The Transformer Block (Theory), 2024.   
+[1] The Transformer Block (Theory), 2024. :contentReference[oaicite:10]{index=10}  
 [2] Vaswani et al., Attention Is All You Need, NeurIPS, 2017.  
 [3] Ba et al., Layer Normalization, arXiv:1607.06450, 2016.  
 [4] Radford et al., GPT-2, 2019.  
 [5] Brown et al., GPT-3, NeurIPS, 2020.  
 [6] Xiong et al., On Layer Normalization in Transformers, ICML, 2020.
+```
 
 ---
 Dưới đây là **bài viết khoa học bằng tiếng Việt** về **Transformer Block kết hợp FlashAttention**, được trình bày theo chuẩn học thuật và định dạng **Markdown (MD)**, phù hợp cho luận văn hoặc paper kỹ thuật.
 
 ---
 
+```md
 # Tích Hợp FlashAttention vào Transformer Block: Kiến Trúc, Hiệu Năng và Khả Năng Mở Rộng
 
 ## Tóm tắt (Abstract)
@@ -370,7 +391,7 @@ $$
 O(T^2 d)
 $$
 
-với $T$ là độ dài chuỗi và $d$ là embedding dimension. Khi huấn luyện LLM với context lớn (32k–100k+ tokens), chi phí này trở thành rào cản chính.
+với \(T\) là độ dài chuỗi và \(d\) là embedding dimension. Khi huấn luyện LLM với context lớn (32k–100k+ tokens), chi phí này trở thành rào cản chính.
 
 FlashAttention được đề xuất nhằm:
 
@@ -388,9 +409,13 @@ Việc tích hợp FlashAttention vào Transformer Block là bước quan trọn
 
 Một Transformer block chuẩn (Pre-LN) có dạng:
 
+$$
 H = X + \text{Attn}(\text{LN}(X))
+$$
 
+$$
 Y = H + \text{MLP}(\text{LN}(H))
+$$
 
 Trong đó:
 
@@ -404,7 +429,7 @@ Trong đó:
 
 Attention truyền thống yêu cầu lưu trữ:
 
-- Logits: $QK^T$,
+- Logits: \(QK^T\),
 - Softmax output,
 - Gradient.
 
@@ -433,11 +458,15 @@ Mục tiêu là giảm số lần truy cập bộ nhớ chậm.
 
 ### 3.2. Block-wise Computation
 
-Thay vì tính toàn bộ $QK^T$, FlashAttention chia tensor thành các block:
+Thay vì tính toàn bộ \(QK^T\), FlashAttention chia tensor thành các block:
 
+$$
 Q = [Q_1, Q_2, \dots, Q_n]
+$$
 
+$$
 K = [K_1, K_2, \dots, K_n]
+$$
 
 Attention được tính theo từng block nhỏ.
 
@@ -447,11 +476,17 @@ Attention được tính theo từng block nhỏ.
 
 FlashAttention sử dụng công thức softmax tích lũy:
 
+$$
 m_i = \max(m_{i-1}, s_i)
+$$
 
+$$
 l_i = l_{i-1} e^{m_{i-1}-m_i} + e^{s_i-m_i}
+$$
 
+$$
 o_i = o_{i-1} e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
+$$
 
 Giúp:
 
@@ -478,6 +513,8 @@ FlashAttention giữ nguyên FLOPs nhưng giảm mạnh memory footprint.
 
 Transformer Block tích hợp FlashAttention:
 
+```
+
 Input
 ↓
 LayerNorm
@@ -492,6 +529,8 @@ MLP
 ↓
 Residual Add
 
+```
+
 Chỉ thay thế attention kernel, giữ nguyên cấu trúc tổng thể.
 
 ---
@@ -501,7 +540,9 @@ Chỉ thay thế attention kernel, giữ nguyên cấu trúc tổng thể.
 Attention sublayer được thay thế:
 
 $$
-\text{Attn}(Q,K,V) \rightarrow \text{FlashAttn}(Q,K,V)
+\text{Attn}(Q,K,V)
+\rightarrow
+\text{FlashAttn}(Q,K,V)
 $$
 
 Toán học không đổi, chỉ thay đổi cách triển khai.
@@ -539,17 +580,19 @@ Quy trình xử lý:
 
 ### 5.2. Pseudocode Block
 
+```
+
 Input: X
 
-$$
-H1 = LNX Q,K,V = Linear(H1)
-$$
+H1 = LN(X)
+Q,K,V = Linear(H1)
 
 A = FlashAttention(Q,K,V, causal=True)
 
-$$
-U = X + W0A H2 = LNU F = MLP(H2)
-$$
+U = X + W0(A)
+
+H2 = LN(U)
+F = MLP(H2)
 
 Y = U + F
 
@@ -566,60 +609,52 @@ import torch
 import torch.nn as nn
 from flash_attn import flash_attn_func
 
+
 class FlashTransformerBlock(nn.Module):
 
     def __init__(self, d_model, n_heads, d_ff):
         super().__init__()
 
-self.ln1 = nn.LayerNorm(d_model)
+        self.ln1 = nn.LayerNorm(d_model)
+        self.ln2 = nn.LayerNorm(d_model)
 
-$$
-self.ln2 = nn.LayerNorm(d_model)
-$$
+        self.qkv = nn.Linear(d_model, 3*d_model, bias=False)
+        self.proj = nn.Linear(d_model, d_model)
 
-self.qkv = nn.Linear(d_model, 3*d_model, bias=False)
-
-$$
-self.proj = nn.Linear(d_model, d_model)
-$$
-
-self.ffn = nn.Sequential(
-
+        self.ffn = nn.Sequential(
             nn.Linear(d_model, d_ff),
             nn.GELU(),
             nn.Linear(d_ff, d_model)
         )
 
-self.n_heads = n_heads
+        self.n_heads = n_heads
+        self.d_head = d_model // n_heads
 
-$$
-self.d_head = d_model // n_heads def forward(self, x): B, T, D = x.shape
-$$
+    def forward(self, x):
 
-h = self.ln1x
+        B, T, D = x.shape
 
-$$
-qkv = self.qkvh
-$$
+        h = self.ln1(x)
 
-qkv = qkv.view(B, T, 3,
-
+        qkv = self.qkv(h)
+        qkv = qkv.view(B, T, 3,
                        self.n_heads,
                        self.d_head)
 
-q, k, v = qkv.unbinddim=2
+        q, k, v = qkv.unbind(dim=2)
 
-$$
-attn = flash_attn_func( q, k, v, causal=True ) attn = attn.reshape(B, T, D)
-$$
+        attn = flash_attn_func(
+            q, k, v,
+            causal=True
+        )
 
-x = x + self.proj(attn)
+        attn = attn.reshape(B, T, D)
 
-$$
-h = self.ln2x
-$$
+        x = x + self.proj(attn)
 
-x = x + self.ffnh
+        h = self.ln2(x)
+
+        x = x + self.ffn(h)
 
         return x
 ````
@@ -765,7 +800,7 @@ Các mô hình ngôn ngữ lớn (Large Language Models – LLMs) hiện nay kh�
 
 ## 1. Giới thiệu (Introduction)
 
-Các LLM hiện đại như GPT-series của  hay các mô hình nguồn mở được triển khai trên GPU của  đã đạt đến quy mô hàng chục đến hàng trăm tỷ tham số.
+Các LLM hiện đại như GPT-series của :contentReference[oaicite:0]{index=0} hay các mô hình nguồn mở được triển khai trên GPU của :contentReference[oaicite:1]{index=1} đã đạt đến quy mô hàng chục đến hàng trăm tỷ tham số.
 
 Trong môi trường production, một Transformer Block không chỉ thực hiện phép toán attention mà còn phải:
 
@@ -784,7 +819,11 @@ Do đó, kiến trúc block cần được thiết kế lại theo hướng syst
 
 Một LLM production bao gồm:
 
+```
+
 Tokenizer → Embedding → N × LLM Block → LM Head → Decoder
+
+```
 
 Trong đó mỗi LLM Block là đơn vị tính toán cơ bản.
 
@@ -808,6 +847,8 @@ Trong đó mỗi LLM Block là đơn vị tính toán cơ bản.
 
 Một LLM Block chuẩn production (Pre-LN) gồm:
 
+```
+
 Input
 ↓
 LayerNorm
@@ -826,6 +867,8 @@ FFN (Gated MLP)
 ↓
 Residual Add
 
+```
+
 ---
 
 ### 3.2. Thành Phần Cốt Lõi
@@ -834,7 +877,9 @@ Residual Add
 
 Sử dụng RMSNorm hoặc Pre-LN:
 
+$$
 \hat{x} = \frac{x}{\sqrt{\text{Var}(x) + \epsilon}}
+$$
 
 Giúp ổn định gradient trong huấn luyện sâu.
 
@@ -842,7 +887,9 @@ Giúp ổn định gradient trong huấn luyện sâu.
 
 #### (b) QKV Projection
 
+$$
 Q,K,V = XW_Q, XW_K, XW_V
+$$
 
 Được hợp nhất thành một kernel duy nhất để giảm memory access.
 
@@ -861,7 +908,9 @@ Q,K,V = XW_Q, XW_K, XW_V
 
 Dạng phổ biến:
 
+$$
 \text{FFN}(x) = W_2(\text{SiLU}(W_1x) \odot W_3x)
+$$
 
 Tăng biểu diễn phi tuyến.
 
@@ -871,8 +920,12 @@ Tăng biểu diễn phi tuyến.
 
 ### 4.1. Forward Pass
 
+```
+
 X → LN → QKV → FlashAttn → Proj → Residual
 → LN → Gated FFN → Residual
+
+```
 
 Mọi bước đều được kernel-fusion tối đa.
 
@@ -890,7 +943,11 @@ Giảm peak memory.
 
 ### 4.3. Inference Path
 
+```
+
 Token → Embedding → Block → KV Cache Update → Output
+
+```
 
 Chỉ tính attention cho token mới.
 
@@ -898,23 +955,24 @@ Chỉ tính attention cho token mới.
 
 ## 5. Pseudocode LLM Block Production
 
+```
+
 Input: X, KV_cache
 
-$$
-H1 = RMSNormX QKV = Linear(H1)
-$$
+H1 = RMSNorm(X)
 
+QKV = Linear(H1)
 Q,K,V = Split(QKV)
 
-$$
 K_cache, V_cache = UpdateCache(K, V)
-$$
 
 A = FlashAttention(Q, K_cache, V_cache)
 
-$$
-U = X + ProjA H2 = RMSNormU F = GatedMLP(H2)
-$$
+U = X + Proj(A)
+
+H2 = RMSNorm(U)
+
+F = GatedMLP(H2)
 
 Y = U + F
 
@@ -931,70 +989,52 @@ import torch
 import torch.nn as nn
 from flash_attn import flash_attn_func
 
+
 class LLMBlock(nn.Module):
 
     def __init__(self, dim, heads, hidden):
         super().__init__()
 
-$$
-self.norm1 = nn.RMSNorm(dim) self.norm2 = nn.RMSNorm(dim) self.qkv = nn.Linear(dim, 3*dim, bias=False)
-$$
+        self.norm1 = nn.RMSNorm(dim)
+        self.norm2 = nn.RMSNorm(dim)
 
-self.proj = nn.Linear(dim, dim, bias=False)
+        self.qkv = nn.Linear(dim, 3*dim, bias=False)
+        self.proj = nn.Linear(dim, dim, bias=False)
 
-$$
-self.gate = nn.Linear(dim, hidden, bias=False)
-$$
+        self.gate = nn.Linear(dim, hidden, bias=False)
+        self.up = nn.Linear(dim, hidden, bias=False)
+        self.down = nn.Linear(hidden, dim, bias=False)
 
-self.up = nn.Linear(dim, hidden, bias=False)
+        self.heads = heads
+        self.d = dim // heads
 
-$$
-self.down = nn.Linear(hidden, dim, bias=False)
-$$
 
-self.heads = heads
+    def forward(self, x, k_cache=None, v_cache=None):
 
-$$
-self.d = dim // heads
-$$
+        B, T, D = x.shape
 
-def forward(self, x, k_cache=None, v_cache=None):
+        h = self.norm1(x)
 
-$$
-B, T, D = x.shape
-$$
+        qkv = self.qkv(h)
+        qkv = qkv.view(B, T, 3, self.heads, self.d)
 
-h = self.norm1x
+        q, k, v = qkv.unbind(2)
 
-$$
-qkv = self.qkvh
-$$
+        if k_cache is not None:
+            k = torch.cat([k_cache, k], dim=1)
+            v = torch.cat([v_cache, v], dim=1)
 
-qkv = qkv.view(B, T, 3, self.heads, self.d)
+        attn = flash_attn_func(q, k, v, causal=True)
 
-$$
-q, k, v = qkv.unbind(2) if k_cache is not None: k = torch.cat([k_cache, k], dim=1)
-$$
+        attn = attn.reshape(B, T, D)
 
-v = torch.cat([v_cache, v], dim=1)
+        x = x + self.proj(attn)
 
-$$
-attn = flash_attn_func(q, k, v, causal=True)
-$$
+        h = self.norm2(x)
 
-attn = attn.reshape(B, T, D)
+        gated = torch.silu(self.gate(h)) * self.up(h)
 
-$$
-x = x + self.proj(attn)
-$$
-
-h = self.norm2x
-
-$$
-gated = torch.silu(self.gate(h)) * self.uph
-$$
-
-x = x + self.down(gated)
+        x = x + self.down(gated)
 
         return x, k, v
 ````
@@ -1016,15 +1056,15 @@ x = x + self.down(gated)
 
 ### 7.2. Parallelism
 
-#### $a$ Data Parallel
+#### (a) Data Parallel
 
 * Chia batch
 
-#### $b$ Tensor Parallel
+#### (b) Tensor Parallel
 
 * Chia weight
 
-#### $c$ Pipeline Parallel
+#### (c) Pipeline Parallel
 
 * Chia layer
 

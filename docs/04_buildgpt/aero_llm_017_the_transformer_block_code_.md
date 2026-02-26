@@ -18,6 +18,7 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt**, được xâ
 
 ---
 
+```md
 # Cài Đặt Transformer Block Bằng PyTorch: Phân Tích Kiến Trúc, Luồng Dữ Liệu và Tối Ưu Hóa
 
 ## Tóm tắt (Abstract)
@@ -33,7 +34,7 @@ Kiến trúc Transformer đã trở thành nền tảng cho các mô hình xử 
 - Self-Attention,
 - Feedforward Network (MLP).
 
-Tài liệu đính kèm trình bày cách chuyển đổi lý thuyết Transformer Block thành mã nguồn PyTorch, giúp người học nắm bắt rõ luồng xử lý dữ liệu và cấu trúc mô hình. 
+Tài liệu đính kèm trình bày cách chuyển đổi lý thuyết Transformer Block thành mã nguồn PyTorch, giúp người học nắm bắt rõ luồng xử lý dữ liệu và cấu trúc mô hình. :contentReference[oaicite:0]{index=0}
 
 Bài viết này nhằm:
 
@@ -50,9 +51,13 @@ Bài viết này nhằm:
 
 Một Transformer Block dạng Pre-LayerNorm gồm hai sublayer:
 
+$$
 Y_1 = X + \text{Attention}(\text{LN}(X))
+$$
 
+$$
 Y_2 = Y_1 + \text{MLP}(\text{LN}(Y_1))
+$$
 
 Trong đó:
 
@@ -70,7 +75,7 @@ Residual connection giúp:
 - Duy trì thông tin gốc,
 - Ổn định huấn luyện mạng sâu.
 
-Trong mã nguồn, residual được hiện thực bằng việc sao chép dữ liệu đầu vào và cộng lại sau mỗi sublayer. 
+Trong mã nguồn, residual được hiện thực bằng việc sao chép dữ liệu đầu vào và cộng lại sau mỗi sublayer. :contentReference[oaicite:1]{index=1}
 
 ---
 
@@ -89,6 +94,8 @@ Cách tiếp cận này giúp:
 - Dễ bảo trì,
 - Tăng khả năng tái sử dụng,
 - Mở rộng sang multi-head và multi-layer.
+
+:contentReference[oaicite:2]{index=2}
 
 ---
 
@@ -118,7 +125,13 @@ Quy trình xử lý attention:
 
 Dòng dữ liệu:
 
+```
+
 X → LN → Attention → +X
+
+```
+
+:contentReference[oaicite:3]{index=3}
 
 ---
 
@@ -126,23 +139,33 @@ X → LN → Attention → +X
 
 MLP gồm ba bước:
 
+$$
 H = \text{LN}(Y_1)
+$$
 
+$$
 Z = W_2(\sigma(W_1 H))
+$$
 
+$$
 Y_2 = Y_1 + Z
+$$
 
 Trong đó:
 
-- $W_1$: mở rộng chiều,
-- $\sigma$: phi tuyến,
-- $W_2$: thu hẹp chiều.
+- \(W_1\): mở rộng chiều,
+- \(\sigma\): phi tuyến,
+- \(W_2\): thu hẹp chiều.
+
+:contentReference[oaicite:4]{index=4}
 
 ---
 
 ### 4.3. Dòng Chảy Thông Tin Tổng Thể
 
 Sơ đồ tổng quát:
+
+```
 
 Input
 ↓
@@ -182,6 +205,8 @@ Cách làm này:
 * Tối ưu kernel,
 * Giảm độ phức tạp mã nguồn.
 
+
+
 ---
 
 ### 5.2. Cấu Trúc Attention Head
@@ -193,6 +218,8 @@ Mỗi head gồm:
 
 Attention head xử lý toàn bộ embedding dimension trong phiên bản đơn giản, là tiền đề cho multi-head attention.
 
+
+
 ---
 
 ## 6. Mở Rộng Sang Multi-Head Attention
@@ -201,7 +228,9 @@ Attention head xử lý toàn bộ embedding dimension trong phiên bản đơn 
 
 Multi-head attention chia embedding thành nhiều phần:
 
+$$
 d_{head} = \frac{d_{model}}{h}
+$$
 
 Mỗi head học một không gian quan hệ riêng.
 
@@ -233,6 +262,8 @@ Tensor đầu vào:
 $$
 (5, 8, 128)
 $$
+
+
 
 ---
 
@@ -345,6 +376,7 @@ Cài đặt này đóng vai trò nền tảng cho các hệ thống ngôn ngữ 
 [4] Dao et al., FlashAttention, 2022.
 [5] Tài liệu hướng dẫn Transformer Block (Code). 
 
+```
 <!-- Aero-Footer-Start -->
 
 ## 📄 Tài liệu cùng chuyên mục

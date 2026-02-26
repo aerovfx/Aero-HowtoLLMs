@@ -29,13 +29,9 @@ Hồi quy Logistic được sử dụng khi biến phụ thuộc (Dependent Vari
 
 ### 1.2. Công thức Toán học
 Mô hình hồi quy được thiết lập để dự đoán log-odds (logarit của tỷ lệ xác suất):
-
-$\log$$\le$ft(\frac{p}{1-p}\right) = \beta_0 + \beta_1x_1 + \dots + \beta_nx_n
-
+$$\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1x_1 + \dots + \beta_nx_n$$
 Chuyển đổi để tìm xác suất $p$:
-
-p = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_1 + \dots)}}
-
+$$p = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_1 + \dots)}}$$
 Hàm này (hàm Sigmoid) nén mọi giá trị đầu vào vào khoảng $(0, 1)$, phù hợp với định nghĩa của xác suất.
 
 ### 1.3. Tại sao sử dụng Log-Probabilities?
@@ -61,16 +57,14 @@ Kỹ thuật **Jittering** (thêm nhiễu ngẫu nhiên vào trục X) được 
 ### 2.3. Khớp mô hình với `Statsmodels`
 Sử dụng `sm.Logit(y, X).fit()` để tìm các hệ số $\beta$ tối ưu. Bảng tóm tắt kết quả (`summary()`) cung cấp:
 - **Coefficient (Hệ số):** Dấu của hệ số chỉ ra hướng ảnh hưởng (dương: hoạt hóa mạnh dự báo nhãn 1; âm: hoạt hóa mạnh dự báo nhãn 0).
-- **P-value ($P>\midz\mid$):** Kiểm định ý nghĩa thống kê của nơ-ron đối với bài toán phân loại.
+- **P-value ($P>|z|$):** Kiểm định ý nghĩa thống kê của nơ-ron đối với bài toán phân loại.
 
 ---
 
 ## 3. Đánh giá Hiệu năng: Độ chính xác (Accuracy)
 
 Sau khi có xác suất dự đoán từ `result.predict()`, chúng ta so sánh với nhãn thực tế theo ngưỡng 0.5:
-
-\text{Accuracy} = \frac{\text{Số dự đoán đúng}}{\text{Tổng số mẫu}}
-
+$$\text{Accuracy} = \frac{\text{Số dự đoán đúng}}{\text{Tổng số mẫu}}$$
 Thực nghiệm cho thấy ngay cả khi có sự trùng lắp (noise) giữa hai phân phối, Hồi quy Logistic vẫn trích xuất được ranh giới quyết định (decision boundary) tối ưu để tối đa hóa khả năng phân loại của nơ-ron.
 
 ---

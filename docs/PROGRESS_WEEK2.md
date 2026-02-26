@@ -31,6 +31,7 @@ interface IModelShape {
     expertsActive?: number;        // Top-k active experts
     isMoE?: boolean;               // Flag for MoE architecture
 }
+```
 
 ### 2. **GPT-4 Shape Configurations**
 ✅ `/llm_viz/src/llm/Program.ts`
@@ -40,7 +41,7 @@ Created 2 GPT-4 variants:
 #### **GPT-4 (Standard)**
 - 120 layers
 - 8 experts per layer
-- Top-2 routing $2/8 experts active$
+- Top-2 routing (2/8 experts active)
 - 8,192 context window
 - ~1.76T total parameters
 
@@ -50,11 +51,7 @@ Created 2 GPT-4 variants:
 
 **Code:**
 ```typescript
-
-$$
 let gpt4Shape: IModelShape = {
-$$
-
     B: 1,
     T: 8192,
     C: 12288,
@@ -68,13 +65,11 @@ $$
     isMoE: true,
 };
 
-$$
 let gpt4TurboShape: IModelShape = {
-$$
-
     ...gpt4Shape,
     T: 128000,  // 128K context
 };
+```
 
 ### 3. **GPT-4 Added to Examples**
 ✅ `/llm_viz/src/llm/Program.ts`
@@ -91,9 +86,12 @@ GPT-4 now appears in examples array:
 Added GPT-4 button to toolbar:
 ```typescript
 {makeButton(3)} {/* GPT-4 */}
+```
 
 Now displays:
+```
 [GPT-2 Small] [nano-gpt] [GPT-2 XL] [GPT-3] [GPT-4]
+```
 
 ### 5. **Architecture Registry Enhanced**
 ✅ `/llm_viz/src/llm/architectures/`
@@ -143,8 +141,10 @@ All architecture files compile successfully! ✅
 ## 📸 Visual Progress
 
 ### Model Selector Toolbar
+```
 Before:  [GPT-2 S] [nano] [GPT-2 XL] [GPT-3]
 After:   [GPT-2 S] [nano] [GPT-2 XL] [GPT-3] [GPT-4] ⭐
+```
 
 ### Architecture Support Matrix
 
@@ -187,6 +187,7 @@ After:   [GPT-2 S] [nano] [GPT-2 XL] [GPT-3] [GPT-4] ⭐
    if (shape.isMoE) {
        // Render expert grid instead of single MLP
    }
+   ```
 
 2. **Create Expert Grid Layout**
    - 2x4 grid for 8 experts
@@ -307,20 +308,20 @@ After:   [GPT-2 S] [nano] [GPT-2 XL] [GPT-3] [GPT-4] ⭐
 ## 📄 Tài liệu cùng chuyên mục
 | Bài học | Liên kết |
 | :--- | :--- |
-| [🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS!](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) | [Xem bài viết →](COMPLETION_VISUALIZATION_AND_CHAPTERS.md) |
-| [🎉 100% LOCALIZATION COMPLETE!](LOCALIZATION_100_COMPLETE.md) | [Xem bài viết →](LOCALIZATION_100_COMPLETE.md) |
-| [✅ LOCALIZATION FOUNDATION COMPLETE!](LOCALIZATION_SUMMARY.md) | [Xem bài viết →](LOCALIZATION_SUMMARY.md) |
-| [✅ Việt Hóa Walkthrough - Self Attention Complete!](LOCALIZATION_WALKTHROUGH04.md) | [Xem bài viết →](LOCALIZATION_WALKTHROUGH04.md) |
-| [✅ Phase 1 - Week 1: Foundation Complete!](PROGRESS_WEEK1.md) | [Xem bài viết →](PROGRESS_WEEK1.md) |
-| 📌 **[✅ Week 2 Progress: GPT-4 Integration Complete!](PROGRESS_WEEK2.md)** | [Xem bài viết →](PROGRESS_WEEK2.md) |
-| [✅ Week 3 Progress: MoE Grid Layout Complete!](PROGRESS_WEEK3.md) | [Xem bài viết →](PROGRESS_WEEK3.md) |
-| [✅ Week 4 Complete: Router Visualization & Color Coding!](PROGRESS_WEEK4_COMPLETE.md) | [Xem bài viết →](PROGRESS_WEEK4_COMPLETE.md) |
-| [🎯 Week 4 Progress: Router Visualization (Part 1)](PROGRESS_WEEK4_PART1.md) | [Xem bài viết →](PROGRESS_WEEK4_PART1.md) |
 | [� Kho Tài Liệu Aero-HowtoLLMs](README.md) | [Xem bài viết →](README.md) |
-| [🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures](ROADMAP_GPT4_EXPANSION.md) | [Xem bài viết →](ROADMAP_GPT4_EXPANSION.md) |
-| [🎯 LLM Training Pipeline - 3D Visualization System Design](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) | [Xem bài viết →](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) |
-| [🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement](WEEK3_MOE_IMPLEMENTATION.md) | [Xem bài viết →](WEEK3_MOE_IMPLEMENTATION.md) |
-| [🚀 Roadmap Học Hybrid AI (6 Tháng)](roadmapHybridAI.md) | [Xem bài viết →](roadmapHybridAI.md) |
+| [🎉 HOÀN THIỆN VISUALIZATION & CHAPTERS!](completion_visualization_and_chapters.md) | [Xem bài viết →](completion_visualization_and_chapters.md) |
+| [🎉 100% LOCALIZATION COMPLETE!](localization_100_complete.md) | [Xem bài viết →](localization_100_complete.md) |
+| [✅ LOCALIZATION FOUNDATION COMPLETE!](localization_summary.md) | [Xem bài viết →](localization_summary.md) |
+| [✅ Việt Hóa Walkthrough - Self Attention Complete!](localization_walkthrough04.md) | [Xem bài viết →](localization_walkthrough04.md) |
+| [✅ Phase 1 - Week 1: Foundation Complete!](progress_week1.md) | [Xem bài viết →](progress_week1.md) |
+| 📌 **[✅ Week 2 Progress: GPT-4 Integration Complete!](progress_week2.md)** | [Xem bài viết →](progress_week2.md) |
+| [✅ Week 3 Progress: MoE Grid Layout Complete!](progress_week3.md) | [Xem bài viết →](progress_week3.md) |
+| [✅ Week 4 Complete: Router Visualization & Color Coding!](progress_week4_complete.md) | [Xem bài viết →](progress_week4_complete.md) |
+| [🎯 Week 4 Progress: Router Visualization (Part 1)](progress_week4_part1.md) | [Xem bài viết →](progress_week4_part1.md) |
+| [🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures](roadmap_gpt4_expansion.md) | [Xem bài viết →](roadmap_gpt4_expansion.md) |
+| [🚀 Roadmap Học Hybrid AI (6 Tháng)](roadmaphybridai.md) | [Xem bài viết →](roadmaphybridai.md) |
+| [🎯 LLM Training Pipeline - 3D Visualization System Design](visualization_system_design_spec.md) | [Xem bài viết →](visualization_system_design_spec.md) |
+| [🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement](week3_moe_implementation.md) | [Xem bài viết →](week3_moe_implementation.md) |
 
 ---
 ## 🤝 Liên hệ & Đóng góp

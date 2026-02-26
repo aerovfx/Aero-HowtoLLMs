@@ -27,7 +27,7 @@ Mô tả cho câu lệnh:
 > *My phone is in the kitchen near the cold ice cream.*
 
 Thuật toán không chạy điểm quy nạp tương tự cho toàn câu, mà nó cắt nhỏ từng chặng $t_i$:
-$C($t_i$, t_{i-1}) = \cos(\vec{v}_i, \vec{v}_{i-1}) = \frac{\vec{v}_i \cdot \vec{v}_{i-1}}{\\mid \vec{v}_i\\mid \\mid\vec{v}_{i-1}\\mid}$
+$C(t_i, t_{i-1}) = \cos(\vec{v}_i, \vec{v}_{i-1}) = \frac{\vec{v}_i \cdot \vec{v}_{i-1}}{\|\vec{v}_i\| \|\vec{v}_{i-1}\|}$
 
 Khi đặt lên thanh đồ thị Bar plot:
 - Lực hút giữa `cold` và `ice` đẩy Cosine vọt lên ngưỡng $\sim 0.6$ (Mối quan hệ nhiệt đại đa cấu trúc).

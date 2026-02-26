@@ -57,9 +57,11 @@ Mô hình được đề xuất gồm hai thành phần chính:
 
 Công thức phân loại:
 
+$$
 y = \text{Softmax}(W h + b)
+$$
 
-Trong đó $h$ là vector đặc trưng từ BERT.
+Trong đó (h) là vector đặc trưng từ BERT.
 
 ---
 
@@ -130,10 +132,7 @@ Quá trình huấn luyện sử dụng:
 
 * AdamW Optimizer
 * Cross-Entropy Loss
-
-$$
 * Dropout = 0.1
-$$
 
 Hàm mất mát phù hợp cho bài toán phân loại nhị phân. 
 
@@ -157,7 +156,9 @@ Nhãn dự đoán được xác định bằng giá trị logit lớn nhất.
 
 Độ chính xác được tính theo công thức:
 
+$$
 Accuracy = \frac{Số\ mẫu\ dự\ đoán\ đúng}{Tổng\ số\ mẫu}
+$$
 
 Mô hình chưa huấn luyện cho độ chính xác xấp xỉ 50%, tương đương đoán ngẫu nhiên. Điều này cho thấy pipeline được xây dựng đúng. 
 

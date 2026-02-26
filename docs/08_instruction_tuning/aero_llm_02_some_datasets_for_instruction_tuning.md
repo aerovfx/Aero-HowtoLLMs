@@ -59,13 +59,13 @@ Mục tiêu là giúp mô hình học cách phản hồi phù hợp với yêu c
 Mô hình học xác suất có điều kiện:
 
 $$
-P(x_t  \mid  x_1, x_2, ..., x_{t-1})
+P(x_t | x_1, x_2, ..., x_{t-1})
 $$
 
 Trong đó:
 
-* $x_t$ là token tại thời điểm $t$
-* ($x_1$, ..., x_{t-1}) là các token trước đó
+* (x_t) là token tại thời điểm (t)
+* (x_1, ..., x_{t-1}) là các token trước đó
 
 ---
 
@@ -73,12 +73,14 @@ Trong đó:
 
 Trong Instruction Tuning, hàm mất mát thường dùng là:
 
-$\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ P($x_t$  \mid  x_{\lt t})
+$$
+\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
+$$
 
 Trong đó:
 
-* $T$ là độ dài chuỗi
-* $x_{\lt t}$ là các token trước thời điểm $t$
+* (T) là độ dài chuỗi
+* (x_{<t}) là các token trước thời điểm (t)
 
 Hàm này đo lường mức độ sai khác giữa phân phối dự đoán và dữ liệu thực.
 
@@ -88,16 +90,15 @@ Hàm này đo lường mức độ sai khác giữa phân phối dự đoán và
 
 Quá trình cập nhật tham số được thực hiện theo thuật toán Gradient Descent:
 
+$$
 \theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
+$$
 
 Trong đó:
 
-* $\theta$: tham số mô hình
-* $\eta$: tốc độ học (learning rate)
-
-$$
-* \nabla_\theta \mathcal{L}: gradient của hàm mất mát
-$$
+* (\theta): tham số mô hình
+* (\eta): tốc độ học (learning rate)
+* (\nabla_\theta \mathcal{L}): gradient của hàm mất mát
 
 ---
 
@@ -113,7 +114,9 @@ Quy trình tổng quát gồm các bước:
 
 Sơ đồ tổng quát:
 
+```
 Dữ liệu → Tokenizer → Mô hình → Loss → Cập nhật tham số
+```
 
 ---
 

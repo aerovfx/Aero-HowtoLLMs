@@ -77,9 +77,7 @@ Giả sử:
 
 Ta có:
 
-$$
 Truth\ Rate = \frac{\text{số câu trả lời đúng}}{\text{tổng số câu trả lời}}
-$$
 
 ⸻
 
@@ -95,29 +93,25 @@ Compliance = \frac{1}{N}\sum_{i=1}^{N} \mathbf{1}(response_i \models instruction
 
 3.1 Human Preference Modeling
 
-Giả sử có hai phản hồi $r_1$, $r_2$. Người đánh giá chọn $r_1$ với xác suất:
+Giả sử có hai phản hồi r_1, r_2. Người đánh giá chọn r_1 với xác suất:
 
-$P($r_1$ \succ $r_2$)$ = \sigma$R_\theta(r_1$ - R_\theta$r_2$)
+P(r_1 \succ r_2) = \sigma(R_\theta(r_1) - R_\theta(r_2))
 
 Trong đó:
 	•	R_\theta là hàm reward
 	•	\sigma là sigmoid
 
-$$
-\sigmax = \frac{1}{1+e^{-x}}
-$$
+\sigma(x) = \frac{1}{1+e^{-x}}
 
 ⸻
 
 3.2 Loss cho reward model
 
-$$
-\mathcal{L} = - \log \sigmaR_\theta(r_w - R_\thetar_l)
-$$
+\mathcal{L} = - \log \sigma(R_\theta(r_w) - R_\theta(r_l))
 
 với:
-	•	$r_w$: phản hồi được chọn
-	•	$r_l$: phản hồi bị loại
+	•	r_w: phản hồi được chọn
+	•	r_l: phản hồi bị loại
 
 ⸻
 
@@ -125,7 +119,7 @@ với:
 
 Giả sử classifier phụ ước lượng:
 
-P_{tox}$x$
+P_{tox}(x)
 
 Mức độc hại trung bình:
 
@@ -133,9 +127,7 @@ Toxicity = \mathbb{E}[P_{tox}(response)]
 
 So sánh giữa các phiên bản mô hình:
 
-$$
 \Delta_{tox} = Toxicity_{modelA} - Toxicity_{modelB}
-$$
 
 ⸻
 
@@ -144,8 +136,8 @@ $$
 Một thước đo phổ biến là FactScore.
 
 Giả sử:
-	•	$C_i$ là claim thứ i
-	•	$V_i$ \in \{0,1\} là verified
+	•	C_i là claim thứ i
+	•	V_i \in \{0,1\} là verified
 
 FactScore = \frac{\sum_{i=1}^{K} V_i}{K}
 
@@ -179,9 +171,7 @@ Score_{overall} = \sum_{i=1}^{m} w_i s_i
 
 với:
 
-$$
 \sum_{i=1}^{m} w_i = 1
-$$
 
 ⸻
 
@@ -191,7 +181,7 @@ Theo Elements of Information Theory:
 
 Entropy phản ánh độ không chắc chắn:
 
-HX = -\sum_x P(x)\log P(x)
+H(X) = -\sum_x P(x)\log P(x)
 
 Mô hình hallucinate nhiều → entropy cao nhưng không tương thích với dữ kiện thật.
 
@@ -201,9 +191,7 @@ Mô hình hallucinate nhiều → entropy cao nhưng không tương thích với
 
 Kiểm định bootstrap:
 
-$$
 CI_{95\%} = \bar{x} \pm 1.96 \frac{s}{\sqrt{n}}
-$$
 
 Nếu khoảng tin cậy không chồng lấp → khác biệt có ý nghĩa.
 

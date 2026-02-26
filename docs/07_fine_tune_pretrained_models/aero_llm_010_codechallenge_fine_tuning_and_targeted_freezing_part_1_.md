@@ -46,11 +46,15 @@ Mục tiêu nghiên cứu:
 
 Cho chuỗi token:
 
+$$
 X = (x_1, x_2, \dots, x_n)
+$$
 
 Xác suất sinh chuỗi:
 
+$$
 P(X)=\prod_{i=1}^{n} P(x_i \mid x_1,\dots,x_{i-1})
+$$
 
 Mô hình dự đoán token tiếp theo dựa trên toàn bộ ngữ cảnh trước đó.
 
@@ -60,14 +64,22 @@ Mô hình dự đoán token tiếp theo dựa trên toàn bộ ngữ cảnh trư
 
 Trong một lớp Transformer, self-attention được xác định bởi:
 
-Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+$$
+Q = XW_Q,\quad
+K = XW_K,\quad
+V = XW_V
+$$
 
-\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+\text{Attention}(Q,K,V)
+=======================
+\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
 
 Trong đó:
 
-* ($W_Q$, $W_K$, $W_V$): ma trận truy vấn, khóa và giá trị,
-* $d_k$: số chiều của vector key.
+* (W_Q, W_K, W_V): ma trận truy vấn, khóa và giá trị,
+* (d_k): số chiều của vector key.
 
 Các ma trận này là trọng tâm của chiến lược fine-tuning có mục tiêu.
 
@@ -77,17 +89,27 @@ Các ma trận này là trọng tâm của chiến lược fine-tuning có mục
 
 Hàm mất mát Cross-Entropy:
 
-$\mathcal${L} = -\frac{1}{N}$\sum$_{i=1}^{N}$\log$ P($y_i$ \mid $x_i$)
+$$
+\mathcal{L}
+===========
+-\frac{1}{N}\sum_{i=1}^{N}\log P(y_i \mid x_i)
+$$
 
 Quy tắc cập nhật:
 
-\theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}
+$$
+\theta_{t+1}
+============
+\theta_t - \eta \nabla_\theta \mathcal{L}
+$$
 
-với $\eta$ là learning rate.
+với (\eta) là learning rate.
 
 Nếu tham số bị đóng băng:
 
-$\nabla$_\theta $\mathcal${L} = 0
+$$
+\nabla_\theta \mathcal{L} = 0
+$$
 
 ⇒ không được cập nhật.
 
@@ -99,11 +121,15 @@ $\nabla$_\theta $\mathcal${L} = 0
 
 Nguồn dữ liệu là văn bản *Moby-Dick*, gồm:
 
+$$
 N_{total} \approx 350,000
+$$
 
 token, trong đó chỉ khoảng:
 
+$$
 N_{unique} \approx 17,000
+$$
 
 token là duy nhất .
 
@@ -118,7 +144,9 @@ Hai mô hình giống hệt nhau được tải:
 
 Ban đầu:
 
+$$
 \theta_{\text{train}}^{(0)} = \theta_{\text{freeze}}^{(0)}
+$$
 
 ---
 
@@ -126,11 +154,15 @@ Ban đầu:
 
 Tần suất token:
 
+$$
 f(w)=\sum_{i=1}^{N}\mathbf{1}(x_i=w)
+$$
 
 Chọn tập 100 token phổ biến nhất:
 
+$$
 S_{100}={w_1,\dots,w_{100}}
+$$
 
 ---
 
@@ -138,11 +170,15 @@ S_{100}={w_1,\dots,w_{100}}
 
 Cho chuỗi sinh:
 
+$$
 G=(g_1,\dots,g_M)
+$$
 
 Tỷ lệ token phổ biến:
 
+$$
 p=\frac{1}{M}\sum_{i=1}^{M}\mathbf{1}(g_i\in S_{100})
+$$
 
 Chỉ số này phản ánh mức độ mô hình học được phong cách văn bản.
 
@@ -152,46 +188,240 @@ Chỉ số này phản ánh mức độ mô hình học được phong cách vă
 
 Theo tài liệu , chỉ huấn luyện:
 
-* Trọng số ($W_Q$, $W_K$, $W_V$),
+* Trọng số (W_Q, W_K, W_V),
 * Trong các block Transformer từ tầng 6 trở lên.
 
 Mô tả toán học:
 
-\theta_i = \begin{cases} \text{trainable}, & i \in \mathcal{A}_{6+} \\ \text{frozen}, & \text{ngược lại} \end{cases}
+$$
+\theta_i =
+\begin{cases}
+\text{trainable}, & i \in \mathcal{A}_{6+} \
+\text{frozen}, & \text{ngược lại}
+\end{cases}
+$$
 
-với \mathcal{A}_{6+} là tập attention layer từ block 6 trở lên.
+với (\mathcal{A}_{6+}) là tập attention layer từ block 6 trở lên.
+
+---
+
+## 4. Theo dõi quá trình huấn luyện
+
+### 4.1. Đo thời gian huấn luyện
+
+Thời gian mỗi vòng lặp:
 
 $$
---- ## 4. Theo dõi quá trình huấn luyện ### 4.1. Đo thời gian huấn luyện Thời gian mỗi vòng lặp: t_k = t_k^{end}-t_k^{start} Tổng thời gian: T=\sum_{k=1}^{K} t_k So sánh T_{\text{freeze}} và T_{\text{train}}. --- ### 4.2. Theo dõi biến đổi trọng số Cho ma trận tại bước t:
+t_k = t_k^{end}-t_k^{start}
 $$
 
+Tổng thời gian:
+
+$$
+T=\sum_{k=1}^{K} t_k
+$$
+
+So sánh (T_{\text{freeze}}) và (T_{\text{train}}).
+
+---
+
+### 4.2. Theo dõi biến đổi trọng số
+
+Cho ma trận tại bước (t):
+
+$$
 W_t
-
-$$
-Hiệu giữa hai bước: \Delta W_t = W_t - W_{t-1} Chuẩn Frobenius:
 $$
 
-|\Delta $W_t$|_F = \sqrt{$\sum$_{i,j}(\Delta W_{ij})^2}
+Hiệu giữa hai bước:
 
 $$
-Chuẩn lớn ⇒ cập nhật mạnh. Chuẩn nhỏ ⇒ cập nhật yếu. --- ### 4.3. Theo dõi hàm mất mát Loss trung bình: \bar{\mathcal{L}} = \frac{1}{K}\sum_{k=1}^{K}\mathcal{L}_k Dùng để so sánh tốc độ hội tụ của hai mô hình. --- ## 5. Kết quả thực nghiệm ### 5.1. Trước fine-tuning Tỷ lệ token phổ biến: p_{\text{train}}\approx 47%,\quad p_{\text{freeze}}\approx 44% Hai mô hình gần như tương đương . --- ### 5.2. Sau fine-tuning Quan sát cho thấy: * Mô hình Train: học mạnh nhưng dễ overfit. * Mô hình Freeze: học ổn định hơn.
+\Delta W_t = W_t - W_{t-1}
 $$
 
+Chuẩn Frobenius:
+
+$$
+|\Delta W_t|_F
+==============
+\sqrt{\sum_{i,j}(\Delta W_{ij})^2}
+$$
+
+Chuẩn lớn ⇒ cập nhật mạnh.
+Chuẩn nhỏ ⇒ cập nhật yếu.
+
+---
+
+### 4.3. Theo dõi hàm mất mát
+
+Loss trung bình:
+
+$$
+\bar{\mathcal{L}}
+=================
+\frac{1}{K}\sum_{k=1}^{K}\mathcal{L}_k
+$$
+
+Dùng để so sánh tốc độ hội tụ của hai mô hình.
+
+---
+
+## 5. Kết quả thực nghiệm
+
+### 5.1. Trước fine-tuning
+
+Tỷ lệ token phổ biến:
+
+$$
+p_{\text{train}}\approx 47%,\quad
+p_{\text{freeze}}\approx 44%
+$$
+
+Hai mô hình gần như tương đương .
+
+---
+
+### 5.2. Sau fine-tuning
+
+Quan sát cho thấy:
+
+* Mô hình Train: học mạnh nhưng dễ overfit.
+* Mô hình Freeze: học ổn định hơn.
+
+$$
 p_{\text{freeze}}^{post} > p_{\text{freeze}}^{pre}
-
-$$
-và có độ biến động nhỏ hơn. --- ### 5.3. Chi phí tính toán Số tham số huấn luyện:
 $$
 
+và có độ biến động nhỏ hơn.
+
+---
+
+### 5.3. Chi phí tính toán
+
+Số tham số huấn luyện:
+
+$$
 P_{\text{freeze}} \ll P_{\text{train}}
-
 $$
+
 Do đó:
-$$
-
-T_{\text{freeze}} \lt  T_{\text{train}}
 
 $$
---- ## 6. Thảo luận ### 6.1. Ưu điểm 1. Giảm thời gian huấn luyện. 2. Tiết kiệm bộ nhớ. 3. Hạn chế overfitting. 4. Bảo toàn tri thức nền. --- ### 6.2. Hạn chế * Khả năng thích nghi bị giới hạn. * Phụ thuộc cấu hình đóng băng. * Cần nhiều thử nghiệm để tối ưu. --- ### 6.3. Chiến lược mở rộng #### Đóng băng từng phần theo thời gian \theta_i(t)= \begin{cases} \text{frozen}, & t\lt t_0\ \text{trainable}, & t\ge t_0 \end{cases} #### Kết hợp LoRA/Adapter Giữ nguyên \theta, thêm tham số phụ \phi: y = f(x;\theta)+g(x;\phi)
+T_{\text{freeze}} < T_{\text{train}}
 $$
 
+---
+
+## 6. Thảo luận
+
+### 6.1. Ưu điểm
+
+1. Giảm thời gian huấn luyện.
+2. Tiết kiệm bộ nhớ.
+3. Hạn chế overfitting.
+4. Bảo toàn tri thức nền.
+
+---
+
+### 6.2. Hạn chế
+
+* Khả năng thích nghi bị giới hạn.
+* Phụ thuộc cấu hình đóng băng.
+* Cần nhiều thử nghiệm để tối ưu.
+
+---
+
+### 6.3. Chiến lược mở rộng
+
+#### Đóng băng từng phần theo thời gian
+
+$$
+\theta_i(t)=
+\begin{cases}
+\text{frozen}, & t<t_0\
+\text{trainable}, & t\ge t_0
+\end{cases}
+$$
+
+#### Kết hợp LoRA/Adapter
+
+Giữ nguyên (\theta), thêm tham số phụ (\phi):
+
+$$
+y = f(x;\theta)+g(x;\phi)
+$$
+
+---
+
+## 7. Ứng dụng thực tiễn
+
+Phương pháp precision freezing phù hợp cho:
+
+* Fine-tuning dữ liệu nội bộ,
+* Văn bản chuyên ngành,
+* Hệ thống NLP tài nguyên thấp,
+* Nghiên cứu interpretability.
+
+Đặc biệt hiệu quả khi dữ liệu nhỏ nhưng mô hình lớn.
+
+---
+
+## 8. Kết luận
+
+Bài viết đã trình bày phương pháp fine-tuning có mục tiêu kết hợp đóng băng chính xác trọng số attention. Kết quả cho thấy:
+
+* Giảm đáng kể chi phí huấn luyện,
+* Duy trì hiệu quả học,
+* Hạn chế quá khớp.
+
+Đây là hướng tiếp cận quan trọng cho việc triển khai LLMs trong môi trường hạn chế tài nguyên.
+
+---
+
+## Tài liệu tham khảo
+
+1. Hướng dẫn fine-tuning và targeted freezing (Phần 1) 
+2. Vaswani et al. (2017). *Attention Is All You Need*.
+3. Jurafsky, D., & Martin, J. (2023). *Speech and Language Processing*.
+4. Hu et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models*.
+
+---
+<!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [📂 Module: 07_fine_tune_pretrained_models](README.md) | [Xem bài viết →](README.md) |
+| 📌 **[Fine-tuning Có Mục Tiêu và Đóng Băng Chính Xác Trọng Số Trong Mô Hình Ngôn Ngữ Lớn](aero_llm_010_codechallenge_fine_tuning_and_targeted_freezing_part_1_.md)** | [Xem bài viết →](aero_llm_010_codechallenge_fine_tuning_and_targeted_freezing_part_1_.md) |
+| [Phân Tích Hiệu Quả Fine-tuning và Targeted Freezing (Phần 2): Đánh Giá Bằng Trực Quan Hóa và Chuẩn Ma Trận](aero_llm_011_codechallenge_fine_tuning_and_targeted_freezing_part_2_.md) | [Xem bài viết →](aero_llm_011_codechallenge_fine_tuning_and_targeted_freezing_part_2_.md) |
+| [Fine-tuning Hiệu Quả Tham Số (Parameter-Efficient Fine-Tuning – PEFT) Trong Mô Hình Ngôn Ngữ Lớn](aero_llm_012_parameter_efficient_fine_tuning_peft_.md) | [Xem bài viết →](aero_llm_012_parameter_efficient_fine_tuning_peft_.md) |
+| [Mô Hình CodeGen Cho Bài Toán Hoàn Thành Mã Nguồn: Kiến Trúc, Huấn Luyện và Ứng Dụng](aero_llm_013_codegen_for_code_completion.md) | [Xem bài viết →](aero_llm_013_codegen_for_code_completion.md) |
+| [Fine-tuning Mô Hình CodeGen Cho Bài Toán Giải Tích: Phương Pháp, Đánh Giá và Ứng Dụng](aero_llm_014_codechallenge_fine_tune_codegen_for_calculus.md) | [Xem bài viết →](aero_llm_014_codechallenge_fine_tune_codegen_for_calculus.md) |
+| [Tinh Chỉnh Mô Hình BERT Cho Bài Toán Phân Loại Cảm Xúc Văn Bản IMDb](aero_llm_015_fine_tuning_bert_for_classification.md) | [Xem bài viết →](aero_llm_015_fine_tuning_bert_for_classification.md) |
+| [📘 Ứng Dụng Mô Hình BERT Trong Phân Tích Cảm Xúc Đánh Giá Phim IMDB](aero_llm_016_codechallenge_imdb_sentiment_analysis_using_bert_en_us.md) | [Xem bài viết →](aero_llm_016_codechallenge_imdb_sentiment_analysis_using_bert_en_us.md) |
+| [📘 Ứng Dụng Gradient Clipping và Learning Rate Scheduler Trong Huấn Luyện Mô Hình Học Sâu](aero_llm_017_gradient_clipping_and_learning_rate_scheduler_part_1_en_us.md) | [Xem bài viết →](aero_llm_017_gradient_clipping_and_learning_rate_scheduler_part_1_en_us.md) |
+| [📘 Phân Tích Learning Rate Scheduler Trong Huấn Luyện Mô Hình Học Sâu Quy Mô Lớn](aero_llm_018_gradient_clipping_and_learning_rate_scheduler_part_2_.md) | [Xem bài viết →](aero_llm_018_gradient_clipping_and_learning_rate_scheduler_part_2_.md) |
+| [📘 Kết Hợp Gradient Clipping, Freezing và Learning Rate Scheduler Trong Fine-Tuning Mô Hình BERT](aero_llm_019_codechallenge_clip_freeze_and_schedule_bert.md) | [Xem bài viết →](aero_llm_019_codechallenge_clip_freeze_and_schedule_bert.md) |
+| [Tối Ưu Hóa Quá Trình Tiền Huấn Luyện Mô Hình Ngôn Ngữ Lớn: Phân Tích Các Chiến Lược Tính Toán và Học Tập](aero_llm_01_what_does_fine_tuning_mean.md) | [Xem bài viết →](aero_llm_01_what_does_fine_tuning_mean.md) |
+| [Lưu Trữ và Tải Lại Mô Hình Học Sâu Trong PyTorch và Hugging Face: Phương Pháp, Cấu Trúc và Đánh Giá](aero_llm_020_saving_and_loading_trained_models.md) | [Xem bài viết →](aero_llm_020_saving_and_loading_trained_models.md) |
+| [Ứng Dụng Mô Hình BERT Trong Phân Loại Văn Bản Văn Học: Trường Hợp Alice và Edgar](aero_llm_021_bert_decides_alice_or_edgar.md) | [Xem bài viết →](aero_llm_021_bert_decides_alice_or_edgar.md) |
+| [Đồng Tiến Hóa Mô Hình Sinh Văn Bản và Mô Hình Phân Loại: Trường Hợp Alice và Edgar](aero_llm_022_codechallenge_evolution_of_alice_and_edgar_part_1_.md) | [Xem bài viết →](aero_llm_022_codechallenge_evolution_of_alice_and_edgar_part_1_.md) |
+| [📘 Đánh Giá Mô Hình Sinh Văn Bản Thông Qua Phân Loại BERT: Nghiên Cứu Trường Hợp Alice và Edgar](aero_llm_023_codechallenge_evolution_of_alice_and_edgar_part_2_.md) | [Xem bài viết →](aero_llm_023_codechallenge_evolution_of_alice_and_edgar_part_2_.md) |
+| [Fine-tuning Mô hình GPT-2 trên Tác phẩm *Gulliver’s Travels*: Phân tích Thực nghiệm và Đánh giá Hiệu quả](aero_llm_02_fine_tune_a_pretrained_gpt2.md) | [Xem bài viết →](aero_llm_02_fine_tune_a_pretrained_gpt2.md) |
+| [Đánh giá Ảnh hưởng của Learning Rate trong Fine-tuning GPT-2 trên *Gulliver’s Travels*](aero_llm_03codechallenge_gulliver_s_learning_rates.md) | [Xem bài viết →](aero_llm_03codechallenge_gulliver_s_learning_rates.md) |
+| [Nghiên cứu Quy trình Sinh Văn bản từ Mô hình Ngôn ngữ Tiền Huấn luyện GPT-2](aero_llm_04_on_generating_text_from_pretrained_models.md) | [Xem bài viết →](aero_llm_04_on_generating_text_from_pretrained_models.md) |
+| [Tinh Chỉnh Mô Hình GPT-2 Bằng Hàm Mất Mát KL Divergence Để Tối Ưu Hóa Việc Sinh Token Chứa Ký Tự “X”](aero_llm_05_codechallenge_maximize_the_x_factor_.md) | [Xem bài viết →](aero_llm_05_codechallenge_maximize_the_x_factor_.md) |
+| [Tinh Chỉnh Mô Hình GPT-Neo Để Mô Phỏng Phong Cách Văn Học Alice in Wonderland và Edgar Allan Poe](aero_llm_06_alice_in_wonderland_and_edgar_allen_poe_with_gpt_neo_.md) | [Xem bài viết →](aero_llm_06_alice_in_wonderland_and_edgar_allen_poe_with_gpt_neo_.md) |
+| [Đánh Giá Định Lượng và Định Tính Mô Hình Ngôn Ngữ Sau Fine-tuning: Trường Hợp Văn Phong *Alice* và *Edgar Allan Poe*](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tunin.md) | [Xem bài viết →](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tunin.md) |
+| [Định Lượng Hiệu Quả Tinh Chỉnh Phong Cách Văn Học: Thử Thách Alice và Edgar](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tuning.md) | [Xem bài viết →](aero_llm_07_codechallenge_quantify_the_aliceedgar_fine_tuning.md) |
+| [Mô Phỏng Hội Thoại Giữa Hai Mô Hình Ngôn Ngữ Sau Fine-tuning: Trường Hợp *Alice* và *Edgar*](aero_llm_08_codechallenge_a_chat_between_alice_and_edgar.md) | [Xem bài viết →](aero_llm_08_codechallenge_a_chat_between_alice_and_edgar.md) |
+| [Tinh Chỉnh Từng Phần Bằng Cách Đóng Băng Trọng Số Attention: Chiến Lược Tối Ưu Hóa Tham Số Cho LLM](aero_llm_09_partial_fine_tuning_by_freezing_attention_weights.md) | [Xem bài viết →](aero_llm_09_partial_fine_tuning_by_freezing_attention_weights.md) |
+
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

@@ -46,9 +46,7 @@ V = \{w_1, w_2, \dots, w_{|V|}\}
 
 Mục tiêu là xây dựng ánh xạ:
 
-$$
 E: V \rightarrow \mathbb{R}^d
-$$
 
 Trong đó d là số chiều embedding.
 
@@ -68,7 +66,7 @@ Lịch sử phát triển có thể chia thành hai giai đoạn chính:
 
 Word2Vec (Mikolov et al., 2013) dựa trên giả thuyết phân bố:
 
-$P(w \mid context)$
+P(w \mid context)
 
 Hai biến thể chính:
 	•	CBOW (Continuous Bag of Words)
@@ -80,7 +78,7 @@ Hai biến thể chính:
 
 Giả sử chuỗi từ:
 
-$w_1$, $w_2$, \dots, $w_T$
+w_1, w_2, \dots, w_T
 
 Hàm mục tiêu:
 
@@ -88,11 +86,11 @@ Hàm mục tiêu:
 
 Với:
 
-$P($w_$O( \mid )$w_I$)$ = \frac{\exp$v_{$w_$O(}^\top v_{)$w_I$}$}{$\sum$_{w \in V} \exp$v_w^\top v_{$w_I$}$}
+P(w_O \mid w_I) = \frac{\exp(v_{w_O}^\top v_{w_I})}{\sum_{w \in V} \exp(v_w^\top v_{w_I})}
 
 Do chi phí tính toán lớn, sử dụng negative sampling:
 
-$\log$ \sigma$v_{$w_$O(}^\top v_{)$w_I$}$ + $\sum$_{i=1}^{k} $\mathbb${E}_{$w_i$ \sim P_n$w$} $\log$ \sigma$-v_{$w_i$}^\top v_{$w_I$}$
+\log \sigma(v_{w_O}^\top v_{w_I}) + \sum_{i=1}^{k} \mathbb{E}_{w_i \sim P_n(w)} \log \sigma(-v_{w_i}^\top v_{w_I})
 
 ⸻
 
@@ -122,16 +120,13 @@ X_{ij} = \text{số lần } w_j \text{ xuất hiện trong ngữ cảnh của } 
 
 3.2 Hàm mục tiêu
 
-J = \sum_{i,j} fX_{ij} \leftw_i^\top \tilde{w}_j + b_i + b_j - \log X_{ij} \right^2
+J = \sum_{i,j} f(X_{ij}) \left( w_i^\top \tilde{w}_j + b_i + b_j - \log X_{ij} \right)^2
 
 Trong đó:
 
-$$
-fx =
-$$
-
+f(x) =
 \begin{cases}
-$x/x_{max}$^\alpha & x < x_{max} \\
+(x/x_{max})^\alpha & x < x_{max} \\
 1 & \text{otherwise}
 \end{cases}
 
@@ -147,7 +142,7 @@ GPT (Radford et al.) dựa trên kiến trúc Transformer từ bài báo của A
 
 Mô hình xác suất:
 
-$P($w_1$,\dots,$w_T$)$ = $\prod$_{t=1}^{T} $P($w_t$ \mid w_{\lt t})$
+P(w_1,\dots,w_T) = \prod_{t=1}^{T} P(w_t \mid w_{<t})
 
 ⸻
 
@@ -159,32 +154,170 @@ Q = XW_Q,\quad K = XW_K,\quad V = XW_V
 
 Attention:
 
-$$
-\text{Attention}(Q,K,V) = \text{softmax}\left\frac{QK^\top}{\sqrt{d_k}} \rightV Độ phức tạp: O(n^2 d) ⸻ 4.3 Hàm mất mát Cross-entropy:
-$$
+\text{Attention}(Q,K,V) =
+\text{softmax}\left( \frac{QK^\top}{\sqrt{d_k}} \right)V
 
-\mathcal${L} = - $\sum$_{t=1}^{T} $\log$ $P($w_t$ \mid w_{\lt t})
+Độ phức tạp:
 
-$$
-GPT sinh văn bản theo hướng trái → phải (autoregressive). ⸻ 5. BERT: Transformer Hai chiều 5.1 Kiến trúc BERT (Devlin et al., 2018) sử dụng: •	Masked Language Modeling (MLM) •	Next Sentence Prediction (NSP) ⸻ 5.2 Masked Language Model Chọn tập vị trí M:
-$$
+O(n^2 d)
 
-\mathcal${L}_{MLM} = - $\sum$_{t \in M} $\log$ $P($w_t$ \mid w_{\setminus M})
+⸻
 
-$$
-Khác GPT: •	GPT: dự đoán tương lai •	BERT: dùng cả trái và phải ⸻ 5.3 Biểu diễn Ngữ cảnh hóa Embedding giờ là hàm của toàn bộ câu: e_t = fw_1,\dots,w_T, t Không còn là ánh xạ cố định. ⸻ 6. So sánh Toán học Mô hình	Xác suất	Phạm vi ngữ cảnh	Embedding Word2Vec	P(w_O\mid w_I)	Cục bộ	Tĩnh
-$$
+4.3 Hàm mất mát
 
+Cross-entropy:
+
+\mathcal{L} = - \sum_{t=1}^{T} \log P(w_t \mid w_{<t})
+
+GPT sinh văn bản theo hướng trái → phải (autoregressive).
+
+⸻
+
+5. BERT: Transformer Hai chiều
+
+5.1 Kiến trúc
+
+BERT (Devlin et al., 2018) sử dụng:
+	•	Masked Language Modeling (MLM)
+	•	Next Sentence Prediction (NSP)
+
+⸻
+
+5.2 Masked Language Model
+
+Chọn tập vị trí M:
+
+\mathcal{L}_{MLM} = - \sum_{t \in M} \log P(w_t \mid w_{\setminus M})
+
+Khác GPT:
+	•	GPT: dự đoán tương lai
+	•	BERT: dùng cả trái và phải
+
+⸻
+
+5.3 Biểu diễn Ngữ cảnh hóa
+
+Embedding giờ là hàm của toàn bộ câu:
+
+e_t = f(w_1,\dots,w_T, t)
+
+Không còn là ánh xạ cố định.
+
+⸻
+
+6. So sánh Toán học
+
+Mô hình	Xác suất	Phạm vi ngữ cảnh	Embedding
+Word2Vec	P(w_O|w_I)	Cục bộ	Tĩnh
 GloVe	\log X_{ij}	Toàn cục	Tĩnh
+GPT	P(w_t|w_{<t})	Trái	Ngữ cảnh
+BERT	P(w_t|w_{\setminus M})	Hai chiều	Ngữ cảnh
 
-$$
-GPT	P(w_t \mid w_{\lt t})	Trái	Ngữ cảnh BERT	P(w_t\mid w_{\setminus M})	Hai chiều	Ngữ cảnh ⸻ 7. Phân tích Entropy Entropy chuỗi: H = - \sum P(w_1,\dots,w_T)\log P(w_1,\dots,w_T) GPT mô hình hóa trực tiếp: H = - \sum_{t} \log P(w_t \mid w_{\lt t}) Perplexity:
-$$
+
+⸻
+
+7. Phân tích Entropy
+
+Entropy chuỗi:
+
+H = - \sum P(w_1,\dots,w_T)\log P(w_1,\dots,w_T)
+
+GPT mô hình hóa trực tiếp:
+
+H = - \sum_{t} \log P(w_t \mid w_{<t})
+
+Perplexity:
 
 \text{PPL} = 2^H
 
-$$
-Word2Vec/GloVe không tối ưu trực tiếp perplexity. ⸻ 8. So sánh Độ phức tạp Word2Vec: O(T c d) GloVe: O(|X|) Transformer: O(n^2 d) Trong đó n là độ dài chuỗi. ⸻ 9. Tiến hóa Mô hình Quá trình phát triển: 1.	Vector tĩnh (Word2Vec, GloVe) 2.	Transformer một chiều (GPT) 3.	Transformer hai chiều (BERT) Bước chuyển quan trọng nhất là self-attention. ⸻ 10. Kết luận Từ Word2Vec đến GPT và BERT cho thấy sự chuyển dịch: •	Từ mô hình cục bộ → mô hình toàn chuỗi •	Từ embedding tĩnh → embedding ngữ cảnh •	Từ ma trận đồng xuất hiện → mô hình xác suất chuỗi Toán học chuyển từ:
-$$
+Word2Vec/GloVe không tối ưu trực tiếp perplexity.
+
+⸻
+
+8. So sánh Độ phức tạp
+
+Word2Vec:
+
+O(T c d)
+
+GloVe:
+
+O(|X|)
+
+Transformer:
+
+O(n^2 d)
+
+Trong đó n là độ dài chuỗi.
+
+⸻
+
+9. Tiến hóa Mô hình
+
+Quá trình phát triển:
+	1.	Vector tĩnh (Word2Vec, GloVe)
+	2.	Transformer một chiều (GPT)
+	3.	Transformer hai chiều (BERT)
+
+Bước chuyển quan trọng nhất là self-attention.
+
+⸻
+
+10. Kết luận
+
+Từ Word2Vec đến GPT và BERT cho thấy sự chuyển dịch:
+	•	Từ mô hình cục bộ → mô hình toàn chuỗi
+	•	Từ embedding tĩnh → embedding ngữ cảnh
+	•	Từ ma trận đồng xuất hiện → mô hình xác suất chuỗi
+
+Toán học chuyển từ:
 
 v_w \in \mathbb{R}^d
+
+sang:
+
+P(w_1,\dots,w_T)
+
+Đây là bước nhảy từ biểu diễn hình học sang mô hình hóa phân phối xác suất hoàn chỉnh.
+
+⸻
+
+Tài liệu tham khảo
+	1.	Mikolov et al. (2013). Efficient Estimation of Word Representations.
+	2.	Pennington et al. (2014). GloVe: Global Vectors for Word Representation.
+	3.	Vaswani et al. (2017). Attention Is All You Need.
+	4.	Devlin et al. (2018). BERT: Pre-training of Deep Bidirectional Transformers.
+	5.	Radford et al. (2018–2023). GPT series papers.
+	6.	Shannon, C. (1948). A Mathematical Theory of Communication.
+<!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| 📌 **[aero llm 01 word2vec vs glove vs gpt vs bert oh my](aero_llm_01_word2vec_vs_glove_vs_gpt_vs_bert_oh_my_.md)** | [Xem bài viết →](aero_llm_01_word2vec_vs_glove_vs_gpt_vs_bert_oh_my_.md) |
+| [aero llm 02 exploring glove pretrained embeddings](aero_llm_02_exploring_glove_pretrained_embeddings.md) | [Xem bài viết →](aero_llm_02_exploring_glove_pretrained_embeddings.md) |
+| [aero llm 03 codechallenge wikipedia vs twitter embeddings part 1](aero_llm_03_codechallenge_wikipedia_vs_twitter_embeddings_part_1_.md) | [Xem bài viết →](aero_llm_03_codechallenge_wikipedia_vs_twitter_embeddings_part_1_.md) |
+| [So sánh Biểu Diễn Từ Vựng giữa Wikipedia và Twitter bằng Phân Tích Tương Đồng Biểu Diễn (RSA)](aero_llm_04_codechallenge_wikipedia_vs_twitter_embeddings_part_2_.md) | [Xem bài viết →](aero_llm_04_codechallenge_wikipedia_vs_twitter_embeddings_part_2_.md) |
+| [So sánh Biểu Diễn Ngữ Nghĩa của GPT-2 và BERT thông qua Phân Tích Embedding](aero_llm_05_exploring_gpt2_and_bert_embeddings.md) | [Xem bài viết →](aero_llm_05_exploring_gpt2_and_bert_embeddings.md) |
+| [Toán học của Token và Embedding trong Mô hình Ngôn ngữ Lớn](aero_llm_06_codechallenge_math_with_tokens_and_embeddings.md) | [Xem bài viết →](aero_llm_06_codechallenge_math_with_tokens_and_embeddings.md) |
+| [Cosine Similarity và Mối Quan Hệ với Hệ Số Tương Quan: Cơ Sở Toán Học và Ứng Dụng trong NLP](aero_llm_07_cosine_similarity_and_relation_to_correlation_.md) | [Xem bài viết →](aero_llm_07_cosine_similarity_and_relation_to_correlation_.md) |
+| [Phân Tích Cosine Similarity trong Không Gian Embedding của GPT-2](aero_llm_08_codechallenge_gpt2_cosine_similarities.md) | [Xem bài viết →](aero_llm_08_codechallenge_gpt2_cosine_similarities.md) |
+| [Unembedding trong Mô Hình Ngôn Ngữ Lớn: Từ Vector Ẩn Đến Token](aero_llm_09_codechallenge_unembeddings_vectors_to_tokens_.md) | [Xem bài viết →](aero_llm_09_codechallenge_unembeddings_vectors_to_tokens_.md) |
+| [Position Embeddings trong Transformer: Cơ Sở Toán Học và Ứng Dụng trong Mô Hình Ngôn Ngữ Lớn](aero_llm_10_position_embeddings.md) | [Xem bài viết →](aero_llm_10_position_embeddings.md) |
+| [Phân Tích Thực Nghiệm Embedding Vị Trí Trong Transformer: Từ Cấu Trúc Tuyến Tính Đến Không Gian Hình Học](aero_llm_11_codechallenge_exploring_position_embeddings.md) | [Xem bài viết →](aero_llm_11_codechallenge_exploring_position_embeddings.md) |
+| [Huấn Luyện Embedding Từ Đầu: Cơ Sở Toán Học, Cơ Chế Tối Ưu và Ứng Dụng Trong Mô Hình Ngôn Ngữ](aero_llm_12_training_embeddings_from_scratch.md) | [Xem bài viết →](aero_llm_12_training_embeddings_from_scratch.md) |
+| [Thiết Kế Data Loader Cho Huấn Luyện Mô Hình Ngôn Ngữ: Cơ Sở Toán Học, Kiến Trúc và Tối Ưu Hoá](aero_llm_13_create_a_data_loader_to_train_a_model.md) | [Xem bài viết →](aero_llm_13_create_a_data_loader_to_train_a_model.md) |
+| [Xây Dựng Mô Hình Học Embedding Từ Đầu: Kiến Trúc, Tối Ưu Hoá và Phân Tích Toán Học](aero_llm_14_build_a_model_to_learn_the_embeddings.md) | [Xem bài viết →](aero_llm_14_build_a_model_to_learn_the_embeddings.md) |
+| [Hàm Mất Mát Trong Huấn Luyện Embedding: Cơ Sở Lý Thuyết, Phân Tích Gradient và Ứng Dụng Trong Mô Hình Ngôn Ngữ](aero_llm_15_loss_function_to_train_the_embeddings.md) | [Xem bài viết →](aero_llm_15_loss_function_to_train_the_embeddings.md) |
+| [Huấn luyện và Đánh giá Mô hình Học Máy: Cơ sở Lý thuyết và Thực tiễn](aero_llm_16_train_and_evaluate_the_model.md) | [Xem bài viết →](aero_llm_16_train_and_evaluate_the_model.md) |
+| [Sự Thay Đổi của Embeddings Trong Quá Trình Huấn Luyện: Phân Tích Toán Học và Thực Nghiệm](aero_llm_17_codechallenge_how_the_embeddings_change.md) | [Xem bài viết →](aero_llm_17_codechallenge_how_the_embeddings_change.md) |
+| [Độ Ổn Định của Embeddings trong Mô Hình Ngôn Ngữ: Phân Tích Toán Học và Thực Nghiệm](aero_llm_18_codechallenge_how_stable_are_embeddings.md) | [Xem bài viết →](aero_llm_18_codechallenge_how_stable_are_embeddings.md) |
+
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

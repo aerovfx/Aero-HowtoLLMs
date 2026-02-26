@@ -27,7 +27,7 @@ Dưới đây là các điểm cốt lõi trong bối cảnh rộng hơn:
 *   **Hệ thống dựa trên quy tắc (Rule-based):** Đây là giai đoạn khởi đầu, nơi các mô hình tuân theo các luật lệ nghiêm ngặt do lập trình viên đặt ra (ví dụ: "nếu thấy từ này, hãy làm điều kia"). Chúng tạo nền móng nhưng rất cứng nhắc và thiếu linh hoạt,.
 *   **Mô hình thống kê (Statistical Models):** Bước chuyển dịch sang việc sử dụng xác suất để diễn giải ngôn ngữ. Thay vì các luật lệ cố định, mô hình bắt đầu tính toán khả năng xuất hiện của từ, mang lại độ chính xác cao hơn,.
 *   **Học máy & Mạng thần kinh (Machine Learning & Neural Networks):** Một bước đột phá lớn khi thuật toán có thể tự học từ dữ liệu. Việc giới thiệu mạng thần kinh (mô phỏng cấu trúc não bộ) giúp AI bắt đầu xử lý và tạo ra ngôn ngữ giống con người hơn,.
-*   **Học sâu quy mô lớn $Deep Learning/LLMs$:** Đây là đỉnh cao hiện tại (như GPT, Gemini). Nhờ sử dụng các mạng thần kinh sâu và tập dữ liệu khổng lồ, chúng không chỉ xử lý từ ngữ mà còn hiểu được **ngữ cảnh, các ẩn ý tinh tế và sắc thái** phức tạp, vượt xa khả năng của các mô hình NLP truyền thống,,.
+*   **Học sâu quy mô lớn (Deep Learning/LLMs):** Đây là đỉnh cao hiện tại (như GPT, Gemini). Nhờ sử dụng các mạng thần kinh sâu và tập dữ liệu khổng lồ, chúng không chỉ xử lý từ ngữ mà còn hiểu được **ngữ cảnh, các ẩn ý tinh tế và sắc thái** phức tạp, vượt xa khả năng của các mô hình NLP truyền thống,,.
 
 Sự tiến hóa này đã mở ra những khả năng chưa từng có, như việc AI có thể viết code, làm thơ hoặc dịch thuật trôi chảy.
 
@@ -96,7 +96,7 @@ Dựa trên các tài liệu, **Softmax** là một hàm toán học đóng vai 
 Dưới đây là vai trò của Softmax trong bối cảnh kỹ thuật rộng hơn:
 
 *   **Chuyển đổi Logits:** Đầu ra thô của các lớp mạng thần kinh là **Logits** — các con số vô hướng có thể là âm hoặc dương tùy ý. Softmax sử dụng hàm mũ ($e^x$) để biến tất cả thành số dương, sau đó chia cho tổng để đảm bảo toàn bộ giá trị cộng lại bằng 1 (100%),.
-*   **Vai trò trong Attention (Sự chú ý):** Trong lớp Attention, Softmax quyết định mức độ "quan tâm" của token hiện tại đối với các token trong quá khứ. Nó phối hợp với **Mặt nạ nhân quả** (gán giá trị $-$\infty$$ cho các vị trí tương lai). Vì $e^{-$\infty$} $\approx$ 0$, Softmax giúp triệt tiêu hoàn toàn thông tin từ tương lai, đảm bảo mô hình không "nhìn trộm" đáp án,.
+*   **Vai trò trong Attention (Sự chú ý):** Trong lớp Attention, Softmax quyết định mức độ "quan tâm" của token hiện tại đối với các token trong quá khứ. Nó phối hợp với **Mặt nạ nhân quả** (gán giá trị $-\infty$ cho các vị trí tương lai). Vì $e^{-\infty} \approx 0$, Softmax giúp triệt tiêu hoàn toàn thông tin từ tương lai, đảm bảo mô hình không "nhìn trộm" đáp án,.
 *   **Thúc đẩy sự thưa thớt (Sparsity):** Hàm số mũ trong Softmax có xu hướng khuếch đại các giá trị lớn nhất và nén các giá trị nhỏ xuống gần bằng 0. Điều này giúp mô hình đưa ra quyết định dứt khoát hơn thay vì phân vân giữa quá nhiều lựa chọn "nhạt nhòa",.
 
 Sau khi có được xác suất từ Softmax, chúng ta không nhất thiết phải luôn chọn từ có xác suất cao nhất (Greedy). 
@@ -113,11 +113,13 @@ Vì Base Model chỉ giỏi "nói leo" theo văn bản chứ chưa biết cách 
 
 ## Fine-tuning
 
+
 *   **Chuyển đổi mục đích:** Nếu *Pre-training* tạo ra một "sinh viên mới tốt nghiệp" có kiến thức rộng nhưng chung chung, thì *Fine-tuning* là bước đào tạo chuyên sâu để biến mô hình thành chuyên gia trong một lĩnh vực hẹp (như y tế, tài chính, hoặc viết code),.
 *   **Dữ liệu đặc thù:** Khác với lượng dữ liệu khổng lồ của pre-training, fine-tuning sử dụng các tập dữ liệu nhỏ hơn nhưng được tuyển chọn kỹ lưỡng (curated) và đặc thù cho từng miền.
 *   **Phương pháp thực hiện:** Có hai hướng tiếp cận chính:
     *   **Full Fine-tuning:** Cập nhật toàn bộ tham số của mô hình. Cách này tốn kém tài nguyên và dễ gây ra hiện tượng "quên thảm họa" (mất kiến thức nền cũ).
     *   **PEFT (như LoRA):** Chỉ cập nhật một phần rất nhỏ tham số (thường < 1%) và đóng băng phần còn lại. Cách này tiết kiệm phần cứng, nhanh hơn và giúp bảo tồn tri thức nền tảng.
+
 
 ## Intruction finetuning
     Dựa trên các tài liệu, **Instruction Tuning (Tinh chỉnh theo chỉ dẫn)** là bước chuyển đổi quan trọng thứ hai trong quy trình huấn luyện, nằm giữa giai đoạn Huấn luyện sơ bộ (Pre-training) và RLHF.

@@ -48,9 +48,11 @@ Nguyên nhân chính:
 
 ### 1️⃣ Pipeline tổng thể
 
+```
 Document → Cleaning → Chunking → Embedding → Vector DB
                                 ↓
 User Query → Embedding → Retrieval → Rerank → LLM → Answer
+```
 
 ---
 
@@ -79,6 +81,7 @@ Mỗi chunk gắn:
   "project": "X",
   "version": "v2.1"
 }
+```
 
 ➡️ Filter trước khi search → giảm nhiễu 40%
 
@@ -101,13 +104,126 @@ Mỗi chunk gắn:
 #### Phase 1: Retrieve
 
 ```python
-
 top_k = 20
-
 filter = {year:2024, project:"X"}
+```
 
-$$
-#### Phase 2: Rerank (Cross-Encoder) * Dùng Cohere Rerank / BGE-reranker * Chọn top 5 ➡️ Precision tăng mạnh --- ### 6️⃣ Prompt Engineering Prompt production: You are an internal AI assistant. Only answer from provided context. If info missing, say "Not found in documents". ➡️ Hallucination giảm ~60% --- ## 📊 Kết quả sau 3 tháng \mid Chỉ số        \mid Trước   \mid Sau     \mid \mid ------------- \mid ------- \mid ------- \mid \mid Accuracy      \mid 62%     \mid 89%     \mid \mid Hallucination \mid Cao     \mid Thấp    \mid \mid Thời gian tìm \mid 10 phút \mid 10 giây \mid \mid User 만족       \mid 6/10    \mid 9/10    \mid --- ## 🔍 Ví dụ truy vấn thực tế User hỏi: > “Chi phí marketing Q2/2024 dự án X?” Hệ thống xử lý: 1️⃣ Filter: year=2024, project=X 2️⃣ Retrieve: 20 chunk 3️⃣ Rerank: top 5 4️⃣ LLM tổng hợp Output: > “Theo báo cáo tài chính Q2/2024, chi phí marketing là 2.3 tỷ VNĐ…” ➡️ Có nguồn rõ ràng → tin cậy --- ## 🏗️ Stack Công Nghệ \mid Layer    \mid Tool                 \mid \mid -------- \mid -------------------- \mid \mid Ingest   \mid Unstructured / PyPDF \mid \mid Chunking \mid Custom + LangChain   \mid |VectorDB \mid Qdrant               \mid \mid Rerank   \mid Cohere               \mid \mid LLM      \mid GPT-4 / Claude       \mid \mid Backend  \mid FastAPI              \mid --- ## 💎 Bài học rút ra ### ❌ Sai lầm thường gặp * Chunk quá nhỏ (<200 tokens) * Không overlap * Không metadata * Chỉ dùng similarity search ### ✅ Best Practice 🔥 Công thức vàng: Section + Semantic + Overlap + Metadata Filter + Rerank + Strict Prompt
-$$
+#### Phase 2: Rerank (Cross-Encoder)
+
+* Dùng Cohere Rerank / BGE-reranker
+* Chọn top 5
+
+➡️ Precision tăng mạnh
+
+---
+
+### 6️⃣ Prompt Engineering
+
+Prompt production:
+
+```
+You are an internal AI assistant.
+Only answer from provided context.
+If info missing, say "Not found in documents".
+```
+
+➡️ Hallucination giảm ~60%
+
+---
+
+## 📊 Kết quả sau 3 tháng
+
+| Chỉ số        | Trước   | Sau     |
+| ------------- | ------- | ------- |
+| Accuracy      | 62%     | 89%     |
+| Hallucination | Cao     | Thấp    |
+| Thời gian tìm | 10 phút | 10 giây |
+| User 만족       | 6/10    | 9/10    |
+
+---
+
+## 🔍 Ví dụ truy vấn thực tế
+
+User hỏi:
+
+> “Chi phí marketing Q2/2024 dự án X?”
+
+Hệ thống xử lý:
+
+1️⃣ Filter: year=2024, project=X
+2️⃣ Retrieve: 20 chunk
+3️⃣ Rerank: top 5
+4️⃣ LLM tổng hợp
+
+Output:
+
+> “Theo báo cáo tài chính Q2/2024, chi phí marketing là 2.3 tỷ VNĐ…”
+
+➡️ Có nguồn rõ ràng → tin cậy
+
+---
+
+## 🏗️ Stack Công Nghệ
+
+| Layer    | Tool                 |
+| -------- | -------------------- |
+| Ingest   | Unstructured / PyPDF |
+| Chunking | Custom + LangChain   |
+| VectorDB | Qdrant               |
+| Rerank   | Cohere               |
+| LLM      | GPT-4 / Claude       |
+| Backend  | FastAPI              |
+
+---
+
+## 💎 Bài học rút ra
+
+### ❌ Sai lầm thường gặp
+
+* Chunk quá nhỏ (<200 tokens)
+* Không overlap
+* Không metadata
+* Chỉ dùng similarity search
+
+### ✅ Best Practice
+
+🔥 Công thức vàng:
+
+```
+Section + Semantic + Overlap
++ Metadata Filter
++ Rerank
++ Strict Prompt
+```
 
 = RAG mạnh thật sự
+
+---
+
+## 🧠 Khi nào cần nâng cấp lên Agentic RAG?
+
+Khi hệ thống:
+
+✔️ Có workflow
+✔️ Multi-step reasoning
+✔️ Query phức tạp
+✔️ Cần gọi tool
+
+➡️ Chuyển sang: RAG + Agent + Planner
+<!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [🏗️ LOCAL RAG STACK](full_template_local_rag_voi_ollama_qdrant_fastapi.md) | [Xem bài viết →](full_template_local_rag_voi_ollama_qdrant_fastapi.md) |
+| [🏗️ RAG IMPLEMENTATION TEMPLATE (0 → PROD)](rag_implementation_template.md) | [Xem bài viết →](rag_implementation_template.md) |
+| 📌 **[🚀 CASE STUDY: XÂY DỰNG HỆ RAG CHO HỆ THỐNG TRA CỨU TÀI LIỆU NỘI BỘ](rag_noibo.md)** | [Xem bài viết →](rag_noibo.md) |
+
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

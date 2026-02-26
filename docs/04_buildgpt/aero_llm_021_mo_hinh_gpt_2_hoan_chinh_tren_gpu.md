@@ -66,9 +66,9 @@ Cấu hình này tạo nên một mô hình có quy mô trung bình, phù hợp 
 
 Trong mô hình truyền thống, ba ma trận trọng số riêng biệt được sử dụng cho:
 
-* Query $Q$
-* Key $K$
-* Value $V$
+* Query (Q)
+* Key (K)
+* Value (V)
 
 Nghiên cứu này sử dụng chiến lược gộp ba ma trận thành một ma trận duy nhất có kích thước:
 
@@ -76,13 +76,15 @@ $$
 E \times 3E
 $$
 
-với $E$ là số chiều embedding.
+với (E) là số chiều embedding.
 
 Cách tiếp cận này giúp:
 
 * Giảm số phép toán cấp phát bộ nhớ
 * Tăng hiệu quả truyền dữ liệu
 * Đơn giản hóa cấu trúc mô hình
+
+
 
 ---
 
@@ -108,9 +110,12 @@ Mỗi khối Transformer bao gồm:
 
 Dạng tổng quát:
 
+$$
 X_{out} = X + \text{Attention}(\text{LN}(X))
-
+$$
+$$
 Y = X_{out} + \text{MLP}(\text{LN}(X_{out}))
+$$
 
 Cấu trúc này giúp ổn định quá trình huấn luyện và hạn chế hiện tượng gradient biến mất 
 
@@ -129,6 +134,8 @@ Thay vì ghi đè trực tiếp lên biến gốc, giúp:
 * Giảm lỗi logic
 * Tăng khả năng mở rộng mã nguồn
 
+
+
 ---
 
 ## 5. Mô hình ngôn ngữ hoàn chỉnh
@@ -144,6 +151,8 @@ Lớp embedding đầu vào và lớp unembedding đầu ra được chia sẻ t
 
 * Giảm số tham số
 * Cải thiện khả năng tổng quát hóa
+
+
 
 ---
 
@@ -166,8 +175,8 @@ Mỗi giá trị logit biểu diễn xác suất tiềm năng của token tiếp
 Mô hình sử dụng biến `device` để điều phối việc chạy trên GPU:
 
 ```python
-
 device = torch.device("cuda")
+```
 
 Việc đảm bảo tất cả tensor và mô hình nằm trên cùng thiết bị là điều kiện bắt buộc để tránh lỗi thực thi 
 
@@ -184,8 +193,10 @@ Nguyên nhân xuất phát từ việc tensor tạo bằng `torch.arange` mặc 
 Giải pháp:
 
 ```python
-
 torch.arange(..., device=device)
+```
+
+
 
 ---
 
@@ -203,13 +214,17 @@ Kết quả ban đầu cho thấy mô hình có khoảng:
 
 * 163 triệu tham số
 
+
+
 ---
 
 ### 7.2. Hiệu chỉnh do Weight Tying
 
 Do embedding và unembedding dùng chung trọng số, số tham số thực tế được điều chỉnh:
 
+$$
 163M - 38M \approx 124M
+$$
 
 Do đó, mô hình có khoảng 124 triệu tham số huấn luyện thực sự 
 

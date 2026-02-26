@@ -43,16 +43,20 @@ Mục tiêu nghiên cứu:
 
 Xét mô hình sinh:
 
-P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t \mid x_{\lt t};\theta)
+$$
+P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t|x_{<t};\theta)
+$$
 
 Trong đó:
 
-* $x_t$: token tại thời điểm $t$
-* $\theta$: tham số mô hình
+* (x_t): token tại thời điểm (t)
+* (\theta): tham số mô hình
 
 Mục tiêu huấn luyện:
 
-\theta^{\ast}=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
+$$
+\theta^*=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
+$$
 
 ---
 
@@ -60,12 +64,14 @@ Mục tiêu huấn luyện:
 
 Fine-tuning điều chỉnh tham số trên tập dữ liệu nhỏ:
 
+$$
 \theta_{new}=\theta_{pre}-\eta\nabla_\theta L_{task}
+$$
 
 Với:
 
-* $\theta_{pre}$: tham số tiền huấn luyện
-* $\eta$: learning rate
+* (\theta_{pre}): tham số tiền huấn luyện
+* (\eta): learning rate
 
 ---
 
@@ -81,11 +87,13 @@ Trong đó:
 
 * (0): Alice
 * (1): Edgar
-* $\phi$: tham số phân loại
+* (\phi): tham số phân loại
 
 Hàm mất mát:
 
+$$
 L_{cls}=-\sum_{i=1}^{N}y_i\log p_i
+$$
 
 ---
 
@@ -102,7 +110,9 @@ Theo , hệ thống gồm:
 
 Tập tham số:
 
+$$
 \Theta={\theta_A,\theta_E,\phi}
+$$
 
 ---
 
@@ -118,7 +128,9 @@ Mỗi vòng lặp gồm:
 
 Cập nhật tham số:
 
+$$
 \theta_{t+1}=\theta_t-\eta\nabla_\theta L_t
+$$
 
 ---
 
@@ -126,11 +138,15 @@ Cập nhật tham số:
 
 Do chi phí tính toán lớn, việc đánh giá chỉ thực hiện theo chu kỳ:
 
+$$
 t=k\times10,\quad k\in\mathbb{N}
+$$
 
 Độ chính xác:
 
+$$
 Acc_t=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\hat y_i=y_i)
+$$
 
 ---
 
@@ -138,16 +154,18 @@ Acc_t=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\hat y_i=y_i)
 
 Theo , huấn luyện đồng thời ba mô hình đòi hỏi bộ nhớ GPU lớn:
 
+$$
 RAM_{total}=RAM_A+RAM_E+RAM_B+RAM_D
+$$
 
 Trong đó:
 
-* $RAM_D$: dữ liệu
+* (RAM_D): dữ liệu
 
 Điều kiện:
 
 $$
-RAM_{total}\lt RAM_{GPU}
+RAM_{total}<RAM_{GPU}
 $$
 
 ---
@@ -158,7 +176,9 @@ $$
 
 Loss của mô hình sinh:
 
-L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t \mid x_{\lt t})
+$$
+L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+$$
 
 ---
 
@@ -166,7 +186,9 @@ L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t \mid x_{\lt t})
 
 Hiệu suất sinh được đo bằng độ chính xác phân loại:
 
+$$
 Q=\mathbb{E}[Acc]
+$$
 
 Nếu:
 
@@ -205,9 +227,11 @@ Theo :
 
 Biểu diễn:
 
+$$
 Acc(t)=\alpha\log(t)+\beta
+$$
 
-với $\alpha>0$.
+với (\alpha>0).
 
 ---
 
@@ -229,11 +253,15 @@ nhưng không về 0.
 
 Thời gian huấn luyện:
 
+$$
 T_{total}\approx4\text{-}5\ \text{phút}
+$$
 
 Tỷ lệ dành cho đánh giá:
 
+$$
 \frac{T_{eval}}{T_{total}}\approx30%
+$$
 
 ---
 
@@ -249,7 +277,9 @@ Theo , phương pháp đánh giá bằng mô hình thứ ba:
 
 Biểu diễn:
 
+$$
 Reliability\propto Acc_{cls}
+$$
 
 ---
 
@@ -313,7 +343,9 @@ $$
 
 Kết hợp:
 
+$$
 Monitoring=(Loss,Acc,Time,RAM)
+$$
 
 ---
 

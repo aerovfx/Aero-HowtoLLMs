@@ -38,6 +38,7 @@
 
 ### **Mô Hình SUCCESS = f(Architecture, Loss, Data, Evaluation, Systems)**
 
+```
         🏗️ Architecture
              ↓
         📉 Training Loss
@@ -47,6 +48,7 @@
         ⚙️ Systems ──────────┘
              ↓
         🎯 Production LLM
+```
 
 ### **Ví Dụ Thực Tế: GPT-4**
 
@@ -64,12 +66,11 @@
 
 ### **Định Nghĩa**
 
-$$
 **Architecture** = Thiết kế mạng neural, cấu trúc tính toán từ input → output.
-$$
 
 ### **Evolution of LLM Architectures**
 
+```
 2017: Transformer (Original)
   ↓
 2018: GPT-1 (Decoder-only)
@@ -85,6 +86,7 @@ $$
 2023: GPT-4 (MoE + Multimodal)
   ↓
 2024: Gemini Ultra (Unified multimodal)
+```
 
 ### **Key Architectural Components**
 
@@ -93,27 +95,18 @@ $$
 **1. Multi-Head Attention:**
 ```python
 # Pseudo-code
-
 def multi_head_attention(x, num_heads=8):
-
     # Split into multiple heads
-
-Q, K, V = split_heads(x, num_heads)
-
+    Q, K, V = split_heads(x, num_heads)
     
     # Scaled dot-product attention
-
-scores = (Q @ K.T) / sqrt(d_k)
-
-$$
-attn = softmax(scores)
-$$
-
-output = attn @ V
-
+    scores = (Q @ K.T) / sqrt(d_k)
+    attn = softmax(scores)
+    output = attn @ V
     
     # Concat and project
     return concat_heads(output)
+```
 
 **2. Grouped Query Attention (GQA):**
 - Used in Llama 2
@@ -137,41 +130,37 @@ output = attn @ V
 ```python
 def rope(x, positions):
     # Rotate pairs of dimensions
-
-$$
-freqs = 1.0 / (10000 ** (arange(0, d, 2) / d)) angles = positions[:, None] * freqs[None, :] # Apply rotation cos, sin = cos(angles), sin(angles)
-$$
-
-x_rotated = rotate_half(x)
-
+    freqs = 1.0 / (10000 ** (arange(0, d, 2) / d))
+    angles = positions[:, None] * freqs[None, :]
+    
+    # Apply rotation
+    cos, sin = cos(angles), sin(angles)
+    x_rotated = rotate_half(x)
     return x * cos + x_rotated * sin
+```
 
 #### **C. Mixture of Experts (MoE)**
 
 **Architecture:**
+```
 Input
   ↓
 Gate/Router ──→ Gating scores [s₀, s₁, ..., s₇]
   ↓
-
-$$
 Top-K (k=2) ──→ Select 2 highest scores
-$$
-
   ↓
 ┌────────┬────────┬────────┬────────┐
 │ Expert0│ Expert1│ Expert2│ Expert3│  ← Only 2 are active
 │ Expert4│ Expert5│ Expert6│ Expert7│
 └────────┴────────┴────────┴────────┘
   ↓
-
 Weighted sum = w₀·E₀(x) + w₁·E₁(x)
-
   ↓
 Output
+```
 
 **Benefits:**
-- ✅ Efficient: Only ~12.5% params active $2/16 experts$
+- ✅ Efficient: Only ~12.5% params active (2/16 experts)
 - ✅ Specialized: Each expert learns different patterns
 - ✅ Scalable: Easy to add more experts
 
@@ -197,6 +186,7 @@ Output
     "total_params": "1.76T",
     "active_params": "~220B per token"
 }
+```
 
 **Visualization trong llm_viz:**
 - Expert grid: 2×4 layout
@@ -219,24 +209,18 @@ def cross_entropy_loss(logits, targets):
     targets: [batch, seq_len]
     """
     # Softmax to get probabilities
-
-probs = softmax(logits, dim=-1)
-
+    probs = softmax(logits, dim=-1)
     
     # Negative log likelihood
-
-$$
-loss = -log(probs[range(len(targets)), targets])
-$$
-
+    loss = -log(probs[range(len(targets)), targets])
     
     return loss.mean()
+```
 
 **Formula:**
-
-$$
-L = -∑ᵢ log P(xᵢ  \mid  x₁, ..., xᵢ₋₁)
-$$
+```
+L = -∑ᵢ log P(xᵢ | x₁, ..., xᵢ₋₁)
+```
 
 **Objective:** Maximize likelihood of correct next token
 
@@ -246,16 +230,18 @@ $$
 
 ```python
 # Adam parameters
+lr = 6e-4  # learning rate
+beta1 = 0.9
+beta2 = 0.95
+epsilon = 1e-8
+weight_decay = 0.1
 
-$$
-lr = 6e-4  # learning rate beta1 = 0.9 beta2 = 0.95 epsilon = 1e-8 weight_decay = 0.1 # Update rule m = beta1 * m + (1 - beta1) * grad
-$$
-
+# Update rule
+m = beta1 * m + (1 - beta1) * grad
 v = beta2 * v + (1 - beta2) * grad**2
-
-$$
-update = lr * m / (sqrt(v) + epsilon) params -= update
-$$
+update = lr * m / (sqrt(v) + epsilon)
+params -= update
+```
 
 #### **B. AdamW (Modern LLMs)**
 
@@ -272,15 +258,14 @@ $$
 ### **Learning Rate Schedule**
 
 **Cosine Decay with Warmup:**
+```
 Warmup (0-2000 steps):
-
-lr = base_lr * (step / warmup_steps)
+  lr = base_lr * (step / warmup_steps)
 
 Cosine Decay:
-
-lr = min_lr + 0.5 * (max_lr - min_lr) *
-
+  lr = min_lr + 0.5 * (max_lr - min_lr) * 
        (1 + cos(π * (step - warmup) / total_steps))
+```
 
 **GPT-3 Schedule:**
 - Warmup: 375M tokens
@@ -292,10 +277,9 @@ lr = min_lr + 0.5 * (max_lr - min_lr) *
 
 ```python
 # Prevent gradient explosion
-
 max_grad_norm = 1.0
-
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
+```
 
 ### **Mixed Precision Training**
 
@@ -304,16 +288,13 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
 from torch.cuda.amp import autocast
 
 with autocast(dtype=torch.bfloat16):
-
-$$
-logits = model(inputs)
-$$
-
-loss = criterion(logits, targets)
+    logits = model(inputs)
+    loss = criterion(logits, targets)
 
 scaler.scale(loss).backward()
 scaler.step(optimizer)
 scaler.update()
+```
 
 **Benefits:**
 - 2× faster training
@@ -342,14 +323,17 @@ scaler.update()
 | **Conversations** | ~10B tokens | Variable | Reddit, forums |
 
 **GPT-3 Training Data:**
+```
 Common Crawl (filtered): 410B tokens (60%)
 WebText2: 19B tokens (22%)
 Books1: 12B tokens (8%)
 Books2: 55B tokens (8%)
 Wikipedia: 3B tokens (3%)
+```
 
 ### **Data Preprocessing Pipeline**
 
+```
 Raw Data
   ↓
 1. Deduplication
@@ -372,22 +356,21 @@ Raw Data
   └── BPE/SentencePiece
   ↓
 Clean Training Data
+```
 
 ### **Data Quality Metrics**
 
 **Perplexity-based filtering:**
 ```python
 # Train small model on high-quality data
-
 ref_model = train_tiny_gpt(wikipedia + books)
 
 # Filter web data
 for doc in web_crawl:
-
-perplexity = ref_model.perplexity(doc)
-
+    perplexity = ref_model.perplexity(doc)
     if perplexity < threshold:  # e.g., 1000
         keep(doc)
+```
 
 ### **Synthetic Data**
 
@@ -399,8 +382,56 @@ perplexity = ref_model.perplexity(doc)
 **Example (GPT-4):**
 ```python
 # Generate math problems
+prompt = "Generate 100 algebra word problems with step-by-step solutions"
+synthetic_data = gpt4.generate(prompt)
 
-$$
-prompt = "Generate 100 algebra word problems with step-by-step solutions" synthetic_data = gpt4.generate(prompt) # Filter for quality high_quality = filter_by_correctness(synthetic_data)
-$$
+# Filter for quality
+high_quality = filter_by_correctness(synthetic_data)
+```
 
+### **Data Privacy & Ethics**
+
+**Challenge:**
+- Personal information in training data
+- Copyright issues (books, code)
+- Bias amplification
+
+**Solutions:**
+- PII removal
+- Licensing compliance
+- Bias audits
+- Opt-out mechanisms
+
+---
+
+## (Continued in next message due to length...)
+<!-- Aero-Footer-Start -->
+
+## 📄 Tài liệu cùng chuyên mục
+| Bài học | Liên kết |
+| :--- | :--- |
+| [CS229: Xây Dựng Mô Hình Ngôn Ngữ Lớn (LLMs) 🧠](aero_llm_00_overview.md) | [Xem bài viết →](aero_llm_00_overview.md) |
+| [Lecture 1: Transformer Architecture 🤖](aero_llm_01_transformer.md) | [Xem bài viết →](aero_llm_01_transformer.md) |
+| [Lecture 2: Transformer Tricks & BERT 🛠️](aero_llm_02_transformer_tricks.md) | [Xem bài viết →](aero_llm_02_transformer_tricks.md) |
+| [Lecture 3: Large Language Models (LLMs) & Inference 🚀](aero_llm_03_large_language_models.md) | [Xem bài viết →](aero_llm_03_large_language_models.md) |
+| [Lecture 4: LLM Training - Pre-training 🏋️](aero_llm_04_training_pretraining.md) | [Xem bài viết →](aero_llm_04_training_pretraining.md) |
+| [Lecture 5: LLM Tuning (SFT & Parameter Efficient) 🎛️](aero_llm_05_tuning_peft.md) | [Xem bài viết →](aero_llm_05_tuning_peft.md) |
+| [Lecture 6: LLM Reasoning 🧠](aero_llm_06_reasoning.md) | [Xem bài viết →](aero_llm_06_reasoning.md) |
+| [Lecture 7: Agentic LLMs & Tool Use 🛠️](aero_llm_07_agentic_llms.md) | [Xem bài viết →](aero_llm_07_agentic_llms.md) |
+| [Lecture 8: LLM Evaluation ⚖️](aero_llm_08_evaluation.md) | [Xem bài viết →](aero_llm_08_evaluation.md) |
+| [Lecture 9: Recap & Current Trends 🔮](aero_llm_09_trends.md) | [Xem bài viết →](aero_llm_09_trends.md) |
+| [🛠️ Top 12 Repo Quan Trọng Cho AI Engineer Tối Ưu LLM](aero_llm_10_essential_tools.md) | [Xem bài viết →](aero_llm_10_essential_tools.md) |
+| [Chương 1: Tổng Quan Về Large Language Models (LLMs) 🧠](aero_llm_chapter01_overview_detailed.md) | [Xem bài viết →](aero_llm_chapter01_overview_detailed.md) |
+| 📌 **[Chương 2: 5 Trụ Cột Của Việc Huấn Luyện LLMs 🏛️](aero_llm_chapter02_5pillars_part1.md)** | [Xem bài viết →](aero_llm_chapter02_5pillars_part1.md) |
+| [Chương 2: 5 Trụ Cột - Part 2 (Evaluation & Systems)](aero_llm_chapter02_5pillars_part2.md) | [Xem bài viết →](aero_llm_chapter02_5pillars_part2.md) |
+| [Chương 3: Pre-training → Post-training Pipeline 🔄](aero_llm_chapter03_training_pipeline.md) | [Xem bài viết →](aero_llm_chapter03_training_pipeline.md) |
+| [Chương 4 & 5: Mechanisms & Evaluation 🔧📊](aero_llm_chapter04_05_mechanisms_eval.md) | [Xem bài viết →](aero_llm_chapter04_05_mechanisms_eval.md) |
+
+---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
+
+> *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
+
+*Cập nhật tự động bởi Aero-Indexer - 2026*
+<!-- Aero-Footer-End -->

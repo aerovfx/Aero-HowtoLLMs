@@ -70,13 +70,17 @@ To mitigate these issues, modern architectures employ:
 
 Let a neuron output be defined as:
 
+$$
 y = \sum_{i=1}^{n} w_i x_i
+$$
 
-Assuming inputs $x_i$ and weights $w_i$ are independent random variables with zero mean, the variance of $y$ is:
+Assuming inputs (x_i) and weights (w_i) are independent random variables with zero mean, the variance of (y) is:
 
+$$
 \text{Var}(y) = n \cdot \text{Var}(w) \cdot \text{Var}(x)
+$$
 
-To preserve variance across layers, the variance of weights should scale inversely with the number of inputs $n$.
+To preserve variance across layers, the variance of weights should scale inversely with the number of inputs (n).
 
 ### 3.2 Impact on Gradient Flow
 
@@ -84,7 +88,9 @@ During backpropagation, gradients are multiplied by weight matrices. If weight v
 
 Proper initialization ensures that:
 
-$\mathbb${E}[|$\nabla$ L|] $\approx$ \text{constant}
+$$
+\mathbb{E}[|\nabla L|] \approx \text{constant}
+$$
 
 across layers.
 
@@ -96,15 +102,19 @@ across layers.
 
 Weights are sampled from:
 
+$$
 w \sim \mathcal{N}(0, \sigma^2)
+$$
 
-If $\sigma$ is too large, numerical instability occurs. If too small, learning stagnates. The instructional material demonstrates that large variance leads to exploding activations .
+If (\sigma) is too large, numerical instability occurs. If too small, learning stagnates. The instructional material demonstrates that large variance leads to exploding activations .
 
 ### 4.2 Xavier (Glorot) Initialization
 
 Proposed by Glorot and Bengio (2010), Xavier initialization aims to preserve variance in both forward and backward passes:
 
+$$
 \text{Var}(w) = \frac{2}{n_{\text{in}} + n_{\text{out}}}
+$$
 
 This method is suitable for tanh and sigmoid activations.
 
@@ -112,7 +122,9 @@ This method is suitable for tanh and sigmoid activations.
 
 He et al. (2015) developed this method for ReLU-based networks:
 
+$$
 \text{Var}(w) = \frac{2}{n_{\text{in}}}
+$$
 
 It compensates for the variance reduction caused by ReLU activations.
 
@@ -132,17 +144,14 @@ Common initialization procedures include:
 import torch.nn.init as init
 
 # Normal initialization
-
-$$
 init.normal_(layer.weight, mean=0.0, std=0.02)
-$$
 
 # Xavier initialization
 init.xavier_normal_(layer.weight)
 
 # Kaiming initialization
-
 init.kaiming_uniform_(layer.weight, nonlinearity='relu')
+```
 
 These functions modify tensors in-place, as indicated by the underscore suffix.
 
@@ -168,9 +177,11 @@ Residual connections facilitate gradient flow and reduce sensitivity to initiali
 
 In Transformer attention:
 
+$$
 \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
 
-The scaling factor $\sqrt{$d_k$}$ prevents excessive variance.
+The scaling factor (\sqrt{d_k}) prevents excessive variance.
 
 ### 6.4 Optimizers
 

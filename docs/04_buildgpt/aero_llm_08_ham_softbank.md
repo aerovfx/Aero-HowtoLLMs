@@ -28,9 +28,11 @@ Hàm Softmax là một thành phần cốt lõi trong các mô hình học sâu,
 
 ## 1. Giới thiệu
 
-Trong học sâu, Softmax thường được sử dụng để chuyển đổi vector logits thành phân phối xác suất. Cho vector đầu vào ( x = ($x_1$, $x_2$, ..., $x_n$) ), Softmax được định nghĩa như sau:
+Trong học sâu, Softmax thường được sử dụng để chuyển đổi vector logits thành phân phối xác suất. Cho vector đầu vào ( x = (x_1, x_2, ..., x_n) ), Softmax được định nghĩa như sau:
 
+$$
 \text{Softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{n} e^{x_j}}
+$$
 
 Hàm này đảm bảo rằng:
 
@@ -51,16 +53,14 @@ Softmax biến đổi các giá trị logits thành xác suất bằng hàm mũ.
 
 Phiên bản mở rộng của Softmax có dạng:
 
+$$
 \text{Softmax}*T(x_i) = \frac{e^{x_i/T}}{\sum*{j=1}^{n} e^{x_j/T}}
+$$
 
-Trong đó $T$ là nhiệt độ:
+Trong đó (T) là nhiệt độ:
 
 * (T < 1): Phân phối sắc nét (sharp), tập trung vào phần tử lớn nhất.
-
-$$
-* T = 1: Softmax chuẩn.
-$$
-
+* (T = 1): Softmax chuẩn.
 * (T > 1): Phân phối phẳng (smooth), tăng tính đa dạng.
 
 ### 2.3. Ổn định số học
@@ -149,9 +149,8 @@ Càng nhiều phần tử, xác suất riêng lẻ càng nhỏ.
 | T = 1    | Cân bằng               |
 | T > 1    | Phân tán               |
 
-$$
-Ở T = 0.5, phần tử có logit = 6 chiếm gần như toàn bộ xác suất. Ở T = 3, phân phối trở nên mềm hơn, tăng tính ngẫu nhiên.
-$$
+Ở T = 0.5, phần tử có logit = 6 chiếm gần như toàn bộ xác suất.
+Ở T = 3, phân phối trở nên mềm hơn, tăng tính ngẫu nhiên.
 
 ### 4.4. Ảnh hưởng của phạm vi logits
 
@@ -269,15 +268,14 @@ Bạn có thể copy và chạy trực tiếp trong môi trường có `torch` v
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
+```
 
 ---
 
 # 📌 2. Hàm Softmax chuẩn (có nhiệt độ)
 
 ```python
-
 def softmax_t(x, temperature=1.0):
-
     """
     Temperature-scaled softmax
 
@@ -288,21 +286,25 @@ def softmax_t(x, temperature=1.0):
     Returns:
         Tensor: Probability distribution
     """
+    x_scaled = x / temperature
+    exp_x = torch.exp(x_scaled - torch.max(x_scaled))  # numerical stability
+    return exp_x / torch.sum(exp_x)
+```
 
-x_scaled = x / temperature
+👉 Trừ `max(x)` để tránh overflow (chuẩn nghiên cứu).
 
-$$
-exp_x = torch.exp(x_scaled - torch.max(x_scaled))  # numerical stability return exp_x / torch.sum(exp_x) 👉 Trừ `max(x)` để tránh overflow (chuẩn nghiên cứu). --- # 📌 3. Thí nghiệm 1: Softmax lặp ## 3.1. Hàm thực nghiệm ```python def iterative_softmax_experiment( n_points=20,
-$$
+---
 
-n_iters=8,
+# 📌 3. Thí nghiệm 1: Softmax lặp
 
-$$
-min_val=0.0,
-$$
+## 3.1. Hàm thực nghiệm
 
-max_val=1.0
-
+```python
+def iterative_softmax_experiment(
+    n_points=20,
+    n_iters=8,
+    min_val=0.0,
+    max_val=1.0
 ):
     """
     Iterative Softmax Experiment
@@ -313,62 +315,129 @@ max_val=1.0
     """
 
     # Generate linear data
+    x = torch.linspace(min_val, max_val, n_points)
 
-x = torch.linspace(min_val, max_val, n_points)
+    probs = []
+    stds = []
 
-probs = []
+    # Initial softmax
+    p = softmax_t(x)
 
-stds = []
+    probs.append(p.clone())
 
-$$
-# Initial softmax p = softmax_t(x) probs.append(p.clone()) for i in range(n_iters): std = torch.std(p) stds.append(std.item()) # Apply softmax again p = softmax_t(p) probs.append(p.clone()) return probs, stds, x --- ## 3.2. Chạy thí nghiệm ```python probs, stds, x = iterative_softmax_experiment() --- ## 3.3. Vẽ kết quả ### Phân phối theo vòng lặp ```python
-$$
+    for i in range(n_iters):
 
+        std = torch.std(p)
+        stds.append(std.item())
+
+        # Apply softmax again
+        p = softmax_t(p)
+
+        probs.append(p.clone())
+
+    return probs, stds, x
+```
+
+---
+
+## 3.2. Chạy thí nghiệm
+
+```python
+probs, stds, x = iterative_softmax_experiment()
+```
+
+---
+
+## 3.3. Vẽ kết quả
+
+### Phân phối theo vòng lặp
+
+```python
 plt.figure(figsize=(8, 6))
 
-$$
-for i, p in enumerate(probs): plt.scatter(x, p, label=f"Iter {i}", s=30) plt.xlabel("Input values") plt.ylabel("Softmax probability") plt.title("Iterative Softmax Behavior") plt.legend() plt.grid(True) plt.show() --- ### Log độ lệch chuẩn ```python log_stds = np.log(np.array(stds) + 1e-12) plt.figure(figsize=(6, 5)) plt.plot(range(len(log_stds)), log_stds, marker='o') plt.xlabel("Iteration") plt.ylabel("Log(Standard Deviation)") plt.title("Convergence of Iterative Softmax") plt.grid(True) plt.show() --- # 📌 4. Thí nghiệm 2: Phạm vi logits & Nhiệt độ --- ## 4.1. Hàm thực nghiệm ```python def temperature_range_experiment(
-$$
+for i, p in enumerate(probs):
+    plt.scatter(x, p, label=f"Iter {i}", s=30)
 
-ranges=[0.4, 1, 5],
+plt.xlabel("Input values")
+plt.ylabel("Softmax probability")
+plt.title("Iterative Softmax Behavior")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
 
-temperatures=[0.5, 1.0, 3.0],
+---
 
-n_points=100,
+### Log độ lệch chuẩn
 
-outlier=6.0
+```python
+log_stds = np.log(np.array(stds) + 1e-12)
 
-$$
-): """ Temperature & Logit Range Experiment Returns: results (dict): Nested results """
-$$
+plt.figure(figsize=(6, 5))
 
-results = {}
+plt.plot(range(len(log_stds)), log_stds, marker='o')
 
-$$
-for r in ranges: # Generate logits x = torch.linspace(-r, r, n_points) # Append outlier out = torch.tensor([outlier])
-$$
+plt.xlabel("Iteration")
+plt.ylabel("Log(Standard Deviation)")
+plt.title("Convergence of Iterative Softmax")
+plt.grid(True)
+plt.show()
+```
 
-logits = torch.cat([x, out])
+---
 
-results[r] = {}
+# 📌 4. Thí nghiệm 2: Phạm vi logits & Nhiệt độ
 
-$$
-for t in temperatures: probs = softmax_t(logits, t) results[r][t] = {
-$$
+---
 
+## 4.1. Hàm thực nghiệm
+
+```python
+def temperature_range_experiment(
+    ranges=[0.4, 1, 5],
+    temperatures=[0.5, 1.0, 3.0],
+    n_points=100,
+    outlier=6.0
+):
+    """
+    Temperature & Logit Range Experiment
+
+    Returns:
+        results (dict): Nested results
+    """
+
+    results = {}
+
+    for r in ranges:
+
+        # Generate logits
+        x = torch.linspace(-r, r, n_points)
+
+        # Append outlier
+        out = torch.tensor([outlier])
+        logits = torch.cat([x, out])
+
+        results[r] = {}
+
+        for t in temperatures:
+
+            probs = softmax_t(logits, t)
+
+            results[r][t] = {
                 "logits": logits,
                 "probs": probs
             }
 
     return results
+```
 
 ---
 
 ## 4.2. Chạy thí nghiệm
 
 ```python
-
 results = temperature_range_experiment()
+```
 
 ---
 
@@ -379,40 +448,62 @@ results = temperature_range_experiment()
 ```python
 def plot_zoomed(results):
 
-fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
 
     for idx, r in enumerate(results):
 
-ax = axes[idx]
+        ax = axes[idx]
 
         for t in results[r]:
 
-data = results[r][t]
+            data = results[r][t]
 
-$$
-logits = data["logits"][:-1]
-$$
-
-probs = data["probs"][:-1]
+            logits = data["logits"][:-1]
+            probs = data["probs"][:-1]
 
             ax.scatter(
                 logits.numpy(),
                 probs.numpy(),
+                label=f"T={t}",
+                s=20
+            )
 
-label=f"T={t}",
+        ax.set_title(f"Range [-{r}, {r}]")
+        ax.set_ylim(0, 0.03)
+        ax.set_xlabel("Logits")
+        ax.set_ylabel("Probability")
+        ax.legend()
+        ax.grid(True)
 
-s=20
+    plt.tight_layout()
+    plt.show()
+```
 
-$$
-) ax.set_title(f"Range [-{r}, {r}]") ax.set_ylim(0, 0.03) ax.set_xlabel("Logits") ax.set_ylabel("Probability") ax.legend() ax.grid(True) plt.tight_layout() plt.show() --- ### Zoom-out (toàn bộ phân phối) ```python def plot_full(results): fig, axes = plt.subplots(1, 3, figsize=(15, 4)) for idx, r in enumerate(results): ax = axes[idx] for t in results[r]: data = results[r][t]
-$$
+---
 
-logits = data["logits"]
+### Zoom-out (toàn bộ phân phối)
 
-$$
-probs = data["probs"] ax.scatter( logits.numpy(), probs.numpy(), label=f"T={t}", s=20
-$$
+```python
+def plot_full(results):
 
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+    for idx, r in enumerate(results):
+
+        ax = axes[idx]
+
+        for t in results[r]:
+
+            data = results[r][t]
+
+            logits = data["logits"]
+            probs = data["probs"]
+
+            ax.scatter(
+                logits.numpy(),
+                probs.numpy(),
+                label=f"T={t}",
+                s=20
             )
 
         ax.set_title(f"Range [-{r}, {r}]")
@@ -424,6 +515,7 @@ $$
 
     plt.tight_layout()
     plt.show()
+```
 
 ---
 
@@ -432,6 +524,7 @@ $$
 ```python
 plot_zoomed(results)
 plot_full(results)
+```
 
 ---
 
@@ -441,23 +534,22 @@ plot_full(results)
 def run_full_pipeline():
 
     print("Running Iterative Softmax...")
-
-probs, stds, x = iterative_softmax_experiment()
+    probs, stds, x = iterative_softmax_experiment()
 
     print("Running Temperature Experiment...")
-
-results = temperature_range_experiment()
+    results = temperature_range_experiment()
 
     plot_zoomed(results)
     plot_full(results)
 
     return probs, stds, results
+```
 
 ---
 
 ```python
-
 probs, stds, results = run_full_pipeline()
+```
 
 ---
 
@@ -489,19 +581,20 @@ Bạn có thể mở rộng thêm:
 ```python
 # O(N) per softmax
 # O(KN) for iterative
+```
 
 ### 🔹 Seed cố định
 
 ```python
 torch.manual_seed(42)
 np.random.seed(42)
+```
 
 ### 🔹 GPU
 
 ```python
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+```
 <!-- Aero-Footer-Start -->
 
 ## 📄 Tài liệu cùng chuyên mục

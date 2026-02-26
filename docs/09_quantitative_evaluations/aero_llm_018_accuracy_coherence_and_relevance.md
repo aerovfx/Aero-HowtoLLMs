@@ -27,7 +27,7 @@ Có những đặc tính của văn bản rất khó đánh giá bằng các bà
 Ngôn ngữ không chỉ là sự kết hợp của các từ ngữ đúng ngữ pháp mà còn chứa đựng cảm xúc và ngữ cảnh. Các chỉ số định lượng như *Perplexity* có thể đo mức độ dự đoán chính xác token tiếp theo, nhưng không thể đo được:
 - **Tính mạch lạc (Coherence):** Sự kết nối logic giữa các ý tưởng trong một đoạn văn dài.
 - **Sự phù hợp (Relevance):** Câu trả lời có bám sát nhu cầu thực tế của người dùng hay không.
-- **Phong cách $Style/Texture$:** Ví dụ như sự khác biệt giữa văn phong viết tay chân thực và phong cách "LinkedIn" (câu ngắn, nhiều emoji, punchy) thường thấy ở nội dung do AI tạo ra.
+- **Phong cách (Style/Texture):** Ví dụ như sự khác biệt giữa văn phong viết tay chân thực và phong cách "LinkedIn" (câu ngắn, nhiều emoji, punchy) thường thấy ở nội dung do AI tạo ra.
 
 ---
 
@@ -38,7 +38,7 @@ Giải pháp cho vấn đề chủ quan là đưa con người vào vòng lặp 
 ### 2.1 Thang đo Điểm số (Numeric Feedback)
 Người đánh giá cho điểm văn bản trên thang từ 1-10 dựa trên các tiêu chí cụ thể (ví dụ: độ hữu ích).
 
-### 2.2 So sánh Cặp $A/B Testing$
+### 2.2 So sánh Cặp (A/B Testing)
 Người đánh giá chọn văn bản tốt hơn trong hai lựa chọn được đưa ra. Đây là cơ sở cho các bảng xếp hạng như *LMSYS Chatbot Arena*.
 
 ### 2.3 Kiểm tra Turing (Turing-like tests)
@@ -52,7 +52,7 @@ Kết quả từ các đánh giá này được sử dụng để huấn luyện
 
 Mục tiêu là tối ưu hóa hàm giá trị:
 
-J(\phi) = \mathbb{E}_{x \sim D, y \sim \pi_{\phi}(y|x)} [R(x, y)] - \beta \text{KL}(\pi_{\phi} || \pi_{ref})
+$$J(\phi) = \mathbb{E}_{x \sim D, y \sim \pi_{\phi}(y|x)} [R(x, y)] - \beta \text{KL}(\pi_{\phi} || \pi_{ref})$$
 
 Trong đó:
 - $R(x, y)$ là điểm số từ Reward Model phản ánh sở thích của con người.

@@ -25,7 +25,7 @@ Báo cáo này nghiên cứu về các nguyên lý cơ bản của Lập trình 
 
 Dù OOP là một khái niệm lập trình tổng quát, nó đóng vai trò xương sống trong PyTorch khi mọi mô hình học máy đều được cấu trúc dưới dạng các lớp kế thừa.
 - **Lớp (Class):** Một bản thiết kế hoặc khuôn mẫu định nghĩa các đặc tính chung.
-- **Đối tượng/Thực thể $Object/Instance$:** Một sản phẩm cụ thể được tạo ra từ bản thiết kế của lớp.
+- **Đối tượng/Thực thể (Object/Instance):** Một sản phẩm cụ thể được tạo ra từ bản thiết kế của lớp.
 - **Thuộc tính (Attribute):** Các biến số gắn liền với đối tượng, đại diện cho trạng thái (ví dụ: các trọng số trong một lớp mạng).
 - **Phương thức (Method):** Các hàm số gắn liền với đối tượng, đại diện cho hành vi (ví dụ: quá trình lan truyền tiến - forward pass).
 
@@ -34,10 +34,7 @@ Dù OOP là một khái niệm lập trình tổng quát, nó đóng vai trò x�
 ## 2. Đối tượng Danh sách trong Python (Class List)
 
 ### 2.1. Bản chất của Danh sách
-
-$$
-Trong Python, khi chúng ta khởi tạo một danh sách bằng lệnh `L = list([1, 2, 3])`, chúng ta thực chất đang tạo ra một thực thể của lớp `list`.
-$$
+Trong Python, khi chúng ta khởi tạo một danh sách bằng lệnh `L = list([1, 2, 3])`, chúng ta thực chất đang tạo ra một thực thể của lớp `list`. 
 
 ### 2.2. Khám phá Thuộc tính bằng Hàm `dir()`
 Hàm `dir(đối_tượng)` là công cụ quan trọng để liệt kê toàn bộ "kho vũ khí" mà một thực thể sở hữu. Kết quả trả về bao gồm các thuộc tính ẩn (bắt đầu bằng dấu gạch dưới `__`) và các phương thức công khai mà chúng ta có thể tương tác trực tiếp.

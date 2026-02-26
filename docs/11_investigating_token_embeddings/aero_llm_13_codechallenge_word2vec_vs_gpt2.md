@@ -33,14 +33,13 @@ Thuật toán dò ngược Try-Catch exception sẽ tạo được một tập m
 ## 2. Kiến Thiết Khối Phân Giải Cục Bộ
 
 Bất lực hoàn toàn trước phép trừ hoặc cộng tuyến tính giữa một vector 300D và 768D, phương pháp lấy đạo chéo bắt đầu với tính độc lập từng phe không gian một.
-
+Trích lấy cụm thông tin vector của $N=100$ token trong hai hộp không gian, áp dụng ma trận tích vô hướng khoảng cách chéo Cosine Similarity:
 $$
-Trích lấy cụm thông tin vector của N=100 token trong hai hộp không gian, áp dụng ma trận tích vô hướng khoảng cách chéo Cosine Similarity:
-$$
-
 S_{W2V} = \text{CosineSim}(E_{\text{w2v-100}}) \in \mathbb{R}^{100 \times 100}
-
+$$
+$$
 S_{GPT2} = \text{CosineSim}(E_{\text{gpt2-100}}) \in \mathbb{R}^{100 \times 100}
+$$
 
 **Chắt Cất Đại Lượng (Upper Triangular Tiling):** 
 Dọc theo chéo chính (Diagonal elements), tất cả các thông số đều vô nghĩa vì chúng luôn $\equiv 1.0$ (Tự soi chiếu gương). Tương tự, mặt đối xứng chéo dưới (Lower triangular) cũng là thông tin vi phạm lỗi dư thừa. Do đó, chỉ môt mảnh tam giác trên cùng (Upper components extract) có trị số vô hướng $\frac{100 \times 99}{2} = 4950$ điểm dữ liệu thô được dàn phẳng thành vector dây một chiều $v_{w2v}$ và $v_{gpt2}$.
@@ -55,9 +54,9 @@ Dọc theo chéo chính (Diagonal elements), tất cả các thông số đều 
 Quang phổ Cosine của Word2Vec luôn được chuẩn hóa rộng rãi nằm giữa khu vực khoảng $[ -0.2 , 0.5 ]$. Trong khi đó, tính chất khối lượng đồ thị học mạng biến áp tự hồi quy (Autoregressive Transformers networks) như GPT mang đến hiệu ứng chùm điểm tụ lõi nón - tất cả mọi Cosine Similarities của GPT-2 lơ lửng ở đỉnh dư dương luôn lớn hơn $0$, loanh quanh khoảng $[ 0.3 , 0.8 ]$.
 
 Nếu giả tưởng ta ép ma trận Word2vec tịnh tiến xuống trừ đi $-1$ trị số (Mean Offset subtract 1), chỉ số Cosine Similarity đột ngột nhảy vực thay đổi phương hướng đồ thị toàn tập. Nhưng tính chất **Hệ số Pearson ($\rho$) không bao giờ gãy đổ**:
-
+$$
 \rho = \frac{\text{Cov}(v_{w2v}, v_{gpt2})}{\sigma_{\text{w2v}} \sigma_{\text{gpt2}}}
-
+$$
 Luật tính hiệp phương sai chia chuẩn độ lệch $Cov(X,Y)$ tự động loại bỏ mọi độ lệch trung bình tâm (global mean offsets shift), khiến Pearson Correlation chỉ xét dựa trên tính chất "*Chúng nhảy nhót lên và xuống cùng một biên độ hay không*". 
 
 Kết cục của điểm $\rho$ tính được RSA Score cung cấp một chỉ số cao ấn tượng, thừa nhận việc máy học dự đoán ngôn ngữ GPT-2 trên Transformer hay mô hình cửa sổ bối cảnh nhỏ Continuous Bag-of-Words như Word2vec, sự kiến thiết thông triệt của ngôn ngữ loài người ở mức sâu nhất trong AI là tương đồng đáng kinh ngạc.

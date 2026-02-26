@@ -30,7 +30,7 @@ Mục tiêu cốt lõi của tiểu khối Attention là tích hợp thông tin 
 
 ### 2.1. Cấu trúc Thực nghiệm và Chỉ số Đo lường
 - **Kỹ thuật:** Sử dụng Forward Pre-hook để triệt tiêu một Head bất kỳ trong tầng `c_proj`.
-- **Chỉ số:** Độ tương đồng Cosine giữa tất cả các cặp token trong câu: $CS(\mathbf{v}_i, \mathbf{v}_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j}{\\mid \mathbf{v}_i\\mid \\mid\mathbf{v}_j\\mid}$.
+- **Chỉ số:** Độ tương đồng Cosine giữa tất cả các cặp token trong câu: $CS(\mathbf{v}_i, \mathbf{v}_j) = \frac{\mathbf{v}_i \cdot \mathbf{v}_j}{\|\mathbf{v}_i\| \|\mathbf{v}_j\|}$.
 - **Công thức phần tử duy nhất:** Đối với ma trận đối xứng $M \times M$, số cặp token duy nhất (loại trừ đường chéo) là $\frac{M(M-1)}{2}$.
 
 ### 2.2. Phân tích T-test và Hiệu chỉnh Đa so sánh

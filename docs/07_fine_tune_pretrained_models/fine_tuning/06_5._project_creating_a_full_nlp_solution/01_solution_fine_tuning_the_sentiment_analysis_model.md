@@ -35,41 +35,26 @@ tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
 def tokenize_function(examples):
     return tokenizer(
         examples["sentence"],
-
-padding='max_length',
-
-$$
-truncation=True,
-$$
-
-max_length=128
-
+        padding='max_length',
+        truncation=True,
+        max_length=128
     )
+```
 
 ## Tạo TensorFlow Dataset
 
 ```python
 # Tạo dataset
-
 tokenized_datasets = dataset.map(tokenize_function, batched=True)
 
 # Chuyển thành TensorFlow dataset
-
 tf_train_dataset = tokenized_datasets["train"].to_tf_dataset(
-
-$$
-columns=["input_ids", "attention_mask"],
-$$
-
-label_cols=["labels"],
-
-$$
-batch_size=64,
-$$
-
-shuffle=True
-
+    columns=["input_ids", "attention_mask"],
+    label_cols=["labels"],
+    batch_size=64,
+    shuffle=True
 )
+```
 
 ## Tải Mô Hình
 
@@ -77,34 +62,27 @@ shuffle=True
 from transformers import TFDistilBertForSequenceClassification
 
 model = TFDistilBertForSequenceClassification.from_pretrained(
-
     'distilbert-base-uncased',
-
-num_labels=2  # Positive/Negative
-
+    num_labels=2  # Positive/Negative
 )
 
 # Đông cứng base model để transfer learning
-
 model.distilbert.trainable = False
+```
 
 ## Huấn Luyện
 
 ```python
 # Compile model
 model.compile(
-
-optimizer=tf.keras.optimizers.Adam(learning_rate=5e-5),
-
-$$
-loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=[tf.keras.metrics.SparseCategoricalAccuracy()]
-$$
-
+    optimizer=tf.keras.optimizers.Adam(learning_rate=5e-5),
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    metrics=[tf.keras.metrics.SparseCategoricalAccuracy()]
 )
 
 # Huấn luyện
-
 model.fit(tf_train_dataset, epochs=3)
+```
 
 ## Kết Quả
 
@@ -119,6 +97,7 @@ model.fit(tf_train_dataset, epochs=3)
 
 ```python
 model.save_pretrained('sentiment_model')
+```
 
 Bây giờ bạn có thư mục chứa tất cả cấu hình model và weight.
 

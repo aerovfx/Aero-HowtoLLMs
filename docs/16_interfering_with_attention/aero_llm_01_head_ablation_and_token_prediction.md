@@ -22,14 +22,14 @@ Báo cáo này nghiên cứu tác động của việc can thiệp nhân quả l
 ---
 
 ## 1. Mở Đầu (Introduction)
-Các cơ chế Attention chịu trách nhiệm kéo các vector embeddings theo những hướng giúp dự báo chính xác token kế tiếp dựa trên ngữ cảnh và tri thức thế giới. Một trong những câu hỏi cơ bản của Diễn giải cơ học (Mechanistic Interpretability) là: làm thế nào để cô lập và thao tác một Attention Head duy nhất trong khi chúng thường bị trộn lẫn ngay lập tức sau khi tính toán? Báo cáo này trình bày kỹ thuật can thiệp vào tầng đầu ra của attention trước khi thông tin bị xáo trộn bởi ma trận trộn tuyến tính $W_$O(.
+Các cơ chế Attention chịu trách nhiệm kéo các vector embeddings theo những hướng giúp dự báo chính xác token kế tiếp dựa trên ngữ cảnh và tri thức thế giới. Một trong những câu hỏi cơ bản của Diễn giải cơ học (Mechanistic Interpretability) là: làm thế nào để cô lập và thao tác một Attention Head duy nhất trong khi chúng thường bị trộn lẫn ngay lập tức sau khi tính toán? Báo cáo này trình bày kỹ thuật can thiệp vào tầng đầu ra của attention trước khi thông tin bị xáo trộn bởi ma trận trộn tuyến tính $W_O$.
 
 ---
 
 ## 2. Thiết Lập Thí Nghiệm (Methodology)
 
 ### 2.1. Cơ chế Forward Pre-hook và Tầng c_proj
-Trong kiến trúc GPT-2 của OpenAI/HuggingFace, 12 attention heads sau khi được tính toán xong sẽ được nối tiếp (concatenated) và đưa vào tầng `c_proj`. Tầng này thực hiện phép nhân với ma trận trộn )$W_O$ để tích hợp thông tin từ 12 heads vào residual stream.
+Trong kiến trúc GPT-2 của OpenAI/HuggingFace, 12 attention heads sau khi được tính toán xong sẽ được nối tiếp (concatenated) và đưa vào tầng `c_proj`. Tầng này thực hiện phép nhân với ma trận trộn $W_O$ để tích hợp thông tin từ 12 heads vào residual stream.
 - **Kỹ thuật:** Sử dụng `register_forward_pre_hook` vào tầng `c_proj`. 
 - **Lý do:** Ở giai đoạn "Pre-input" này, dữ liệu vẫn ở dạng 12 khối 64 chiều nối tiếp nhau. Chúng ta có thể reshape tensor để tách riêng chiều `heads` và dễ dàng thực hiện can thiệp lên một đầu cụ thể (`head_to_ablate`).
 
