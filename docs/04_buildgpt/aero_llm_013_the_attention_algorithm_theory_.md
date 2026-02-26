@@ -52,10 +52,10 @@ $$
 
 \text{Attention}(Q, K, V)
 =========================
-
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}} + M\right)V
 
 $$
+
 
 Trong đó:
 
@@ -79,6 +79,7 @@ Q = XW_Q,\quad K = XW_K,\quad V = XW_V
 
 $$
 
+
 với ( W_Q, W_K, W_V ) là các tham số học được.
 
 Các ma trận này được huấn luyện trong quá trình tối ưu và giúp chuyển đổi embedding sang không gian phù hợp cho việc so khớp ngữ nghĩa.
@@ -98,6 +99,7 @@ M_{ij} =
 \end{cases}
 
 $$
+
 
 Mask này đảm bảo tính tự hồi quy và tránh rò rỉ thông tin.
 
@@ -155,6 +157,7 @@ $$
 O = AV
 
 $$
+
 
 Trong đó $A$ là ma trận Attention.
 
@@ -1910,7 +1913,14 @@ def generate_stream(
         ids = torch.cat([ids, next_id], dim=1)
 
         token = tokenizer.decode(
-            [next_id.item()]
+
+$$
+
+next_id.item()
+
+$$
+
+
         )
 
         yield token

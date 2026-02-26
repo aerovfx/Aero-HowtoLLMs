@@ -62,6 +62,7 @@ h' = m \odot h, \quad m \sim \text{Bernoulli}(p)
 
 $$
 
+
 Trong đó $h$ là vector đầu vào và $m$ là mặt nạ dropout.
 
 ---
@@ -137,6 +138,7 @@ X = E_{token} + E_{position}
 
 $$
 
+
 Sau đó áp dụng:
 
 $$
@@ -144,6 +146,7 @@ $$
 X' = \text{Dropout}(X)
 
 $$
+
 
 Việc này giúp giảm phụ thuộc vào các biểu diễn vị trí cố định.
 
@@ -182,6 +185,7 @@ H = X + \text{Dropout}(\text{Attention}(X))
 
 $$
 
+
 Điều này giúp giảm hiện tượng overfitting trong attention sub-layer.
 
 ---
@@ -196,6 +200,7 @@ $$
 
 $$
 
+
 Sau FFN, dropout được áp dụng:
 
 $$
@@ -203,6 +208,7 @@ $$
 H = X + \text{Dropout}(\text{FFN}(X))
 
 $$
+
 
 Cách làm này phù hợp với thiết kế chuẩn của Transformer.
 
@@ -232,6 +238,7 @@ P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
 
 $$
 
+
 với $T$ là temperature.
 
 Việc sử dụng logits giúp điều chỉnh mức độ ngẫu nhiên khi sinh văn bản.
@@ -247,6 +254,7 @@ $$
 z' = \frac{z}{\sqrt{d_{emb}}}
 
 $$
+
 
 Mặc dù không phổ biến trong LLM thương mại, kỹ thuật này giúp ổn định mô hình khi training ngắn hạn. 
 

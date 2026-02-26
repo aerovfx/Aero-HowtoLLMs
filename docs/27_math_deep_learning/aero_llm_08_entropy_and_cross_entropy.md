@@ -49,6 +49,7 @@ BCE = -[p \log(q) + (1-p) \log(1-q)]
 
 $$
 
+
 Trong thực tế học sâu, vì $p$ thường chỉ bằng 0 hoặc 1, công thức này lại càng đơn giản hơn: nó chỉ đơn thuần là giá trị âm logarit của xác suất mà mô hình gán cho lớp đúng. Nếu mô hình càng tự tin vào lớp đúng, giá trị mất mát (loss) càng nhỏ.
 
 ---

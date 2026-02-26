@@ -61,6 +61,7 @@ h_l = h_{l-1} + \text{Attention}(h_{l-1}) + \text{MLP}(h_{l-1})
 
 $$
 
+
 Để đo lường một mô hình có đang lưu giữ các tri thức độc hại hay không (ví dụ: công thức chế tạo bom), ta tiến hành thiết lập các Hook (hàm trích xuất trạng thái). Phương pháp quan sát phân bố xác suất từ các lớp trung gian (Logit Lens) cho phép chuẩn hóa và ánh xạ ngược dòng dư về không gian từ vựng (Vocabulary):
 
 $$
@@ -68,6 +69,7 @@ $$
 P(y_i | h_l) = \text{Softmax}(W_U \cdot h_l)
 
 $$
+
 
 Trong đó $W_U$ là ma trận Un-embedding matrix. Nếu xác suất $P$ chệch cao vào các từ vựng gây hại, ta có thể xây dựng trạm thẩm định (monitoring systems) giám sát độc lập.
 
@@ -81,6 +83,7 @@ $$
 \tilde{h}_l = h_l - \alpha \cdot (\mathbf{v}_{harmful}^T h_l) \mathbf{v}_{harmful}
 
 $$
+
 
 Phép toán trên triệt tiêu hình chiếu của $\mathbf{v}_{harmful}$ lên trạng thái $h_l$, giúp LLM giữ được sự Căn chỉnh (Alignment) mà không làm suy giảm Năng lực tổng quát (Universality) đối với các tác vụ hợp pháp khác.
 

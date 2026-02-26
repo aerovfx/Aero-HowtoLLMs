@@ -52,6 +52,7 @@ $$
 
 $$
 
+
 Từ đó, ta áp dụng hàm $\text{argmax}$ phân bổ qua $\text{Softmax}$ cho ma trận từ vựng 50,000 chiếu, tìm ra từ có xác suất cao nhất tại chính Layer lơ lửng đó.
 
 ---

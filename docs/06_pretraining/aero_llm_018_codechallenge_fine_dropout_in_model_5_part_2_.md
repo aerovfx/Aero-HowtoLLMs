@@ -56,6 +56,7 @@ $$
 
 $$
 
+
 với $T$ là độ dài chuỗi.
 
 Cách tiếp cận này cho phép mô hình học từ mọi vị trí trong chuỗi.
@@ -86,6 +87,7 @@ $$
 
 $$
 
+
 Thay vì flatten toàn bộ chuỗi, tác giả chỉ sử dụng:
 
 * Logits của token cuối,
@@ -104,6 +106,7 @@ $$
 \ell_i = z_i - \log \sum_j e^{z_j}
 
 $$
+
 
 Trong PyTorch:
 
@@ -235,6 +238,7 @@ $$
 \text{Signal reduction factor} \approx 256
 
 $$
+
 
 Điều này làm giảm tốc độ học. 
 

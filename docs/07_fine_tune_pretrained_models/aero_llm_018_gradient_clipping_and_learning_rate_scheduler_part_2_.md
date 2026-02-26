@@ -53,6 +53,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $\eta_t$: learning rate tại thời điểm $t$
@@ -77,6 +78,7 @@ $$
 \eta_t \to 0 \Rightarrow \theta_{t+1}\approx \theta_t
 
 $$
+
 
 ⇒ quá trình học gần như dừng lại.
 
@@ -104,6 +106,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $T_{warm}$: số bước warm-up
@@ -129,6 +132,7 @@ $$
 
 $$
 
+
 Trường hợp $C=\frac{1}{2}$:
 
 $$
@@ -137,6 +141,7 @@ $$
 \left(1+\cos\frac{\pi t}{T}\right)
 
 $$
+
 
 ---
 
@@ -168,6 +173,7 @@ $$
 
 $$
 
+
 ---
 
 #### 3.3.3 Điều chỉnh số bước huấn luyện
@@ -180,6 +186,7 @@ T_{sched}>T_{train}
 \Rightarrow \eta_t>0
 
 $$
+
 
 trong suốt quá trình huấn luyện.
 
@@ -195,6 +202,7 @@ $$
 \frac{c}{\max(|\mathbf{g}|,c)}\mathbf{g}
 
 $$
+
 
 Trong đó:
 
@@ -220,6 +228,7 @@ L=-\log\frac{e^{w_1}}{e^{w_1}+e^{w_2}}
 
 $$
 
+
 ---
 
 ### 4.2 Cosine Scheduler
@@ -238,6 +247,7 @@ w(t)\propto \int_0^t \eta_s ds
 
 $$
 
+
 ---
 
 ### 4.3 Linear Scheduler
@@ -255,6 +265,7 @@ $$
 \theta_{t+1}=\theta_t
 
 $$
+
 
 ⇒ không học.
 
@@ -282,6 +293,7 @@ $$
 |\theta_i|<M,\quad |g_i|<K
 
 $$
+
 
 Các kỹ thuật hỗ trợ:
 

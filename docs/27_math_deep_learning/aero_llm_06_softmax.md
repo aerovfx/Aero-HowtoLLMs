@@ -39,6 +39,7 @@ $$
 
 $$
 
+
 - **Tử số:** Chuyển đổi giá trị thô sang không gian số mũ.
 - **Mẫu số:** Tổng của toàn bộ các giá trị sau khi lấy số mũ, đóng vai trò là hệ số chuẩn hóa.
 - **Hệ quả:** Tập hợp đầu ra luôn nằm trong khoảng $(0, 1)$ và có tổng bằng chính xác $1.0$. Đặc tính này cho phép chúng ta coi đầu ra của mạng nơ-ron như một phân phối xác suất.

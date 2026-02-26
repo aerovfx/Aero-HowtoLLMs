@@ -32,6 +32,7 @@ $$
 
 $$
 
+
 Điều này đòi hỏi:
 - Cập nhật kiến thức thường xuyên
 - Thích ứng với công nghệ mới

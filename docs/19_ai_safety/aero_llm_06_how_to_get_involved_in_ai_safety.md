@@ -61,6 +61,7 @@ W_E \cdot W_{OV}^{1} \cdot W_{OV}^{2} \cdots \cdot W_U
 
 $$
 
+
 Bằng cách truy xuất mạch toán học (circuit extraction) tương đương với sự trung thực, các kỹ sư An toàn có thể bẻ cong trọng số của tác nhân một cách dứt khoát và tuyệt đối. Ở chặng đường nghiên cứu phát triển tiếp theo, "Mech Interp" là nòng cốt để các thuật toán trở nên minh bạch và an toàn từ lõi kiến trúc.
 
 ---

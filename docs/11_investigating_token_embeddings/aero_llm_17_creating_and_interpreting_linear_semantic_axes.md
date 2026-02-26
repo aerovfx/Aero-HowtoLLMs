@@ -32,6 +32,7 @@ $$
 
 $$
 
+
 Một khi đã xác lập được $\vec{v}_{\text{TimeAxis}}$, mọi vector nhúng $\vec{w}$ bất kỳ khi chiếu (project) lên trục này sẽ trả về hệ số (projection scalar) dự đoán mức độ "thuộc về tương lai" hay "hoài niệm quá khứ" thông qua phép Tích vô hướng (Dot product).
 
 ---
@@ -48,11 +49,13 @@ $$
 
 $$
 
+
 $$
 
 \hat{v}_{\text{past}} = \frac{\vec{v}_{\text{past}}}{\|\vec{v}_{\text{past}}\|}
 
 $$
+
 
 Trục ngữ nghĩa thực thụ (Normalized Axis) phải được thiết lập trên hai vector chuẩn quy có độ dài giới hạn trong vòng viền cầu bằng $1$:
 
@@ -61,6 +64,7 @@ $$
 \vec{v}_{\text{TimeAxisNorm}} = \hat{v}_{\text{future}} - \hat{v}_{\text{past}}
 
 $$
+
 
 Tính khưỡng bức không gian này tước đi ảo ảnh phương sai từ độ lớn module, khiến hệ quy chiếu chỉ tập trung vào khác biệt phương hướng góc (Cosine direction divergence).
 

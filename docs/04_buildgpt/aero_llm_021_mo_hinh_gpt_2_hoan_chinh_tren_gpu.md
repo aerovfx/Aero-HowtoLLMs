@@ -78,6 +78,7 @@ E \times 3E
 
 $$
 
+
 với $E$ là số chiều embedding.
 
 Cách tiếp cận này giúp:
@@ -117,11 +118,13 @@ X_{out} = X + \text{Attention}(\text{LN}(X))
 
 $$
 
+
 $$
 
 Y = X_{out} + \text{MLP}(\text{LN}(X_{out}))
 
 $$
+
 
 Cấu trúc này giúp ổn định quá trình huấn luyện và hạn chế hiện tượng gradient biến mất 
 
@@ -229,6 +232,7 @@ $$
 163M - 38M \approx 124M
 
 $$
+
 
 Do đó, mô hình có khoảng 124 triệu tham số huấn luyện thực sự 
 

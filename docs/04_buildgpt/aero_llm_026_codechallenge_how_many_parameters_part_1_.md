@@ -113,6 +113,7 @@ $$
 
 $$
 
+
 Kết quả này chứng minh rằng hai mô hình có kiến trúc tương đương. 
 
 ---
@@ -128,6 +129,7 @@ $$
 W_{embed} = W_{unembed}^T
 
 $$
+
 
 Điều này giúp:
 
@@ -155,6 +157,7 @@ $$
 y = Wx + b
 
 $$
+
 
 Trong đó:
 

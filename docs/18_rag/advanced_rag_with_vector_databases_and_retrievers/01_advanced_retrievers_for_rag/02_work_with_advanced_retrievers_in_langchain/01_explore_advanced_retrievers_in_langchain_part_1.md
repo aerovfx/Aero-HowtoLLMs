@@ -75,11 +75,25 @@ Vector store-based retriever hoạt động theo các bước sau:
 ```
 Query Text
     ↓
-[Embedding Model]
+
+$$
+
+Embedding Model
+
+$$
+
+
     ↓
 Query Vector
     ↓
-[Vector Similarity Search]
+
+$$
+
+Vector Similarity Search
+
+$$
+
+
     ↓
 Top-K Similar Documents
 ```
@@ -118,6 +132,7 @@ $$
 
 $$
 
+
 ```python
 retriever = vectorstore.as_retriever(
     search_type="similarity"
@@ -149,6 +164,7 @@ $$
 \text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{sim}(Q, D_i) - (1-\lambda) \cdot \max_{D_j \in S} \text{sim}(D_i, D_j) \right]
 
 $$
+
 
 Trong đó:
 - $Q$: Query

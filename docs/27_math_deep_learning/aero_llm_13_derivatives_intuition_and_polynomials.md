@@ -40,6 +40,7 @@ $$
 
 $$
 
+
 - **Cơ chế:** Đưa số mũ xuống làm hệ số nhân và giảm bậc của biến số đi 1 đơn vị. 
 - **Ví dụ:** Đạo hàm của $x^2$ là $2x$, đạo hàm của $x^3$ là $3x^2$. 
 Khả năng tính toán đạo hàm một cách tự động và chính xác là chìa khóa để các thư viện như PyTorch có thể huấn luyện những mô hình có hàng tỷ tham số.

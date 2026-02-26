@@ -53,6 +53,7 @@ $$
 
 $$
 
+
 Trong đó $D_{task}$ là tập dữ liệu mục tiêu.
 
 ---
@@ -68,6 +69,7 @@ $$
 
 $$
 
+
 Với:
 
 $$
@@ -75,6 +77,7 @@ $$
 \nabla_{\theta_{freeze}}L=0
 
 $$
+
 
 ⇒ các tham số bị đóng băng không cập nhật.
 
@@ -90,11 +93,13 @@ $$
 
 $$
 
+
 $$
 
 \mathbf{g}*t=\nabla*\theta L(\theta_t)
 
 $$
+
 
 ---
 
@@ -115,6 +120,7 @@ R=\frac{|\theta_{train}|}{|\theta_{total}|}\approx 0.5
 
 $$
 
+
 ---
 
 ### 3.2 Gradient Clipping
@@ -130,6 +136,7 @@ $$
 
 $$
 
+
 Đảm bảo:
 
 $$
@@ -137,6 +144,7 @@ $$
 |\mathbf{g}'|\le c
 
 $$
+
 
 ---
 
@@ -147,6 +155,7 @@ $$
 \theta_{t+1}=\theta_t-\eta_t\mathbf{g}'
 
 $$
+
 
 Giúp hạn chế gradient explosion.
 
@@ -162,6 +171,7 @@ $$
 
 $$
 
+
 ---
 
 #### 3.3.2 Linear Decay
@@ -172,6 +182,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 $$
@@ -179,6 +190,7 @@ $$
 T_{sched}>T_{train}
 
 $$
+
 
 để tránh $\eta_t=0$.
 
@@ -205,6 +217,7 @@ $$
 \frac{c}{\max(|\mathbf{g}_t|,c)}\mathbf{g}_t
 
 $$
+
 
 ---
 
@@ -237,6 +250,7 @@ L=-\sum_{i=1}^{N}y_i\log(p_i)
 
 $$
 
+
 Quan sát:
 
 $$
@@ -244,6 +258,7 @@ $$
 Var(L_{clip+sch})<Var(L_{baseline})
 
 $$
+
 
 ⇒ học ổn định hơn.
 
@@ -258,6 +273,7 @@ $$
 Acc=\frac{TP+TN}{TP+TN+FP+FN}
 
 $$
+
 
 Kết quả:
 
@@ -283,6 +299,7 @@ G_t=|\nabla W_t|
 
 $$
 
+
 Quan sát:
 
 $$
@@ -291,11 +308,13 @@ G_{MLP}<1 \quad (\text{đa số})
 
 $$
 
+
 $$
 
 G_{CLS}>1 \quad (\text{nhiều giai đoạn đầu})
 
 $$
+
 
 ⇒ Clipping ảnh hưởng mạnh đến classifier.
 
@@ -312,6 +331,7 @@ $$
 
 $$
 
+
 Với:
 
 $$
@@ -319,6 +339,7 @@ $$
 |\mathbf{g}|>1
 
 $$
+
 
 ⇒ $\Delta g>0$
 
@@ -347,6 +368,7 @@ c(t)=
 
 $$
 
+
 (Delayed clipping)
 
 ---
@@ -368,6 +390,7 @@ $$
 Stability\propto f(F,C,S)
 
 $$
+
 
 ---
 

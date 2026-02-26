@@ -53,6 +53,7 @@ G = R_1 + γR_2 + γ^2R_3 + ...
 
 $$
 
+
 - **Giá trị trạng thái (Value Function - V(s)):** Hy vọng thưởng tích lũy bắt đầu từ trạng thái s dưới chính sách π:
 
 $$
@@ -60,6 +61,7 @@ $$
 V_π(s) = E[R_t | s_0 = s, π]
 
 $$
+
 
 - **Công thức Bellman:**
 
@@ -69,6 +71,7 @@ V_π(s) = R(s,a) + γE[V_π(s') | s, a, π]
 
 $$
 
+
 - **Cập nhật giá trị iterarion (Value Iteration):**
 
 $$
@@ -76,6 +79,7 @@ $$
 V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s'|s,a) V_k(s') ]
 
 $$
+
 
 - **Giá trị Q-learning (Q-value Function - Q(s,a)):** Biểu diễn hy vọng thưởng tích lũy bắt đầu từ trạng thái s, thực hiện hành vi a, và tuân thủ chính sách π:
 
@@ -85,6 +89,7 @@ Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s'|s,a) V_π(s')
 
 $$
 
+
 - **Cập nhật Q-learning:**
 
 $$
@@ -92,6 +97,7 @@ $$
 Q(s,a) = Q(s,a) + α [ r + γ max_{a'} Q(s',a') - Q(s,a) ]
 
 $$
+
 
 Trong đó, α là tốc độ học tập.
 

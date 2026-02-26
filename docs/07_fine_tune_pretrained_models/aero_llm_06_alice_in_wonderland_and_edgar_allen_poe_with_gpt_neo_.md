@@ -59,6 +59,7 @@ P(x_1,x_2,...,x_T)=\prod_{t=1}^{T}P(x_t|x_1,...,x_{t-1})
 
 $$
 
+
 Trong đó:
 
 * $x_t$: token tại thời điểm $t$
@@ -84,6 +85,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * (Q,K,V): ma trận truy vấn, khóa, giá trị
@@ -101,6 +103,7 @@ $$
 
 $$
 
+
 Xác suất token thứ $i$:
 
 $$
@@ -109,6 +112,7 @@ P(i)=\frac{e^{z_i}}{\sum_{j=1}^{V}e^{z_j}}
 
 $$
 
+
 Log-likelihood:
 
 $$
@@ -116,6 +120,7 @@ $$
 \log P(i)=z_i-\log\sum_{j}e^{z_j}
 
 $$
+
 
 ---
 
@@ -157,6 +162,7 @@ x = (x_1,x_2,...,x_T), \quad x_i \in {1,...,V}
 
 $$
 
+
 Trong đó $V = 50257$ là kích thước từ vựng.
 
 Tokenizer của GPT-Neo trùng với GPT-2 tokenizer. 
@@ -172,6 +178,7 @@ $$
 \mathcal{L}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
 
 $$
+
 
 Hàm này đo độ phù hợp giữa phân phối dự đoán và dữ liệu thực tế.
 
@@ -195,6 +202,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $\eta$: learning rate
@@ -213,17 +221,20 @@ m_t=\beta_1 m_{t-1}+(1-\beta_1)g_t
 
 $$
 
+
 $$
 
 v_t=\beta_2 v_{t-1}+(1-\beta_2)g_t^2
 
 $$
 
+
 $$
 
 \theta_t=\theta_{t-1}-\eta\frac{m_t}{\sqrt{v_t}+\epsilon}
 
 $$
+
 
 Trong đó $g_t$ là gradient tại bước $t$.
 
@@ -269,6 +280,7 @@ $$
 PPL = e^{\mathcal{L}}
 
 $$
+
 
 Perplexity thấp cho thấy mô hình dự đoán tốt hơn.
 

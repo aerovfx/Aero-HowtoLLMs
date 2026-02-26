@@ -76,6 +76,7 @@ y = \sum_{i=1}^{n} w_i x_i
 
 $$
 
+
 Assuming inputs $x_i$ and weights $w_i$ are independent random variables with zero mean, the variance of $y$ is:
 
 $$
@@ -83,6 +84,7 @@ $$
 \text{Var}(y) = n \cdot \text{Var}(w) \cdot \text{Var}(x)
 
 $$
+
 
 To preserve variance across layers, the variance of weights should scale inversely with the number of inputs $n$.
 
@@ -97,6 +99,7 @@ $$
 \mathbb{E}[|\nabla L|] \approx \text{constant}
 
 $$
+
 
 across layers.
 
@@ -114,6 +117,7 @@ w \sim \mathcal{N}(0, \sigma^2)
 
 $$
 
+
 If $\sigma$ is too large, numerical instability occurs. If too small, learning stagnates. The instructional material demonstrates that large variance leads to exploding activations .
 
 ### 4.2 Xavier (Glorot) Initialization
@@ -126,6 +130,7 @@ $$
 
 $$
 
+
 This method is suitable for tanh and sigmoid activations.
 
 ### 4.3 He (Kaiming) Initialization
@@ -137,6 +142,7 @@ $$
 \text{Var}(w) = \frac{2}{n_{\text{in}}}
 
 $$
+
 
 It compensates for the variance reduction caused by ReLU activations.
 
@@ -194,6 +200,7 @@ $$
 \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
+
 
 The scaling factor $\sqrt{d_k}$ prevents excessive variance.
 

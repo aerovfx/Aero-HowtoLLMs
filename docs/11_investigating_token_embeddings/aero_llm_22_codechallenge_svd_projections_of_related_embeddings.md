@@ -44,6 +44,7 @@ $$
 
 $$
 
+
 *(Với $\mu$ là vector trung bình cực đại có độ dài bằng số cột kích thước D=768).*
 
 Khi Mean-centering được thực thi chặt chẽ, đường quang phổ giá trị suy biến (Singular value spectrum / Scree plot) từ SVD sẽ có đặc tính rỗng dư tại giá trị cuối cùng. Nói cách khác, thuật toán cưa đi một *bậc tự do* (Rank minus 1), biểu diễn bằng việc singular value cuối cùng sẽ đâm thẳng về $0$. Nếu không lùi tâm, trục phân phối SVD sẽ dồn toàn bộ sự khác biệt vào Component-1 (Trục thứ 1), làm sai lệch khả năng đọc hiểu Component-2.
@@ -62,6 +63,7 @@ $$
 \text{Projections} = (E_{\text{all\_tokens}} - \mu_{\text{EU}}) \cdot V_{\text{top}}
 
 $$
+
 
 ### Diễn Dịch Chóp Đồ Thị (Extremes Projections):
 Thống kê 30 token có tích vô hướng văng ra xa nhất trên Trục $V_{\text{top}}$ (Top positive / Top negative Projections) mở ra chân trời cơ chế máy học:

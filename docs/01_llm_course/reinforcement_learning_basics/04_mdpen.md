@@ -40,6 +40,7 @@ G = R_1 + γR_2 + γ^2R_3 + ...
 
 $$
 
+
 Where $R_t$ is the reward received at time t.
 
 To find the optimal policy, we often need to evaluate the value of a given policy. The value function V$s$ for a state s under a policy π is defined as the expected cumulative reward starting from state s and following policy π thereafter:
@@ -50,6 +51,7 @@ V_π(s) = E[R_t | s_0 = s, π]
 
 $$
 
+
 This can be expanded using the Bellman equation, which incorporates transitions and rewards:
 
 $$
@@ -57,6 +59,7 @@ $$
 V_π(s) = R(s, a) + γE[V_π(s') | s, a, π]
 
 $$
+
 
 Where $s'$ is the next state after taking action a from state s.
 
@@ -67,6 +70,7 @@ $$
 V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s'|s,a) V_k(s') ]
 
 $$
+
 
 Here, $a$ is chosen to maximize the expected return.
 
@@ -80,6 +84,7 @@ Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s'|s,a) V_π(s')
 
 $$
 
+
 In practice, Q-learning can be implemented without knowing the exact transition probabilities, making it suitable for environments where such information is not readily available.
 
 Let me think about a concrete example. Suppose we're training an agent to play a simple game like a grid maze. The states could be the positions on the grid, actions could be moving up, down, left, or right, rewards could be given when reaching certain positions, and transitions depend on whether the move is possible (e.g., not hitting walls).
@@ -91,6 +96,7 @@ $$
 Q(s,a) = Q(s,a) + α [ r + γ max_{a'} Q(s',a') - Q(s,a) ]
 
 $$
+
 
 Here, α is the learning rate, determining how much new information overrides old data.
 
@@ -121,6 +127,7 @@ G = R_1 + γR_2 + γ^2R_3 + ...
 
 $$
 
+
 - **Value Function (V(s)):** The expected cumulative reward starting from state s under policy π:
 
 $$
@@ -128,6 +135,7 @@ $$
 V_π(s) = E[R_t | s_0 = s, π]
 
 $$
+
 
 - **Bellman Equation:**
 
@@ -137,6 +145,7 @@ V_π(s) = R(s,a) + γE[V_π(s') | s, a, π]
 
 $$
 
+
 - **Value Iteration Update:**
 
 $$
@@ -144,6 +153,7 @@ $$
 V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s'|s,a) V_k(s') ]
 
 $$
+
 
 - **Q-value Function (Q(s,a)):** Represents the expected cumulative reward starting from state s, taking action a, and following policy π:
 
@@ -153,6 +163,7 @@ Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s'|s,a) V_π(s')
 
 $$
 
+
 - **Q-Learning Update:**
 
 $$
@@ -160,6 +171,7 @@ $$
 Q(s,a) = Q(s,a) + α [ r + γ max_{a'} Q(s',a') - Q(s,a) ]
 
 $$
+
 
 Here, α is the learning rate.
 

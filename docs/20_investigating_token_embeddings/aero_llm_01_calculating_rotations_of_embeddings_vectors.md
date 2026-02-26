@@ -39,6 +39,7 @@ $$
 
 $$
 
+
 Ta cô lập hệ số góc $\theta$ bằng hàm lượng giác ngược (Arc Cosine):
 
 $$
@@ -46,6 +47,7 @@ $$
 \theta = \arccos\left(\frac{\langle x, y \rangle}{\|x\| \cdot \|y\|}\right)
 
 $$
+
 
 Kết quả ra đơn vị Radians, được nhân với tỷ số $180 / \pi$ để trả về đơn vị độ (Degrees). Điểm ưu việt của góc quay là loại bỏ nhiễu đến từ độ giãn nở (Vector Lengths) của các Activation Norms.
 

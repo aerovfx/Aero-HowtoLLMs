@@ -34,11 +34,13 @@ $$
 
 $$
 
+
 $$
 
 \mathbf{v}_{300D} = \text{Upper}(S_{300D}) \in \mathbb{R}^{190}
 
 $$
+
 
 ---
 
@@ -61,6 +63,7 @@ $$
 \text{RSA} = \rho(\mathbf{v}_{50D}, \mathbf{v}_{300D}) = \frac{\text{Cov}(\mathbf{v}_{50D}, \mathbf{v}_{300D})}{\sigma_{50D} \sigma_{300D}}
 
 $$
+
 
 Thuật toán này **trừ đi chính điểm trung bình tâm** (mean-centering data) mỗi bên, tước bỏ và cạo sạch yếu tố "Global offsets". 
 Hệ số Pearson chỉ xét hỏi một tính chất duy nhất của sự liên kết: *"Khi lực kết nối ở 50D nhích lên cao hơn, thì điểm tương quan 300D có nhích theo một nhịp điệu tương khắc hay không?"*

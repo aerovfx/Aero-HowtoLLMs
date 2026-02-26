@@ -22,6 +22,7 @@ $$
 
 $$
 
+
 ---
 
 ## 5. Biểu diễn Embedding và Kích thước Tính toán
@@ -39,6 +40,7 @@ E \in \mathbb{R}^{V \times d}
 
 $$
 
+
 Số tham số của embedding:
 
 $$
@@ -46,6 +48,7 @@ $$
 \text{Params} = V \times d
 
 $$
+
 
 Nếu dùng word-level tokenization:
 
@@ -55,6 +58,7 @@ V \approx 500,000
 
 $$
 
+
 Nếu dùng BPE:
 
 $$
@@ -63,6 +67,7 @@ V \approx 30,000 - 50,000
 
 $$
 
+
 Giảm số tham số đáng kể:
 
 $$
@@ -70,6 +75,7 @@ $$
 \Delta = (V_{word} - V_{BPE}) \times d
 
 $$
+
 
 Điều này giúp:
 - Giảm bộ nhớ
@@ -88,6 +94,7 @@ x_i = E(t_i)
 
 $$
 
+
 Sau đó được đưa vào cơ chế Attention:
 
 $$
@@ -95,6 +102,7 @@ $$
 \text{Attention}(Q, K, V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V
 
 $$
+
 
 Việc sử dụng BPE giúp:
 
@@ -130,6 +138,7 @@ T = 10^{11}
 
 $$
 
+
 Thời gian huấn luyện phụ thuộc vào:
 
 $$
@@ -137,6 +146,7 @@ $$
 \mathcal{O}(T \cdot L \cdot d^2)
 
 $$
+
 
 Trong đó:
 - $L$: chiều dài chuỗi

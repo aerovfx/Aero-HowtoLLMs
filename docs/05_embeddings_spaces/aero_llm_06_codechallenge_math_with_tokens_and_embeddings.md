@@ -32,6 +32,7 @@ $$
 
 $$
 
+
 Bộ tokenizer thực hiện ánh xạ:
 
 $$
@@ -39,6 +40,7 @@ $$
 \tau: \mathcal{V}_{text} \rightarrow \mathcal{V}_{token}
 
 $$
+
 
 Trong đó:
 
@@ -53,6 +55,7 @@ $$
 
 $$
 
+
 ---
 
 ## 2. One-hot Encoding
@@ -65,6 +68,7 @@ $$
 
 $$
 
+
 $$
 
 x_{ij} =
@@ -74,6 +78,7 @@ x_{ij} =
 \end{cases}
 
 $$
+
 
 Đây là không gian rất cao chiều và không hiệu quả về mặt tính toán.
 
@@ -89,6 +94,7 @@ E \in \mathbb{R}^{|V| \times d}
 
 $$
 
+
 Trong đó:
 
 - $|V|$: kích thước từ vựng
@@ -102,6 +108,7 @@ $$
 
 $$
 
+
 Do $\mathbf{x}_i$ là one-hot, nên:
 
 $$
@@ -109,6 +116,7 @@ $$
 \mathbf{v}_i = E_{t_i}
 
 $$
+
 
 Tức là lấy hàng thứ $t_i$ của ma trận embedding.
 
@@ -124,6 +132,7 @@ $$
 
 $$
 
+
 Trong đó $\mathbf{p}_i$ là positional encoding:
 
 $$
@@ -132,11 +141,13 @@ PE_{(pos,2k)} = \sin\left(\frac{pos}{10000^{2k/d}}\right)
 
 $$
 
+
 $$
 
 PE_{(pos,2k+1)} = \cos\left(\frac{pos}{10000^{2k/d}}\right)
 
 $$
+
 
 Điều này giúp mô hình nhận biết thứ tự chuỗi.
 
@@ -155,6 +166,7 @@ $$
 
 $$
 
+
 Phản ánh mức độ tương đồng ngữ nghĩa.
 
 ---
@@ -171,6 +183,7 @@ $$
 \mathbf{v}_{queen}
 
 $$
+
 
 Điều này cho thấy không gian embedding học được cấu trúc ngữ nghĩa tuyến tính.
 
@@ -189,6 +202,7 @@ $$
 
 $$
 
+
 Với:
 
 $$
@@ -199,6 +213,7 @@ P(w_t | w_{<t})
 
 $$
 
+
 $$
 
 \text{softmax}(z_i)
@@ -208,6 +223,7 @@ $$
 
 $$
 
+
 Gradient lan truyền ngược để cập nhật ma trận embedding:
 
 $$
@@ -215,6 +231,7 @@ $$
 E \leftarrow E - \eta \nabla_E \mathcal{L}
 
 $$
+
 
 Trong đó $\eta$ là learning rate.
 
@@ -230,6 +247,7 @@ X \in \mathbb{R}^{n \times d}
 
 $$
 
+
 Ma trận hiệp phương sai:
 
 $$
@@ -238,6 +256,7 @@ $$
 
 $$
 
+
 Giải bài toán trị riêng:
 
 $$
@@ -245,6 +264,7 @@ $$
 \Sigma \mathbf{u} = \lambda \mathbf{u}
 
 $$
+
 
 Các trị riêng lớn cho biết chiều chiếm ưu thế của không gian ngữ nghĩa.
 
@@ -261,6 +281,7 @@ $$
 
 $$
 
+
 Điều này làm:
 
 $$
@@ -268,6 +289,7 @@ $$
 \|\hat{\mathbf{v}}\| = 1
 
 $$
+
 
 Giúp tăng ổn định khi tính attention và cosine similarity.
 
@@ -283,17 +305,20 @@ Q = XW_Q
 
 $$
 
+
 $$
 
 K = XW_K
 
 $$
 
+
 $$
 
 V = XW_V
 
 $$
+
 
 $$
 
@@ -304,6 +329,7 @@ $$
 \right)V
 
 $$
+
 
 Embedding ban đầu đóng vai trò nền tảng cho toàn bộ phép biến đổi này.
 
@@ -328,6 +354,7 @@ $$
 \text{Contextual Representation}
 
 $$
+
 
 Về mặt toán học:
 

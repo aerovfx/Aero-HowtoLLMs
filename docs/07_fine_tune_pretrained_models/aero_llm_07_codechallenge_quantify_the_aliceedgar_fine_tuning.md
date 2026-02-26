@@ -47,6 +47,7 @@ D_{KL}(P_{data} \parallel P_{model}) \rightarrow 0
 
 $$
 
+
 Trong bài toán này, chúng ta sử dụng một bộ phân loại $C$ để ước lượng xác suất hậu nghiệm:
 
 $$
@@ -54,6 +55,7 @@ $$
 \hat{y} = C(x) = P(\text{Style} \mid x)
 
 $$
+
 
 ---
 
@@ -69,6 +71,7 @@ $$
 
 $$
 
+
 2. **Hàm mất mát Cross-Entropy (Log-Loss):**
 
 $$
@@ -76,6 +79,7 @@ $$
 \mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} y_i \log(\hat{y}_i)
 
 $$
+
 
 ---
 
@@ -101,6 +105,7 @@ t = \{10, 20, 30, \dots, T\}
 
 $$
 
+
 ---
 
 ## 4. Phân tích kết quả
@@ -115,6 +120,7 @@ $$
 
 $$
 
+
 Khi quá trình tinh chỉnh tiến triển, văn bản sinh bắt đầu mang các đặc trưng phong cách rõ rệt hơn, dẫn đến độ chính xác tăng nhanh:
 
 $$
@@ -122,6 +128,7 @@ $$
 \text{Acc}_{t \rightarrow T} \rightarrow 0.9
 
 $$
+
 
 ---
 
@@ -134,6 +141,7 @@ $$
 \frac{\partial \mathcal{L}_{cls}}{\partial t} < 0
 
 $$
+
 
 Điều này xác nhận rằng mô hình sinh đang thực sự "di chuyển" trong không gian đặc trưng về phía vùng dữ liệu của Alice hoặc Edgar.
 

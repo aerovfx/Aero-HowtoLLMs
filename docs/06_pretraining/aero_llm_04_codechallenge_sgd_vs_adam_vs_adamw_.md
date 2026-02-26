@@ -54,6 +54,7 @@ w^* = \pi
 
 $$
 
+
 Tham số ban đầu được khởi tạo bằng 0 và được tối ưu hóa bằng các thuật toán khác nhau. 
 
 ---
@@ -67,6 +68,7 @@ $$
 L(w) = (w - w^*)^2
 
 $$
+
 
 Hàm này đảm bảo:
 
@@ -102,6 +104,7 @@ $$
 w_{t+1} = w_t - \eta \nabla L(w_t)
 
 $$
+
 
 Trong đó $\eta$ là learning rate.
 
@@ -148,11 +151,13 @@ m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t
 
 $$
 
+
 $$
 
 v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2
 
 $$
+
 
 ---
 
@@ -192,6 +197,7 @@ w_{t+1} = w_t - \eta \hat{g}_t - \eta \lambda w_t
 
 $$
 
+
 Điều này giúp regularization hoạt động hiệu quả hơn.
 
 ---
@@ -230,6 +236,7 @@ $$
 g_{total} = \sum_{i=1}^{k} g_i
 
 $$
+
 
 Kỹ thuật này mô phỏng batch size lớn trên phần cứng hạn chế. 
 

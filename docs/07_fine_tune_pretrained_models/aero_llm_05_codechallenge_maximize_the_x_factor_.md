@@ -50,6 +50,7 @@ P(x_1, ..., x_T)=\prod_{t=1}^{T} P(x_t|x_1,...,x_{t-1})
 
 $$
 
+
 Mỗi bước sinh token phụ thuộc vào toàn bộ ngữ cảnh trước đó.
 
 ---
@@ -64,6 +65,7 @@ $$
 
 $$
 
+
 với $V$ là kích thước từ vựng.
 
 Xác suất được tính bằng hàm Softmax:
@@ -74,6 +76,7 @@ P(i|t)=\frac{e^{z_i}}{\sum_{j=1}^{V} e^{z_j}}
 
 $$
 
+
 Log-probability:
 
 $$
@@ -81,6 +84,7 @@ $$
 \log P(i|t)= z_i - \log\left(\sum_{j=1}^{V} e^{z_j}\right)
 
 $$
+
 
 ---
 
@@ -93,6 +97,7 @@ $$
 D_{KL}(P||Q)=\sum_{i} P(i)\log\frac{P(i)}{Q(i)}
 
 $$
+
 
 Trong nghiên cứu này:
 
@@ -130,6 +135,7 @@ O \in \mathbb{R}^{B \times T \times V}
 
 $$
 
+
 Trong đó:
 
 * $B$: Batch size
@@ -144,6 +150,7 @@ O \in \mathbb{R}^{4 \times 64 \times 50257}
 
 $$
 
+
 ---
 
 ### 3.3 Kiểm tra phân phối đầu ra
@@ -156,6 +163,7 @@ $$
 
 $$
 
+
 Suy ra đầu ra ban đầu là logit thô.
 
 Sau khi áp dụng:
@@ -165,6 +173,7 @@ $$
 \text{LogSoftmax}(z_i)=\log\frac{e^{z_i}}{\sum_j e^{z_j}}
 
 $$
+
 
 Mới thu được phân phối hợp lệ.
 
@@ -181,6 +190,7 @@ $$
 
 $$
 
+
 Cụ thể:
 
 $$
@@ -188,6 +198,7 @@ $$
 4 \times 64 \times 50257 \rightarrow 256 \times 50257
 
 $$
+
 
 Nhằm phù hợp với hàm mất mát KL.
 
@@ -203,6 +214,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 $$
@@ -214,6 +226,7 @@ P_{target}(i)=
 \end{cases}
 
 $$
+
 
 với $\alpha > \beta$.
 
@@ -240,6 +253,7 @@ $$
 \theta_{t+1}=\theta_t - \eta\nabla_\theta \mathcal{L}
 
 $$
+
 
 với $\eta$ là learning rate.
 
@@ -288,6 +302,7 @@ R = \frac{Số\ token\ chứa\ X}{Tổng\ token}
 
 $$
 
+
 Khi $\eta=10^{-4}$:
 
 $$
@@ -295,6 +310,7 @@ $$
 R \approx 1
 
 $$
+
 
 Cho thấy mô hình bị chi phối hoàn toàn bởi mục tiêu phụ.
 

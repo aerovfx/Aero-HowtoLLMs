@@ -52,6 +52,7 @@ X = (x_1, x_2, \dots, x_n)
 
 $$
 
+
 Trong đó $x_i$ là các token sau khi mã hóa.
 
 Mô hình học xác suất có điều kiện:
@@ -62,6 +63,7 @@ P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, \dots, x_{i-1})
 
 $$
 
+
 Quá trình tokenization chuyển văn bản sang dãy chỉ số số nguyên:
 
 $$
@@ -69,6 +71,7 @@ $$
 T = (t_1, t_2, \dots, t_n)
 
 $$
+
 
 với $t_i \in \mathbb{N}$.
 
@@ -86,6 +89,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $x_i$: đầu vào,
@@ -99,6 +103,7 @@ $$
 \min_{\theta} \mathcal{L}(\theta)
 
 $$
+
 
 với $\theta$ là tham số mô hình.
 
@@ -122,6 +127,7 @@ T_E = (t_1^E, \dots, t_{n_E}^E)
 
 $$
 
+
 ---
 
 ### 3.2. Lọc token
@@ -137,6 +143,7 @@ t_i, & \text{nếu } |decode(t_i)| \ge 3 \
 \end{cases}
 
 $$
+
 
 Các token có giá trị (-1) bị loại bỏ.
 
@@ -154,6 +161,7 @@ f(w) = \sum_{i=1}^{N} \mathbf{1}(T'_i = w)
 
 $$
 
+
 Trong đó:
 
 $$
@@ -166,6 +174,7 @@ $$
 
 $$
 
+
 Chọn 100 token có (f(w)) lớn nhất:
 
 $$
@@ -173,6 +182,7 @@ $$
 S_{100} = {w_1, \dots, w_{100}}
 
 $$
+
 
 ---
 
@@ -186,6 +196,7 @@ G = (g_1, g_2, \dots, g_M)
 
 $$
 
+
 Tỷ lệ token thuộc tập phổ biến:
 
 $$
@@ -193,6 +204,7 @@ $$
 p = \frac{1}{M} \sum_{i=1}^{M} \mathbf{1}(g_i \in S_{100})
 
 $$
+
 
 Áp dụng cho:
 
@@ -239,6 +251,7 @@ M = 1000
 
 $$
 
+
 token cho mỗi mô hình.
 
 Token đầu vào ngẫu nhiên được loại bỏ.
@@ -258,6 +271,7 @@ p_{EA} & p_{EE}
 \end{bmatrix}
 
 $$
+
 
 Trong đó:
 
@@ -280,6 +294,7 @@ p_{AA} \approx p_{AE} \approx p_{EA} \approx p_{EE}
 
 $$
 
+
 Sau fine-tuning:
 
 $$
@@ -288,6 +303,7 @@ p_{AA} > p_{AE}, \quad
 p_{EE} > p_{EA}
 
 $$
+
 
 Hiện tượng này tạo thành “crossover interaction”, cho thấy mô hình đã học được đặc trưng văn phong.
 
@@ -324,6 +340,7 @@ $$
 
 $$
 
+
 * Embedding similarity:
 
 $$
@@ -331,6 +348,7 @@ $$
 \cos(\theta) = \frac{u \cdot v}{|u||v|}
 
 $$
+
 
 * Đánh giá bằng LLM (LLM-as-Judge).
 * Human evaluation có cấu trúc.

@@ -47,17 +47,18 @@ $$
 
 $$
 
+
 Hàm mất mát cross-entropy:
 
 $$
 
 \mathcal{L}
 ===========
-
 -\frac{1}{N}\sum_{i=1}^{N}
 \log P(y_i|x_i;\theta)
 
 $$
+
 
 Trong đó $\theta$ là tham số mô hình.
 
@@ -69,6 +70,7 @@ $$
 
 $$
 
+
 ---
 
 ### 2.2. Gradient Descent với tham số đóng băng
@@ -79,10 +81,10 @@ $$
 
 \theta_{t+1}
 ============
-
 \theta_t-\eta\nabla_\theta\mathcal{L}
 
 $$
+
 
 Với tham số bị đóng băng:
 
@@ -92,6 +94,7 @@ $$
 
 $$
 
+
 Suy ra:
 
 $$
@@ -99,6 +102,7 @@ $$
 \theta_f^{(t+1)}=\theta_f^{(t)}
 
 $$
+
 
 ---
 
@@ -112,6 +116,7 @@ W_t\in\mathbb{R}^{m\times n}
 
 $$
 
+
 Hiệu tại bước $t$:
 
 $$
@@ -120,16 +125,17 @@ $$
 
 $$
 
+
 Chuẩn Frobenius:
 
 $$
 
 |\Delta W_t|_F
 ==============
-
 \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n}(\Delta W_{ij})^2}
 
 $$
+
 
 Chuẩn này phản ánh mức độ thay đổi của mô hình theo thời gian.
 
@@ -152,6 +158,7 @@ $$
 
 $$
 
+
 và cùng thứ tự dữ liệu.
 
 ---
@@ -167,6 +174,7 @@ $$
 
 $$
 
+
 Vẽ:
 
 * Biểu đồ đường: $\mathcal{L}_k$ theo $k$,
@@ -179,6 +187,7 @@ $$
 y=x
 
 $$
+
 
 dùng để đánh giá sự tương đồng.
 
@@ -199,6 +208,7 @@ p=\frac{1}{M}\sum_{i=1}^{M}\mathbf{1}(g_i\in S)
 
 $$
 
+
 So sánh trước và sau huấn luyện:
 
 $$
@@ -206,6 +216,7 @@ $$
 \Delta p = p_{post}-p_{pre}
 
 $$
+
 
 ---
 
@@ -219,6 +230,7 @@ T=\sum_{k=1}^{K}t_k
 
 $$
 
+
 Tỷ lệ tiết kiệm:
 
 $$
@@ -226,6 +238,7 @@ $$
 r=\frac{T_{train}-T_{freeze}}{T_{train}}
 
 $$
+
 
 ---
 
@@ -246,6 +259,7 @@ $$
 
 $$
 
+
 Trong khi:
 
 $$
@@ -253,6 +267,7 @@ $$
 \mathcal{L}_{train}: \text{giảm mạnh hơn}
 
 $$
+
 
 Điều này cho thấy mô hình huấn luyện toàn phần học nhanh hơn.
 
@@ -267,6 +282,7 @@ $$
 \mathcal{L}^{(B)}>\mathcal{L}^{(A)}
 
 $$
+
 
 ⇒ mô hình freeze thường có loss cao hơn.
 
@@ -284,6 +300,7 @@ $$
 
 $$
 
+
 Cả hai mô hình đều học được phong cách dữ liệu.
 
 Tuy nhiên, trong một số lần thử:
@@ -293,6 +310,7 @@ $$
 p_B>p_A
 
 $$
+
 
 Hiện tượng này được giải thích bởi tính ngẫu nhiên của sampling .
 
@@ -308,6 +326,7 @@ $$
 
 $$
 
+
 * Lớn ở giai đoạn đầu,
 * Giảm mạnh sau vài epoch,
 * Tăng chậm về sau.
@@ -317,12 +336,11 @@ Mô hình freeze có:
 $$
 
 |\Delta W_t^{(B)}|_F
-
 >
-
 |\Delta W_t^{(A)}|_F
 
 $$
+
 
 cho thấy các lớp còn trainable phải “gánh” phần lớn quá trình học .
 
@@ -339,6 +357,7 @@ T_{train}\approx 120s
 
 $$
 
+
 Tỷ lệ tiết kiệm:
 
 $$
@@ -346,6 +365,7 @@ $$
 r\approx 25%
 
 $$
+
 
 Mặc dù không quá lớn, lợi ích sẽ tăng mạnh với mô hình lớn hơn.
 
@@ -365,6 +385,7 @@ $$
 \mathcal{L}_A \approx \mathcal{L}_B
 
 $$
+
 
 Các đường loss gần như trùng nhau .
 
@@ -386,6 +407,7 @@ $$
 
 $$
 
+
 Nhưng trong mô hình sinh:
 
 $$
@@ -393,6 +415,7 @@ $$
 \min \mathcal{L} \not\Rightarrow \max \text{quality}
 
 $$
+
 
 Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên.
 
@@ -407,6 +430,7 @@ $$
 Var(\mathcal{L}_B)<Var(\mathcal{L}_A)
 
 $$
+
 
 ⇒ ổn định hơn ở giai đoạn đầu.
 
@@ -438,6 +462,7 @@ $$
 N_{data}\ll P_{model}
 
 $$
+
 
 (ví dụ: ít dữ liệu, nhiều tham số).
 

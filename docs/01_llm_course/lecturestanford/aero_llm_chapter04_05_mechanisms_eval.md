@@ -146,7 +146,14 @@ Generate responses → Humans rate → Statistical analysis
 │  User Prompt                │
 └──────────┬──────────────────┘
            ↓
-     [Tokenization]
+
+$$
+
+Tokenization
+
+$$
+
+
            ↓
 ┌─────────────────────────────┐
 │  Embedding Layer            │
@@ -161,13 +168,41 @@ Generate responses → Humans rate → Statistical analysis
 │  └─ Residual                │
 └──────────┬──────────────────┘
            ↓
-     [Final LN + Linear]
+
+$$
+
+Final LN + Linear
+
+$$
+
+
            ↓
-     [Softmax → Probs]
+
+$$
+
+Softmax → Probs
+
+$$
+
+
            ↓
-     [Sample Next Token]
+
+$$
+
+Sample Next Token
+
+$$
+
+
            ↓
-     [Autoregressive Loop]
+
+$$
+
+Autoregressive Loop
+
+$$
+
+
            ↓
 ┌─────────────────────────────┐
 │  Generated Response         │

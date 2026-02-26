@@ -60,6 +60,7 @@ h_{out} = \text{LayerNorm}(h_{in} + \sum_{i=1}^{H} \text{Head}_i(h_{in}))
 
 $$
 
+
 Nếu chúng ta có thể cô lập được ma trận $\text{Head}_i$ chuyên biệt quản lý các giá trị "từ chối phản hồi tiêu cực" (Refusal heads), ta có thể can thiệp trực tiếp để tăng cường vĩnh viễn tính năng an toàn này mà không phụ thuộc vào System Prompt.
 
 ### 3.2 Phát hiện Đứt Gãy Logic (Logit Lens và Phân Bố Xác Suất)
@@ -70,6 +71,7 @@ $$
 p(x | h_l) = \text{Softmax}(W_U h_l)
 
 $$
+
 
 Qua phương trình này, chúng ta đo lường sự chênh lệch phân phối (Kullback-Leibler divergence) giữa hành vi bình thường và hành vi vượt rào đạo đức, từ đó xây dựng trạm phản ứng nhanh (anomaly detection) ở lớp trung gian $l$.
 

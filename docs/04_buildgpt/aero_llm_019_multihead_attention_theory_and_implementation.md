@@ -59,6 +59,7 @@ Q = XW_Q,\quad K = XW_K,\quad V = XW_V
 
 $$
 
+
 Trong đó:
 
 * $X$: Ma trận embedding.
@@ -79,6 +80,7 @@ $$
 
 $$
 
+
 Trong đó $d_k$ là số chiều của vector key.
 
 ---
@@ -95,6 +97,7 @@ Q = [Q_1, Q_2, ..., Q_H]
 
 $$
 
+
 Mỗi head có kích thước:
 
 $$
@@ -102,6 +105,7 @@ $$
 d_h = \frac{D}{H}
 
 $$
+
 
 với $D$ là số chiều embedding.
 
@@ -120,6 +124,7 @@ $$
 
 $$
 
+
 Hệ số chuẩn hóa được điều chỉnh theo số chiều mới $D/H$
 
 ---
@@ -133,6 +138,7 @@ $$
 A = \text{Concat}(\text{head}_1,...,\text{head}_H)W_0
 
 $$
+
 
 Trong đó $W_0$ là ma trận tuyến tính dùng để trộn thông tin giữa các head.
 
@@ -201,6 +207,7 @@ $$
 
 $$
 
+
 3. Hoán vị chiều để phù hợp với hàm attention.
 4. Tính attention song song.
 5. Ghép các head.
@@ -230,6 +237,7 @@ $$
 128 \rightarrow 4 \times 32 \rightarrow 128
 
 $$
+
 
 Trong quá trình tính toán, embedding được chia thành 4 head, mỗi head 32 chiều, sau đó ghép lại
 

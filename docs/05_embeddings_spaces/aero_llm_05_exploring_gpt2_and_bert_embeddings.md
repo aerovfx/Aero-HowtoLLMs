@@ -32,6 +32,7 @@ P(w_t \mid w_{<t})
 
 $$
 
+
 hoặc trong trường hợp hai chiều:
 
 $$
@@ -39,6 +40,7 @@ $$
 P(w_i \mid w_{\setminus i})
 
 $$
+
 
 Tùy vào mục tiêu huấn luyện, embedding thu được sẽ mang đặc trưng khác nhau.
 
@@ -57,6 +59,7 @@ $$
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
+
 
 Trong đó:
 
@@ -81,6 +84,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 $$
@@ -89,6 +93,7 @@ P(w_t \mid w_{<t}) =
 \text{softmax}(W_o h_t)
 
 $$
+
 
 - $h_t$: hidden state tại vị trí $t$
 - $W_o$: ma trận chiếu đầu ra
@@ -102,6 +107,7 @@ $$
 \mathbf{h}_t = f(w_1, w_2, ..., w_t)
 
 $$
+
 
 Do đó, vector tại vị trí $t$ chỉ phụ thuộc vào quá khứ.
 
@@ -120,6 +126,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 - $M$: tập các vị trí bị mask
@@ -134,6 +141,7 @@ $$
 \mathbf{h}_t = f(w_1, ..., w_T)
 
 $$
+
 
 Do đó:
 
@@ -152,11 +160,13 @@ $$
 
 $$
 
+
 $$
 
 \mathbf{v}_i^{(BERT)} \in \mathbb{R}^d
 
 $$
+
 
 ### 5.1 Độ tương đồng cosine
 
@@ -168,6 +178,7 @@ $$
 
 $$
 
+
 ### 5.2 Khoảng cách Euclid
 
 $$
@@ -177,6 +188,7 @@ d(\mathbf{v}_i,\mathbf{v}_j)
 = \sqrt{\sum_{k=1}^{d}(v_{ik}-v_{jk})^2}
 
 $$
+
 
 ### 5.3 Phân tích phương sai (PCA)
 
@@ -188,6 +200,7 @@ X \in \mathbb{R}^{n \times d}
 
 $$
 
+
 Ma trận hiệp phương sai:
 
 $$
@@ -196,6 +209,7 @@ $$
 
 $$
 
+
 Giải bài toán trị riêng:
 
 $$
@@ -203,6 +217,7 @@ $$
 \Sigma \mathbf{u} = \lambda \mathbf{u}
 
 $$
+
 
 Các trị riêng lớn phản ánh chiều chiếm ưu thế trong không gian biểu diễn.
 
@@ -233,6 +248,7 @@ S_{ij} = \text{cosine}(\mathbf{v}_i,\mathbf{v}_j)
 
 $$
 
+
 Ta có thể sử dụng tương quan Pearson giữa hai ma trận để đánh giá mức độ tương đồng cấu trúc:
 
 $$
@@ -242,6 +258,7 @@ r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}
 \sqrt{\sum (y_i - \bar{y})^2}}
 
 $$
+
 
 ### 7.2 Tính bất biến quay (Rotation Invariance)
 
@@ -253,6 +270,7 @@ R^T R = I
 
 $$
 
+
 Khi đó:
 
 $$
@@ -260,6 +278,7 @@ $$
 \mathbf{v}' = R\mathbf{v}
 
 $$
+
 
 Khoảng cách cosine không đổi, nhưng tọa độ thay đổi.
 
@@ -279,6 +298,7 @@ $$
 \text{Geometry of Embedding Space}
 
 $$
+
 
 ---
 

@@ -37,6 +37,7 @@ $$
 
 $$
 
+
 Phân tích cosine similarity giữa các vector này giúp hiểu cấu trúc ngữ nghĩa nội tại của mô hình.
 
 ---
@@ -51,6 +52,7 @@ $$
 
 $$
 
+
 Định nghĩa:
 
 $$
@@ -62,6 +64,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 $$
@@ -72,6 +75,7 @@ $$
 
 $$
 
+
 $$
 
 \|\mathbf{x}\|
@@ -80,6 +84,7 @@ $$
 
 $$
 
+
 Giá trị nằm trong khoảng:
 
 $$
@@ -87,6 +92,7 @@ $$
 -1 \leq \text{cosine} \leq 1
 
 $$
+
 
 ---
 
@@ -101,6 +107,7 @@ $$
 
 $$
 
+
 Khi đó:
 
 $$
@@ -111,6 +118,7 @@ $$
 
 $$
 
+
 Nếu ma trận embedding:
 
 $$
@@ -118,6 +126,7 @@ $$
 E \in \mathbb{R}^{|V| \times d}
 
 $$
+
 
 Sau khi chuẩn hóa từng hàng:
 
@@ -127,6 +136,7 @@ $$
 
 $$
 
+
 Ma trận cosine similarity toàn bộ từ vựng:
 
 $$
@@ -134,6 +144,7 @@ $$
 S = \hat{E} \hat{E}^T
 
 $$
+
 
 ---
 
@@ -149,6 +160,7 @@ $$
 
 $$
 
+
 Trong GPT-2, embedding đầu vào và embedding đầu ra thường được chia sẻ trọng số (weight tying):
 
 $$
@@ -156,6 +168,7 @@ $$
 W_{out} = E^T
 
 $$
+
 
 Điều này tạo liên hệ hình học trực tiếp giữa không gian embedding và không gian dự đoán xác suất.
 
@@ -177,11 +190,13 @@ $$
 
 $$
 
+
 $$
 
 \text{sim}(\text{cat},\text{banana})
 
 $$
+
 
 Kỳ vọng:
 
@@ -192,6 +207,7 @@ $$
 \text{sim}(\text{cat},\text{banana})
 
 $$
+
 
 Do cấu trúc ngữ nghĩa gần nhau.
 
@@ -208,6 +224,7 @@ $$
 
 $$
 
+
 Khi $d \to \infty$:
 
 $$
@@ -216,11 +233,13 @@ $$
 
 $$
 
+
 $$
 
 \text{Var}(\text{cosine}) \approx \frac{1}{d}
 
 $$
+
 
 Với $d = 768$:
 
@@ -229,6 +248,7 @@ $$
 \text{Var} \approx \frac{1}{768}
 
 $$
+
 
 Do đó:
 
@@ -249,6 +269,7 @@ P(w_t | h_t)
 
 $$
 
+
 Nếu weight tying:
 
 $$
@@ -257,6 +278,7 @@ W_{out} = E^T
 
 $$
 
+
 Khi đó:
 
 $$
@@ -264,6 +286,7 @@ $$
 z_i = \mathbf{v}_i \cdot h_t
 
 $$
+
 
 Softmax:
 
@@ -275,6 +298,7 @@ P(w_i)
 {\sum_j e^{\mathbf{v}_j \cdot h_t}}
 
 $$
+
 
 Như vậy:
 
@@ -292,6 +316,7 @@ $$
 
 $$
 
+
 Do đó cosine similarity trực tiếp ảnh hưởng đến xác suất dự đoán.
 
 ---
@@ -306,6 +331,7 @@ X \in \mathbb{R}^{n \times d}
 
 $$
 
+
 Ma trận cosine:
 
 $$
@@ -317,6 +343,7 @@ S_{ij}
 
 $$
 
+
 Ta có thể phân tích:
 
 - Cụm từ (clustering)
@@ -327,6 +354,7 @@ $$
 S \mathbf{u} = \lambda \mathbf{u}
 
 $$
+
 
 Giá trị riêng lớn phản ánh cấu trúc ngữ nghĩa chiếm ưu thế.
 
@@ -344,6 +372,7 @@ $$
 
 $$
 
+
 Suy ra:
 
 $$
@@ -354,6 +383,7 @@ $$
 \|\mathbf{x}-\mathbf{y}\|^2
 
 $$
+
 
 Điều này cho thấy cosine similarity và Euclid distance tương đương về mặt hình học khi chuẩn hóa.
 
@@ -377,6 +407,7 @@ $$
 \exp(\|\mathbf{v}\|\|h\|\cos\theta)
 
 $$
+
 
 Do đó góc giữa vector đóng vai trò quyết định.
 

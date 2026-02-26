@@ -46,6 +46,7 @@ $$
 
 $$
 
+
 Phép toán này biến hóa Rank $52 \xrightarrow{Inflate} 63$ (Full Rank). Lúc này hàm vi phân của SciPy (`scipy.linalg.eigh`) có thể tiêu hóa ma trận $R_{her\_shrunk}^{-1} \cdot S_{him}$ hoàn toàn trơn tru.
 
 ---

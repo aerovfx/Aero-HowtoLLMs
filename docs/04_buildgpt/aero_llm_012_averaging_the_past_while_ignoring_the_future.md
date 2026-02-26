@@ -42,6 +42,7 @@ y = \sum_{i=1}^{T} w_i x_i
 
 $$
 
+
 Trong trường hợp đơn giản, $w$ có thể được khởi tạo đồng đều, dẫn đến trung bình cộng của các giá trị quá khứ. Tuy nhiên, cách tiếp cận này không phản ánh mức độ quan trọng khác nhau giữa các thời điểm. :contentReference[oaicite:1]{index=1}
 
 ---
@@ -55,6 +56,7 @@ $$
 w_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
 
 $$
+
 
 Trong đó $z_i$ là logit ban đầu. Softmax có đặc tính:
 
@@ -76,6 +78,7 @@ e^0 = 1
 
 $$
 
+
 các phần tử này vẫn nhận giá trị dương, dẫn đến việc rò rỉ thông tin tương lai. Điều này làm suy giảm tính nhân quả của mô hình. :contentReference[oaicite:3]{index=3}
 
 ---
@@ -90,6 +93,7 @@ z_i = -\infty
 
 $$
 
+
 Khi đó:
 
 $$
@@ -97,6 +101,7 @@ $$
 e^{-\infty} = 0
 
 $$
+
 
 Sau softmax, các vị trí này nhận xác suất bằng 0 tuyệt đối, đảm bảo không ảnh hưởng đến kết quả. Đây là nền tảng toán học của causal masking. :contentReference[oaicite:4]{index=4}
 
@@ -118,6 +123,7 @@ M_{ij} =
 
 $$
 
+
 Ma trận này có dạng tam giác dưới, cho phép mô hình chỉ nhìn về quá khứ. :contentReference[oaicite:5]{index=5}
 
 ---
@@ -132,6 +138,7 @@ S = \frac{QK^T}{\sqrt{d_k}}
 
 $$
 
+
 Sau đó áp dụng mask:
 
 $$
@@ -139,6 +146,7 @@ $$
 S' = S + M
 
 $$
+
 
 và thực hiện softmax theo từng hàng. Quá trình này đảm bảo các vị trí tương lai bị triệt tiêu hoàn toàn. :contentReference[oaicite:6]{index=6}
 
@@ -168,6 +176,7 @@ $$
 [1], [0.5, 0.5], [0.33, 0.33, 0.33], ...
 
 $$
+
 
 Điều này phản ánh số lượng phần tử hợp lệ tăng dần theo thời gian, dẫn đến sự phân tán xác suất. :contentReference[oaicite:8]{index=8}
 
@@ -280,6 +289,7 @@ O(T^2)
 
 $$
 
+
 với $T$ là độ dài chuỗi. Khi $T$ đạt hàng chục nghìn hoặc hơn, chi phí này trở nên không khả thi trong thực tế.
 
 Hai hướng tiếp cận chính để giải quyết vấn đề là:
@@ -302,6 +312,7 @@ $$
 QK^T \in \mathbb{R}^{T \times T}
 
 $$
+
 
 dẫn đến:
 
@@ -355,6 +366,7 @@ O(T^2) \rightarrow O(Td)
 
 $$
 
+
 ---
 
 ### 3.3. Công thức Softmax Online
@@ -367,17 +379,20 @@ m_i = \max(m_{i-1}, s_i)
 
 $$
 
+
 $$
 
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
 
 $$
 
+
 $$
 
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
 
 $$
+
 
 Cách này cho phép tính softmax mà không cần lưu toàn bộ logits.
 
@@ -404,6 +419,7 @@ $$
 j > i \Rightarrow \text{skip}
 
 $$
+
 
 thay vì sử dụng ma trận mask tường minh.
 
@@ -459,6 +475,7 @@ O(T \sqrt{T})
 
 $$
 
+
 Ví dụ:
 
 - Sliding window,
@@ -489,6 +506,7 @@ $$
 
 $$
 
+
 Độ phức tạp:
 
 $$
@@ -496,6 +514,7 @@ $$
 O(Td^2)
 
 $$
+
 
 Tuy nhiên thường giảm độ chính xác.
 
@@ -537,6 +556,7 @@ O(T)
 
 $$
 
+
 cho mỗi bước sinh.
 
 ---
@@ -550,6 +570,7 @@ $$
 [x_1,...,x_n], [x_{n+1},...,x_{2n}], ...
 
 $$
+
 
 Attention được thực hiện theo khối, giảm chi phí.
 
@@ -690,6 +711,7 @@ j > i \Rightarrow \text{masked}
 
 $$
 
+
 Phần này trình bày:
 
 * Thuật toán FlashAttention nhân quả,
@@ -783,17 +805,20 @@ m_i = \max(m_{i-1}, s_i)
 
 $$
 
+
 $$
 
 l_i = l_{i-1}e^{m_{i-1}-m_i} + e^{s_i-m_i}
 
 $$
 
+
 $$
 
 o_i = o_{i-1}e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
 
 $$
+
 
 Giúp:
 

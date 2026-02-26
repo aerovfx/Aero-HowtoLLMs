@@ -39,6 +39,7 @@ Latent\_Knowledge = Function(Weights, \ Activation\_Patterns\_of\_Neurons)
 
 $$
 
+
 Trong đó, hàm $Function()$ là sự Kết hợp trọng số tuyến tính (Linear weighted combination) hoặc một biến đổi màng phi tuyến tính, tùy thuộc vào bài toán.
 
 ### 2.2. Sự Đổ Vỡ Tuyến Tính (Imperfect Correlations)

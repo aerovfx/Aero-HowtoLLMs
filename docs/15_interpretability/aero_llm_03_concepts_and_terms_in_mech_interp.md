@@ -40,6 +40,7 @@ h'_l = h_l + \epsilon
 
 $$
 
+
 Việc theo dõi xem kết quả thay đổi này ảnh hưởng đến vector đầu ra (output behavior) thế nào tạo ra **bằng chứng nhân quả (Causal evidence)** nhằm khẳng định sự tham gia của node đó vào vi mạch tổng thể.
 
 Dù can thiệp mang lại bằng chứng đáng tin cậy hơn, hệ thống LLM sở hữu số lượng biến số khổng lồ, khiến không gian tìm kiếm trở nên bất khả thi nếu không có các mô hình quan sát hướng dẫn trước. 

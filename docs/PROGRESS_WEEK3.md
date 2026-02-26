@@ -103,7 +103,14 @@ Attention Layers (attnLeftX)
   E4  E5  E6  E7                            │
     │                                       │
     └───────────┬───────────────────────────┘
-            [Aggregation]
+
+$$
+
+Aggregation
+
+$$
+
+
 ```
 
 ---

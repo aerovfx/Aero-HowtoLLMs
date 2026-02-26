@@ -69,6 +69,7 @@ $$
 
 $$
 
+
 Trong đó $\mathbf{W}_{\text{combined}} = \prod_{i=1}^{n} \mathbf{W}_i$
 
 Do đó, hàm kích hoạt phi tuyến là **absolutely essential** để neural networks có thể học các hàm phức tạp và phi tuyến.
@@ -112,6 +113,7 @@ x & \text{if } x > 0 \\
 
 $$
 
+
 **Triển khai NumPy:**
 ```python
 def relu(x):
@@ -139,6 +141,7 @@ $$
 
 $$
 
+
 **Vấn đề quan trọng:**
 - **Discontinuous tại x = 0**: Đạo hàm có step function
 - **Not differentiable at zero**: Formally awkward cho gradient descent
@@ -156,6 +159,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $\Phi(x)$ là cumulative distribution function (CDF) của phân phối chuẩn
 - $\text{erf}(x)$ là Gaussian error function
@@ -167,6 +171,7 @@ $$
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt
 
 $$
+
 
 **Đặc điểm của erf:**
 - Không thể biểu diễn bằng elementary functions (polynomials, trig functions)
@@ -192,6 +197,7 @@ $$
 \text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
 
 $$
+
 
 **Triển khai Python:**
 ```python
@@ -456,6 +462,7 @@ $$
 
 $$
 
+
 Trong khi:
 
 $$
@@ -463,6 +470,7 @@ $$
 \frac{d}{dx}\text{ReLU}(x) = 0 \text{ for } x < 0
 
 $$
+
 
 #### 4.1.2 Stochastic Regularization
 
@@ -474,6 +482,7 @@ $$
 \text{GELU}(x) = x \cdot \mathbb{1}_{X \sim \mathcal{N}(0,1)}(X < x)
 
 $$
+
 
 Nghĩa là: "multiply input by Bernoulli variable dependent on input"
 
@@ -724,6 +733,7 @@ $$
 
 $$
 
+
 **Properties:**
 - Similar to GELU
 - Slightly simpler computation
@@ -738,6 +748,7 @@ $$
 \text{Mish}(x) = x \cdot \tanh(\text{softplus}(x)) = x \cdot \tanh(\ln(1 + e^x))
 
 $$
+
 
 **Properties:**
 - Smoother than Swish
@@ -1161,6 +1172,7 @@ $$
 
 $$
 
+
 **Properties:**
 1. $\text{erf}(-x) = -\text{erf}(x)$ (odd function)
 2. $\text{erf}(0) = 0$
@@ -1175,6 +1187,7 @@ $$
 
 $$
 
+
 ### B.2 GELU Derivation
 
 **Starting point:** Stochastic regularization
@@ -1185,6 +1198,7 @@ $$
 
 $$
 
+
 **CDF của standard normal:**
 
 $$
@@ -1192,6 +1206,7 @@ $$
 \Phi(x) = P(X \leq x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^x e^{-t^2/2} dt
 
 $$
+
 
 **Relationship với error function:**
 
@@ -1201,6 +1216,7 @@ $$
 
 $$
 
+
 **Therefore:**
 
 $$
@@ -1208,6 +1224,7 @@ $$
 \text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
 
 $$
+
 
 ### B.3 Approximation Derivation
 
@@ -1223,6 +1240,7 @@ $$
 
 $$
 
+
 **Optimal $\alpha$:** Through empirical fitting, $\alpha \approx 0.044715$
 
 **Final approximation:**
@@ -1232,6 +1250,7 @@ $$
 \text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
 
 $$
+
 
 ---
 

@@ -145,6 +145,7 @@ H_{l+1} = H_l + f_l(\text{LN}(H_l))
 
 $$
 
+
 Với (l) là chỉ số block.
 
 Quan trọng là residual chỉ cộng trong từng block, không quay lại embedding ban đầu. 
@@ -160,6 +161,7 @@ $$
 X_0 \rightarrow X_1 \rightarrow X_2 \rightarrow ... \rightarrow X_N
 
 $$
+
 
 Mỗi tầng làm giàu biểu diễn.
 
@@ -432,6 +434,7 @@ $$
 
 $$
 
+
 Khi L lớn, gradient có xu hướng:
 
 - → 0 (vanishing),
@@ -451,6 +454,7 @@ x_L = x_0 + \sum_{i=1}^{L} f_i(x_{i-1})
 
 $$
 
+
 Nếu $f_i$ không được chuẩn hóa, hidden state có thể bị lệch phân phối (drift).
 
 ---
@@ -464,6 +468,7 @@ $$
 \text{Memory} \approx O(L \cdot T \cdot D)
 
 $$
+
 
 Trong đó:
 
@@ -498,6 +503,7 @@ H_{l+1} = H_l + f_l(\text{LN}(H_l))
 
 $$
 
+
 Ưu điểm:
 
 - Ổn định gradient,
@@ -519,6 +525,7 @@ $$
 
 $$
 
+
 Giảm chi phí tính toán và tăng ổn định.
 
 ---
@@ -532,6 +539,7 @@ $$
 \text{FFN}(x)=W_2(\text{SiLU}(W_1x)\odot W_3x)
 
 $$
+
 
 Giúp tăng khả năng biểu diễn trong mô hình sâu.
 
@@ -549,6 +557,7 @@ x_{l+1} = \alpha x_l + f_l(x_l)
 
 $$
 
+
 với:
 
 $$
@@ -556,6 +565,7 @@ $$
 \alpha = (2L)^{1/4}
 
 $$
+
 
 Giúp duy trì biên độ gradient khi L lớn.
 
@@ -571,6 +581,7 @@ x_{l+1}=x_l+\frac{1}{\sqrt{L}}f_l(x_l)
 
 $$
 
+
 Giảm tích lũy nhiễu qua tầng.
 
 ---
@@ -585,6 +596,7 @@ g \leftarrow \frac{g}{\max(1,\|g\|/c)}
 
 $$
 
+
 Giúp tránh exploding gradient.
 
 ---
@@ -598,6 +610,7 @@ $$
 lr(t)=lr_{max}\cdot\frac{t}{T_{warmup}}
 
 $$
+
 
 Giảm shock ban đầu.
 
@@ -880,6 +893,7 @@ $$
 
 $$
 
+
 (chỉ cho FP16 weights).
 
 Khi tính optimizer state:
@@ -889,6 +903,7 @@ $$
 > 800GB
 
 $$
+
 
 ---
 
@@ -902,6 +917,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 - N: số tham số,
@@ -914,6 +930,7 @@ $$
 \approx 6 \times 10^{23} \text{ FLOPs}
 
 $$
+
 
 ---
 
@@ -1004,6 +1021,7 @@ $$
 W = [W_1, W_2, ..., W_n]
 
 $$
+
 
 Phổ biến trong Megatron-LM.
 
@@ -1161,6 +1179,7 @@ B_{global} = B_{local} \times DP
 
 $$
 
+
 Thường đạt 1M+ tokens/step.
 
 ---
@@ -1275,6 +1294,7 @@ $$
 T_{comm} > T_{compute}
 
 $$
+
 
 Tối ưu mạng quan trọng hơn FLOPs.
 

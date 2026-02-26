@@ -52,6 +52,7 @@ $$
 
 $$
 
+
 Thực nghiệm cho thấy khi cộng các giá trị trích xuất từ Hook ($\Delta$) vào Hidden State hiện tại, ta thu được kết quả khớp hoàn hảo với Hidden State của tầng tiếp theo trích xuất từ `output.hidden_states`.
 
 ### 3.3. Hiện tượng Ngoại lai (Outlier Handling)

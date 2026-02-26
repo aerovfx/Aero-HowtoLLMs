@@ -56,6 +56,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $\theta_t$: tham số tại bước $t$
@@ -77,6 +78,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $\mathbf{g}$: vector gradient
@@ -89,6 +91,7 @@ $$
 |\mathbf{g}|_2 \gg 1
 
 $$
+
 
 ---
 
@@ -118,6 +121,7 @@ $$
 
 $$
 
+
 Điều này đảm bảo:
 
 $$
@@ -125,6 +129,7 @@ $$
 |\mathbf{g}_{clip}|\le c
 
 $$
+
 
 ---
 
@@ -137,6 +142,7 @@ $$
 \theta_{t+1}=\theta_t-\eta \mathbf{g}_{clip}
 
 $$
+
 
 Việc này giúp giới hạn bước nhảy của tham số.
 
@@ -162,6 +168,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $T_{warm}$: số epoch warm-up
@@ -178,6 +185,7 @@ $$
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min})\left(1+\cos\frac{\pi t}{T}\right)
 
 $$
+
 
 Trong đó:
 
@@ -196,6 +204,7 @@ $$
 
 $$
 
+
 ---
 
 ### 3.3 Kết hợp Clipping và Scheduler
@@ -212,6 +221,7 @@ $$
 \theta_{t+1}=\theta_t-\eta_t\cdot \mathbf{g}_{clip}
 
 $$
+
 
 ---
 
@@ -232,6 +242,7 @@ $$
 L=\sum_{i=1}^{n}w_i^2
 
 $$
+
 
 ---
 

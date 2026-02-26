@@ -34,6 +34,7 @@ P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
 
 $$
 
+
 Tuy nhiên, mục tiêu tối đa hóa likelihood không đảm bảo mô hình:
 
 * Tuân thủ chỉ thị (instruction-following)
@@ -64,6 +65,7 @@ $$
 
 $$
 
+
 Trong RLHF:
 
 * Trạng thái $s$: prompt (instruction)
@@ -85,6 +87,7 @@ $$
 
 $$
 
+
 Mục tiêu: đưa mô hình về phân phối gần với hành vi mong muốn.
 
 ---
@@ -102,6 +105,7 @@ P(y_1 \succ y_2)
 
 $$
 
+
 Loss:
 
 $$
@@ -111,6 +115,7 @@ $$
 
 $$
 
+
 Trong đó $\sigma$ là sigmoid:
 
 $$
@@ -118,6 +123,7 @@ $$
 \sigma(z) = \frac{1}{1 + e^{-z}}
 
 $$
+
 
 ---
 
@@ -135,6 +141,7 @@ r_\phi(x) - \beta D_{KL}(\pi_\theta | \pi_{ref})
 
 $$
 
+
 Trong đó:
 
 * $\pi_{ref}$: mô hình SFT ban đầu
@@ -145,6 +152,7 @@ $$
 D_{KL}(P|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}
 
 $$
+
 
 ---
 
@@ -166,6 +174,7 @@ r_t(\theta) A_t,
 
 $$
 
+
 Trong đó:
 
 $$
@@ -175,6 +184,7 @@ r_t(\theta)
 {\pi_{\theta_{old}}(a_t|s_t)}
 
 $$
+
 
 $A_t$: advantage estimate.
 
@@ -195,16 +205,17 @@ $$
 
 $$
 
+
 Với KL:
 
 $$
 
 \mathcal{L}
 = \mathbb{E}[r(x)]
-
 * \beta D_{KL}(\pi_\theta | \pi_{ref})
 
 $$
+
 
 KL đóng vai trò như regularizer:
 
@@ -228,6 +239,7 @@ $$
 \mathcal{O}(L \cdot T^2 \cdot d)
 
 $$
+
 
 Trong RLHF:
 
@@ -253,6 +265,7 @@ r_\phi(x) = r_{true}(x) + \epsilon(x)
 
 $$
 
+
 Khi tối ưu:
 
 $$
@@ -260,6 +273,7 @@ $$
 \max_\theta \mathbb{E}[r_\phi(x)]
 
 $$
+
 
 Sai số $\epsilon(x$ ) có thể bị khai thác.
 
@@ -274,6 +288,7 @@ $$
 \pi_\theta \approx \pi_{human}
 
 $$
+
 
 Nhưng reward chỉ là xấp xỉ.
 

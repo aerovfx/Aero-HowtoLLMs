@@ -35,6 +35,7 @@ p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_
 
 $$
 
+
 Trong đó, $\sigma_i$ là phương sai (variance) chịu ảnh hưởng cấu hình phân tán kề lặp (Perplexity).
 
 ### 1.2 Chiếu Lên Chuẩn Bậc Thấp Và Tối Ưu Bằng Divergence
@@ -45,6 +46,7 @@ $$
 C = \sum_{i} KL(P_i \parallel Q_i) = \sum_{i,j} p_{ij} \log \frac{p_{ij}}{q_{ij}}
 
 $$
+
 
 Sự trượt biến của Loss này khẳng định $Y$ đã tạo ra bóng ma 2 chiều sinh động của Mạng Nơ ron khổng lồ mà không phá hủy các quần tụ tương quan. Tính kết sinh của T-SNE là phi định chuẩn (Probabilistic/Non-deterministic). Mọi lần khởi động đều cho ra bản đồ khác trên nền tương đồng nhãn.
 
@@ -72,6 +74,7 @@ $$
 G_{E} = E \cdot E^T
 
 $$
+
 
 Khi các vector được phân bổ đơn vị với lượng Vector-norm chuẫn L2, Gram Matrix lập tức hóa thân thành khối ảnh chiếu Cosine Similarity Matrix. Nó tiết lộ những kiến trúc lưới đồ thị sắc sảo đang giấu nhẻm ở đám mây khối $n$-nghiệm phức loạn. 
 

@@ -32,6 +32,7 @@ $$
 
 $$
 
+
 Một tokenizer hiệu quả cần:
 
 - Giảm kích thước từ vựng $V$
@@ -54,6 +55,7 @@ $$
 
 $$
 
+
 Mỗi từ được biểu diễn thành chuỗi ký tự:
 
 $$
@@ -62,6 +64,7 @@ w_i = (c_1, c_2, \dots, c_m)
 
 $$
 
+
 Tập token ban đầu:
 
 $$
@@ -69,6 +72,7 @@ $$
 V_0 = \{ \text{tất cả ký tự xuất hiện} \}
 
 $$
+
 
 ---
 
@@ -84,6 +88,7 @@ P_k = \{(t_i, t_{i+1})\}
 
 $$
 
+
 Hàm tần suất:
 
 $$
@@ -91,6 +96,7 @@ $$
 f_k(p) = \sum_{w \in \mathcal{D}} \text{count}(p, w)
 
 $$
+
 
 Chọn cặp tối ưu:
 
@@ -100,6 +106,7 @@ p_k^* = \arg\max_{p \in P_k} f_k(p)
 
 $$
 
+
 Sau đó cập nhật:
 
 $$
@@ -108,6 +115,7 @@ V_{k+1} = V_k \cup \{ t_{new} \}
 
 $$
 
+
 Quá trình dừng khi:
 
 $$
@@ -115,6 +123,7 @@ $$
 |V_k| = V_{target}
 
 $$
+
 
 ---
 
@@ -133,6 +142,7 @@ $$
 
 $$
 
+
 Nếu muốn:
 
 $$
@@ -141,6 +151,7 @@ $$
 
 $$
 
+
 Ta cần:
 
 $$
@@ -148,6 +159,7 @@ $$
 M = V_{target} - C
 
 $$
+
 
 Như vậy, bài toán trở thành:
 
@@ -167,6 +179,7 @@ $$
 
 $$
 
+
 với $T$ là tổng số token trong tập dữ liệu.
 
 - Chọn cặp lớn nhất:
@@ -176,6 +189,7 @@ $$
 \mathcal{O}(|P_k|)
 
 $$
+
 
 ### 4.2 Tổng thể
 
@@ -187,6 +201,7 @@ $$
 
 $$
 
+
 Trong thực tế:
 
 $$
@@ -194,6 +209,7 @@ $$
 T \approx 10^9 - 10^{12}
 
 $$
+
 
 Do đó cần:
 - Cấu trúc heap
@@ -214,6 +230,7 @@ E \in \mathbb{R}^{V \times d}
 
 $$
 
+
 Số tham số:
 
 $$
@@ -221,6 +238,7 @@ $$
 \text{Params} = V \times d
 
 $$
+
 
 Ví dụ:
 
@@ -233,6 +251,7 @@ $$
 
 $$
 
+
 Nếu tăng $V$ lên 100,000:
 
 $$
@@ -240,6 +259,7 @@ $$
 \text{Params} = 409,600,000
 
 $$
+
 
 Chi phí tăng gấp đôi.
 
@@ -255,6 +275,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $L$ là chiều dài chuỗi token.
 
@@ -265,6 +286,7 @@ $$
 L \uparrow \Rightarrow \text{Chi phí tăng}
 
 $$
+
 
 Nếu token quá lớn (word-level):
 
@@ -291,6 +313,7 @@ $$
 
 $$
 
+
 Trong khi WordPiece tối ưu:
 
 $$
@@ -298,6 +321,7 @@ $$
 \max \log P(\mathcal{D} | V_k)
 
 $$
+
 
 ---
 
@@ -316,6 +340,7 @@ $$
 \mathcal{O}(T \cdot L \cdot d^2)
 
 $$
+
 
 Việc chọn tokenizer ảnh hưởng trực tiếp đến:
 
@@ -342,6 +367,7 @@ $$
 M = V_{target} - |V_0|
 
 $$
+
 
 Việc tối ưu hóa BPE không chỉ là bước tiền xử lý, mà còn ảnh hưởng trực tiếp đến:
 

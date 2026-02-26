@@ -42,6 +42,7 @@ $$
 
 $$
 
+
 Bằng cách tạo một ma trận hỗn hợp $N \times 768$ chiều (giả sử chọn tập $N=32$ Emojis), toàn bộ đám mây cảm xúc đã được định chuẩn hóa lên không gian nơ-ron bậc cao của khối lượng Transformers.
 
 *(Lưu ý: Trung bình cộng token vector trong Word Embeddings chỉ là kỹ thuật đơn giản. Đối với mô hình sâu (Deep layers), ta nên trích vector tọa độ của token cuối cùng ở lớp attention thứ 12 để gom hết dữ kiện contextual từ các token trước).*
@@ -63,6 +64,7 @@ $$
 Z = \frac{X - \mu}{\sigma}
 
 $$
+
 
 Phép dịch tâm $Z-score$ này bảo toàn nguyên vẹn tính chất hình học tương đối nhưng đem toàn bộ trục tung và trục hoành thu gọn vào khoảng từ $-2$ đến $2$. Việc này cung cấp sức mạnh định dạng bán kính cực độ cho DBSCAN.
 

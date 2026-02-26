@@ -61,17 +61,20 @@ X_{emb} = Embedding(X)
 
 $$
 
+
 $$
 
 H = GELU(X_{emb})
 
 $$
 
+
 $$
 
 Z = Unembedding(H)
 
 $$
+
 
 Sau đó, log-softmax được áp dụng để tạo phân phối xác suất:
 
@@ -80,6 +83,7 @@ $$
 P = \log(\text{softmax}(Z))
 
 $$
+
 
 Việc xuất log-softmax giúp tương thích với hàm mất mát Negative Log-Likelihood. 
 
@@ -107,6 +111,7 @@ $$
 (X_1, X_2, ..., X_8) \rightarrow (X_2, X_3, ..., X_9)
 
 $$
+
 
 Cách tiếp cận này phù hợp với bài toán dự đoán token tiếp theo.
 
@@ -139,6 +144,7 @@ L = - \log P(y|x)
 
 $$
 
+
 Hàm này yêu cầu đầu vào là log-softmax.
 
 ---
@@ -164,11 +170,13 @@ Output \rightarrow (B \cdot T) \times V
 
 $$
 
+
 $$
 
 Target \rightarrow (B \cdot T)
 
 $$
+
 
 Cách làm này cho phép tính loss trên toàn bộ chuỗi.
 
@@ -191,6 +199,7 @@ $$
 \theta_{t+1} = \theta_t - \eta \hat{g}_t - \eta \lambda \theta_t
 
 $$
+
 
 AdamW giúp ổn định quá trình huấn luyện.
 
@@ -235,6 +244,7 @@ P = e^{\log p}
 
 $$
 
+
 Điều này đảm bảo xác suất hợp lệ.
 
 ---
@@ -256,6 +266,7 @@ $$
 L_{random} \approx -\log\left(\frac{1}{V}\right)
 
 $$
+
 
 Với $V \approx 50,000$, ta có $L \approx 10.8$. 
 

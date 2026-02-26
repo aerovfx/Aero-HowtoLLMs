@@ -58,6 +58,7 @@ z = (z_1, z_2, \dots, z_V)
 
 $$
 
+
 trong đó $V$ là kích thước từ vựng. Vector $z$ được gọi là logits, đại diện cho độ tin cậy chưa chuẩn hóa của từng token.
 
 Logits có thể mang giá trị bất kỳ trong tập số thực và chưa có ý nghĩa xác suất.
@@ -74,6 +75,7 @@ P_i = \frac{e^{z_i}}{\sum_j e^{z_j}}
 
 $$
 
+
 Log-softmax được định nghĩa:
 
 $$
@@ -81,6 +83,7 @@ $$
 \log P_i = z_i - \log \sum_j e^{z_j}
 
 $$
+
 
 Hàm log-softmax giúp tăng độ ổn định số học và thường được dùng trực tiếp trong loss function.
 
@@ -95,6 +98,7 @@ $$
 \mathcal{L} = - \log P_{target}
 
 $$
+
 
 PyTorch thường kết hợp `LogSoftmax` và `NLLLoss` thành `CrossEntropyLoss`, cho phép truyền trực tiếp logits vào hàm loss.
 
@@ -113,6 +117,7 @@ $$
 \text{Output} = \log(\text{Softmax}(z))
 
 $$
+
 
 ngay trong hàm `forward`.
 
@@ -174,6 +179,7 @@ $$
 P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
 
 $$
+
 
 Trong đó:
 

@@ -58,6 +58,7 @@ x = (x_1, x_2, ..., x_T)
 
 $$
 
+
 Mỗi token được ánh xạ thành vector embedding:
 
 $$
@@ -66,6 +67,7 @@ e_i = E(x_i)
 
 $$
 
+
 Nếu không có đánh số vị trí, ta chỉ có:
 
 $$
@@ -73,6 +75,7 @@ $$
 X = (e_1, e_2, ..., e_T)
 
 $$
+
 
 Nhưng self-attention thuần túy là **bất biến hoán vị (permutation invariant)**.
 
@@ -83,6 +86,7 @@ $$
 \text{Attention}(X) = \text{Attention}(PX)
 
 $$
+
 
 với $P$ là ma trận hoán vị.
 
@@ -102,11 +106,13 @@ PE(pos, 2i) = \sin \left( \frac{pos}{10000^{2i/d}} \right)
 
 $$
 
+
 $$
 
 PE(pos, 2i+1) = \cos \left( \frac{pos}{10000^{2i/d}} \right)
 
 $$
+
 
 Trong đó:
 
@@ -122,6 +128,7 @@ z_i = e_i + PE(i)
 
 $$
 
+
 ---
 
 ## 3.2. Positional Embedding học được
@@ -133,6 +140,7 @@ $$
 z_i = e_i + p_i
 
 $$
+
 
 với $p_i$ là tham số học được.
 
@@ -148,13 +156,13 @@ $$
 
 \text{Attention}(Q,K,V)
 =======================
-
 \text{softmax}
 \left(
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
 
 $$
+
 
 Trong đó:
 
@@ -165,6 +173,7 @@ K = ZW_K
 
 $$
 
+
 Nếu $Z$ không chứa thông tin vị trí:
 
 $$
@@ -172,6 +181,7 @@ $$
 QK^T
 
 $$
+
 
 chỉ phản ánh nội dung, không phản ánh thứ tự.
 
@@ -182,6 +192,7 @@ $$
 Z = E + P
 
 $$
+
 
 attention có thể học:
 
@@ -201,6 +212,7 @@ P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
 
 $$
 
+
 Điều kiện $x_{<t}$ phụ thuộc trực tiếp vào thứ tự.
 
 Causal masking:
@@ -215,6 +227,7 @@ M_{ij} =
 
 $$
 
+
 Ma trận attention thực tế:
 
 $$
@@ -225,6 +238,7 @@ $$
 \right)
 
 $$
+
 
 Đánh số vị trí cho phép xác định chính xác token nào thuộc $x_{<t}$.
 
@@ -240,6 +254,7 @@ $$
 
 $$
 
+
 Khi tăng chiều dài văn bản $T$:
 
 $$
@@ -247,6 +262,7 @@ $$
 \text{Compute} \propto T^2
 
 $$
+
 
 Việc đánh số giúp:
 
@@ -266,6 +282,7 @@ x = [\text{Prompt}; \text{Response}]
 
 $$
 
+
 Đánh số cho phép:
 
 * Phân biệt phần prompt và response
@@ -278,6 +295,7 @@ $$
 \mathcal{L} = -\sum_{t \in R} \log P(x_t | x_{<t})
 
 $$
+
 
 Nếu không đánh số rõ ràng, mô hình không biết đâu là phần cần tối ưu.
 
@@ -292,6 +310,7 @@ $$
 H(X) = - \sum_x P(x)\log P(x)
 
 $$
+
 
 Thứ tự ảnh hưởng trực tiếp đến entropy.
 
@@ -330,6 +349,7 @@ $$
 \text{Transformer} \to \text{Bag-of-Words Model}
 
 $$
+
 
 ---
 

@@ -42,6 +42,7 @@ $$
 
 $$
 
+
 Nếu embedding là ánh xạ:
 
 $$
@@ -50,6 +51,7 @@ f: \mathcal{V} \rightarrow \mathbb{R}^d
 
 $$
 
+
 thì unembedding là ánh xạ ngược:
 
 $$
@@ -57,6 +59,7 @@ $$
 g: \mathbb{R}^d \rightarrow \mathbb{R}^{|\mathcal{V}|}
 
 $$
+
 
 ---
 
@@ -70,6 +73,7 @@ E \in \mathbb{R}^{|V| \times d}
 
 $$
 
+
 Với token chỉ số $i$:
 
 $$
@@ -78,6 +82,7 @@ $$
 
 $$
 
+
 Nếu biểu diễn one-hot $\mathbf{x}_i$:
 
 $$
@@ -85,6 +90,7 @@ $$
 \mathbf{v}_i = \mathbf{x}_i E
 
 $$
+
 
 ---
 
@@ -98,6 +104,7 @@ $$
 
 $$
 
+
 Để chuyển sang logit:
 
 $$
@@ -105,6 +112,7 @@ $$
 \mathbf{z} = W_U \mathbf{h}_t
 
 $$
+
 
 Trong đó:
 
@@ -114,6 +122,7 @@ W_U \in \mathbb{R}^{|V| \times d}
 
 $$
 
+
 Vector logit:
 
 $$
@@ -121,6 +130,7 @@ $$
 z_i = \mathbf{w}_i \cdot \mathbf{h}_t
 
 $$
+
 
 ---
 
@@ -134,6 +144,7 @@ W_U = E
 
 $$
 
+
 hoặc:
 
 $$
@@ -142,6 +153,7 @@ W_U = E^T
 
 $$
 
+
 Khi đó:
 
 $$
@@ -149,6 +161,7 @@ $$
 z_i = \mathbf{v}_i \cdot \mathbf{h}_t
 
 $$
+
 
 Điều này có ý nghĩa hình học:
 
@@ -169,6 +182,7 @@ P(w_i | h_t)
 
 $$
 
+
 Thay $z_i = \mathbf{v}_i \cdot \mathbf{h}_t$:
 
 $$
@@ -185,6 +199,7 @@ P(w_i)
 
 $$
 
+
 Nếu chuẩn hóa:
 
 $$
@@ -196,6 +211,7 @@ $$
 \cos \theta_i
 
 $$
+
 
 Suy ra:
 
@@ -210,6 +226,7 @@ P(w_i)
 )
 
 $$
+
 
 Góc giữa vector quyết định xác suất.
 
@@ -230,6 +247,7 @@ $$
 
 $$
 
+
 Nghĩa là ta đo mức độ “gần” giữa $\mathbf{h}_t$ và từng vector từ vựng.
 
 Nếu hai token có embedding gần nhau:
@@ -240,6 +258,7 @@ $$
 
 $$
 
+
 thì:
 
 $$
@@ -247,6 +266,7 @@ $$
 z_i \approx z_j
 
 $$
+
 
 Do đó phân phối xác suất sẽ tương tự.
 
@@ -264,6 +284,7 @@ $$
 
 $$
 
+
 Gradient theo $\mathbf{h}_t$:
 
 $$
@@ -277,6 +298,7 @@ P(w_i)\mathbf{v}_i
 \mathbf{v}_{true}
 
 $$
+
 
 Điều này cho thấy:
 
@@ -294,6 +316,7 @@ $$
 z_i = \mathbf{w}_i^T \mathbf{h}_t
 
 $$
+
 
 Khác biệt là:
 
@@ -314,6 +337,7 @@ $$
 
 $$
 
+
 Khi đó:
 
 $$
@@ -326,6 +350,7 @@ z_i
 
 $$
 
+
 Nếu bỏ qua độ lớn:
 
 $$
@@ -333,6 +358,7 @@ $$
 z_i \propto \cos\theta_i
 
 $$
+
 
 Như vậy unembedding về bản chất dựa trên cosine similarity.
 
@@ -348,6 +374,7 @@ E = U \Sigma V^T
 
 $$
 
+
 (SVD decomposition)
 
 Hidden state:
@@ -360,6 +387,7 @@ V \mathbf{c}
 
 $$
 
+
 Logit:
 
 $$
@@ -369,6 +397,7 @@ $$
 U \Sigma \mathbf{c}
 
 $$
+
 
 Các giá trị singular lớn chi phối phân phối xác suất.
 
@@ -392,6 +421,7 @@ $$
 \text{Softmax}(E \mathbf{h}_t)
 
 $$
+
 
 ---
 

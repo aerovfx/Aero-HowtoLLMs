@@ -184,6 +184,7 @@ P(X_1=n_1, X_2=n_2, \ldots, X_K=n_K) = \frac{n!}{n_1! n_2! \cdots n_K!} p_1^{n_1
 
 $$
 
+
 Trong đó:
 - $n = \sum_{i=1}^K n_i$ = total number of trials
 - $n_i$ = number of times outcome $i$ occurs
@@ -207,6 +208,7 @@ P(\text{sample} = i) = p_i
 
 $$
 
+
 **Multiple samples (with replacement):**
 ```python
 torch.multinomial(probs, num_samples=n, replacement=True)
@@ -226,6 +228,7 @@ $$
 p_i^{\text{new}} = 0
 
 $$
+
 
 Other probabilities renormalized.
 
@@ -260,6 +263,7 @@ $$
 p_i = \frac{w_i}{\sum_{j=1}^K w_j}
 
 $$
+
 
 **Example:**
 ```python
@@ -705,6 +709,7 @@ p_i = \frac{w_i}{\sum_j w_j} = \frac{w_i}{1 + 2 + 5} = \frac{w_i}{8}
 
 $$
 
+
 Therefore:
 
 $$
@@ -713,17 +718,20 @@ p_0 = \frac{1}{8} = 0.125 = 12.5\%
 
 $$
 
+
 $$
 
 p_1 = \frac{2}{8} = 0.25 = 25\%
 
 $$
 
+
 $$
 
 p_2 = \frac{5}{8} = 0.625 = 62.5\%
 
 $$
+
 
 **Comparison với observed:**
 
@@ -742,6 +750,7 @@ $$
 \chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i}
 
 $$
+
 
 With 10,000 samples, observed frequencies closely match expected (p > 0.05).
 
@@ -835,6 +844,7 @@ p_i^{\text{linear}} = \frac{w_i}{\sum_j w_j}
 
 $$
 
+
 With Softmax:
 
 $$
@@ -843,6 +853,7 @@ p_i^{\text{softmax}} = \frac{e^{w_i}}{\sum_j e^{w_j}}
 
 $$
 
+
 **Amplification factor:**
 
 $$
@@ -850,6 +861,7 @@ $$
 \frac{p_i^{\text{softmax}}}{p_i^{\text{linear}}} = \frac{e^{w_i}/\sum_j e^{w_j}}{w_i/\sum_j w_j}
 
 $$
+
 
 **For large weights:** This ratio can be **orders of magnitude**.
 

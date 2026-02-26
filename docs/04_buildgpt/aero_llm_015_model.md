@@ -54,6 +54,7 @@ X = E_{token} + E_{pos}
 
 $$
 
+
 Trong đó:
 
 - $E_{token}$: token embedding,
@@ -73,6 +74,7 @@ $$
 \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
 
 $$
+
 
 Trong đó:
 
@@ -98,6 +100,7 @@ M_{ij}=
 
 $$
 
+
 Mask được áp dụng bằng cách thay thế các phần tử bị che bởi $-\infty$. :contentReference[oaicite:2]{index=2}
 
 ---
@@ -112,6 +115,7 @@ $$
 
 $$
 
+
 Sau đó, đầu ra attention được cộng trở lại:
 
 $$
@@ -119,6 +123,7 @@ $$
 Y = X + \text{Attention}(\hat{X})
 
 $$
+
 
 Cấu trúc residual giúp:
 
@@ -154,6 +159,7 @@ $$
 W_Q, W_K, W_V, W_0 \in \mathbb{R}^{d \times d}
 
 $$
+
 
 Không sử dụng bias cho QKV, do LayerNorm đã xử lý dịch chuyển phân phối. :contentReference[oaicite:5]{index=5}
 
@@ -241,6 +247,7 @@ $$
 \log(|V|)
 
 $$
+
 
 Cho thấy mô hình chưa học được thông tin ngôn ngữ. :contentReference[oaicite:11]{index=11}
 
@@ -411,11 +418,13 @@ H^{(l)} = H^{(l-1)} + \text{MHSA}(\text{LN}(H^{(l-1)}))
 
 $$
 
+
 $$
 
 Y^{(l)} = H^{(l)} + \text{FFN}(\text{LN}(H^{(l)}))
 
 $$
+
 
 Trong đó:
 
@@ -433,6 +442,7 @@ $$
 X \rightarrow B_1 \rightarrow B_2 \rightarrow \dots \rightarrow B_L \rightarrow Y
 
 $$
+
 
 Mỗi block học một phép biến đổi riêng, tạo thành chuỗi ánh xạ phi tuyến sâu.
 
@@ -453,6 +463,7 @@ $$
 \text{Capacity} \propto L \times d^2
 
 $$
+
 
 với $L$ là số block, $d$ là embedding dimension.
 
@@ -484,6 +495,7 @@ f_l(x) = x + g_l(x)
 
 $$
 
+
 Chuỗi block tạo thành:
 
 $$
@@ -491,6 +503,7 @@ $$
 f(x)=f_L\circ \dots \circ f_1(x)
 
 $$
+
 
 Dẫn đến khả năng kết hợp đặc trưng (feature composition) mạnh mẽ.
 
@@ -505,6 +518,7 @@ $$
 \frac{\partial L}{\partial x} \approx 1 + \epsilon
 
 $$
+
 
 Giúp tránh hiện tượng vanishing gradient khi tăng độ sâu.
 

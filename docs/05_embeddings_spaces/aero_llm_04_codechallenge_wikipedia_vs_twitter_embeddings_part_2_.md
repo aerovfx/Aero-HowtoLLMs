@@ -32,6 +32,7 @@ f: w \rightarrow \mathbf{v}_w
 
 $$
 
+
 với $d$ là số chiều của không gian nhúng.
 
 Khi hai mô hình embedding được huấn luyện trên hai tập dữ liệu khác nhau (ví dụ: văn bản bách khoa và tweet ngắn), ta có:
@@ -42,11 +43,13 @@ f_{wiki}(w) = \mathbf{v}_w^{(wiki)}
 
 $$
 
+
 $$
 
 f_{twitter}(w) = \mathbf{v}_w^{(twitter)}
 
 $$
+
 
 Do khác biệt về miền dữ liệu và phân bố ngôn ngữ, các vector thu được không thể so sánh trực tiếp từng chiều.
 
@@ -64,6 +67,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 - $\mathbf{v}_i \cdot \mathbf{v}_j$ là tích vô hướng.
@@ -75,6 +79,7 @@ $$
 
 $$
 
+
 Cosine similarity nằm trong khoảng:
 
 $$
@@ -82,6 +87,7 @@ $$
 -1 \leq \text{cosine} \leq 1
 
 $$
+
 
 Quan sát thực nghiệm cho thấy trong một số cặp từ, embedding từ Twitter cho giá trị cosine cao hơn so với embedding từ Wikipedia, phản ánh tính ngữ cảnh gần gũi hơn trong văn bản mạng xã hội.
 
@@ -97,6 +103,7 @@ $$
 
 $$
 
+
 Lý do:
 
 1. Các không gian được học độc lập.
@@ -110,6 +117,7 @@ $$
 \mathbf{v}_w^{(twitter)} \approx \mathbf{R} \mathbf{v}_w^{(wiki)}
 
 $$
+
 
 Khi đó, tọa độ khác nhau nhưng cấu trúc tương đối có thể vẫn được bảo toàn.
 
@@ -133,6 +141,7 @@ S_{ij} = \text{cosine}(\mathbf{v}_i, \mathbf{v}_j)
 
 $$
 
+
 Ta có:
 
 $$
@@ -140,6 +149,7 @@ $$
 S^{(wiki)} \quad \text{và} \quad S^{(twitter)}
 
 $$
+
 
 ---
 
@@ -153,6 +163,7 @@ $$
 
 $$
 
+
 Sau đó tính hệ số tương quan Pearson:
 
 $$
@@ -162,6 +173,7 @@ r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}
 \sqrt{\sum (y_i - \bar{y})^2}}
 
 $$
+
 
 Nếu:
 
@@ -183,11 +195,13 @@ $$
 
 $$
 
+
 $$
 
 \text{index}_{twitter}(w)
 
 $$
+
 
 Lưu ý: Một số từ có thể không xuất hiện (ví dụ: chữ hoa “The”).
 
@@ -201,11 +215,13 @@ $$
 
 $$
 
+
 $$
 
 \mathbf{v}_w^{(twitter)} = E^{(twitter)}[\text{index}(w)]
 
 $$
+
 
 ---
 
@@ -219,6 +235,7 @@ S^{(model)}_{ij} =
 
 $$
 
+
 ---
 
 ### Bước 4: Tính tương quan giữa hai ma trận
@@ -228,6 +245,7 @@ $$
 \text{RSA score} = \text{corr}(\mathbf{s}^{(wiki)}, \mathbf{s}^{(twitter)})
 
 $$
+
 
 ---
 
@@ -269,6 +287,7 @@ $$
 \text{So sánh trực tiếp vector} \neq \text{So sánh cấu trúc quan hệ}
 
 $$
+
 
 RSA cung cấp một khung lý thuyết mạnh mẽ để nghiên cứu tính ổn định và khả năng chuyển giao của biểu diễn học sâu trong NLP.
 

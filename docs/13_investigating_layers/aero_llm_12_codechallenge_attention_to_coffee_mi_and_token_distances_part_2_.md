@@ -45,6 +45,7 @@ Z = \frac{ \text{arctanh}(r_{att}) - \text{arctanh}(r_{mlp}) }{\sqrt{2 / (N - 3)
 
 $$
 
+
 Kiểm tra Z-score này trên Phân phối tích lũy chuẩn (Normal CDF) sẽ cho phép xác định độ khác biệt mang ý nghĩa thống kê của lực hút nghịch biến giữa hai phân mảng.
 
 ---

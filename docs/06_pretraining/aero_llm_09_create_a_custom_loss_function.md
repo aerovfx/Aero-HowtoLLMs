@@ -46,6 +46,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $y_i$: nhãn thật (one-hot encoding),
@@ -59,6 +60,7 @@ $$
 \mathcal{L} = -\log(\hat{y}_{target})
 
 $$
+
 
 Theo tài liệu, PyTorch triển khai Cross-Entropy Loss và NLL Loss theo cách gần tương đương, trong đó NLL yêu cầu đầu vào ở dạng log-softmax .
 
@@ -109,6 +111,7 @@ $$
 
 $$
 
+
 #### **L2 Loss (Mean Squared Error)**
 
 $$
@@ -116,6 +119,7 @@ $$
 \mathcal{L}_{L2} = (y - \hat{y})^2
 
 $$
+
 
 Cài đặt trong PyTorch:
 

@@ -85,6 +85,7 @@ P(T_{target} | T_{context}) = \text{Softmax}(Z)
 
 $$
 
+
 Trong đó $Z$ là logit đầu ra. Đánh giá hộp đen tập trung vào việc làm thế nào để thay đổi $T_{context}$ sao cho $P(T_{unsafe})$ đạt giá trị cực đại.
 
 ---

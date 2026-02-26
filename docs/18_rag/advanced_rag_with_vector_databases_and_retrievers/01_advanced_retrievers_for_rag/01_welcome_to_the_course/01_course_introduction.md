@@ -39,6 +39,7 @@ $$
 
 $$
 
+
 Trong đó:
 - **Query**: Câu hỏi của người dùng
 - **Context**: Kết quả truy xuất từ cơ sở dữ liệu vector
@@ -200,6 +201,7 @@ $$
 \text{Time Complexity} = O(\log N)
 
 $$
+
 
 ```python
 import hnswlib

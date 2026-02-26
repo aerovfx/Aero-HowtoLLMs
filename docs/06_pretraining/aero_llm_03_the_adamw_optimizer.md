@@ -49,6 +49,7 @@ W^* = \arg\min_W L(W)
 
 $$
 
+
 Hàm mất mát thường được xây dựng từ cross-entropy hoặc negative log-likelihood. 
 
 ---
@@ -62,6 +63,7 @@ $$
 W_{t+1} = W_t - \eta \nabla L(W_t)
 
 $$
+
 
 Trong đó:
 
@@ -92,11 +94,13 @@ v_t = \beta_1 v_{t-1} + (1-\beta_1) g_t
 
 $$
 
+
 $$
 
 s_t = \beta_2 s_{t-1} + (1-\beta_2) g_t^2
 
 $$
+
 
 ---
 
@@ -123,6 +127,7 @@ $$
 L'(W) = L(W) + \lambda ||W||^2
 
 $$
+
 
 Trong đó $\lambda$ là hệ số regularization. 
 
@@ -157,6 +162,7 @@ $$
 W_{t+1} = W_t - \eta \hat{g}_t - \eta \lambda W_t
 
 $$
+
 
 Trong đó, thành phần weight decay không phụ thuộc vào gradient.
 

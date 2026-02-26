@@ -34,6 +34,7 @@ P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
 
 $$
 
+
 Hàm mất mát cross-entropy:
 
 $$
@@ -41,6 +42,7 @@ $$
 \mathcal{L}(\theta) = - \sum_{t=1}^{T} \log P_\theta(x_t \mid x_{<t})
 
 $$
+
 
 Trong instruction tuning, chuỗi đầu vào có cấu trúc:
 
@@ -50,6 +52,7 @@ x = [\text{Instruction}; \text{Response}]
 
 $$
 
+
 Và loss chỉ tính trên phần response:
 
 $$
@@ -57,6 +60,7 @@ $$
 \mathcal{L}*{SFT} = - \sum*{t \in R} \log P_\theta(x_t \mid x_{<t})
 
 $$
+
 
 ---
 
@@ -77,6 +81,7 @@ L_A \gg L_Q
 
 $$
 
+
 Gradient kỳ vọng:
 
 $$
@@ -85,6 +90,7 @@ $$
 = - \mathbb{E} \left[ \sum_{t \in R} \nabla_\theta \log P_\theta(x_t \mid x_{<t}) \right]
 
 $$
+
 
 Điều này dẫn tới hiện tượng:
 
@@ -103,6 +109,7 @@ Var(\nabla_\theta \mathcal{L}) \propto T
 
 $$
 
+
 Khi câu trả lời dài, ta có:
 
 $$
@@ -110,6 +117,7 @@ $$
 Var \uparrow \Rightarrow \text{training instability}
 
 $$
+
 
 Biện pháp:
 
@@ -120,6 +128,7 @@ $$
 g \leftarrow \frac{g}{\max(1, \frac{|g|}{c})}
 
 $$
+
 
 * Mixed precision $FP16/BF16$
 * Gradient accumulation
@@ -136,6 +145,7 @@ $$
 
 $$
 
+
 Với:
 
 * $T$: chiều dài chuỗi
@@ -149,6 +159,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $L = 36$ (số layer GPT-2 Large)
@@ -161,6 +172,7 @@ $$
 \text{Compute} \approx 4 \times
 
 $$
+
 
 Do phụ thuộc bậc hai theo $T$.
 
@@ -178,6 +190,7 @@ $$
 
 $$
 
+
 Sau warmup, thường dùng cosine decay:
 
 $$
@@ -185,6 +198,7 @@ $$
 \eta_t = \eta_{min} + \frac{1}{2}(\eta_{max} - \eta_{min}) \left(1 + \cos \frac{t\pi}{T}\right)
 
 $$
+
 
 ---
 
@@ -198,11 +212,13 @@ m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t
 
 $$
 
+
 $$
 
 v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2
 
 $$
+
 
 Cập nhật tham số:
 
@@ -211,6 +227,7 @@ $$
 \theta_t = \theta_{t-1} - \eta \frac{\hat m_t}{\sqrt{\hat v_t} + \epsilon}
 
 $$
+
 
 Adam giúp ổn định khi gradient dao động mạnh do chuỗi dài.
 
@@ -226,6 +243,7 @@ $$
 
 $$
 
+
 Khi đó mô hình sẽ học:
 
 * Sao chép instruction
@@ -238,6 +256,7 @@ $$
 \mathcal{L}_{instruction} = 0
 
 $$
+
 
 Giúp mô hình tập trung vào sinh response.
 
@@ -262,6 +281,7 @@ r(x) - \beta D_{KL}(\pi_\theta | \pi_{ref})
 
 $$
 
+
 Trong đó:
 
 * ( r(x) ): reward từ mô hình đánh giá
@@ -272,6 +292,7 @@ $$
 D_{KL}(P|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}
 
 $$
+
 
 KL giúp giữ mô hình không lệch quá xa mô hình gốc.
 
@@ -289,6 +310,7 @@ Memory \approx
 \text{Optimizer States}
 
 $$
+
 
 Với 1.5B tham số:
 
@@ -315,6 +337,7 @@ $$
 
 $$
 
+
 Instruction tuning làm:
 
 * Giảm bias với tác vụ hỏi-đáp
@@ -327,6 +350,7 @@ $$
 n \gg \frac{d}{\epsilon}
 
 $$
+
 
 Trong đó:
 

@@ -177,6 +177,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $N$ là số lượng ví dụ
 - $ref_i$ là bản dịch tham chiếu

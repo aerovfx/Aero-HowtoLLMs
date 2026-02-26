@@ -242,11 +242,13 @@ $$
 
 $$
 
+
 $$
 
 \text{Parameter Reduction} = \frac{247M - 16M}{247M} \approx 93\%
 
 $$
+
 
 ## 5. Bài Học Rút Ra
 

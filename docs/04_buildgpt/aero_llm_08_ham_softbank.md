@@ -36,6 +36,7 @@ $$
 
 $$
 
+
 Hàm này đảm bảo rằng:
 
 * Mỗi giá trị đầu ra nằm trong khoảng (0,1),
@@ -60,6 +61,7 @@ $$
 \text{Softmax}*T(x_i) = \frac{e^{x_i/T}}{\sum*{j=1}^{n} e^{x_j/T}}
 
 $$
+
 
 Trong đó $T$ là nhiệt độ:
 

@@ -32,6 +32,7 @@ $$
 
 $$
 
+
 **Ứng dụng:**
 - Giảm nhu cầu dữ liệu có nhãn
 - Tổng quát hóa tốt hơn
@@ -46,6 +47,7 @@ $$
 \theta_{global} = \sum_{k=1}^{K} w_k \cdot \theta_k
 
 $$
+
 
 **Lợi ích:**
 - Bảo mật quyền riêng tư
@@ -79,6 +81,7 @@ $$
 
 $$
 
+
 **Ví dụ:**
 - GPT-4V (Vision)
 - DALL-E
@@ -93,6 +96,7 @@ $$
 \text{Model}_{pruned} = \text{Model} \cdot M
 
 $$
+
 
 **Quantization (Lượng tử hóa):** Giảm độ chính xác của weights
 
@@ -154,6 +158,7 @@ $$
 \text{Performance} \propto N^\alpha \cdot D^\beta \cdot C^\gamma
 
 $$
+
 
 Trong đó:
 - $N$: Số tham số

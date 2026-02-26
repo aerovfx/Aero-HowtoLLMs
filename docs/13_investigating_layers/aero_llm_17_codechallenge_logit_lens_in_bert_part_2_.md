@@ -43,6 +43,7 @@ $$
 
 $$
 
+
 Khi thao tác đúng, kết quả lập tức đồng bộ. Ở Layer 22, phương pháp đẩy Module cho ra Z-score khổng lồ lên tới $\approx 25$ đến $30\ \sigma$, và từ đoán giải mã xuất hiện chính xác đáng kinh ngạc. 
 
 ---

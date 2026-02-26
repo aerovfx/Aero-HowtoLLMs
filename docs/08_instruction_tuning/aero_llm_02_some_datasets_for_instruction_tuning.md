@@ -64,6 +64,7 @@ P(x_t | x_1, x_2, ..., x_{t-1})
 
 $$
 
+
 Trong đó:
 
 * $x_t$ là token tại thời điểm $t$
@@ -80,6 +81,7 @@ $$
 \mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
 
 $$
+
 
 Trong đó:
 
@@ -99,6 +101,7 @@ $$
 \theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
 
 $$
+
 
 Trong đó:
 

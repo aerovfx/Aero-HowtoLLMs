@@ -36,6 +36,7 @@ $$
 
 $$
 
+
 Chuyển đổi để tìm xác suất $p$:
 
 $$
@@ -43,6 +44,7 @@ $$
 p = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_1 + \dots)}}
 
 $$
+
 
 Hàm này (hàm Sigmoid) nén mọi giá trị đầu vào vào khoảng $(0, 1)$, phù hợp với định nghĩa của xác suất.
 
@@ -82,6 +84,7 @@ $$
 \text{Accuracy} = \frac{\text{Số dự đoán đúng}}{\text{Tổng số mẫu}}
 
 $$
+
 
 Thực nghiệm cho thấy ngay cả khi có sự trùng lắp (noise) giữa hai phân phối, Hồi quy Logistic vẫn trích xuất được ranh giới quyết định (decision boundary) tối ưu để tối đa hóa khả năng phân loại của nơ-ron.
 

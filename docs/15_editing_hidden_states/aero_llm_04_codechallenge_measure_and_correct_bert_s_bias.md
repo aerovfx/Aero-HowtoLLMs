@@ -37,6 +37,7 @@ $$
 
 $$
 
+
 Trong đó $\mathbf{v}_{natural}$ là vector mô hình tự tính toán cho token [MASK], và $\mathbf{v}_{external}$ là vector thu được từ một lần chạy trước đó có chứa đại từ đích ("she"). 
 
 ### 2.2. Chỉ số Định kiến (Bias Score)
@@ -47,6 +48,7 @@ $$
 \text{Bias Score} = \log P(\text{"he"}) - \log P(\text{"she"})
 
 $$
+
 
 - **Dương:** Thiên kiến nam giới.
 - **Âm:** Thiên kiến nữ giới.

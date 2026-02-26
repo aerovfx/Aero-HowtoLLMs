@@ -88,6 +88,7 @@ $$
 
 $$
 
+
 ### 3.3 Triển Khai
 
 ```python
@@ -120,6 +121,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $p_n$ là precision cho n-gram
 - $w_n$ là trọng số (thường bằng 1/N)
@@ -132,6 +134,7 @@ $$
 \text{BP} = \begin{cases} 1 & \text{nếu } c > r \\ e^{(1-r/c)} & \text{nếu } c \leq r \end{cases}
 
 $$
+
 
 ### 4.3 Triển Khai
 
@@ -204,11 +207,13 @@ $$
 
 $$
 
+
 $$
 
 \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
 
 $$
+
 
 Trong ngữ cảnh dịch thuật:
 - **Precision**: Tỷ lệ từ đúng trong hypothesis / tổng từ trong hypothesis

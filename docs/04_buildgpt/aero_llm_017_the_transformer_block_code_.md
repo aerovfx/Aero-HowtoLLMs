@@ -57,11 +57,13 @@ Y_1 = X + \text{Attention}(\text{LN}(X))
 
 $$
 
+
 $$
 
 Y_2 = Y_1 + \text{MLP}(\text{LN}(Y_1))
 
 $$
+
 
 Trong đó:
 
@@ -149,17 +151,20 @@ H = \text{LN}(Y_1)
 
 $$
 
+
 $$
 
 Z = W_2(\sigma(W_1 H))
 
 $$
 
+
 $$
 
 Y_2 = Y_1 + Z
 
 $$
+
 
 Trong đó:
 
@@ -242,6 +247,7 @@ d_{head} = \frac{d_{model}}{h}
 
 $$
 
+
 Mỗi head học một không gian quan hệ riêng.
 
 ---
@@ -269,9 +275,11 @@ Ví dụ thực nghiệm:
 
 Tensor đầu vào:
 
-[
+$$
+
 (5, 8, 128)
-]
+
+$$
 
 
 ---
@@ -285,6 +293,7 @@ $$
 (B, T, D) \rightarrow (B, T, D)
 
 $$
+
 
 Đảm bảo khả năng xếp chồng nhiều layer.
 

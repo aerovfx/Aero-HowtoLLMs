@@ -58,6 +58,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $Q$: Query
@@ -76,6 +77,7 @@ $$
 \text{MLP}(x)=W_2 \cdot \sigma(W_1 x + b_1)+b_2
 
 $$
+
 
 Trong đó:
 
@@ -96,6 +98,7 @@ $$
 L=-\frac{1}{N}\sum_{i=1}^{N} \left[y_i\log(p_i)+(1-y_i)\log(1-p_i)\right]
 
 $$
+
 
 Trong đó:
 
@@ -140,6 +143,7 @@ $$
 
 $$
 
+
 Việc này giúp:
 
 * Giảm số tham số cần cập nhật
@@ -158,17 +162,20 @@ P_{total}=\sum_i |W_i|
 
 $$
 
+
 $$
 
 P_{trainable}=\sum_{j \in T}|W_j|
 
 $$
 
+
 $$
 
 R=\frac{P_{trainable}}{P_{total}}
 
 $$
+
 
 Trong đó:
 
@@ -183,6 +190,7 @@ R \approx 0.5
 
 $$
 
+
 Tức khoảng 50% tham số được cập nhật.
 
 ---
@@ -196,6 +204,7 @@ $$
 \theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta)
 
 $$
+
 
 Trong đó:
 
@@ -219,6 +228,7 @@ Accuracy=\frac{TP+TN}{TP+TN+FP+FN}
 
 $$
 
+
 Kết quả trung bình:
 
 | Giai đoạn     | Accuracy |
@@ -240,6 +250,7 @@ $$
 L_t \downarrow \quad \text{khi } t \uparrow
 
 $$
+
 
 Tuy nhiên xuất hiện dao động do:
 

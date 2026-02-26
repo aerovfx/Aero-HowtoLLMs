@@ -117,6 +117,7 @@ e = 2.71828182845904523536\ldots
 
 $$
 
+
 **Hàm exponential:**
 
 $$
@@ -124,6 +125,7 @@ $$
 f(x) = e^x
 
 $$
+
 
 **Tính chất quan trọng cho Softmax:**
 
@@ -134,6 +136,7 @@ $$
 e^x > 0 \quad \forall x \in \mathbb{R}
 
 $$
+
 
 **Ý nghĩa:**
 - $e^x$ không bao giờ negative
@@ -147,6 +150,7 @@ $$
 \frac{d}{dx}e^x = e^x
 
 $$
+
 
 **Hành vi:**
 - Exponential function "bends upwards" dramatically
@@ -204,6 +208,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $\mathbf{z} = [z_1, z_2, \ldots, z_K]$ là input vector (logits)
 - $K$ là số lượng classes/categories/tokens
@@ -216,6 +221,7 @@ $$
 \sigma(\mathbf{z}) = \frac{\exp(\mathbf{z})}{\sum \exp(\mathbf{z})}
 
 $$
+
 
 **NumPy implementation:**
 ```python
@@ -243,6 +249,7 @@ $$
 
 $$
 
+
 **Step 1: Exponentiate**
 
 $$
@@ -250,6 +257,7 @@ $$
 \exp(\mathbf{z}) = [e^{2.0}, e^{1.0}, e^{0.1}] = [7.39, 2.72, 1.11]
 
 $$
+
 
 **Step 2: Sum**
 
@@ -259,6 +267,7 @@ $$
 
 $$
 
+
 **Step 3: Normalize**
 
 $$
@@ -267,6 +276,7 @@ $$
 
 $$
 
+
 **Verification:**
 
 $$
@@ -274,6 +284,7 @@ $$
 0.659 + 0.242 + 0.099 = 1.000 \quad \checkmark
 
 $$
+
 
 ### 2.3 Softmax như Probability Distribution
 
@@ -290,6 +301,7 @@ P(x) \geq 0 \quad \forall x
 
 $$
 
+
 **Condition 2: Normalization**
 
 Cho discrete events:
@@ -300,6 +312,7 @@ $$
 
 $$
 
+
 Cho continuous events:
 
 $$
@@ -307,6 +320,7 @@ $$
 \int_{-\infty}^{\infty} P(x) \, dx = 1
 
 $$
+
 
 #### 2.3.2 Softmax Thỏa Mãn Probability Axioms
 
@@ -329,6 +343,7 @@ $$
 
 $$
 
+
 Factor out constant denominator:
 
 $$
@@ -337,11 +352,14 @@ $$
 
 $$
 
+
 Numerator equals denominator:
 
 $$
 
-= \frac{\sum_{i=1}^K e^{z_i}}{\sum_{j=1}^K e^{z_j}} = 1$$ ✓
+= \frac{\sum_{i=1}^K e^{z_i}}{\sum_{j=1}^K e^{z_j}} = 1
+
+$$ ✓
 
 **Conclusion:**
 > Softmax **inherently** creates valid probability distributions, bất kể input values (có thể negative, >1, arbitrary units).
@@ -717,10 +735,10 @@ $$
 $$
 
 $$
-
 \log(0.01) = -4.6
 
 $$
+
 
 $$
 
@@ -728,20 +746,36 @@ $$
 
 $$
 
+
 $$
 
 \log(10^{-8}) = -18.4
 
 $$
 
+
 **Visual effect:**
 ```
 Linear scale:
-[0.001, 0.01, 0.1]
+
+$$
+
+0.001, 0.01, 0.1
+
+$$
+
+
    |____|____|____
 
 Log scale:
-[-6.9, -4.6, -2.3]
+
+$$
+
+-6.9, -4.6, -2.3
+
+$$
+
+
    |______|______|
 ```
 
@@ -763,6 +797,7 @@ $$
 
 $$
 
+
 **Property 2:** $\log(e^x) = x$
 
 $$
@@ -770,6 +805,7 @@ $$
 = z_i - \log\left(\sum_j e^{z_j}\right)
 
 $$
+
 
 **Interpretation:**
 - **First term** ($z_i$): Original logit
@@ -785,6 +821,7 @@ $$
 
 $$
 
+
 **Log-Softmax output range:**
 
 $$
@@ -792,6 +829,7 @@ $$
 \log \sigma(\mathbf{z})_i \in (-\infty, 0]
 
 $$
+
 
 **Relationship:**
 - $\sigma = 1 \Rightarrow \log \sigma = 0$ (maximum)
@@ -893,6 +931,7 @@ $$
 
 $$
 
+
 **Further stabilization (LogSumExp trick):**
 
 $$
@@ -901,11 +940,13 @@ $$
 
 $$
 
+
 $$
 
 = z_{\max} + \log \sum_{j=1}^K e^{z_j - z_{\max}}
 
 $$
+
 
 **Stable implementation:**
 ```python
@@ -1341,6 +1382,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $y_i$ = ground truth (one-hot encoded)
 - $\sigma(\mathbf{z})_i$ = predicted probability
@@ -1352,6 +1394,7 @@ $$
 \mathcal{L} = -\sum_{i=1}^K y_i \cdot \log\sigma(\mathbf{z})_i
 
 $$
+
 
 **PyTorch implementation:**
 
@@ -1382,6 +1425,7 @@ $$
 
 $$
 
+
 Trong đó $\delta_{ij}$ là Kronecker delta.
 
 **Properties:**
@@ -1401,6 +1445,7 @@ $$
 \text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right) \mathbf{V}
 
 $$
+
 
 **Softmax role:**
 - Converts similarity scores → attention weights
@@ -1634,6 +1679,7 @@ $$
 
 $$
 
+
 Trong đó $g_i \sim \text{Gumbel}(0,1)$
 
 **Use case:** Differentiable sampling trong VAEs
@@ -1647,6 +1693,7 @@ $$
 \text{sparsemax}(\mathbf{z}) = \arg\min_{\mathbf{p} \in \Delta^{K-1}} \|\mathbf{p} - \mathbf{z}\|^2
 
 $$
+
 
 **Property:** Can produce exactly 0 probabilities
 
@@ -2185,6 +2232,7 @@ $$
 
 $$
 
+
 **Derivative w.r.t. $z_j$:**
 
 **Case 1: $i = j$**
@@ -2195,17 +2243,20 @@ $$
 
 $$
 
+
 $$
 
 = \frac{e^{z_i}}{\sum_k e^{z_k}} \cdot \frac{\sum_k e^{z_k} - e^{z_i}}{\sum_k e^{z_k}}
 
 $$
 
+
 $$
 
 = \sigma_i (1 - \sigma_i)
 
 $$
+
 
 **Case 2: $i \neq j$**
 
@@ -2215,17 +2266,20 @@ $$
 
 $$
 
+
 $$
 
 = -\frac{e^{z_i}}{\sum_k e^{z_k}} \cdot \frac{e^{z_j}}{\sum_k e^{z_k}}
 
 $$
 
+
 $$
 
 = -\sigma_i \sigma_j
 
 $$
+
 
 **Unified form:**
 
@@ -2235,6 +2289,7 @@ $$
 
 $$
 
+
 Trong đó $\delta_{ij}$ là Kronecker delta:
 
 $$
@@ -2242,6 +2297,7 @@ $$
 \delta_{ij} = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}
 
 $$
+
 
 ### B.2 Cross-Entropy Loss Gradient
 
@@ -2253,6 +2309,7 @@ $$
 
 $$
 
+
 **Gradient w.r.t. logit $z_j$:**
 
 $$
@@ -2261,11 +2318,13 @@ $$
 
 $$
 
+
 $$
 
 = -\sum_i y_i \frac{1}{\sigma_i} \frac{\partial \sigma_i}{\partial z_j}
 
 $$
+
 
 $$
 
@@ -2273,17 +2332,20 @@ $$
 
 $$
 
+
 $$
 
 = -\sum_i y_i (\delta_{ij} - \sigma_j)
 
 $$
 
+
 $$
 
 = -y_j + \sigma_j \sum_i y_i
 
 $$
+
 
 Vì $\sum_i y_i = 1$ (one-hot):
 
@@ -2292,6 +2354,7 @@ $$
 = \sigma_j - y_j
 
 $$
+
 
 **Result:**
 > Gradient của cross-entropy loss w.r.t. logits = predicted prob - true prob. Cực kỳ clean và elegant!
@@ -2306,6 +2369,7 @@ $$
 
 $$
 
+
 **Derivative w.r.t. T:**
 
 $$
@@ -2314,6 +2378,7 @@ $$
 
 $$
 
+
 After simplification:
 
 $$
@@ -2321,6 +2386,7 @@ $$
 = -\frac{1}{T^2} \sigma_T(z_i) (z_i - \mathbb{E}_{z \sim \sigma_T}[z])
 
 $$
+
 
 **Interpretation:** Temperature gradient depends on deviation của logit từ expected value dưới current distribution.
 

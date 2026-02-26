@@ -39,6 +39,7 @@ $$
 
 $$
 
+
 - **Thực nghiệm đối chứng:** Nghiên cứu đã thực hiện tính toán thủ công bằng cách lấy ma trận trọng số và vector định kiến trực tiếp từ thuộc tính của mô hình, sau đó nhân với dữ liệu đầu vào. Kết quả cho thấy sự trùng khớp hoàn hảo với đầu ra của PyTorch.
 - **Tầm quan trọng:** Việc thấu hiểu lớp `nn.Linear` giúp chúng ta nhận ra rằng các nơ-ron thực chất là các hàng/cột trong một ma trận lớn, và việc huấn luyện chính là tinh chỉnh các giá trị trong ma trận đó.
 

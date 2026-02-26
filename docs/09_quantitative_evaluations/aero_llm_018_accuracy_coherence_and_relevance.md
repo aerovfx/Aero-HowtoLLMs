@@ -58,6 +58,7 @@ J(\phi) = \mathbb{E}_{x \sim D, y \sim \pi_{\phi}(y|x)} [R(x, y)] - \beta \text{
 
 $$
 
+
 Trong đó:
 - $R(x, y)$ là điểm số từ Reward Model phản ánh sở thích của con người.
 - $\text{KL}$ là độ lệch Kullback-Leibler để đảm bảo mô hình không đi quá xa so với mô hình tham chiếu ban đầu.

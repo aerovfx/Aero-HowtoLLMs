@@ -55,11 +55,13 @@ m_i \sim \text{Bernoulli}(1-p)
 
 $$
 
+
 $$
 
 \tilde{h}_i = m_i h_i
 
 $$
+
 
 where $p$ is the dropout probability.
 
@@ -93,6 +95,7 @@ $$
 
 $$
 
+
 This reduction may negatively affect downstream operations such as Softmax.
 
 ---
@@ -110,6 +113,7 @@ $$
 \end{cases}
 
 $$
+
 
 This preserves the expected activation magnitude during training.
 
@@ -217,6 +221,7 @@ $$
 \sum x \approx \sum \tilde{x}
 
 $$
+
 
 Without scaling, this sum decreases significantly, degrading performance. 
 

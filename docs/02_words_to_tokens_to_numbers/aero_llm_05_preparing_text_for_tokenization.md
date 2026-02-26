@@ -34,6 +34,7 @@ $$
 
 $$
 
+
 Tokenization đóng vai trò là cầu nối giữa:
 
 * Không gian rời rạc của ký tự
@@ -47,6 +48,7 @@ X = (c_1, c_2, \dots, c_n)
 
 $$
 
+
 thì tokenizer ánh xạ:
 
 $$
@@ -54,6 +56,7 @@ $$
 \tau: \Sigma^* \rightarrow \mathbb{Z}^m
 
 $$
+
 
 với $\Sigma$ là bảng chữ cái và $\mathbb{Z}^m$ là chuỗi ID token.
 
@@ -73,6 +76,7 @@ f_{lower}(c) = \text{lowercase}(c)
 
 $$
 
+
 Ví dụ:
 
 $$
@@ -80,6 +84,7 @@ $$
 \text{"ChatGPT"} \rightarrow \text{"chatgpt"}
 
 $$
+
 
 ## 2.2 Unicode Normalization
 
@@ -93,6 +98,7 @@ $$
 
 $$
 
+
 Chuẩn hóa đảm bảo:
 
 $$
@@ -100,6 +106,7 @@ $$
 NFC(x_1) = NFC(x_2)
 
 $$
+
 
 nếu hai chuỗi tương đương về mặt ngữ nghĩa.
 
@@ -115,6 +122,7 @@ P(X) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
 
 $$
 
+
 Tuy nhiên, nếu làm việc ở mức ký tự:
 
 $$
@@ -122,6 +130,7 @@ $$
 T = n
 
 $$
+
 
 Số bước dự đoán lớn → chi phí cao.
 
@@ -134,6 +143,7 @@ $$
 X = (w_1, w_2, \dots, w_m), \quad m < n
 
 $$
+
 
 Giảm độ dài chuỗi và tăng tính biểu diễn.
 
@@ -153,6 +163,7 @@ V_0 = { \text{tập ký tự đơn} }
 
 $$
 
+
 Lặp:
 
 1. Tìm cặp ký tự xuất hiện nhiều nhất
@@ -167,6 +178,7 @@ f(a,b) = \sum_{i} \mathbb{I}[(a,b) \in X_i]
 
 $$
 
+
 Chọn:
 
 $$
@@ -175,6 +187,7 @@ $$
 
 $$
 
+
 Cập nhật:
 
 $$
@@ -182,6 +195,7 @@ $$
 V_{k+1} = V_k \cup {ab}
 
 $$
+
 
 ---
 
@@ -195,6 +209,7 @@ w_i \rightarrow id_i \in {1, \dots, |V|}
 
 $$
 
+
 Embedding matrix:
 
 $$
@@ -202,6 +217,7 @@ $$
 E \in \mathbb{R}^{|V| \times d}
 
 $$
+
 
 Ánh xạ:
 
@@ -211,6 +227,7 @@ e_i = E[id_i]
 
 $$
 
+
 Toàn bộ chuỗi:
 
 $$
@@ -218,6 +235,7 @@ $$
 X \rightarrow (e_1, e_2, \dots, e_m)
 
 $$
+
 
 ---
 
@@ -236,6 +254,7 @@ $$
 
 $$
 
+
 Chi phí suy luận tokenization:
 
 $$
@@ -243,6 +262,7 @@ $$
 \mathcal{O}(m)
 
 $$
+
 
 ---
 
@@ -255,6 +275,7 @@ $$
 \forall x \in \Sigma^*, \exists \text{ decomposition into subwords}
 
 $$
+
 
 Ví dụ:
 
@@ -269,6 +290,7 @@ $$
 P(x) > 0
 
 $$
+
 
 cho mọi chuỗi hợp lệ.
 
@@ -291,6 +313,7 @@ $$
 
 $$
 
+
 ---
 
 # 9. Tác động đến Attention
@@ -302,6 +325,7 @@ $$
 \text{Complexity} = \mathcal{O}(T^2 d)
 
 $$
+
 
 Nếu tokenization kém → $T$ lớn → chi phí tăng.
 
@@ -327,6 +351,7 @@ P(w_t | w_{<t}) =
 
 $$
 
+
 Chất lượng tokenization ảnh hưởng trực tiếp đến phân phối logits.
 
 ---
@@ -347,6 +372,7 @@ H(X) = - \sum_x P(x) \log P(x)
 
 $$
 
+
 Tokenizer tốt giúp:
 
 $$
@@ -354,6 +380,7 @@ $$
 \text{Length}(X_{tokens}) \approx \frac{H(X)}{\log |V|}
 
 $$
+
 
 ---
 
@@ -373,6 +400,7 @@ $$
 \Sigma^* \rightarrow V^*
 
 $$
+
 
 giúp tối ưu:
 

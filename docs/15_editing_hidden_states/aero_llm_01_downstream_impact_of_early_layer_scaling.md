@@ -42,6 +42,7 @@ $$
 
 $$
 
+
 Trong đó $\|\cdot\|_F$ là chuẩn Frobenius của ma trận. Nếu $\Delta = 0$, can thiệp không gây ra sự thay đổi. Giá trị $\Delta$ càng lớn chứng tỏ mô hình càng đi chệch khỏi quỹ đạo tính toán ban đầu.
 
 ---

@@ -79,6 +79,7 @@ $$
 
 $$
 
+
 Kết quả được thể hiện bằng biểu đồ cột (bar plot) để so sánh trực quan 
 
 ---
@@ -170,6 +171,7 @@ $$
 y = \gamma \frac{x - \mu}{\sigma} + \beta
 
 $$
+
 
 ---
 

@@ -63,6 +63,7 @@ y = \text{Softmax}(W h + b)
 
 $$
 
+
 Trong đó $h$ là vector đặc trưng từ BERT.
 
 ---
@@ -163,6 +164,7 @@ $$
 Accuracy = \frac{Số\ mẫu\ dự\ đoán\ đúng}{Tổng\ số\ mẫu}
 
 $$
+
 
 Mô hình chưa huấn luyện cho độ chính xác xấp xỉ 50%, tương đương đoán ngẫu nhiên. Điều này cho thấy pipeline được xây dựng đúng. 
 

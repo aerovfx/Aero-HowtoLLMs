@@ -59,6 +59,7 @@ W' = W + \Delta W = W + BA
 
 $$
 
+
 Trong đó:
 - $W$: Ma trận trọng số pre-trained (đông cứng)
 - $B \in \mathbb{R}^{d \times r}$: Ma trận hạng thấp thứ nhất

@@ -34,6 +34,7 @@ $$
 
 $$
 
+
 Việc trực quan hóa token giúp:
 
 * Hiểu cấu trúc không gian embedding
@@ -54,6 +55,7 @@ T: \mathcal{X} \rightarrow V^T
 
 $$
 
+
 Trong đó:
 
 * $V$: từ vựng có kích thước $|V| = N$
@@ -73,6 +75,7 @@ E \in \mathbb{R}^{N \times d}
 
 $$
 
+
 Vector của token thứ $i$:
 
 $$
@@ -81,6 +84,7 @@ e_i = E[t_i]
 
 $$
 
+
 Chuỗi đầu vào:
 
 $$
@@ -88,6 +92,7 @@ $$
 Z = (e_1, e_2, ..., e_T)
 
 $$
+
 
 ---
 
@@ -101,6 +106,7 @@ z_i = e_i + p_i
 
 $$
 
+
 Trong GPT:
 
 $$
@@ -108,6 +114,7 @@ $$
 p_i \in \mathbb{R}^d
 
 $$
+
 
 được học trực tiếp.
 
@@ -130,6 +137,7 @@ X \in \mathbb{R}^{T \times d}
 
 $$
 
+
 Ma trận hiệp phương sai:
 
 $$
@@ -137,6 +145,7 @@ $$
 \Sigma = \frac{1}{T} X^T X
 
 $$
+
 
 Giải bài toán trị riêng:
 
@@ -146,6 +155,7 @@ $$
 
 $$
 
+
 Chọn 2 trị riêng lớn nhất → chiếu xuống 2D:
 
 $$
@@ -153,6 +163,7 @@ $$
 X_{2D} = X W_{2}
 
 $$
+
 
 ---
 
@@ -167,19 +178,20 @@ D_{KL}(P | Q)
 
 $$
 
+
 Trong đó:
 
 $$
 
 D_{KL}(P|Q)
 ===========
-
 \sum_{i,j}
 P_{ij}
 \log
 \frac{P_{ij}}{Q_{ij}}
 
 $$
+
 
 ---
 
@@ -195,6 +207,7 @@ $$
 
 $$
 
+
 Về mặt vector:
 
 $$
@@ -203,6 +216,7 @@ e_{king} - e_{man} + e_{woman}
 \approx e_{queen}
 
 $$
+
 
 Điều này cho thấy embedding mã hóa cấu trúc ngữ nghĩa.
 
@@ -216,7 +230,6 @@ $$
 
 \text{Attention}(Q,K,V)
 =======================
-
 \text{softmax}
 \left(
 \frac{QK^T}{\sqrt{d_k}}
@@ -224,18 +237,19 @@ $$
 
 $$
 
+
 Ma trận attention:
 
 $$
 
 A_{ij}
 ======
-
 \frac
 {\exp(q_i k_j / \sqrt{d_k})}
 {\sum_j \exp(q_i k_j / \sqrt{d_k})}
 
 $$
+
 
 Trực quan hóa attention giúp hiểu:
 
@@ -254,6 +268,7 @@ $$
 
 $$
 
+
 Nếu số token tăng:
 
 $$
@@ -261,6 +276,7 @@ $$
 T \uparrow \Rightarrow \text{Memory} \uparrow
 
 $$
+
 
 Việc tạo token hiệu quả giúp:
 
@@ -279,9 +295,14 @@ Bước 1: Tokenization
 
 $$
 
-[1245, 5432, 987]
+$$
+
+1245, 5432, 987
 
 $$
+
+$$
+
 
 Bước 2: Embedding
 
@@ -291,6 +312,7 @@ Z \in \mathbb{R}^{3 \times d}
 
 $$
 
+
 Bước 3: Attention
 
 $$
@@ -298,6 +320,7 @@ $$
 Z' = \text{Transformer}(Z)
 
 $$
+
 
 Bước 4: Visualization
 
@@ -316,6 +339,7 @@ P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
 
 $$
 
+
 Token là đơn vị cơ bản của xác suất.
 
 Loss:
@@ -324,11 +348,11 @@ $$
 
 \mathcal{L}
 ===========
-
 -\sum_{t=1}^{T}
 \log P(x_t | x_{<t})
 
 $$
+
 
 Nếu tokenization không tốt:
 
@@ -366,6 +390,7 @@ $$
 \text{Attention}
 
 $$
+
 
 là nền tảng của mọi mô hình ngôn ngữ hiện đại.
 

@@ -116,6 +116,7 @@ W_{embedding} = W_{unembedding}
 
 $$
 
+
 Trong GPT-style models, trọng số embedding được gán trực tiếp cho output head, dẫn đến việc embedding thực chất bị chi phối bởi `nn.Linear`. 
 
 Điều này giải thích vì sao độ lệch chuẩn của token embeddings không tuân theo Xavier mà gần với 0.02.

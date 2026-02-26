@@ -54,6 +54,7 @@ X=(x_1,x_2,\dots,x_n)
 
 $$
 
+
 Xác suất sinh chuỗi:
 
 $$
@@ -61,6 +62,7 @@ $$
 P(X)=\prod_{i=1}^{n}P(x_i\mid x_1,\dots,x_{i-1};\theta)
 
 $$
+
 
 Trong đó:
 
@@ -74,6 +76,7 @@ $$
 x_{n+1}=\arg\max_x P(x\mid X)
 
 $$
+
 
 ---
 
@@ -89,6 +92,7 @@ $$
 
 $$
 
+
 Mục tiêu:
 
 $$
@@ -96,6 +100,7 @@ $$
 \theta^*=\arg\min_\theta \mathcal{L}(\theta)
 
 $$
+
 
 ---
 
@@ -111,12 +116,14 @@ V=XW_V
 
 $$
 
+
 $$
 
 \text{Attn}(Q,K,V)=
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
+
 
 Cơ chế này cho phép mô hình học quan hệ giữa các dòng lệnh trong chương trình.
 
@@ -141,6 +148,7 @@ $$
 
 $$
 
+
 ---
 
 ### 3.2. Ma trận QKV hợp nhất
@@ -153,6 +161,7 @@ W_{QKV}\in\mathbb{R}^{d\times 3d}
 
 $$
 
+
 Thay vì ba ma trận riêng:
 
 $$
@@ -160,6 +169,7 @@ $$
 W_Q,W_K,W_V\in\mathbb{R}^{d\times d}
 
 $$
+
 
 Cách làm này giúp tối ưu tốc độ tính toán.
 
@@ -175,6 +185,7 @@ h' = W_2\sigma(W_1 h)
 
 $$
 
+
 với:
 
 $$
@@ -183,6 +194,7 @@ W_1\in\mathbb{R}^{d\times 4d},\quad
 W_2\in\mathbb{R}^{4d\times d}
 
 $$
+
 
 ---
 
@@ -196,6 +208,7 @@ N_{emb}=51,200
 
 $$
 
+
 Trong khi số token:
 
 $$
@@ -204,6 +217,7 @@ N_{tok}\approx 50,257
 
 $$
 
+
 Do đó tồn tại các vector “trống”:
 
 $$
@@ -211,6 +225,7 @@ $$
 N_{emb}>N_{tok}
 
 $$
+
 
 nhằm tối ưu bộ nhớ GPU .
 
@@ -229,6 +244,7 @@ $$
 V={w_1,\dots,w_{|V|}}
 
 $$
+
 
 là tập token.
 
@@ -249,6 +265,7 @@ r=\frac{3000}{160000}\approx1.9%
 
 $$
 
+
 Cho thấy mã nguồn có mức lặp cao.
 
 ---
@@ -264,6 +281,7 @@ $$
 \mathcal{D}={x_1,\dots,x_N}
 
 $$
+
 
 với mỗi $x_i$ là một cell code.
 
@@ -281,6 +299,7 @@ X_0=(x_1,\dots,x_k)
 
 $$
 
+
 Mô hình sinh:
 
 $$
@@ -289,6 +308,7 @@ x_{k+1}\sim P(x\mid X_0)
 
 $$
 
+
 Lặp lại:
 
 $$
@@ -296,6 +316,7 @@ $$
 X_{t+1}=X_t\oplus x_{t+1}
 
 $$
+
 
 ---
 
@@ -308,6 +329,7 @@ $$
 p_i=\frac{\exp(z_i/T)}{\sum_j\exp(z_j/T)}
 
 $$
+
 
 Trong đó:
 
@@ -335,6 +357,7 @@ f(x)=
 
 $$
 
+
 Tỷ lệ hợp lệ:
 
 $$
@@ -343,6 +366,7 @@ R=\frac{1}{M}\sum_{i=1}^{M}f(x_i)
 
 $$
 
+
 Với mô hình nhỏ:
 
 $$
@@ -350,6 +374,7 @@ $$
 R_{350M}<R_{16B}
 
 $$
+
 
 .
 
@@ -366,6 +391,7 @@ $$
 \theta=(\theta_0,\Delta\theta)
 
 $$
+
 
 Trong đó:
 
@@ -391,6 +417,7 @@ $$
 
 $$
 
+
 ---
 
 ### 6.3. Tác động của fine-tuning
@@ -402,6 +429,7 @@ $$
 P_{domain}(x)\approx P_{data}(x)
 
 $$
+
 
 ⇒ mã sinh ra phù hợp miền dữ liệu.
 
@@ -419,6 +447,7 @@ P=\text{số tham số}
 
 $$
 
+
 Chất lượng trung bình:
 
 $$
@@ -426,6 +455,7 @@ $$
 Q\propto\log(P)
 
 $$
+
 
 Mô hình lớn sinh mã hợp lệ tốt hơn.
 
@@ -441,6 +471,7 @@ C\propto P
 
 $$
 
+
 Hiệu quả:
 
 $$
@@ -448,6 +479,7 @@ $$
 E=\frac{Q}{C}
 
 $$
+
 
 Mô hình nhỏ có $E$ cao cho học tập, mô hình lớn phù hợp triển khai.
 
@@ -479,6 +511,7 @@ $$
 N_{data}\ \text{nhỏ},\quad P\ \text{trung bình}
 
 $$
+
 
 ---
 

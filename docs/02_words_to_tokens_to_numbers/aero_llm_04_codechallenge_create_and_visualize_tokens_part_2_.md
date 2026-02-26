@@ -34,6 +34,7 @@ t_i \rightarrow e_i \in \mathbb{R}^d
 
 $$
 
+
 Không gian embedding có thể xem như một đa tạp (manifold) cao chiều, trong đó:
 
 * Khoảng cách phản ánh quan hệ ngữ nghĩa
@@ -57,6 +58,7 @@ E \in \mathbb{R}^{N \times d}
 
 $$
 
+
 Mỗi token là một điểm:
 
 $$
@@ -65,17 +67,18 @@ e_i \in \mathbb{R}^d
 
 $$
 
+
 Khoảng cách cosine giữa hai token:
 
 $$
 
 \text{cosine}(e_i, e_j)
 =======================
-
 \frac{e_i \cdot e_j}
 {|e_i||e_j|}
 
 $$
+
 
 Nếu:
 
@@ -84,6 +87,7 @@ $$
 \text{cosine}(e_i, e_j) \approx 1
 
 $$
+
 
 → Hai token gần nhau về ngữ nghĩa.
 
@@ -104,11 +108,13 @@ Z' = \text{LayerNorm}(Z + \text{Attention}(Z))
 
 $$
 
+
 $$
 
 Z'' = \text{LayerNorm}(Z' + \text{MLP}(Z'))
 
 $$
+
 
 Qua nhiều layer:
 
@@ -117,6 +123,7 @@ $$
 Z^{(L)} = f^{(L)}(Z^{(0)})
 
 $$
+
 
 Không gian embedding ban đầu bị biến đổi phi tuyến.
 
@@ -135,16 +142,17 @@ A = \text{softmax}
 
 $$
 
+
 Phần tử:
 
 $$
 
 A_{ij}
 ======
-
 P(\text{token } j \mid \text{token } i)
 
 $$
+
 
 Tính chất:
 
@@ -153,6 +161,7 @@ $$
 \sum_j A_{ij} = 1
 
 $$
+
 
 Ma trận $A$ có thể trực quan hóa dưới dạng heatmap:
 
@@ -171,6 +180,7 @@ $$
 
 $$
 
+
 Giải bài toán:
 
 $$
@@ -178,6 +188,7 @@ $$
 \Sigma v = \lambda v
 
 $$
+
 
 Trị riêng lớn phản ánh:
 
@@ -191,6 +202,7 @@ $$
 E_{proj} = E W_k
 
 $$
+
 
 với $W_k$ chứa $k$ vector riêng lớn nhất.
 
@@ -206,6 +218,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 $$
@@ -217,6 +230,7 @@ P_{ij} =
 
 $$
 
+
 $$
 
 Q_{ij} =
@@ -226,18 +240,19 @@ Q_{ij} =
 
 $$
 
+
 Mục tiêu:
 
 $$
 
 D_{KL}(P|Q)
 ===========
-
 \sum_{i,j} P_{ij}
 \log
 \frac{P_{ij}}{Q_{ij}}
 
 $$
+
 
 Kết quả:
 
@@ -256,6 +271,7 @@ Z^{(l)}
 
 $$
 
+
 Khoảng cách giữa hai layer:
 
 $$
@@ -264,6 +280,7 @@ $$
 | Z^{(l)} - Z^{(l-1)} |
 
 $$
+
 
 Quan sát thực nghiệm:
 
@@ -283,6 +300,7 @@ P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
 
 $$
 
+
 Logits:
 
 $$
@@ -291,18 +309,19 @@ $$
 
 $$
 
+
 Softmax:
 
 $$
 
 P(x_t | x_{<t})
 ===============
-
 \frac
 {\exp(z_t W_{out})}
 {\sum_j \exp(z_j W_{out})}
 
 $$
+
 
 Việc trực quan hóa logits cho thấy:
 
@@ -320,6 +339,7 @@ $$
 \mathcal{O}(L T^2 d)
 
 $$
+
 
 Visualization chi phí:
 
@@ -343,6 +363,7 @@ $$
 f: \mathbb{R}^{T \times d} \to \mathbb{R}^{T \times d}
 
 $$
+
 
 Việc trực quan hóa giúp:
 

@@ -54,6 +54,7 @@ Z_i = \frac{X_i - \mu_{vocab}}{\sigma_{vocab}}
 
 $$
 
+
 Đồ thị phân vạch vạch trần ưu thế cực trị của BERT: Từ ngữ được dự đoán "way" bắn vọt lên biên độ $Z > 10$ (10 độ lệch chuẩn). Tính năng Z-score không những khử độ chệch độ lớn tự do của các LLM, mà còn đảm bảo chắc chắn rằng đối với một ngữ cảnh đúng đắn, mô hình sẽ dồn toàn bộ lực chú ý kéo cách biệt Token đáp án ra thật xa khởi nhiễu thông dụng của đại từ vựng. 
 
 ---

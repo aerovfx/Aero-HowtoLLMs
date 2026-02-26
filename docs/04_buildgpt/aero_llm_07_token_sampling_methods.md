@@ -190,6 +190,7 @@ P(w_t | w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)
 
 $$
 
+
 Trong đó:
 - $w_t$ = next token to predict
 - $w_{1:t-1}$ = context (previous tokens)
@@ -203,6 +204,7 @@ $$
 \mathbf{p} = [p_1, p_2, \ldots, p_V]
 
 $$
+
 
 Trong đó:
 - $V$ = vocabulary size (e.g., 100,000)
@@ -264,6 +266,7 @@ w_t \sim \text{Multinomial}(\mathbf{p})
 
 $$
 
+
 **Meaning:**
 - Mỗi token có probability $p_i$ được chọn
 - Higher probability → higher chance, nhưng không guaranteed
@@ -316,6 +319,7 @@ $$
 
 $$
 
+
 **Example with N=1000:**
 - coffee: ~340 times
 - tea: ~285 times
@@ -331,6 +335,7 @@ $$
 
 $$
 
+
 **Observation:**
 > High variance cho low-probability tokens → unpredictable behavior.
 
@@ -345,6 +350,7 @@ $$
 w_t = \arg\max_{w \in \mathcal{V}} P(w | w_{1:t-1})
 
 $$
+
 
 **Algorithm:**
 ```
@@ -455,6 +461,7 @@ $$
 
 $$
 
+
 $$
 
 P_K(w) = \begin{cases}
@@ -463,6 +470,7 @@ P_K(w) = \begin{cases}
 \end{cases}
 
 $$
+
 
 **PyTorch implementation:**
 ```python
@@ -596,6 +604,7 @@ $$
 
 $$
 
+
 Trong đó $m$ là smallest index such that:
 
 $$
@@ -603,6 +612,7 @@ $$
 \sum_{i=1}^m p_{(i)} \geq P
 
 $$
+
 
 **Sampling distribution:**
 
@@ -614,6 +624,7 @@ P_P(w) = \begin{cases}
 \end{cases}
 
 $$
+
 
 **PyTorch implementation:**
 ```python
@@ -871,6 +882,7 @@ $$
 \text{logits} \xrightarrow{/T} \text{scaled logits} \xrightarrow{\text{Softmax}} \text{probs} \xrightarrow{\text{Sampling}} \text{token}
 
 $$
+
 
 **Examples:**
 
@@ -1919,6 +1931,7 @@ $$
 P_{\text{contrastive}}(w) \propto \frac{P_{\text{expert}}(w)}{P_{\text{amateur}}(w)^\alpha}
 
 $$
+
 
 **Idea:** Amplify expert's advantages over amateur
 

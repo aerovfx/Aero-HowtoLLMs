@@ -51,6 +51,7 @@ P(x_t | x_1, x_2, \dots, x_{t-1})
 
 $$
 
+
 Trong đó, mỗi token được dự đoán dựa trên ngữ cảnh trước đó.
 
 Model 5 trong nghiên cứu này là phiên bản rút gọn của GPT-2 với các tham số tương đương bản 124M. 
@@ -111,6 +112,7 @@ X, Y \in \mathbb{R}^{B \times T}
 
 $$
 
+
 Trong đó:
 
 * $B$: batch size,
@@ -128,6 +130,7 @@ $$
 Y_i = X_{i+1}
 
 $$
+
 
 Điều này phù hợp với bài toán language modeling tự hồi quy. 
 

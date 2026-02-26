@@ -32,6 +32,7 @@ E = U \Sigma V^T
 
 $$
 
+
 ### Cấu Trúc Ba Ma Trận
 - **$U$ (Orthogonal row matrix - Dữ liệu hướng token):** Cung cấp các vector nền tảng trực giao trong không gian $N$, điều hướng dòng chú ý hàng tự do. Ở bài toán tìm trục không gian, $U$ không phải là đối tượng nghiên cứu.
 - **$\Sigma$ (Diagonal matrix - Ma trận Giá trị Suy biến):** Là một ma trận đường chéo $\Sigma \in \mathbb{R}^{N \times D}$ mà các giá trị trên đường chéo $\sigma_i$ (Singular values) được gọi tắt là phổ tín hiệu, sắp xếp giảm dần $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_k$. Những giá trị $\sigma$ mang năng lượng cao chứa phần lớn đại lượng phương sai mô hình.
@@ -61,6 +62,7 @@ $$
 \bar{E} = E - \mu_E
 
 $$
+
 
 Do hệ quả của phép dịch tâm học máy tuyến tính, Rank (hạng) của ma trận sẽ giảm đi 1 bậc, dẫn đến điểm phần tử trị số suy biến cuối cùng của mảng phổ luôn luôn trượt bằng 0 ($\sigma_N = 0$).
 

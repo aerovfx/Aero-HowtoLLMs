@@ -36,6 +36,7 @@ H(X) = - \sum_{i=1}^{n} P(x_i) \log P(x_i)
 
 $$
 
+
 Do $P(x_i) \in [0, 1]$ nên hệ số logarit sẽ mang dấu âm, dấu trừ phía ngoài giúp triệt tiêu và giữ giá trị Entropy $H$ luôn dương.
 
 ### 1.2. Xử Lý Các Trùng Lặp Số Học (Numerical Errors)
@@ -46,6 +47,7 @@ $$
 H(X) = - \sum P(X) \log(P(X) + \epsilon)
 
 $$
+
 
 Nếu $P=0$, $\log(\epsilon) \times 0$ vẫn sẽ triệt tiêu trở về $0$, tránh sụp đổ vòng lặp hàm hàm log.
 
@@ -64,6 +66,7 @@ I(X;Y) = H(X) + H(Y) - H(X,Y)
 
 $$
 
+
 Nói cách khác, nó là phần "giao nhau" của giới hạn độ bất định giữa $X$ và $Y$. 
 
 ### 2.2. Tiếp Cận Bằng Phương Trình Phân Phối Cụ Thể
@@ -73,6 +76,7 @@ $$
 I(X;Y) = \sum_{x \in X} \sum_{y \in Y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right)
 
 $$
+
 
 ---
 

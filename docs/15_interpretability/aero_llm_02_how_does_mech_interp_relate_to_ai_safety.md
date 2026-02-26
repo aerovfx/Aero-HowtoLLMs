@@ -37,6 +37,7 @@ h'_l = h_l \odot M_{mask}
 
 $$
 
+
 (Với $M_{mask}$ là ma trận triệt tiêu các đặc trưng nguy hiểm), từ đó xóa bỏ triệt để mảnh kiến thức độc hại mà không làm tổn thương năng lực hiểu biết ngôn ngữ tổng quát.
 
 ### 1.2 Giao Tiếp Giá Trị Toán Học Trực Tiếp (Direct Value Alignment)

@@ -73,7 +73,14 @@ This ensures router is ALWAYS centered above the expert grid regardless of exper
 ## 📊 Visual Layout Now
 
 ```
-           [Input: ln2.lnResid]
+
+$$
+
+Input: ln2.lnResid
+
+$$
+
+
                   ↓
         ┌─────────┴─────────┐
         │                    │
@@ -96,7 +103,14 @@ This ensures router is ALWAYS centered above the expert grid regardless of exper
     [MoE (Cộng dồn)]       │
       (Aggregation)────────┘
              ↓
-          [Output]
+
+$$
+
+Output
+
+$$
+
+
 ```
 
 ---

@@ -46,11 +46,13 @@ S_1 = \text{CosineSimilarity}(E_1)
 
 $$
 
+
 $$
 
 S_2 = \text{CosineSimilarity}(E_2)
 
 $$
+
 
 Trong đó, mỗi phần tử $S(i, j)$ được cho bằng công thức nội tích ma trận Gram đã chuẩn hóa:
 
@@ -59,6 +61,7 @@ $$
 S(i,j) = \frac{e_i \cdot e_j}{\|e_i\| \|e_j\|}
 
 $$
+
 
 Kết quả thu được là 2 ma trận vuông đối xứng kích thước $N \times N$, độc lập hoàn toàn với chiều không gian ban đầu $D_1$ hay $D_2$.
 
@@ -72,11 +75,13 @@ $$
 
 $$
 
+
 $$
 
 \vec{v}_2 = \{ S_2(i, j) \mid i < j \}
 
 $$
+
 
 Số lượng các phần tử duy nhất sau khi bung ra là $\frac{N(N-1)}{2}$.
 
@@ -89,6 +94,7 @@ $$
 \rho = \frac{\sum (\vec{v}_1 - \mu_{\vec{v}_1})(\vec{v}_2 - \mu_{\vec{v}_2})}{\sigma_{\vec{v}_1} \sigma_{\vec{v}_2}}
 
 $$
+
 
 Nếu $\rho$ tiến sát tới 1, ta kết luận rằng bất chấp việc được huấn luyện ở những nguồn dữ liệu khác nhau với số lượng lớp nơ-ron khác nhau, hai mô hình này sử dụng cùng một cấu trúc hình học tương quan để bảo toàn ngữ nghĩa từ vựng.
 

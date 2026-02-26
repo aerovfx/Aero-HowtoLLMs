@@ -43,17 +43,27 @@ Sau tokenization có thể trở thành:
 
 $$
 
-["AI", " is", " powerful"]
+$$
+
+"AI", " is", " powerful"
 
 $$
+
+$$
+
 
 Và được ánh xạ thành:
 
 $$
 
-[50256, 318, 3665]
+$$
+
+50256, 318, 3665
 
 $$
+
+$$
+
 
 ---
 
@@ -67,6 +77,7 @@ $$
 
 $$
 
+
 Hàm tokenization:
 
 $$
@@ -74,6 +85,7 @@ $$
 T: \mathcal{X} \to V^T
 
 $$
+
 
 với:
 
@@ -87,6 +99,7 @@ $$
 T(x) = (t_1, t_2, ..., t_T)
 
 $$
+
 
 Mỗi $t_i \in {1,2,...,N}$
 
@@ -111,6 +124,7 @@ H(X) = -\sum_x P(x)\log P(x)
 
 $$
 
+
 BPE giúp:
 
 * Giảm độ dài chuỗi $T$
@@ -128,6 +142,7 @@ $$
 
 $$
 
+
 Ta cần biểu diễn thứ tự:
 
 $$
@@ -135,6 +150,7 @@ $$
 i = 1,2,...,T
 
 $$
+
 
 Nếu không có chỉ số vị trí, mô hình Transformer sẽ bất biến hoán vị.
 
@@ -150,6 +166,7 @@ e_i = E(t_i)
 
 $$
 
+
 Vector đầu vào cuối cùng:
 
 $$
@@ -157,6 +174,7 @@ $$
 z_i = e_i + p_i
 
 $$
+
 
 Trong đó:
 
@@ -172,13 +190,13 @@ $$
 
 \text{Attention}(Q,K,V)
 =======================
-
 \text{softmax}
 \left(
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
 
 $$
+
 
 Nếu không có positional encoding:
 
@@ -187,6 +205,7 @@ $$
 \text{Attention}(PX) = P\text{Attention}(X)
 
 $$
+
 
 → Không phân biệt thứ tự.
 
@@ -197,6 +216,7 @@ $$
 Z = E + P
 
 $$
+
 
 ma trận attention phản ánh quan hệ phụ thuộc có hướng.
 
@@ -212,6 +232,7 @@ P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
 
 $$
 
+
 Mask:
 
 $$
@@ -224,6 +245,7 @@ M_{ij} =
 
 $$
 
+
 Ma trận attention thực tế:
 
 $$
@@ -234,6 +256,7 @@ A = \text{softmax}
 \right)
 
 $$
+
 
 Đánh số token cho phép xác định chính xác vị trí $i$.
 
@@ -249,6 +272,7 @@ $$
 
 $$
 
+
 Nếu chiều dài chuỗi tăng gấp đôi:
 
 $$
@@ -256,6 +280,7 @@ $$
 \text{Compute} \approx 4\times
 
 $$
+
 
 Do đó việc tokenization hiệu quả giúp:
 
@@ -274,9 +299,14 @@ Tokenization:
 
 $$
 
-[1543, 4673, 318, 4996]
+$$
+
+1543, 4673, 318, 4996
 
 $$
+
+$$
+
 
 Embedding:
 
@@ -286,6 +316,7 @@ E \in \mathbb{R}^{|V| \times d}
 
 $$
 
+
 Đầu vào:
 
 $$
@@ -294,6 +325,7 @@ Z \in \mathbb{R}^{T \times d}
 
 $$
 
+
 Qua attention:
 
 $$
@@ -301,6 +333,7 @@ $$
 Z' = \text{Transformer}(Z)
 
 $$
+
 
 ---
 
@@ -314,6 +347,7 @@ x = [\text{Prompt}; \text{Response}]
 
 $$
 
+
 Đánh số cho phép:
 
 * Phân biệt đoạn cần tối ưu
@@ -326,6 +360,7 @@ $$
 \mathcal{L} = - \sum_{t \in R} \log P(x_t | x_{<t})
 
 $$
+
 
 ---
 
@@ -344,6 +379,7 @@ $$
 \text{Model} \to \text{Không thể huấn luyện}
 
 $$
+
 
 ---
 

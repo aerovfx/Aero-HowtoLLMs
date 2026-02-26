@@ -39,11 +39,13 @@ W_{new} = W_{original} + \Delta W
 
 $$
 
+
 $$
 
 \Delta W = A \times B
 
 $$
+
 
 Trong đó:
 - $W_{original} \in \mathbb{R}^{d \times k}$
@@ -191,6 +193,7 @@ $$
 \text{Params}_{LoRA} = 2 \times d \times r
 
 $$
+
 
 Trong đó:
 - $d$ là chiều của lớp dense

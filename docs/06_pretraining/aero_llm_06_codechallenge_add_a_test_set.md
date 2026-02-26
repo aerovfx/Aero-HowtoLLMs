@@ -72,6 +72,7 @@ $$
 
 $$
 
+
 Cách tiếp cận này giúp đảm bảo tập test chưa từng được mô hình quan sát trong quá trình huấn luyện. 
 
 ---
@@ -93,6 +94,7 @@ $$
 (x_1, x_2, \dots, x_8) \rightarrow (x_2, x_3, \dots, x_9)
 
 $$
+
 
 Cách xây dựng này phù hợp với bài toán dự đoán token tiếp theo. 
 
@@ -144,6 +146,7 @@ $$
 P = e^{\log p}
 
 $$
+
 
 Sau chuyển đổi, mỗi hàng của ma trận đầu ra có tổng bằng 1, xác nhận tính hợp lệ. 
 
@@ -211,6 +214,7 @@ $$
 Loss_{test} < Loss_{train}
 
 $$
+
 
 Nguyên nhân là do train loss trung bình bao gồm giai đoạn đầu khi mô hình chưa học được gì, trong khi test loss được tính sau khi mô hình đã cải thiện. 
 

@@ -66,6 +66,7 @@ R = P(\text{Lỗ hổng}) \times \text{Tác động (Impact)}
 
 $$
 
+
 Red Teaming giúp giảm thiểu $P(\text{Lỗ hổng})$ bằng cách cung cấp dữ liệu đối kháng để mô hình học cách từ chối các yêu cầu độc hại.
 
 ---

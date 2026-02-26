@@ -44,6 +44,7 @@ $$
 
 $$
 
+
 *Khai triển tính toán vi mô:* Các độ đo này được ánh xạ đại số bằng cấu trúc phép nhân vô hướng của ma trận dữ liệu chuyển vị (transpose) lên chính nó, và chia cho chuẩn $L_2$ (matrix norm) nhằm tạo ra các tập hợp phân bổ nằm giới hạn trong khung giá trị lý tưởng $[-1, 1]$.
 
 ---

@@ -127,6 +127,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $f_{\theta}$ là mô hình ngôn ngữ với tham số $\theta$
 - $\oplus$ là phép nối chuỗi

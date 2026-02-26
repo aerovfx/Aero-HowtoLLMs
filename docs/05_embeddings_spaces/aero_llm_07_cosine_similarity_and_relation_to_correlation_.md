@@ -45,6 +45,7 @@ $$
 
 $$
 
+
 Cosine similarity được định nghĩa:
 
 $$
@@ -56,6 +57,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 $$
@@ -66,6 +68,7 @@ $$
 
 $$
 
+
 $$
 
 \|\mathbf{x}\|
@@ -73,6 +76,7 @@ $$
 \sqrt{\sum_{i=1}^{d} x_i^2}
 
 $$
+
 
 ### 2.1 Diễn giải hình học
 
@@ -86,6 +90,7 @@ $$
 
 $$
 
+
 Suy ra:
 
 $$
@@ -93,6 +98,7 @@ $$
 \text{cosine}(\mathbf{x},\mathbf{y}) = \cos \theta
 
 $$
+
 
 Do đó:
 
@@ -112,11 +118,13 @@ $$
 
 $$
 
+
 $$
 
 \hat{\mathbf{y}} = \frac{\mathbf{y}}{\|\mathbf{y}\|}
 
 $$
+
 
 Khi đó:
 
@@ -127,6 +135,7 @@ $$
 \hat{\mathbf{x}} \cdot \hat{\mathbf{y}}
 
 $$
+
 
 Điều này cho thấy cosine similarity chính là tích vô hướng của các vector đơn vị.
 
@@ -145,6 +154,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 $$
@@ -157,6 +167,7 @@ $$
 
 $$
 
+
 $$
 
 \sigma_X
@@ -166,6 +177,7 @@ $$
 (x_i - \bar{x})^2}
 
 $$
+
 
 ---
 
@@ -179,11 +191,13 @@ $$
 
 $$
 
+
 $$
 
 \tilde{y}_i = y_i - \bar{y}
 
 $$
+
 
 Khi đó:
 
@@ -196,6 +210,7 @@ $$
 \|\tilde{\mathbf{y}}\|}
 
 $$
+
 
 Như vậy:
 
@@ -221,6 +236,7 @@ E \in \mathbb{R}^{|V| \times d}
 
 $$
 
+
 với mỗi từ:
 
 $$
@@ -228,6 +244,7 @@ $$
 \mathbf{v}_w \in \mathbb{R}^d
 
 $$
+
 
 Độ tương đồng ngữ nghĩa giữa hai từ:
 
@@ -239,6 +256,7 @@ $$
 {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
 
 $$
+
 
 ---
 
@@ -252,6 +270,7 @@ X \in \mathbb{R}^{n \times d}
 
 $$
 
+
 Ma trận cosine similarity:
 
 $$
@@ -262,6 +281,7 @@ S_{ij}
 {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
 
 $$
+
 
 Nếu ta vector hóa phần tam giác trên của $S$ và tính tương quan giữa hai mô hình embedding khác nhau:
 
@@ -274,6 +294,7 @@ r
 \sqrt{\sum (y_i - \bar{y})^2}}
 
 $$
+
 
 Ta thu được mức độ tương đồng cấu trúc (Representational Similarity Analysis).
 
@@ -291,6 +312,7 @@ d(\mathbf{x},\mathbf{y})
 
 $$
 
+
 Nếu vector đã chuẩn hóa:
 
 $$
@@ -300,6 +322,7 @@ $$
 2 - 2\cos\theta
 
 $$
+
 
 Suy ra:
 
@@ -311,6 +334,7 @@ $$
 \|\mathbf{x}-\mathbf{y}\|^2
 
 $$
+
 
 Điều này chứng minh cosine similarity và Euclid distance có quan hệ tuyến tính khi vector được chuẩn hóa.
 
@@ -333,6 +357,7 @@ $$
 
 $$
 
+
 Khi $d \to \infty$:
 
 $$
@@ -341,6 +366,7 @@ $$
 \to 0
 
 $$
+
 
 Đây là hiện tượng “curse of dimensionality”.
 
@@ -365,6 +391,7 @@ $$
 
 $$
 
+
 $$
 
 \text{Euclid}
@@ -373,6 +400,7 @@ $$
 \quad (\text{khi chuẩn hóa})
 
 $$
+
 
 Hiểu rõ mối quan hệ này giúp ta phân tích chính xác cấu trúc không gian embedding và đánh giá sự tương đồng giữa các mô hình ngôn ngữ.
 

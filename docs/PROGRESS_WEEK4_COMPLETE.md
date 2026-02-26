@@ -42,9 +42,28 @@ gateSoftmax: xM: gridCenterX
 
 **Visual result:**
 ```
-       [Router: Trọng số]
-       [Router: Điểm số]
-       [Router: Top-K]
+
+$$
+
+Router: Trọng số
+
+$$
+
+
+$$
+
+Router: Điểm số
+
+$$
+
+
+$$
+
+Router: Top-K
+
+$$
+
+
               ↓
         ┌────┴────┐
       E0 E1 E2 E3
@@ -93,7 +112,14 @@ expOut.opacity = isLikelyActive ? 1.0 : 0.5;
 ## 🎨 Complete Visual Layout
 
 ```
-           [Input: ln2.lnResid]
+
+$$
+
+Input: ln2.lnResid
+
+$$
+
+
                   ↓
         ┌─────────┴─────────┐
         │  Router (Center)   │
@@ -113,7 +139,14 @@ expOut.opacity = isLikelyActive ? 1.0 : 0.5;
         │ [Aggregation]────┘
         └─────┴─────────────
               ↓
-          [Output]
+
+$$
+
+Output
+
+$$
+
+
 ```
 
 Legend:
@@ -229,7 +262,14 @@ Legend:
 
 ### Before (Weeks 1-2):
 ```
-[No MoE visualization]
+
+$$
+
+No MoE visualization
+
+$$
+
+
 GPT-4 renders as standard transformer
 ```
 

@@ -51,6 +51,7 @@ X = (x_1, x_2, ..., x_T)
 
 $$
 
+
 và được ánh xạ thành vector nhúng:
 
 $$
@@ -58,6 +59,7 @@ $$
 e_t = E(x_t)
 
 $$
+
 
 Trong đó $E$ là ma trận embedding.
 
@@ -74,6 +76,7 @@ $$
 D = {(I_i, Y_i)}_{i=1}^{N}
 
 $$
+
 
 Trong đó:
 
@@ -100,6 +103,7 @@ S_i = [BOS, I_i, SEP, Y_i, EOS]
 
 $$
 
+
 Trong đó BOS, SEP, EOS là các token đặc biệt.
 
 ---
@@ -116,6 +120,7 @@ P(X) = \prod_{t=1}^{T} P(x_t | x_{<t})
 
 $$
 
+
 ---
 
 ### 4.2. Hàm mất mát Cross-Entropy
@@ -127,6 +132,7 @@ $$
 \mathcal{L} = - \frac{1}{T} \sum_{t=1}^{T} y_t \log(\hat{y}_t)
 
 $$
+
 
 Trong đó:
 
@@ -145,17 +151,20 @@ m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t
 
 $$
 
+
 $$
 
 v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2
 
 $$
 
+
 $$
 
 \theta_t = \theta_{t-1} - \eta \frac{m_t}{\sqrt{v_t}+\epsilon}
 
 $$
+
 
 ---
 
@@ -187,6 +196,7 @@ PP = \exp(\mathcal{L})
 
 $$
 
+
 ### 6.2. Độ chính xác theo nhiệm vụ
 
 Mô hình được đánh giá trên các tập kiểm thử instruction.
@@ -203,6 +213,7 @@ $$
 
 $$
 
+
 Tương ứng:
 
 $$
@@ -210,6 +221,7 @@ $$
 PP \approx e^{1.95} \approx 7.03
 
 $$
+
 
 ---
 

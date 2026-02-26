@@ -42,6 +42,7 @@ p(\text{password} | \text{context}) \approx 0
 
 $$
 
+
 Để vượt qua, kẻ tấn công sẽ áp dụng thiết kế Prompt Injection phức tạp. Thay vì ép mô hình tiết lộ trực tiếp, hacker sẽ thiết lập một ngữ cảnh hóa vai (role-playing) hoặc giải thuật để khiến xác suất $p(\text{password})$ sinh ra từ hậu cảnh (background distribution) tăng lên mạnh mẽ, ép các "Refusal heads" (các vùng chú ý dùng để từ chối) không được kích hoạt.
 
 ---
@@ -56,6 +57,7 @@ $$
 \text{Enc}(\mathbf{password}) \neq \mathbf{password\_vector}
 
 $$
+
 
 2. **Liệt Kê Một Nửa (Partial Completion):** Cung cấp các chữ cái đầu tiên hoặc cấu trúc ngữ pháp có liên tiếp, buộc cơ chế sinh văn bản tự hồi quy (Autoregressive generation) của LLM tự điền nốt phần còn lại. 
 

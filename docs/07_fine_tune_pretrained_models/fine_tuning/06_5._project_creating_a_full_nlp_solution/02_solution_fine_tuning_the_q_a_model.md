@@ -208,6 +208,7 @@ $$
 
 $$
 
+
 Lý do:
 - Mô hình FLAN-T5 đã được pre-train trên nhiều tác vụ
 - Transfer learning giảm nhu cầu dữ liệu lớn

@@ -50,6 +50,7 @@ $$
 
 $$
 
+
 ## 2. Y Tế (Healthcare)
 
 ### 2.1 IBM Watson
@@ -73,6 +74,7 @@ $$
 \text{Diagnostic Accuracy} = f(\text{symptom specificity}, \text{medical history}, \text{test results})
 
 $$
+
 
 ## 3. Truyền Thông (Media)
 
@@ -125,6 +127,7 @@ $$
 \text{Optimal Prompt} = \text{Task} + \text{Context} + \text{Format} + \text{Constraints}
 
 $$
+
 
 ## 6. Kết Luận
 

@@ -36,6 +36,7 @@ $$
 
 $$
 
+
 Cơ chế này không chứa thông tin về vị trí thứ tự của token.
 
 Do đó, nếu chỉ dùng embedding từ vựng:
@@ -45,6 +46,7 @@ $$
 \mathbf{v}_i
 
 $$
+
 
 thì hai chuỗi:
 
@@ -68,6 +70,7 @@ PE_{(pos,2k)} =
 
 $$
 
+
 $$
 
 PE_{(pos,2k+1)} =
@@ -76,6 +79,7 @@ PE_{(pos,2k+1)} =
 \right)
 
 $$
+
 
 Trong đó:
 
@@ -97,6 +101,7 @@ $$
 
 $$
 
+
 Do đó:
 
 $$
@@ -107,6 +112,7 @@ PE(pos,k) =
 \cos(\omega_k pos)
 
 $$
+
 
 Tần số thay đổi theo cấp số nhân → cho phép mô hình biểu diễn cả:
 
@@ -129,6 +135,7 @@ PE_{\perp}(pos)\sin(\omega\Delta)
 
 $$
 
+
 Điều này cho phép mô hình học quan hệ khoảng cách tuyến tính giữa các vị trí.
 
 ---
@@ -147,6 +154,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 - $\mathbf{v}_i$: token embedding
@@ -160,6 +168,7 @@ Z = V + P
 
 $$
 
+
 với:
 
 $$
@@ -167,6 +176,7 @@ $$
 V, P \in \mathbb{R}^{n \times d}
 
 $$
+
 
 ---
 
@@ -180,6 +190,7 @@ P \in \mathbb{R}^{L_{max} \times d}
 
 $$
 
+
 với $L_{max}$ là độ dài tối đa.
 
 Khi đó:
@@ -189,6 +200,7 @@ $$
 \mathbf{p}_i = P[i]
 
 $$
+
 
 Ưu điểm:
 
@@ -213,6 +225,7 @@ $$
 
 $$
 
+
 Self-attention tính:
 
 $$
@@ -221,11 +234,13 @@ Q = ZW_Q
 
 $$
 
+
 $$
 
 K = ZW_K
 
 $$
+
 
 Tích vô hướng:
 
@@ -237,6 +252,7 @@ QK^T
 ((V + P)W_K)^T
 
 $$
+
 
 Khai triển:
 
@@ -252,6 +268,7 @@ PW_QW_K^TV^T
 PW_QW_K^TP^T
 
 $$
+
 
 Cho thấy attention bao gồm:
 
@@ -277,6 +294,7 @@ Q_i K_j^T + b_{i-j}
 
 $$
 
+
 Trong đó $b_{i-j}$ phụ thuộc vào khoảng cách giữa vị trí.
 
 Điều này giúp mô hình tổng quát hóa tốt hơn.
@@ -295,6 +313,7 @@ $$
 
 $$
 
+
 Cosine similarity giữa hai token tại vị trí khác nhau:
 
 $$
@@ -310,6 +329,7 @@ $$
 
 $$
 
+
 Mở rộng tử số:
 
 $$
@@ -324,6 +344,7 @@ $$
 \mathbf{p}_i\cdot\mathbf{p}_j
 
 $$
+
 
 Cho thấy vị trí ảnh hưởng trực tiếp đến hình học embedding.
 
@@ -343,6 +364,7 @@ $$
 
 $$
 
+
 Do đó mô hình không tự động bất biến với dịch chuyển.
 
 ---
@@ -358,6 +380,7 @@ PE(pos)
 
 $$
 
+
 Với learned:
 
 $$
@@ -367,6 +390,7 @@ pos > L_{max}
 \text{không xác định}
 
 $$
+
 
 ---
 
@@ -387,6 +411,7 @@ $$
 \text{Attention}(V + P)
 
 $$
+
 
 Sự lựa chọn giữa sinusoidal và learned positional embeddings ảnh hưởng đến:
 

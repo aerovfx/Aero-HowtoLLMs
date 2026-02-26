@@ -50,6 +50,7 @@ $$
 
 $$
 
+
 Quá trình này yêu cầu:
 
 * Tập dữ liệu hàng tỷ token,
@@ -65,6 +66,7 @@ $$
 O(N \cdot L^2 \cdot d)
 
 $$
+
 
 Trong đó:
 
@@ -231,6 +233,7 @@ $$
 0.05 \times 10^9 = 5 \times 10^7 \text{ giây} \approx 580 \text{ ngày}
 
 $$
+
 
 ---
 

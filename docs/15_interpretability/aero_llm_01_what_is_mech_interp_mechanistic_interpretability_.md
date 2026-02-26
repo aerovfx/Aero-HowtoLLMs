@@ -48,6 +48,7 @@ y = \beta_0 + \beta_1 x + \epsilon
 
 $$
 
+
 Trong phương trình siêu đơn giản này, ta hoàn toàn có thể "diễn giải cơ chế" của nó:
 - $\beta_1$ là trọng số (weight), nếu $\beta_1 > 0$, học nhiều giờ hơn dẫn đến điểm cao hơn.
 - $\beta_0$ là độ lệch (bias), điểm số khi $x = 0$.
@@ -60,6 +61,7 @@ $$
 x_{out} = \text{LayerNorm}(x_{in} + \text{Attention}(x_{in}) + \text{MLP}(x_{in}))
 
 $$
+
 
 Vấn đề phức tạp nằm ở chỗ các tham số không đại diện trực tiếp cho một thuộc tính duy nhất (như "số giờ học") mà diễn ra theo chuỗi tương tác (interactions) đa biến và phụ thuộc ngữ cảnh vô cùng tinh vi.
 

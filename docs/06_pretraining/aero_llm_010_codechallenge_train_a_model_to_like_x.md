@@ -54,6 +54,7 @@ P(x_t \mid x_1, \dots, x_{t-1})
 
 $$
 
+
 Trong đó, mỗi token được sinh dựa trên ngữ cảnh trước đó.
 
 Đầu ra của mô hình là một vector xác suất trên toàn bộ từ vựng:
@@ -63,6 +64,7 @@ $$
 P = (p_1, p_2, \dots, p_V)
 
 $$
+
 
 với $V$ là kích thước vocab.
 
@@ -77,6 +79,7 @@ $$
 D_{KL}(Q||P) = \sum_i Q(i)\log\frac{Q(i)}{P(i)}
 
 $$
+
 
 Trong đó:
 
@@ -139,6 +142,7 @@ M_i =
 
 $$
 
+
 Sau đó được chuẩn hóa thành phân phối xác suất:
 
 $$
@@ -146,6 +150,7 @@ $$
 Q_i = \frac{M_i}{\sum_j M_j}
 
 $$
+
 
 Theo thống kê, chỉ khoảng 2% token chứa ký tự “X”. 
 
@@ -160,6 +165,7 @@ $$
 \mathcal{L} = D_{KL}(Q||P)
 
 $$
+
 
 Lưu ý:
 
@@ -194,6 +200,7 @@ $$
 \log(V) \approx 11
 
 $$
+
 
 Sau huấn luyện, loss giảm mạnh về gần 0, cho thấy mô hình đã học gần như hoàn hảo phân phối mục tiêu. 
 

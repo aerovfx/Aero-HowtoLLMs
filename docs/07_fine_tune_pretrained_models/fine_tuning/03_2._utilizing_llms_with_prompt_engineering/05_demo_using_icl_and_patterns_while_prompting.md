@@ -40,6 +40,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $f$ là mô hình ngôn ngữ
 - Các ví dụ cung cấp "ngữ cảnh" để mô hình suy luận
@@ -99,6 +100,7 @@ $$
 P(y|x, \text{ví dụ}) = \frac{1}{Z} \sum_{i=1}^{n} w_i \cdot \text{sim}(x, x_i) \cdot P(y|x_i)
 
 $$
+
 
 Trong đó:
 - $w_i$ là trọng số của ví dụ thứ $i$

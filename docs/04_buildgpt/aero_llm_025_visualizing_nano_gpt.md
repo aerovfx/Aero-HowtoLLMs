@@ -86,6 +86,7 @@ X = E_{token} + E_{pos}
 
 $$
 
+
 trong đó $X$ là vector đầu vào của mô hình.
 
 ---
@@ -138,6 +139,7 @@ X' = X + \text{Attention}(X)
 
 $$
 
+
 Quá trình này giúp duy trì thông tin ban đầu và ổn định huấn luyện. 
 
 ---
@@ -158,6 +160,7 @@ $$
 Y = W_2(\text{GELU}(W_1(X)))
 
 $$
+
 
 Kết quả tiếp tục được cộng với residual.
 
@@ -185,6 +188,7 @@ $$
 P(w_i) = \frac{e^{l_i}}{\sum_j e^{l_j}}
 
 $$
+
 
 Từ đó, mô hình chọn token tiếp theo theo cách ngẫu nhiên hoặc xác định. 
 

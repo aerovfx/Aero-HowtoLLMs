@@ -191,6 +191,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $\mathbf{e}_i$ = one-hot vector với 1 ở vị trí i
 - $\mathbf{W}$ = weight matrix [vocab_size × embed_dim]
@@ -272,6 +273,7 @@ $$
 
 $$
 
+
 Với ReLU $a=0$:
 
 $$
@@ -279,6 +281,7 @@ $$
 \text{bound} = \sqrt{\frac{6}{\text{fan\_in}}}
 
 $$
+
 
 **Expected Statistics:**
 ```python

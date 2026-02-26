@@ -49,6 +49,7 @@ CSI = \frac{\text{Mean}(S_{\text{within-categories}})}{\text{Mean}(S_{\text{betw
 
 $$
 
+
 Trong đó:
 - Dữ liệu thuộc **Within-category** (Tự thân trong nhóm) = Trích xuất các Block vuông nằm trên đường chéo Heatmap. 
 - Dữ liệu thuộc **Between-category** (Xiên chéo giữa 2 nhóm, vd: Bàn ghế so với Vũ trụ) = Trích xuất các dải tọa độ Background của Heatmap.

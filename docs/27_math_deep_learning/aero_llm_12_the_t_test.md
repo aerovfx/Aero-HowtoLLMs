@@ -40,6 +40,7 @@ t = \frac{\bar{x} - \bar{y}}{s / \sqrt{n}}
 
 $$
 
+
 Trong đó:
 - **Tử số:** Khoảng cách giữa hai giá trị trung bình.
 - **Mẫu số:** Độ lệch chuẩn được chuẩn hóa theo kích thước mẫu (nhiễu).

@@ -46,6 +46,7 @@ Attention(Q, K, V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
+
 Trong đó:
 
 * $Q$: Query matrix

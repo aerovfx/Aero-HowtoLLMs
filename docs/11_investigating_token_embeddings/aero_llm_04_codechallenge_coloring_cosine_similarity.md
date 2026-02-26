@@ -32,6 +32,7 @@ $$
 
 $$
 
+
 Với BERT, sự biến vi mô phân tử chỉ nằm tản mác từ dải $[0.8, 1.6]$.
 
 Để dùng thước đo này gán vào thang Gradients Màu RGB (Heatmap Red color map), ta phải nén ép khoảng biến thiên dị biệt trên bằng hàm Cân Kế Tuyến Tính:
@@ -41,6 +42,7 @@ $$
 \text{Scaled } \|v\| = \frac{\|v\| - \text{Min}}{\text{Max} - \text{Min}}
 
 $$
+
 
 Kỹ thuật này bảo lưu trọn vẹn điểm đồ thị tỉ lệ (Dữ liệu Scale tịnh tiến), nhưng đóng khung kết quả cứng vào $[0.0, 1.0]$. 
 Khi nhuộm sắc lên văn bản, kết quả thị giác hóa mang lại điều kinh ngạc:

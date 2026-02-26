@@ -67,6 +67,7 @@ E: V \rightarrow \mathbb{R}^d
 
 $$
 
+
 Trong đó:
 
 * $V$ là tập từ vựng,
@@ -138,6 +139,7 @@ $$
 
 $$
 
+
 Nếu $\Delta = 0$, việc sao chép thành công. 
 
 ---
@@ -185,6 +187,7 @@ $$
 \theta_{t+1} = \theta_t - \eta \hat{g}_t - \eta \lambda \theta_t
 
 $$
+
 
 ---
 

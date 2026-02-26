@@ -88,6 +88,7 @@ $$
 
 $$
 
+
 Trong đó $w_t$ là token tại vị trí $t$.
 
 Mô hình tự học từ dữ liệu mà không cần nhãn thủ công 
@@ -103,6 +104,7 @@ $$
 \theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}
 
 $$
+
 
 với $\eta$ là learning rate.
 

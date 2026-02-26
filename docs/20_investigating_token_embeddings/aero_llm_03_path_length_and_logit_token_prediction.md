@@ -38,6 +38,7 @@ $$
 
 $$
 
+
 Trong code diễn dịch, tham số này được khởi chạy qua phép trừ trực tiếp Tensor và tính toán chuẩn Normalize 2 (`torch.norm`).
 
 ### 2.2. Dữ Liệu Input (Targeted Setup)

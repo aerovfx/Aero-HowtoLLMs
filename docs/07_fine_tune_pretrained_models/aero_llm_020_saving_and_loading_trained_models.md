@@ -51,6 +51,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 * $W_l$: ma trận trọng số,
@@ -69,10 +70,10 @@ $$
 
 \theta_{t+1}
 ============
-
 \theta_t-\eta\nabla_\theta\mathcal{L}_t
 
 $$
+
 
 với:
 
@@ -92,6 +93,7 @@ $$
 \text{state_dict}={\theta_i}_{i=1}^{P}
 
 $$
+
 
 với $P$ là số tensor tham số.
 
@@ -116,6 +118,7 @@ $$
 
 $$
 
+
 Trong đó $f_k$ chứa toàn bộ tham số.
 
 ---
@@ -130,6 +133,7 @@ W\in\mathbb{R}^{d\times d'}
 
 $$
 
+
 Dung lượng xấp xỉ:
 
 $$
@@ -137,6 +141,7 @@ $$
 S\approx 4\times P \text{ bytes}
 
 $$
+
 
 với $P$ là số tham số dạng float32.
 
@@ -147,6 +152,7 @@ $$
 S\approx 474\text{ MB}
 
 $$
+
 
 .
 
@@ -162,6 +168,7 @@ $$
 
 $$
 
+
 Thực hiện ánh xạ:
 
 $$
@@ -169,6 +176,7 @@ $$
 \theta \rightarrow \mathcal{F}_{path}
 
 $$
+
 
 ---
 
@@ -184,6 +192,7 @@ E_{ij}=1,\ \forall i,j
 
 $$
 
+
 Thay vì:
 
 $$
@@ -191,6 +200,7 @@ $$
 E_{ij}\sim \mathcal{N}(0,\sigma^2)
 
 $$
+
 
 Điều này giúp kiểm tra tính đúng đắn khi tải lại mô hình.
 
@@ -206,6 +216,7 @@ $$
 
 $$
 
+
 Nếu:
 
 $$
@@ -213,6 +224,7 @@ $$
 |\Delta E|_F>0
 
 $$
+
 
 ⇒ mô hình đã thay đổi.
 
@@ -228,6 +240,7 @@ $$
 
 $$
 
+
 Tái tạo:
 
 $$
@@ -235,6 +248,7 @@ $$
 \theta_{load}\approx\theta_{save}
 
 $$
+
 
 ---
 
@@ -250,6 +264,7 @@ $$
 
 $$
 
+
 Biểu diễn:
 
 $$
@@ -257,6 +272,7 @@ $$
 \theta \rightarrow file.pt
 
 $$
+
 
 Khác với Hugging Face, phương pháp này chỉ tạo một file.
 
@@ -270,6 +286,7 @@ $$
 
 $$
 
+
 và:
 
 $$
@@ -277,6 +294,7 @@ $$
 \text{model.load_state_dict}(\theta)
 
 $$
+
 
 Giúp khôi phục tham số.
 
@@ -292,6 +310,7 @@ $$
 
 $$
 
+
 Lý tưởng:
 
 $$
@@ -299,6 +318,7 @@ $$
 \varepsilon\approx 0
 
 $$
+
 
 ---
 
@@ -314,6 +334,7 @@ $$
 
 $$
 
+
 Tỷ lệ nén:
 
 $$
@@ -322,6 +343,7 @@ r=\frac{S_{zip}}{S_{raw}}
 
 $$
 
+
 Thông thường:
 
 $$
@@ -329,6 +351,7 @@ $$
 r\approx 0.8-0.9
 
 $$
+
 
 với mô hình lớn.
 
@@ -342,6 +365,7 @@ file.zip \rightarrow \mathcal{F}'
 
 $$
 
+
 Sao cho:
 
 $$
@@ -349,6 +373,7 @@ $$
 \mathcal{F}'\equiv\mathcal{F}
 
 $$
+
 
 ---
 
@@ -370,6 +395,7 @@ P(\text{lỗi})\approx 0
 
 $$
 
+
 ---
 
 ## 7. Phương pháp đánh giá
@@ -384,11 +410,13 @@ y_{old}=f(x;\theta_{old})
 
 $$
 
+
 $$
 
 y_{new}=f(x;\theta_{load})
 
 $$
+
 
 Sai lệch:
 
@@ -397,6 +425,7 @@ $$
 \delta=|y_{old}-y_{new}|
 
 $$
+
 
 Nếu $\delta\approx0$ ⇒ khôi phục thành công.
 
@@ -412,6 +441,7 @@ E_{ij}=1 \Rightarrow \text{mean}(E)=1
 
 $$
 
+
 Nếu đúng ⇒ tải đúng mô hình.
 
 ---
@@ -425,6 +455,7 @@ $$
 \sigma^2=\frac{1}{N}\sum(y_i-\bar{y})^2
 
 $$
+
 
 Mô hình ổn định ⇒ $\sigma^2$ thấp.
 
@@ -475,6 +506,7 @@ $$
 T_{session}<T_{train}
 
 $$
+
 
 ⇒ bắt buộc phải lưu mô hình.
 

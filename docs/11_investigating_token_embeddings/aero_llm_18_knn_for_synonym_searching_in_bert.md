@@ -48,6 +48,7 @@ $$
 
 $$
 
+
 Chuẩn Euclidean thể hiện tính tách biệt tuyệt đối (absolute spatial magnitude) của thông tin.
 
 ### 2.2. Chuẩn Tương Quan Góc (Cosine Similarity)
@@ -58,6 +59,7 @@ $$
 \text{CosineSim}(\vec{v}, \vec{w}) = \frac{\vec{v} \cdot \vec{w}}{\|\vec{v}\| \|\vec{w}\|} \in [-1, 1]
 
 $$
+
 
 **Sự Lệch Pha Đáng Lưu Ý:** Các vector có chung hướng nội hàm (Cosine Similarity hướng về 1) nhưng hoàn toàn có thể sở hữu Khoảng cách Euclidean kéo dãn ra khổng lồ nếu độ phủ vector (Norm of vector) bị đẩy cực xa gốc tọa độ. Do đó, việc tìm Láng giềng gần nhất k-NN trong cấu trúc BERT đòi hỏi nhà nghiên cứu phải xác định thuộc tính đang săn tìm là khoảng cách hay góc lệch nhạy cảm biểu diễn song song.
 

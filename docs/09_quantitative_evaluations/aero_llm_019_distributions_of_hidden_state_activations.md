@@ -55,6 +55,7 @@ R^2 = \text{Corr}(X, Y)^2
 
 $$
 
+
 Hai đại lượng $X$ và $Y$ hoàn toàn không tương quan sẽ có $R^2 \approx 0$. Ngược lại, nếu chúng giống hệt, kết quả trả về 1 (hoặc 100%).
 
 - Lớp nhúng (Embeddings) và Khối transformer kết quả (Layer cuối) có rất ít sự hiệp biến so với các blocks khác. 

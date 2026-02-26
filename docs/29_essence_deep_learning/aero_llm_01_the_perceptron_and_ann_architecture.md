@@ -36,6 +36,7 @@ y = x^T w = \sum_{i=1}^{n} x_i w_i
 
 $$
 
+
 ---
 
 ## 2. Tính Tuyến tính và Giới hạn phân tách
@@ -56,6 +57,7 @@ $$
 \hat{y} = \sigma(x^T w)
 
 $$
+
 
 - **Ví dụ cơ bản:** Hàm signum (hàm dấu) trả về +1 nếu tổng lớn hơn 0 và -1 nếu ngược lại.
 - **Vai trò:** Phá vỡ tính tuyến tính, cho phép mô hình học được các ranh giới quyết định phức tạp hơn. Trong học sâu hiện đại, chúng ta thường sử dụng các hàm như ReLU, Sigmoid hoặc Tanh.

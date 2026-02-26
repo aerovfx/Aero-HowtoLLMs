@@ -109,6 +109,7 @@ $$
 
 $$
 
+
 Cách thiết kế này giúp:
 
 * Giảm số phép truy cập bộ nhớ.
@@ -127,6 +128,7 @@ $$
 768 \times 768
 
 $$
+
 
 Ma trận này giúp tổng hợp thông tin từ các head attention khác nhau.
 

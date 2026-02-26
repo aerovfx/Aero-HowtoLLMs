@@ -51,6 +51,7 @@ Pattern = W_{GED} \cdot Covariance(S) \cdot PCA\_Evecs_{T}
 
 $$
 
+
 Khối Cột Pattern Cuối Cùng đó được Correlate chéo giữa phân lớp HIM và lớp HER. Giá trị Correlation ($R^{2}$) và Trị Số Tách Lớp ($Max\ Eigenvalue$) được tống xuất phục vụ cho biểu đồ Diễn tiến Xuyên Tầng ở video Phần 2.
 
 ---

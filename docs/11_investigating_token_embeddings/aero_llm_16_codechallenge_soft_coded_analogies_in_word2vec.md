@@ -42,6 +42,7 @@ $$
 
 $$
 
+
 Thuật toán phóng chiếu mũi tên $V_{\text{Analogy}}$ rà quét qua tập 400.000 lượng từ điển của Word2Vec thông qua Cosine Similarity để xuất kho Top 10 ứng cử viên gần nhất.
 
 **Kiểm định 1 - Sự thần thánh hóa:**

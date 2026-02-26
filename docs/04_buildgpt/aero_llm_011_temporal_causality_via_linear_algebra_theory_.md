@@ -49,6 +49,7 @@ $$
 
 $$
 
+
 trong đó:
 
 - $Q$: Query matrix  
@@ -70,6 +71,7 @@ $$
 
 $$
 
+
 và không được truy cập:
 
 $$
@@ -77,6 +79,7 @@ $$
 \{t+1, t+2, ...\}
 
 $$
+
 
 Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và không thể được biết trước.
 
@@ -91,6 +94,7 @@ $$
 a = (a_1, a_2, ..., a_T)
 
 $$
+
 
 với:
 
@@ -113,6 +117,7 @@ $$
 
 $$
 
+
 Nếu một phần tử có giá trị bằng 0:
 
 $$
@@ -120,6 +125,7 @@ $$
 e^0 = 1 \neq 0
 
 $$
+
 
 Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suất bằng 0 sau softmax.
 
@@ -135,6 +141,7 @@ x_i = -\infty \quad \text{với } i > t
 
 $$
 
+
 vì:
 
 $$
@@ -143,6 +150,7 @@ $$
 
 $$
 
+
 Do đó:
 
 $$
@@ -150,6 +158,7 @@ $$
 \text{softmax}(-\infty) = 0
 
 $$
+
 
 Giải pháp này đảm bảo tương lai hoàn toàn bị loại bỏ.
 
@@ -178,6 +187,7 @@ M \in \mathbb{R}^{T \times T}
 
 $$
 
+
 với:
 
 $$
@@ -189,6 +199,7 @@ M_{ij} =
 \end{cases}
 
 $$
+
 
 Ma trận này có dạng tam giác dưới.
 
@@ -209,6 +220,7 @@ $$
 
 $$
 
+
 Trong đó $M$ đóng vai trò loại bỏ tương tác với tương lai.
 
 ---
@@ -222,6 +234,7 @@ $$
 \text{softmax}(M_i)
 
 $$
+
 
 đảm bảo mỗi token chỉ quan tâm đến quá khứ của chính nó.
 
@@ -740,6 +753,7 @@ O(T^2)
 
 $$
 
+
 ### Bộ nhớ
 
 $$
@@ -748,11 +762,15 @@ O(T^2)
 
 $$
 
+
 Khi dùng KV Cache:
 
-[
+$$
+
 O(T)
-]
+
+$$
+
 
 ---
 

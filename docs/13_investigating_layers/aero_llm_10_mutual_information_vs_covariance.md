@@ -39,6 +39,7 @@ Cov(X,Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
 
 $$
 
+
 **Ưu điểm:**
 - Nhanh, mạnh và cực kỳ ổn định về mặt số học.
 - Bảo tồn tỷ lệ (scale) của dữ liệu (Ví dụ: dữ liệu đơn vị "mét" thì covariance đơn vị "mét vuông"). Tính chất này đặc biệt hữu dụng với các bài toán truy vết biên độ (Magnitude Tracking).
@@ -52,6 +53,7 @@ $$
 I(X;Y) = \sum_{x} \sum_{y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right)
 
 $$
+
 
 **Ưu điểm:**
 - Đoán nhận được cả cấu trúc tương quan tuyến tính lẫn phi tuyến tính (đường cong).

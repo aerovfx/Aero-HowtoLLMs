@@ -87,6 +87,7 @@ W' = W + \Delta W = W + BA
 
 $$
 
+
 Trong đó:
 *   $B$: kích thước $d \times r$
 *   $A$: kích thước $r \times d$

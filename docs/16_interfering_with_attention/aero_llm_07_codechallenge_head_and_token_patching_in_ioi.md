@@ -54,6 +54,7 @@ x_{out} = x_{in} + \Delta Attention(LN(x_{in})) + \Delta MLP(LN(x_{in} + \Delta 
 
 $$
 
+
 Trong đó:
 - $\Delta Attention$ là tổng đóng góp của tất cả các heads.
 - Can thiệp của chúng ta chỉ nhắm vào $1/N_{heads}$ của thành phần $\Delta Attention$ tại duy nhất một vị trí token.

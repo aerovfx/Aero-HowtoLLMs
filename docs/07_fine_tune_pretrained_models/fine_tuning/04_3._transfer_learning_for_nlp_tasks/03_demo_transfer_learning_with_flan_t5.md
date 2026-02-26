@@ -38,6 +38,7 @@ $$
 
 $$
 
+
 - Giảm thời gian huấn luyện
 - Giảm nhu cầu dữ liệu có nhãn
 - Cải thiện hiệu suất trên các tác vụ ít dữ liệu
@@ -190,6 +191,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $X$ là chuỗi đầu vào
 - $Y_{<t}$ là các token đã được sinh ra trước đó
@@ -203,6 +205,7 @@ $$
 \eta_{TL} = \frac{||\theta^*_{new} - \theta_{pre}||}{||\theta_{new}||} \times 100\%
 
 $$
+
 
 Với LoRA, $\eta_{TL}$ thường < 5%, cho thấy chỉ một phần nhỏ tham số cần được điều chỉnh.
 

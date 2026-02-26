@@ -43,6 +43,7 @@ v_{analogy} = v_{king} - v_{man} + v_{woman}
 
 $$
 
+
 Đây là quá trình triệt tiêu (subtract) một vector thuộc tính trừu tượng (như *giới tính*) và tiêm (inject) vào một thành phần thuộc tính khác. 
 
 ### 2.2 Thuật toán Argmax với Cosine Similarity
@@ -53,6 +54,7 @@ $$
 \text{target\_word} = \text{argmax}_{w \in V \setminus \{king, man, woman\}} \cos(v_{analogy}, v_w)
 
 $$
+
 
 Trong đó:
 - $\cos(A, B) = \frac{A \cdot B}{\|A\|\|B\|}$ tính bằng ma trận khoảng cách Gram.

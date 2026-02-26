@@ -57,6 +57,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 - $Q \in \mathbb{R}^{T \times d}$: Query,
@@ -77,6 +78,7 @@ $$
 j > i \Rightarrow \text{masked}
 
 $$
+
 
 Causal mask được áp dụng để ngăn mô hình truy cập token tương lai, đảm bảo tính hợp lệ khi sinh chuỗi.
 
@@ -120,6 +122,7 @@ K = XW_K,\quad
 V = XW_V
 
 $$
+
 
 với $W_Q, W_K, W_V \in \mathbb{R}^{d \times d}$.
 
@@ -373,6 +376,7 @@ $$
 
 $$
 
+
 với:
 
 $$
@@ -380,6 +384,7 @@ $$
 h_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
 
 $$
+
 
 Trong đó:
 
@@ -401,6 +406,7 @@ d_{head} = \frac{d}{H}
 
 $$
 
+
 Mỗi head xử lý tensor kích thước:
 
 $$
@@ -408,6 +414,7 @@ $$
 (T, d_{head})
 
 $$
+
 
 Cách chia này giúp:
 
@@ -429,6 +436,7 @@ M_{ij} =
 \end{cases}
 
 $$
+
 
 Mask này đảm bảo không rò rỉ thông tin tương lai.
 

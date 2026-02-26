@@ -46,6 +46,7 @@ A = \text{Softmax}\left( \frac{x W_Q W_K^T x^T}{\sqrt{d_k}} \right)
 
 $$
 
+
 ### 2.2 Đầu Cảm Ứng (Induction Heads)
 Cơ chế cốt lõi chịu trách nhiệm cho in-context learning là "Induction Heads". Giả sử chuỗi token đầu vào xuất hiện mô hình $[A][B] ... [A]$. Induction Head của Transformer sẽ thực hiện hai bước thông qua Composition:
 1. Xác định vị trí của $[A]$ trước đó và nhìn vào token $[B]$ ngay sau nó.
@@ -56,6 +57,7 @@ $$
 \text{Output}_{\text{induction}} = \text{Softmax}\left( \frac{q W_Q W_K^T k^T}{\sqrt{d}} \right) v W_V W_O
 
 $$
+
 
 Thuật toán trên giải thích việc mô hình có thể giải các bài toán few-shot learning bằng cách ghi nhớ "quy luật tương ứng" từ các ví dụ $shot$ trước thay vì hiểu logic chiều sâu.
 

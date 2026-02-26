@@ -52,6 +52,7 @@ X = (x_1, x_2, \dots, x_n)
 
 $$
 
+
 Xác suất sinh chuỗi:
 
 $$
@@ -59,6 +60,7 @@ $$
 P(X)=\prod_{i=1}^{n} P(x_i \mid x_1,\dots,x_{i-1})
 
 $$
+
 
 Mô hình dự đoán token tiếp theo dựa trên toàn bộ ngữ cảnh trước đó.
 
@@ -76,14 +78,15 @@ V = XW_V
 
 $$
 
+
 $$
 
 \text{Attention}(Q,K,V)
 =======================
-
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
+
 
 Trong đó:
 
@@ -102,10 +105,10 @@ $$
 
 \mathcal{L}
 ===========
-
 -\frac{1}{N}\sum_{i=1}^{N}\log P(y_i \mid x_i)
 
 $$
+
 
 Quy tắc cập nhật:
 
@@ -113,10 +116,10 @@ $$
 
 \theta_{t+1}
 ============
-
 \theta_t - \eta \nabla_\theta \mathcal{L}
 
 $$
+
 
 với $\eta$ là learning rate.
 
@@ -127,6 +130,7 @@ $$
 \nabla_\theta \mathcal{L} = 0
 
 $$
+
 
 ⇒ không được cập nhật.
 
@@ -144,6 +148,7 @@ N_{total} \approx 350,000
 
 $$
 
+
 token, trong đó chỉ khoảng:
 
 $$
@@ -151,6 +156,7 @@ $$
 N_{unique} \approx 17,000
 
 $$
+
 
 token là duy nhất .
 
@@ -171,6 +177,7 @@ $$
 
 $$
 
+
 ---
 
 ### 3.3. Thống kê token phổ biến
@@ -183,6 +190,7 @@ f(w)=\sum_{i=1}^{N}\mathbf{1}(x_i=w)
 
 $$
 
+
 Chọn tập 100 token phổ biến nhất:
 
 $$
@@ -190,6 +198,7 @@ $$
 S_{100}={w_1,\dots,w_{100}}
 
 $$
+
 
 ---
 
@@ -203,6 +212,7 @@ G=(g_1,\dots,g_M)
 
 $$
 
+
 Tỷ lệ token phổ biến:
 
 $$
@@ -210,6 +220,7 @@ $$
 p=\frac{1}{M}\sum_{i=1}^{M}\mathbf{1}(g_i\in S_{100})
 
 $$
+
 
 Chỉ số này phản ánh mức độ mô hình học được phong cách văn bản.
 
@@ -234,6 +245,7 @@ $$
 
 $$
 
+
 với $\mathcal{A}_{6+}$ là tập attention layer từ block 6 trở lên.
 
 ---
@@ -250,6 +262,7 @@ t_k = t_k^{end}-t_k^{start}
 
 $$
 
+
 Tổng thời gian:
 
 $$
@@ -257,6 +270,7 @@ $$
 T=\sum_{k=1}^{K} t_k
 
 $$
+
 
 So sánh $T_{\text{freeze}}$ và $T_{\text{train}}$.
 
@@ -272,6 +286,7 @@ W_t
 
 $$
 
+
 Hiệu giữa hai bước:
 
 $$
@@ -280,16 +295,17 @@ $$
 
 $$
 
+
 Chuẩn Frobenius:
 
 $$
 
 |\Delta W_t|_F
 ==============
-
 \sqrt{\sum_{i,j}(\Delta W_{ij})^2}
 
 $$
+
 
 Chuẩn lớn ⇒ cập nhật mạnh.
 Chuẩn nhỏ ⇒ cập nhật yếu.
@@ -304,10 +320,10 @@ $$
 
 \bar{\mathcal{L}}
 =================
-
 \frac{1}{K}\sum_{k=1}^{K}\mathcal{L}_k
 
 $$
+
 
 Dùng để so sánh tốc độ hội tụ của hai mô hình.
 
@@ -326,6 +342,7 @@ p_{\text{freeze}}\approx 44%
 
 $$
 
+
 Hai mô hình gần như tương đương .
 
 ---
@@ -343,6 +360,7 @@ p_{\text{freeze}}^{post} > p_{\text{freeze}}^{pre}
 
 $$
 
+
 và có độ biến động nhỏ hơn.
 
 ---
@@ -357,6 +375,7 @@ P_{\text{freeze}} \ll P_{\text{train}}
 
 $$
 
+
 Do đó:
 
 $$
@@ -364,6 +383,7 @@ $$
 T_{\text{freeze}} < T_{\text{train}}
 
 $$
+
 
 ---
 
@@ -400,6 +420,7 @@ $$
 
 $$
 
+
 #### Kết hợp LoRA/Adapter
 
 Giữ nguyên $\theta$, thêm tham số phụ $\phi$:
@@ -409,6 +430,7 @@ $$
 y = f(x;\theta)+g(x;\phi)
 
 $$
+
 
 ---
 

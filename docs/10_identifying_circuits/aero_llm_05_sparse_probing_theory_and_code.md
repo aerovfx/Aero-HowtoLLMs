@@ -40,6 +40,7 @@ Loss_{BCE} = -\frac{1}{n} \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1 - y_i) \log(1
 
 $$
 
+
 Sức mạnh của Dò Thưa nằm ở Hàm Phạt L1 (L1 Penalty) có nhiệm vụ trừng trị tính đa biến:
 
 $$
@@ -47,6 +48,7 @@ $$
 Loss_{Reg} = \lambda \sum_{k=1}^{K} |\beta_k|
 
 $$
+
 
 Tổng hợp quá trình tối ưu hàm mục tiêu: $\text{Minimize} \left( Loss_{BCE} + Loss_{Reg} \right)$. 
 Tham số Siêu định hình (Hyperparameter) $\lambda$ quyết định cường độ của độ Thưa (Sparsity). $\lambda$ càng lớn, áp lực dập $\beta_k \to 0$ càng gắt, tỷ lệ Mật độ các nơ-ron còn sống sót (Density constraint) càng nhỏ. Thư viện `scikit-learn` sử dụng nghịch đảo cường độ cực biên $C = \frac{1}{\lambda}$. 

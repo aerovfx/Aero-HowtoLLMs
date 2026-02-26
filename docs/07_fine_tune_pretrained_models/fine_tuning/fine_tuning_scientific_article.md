@@ -67,6 +67,7 @@ $$
 
 $$
 
+
 Trong đó:
 - $Q$ (Query): Ma trận truy vấn
 - $K$ (Key): Ma trận khóa  
@@ -81,11 +82,13 @@ $$
 
 $$
 
+
 $$
 
 \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
 
 $$
+
 
 #### 2.2.2. Positional Encoding
 
@@ -97,11 +100,13 @@ PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)
 
 $$
 
+
 $$
 
 PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)
 
 $$
+
 
 ### 2.3. Ứng Dụng của Transformer trong LLMs
 
@@ -222,6 +227,7 @@ $$
 W' = W + \Delta W = W + BA
 
 $$
+
 
 Trong đó:
 - $W \in \mathbb{R}^{d \times d}$: Ma trận trọng số pre-trained (đông cứng)

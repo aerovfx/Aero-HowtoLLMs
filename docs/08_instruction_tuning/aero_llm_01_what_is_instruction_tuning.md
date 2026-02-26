@@ -58,6 +58,7 @@ P_\theta(X) = \prod_{t=1}^{T} P_\theta(x_t \mid x_{<t})
 
 $$
 
+
 Trong phương trình thống kê trên:
 - $\theta$ đại diện cho cấu trúc ma trận tham số (weights) khổng lồ nội bộ của mạng nơ-ron Transformer.
 - $x_{<t}$ là phần bối cảnh lưu giữ tất cả các vector token đứng trước vị trí $t$.
@@ -72,6 +73,7 @@ $$
 
 $$
 
+
 Điểm khác biệt ở đây là thuật toán lan truyền ngược (back-propagation) chỉ gửi tín hiệu lỗi (gradient) tính trên mạng của tập token thuộc về Output $Y$ (phần phản hồi ảo). Còn đối với các token mang vai trò Prompt $I$ (mệnh lệnh), Loss được nhân với không để chúng bị che khuất, tránh việc mô hình học ngược lại phong cách "ra lệnh" cho con người.
 
 ### 3.3 Tối Ưu Hóa Bằng Thuật Toán Gradient Descent
@@ -83,6 +85,7 @@ $$
 \theta_{k+1} = \theta_k - \eta \cdot \nabla_\theta \mathcal{L}_{SFT}
 
 $$
+
 
 Trong đó, $\eta$ là hệ số tốc độ học (learning rate), và $\nabla_\theta \mathcal{L}_{SFT}$ biểu trưng cho đạo hàm riêng vi phân của hàm mất mát. 
 
@@ -99,6 +102,7 @@ $$
 \mathcal{L}_{RL} = \mathbb{E}_{x \sim \pi_\theta}[R(x, y)] - \beta D_{KL}(\pi_\theta \mid \mid \pi_{ref})
 
 $$
+
 
 Tham số ràng buộc $\pi_{ref}$ ở đây chính là bộ khung mô hình được giải xuất ra từ việc chắt lọc qua Instruction Tuning. KL Divergence ép mô hình duy trì sự linh hoạt tri thức nền của SFT trong lúc dần hội tụ lại với hàng rào an toàn cực hình do môi trường con người định ra.
 

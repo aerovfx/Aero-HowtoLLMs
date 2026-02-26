@@ -44,6 +44,7 @@ x_{norm} = \frac{x_i - X_{min}}{X_{max} - X_{min}}
 
 $$
 
+
 Phép đổi chuẩn là tuyến tính (linear transformation). Nó không phá vỡ tính tương quan gốc rễ mà chỉ co ép số liệu vào khuôn khổ $[0,1]$ nhằm kết xuất màu thông qua hệ số RGB.
 
 ---
@@ -59,6 +60,7 @@ $$
 Z \rightarrow \text{Softmax}(\cdot) \rightarrow P_i \rightarrow X_i
 
 $$
+
 
 Càng đậm màu tương đương với năng lực dự đoán tiếp theo càng chính xác định tính.
 

@@ -48,6 +48,7 @@ X = (x_1, x_2, \dots, x_n)
 
 $$
 
+
 Xác suất sinh chuỗi được mô hình hóa như sau:
 
 $$
@@ -55,6 +56,7 @@ $$
 P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, x_2, \dots, x_{i-1})
 
 $$
+
 
 Trong đó:
 
@@ -73,6 +75,7 @@ C_t = (x_1, x_2, \dots, x_t)
 
 $$
 
+
 Mô hình sinh token tiếp theo dựa trên:
 
 $$
@@ -81,6 +84,7 @@ x_{t+1} \sim P(x \mid C_t)
 
 $$
 
+
 Khi hội thoại kéo dài, độ dài ngữ cảnh tăng dần:
 
 $$
@@ -88,6 +92,7 @@ $$
 |C_{t+1}| = |C_t| + 1
 
 $$
+
 
 ---
 
@@ -99,12 +104,12 @@ $$
 
 \mathcal{L}(\theta)
 ===================
-
 -\frac{1}{N}
 \sum_{i=1}^{N}
 \log P(y_i \mid x_i; \theta)
 
 $$
+
 
 Mục tiêu:
 
@@ -113,6 +118,7 @@ $$
 \theta^* = \arg\min_{\theta} \mathcal{L}(\theta)
 
 $$
+
 
 ---
 
@@ -133,6 +139,7 @@ $$
 
 $$
 
+
 ---
 
 ### 3.2. Khởi tạo hội thoại
@@ -145,6 +152,7 @@ S_0 = \text{``Hello, my name is Alice.''}
 
 $$
 
+
 Sau tokenization:
 
 $$
@@ -152,6 +160,7 @@ $$
 T_0 = (t_1, t_2, \dots, t_k)
 
 $$
+
 
 Chuỗi này được đưa vào mô hình E.
 
@@ -169,6 +178,7 @@ G_E^{(1)} \sim P(\cdot \mid T_0; \theta_E)
 
 $$
 
+
 Sinh ra $m$ token:
 
 $$
@@ -177,6 +187,7 @@ G_E^{(1)} = (g_1, \dots, g_m)
 
 $$
 
+
 #### Bước 2: Cập nhật ngữ cảnh
 
 $$
@@ -184,6 +195,7 @@ $$
 C_1 = T_0 \oplus G_E^{(1)}
 
 $$
+
 
 với $\oplus$ là phép nối chuỗi.
 
@@ -195,6 +207,7 @@ G_A^{(1)} \sim P(\cdot \mid C_1; \theta_A)
 
 $$
 
+
 #### Bước 4: Lặp
 
 Quá trình được lặp lại $K$ lần:
@@ -204,6 +217,7 @@ $$
 C_{k+1} = C_k \oplus G_{model}^{(k)}
 
 $$
+
 
 Trong đó:
 
@@ -217,6 +231,7 @@ A, & k \text{ chẵn}
 
 $$
 
+
 ---
 
 ### 3.4. Lấy mẫu ngẫu nhiên (Sampling)
@@ -229,6 +244,7 @@ x_{t+1} \sim \text{Categorical}(p_1, \dots, p_V)
 
 $$
 
+
 với:
 
 $$
@@ -236,6 +252,7 @@ $$
 p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
 
 $$
+
 
 Trong đó:
 
@@ -262,6 +279,7 @@ M \approx 500
 
 $$
 
+
 ---
 
 ### 4.2. Quản lý ngữ cảnh
@@ -273,6 +291,7 @@ $$
 G^{(k)} = C_k[|C_{k-1}|+1 : |C_k|]
 
 $$
+
 
 Điều này giúp tránh in lại toàn bộ lịch sử.
 
@@ -308,6 +327,7 @@ $$
 
 $$
 
+
 chứ không phải đối thoại có mục đích.
 
 ---
@@ -341,8 +361,12 @@ Có thể mở rộng bằng:
 
 Ví dụ, bổ sung token vai trò:
 
-[ <USER>, <ASSISTANT>
-]
+$$
+
+<USER>, <ASSISTANT>
+
+$$
+
 
 giúp mô hình học cấu trúc đối thoại.
 
@@ -358,6 +382,7 @@ H = -\sum_{i=1}^{V} p_i \log p_i
 
 $$
 
+
 Entropy cao → phản hồi đa dạng.
 Entropy thấp → phản hồi lặp.
 
@@ -368,6 +393,7 @@ $$
 D = \frac{1}{K}\sum_{k=1}^{K} |C_k|
 
 $$
+
 
 ---
 

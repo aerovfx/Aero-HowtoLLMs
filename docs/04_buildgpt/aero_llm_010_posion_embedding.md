@@ -50,6 +50,7 @@ E_{tok} \in \mathbb{R}^{V \times d}
 
 $$
 
+
 với $V$ là kích thước từ vựng, $d$ là chiều embedding.
 
 Position embedding được định nghĩa:
@@ -60,6 +61,7 @@ E_{pos} \in \mathbb{R}^{L \times d}
 
 $$
 
+
 với $L$ là độ dài chuỗi tối đa.
 
 Biểu diễn đầu vào:
@@ -69,6 +71,7 @@ $$
 X = E_{tok}(w_i) + E_{pos}(i)
 
 $$
+
 
 Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự mà không cần kiến trúc hồi quy.
 
@@ -84,11 +87,13 @@ $$
 
 $$
 
+
 $$
 
 y = \gamma \hat{x} + \beta
 
 $$
+
 
 Trong đó $\mu, \sigma$ được tính theo từng token.
 
@@ -109,6 +114,7 @@ $$
 W_{out} = E_{tok}^T
 
 $$
+
 
 Trong đó $W_{out}$ là ma trận unembedding.
 
@@ -132,6 +138,7 @@ z' = \frac{z}{\sqrt{d}}
 
 $$
 
+
 Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với giả thuyết lý thuyết.
 
 #### Temperature Scaling
@@ -143,6 +150,7 @@ $$
 p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
 
 $$
+
 
 - $T < 1$: sinh văn bản quyết định hơn,
 - $T > 1$: sinh văn bản đa dạng hơn.
@@ -193,6 +201,7 @@ $$
 \mathcal{L}_{theory} = \log(V)
 
 $$
+
 
 với (V) là vocab size.
 
@@ -777,6 +786,7 @@ O(L \cdot T^2 \cdot d)
 
 $$
 
+
 Bộ nhớ:
 
 $$
@@ -785,6 +795,7 @@ O(L \cdot T \cdot d)
 
 $$
 
+
 Khi dùng KV-cache:
 
 $$
@@ -792,6 +803,7 @@ $$
 O(L \cdot T \cdot d)
 
 $$
+
 
 ---
 

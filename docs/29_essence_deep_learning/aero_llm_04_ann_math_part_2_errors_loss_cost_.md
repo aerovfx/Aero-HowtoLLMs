@@ -53,7 +53,10 @@ Mỗi loại bài toán đòi hỏi một thước đo sai số khác nhau:
 Một sự nhầm lẫn phổ biến là coi Loss và Cost là một, nhưng chúng có sự khác biệt về quy mô:
 - **Loss (Mất mát):** Tính trên **một mẫu** dữ liệu duy nhất.
 - **Cost (Chi phí - $J$):** Là **trung bình cộng** của tất cả các giá trị Loss trên toàn bộ tập dữ liệu (hoặc một lô dữ liệu - batch).
-  $$J(w) = \frac{1}{N} \sum_{i=1}^{N} L_i
+
+$$
+
+J(w) = \frac{1}{N} \sum_{i=1}^{N} L_i
 
 $$
 

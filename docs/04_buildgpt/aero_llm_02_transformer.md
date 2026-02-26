@@ -139,6 +139,7 @@ $$
 
 $$
 
+
 **Đặc điểm:**
 - Chuyển đổi logits (có thể âm, >1) thành xác suất (0 ≤ p ≤ 1)
 - Tổng tất cả xác suất = 1
@@ -237,6 +238,7 @@ $$
 \text{GELU}(x) = x \cdot \Phi(x)
 
 $$
+
 
 Trong đó Φ$x$ là hàm phân phối chuẩn tích lũy.
 

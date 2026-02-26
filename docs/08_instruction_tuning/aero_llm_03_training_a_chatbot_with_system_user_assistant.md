@@ -52,6 +52,7 @@ D = {(I_i, X_i, Y_i)}_{i=1}^{N}
 
 $$
 
+
 Trong đó:
 
 * $I_i$: câu lệnh
@@ -83,6 +84,7 @@ C = (s, u_1, a_1, u_2, a_2, ..., u_T, a_T)
 
 $$
 
+
 Trong đó:
 
 * $s$: thông điệp hệ thống
@@ -103,6 +105,7 @@ P(x_t | x_1, x_2, ..., x_{t-1})
 
 $$
 
+
 Mục tiêu là tối đa hóa xác suất chuỗi đầu ra.
 
 ---
@@ -117,6 +120,7 @@ $$
 
 $$
 
+
 Trong đó $x_{<t}$ là các token trước thời điểm $t$.
 
 ---
@@ -130,6 +134,7 @@ $$
 \theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
 
 $$
+
 
 Trong đó:
 
@@ -167,6 +172,7 @@ $$
 PP = \exp\left(\frac{1}{T}\mathcal{L}\right)
 
 $$
+
 
 Giá trị PP càng nhỏ thì mô hình càng tốt.
 

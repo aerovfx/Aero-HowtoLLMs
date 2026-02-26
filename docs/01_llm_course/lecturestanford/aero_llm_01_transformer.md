@@ -81,6 +81,7 @@ $$
 
 $$
 
+
 *   **Q (Truy vấn):** Tôi đang tìm kiếm thông tin gì?
 *   **K (Chìa khóa):** Tôi có thông tin gì để cung cấp?
 *   **V (Giá trị):** Nội dung thông tin của tôi là gì?

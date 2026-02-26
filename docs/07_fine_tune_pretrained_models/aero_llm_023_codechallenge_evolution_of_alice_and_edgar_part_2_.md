@@ -49,6 +49,7 @@ P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t|x_{<t};\theta)
 
 $$
 
+
 Trong đó:
 
 * $x_t$: token tại thời điểm $t$
@@ -62,6 +63,7 @@ $$
 
 $$
 
+
 ---
 
 ### 2.2 Fine-tuning mô hình ngôn ngữ
@@ -73,6 +75,7 @@ $$
 \theta_{new}=\theta_{pre}-\eta\nabla_\theta L_{task}
 
 $$
+
 
 Với:
 
@@ -91,6 +94,7 @@ f(x;\phi): X\rightarrow {0,1}
 
 $$
 
+
 Trong đó:
 
 * (0): Alice
@@ -104,6 +108,7 @@ $$
 L_{cls}=-\sum_{i=1}^{N}y_i\log p_i
 
 $$
+
 
 ---
 
@@ -126,6 +131,7 @@ $$
 
 $$
 
+
 ---
 
 ### 3.2 Chu trình huấn luyện
@@ -146,6 +152,7 @@ $$
 
 $$
 
+
 ---
 
 ### 3.3 Đánh giá định kỳ
@@ -158,6 +165,7 @@ t=k\times10,\quad k\in\mathbb{N}
 
 $$
 
+
 Độ chính xác:
 
 $$
@@ -165,6 +173,7 @@ $$
 Acc_t=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\hat y_i=y_i)
 
 $$
+
 
 ---
 
@@ -178,6 +187,7 @@ RAM_{total}=RAM_A+RAM_E+RAM_B+RAM_D
 
 $$
 
+
 Trong đó:
 
 * $RAM_D$: dữ liệu
@@ -189,6 +199,7 @@ $$
 RAM_{total}<RAM_{GPU}
 
 $$
+
 
 ---
 
@@ -204,6 +215,7 @@ L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
 
 $$
 
+
 ---
 
 ### 4.2 Hàm đánh giá gián tiếp
@@ -216,6 +228,7 @@ Q=\mathbb{E}[Acc]
 
 $$
 
+
 Nếu:
 
 $$
@@ -223,6 +236,7 @@ $$
 Q>0.9
 
 $$
+
 
 ⇒ mô hình sinh thể hiện rõ phong cách.
 
@@ -236,6 +250,7 @@ Corr(L_{gen},Acc)<0
 
 $$
 
+
 ⇒ loss giảm thì accuracy tăng.
 
 Tuy nhiên:
@@ -245,6 +260,7 @@ $$
 L_{gen}\to0\Rightarrow Overfitting
 
 $$
+
 
 ---
 
@@ -265,6 +281,7 @@ Acc(t)=\alpha\log(t)+\beta
 
 $$
 
+
 với $\alpha>0$.
 
 ---
@@ -278,6 +295,7 @@ $$
 L_{gen}(t)\downarrow
 
 $$
+
 
 nhưng không về 0.
 
@@ -295,6 +313,7 @@ T_{total}\approx4\text{-}5\ \text{phút}
 
 $$
 
+
 Tỷ lệ dành cho đánh giá:
 
 $$
@@ -302,6 +321,7 @@ $$
 \frac{T_{eval}}{T_{total}}\approx30%
 
 $$
+
 
 ---
 
@@ -323,6 +343,7 @@ Reliability\propto Acc_{cls}
 
 $$
 
+
 ---
 
 ### 6.2 Hạn chế
@@ -341,6 +362,7 @@ Acc_{cls}\not\Rightarrow Quality_{human}
 
 $$
 
+
 ---
 
 ### 6.3 Vấn đề AI Detector
@@ -352,6 +374,7 @@ $$
 P(error)>0.3
 
 $$
+
 
 ⇒ Có thể gây hiểu nhầm.
 
@@ -375,6 +398,7 @@ Acc>0.85
 
 $$
 
+
 ---
 
 ### 7.2 Hệ thống đa mô hình
@@ -387,6 +411,7 @@ Gen_1,Gen_2,\dots,Gen_n \xrightarrow{Eval} Classifier
 
 $$
 
+
 ---
 
 ### 7.3 Giám sát huấn luyện
@@ -398,6 +423,7 @@ $$
 Monitoring=(Loss,Acc,Time,RAM)
 
 $$
+
 
 ---
 

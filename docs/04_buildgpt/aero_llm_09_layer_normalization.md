@@ -48,6 +48,7 @@ A_k = s \cdot A_{k-1} B_k
 
 $$
 
+
 Trong đó $s$ là hệ số tỉ lệ.
 
 Thực nghiệm cho thấy:
@@ -81,6 +82,7 @@ X = (x_1, x_2, \dots, x_n)
 
 $$
 
+
 LayerNorm được định nghĩa như sau:
 
 $$
@@ -89,11 +91,13 @@ $$
 
 $$
 
+
 $$
 
 y_i = \gamma \hat{x}_i + \beta
 
 $$
+
 
 Trong đó:
 
@@ -112,6 +116,7 @@ $$
 \frac{x_i - \mu}{\sigma}
 
 $$
+
 
 chính là chuẩn hóa Z-score, giúp dữ liệu có:
 
@@ -197,6 +202,7 @@ $$
 
 $$
 
+
 Kết quả:
 
 * Mean ≈ 5,
@@ -241,6 +247,7 @@ $$
 \text{Output} = \text{LayerNorm}(X + \text{Sublayer}(X))
 
 $$
+
 
 LayerNorm giúp:
 
@@ -367,6 +374,7 @@ A_{ij} \sim \mathcal{N}(0, 1)
 
 $$
 
+
 Kích thước tiêu chuẩn:
 
 $$
@@ -375,6 +383,7 @@ A \in \mathbb{R}^{m \times n}, \quad m = 30, n = 30
 
 $$
 
+
 và trong một số thí nghiệm:
 
 $$
@@ -382,6 +391,7 @@ $$
 A \in \mathbb{R}^{3 \times 10}
 
 $$
+
 
 để thuận tiện cho việc phân tích trực quan.
 
@@ -414,6 +424,7 @@ A_k = s \cdot A_{k-1} B_k
 
 $$
 
+
 3. Với hệ số tỉ lệ:
 
 $$
@@ -421,6 +432,7 @@ $$
 s \in {0.5, 1.0, 1.5, 2.0}
 
 $$
+
 
 4. Lặp lại 20–50 lần.
 5. Tính chuẩn Frobenius:
@@ -430,6 +442,7 @@ $$
 |A_k|*F = \sqrt{\sum*{i,j} a_{ij}^2}
 
 $$
+
 
 6. Ghi nhận sự thay đổi theo thời gian.
 
@@ -459,6 +472,7 @@ $$
 Y = \text{LayerNorm}(X)
 
 $$
+
 
 3. Tính toán:
 
@@ -506,6 +520,7 @@ $$
 
 $$
 
+
 3. Áp dụng chuẩn hóa lại.
 4. Đo mean và std của đầu ra.
 
@@ -523,6 +538,7 @@ $$
 
 $$
 
+
 Dùng để kiểm tra khả năng trung tâm hóa dữ liệu.
 
 ### 3.5.2. Standard Deviation
@@ -532,6 +548,7 @@ $$
 \sigma = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2}
 
 $$
+
 
 Dùng để đánh giá mức độ phân tán.
 
@@ -543,6 +560,7 @@ r = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
 
 $$
 
+
 Được sử dụng để đo mức độ bảo toàn cấu trúc dữ liệu.
 
 ### 3.5.4. Matrix Norm
@@ -552,6 +570,7 @@ $$
 |A|_F
 
 $$
+
 
 Dùng để đánh giá độ ổn định số học.
 
@@ -700,6 +719,7 @@ $$
 \gamma = 3, \quad \beta = 5
 
 $$
+
 
 kết quả đầu ra đạt được:
 

@@ -129,6 +129,7 @@ L_{final} \propto \frac{1}{r}
 
 $$
 
+
 Trong đó $L_{final}$ là loss cuối cùng.
 
 **Nhận xét:**
@@ -145,6 +146,7 @@ $$
 \text{Time} \propto \frac{1}{\text{Batch Size}}
 
 $$
+
 
 **Nhận xét:**
 - Batch size lớn hơn → Thời gian huấn luyện ngắn hơn

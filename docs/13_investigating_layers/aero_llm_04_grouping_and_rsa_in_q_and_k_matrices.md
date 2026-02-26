@@ -44,6 +44,7 @@ $$
 
 $$
 
+
 Thông qua thuật toán Matrix Mask, ta áp cho cụm nhóm Vũ trụ, Nội thất, Trái cây để tính tổng điểm. Kết quả cho điểm số $> 1.0$ là một bằng chứng rõ nét của hiệu ứng nơ-ron phân nhóm đặc trưng.
 
 ### 2.3. Phân Tích Tương Đồng Biểu Diễn (RSA - Representational Similarity Analysis)

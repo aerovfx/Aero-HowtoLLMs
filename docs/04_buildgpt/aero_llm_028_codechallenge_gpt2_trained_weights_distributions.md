@@ -53,6 +53,7 @@ Attention(Q,K,V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
 
+
 Trong đó:
 
 * (Q, K, V) là các ma trận truy vấn, khóa và giá trị.
@@ -68,11 +69,13 @@ head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)
 
 $$
 
+
 $$
 
 MultiHead = Concat(head_1,...,head_h)W^O
 
 $$
+
 
 Cách tiếp cận này cho phép mô hình học đồng thời nhiều mối quan hệ ngữ cảnh khác nhau.
 
@@ -85,6 +88,7 @@ $$
 C_{attn} \in \mathbb{R}^{d \times 3d}
 
 $$
+
 
 Giúp giảm chi phí bộ nhớ và tăng tốc truy xuất.
 

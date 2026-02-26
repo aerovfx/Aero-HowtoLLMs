@@ -51,6 +51,7 @@ X=(x_1,x_2,\dots,x_n)
 
 $$
 
+
 Biểu diễn ẩn tại vị trí $i$:
 
 $$
@@ -58,6 +59,7 @@ $$
 h_i = f(x_1,\dots,x_n;\theta)
 
 $$
+
 
 Trong đó $\theta$ là tập tham số mô hình.
 
@@ -73,6 +75,7 @@ h_{CLS}\in\mathbb{R}^d
 
 $$
 
+
 được dùng cho phân loại:
 
 $$
@@ -81,11 +84,13 @@ z = W h_{CLS} + b
 
 $$
 
+
 $$
 
 \hat{y}=\text{softmax}(z)
 
 $$
+
 
 Trong đó (W,b) là tham số của tầng phân loại.
 
@@ -99,12 +104,12 @@ $$
 
 \mathcal{L}
 ===========
-
 -\frac{1}{N}\sum_{i=1}^{N}
 \sum_{c=1}^{2}
 y_{ic}\log(\hat{y}_{ic})
 
 $$
+
 
 Mục tiêu:
 
@@ -113,6 +118,7 @@ $$
 \theta^*=\arg\min_\theta \mathcal{L}(\theta)
 
 $$
+
 
 ---
 
@@ -129,6 +135,7 @@ $$
 \mathcal{D}={(x_i,y_i)}_{i=1}^{N}
 
 $$
+
 
 Trong đó:
 
@@ -155,6 +162,7 @@ M = N\times L
 
 $$
 
+
 với $L=256$.
 
 ---
@@ -175,10 +183,10 @@ $$
 
 \theta_{t+1}
 ============
-
 \theta_t-\eta\nabla_\theta\mathcal{L}_t
 
 $$
+
 
 ---
 
@@ -198,6 +206,7 @@ y=(\underbrace{0,\dots,0}*{32},
 
 $$
 
+
 ---
 
 ## 4. Phương pháp làm mượt trung bình (Mean Smoothing)
@@ -212,17 +221,18 @@ x=(x_1,x_2,\dots,x_n)
 
 $$
 
+
 Với cửa sổ kích thước $k$, giá trị làm mượt:
 
 $$
 
 y_i
 ===
-
 \frac{1}{k}
 \sum_{j=i-w}^{i+w} x_j
 
 $$
+
 
 với:
 
@@ -231,6 +241,7 @@ $$
 w=\frac{k-1}{2}
 
 $$
+
 
 ---
 
@@ -254,6 +265,7 @@ i<w \quad \text{hoặc} \quad i>n-w
 
 $$
 
+
 sẽ xuất hiện sai lệch:
 
 $$
@@ -261,6 +273,7 @@ $$
 y_i \approx \frac{1}{m}\sum x_j,\quad m<k
 
 $$
+
 
 Gây ra hiện tượng “edge effect”.
 
@@ -274,11 +287,11 @@ $$
 
 \text{Acc}
 ==========
-
 \frac{1}{N}
 \sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
 
 $$
+
 
 Theo tài liệu , độ chính xác đạt mức cao chỉ sau vài chục epoch.
 
@@ -291,12 +304,11 @@ Quá trình huấn luyện cho thấy:
 $$
 
 \mathcal{L}_{initial}
-
 >
-
 \mathcal{L}_{final}
 
 $$
+
 
 ⇒ mô hình hội tụ.
 
@@ -328,6 +340,7 @@ $$
 
 $$
 
+
 Cho thấy xu hướng học ổn định.
 
 Biểu đồ hai trục (loss–accuracy) giúp trực quan hóa quá trình hội tụ.
@@ -346,6 +359,7 @@ $$
 
 $$
 
+
 ⇒ hạn chế phá vỡ tri thức tiền huấn luyện.
 
 ---
@@ -360,6 +374,7 @@ S = P(\text{Alice}|\text{text})
 
 $$
 
+
 hoặc
 
 $$
@@ -367,6 +382,7 @@ $$
 P(\text{Edgar}|\text{text})
 
 $$
+
 
 Từ đó đánh giá mô hình sinh văn bản theo phong cách.
 

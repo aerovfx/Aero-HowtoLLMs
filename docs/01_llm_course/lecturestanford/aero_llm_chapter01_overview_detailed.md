@@ -98,7 +98,14 @@ Feed-Forward (MLP)    │
     ↓                 │
 Add & Norm ←──────────┘ (Residual Connection)
     ↓
-[Repeat N times]
+
+$$
+
+Repeat N times
+
+$$
+
+
     ↓
 Output Layer
 ```
@@ -208,7 +215,14 @@ Embedding
 │ Aggregation         │
 └─────────────────────┘
   ↓
-[Repeat 120 layers]
+
+$$
+
+Repeat 120 layers
+
+$$
+
+
   ↓
 Output
 ```

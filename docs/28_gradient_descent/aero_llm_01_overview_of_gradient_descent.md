@@ -48,6 +48,7 @@ W_{mới} = W_{cũ} - \eta \cdot \frac{df}{dw}
 
 $$
 
+
 Trong đó:
 - **$\frac{df}{dw}$**: Đạo hàm của hàm mất mát tại vị trí hiện tại.
 - **$\eta$ (Learning Rate):** Một hệ số nhỏ (ví dụ 0.01) dùng để kiểm soát kích thước bước đi. Nếu bước đi quá lớn, bạn có thể nhảy qua khỏi thung lũng; nếu quá nhỏ, quá trình học sẽ diễn ra cực kỳ chậm chạp.

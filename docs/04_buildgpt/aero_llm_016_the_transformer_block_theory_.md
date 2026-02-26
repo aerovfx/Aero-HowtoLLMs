@@ -73,6 +73,7 @@ X_{out} = X_{in} + f(\text{LN}(X_{in}))
 
 $$
 
+
 Cấu trúc này giúp:
 
 - Ổn định gradient,
@@ -118,6 +119,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 - Query đại diện cho token đang xét,
@@ -152,6 +154,7 @@ $$
 
 $$
 
+
 Trong đó:
 
 - $W_1$: mở rộng chiều,
@@ -169,6 +172,7 @@ $$
 d_{ff} \approx 4d_{model}
 
 $$
+
 
 Ví dụ trong GPT-2:
 
@@ -203,6 +207,7 @@ y_i = \text{MLP}(x_i)
 
 $$
 
+
 Do đó, MLP đóng vai trò biến đổi đặc trưng cục bộ.
 
 ---
@@ -229,11 +234,13 @@ X' = X + \text{Attn}(\text{LN}(X))
 
 $$
 
+
 $$
 
 Y = X' + \text{MLP}(\text{LN}(X'))
 
 $$
+
 
 ---
 
@@ -408,6 +415,7 @@ O(T^2 d)
 
 $$
 
+
 với $T$ là độ dài chuỗi và $d$ là embedding dimension. Khi huấn luyện LLM với context lớn (32k–100k+ tokens), chi phí này trở thành rào cản chính.
 
 FlashAttention được đề xuất nhằm:
@@ -432,11 +440,13 @@ H = X + \text{Attn}(\text{LN}(X))
 
 $$
 
+
 $$
 
 Y = H + \text{MLP}(\text{LN}(H))
 
 $$
+
 
 Trong đó:
 
@@ -461,6 +471,7 @@ $$
 O(T^2)
 
 $$
+
 
 Điều này hạn chế batch size và context length.
 
@@ -489,11 +500,13 @@ Q = [Q_1, Q_2, \dots, Q_n]
 
 $$
 
+
 $$
 
 K = [K_1, K_2, \dots, K_n]
 
 $$
+
 
 Attention được tính theo từng block nhỏ.
 
@@ -509,17 +522,20 @@ m_i = \max(m_{i-1}, s_i)
 
 $$
 
+
 $$
 
 l_i = l_{i-1} e^{m_{i-1}-m_i} + e^{s_i-m_i}
 
 $$
 
+
 $$
 
 o_i = o_{i-1} e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
 
 $$
+
 
 Giúp:
 
@@ -580,6 +596,7 @@ $$
 
 $$
 
+
 Toán học không đổi, chỉ thay đổi cách triển khai.
 
 ---
@@ -593,6 +610,7 @@ $$
 j > i \Rightarrow \text{masked}
 
 $$
+
 
 FlashAttention tích hợp mask trực tiếp trong kernel, không tạo mask matrix.
 
@@ -920,6 +938,7 @@ $$
 
 $$
 
+
 Giúp ổn định gradient trong huấn luyện sâu.
 
 ---
@@ -931,6 +950,7 @@ $$
 Q,K,V = XW_Q, XW_K, XW_V
 
 $$
+
 
 Được hợp nhất thành một kernel duy nhất để giảm memory access.
 
@@ -954,6 +974,7 @@ $$
 \text{FFN}(x) = W_2(\text{SiLU}(W_1x) \odot W_3x)
 
 $$
+
 
 Tăng biểu diễn phi tuyến.
 
