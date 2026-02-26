@@ -62,7 +62,7 @@ Result: "The cat sat on the mat"
 
 **GPT-4 Tokenizer:**
 - Vocab size: ~100K tokens
-- Ave18_rage: 1 token ≈ 0.75 words
+- Average: 1 token ≈ 0.75 words
 - Handles 100+ languages
 
 **Common Issues:**

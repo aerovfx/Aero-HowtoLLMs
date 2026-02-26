@@ -32,7 +32,7 @@ Nhiệm vụ của bài thí nghiệm là phải Cắt Bỏ Mỡ Thừa (Data Co
 ### 2.1. Giải Thuật Hai Giai Đoạn (Two-stage Separation Procedure)
 Khi $\text{Rank} \ll \text{Size}$, Phép Tính Eigendecomposition trở nên bất ổn tột độ. Ta thi hành "PCA lọc Nền":
 1. Trích xuất Activations kích thước `[N_Mẫu_câu, 3072_Neurons]`. 
-2. Chạy **PCA** trên Ma Trận Trung Bình (Ave18_rage Covariance Matrix) của cả Hai Dữ Kho (Cả HIM và HER gộp chung). Tại sao? Để PCA đi lùng sục **"Toàn bộ vùng không gian chung mà Cả hai đối tượng này cùng kích hoạt"**, lọc lấy các Phân mảnh Chính mang tính sống còn.
+2. Chạy **PCA** trên Ma Trận Trung Bình (Average Covariance Matrix) của cả Hai Dữ Kho (Cả HIM và HER gộp chung). Tại sao? Để PCA đi lùng sục **"Toàn bộ vùng không gian chung mà Cả hai đối tượng này cùng kích hoạt"**, lọc lấy các Phân mảnh Chính mang tính sống còn.
 3. Cắt Lát (Scree Plot Cut-off): Chỉ giữ lại các PC gộp đủ $99\%$ lượng Variance (Lệch chuẩn) cùa toàn đồ thị. Ví dụ ở đây ta thu về Nhóm Tinh Túy $63$ Mạch $PC$.
 4. **Chiếu Rút Chiều:** Phóng (Project) khối Dữ liệu Gốc lên không gian 63 chiều mới này để "Xóa sổ 3000 chiều Rác".
 

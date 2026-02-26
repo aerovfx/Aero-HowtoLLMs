@@ -304,7 +304,7 @@ GPU 0: Batch 0 → Forward → Backward → Grad₀
 GPU 1: Batch 1 → Forward → Backward → Grad₁
 GPU 2: Batch 2 → Forward → Backward → Grad₂
   ↓
-All-Reduce (Ave18_rage gradients)
+All-Reduce (Average gradients)
   ↓
 Update weights (synchronized)
 ```

@@ -51,13 +51,21 @@ Bài viết này nhằm:
 
 Một Transformer Block dạng Pre-LayerNorm gồm hai sublayer:
 
-\[
-Y_1 = X + \text{Attention}(\text{LN}(X))
-\]
 
-\[
+$$
+
+Y_1 = X + \text{Attention}(\text{LN}(X))
+
+$$
+
+
+
+$$
+
 Y_2 = Y_1 + \text{MLP}(\text{LN}(Y_1))
-\]
+
+$$
+
 
 Trong đó:
 
@@ -139,23 +147,35 @@ X → LN → Attention → +X
 
 MLP gồm ba bước:
 
-\[
+
+$$
+
 H = \text{LN}(Y_1)
-\]
 
-\[
+$$
+
+
+
+$$
+
 Z = W_2(\sigma(W_1 H))
-\]
 
-\[
+$$
+
+
+
+$$
+
 Y_2 = Y_1 + Z
-\]
+
+$$
+
 
 Trong đó:
 
-- \(W_1\): mở rộng chiều,
-- \(\sigma\): phi tuyến,
-- \(W_2\): thu hẹp chiều.
+- $W_1$: mở rộng chiều,
+- $\sigma$: phi tuyến,
+- $W_2$: thu hẹp chiều.
 
 :contentReference[oaicite:4]{index=4}
 

@@ -34,7 +34,7 @@ Những biểu tượng trông rất bình thường thường bị cấu thành
 ## 2. Tính Toán Nhúng Emojis Và Quá Trình Hợp Nhất (Mean Pooling)
 
 Vì một Emoji (giả sử Cười) bị cắt rách thành tổ hợp $K$ tokens $\left[ t_1, t_2, ..., t_K \right]$, chúng ta sẽ thu về một tập hợp các ma trận nhúng $\vec{e}_1, \vec{e}_2, ..., \vec{e}_K$.
-Để có được một đại lượng Embeddings duy nhất $\vec{E}_{\text{emoji}}$ nhằm tính toán khoảng cách vector từ hoặc tương quan góc (Cosine Similarity), phương án nền móng là tính Trung bình cộng vector (Vector Ave18_rage / Mean Pooling):
+Để có được một đại lượng Embeddings duy nhất $\vec{E}_{\text{emoji}}$ nhằm tính toán khoảng cách vector từ hoặc tương quan góc (Cosine Similarity), phương án nền móng là tính Trung bình cộng vector (Vector Average / Mean Pooling):
 
 $$
 \vec{E}_{\text{emoji}} = \frac{1}{K} \sum_{i=1}^{K} \vec{e}_i

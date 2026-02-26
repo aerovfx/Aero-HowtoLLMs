@@ -43,16 +43,20 @@ Mục tiêu của bài báo này là:
 
 Cơ chế attention tiêu chuẩn được định nghĩa:
 
-\[
+
+$$
+
 \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-\]
+
+$$
+
 
 trong đó:
 
-- \(Q\): Query matrix  
-- \(K\): Key matrix  
-- \(V\): Value matrix  
-- \(d\): số chiều ẩn  
+- $Q$: Query matrix  
+- $K$: Key matrix  
+- $V$: Value matrix  
+- $d$: số chiều ẩn  
 
 Kết quả attention là tổ hợp tuyến tính của các vector giá trị dựa trên mức độ liên quan.
 
@@ -60,17 +64,25 @@ Kết quả attention là tổ hợp tuyến tính của các vector giá trị 
 
 ### 2.2. Biểu diễn Nhân quả Thời gian
 
-Trong dự đoán chuỗi, tại thời điểm \(t\), mô hình chỉ được phép sử dụng thông tin từ:
+Trong dự đoán chuỗi, tại thời điểm $t$, mô hình chỉ được phép sử dụng thông tin từ:
 
-\[
+
+$$
+
 \{1,2,...,t\}
-\]
+
+$$
+
 
 và không được truy cập:
 
-\[
+
+$$
+
 \{t+1, t+2, ...\}
-\]
+
+$$
+
 
 Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và không thể được biết trước.
 
@@ -80,14 +92,18 @@ Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và
 
 Một cách trực quan, sự tích hợp thông tin quá khứ có thể biểu diễn bằng vector:
 
-\[
+
+$$
+
 a = (a_1, a_2, ..., a_T)
-\]
+
+$$
+
 
 với:
 
-- \(a_i > 0\) nếu \(i \leq t\),
-- \(a_i = 0\) nếu \(i > t\).
+- $a_i > 0$ nếu $i \leq t$,
+- $a_i = 0$ nếu $i > t$.
 
 Tuy nhiên, vector này chưa được chuẩn hóa và không phù hợp cho tính toán số học ổn định.
 
@@ -99,15 +115,23 @@ Tuy nhiên, vector này chưa được chuẩn hóa và không phù hợp cho t�
 
 Softmax được định nghĩa:
 
-\[
+
+$$
+
 \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}
-\]
+
+$$
+
 
 Nếu một phần tử có giá trị bằng 0:
 
-\[
+
+$$
+
 e^0 = 1 \neq 0
-\]
+
+$$
+
 
 Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suất bằng 0 sau softmax.
 
@@ -117,21 +141,33 @@ Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suấ
 
 Theo tài liệu tham khảo :contentReference[oaicite:2]{index=2}, để đảm bảo xác suất bằng 0, ta đặt:
 
-\[
+
+$$
+
 x_i = -\infty \quad \text{với } i > t
-\]
+
+$$
+
 
 vì:
 
-\[
+
+$$
+
 \lim_{x \to -\infty} e^x = 0
-\]
+
+$$
+
 
 Do đó:
 
-\[
+
+$$
+
 \text{softmax}(-\infty) = 0
-\]
+
+$$
+
 
 Giải pháp này đảm bảo tương lai hoàn toàn bị loại bỏ.
 
@@ -154,19 +190,27 @@ Cách tiếp cận này mang lại:
 
 Thay vì vector riêng lẻ, causal attention được biểu diễn bằng ma trận:
 
-\[
+
+$$
+
 M \in \mathbb{R}^{T \times T}
-\]
+
+$$
+
 
 với:
 
-\[
+
+$$
+
 M_{ij} =
 \begin{cases}
 0 & \text{nếu } j \le i \\
 -\infty & \text{nếu } j > i
 \end{cases}
-\]
+
+$$
+
 
 Ma trận này có dạng tam giác dưới.
 
@@ -176,16 +220,20 @@ Ma trận này có dạng tam giác dưới.
 
 Công thức attention mở rộng:
 
-\[
+
+$$
+
 \text{Attention}(Q,K,V)
 =
 \text{softmax}
 \left(
 \frac{QK^T}{\sqrt{d}} + M
 \right)V
-\]
 
-Trong đó \(M\) đóng vai trò loại bỏ tương tác với tương lai.
+$$
+
+
+Trong đó $M$ đóng vai trò loại bỏ tương tác với tương lai.
 
 ---
 
@@ -193,9 +241,13 @@ Trong đó \(M\) đóng vai trò loại bỏ tương tác với tương lai.
 
 Việc softmax được áp dụng theo từng hàng:
 
-\[
+
+$$
+
 \text{softmax}(M_i)
-\]
+
+$$
+
 
 đảm bảo mỗi token chỉ quan tâm đến quá khứ của chính nó.
 
@@ -388,7 +440,7 @@ Trình bày theo phong cách học thuật và dễ tái lập.
 
 ## B.1. Tổng quan
 
-Trong mô hình Transformer dạng autoregressive, causal mask được sử dụng để đảm bảo rằng tại thời điểm \( t \), mô hình chỉ truy cập được các token trong quá khứ và hiện tại, không truy cập được token trong tương lai.
+Trong mô hình Transformer dạng autoregressive, causal mask được sử dụng để đảm bảo rằng tại thời điểm $t$, mô hình chỉ truy cập được các token trong quá khứ và hiện tại, không truy cập được token trong tương lai.
 
 Phần này trình bày:
 
@@ -404,11 +456,11 @@ Phần này trình bày:
 
 **Input:**
 
-- Độ dài chuỗi: \( T \)
+- Độ dài chuỗi: $T$
 
 **Output:**
 
-- Ma trận mask: \( M \in \mathbb{R}^{T \times T} \)
+- Ma trận mask: $M \in \mathbb{R}^{T \times T}$
 
 ---
 

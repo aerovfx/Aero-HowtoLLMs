@@ -24,22 +24,34 @@ Trong nghiên cứu xử lý ngôn ngữ tự nhiên (NLP), các mô hình embed
 
 ## 1. Giới thiệu
 
-Word embedding ánh xạ mỗi từ \( w \) vào một vector \( \mathbf{v}_w \in \mathbb{R}^d \), trong đó:
+Word embedding ánh xạ mỗi từ $w$ vào một vector $\mathbf{v}_w \in \mathbb{R}^d$, trong đó:
 
-\[
+
+$$
+
 f: w \rightarrow \mathbf{v}_w
-\]
 
-với \( d \) là số chiều của không gian nhúng.
+$$
+
+
+với $d$ là số chiều của không gian nhúng.
 
 Khi hai mô hình embedding được huấn luyện trên hai tập dữ liệu khác nhau (ví dụ: văn bản bách khoa và tweet ngắn), ta có:
 
-\[
+
+$$
+
 f_{wiki}(w) = \mathbf{v}_w^{(wiki)}
-\]
-\[
+
+$$
+
+
+$$
+
 f_{twitter}(w) = \mathbf{v}_w^{(twitter)}
-\]
+
+$$
+
 
 Do khác biệt về miền dữ liệu và phân bố ngôn ngữ, các vector thu được không thể so sánh trực tiếp từng chiều.
 
@@ -47,28 +59,40 @@ Do khác biệt về miền dữ liệu và phân bố ngôn ngữ, các vector 
 
 ## 2. Độ tương đồng Cosine
 
-Để đo mức độ tương đồng giữa hai từ \( w_i \) và \( w_j \) trong cùng một mô hình, ta sử dụng **cosine similarity**:
+Để đo mức độ tương đồng giữa hai từ $w_i$ và $w_j$ trong cùng một mô hình, ta sử dụng **cosine similarity**:
 
-\[
+
+$$
+
 \text{cosine}(\mathbf{v}_i, \mathbf{v}_j) = 
 \frac{\mathbf{v}_i \cdot \mathbf{v}_j}
 {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
-\]
+
+$$
+
 
 Trong đó:
 
-- \( \mathbf{v}_i \cdot \mathbf{v}_j \) là tích vô hướng.
-- \( \|\mathbf{v}_i\| \) là chuẩn Euclid:
+- $\mathbf{v}_i \cdot \mathbf{v}_j$ là tích vô hướng.
+- $\|\mathbf{v}_i\|$ là chuẩn Euclid:
 
-\[
+
+$$
+
 \|\mathbf{v}_i\| = \sqrt{\sum_{k=1}^{d} v_{ik}^2}
-\]
+
+$$
+
 
 Cosine similarity nằm trong khoảng:
 
-\[
+
+$$
+
 -1 \leq \text{cosine} \leq 1
-\]
+
+$$
+
 
 Quan sát thực nghiệm cho thấy trong một số cặp từ, embedding từ Twitter cho giá trị cosine cao hơn so với embedding từ Wikipedia, phản ánh tính ngữ cảnh gần gũi hơn trong văn bản mạng xã hội.
 
@@ -78,9 +102,13 @@ Quan sát thực nghiệm cho thấy trong một số cặp từ, embedding từ
 
 Mặc dù có thể so sánh cosine similarity trong *cùng một mô hình*, ta không thể so sánh trực tiếp:
 
-\[
+
+$$
+
 \mathbf{v}_w^{(wiki)} \neq \mathbf{v}_w^{(twitter)}
-\]
+
+$$
+
 
 Lý do:
 
@@ -88,11 +116,15 @@ Lý do:
 2. Trục tọa độ không đồng nhất.
 3. Phép quay (rotation) của không gian không làm thay đổi khoảng cách nội tại nhưng làm thay đổi tọa độ tuyệt đối.
 
-Giả sử tồn tại một ma trận quay trực giao \( \mathbf{R} \):
+Giả sử tồn tại một ma trận quay trực giao $\mathbf{R}$:
 
-\[
+
+$$
+
 \mathbf{v}_w^{(twitter)} \approx \mathbf{R} \mathbf{v}_w^{(wiki)}
-\]
+
+$$
+
 
 Khi đó, tọa độ khác nhau nhưng cấu trúc tương đối có thể vẫn được bảo toàn.
 
@@ -104,21 +136,29 @@ Khi đó, tọa độ khác nhau nhưng cấu trúc tương đối có thể v�
 
 RSA không so sánh vector trực tiếp, mà so sánh **ma trận tương đồng nội bộ** giữa các từ trong từng mô hình.
 
-Giả sử ta có tập \( n \) từ trong câu:
+Giả sử ta có tập $n$ từ trong câu:
 
 > “The quick brown fox jumps over the lazy dog”
 
-Ta xây dựng ma trận tương đồng \( S \in \mathbb{R}^{n \times n} \):
+Ta xây dựng ma trận tương đồng $S \in \mathbb{R}^{n \times n}$:
 
-\[
+
+$$
+
 S_{ij} = \text{cosine}(\mathbf{v}_i, \mathbf{v}_j)
-\]
+
+$$
+
 
 Ta có:
 
-\[
+
+$$
+
 S^{(wiki)} \quad \text{và} \quad S^{(twitter)}
-\]
+
+$$
+
 
 ---
 
@@ -126,23 +166,31 @@ S^{(wiki)} \quad \text{và} \quad S^{(twitter)}
 
 Ta vector hóa phần tam giác trên (không tính đường chéo):
 
-\[
+
+$$
+
 \mathbf{s}^{(wiki)}, \quad \mathbf{s}^{(twitter)}
-\]
+
+$$
+
 
 Sau đó tính hệ số tương quan Pearson:
 
-\[
+
+$$
+
 r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}
 {\sqrt{\sum (x_i - \bar{x})^2}
 \sqrt{\sum (y_i - \bar{y})^2}}
-\]
+
+$$
+
 
 Nếu:
 
-- \( r \approx 1 \): Hai không gian có cấu trúc quan hệ tương đồng cao.
-- \( r \approx 0 \): Cấu trúc khác biệt.
-- \( r < 0 \): Quan hệ nghịch đảo.
+- $r \approx 1$: Hai không gian có cấu trúc quan hệ tương đồng cao.
+- $r \approx 0$: Cấu trúc khác biệt.
+- $r < 0$: Quan hệ nghịch đảo.
 
 ---
 
@@ -150,14 +198,22 @@ Nếu:
 
 ### Bước 1: Lấy chỉ số từ (word indices)
 
-Với mỗi từ \( w \) trong câu:
+Với mỗi từ $w$ trong câu:
 
-\[
+
+$$
+
 \text{index}_{wiki}(w)
-\]
-\[
+
+$$
+
+
+$$
+
 \text{index}_{twitter}(w)
-\]
+
+$$
+
 
 Lưu ý: Một số từ có thể không xuất hiện (ví dụ: chữ hoa “The”).
 
@@ -165,30 +221,46 @@ Lưu ý: Một số từ có thể không xuất hiện (ví dụ: chữ hoa “
 
 ### Bước 2: Trích xuất embedding
 
-\[
+
+$$
+
 \mathbf{v}_w^{(wiki)} = E^{(wiki)}[\text{index}(w)]
-\]
-\[
+
+$$
+
+
+$$
+
 \mathbf{v}_w^{(twitter)} = E^{(twitter)}[\text{index}(w)]
-\]
+
+$$
+
 
 ---
 
 ### Bước 3: Tính ma trận tương đồng
 
-\[
+
+$$
+
 S^{(model)}_{ij} =
 \frac{\mathbf{v}_i \cdot \mathbf{v}_j}
 {\|\mathbf{v}_i\| \|\mathbf{v}_j\|}
-\]
+
+$$
+
 
 ---
 
 ### Bước 4: Tính tương quan giữa hai ma trận
 
-\[
+
+$$
+
 \text{RSA score} = \text{corr}(\mathbf{s}^{(wiki)}, \mathbf{s}^{(twitter)})
-\]
+
+$$
+
 
 ---
 
@@ -225,9 +297,13 @@ So sánh embedding giữa Wikipedia và Twitter không thể thực hiện bằn
 
 Về mặt toán học:
 
-\[
+
+$$
+
 \text{So sánh trực tiếp vector} \neq \text{So sánh cấu trúc quan hệ}
-\]
+
+$$
+
 
 RSA cung cấp một khung lý thuyết mạnh mẽ để nghiên cứu tính ổn định và khả năng chuyển giao của biểu diễn học sâu trong NLP.
 

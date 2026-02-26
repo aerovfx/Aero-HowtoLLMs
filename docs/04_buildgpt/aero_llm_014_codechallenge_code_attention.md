@@ -48,19 +48,23 @@ Mục tiêu của nghiên cứu này là phân tích quá trình trên dưới g
 
 Scaled Dot-Product Attention được định nghĩa:
 
-\[
+
+$$
+
 \text{Attention}(Q,K,V) =
 \text{softmax}\left(
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
-\]
+
+$$
+
 
 Trong đó:
 
-- \(Q \in \mathbb{R}^{T \times d}\): Query,
-- \(K \in \mathbb{R}^{T \times d}\): Key,
-- \(V \in \mathbb{R}^{T \times d}\): Value,
-- \(d_k\): số chiều của vector Key.
+- $Q \in \mathbb{R}^{T \times d}$: Query,
+- $K \in \mathbb{R}^{T \times d}$: Key,
+- $V \in \mathbb{R}^{T \times d}$: Value,
+- $d_k$: số chiều của vector Key.
 
 Công thức này cho phép mô hình tính toán mức độ liên quan giữa các token. :contentReference[oaicite:1]{index=1}
 
@@ -70,9 +74,13 @@ Công thức này cho phép mô hình tính toán mức độ liên quan giữa 
 
 Đối với mô hình tự hồi quy, attention cần tuân thủ ràng buộc nhân quả:
 
-\[
+
+$$
+
 j > i \Rightarrow \text{masked}
-\]
+
+$$
+
 
 Causal mask được áp dụng để ngăn mô hình truy cập token tương lai, đảm bảo tính hợp lệ khi sinh chuỗi.
 
@@ -80,7 +88,7 @@ Causal mask được áp dụng để ngăn mô hình truy cập token tương l
 
 ### 2.3. Vai trò của Chuẩn hóa
 
-Hệ số \( \frac{1}{\sqrt{d_k}} \) được sử dụng nhằm:
+Hệ số $\frac{1}{\sqrt{d_k}}$ được sử dụng nhằm:
 
 - Giảm độ lớn của tích vô hướng,
 - Tránh hiện tượng gradient quá lớn,
@@ -109,13 +117,17 @@ Token được sinh ngẫu nhiên và ánh xạ sang embedding thông qua ma tr�
 
 Ba ma trận Q, K, V được xây dựng bằng các lớp tuyến tính:
 
-\[
+
+$$
+
 Q = XW_Q,\quad
 K = XW_K,\quad
 V = XW_V
-\]
 
-với \(W_Q, W_K, W_V \in \mathbb{R}^{d \times d}\).
+$$
+
+
+với $W_Q, W_K, W_V \in \mathbb{R}^{d \times d}$.
 
 Cách tiếp cận này phản ánh đúng kiến trúc Transformer chuẩn. :contentReference[oaicite:4]{index=4}
 
@@ -125,8 +137,8 @@ Cách tiếp cận này phản ánh đúng kiến trúc Transformer chuẩn. :co
 
 Các bước triển khai thủ công gồm:
 
-1. Tính \(QK^T\),
-2. Chuẩn hóa theo \(\sqrt{d}\),
+1. Tính $QK^T$,
+2. Chuẩn hóa theo $\sqrt{d}$,
 3. Áp dụng causal mask,
 4. Softmax theo hàng,
 5. Nhân với V.
@@ -174,7 +186,7 @@ Ngoài ra, thử nghiệm sử dụng JIT compiler để biên dịch hàm atten
 Kết quả cho thấy:
 
 - Đầu ra của hai phương pháp gần như trùng khớp,
-- Sai khác ở mức \(10^{-8}\)–\(10^{-9}\),
+- Sai khác ở mức $10^{-8}$–$10^{-9}$,
 - `torch.allclose` xác nhận tương đương.
 
 Sai khác nhỏ xuất phát từ sai số làm tròn số học. :contentReference[oaicite:8]{index=8}
@@ -360,22 +372,30 @@ MHA là nền tảng cho các mô hình như BERT, GPT và LLaMA.
 
 Multi-Head Attention được định nghĩa:
 
-\[
+
+$$
+
 \text{MHA}(Q,K,V) =
 \text{Concat}(h_1,\dots,h_H)W_O
-\]
+
+$$
+
 
 với:
 
-\[
+
+$$
+
 h_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
-\]
+
+$$
+
 
 Trong đó:
 
-- \(H\): số head,
-- \(W_i^Q, W_i^K, W_i^V\): ma trận chiếu,
-- \(W_O\): ma trận đầu ra.
+- $H$: số head,
+- $W_i^Q, W_i^K, W_i^V$: ma trận chiếu,
+- $W_O$: ma trận đầu ra.
 
 Mỗi head học một không gian biểu diễn riêng biệt.
 
@@ -383,17 +403,25 @@ Mỗi head học một không gian biểu diễn riêng biệt.
 
 ### 2.2. Phân rã Không gian Đặc trưng
 
-Với embedding dimension \(d\):
+Với embedding dimension $d$:
 
-\[
+
+$$
+
 d_{head} = \frac{d}{H}
-\]
+
+$$
+
 
 Mỗi head xử lý tensor kích thước:
 
-\[
+
+$$
+
 (T, d_{head})
-\]
+
+$$
+
 
 Cách chia này giúp:
 
@@ -406,13 +434,17 @@ Cách chia này giúp:
 
 Trong mô hình tự hồi quy, mỗi head đều áp dụng causal mask:
 
-\[
+
+$$
+
 M_{ij} =
 \begin{cases}
 0 & j \le i \\
 -\infty & j > i
 \end{cases}
-\]
+
+$$
+
 
 Mask này đảm bảo không rò rỉ thông tin tương lai.
 
