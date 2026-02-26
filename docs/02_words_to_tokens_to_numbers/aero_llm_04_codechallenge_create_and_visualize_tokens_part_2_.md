@@ -241,7 +241,7 @@ Quan sát thực nghiệm:
 GPT tối ưu:
 
 $$
-P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+P(x) = \prod_{t=1}^{T} P(x_t \mid  x_{<t})
 $$
 
 Logits:
@@ -253,7 +253,7 @@ $$
 Softmax:
 
 $$
-P(x_t | x_{<t})
+P(x_t \mid x_{<t})
 $$
 
 $$
