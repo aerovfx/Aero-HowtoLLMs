@@ -122,7 +122,9 @@ Phần tử:
 
 $$
 A_{ij}
-======
+$$
+
+$$
 P(\text{token } j \mid \text{token } i)
 $$
 
