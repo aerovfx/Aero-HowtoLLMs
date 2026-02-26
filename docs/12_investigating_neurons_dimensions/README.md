@@ -21,7 +21,6 @@
 [![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]() 
 [![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
-
 [Home]$../index.md$ > **12_investigating_neurons_dimensions**
 
 ---
@@ -66,16 +65,13 @@
 | Thử thách Lập trình: Điều chỉnh Phủ định trong Nơ-ron MLP (Phần 3) | [Xem bài viết →](aero_LLM_22_CodeChallenge Negation tuning in MLP neurons (part 3).md) |
 | Thử thách Lập trình: Điều chỉnh Phủ định trong Nơ-ron QVK (Attention) | [Xem bài viết →](aero_LLM_23_CodeChallenge Negation tuning in QVK neurons.md) |
 
-
 ---
 
 ## 🤝 Liên hệ & Đóng góp
 
 Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
 
-
 > *"Kiến thức là để chia sẻ. Hãy cùng nhau xây dựng cộng đồng AI vững mạnh!"* 🚀
-
 
 *Cập nhật tự động bởi Aero-Indexer - 2026*
 <!-- Aero-Footer-Start -->

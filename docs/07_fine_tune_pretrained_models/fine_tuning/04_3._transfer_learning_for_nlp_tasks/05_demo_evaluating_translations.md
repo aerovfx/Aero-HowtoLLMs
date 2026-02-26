@@ -83,11 +83,8 @@ ROUGE (Recall-Oriented Understudy for Gisting Evaluation) là một nhóm các c
 **ROUGE-N:**
 
 $$
-
 \text{ROUGE-N} = \frac{\sum_{s \in \text{Reference}} \sum_{\text{n-gram} \in s} \min(\text{Count}_{hypothesis}(n\text{-gram}), \text{Count}_{reference}(n\text{-gram}))}{\sum_{s \in \text{Reference}} \sum_{\text{n-gram} \in s} \text{Count}_{reference}(n\text{-gram})}
-
 $$
-
 
 ### 3.3 Triển Khai
 
@@ -116,11 +113,8 @@ BLEU (Bilingual Evaluation Understudy) đo lường sự tương đồng giữa 
 ### 4.2 Công Thức Toán Học
 
 $$
-
 \text{BLEU} = \text{BP} \cdot \exp\left(\sum_{n=1}^{N} w_n \log p_n\right)
-
 $$
-
 
 Trong đó:
 - $p_n$ là precision cho n-gram
@@ -130,11 +124,8 @@ Trong đó:
 **Brevity Penalty:**
 
 $$
-
 \text{BP} = \begin{cases} 1 & \text{nếu } c > r \\ e^{(1-r/c)} & \text{nếu } c \leq r \end{cases}
-
 $$
-
 
 ### 4.3 Triển Khai
 
@@ -202,18 +193,12 @@ print(f"BLEU: {bleu_score:.4f}")
 ### 6.1 So Sánh Precision và Recall
 
 $$
-
 \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
-
 $$
 
-
 $$
-
 \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
-
 $$
-
 
 Trong ngữ cảnh dịch thuật:
 - **Precision**: Tỷ lệ từ đúng trong hypothesis / tổng từ trong hypothesis

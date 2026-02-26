@@ -73,11 +73,8 @@ Trong mô hình truyền thống, ba ma trận trọng số riêng biệt đư�
 Nghiên cứu này sử dụng chiến lược gộp ba ma trận thành một ma trận duy nhất có kích thước:
 
 $$
-
 E \times 3E
-
 $$
-
 
 với $E$ là số chiều embedding.
 
@@ -86,7 +83,6 @@ Cách tiếp cận này giúp:
 * Giảm số phép toán cấp phát bộ nhớ
 * Tăng hiệu quả truyền dữ liệu
 * Đơn giản hóa cấu trúc mô hình
-
 
 ---
 
@@ -113,18 +109,12 @@ Mỗi khối Transformer bao gồm:
 Dạng tổng quát:
 
 $$
-
 X_{out} = X + \text{Attention}(\text{LN}(X))
-
 $$
 
-
 $$
-
 Y = X_{out} + \text{MLP}(\text{LN}(X_{out}))
-
 $$
-
 
 Cấu trúc này giúp ổn định quá trình huấn luyện và hạn chế hiện tượng gradient biến mất 
 
@@ -143,7 +133,6 @@ Thay vì ghi đè trực tiếp lên biến gốc, giúp:
 * Giảm lỗi logic
 * Tăng khả năng mở rộng mã nguồn
 
-
 ---
 
 ## 5. Mô hình ngôn ngữ hoàn chỉnh
@@ -159,7 +148,6 @@ Lớp embedding đầu vào và lớp unembedding đầu ra được chia sẻ t
 
 * Giảm số tham số
 * Cải thiện khả năng tổng quát hóa
-
 
 ---
 
@@ -203,7 +191,6 @@ Giải pháp:
 torch.arange(..., device=device)
 ```
 
-
 ---
 
 ## 7. Phân tích tham số mô hình
@@ -220,7 +207,6 @@ Kết quả ban đầu cho thấy mô hình có khoảng:
 
 * 163 triệu tham số
 
-
 ---
 
 ### 7.2. Hiệu chỉnh do Weight Tying
@@ -228,11 +214,8 @@ Kết quả ban đầu cho thấy mô hình có khoảng:
 Do embedding và unembedding dùng chung trọng số, số tham số thực tế được điều chỉnh:
 
 $$
-
 163M - 38M \approx 124M
-
 $$
-
 
 Do đó, mô hình có khoảng 124 triệu tham số huấn luyện thực sự 
 

@@ -46,31 +46,22 @@ Bài viết tập trung phân tích:
 Trong cơ chế self-attention, điểm tương đồng giữa Query và Key được tính bằng:
 
 $$
-
 A = QK^T
-
 $$
-
 
 Mỗi phần tử của $A$ là tích vô hướng của hai vector có chiều $d$.
 
 Nếu các phần tử của $Q$ và $K$ có phân phối chuẩn với phương sai bằng 1, thì phương sai của tích vô hướng xấp xỉ:
 
 $$
-
 Var(QK^T) \approx d
-
 $$
-
 
 Do đó, độ lệch chuẩn xấp xỉ:
 
 $$
-
 \sigma \approx \sqrt{d}
-
 $$
-
 
 ---
 
@@ -79,11 +70,8 @@ $$
 Hàm Softmax được định nghĩa:
 
 $$
-
 Softmax(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
-
 $$
-
 
 Khi $z_i$ lớn, hàm mũ làm cho một số phần tử chiếm ưu thế tuyệt đối, dẫn đến:
 
@@ -100,11 +88,8 @@ Theo tài liệu, đây là nguyên nhân chính khiến logits cần được k
 Để giảm phương sai của $QK^T$, Transformer áp dụng phép chia:
 
 $$
-
 A_{scaled} = \frac{QK^T}{\sqrt{d}}
-
 $$
-
 
 Phép scaling này đưa độ lệch chuẩn của ma trận attention về xấp xỉ 1, giúp Softmax hoạt động trong vùng ổn định. 
 
@@ -126,11 +111,8 @@ Các đại lượng được tính:
 Kết quả cho thấy:
 
 $$
-
 \sigma(QK^T) \approx \sqrt{50} \approx 7
-
 $$
-
 
 ---
 
@@ -245,11 +227,8 @@ Nó là thành phần không thể thiếu trong Transformer.
 Scaling trong attention có vai trò tương tự tham số temperature $T$:
 
 $$
-
 P_i = \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
-
 $$
-
 
 Cả hai đều điều chỉnh độ “sắc nét” của phân phối. 
 

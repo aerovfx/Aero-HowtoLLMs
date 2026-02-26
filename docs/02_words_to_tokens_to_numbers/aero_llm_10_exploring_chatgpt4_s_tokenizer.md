@@ -189,7 +189,6 @@ Character-level	Theo ký tự	Không OOV	Chuỗi dài
 BPE	Gộp cặp phổ biến	Cân bằng	Phụ thuộc corpus
 Unigram LM	Mô hình xác suất	Linh hoạt	Tính toán phức tạp
 
-
 ⸻
 
 8. Hạn chế và Thách thức

@@ -188,7 +188,6 @@ Sáng tạo	Trung bình	Cao
 Tính giải thích	Rõ ràng	Phân tán
 Độ phức tạp	O(1) sinh tên	O(m²) attention
 
-
 ⸻
 
 11. Thảo luận

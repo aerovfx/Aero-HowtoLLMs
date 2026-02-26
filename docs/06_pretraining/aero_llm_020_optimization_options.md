@@ -49,11 +49,8 @@ Tài liệu *Optimization Options* cung cấp một cái nhìn thực tiễn v�
 Tiền huấn luyện là quá trình huấn luyện mô hình trên tập dữ liệu lớn với mục tiêu dự đoán token tiếp theo:
 
 $$
-
 \mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
-
 $$
-
 
 Quá trình này yêu cầu:
 
@@ -66,11 +63,8 @@ Quá trình này yêu cầu:
 Chi phí huấn luyện Transformer tỷ lệ xấp xỉ:
 
 $$
-
 O(N \cdot L^2 \cdot d)
-
 $$
-
 
 Trong đó:
 
@@ -97,7 +91,6 @@ Tài liệu chỉ ra rằng GPU hoạt động hiệu quả nhất với kích t
 * Memory alignment,
 * Throughput.
 
-
 ---
 
 ### 3.2 Quản lý kiểu dữ liệu (Data Typing)
@@ -112,7 +105,6 @@ Việc sử dụng đúng kiểu dữ liệu giúp giảm chi phí bộ nhớ:
 * Tăng tốc truyền dữ liệu,
 * Giảm cache miss,
 * Tăng số batch trên GPU.
-
 
 ---
 
@@ -184,7 +176,6 @@ Bộ nhớ liên tục giúp:
 * Tăng tốc truy cập,
 * Tối ưu pipeline.
 
-
 ---
 
 ### 3.8 Hợp nhất thuật toán – phần cứng (Kernel Fusion)
@@ -200,7 +191,6 @@ Các kỹ thuật này giúp:
 * Giảm overhead,
 * Tối ưu băng thông,
 * Tăng FLOPS.
-
 
 ---
 
@@ -224,7 +214,6 @@ Tài liệu nhấn mạnh rằng:
 
 > Chỉ cần tiết kiệm một phần nhỏ giây cho mỗi iteration cũng có thể tiết kiệm hàng tuần huấn luyện.
 
-
 Giả sử:
 
 * 0.05s/iteration,
@@ -233,11 +222,8 @@ Giả sử:
 Tổng thời gian tiết kiệm:
 
 $$
-
 0.05 \times 10^9 = 5 \times 10^7 \text{ giây} \approx 580 \text{ ngày}
-
 $$
-
 
 ---
 
@@ -267,7 +253,6 @@ Tuy nhiên, tối ưu hóa vẫn cần thiết cho:
 * Nghiên cứu kiến trúc mới,
 * Mô hình ngôn ngữ nhỏ,
 * Hệ thống nội bộ.
-
 
 ---
 
@@ -322,7 +307,6 @@ Những chiến lược này là nền tảng cho việc xây dựng hệ thốn
 ## Tài liệu tham khảo (References)
 
 1. Optimization Options – Lecture Notes
-
 
 2. Vaswani, A. et al. (2017). Attention Is All You Need. NeurIPS.
 

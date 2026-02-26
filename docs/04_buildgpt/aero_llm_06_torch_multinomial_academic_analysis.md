@@ -179,11 +179,8 @@ next_token = torch.multinomial(probs, num_samples=1)
 Cho $K$ possible outcomes với probabilities $\mathbf{p} = [p_1, p_2, \ldots, p_K]$ where $\sum_{i=1}^K p_i = 1$:
 
 $$
-
 P(X_1=n_1, X_2=n_2, \ldots, X_K=n_K) = \frac{n!}{n_1! n_2! \cdots n_K!} p_1^{n_1} p_2^{n_2} \cdots p_K^{n_K}
-
 $$
-
 
 Trong đó:
 - $n = \sum_{i=1}^K n_i$ = total number of trials
@@ -203,11 +200,8 @@ torch.multinomial(probs, num_samples=1)
 **Mathematical interpretation:**
 
 $$
-
 P(\text{sample} = i) = p_i
-
 $$
-
 
 **Multiple samples (with replacement):**
 ```python
@@ -224,11 +218,8 @@ torch.multinomial(probs, num_samples=n, replacement=False)
 After sampling outcome $i$, effective probability becomes:
 
 $$
-
 p_i^{\text{new}} = 0
-
 $$
-
 
 Other probabilities renormalized.
 
@@ -259,11 +250,8 @@ sample = torch.distributions.Categorical(probs).sample()
 If input is $\mathbf{w} = [w_1, w_2, \ldots, w_K]$ (unnormalized weights):
 
 $$
-
 p_i = \frac{w_i}{\sum_{j=1}^K w_j}
-
 $$
-
 
 **Example:**
 ```python
@@ -704,34 +692,22 @@ Observed frequencies:
 Given weights $\mathbf{w} = [1.0, 2.0, 5.0]$:
 
 $$
-
 p_i = \frac{w_i}{\sum_j w_j} = \frac{w_i}{1 + 2 + 5} = \frac{w_i}{8}
-
 $$
-
 
 Therefore:
 
 $$
-
 p_0 = \frac{1}{8} = 0.125 = 12.5\%
-
 $$
 
-
 $$
-
 p_1 = \frac{2}{8} = 0.25 = 25\%
-
 $$
 
-
 $$
-
 p_2 = \frac{5}{8} = 0.625 = 62.5\%
-
 $$
-
 
 **Comparison với observed:**
 
@@ -746,11 +722,8 @@ $$
 Chi-square goodness of fit:
 
 $$
-
 \chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i}
-
 $$
-
 
 With 10,000 samples, observed frequencies closely match expected (p > 0.05).
 
@@ -839,29 +812,20 @@ probs = torch.softmax(logits, dim=0)
 Without Softmax:
 
 $$
-
 p_i^{\text{linear}} = \frac{w_i}{\sum_j w_j}
-
 $$
-
 
 With Softmax:
 
 $$
-
 p_i^{\text{softmax}} = \frac{e^{w_i}}{\sum_j e^{w_j}}
-
 $$
-
 
 **Amplification factor:**
 
 $$
-
 \frac{p_i^{\text{softmax}}}{p_i^{\text{linear}}} = \frac{e^{w_i}/\sum_j e^{w_j}}{w_i/\sum_j w_j}
-
 $$
-
 
 **For large weights:** This ratio can be **orders of magnitude**.
 
@@ -1799,7 +1763,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import Counter
 
-
 class MultinomialTester:
     """Test and demonstrate torch.multinomial behavior"""
     
@@ -1965,7 +1928,6 @@ class MultinomialTester:
         
         print()
 
-
 # Run all tests
 if __name__ == "__main__":
     print("=" * 60)
@@ -1998,7 +1960,6 @@ Visualize multinomial sampling behavior
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
-
 
 def visualize_sampling_distribution(weights, n_samples=10000):
     """
@@ -2041,7 +2002,6 @@ def visualize_sampling_distribution(weights, n_samples=10000):
     plt.tight_layout()
     return fig
 
-
 def visualize_softmax_effect(weights):
     """
     Compare distributions with/without softmax
@@ -2082,7 +2042,6 @@ def visualize_softmax_effect(weights):
     
     plt.tight_layout()
     return fig
-
 
 # Example usage
 if __name__ == "__main__":

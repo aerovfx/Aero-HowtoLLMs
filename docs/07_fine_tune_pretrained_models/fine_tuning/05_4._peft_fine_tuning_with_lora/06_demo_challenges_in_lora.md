@@ -124,11 +124,8 @@ for rank in ranks:
 **Mô hình toán học:**
 
 $$
-
 L_{final} \propto \frac{1}{r}
-
 $$
-
 
 Trong đó $L_{final}$ là loss cuối cùng.
 
@@ -142,11 +139,8 @@ Trong đó $L_{final}$ là loss cuối cùng.
 **Mô hình toán học:**
 
 $$
-
 \text{Time} \propto \frac{1}{\text{Batch Size}}
-
 $$
-
 
 **Nhận xét:**
 - Batch size lớn hơn → Thời gian huấn luyện ngắn hơn

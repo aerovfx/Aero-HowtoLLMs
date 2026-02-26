@@ -45,11 +45,8 @@ For faster assistance, please select the following options:
 Hiệu quả của prompt trong chatbot có thể được đo lường:
 
 $$
-
 \text{Efficiency} = \frac{\text{Solved Queries}}{\text{Total Queries}} \times \text{Accuracy}
-
 $$
-
 
 ## 2. Y Tế (Healthcare)
 
@@ -70,11 +67,8 @@ Please describe the symptoms in detail and mention any recent medical tests and 
 ### 2.2 Mô Hình Hỗ Trợ Y Tế
 
 $$
-
 \text{Diagnostic Accuracy} = f(\text{symptom specificity}, \text{medical history}, \text{test results})
-
 $$
-
 
 ## 3. Truyền Thông (Media)
 
@@ -123,11 +117,8 @@ Translate the following sentence as if you were speaking to a friend at the cafe
 ### 5.2 Công Thức Tối Ưu Hóa Prompt
 
 $$
-
 \text{Optimal Prompt} = \text{Task} + \text{Context} + \text{Format} + \text{Constraints}
-
 $$
-
 
 ## 6. Kết Luận
 

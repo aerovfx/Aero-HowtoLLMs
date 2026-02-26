@@ -34,11 +34,8 @@ Chào mừng bạn đến với khóa học về việc sử dụng **cơ sở d
 ### 1.2 Công Thức Cơ Bản
 
 $$
-
 \text{Response} = \text{LLM}( \text{Query}, \text{Context} )
-
 $$
-
 
 Trong đó:
 - **Query**: Câu hỏi của người dùng
@@ -197,11 +194,8 @@ results = collection.query(
 HNSW là thuật toán graph-based cho tìm kiếm gần đúng:
 
 $$
-
 \text{Time Complexity} = O(\log N)
-
 $$
-
 
 ```python
 import hnswlib

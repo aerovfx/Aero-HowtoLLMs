@@ -31,11 +31,8 @@ Trái ngược với "Entropy nhiệt động lực học" tập trung vào sự
 Dành cho một biến biến thiên ngẫu nhiên (hoặc các đặc trưng categorical/continuous bins):
 
 $$
-
 H(X) = - \sum_{i=1}^{n} P(x_i) \log P(x_i)
-
 $$
-
 
 Do $P(x_i) \in [0, 1]$ nên hệ số logarit sẽ mang dấu âm, dấu trừ phía ngoài giúp triệt tiêu và giữ giá trị Entropy $H$ luôn dương.
 
@@ -43,11 +40,8 @@ Do $P(x_i) \in [0, 1]$ nên hệ số logarit sẽ mang dấu âm, dấu trừ p
 Do đặc thù logarit không xác định tại mốc 0, khi thực nghiệm phân vùng histogram trên một dữ liệu nơ-ron dày đặc, nhiều bin sẽ xuất hiện giá trị $P=0$. Để khắc phục, công thức code thực tế thêm cực trị tàn dư nhỏ (epsilon $\epsilon$) vào lõi tính:
 
 $$
-
 H(X) = - \sum P(X) \log(P(X) + \epsilon)
-
 $$
-
 
 Nếu $P=0$, $\log(\epsilon) \times 0$ vẫn sẽ triệt tiêu trở về $0$, tránh sụp đổ vòng lặp hàm hàm log.
 
@@ -61,22 +55,16 @@ Nếu cho 2 biến $X$ và $Y$, **Mutual Information - $I(X;Y)$** là tỷ trọ
 Có thể đo lường MI bằng cách tính toán hàm lượng Entropy nguyên bản và Entropy hợp bộ (Joint-Entropy):
 
 $$
-
 I(X;Y) = H(X) + H(Y) - H(X,Y)
-
 $$
-
 
 Nói cách khác, nó là phần "giao nhau" của giới hạn độ bất định giữa $X$ và $Y$. 
 
 ### 2.2. Tiếp Cận Bằng Phương Trình Phân Phối Cụ Thể
 
 $$
-
 I(X;Y) = \sum_{x \in X} \sum_{y \in Y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right)
-
 $$
-
 
 ---
 

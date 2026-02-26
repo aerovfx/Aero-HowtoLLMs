@@ -44,11 +44,8 @@ Mục tiêu của bài báo này là:
 Cơ chế attention tiêu chuẩn được định nghĩa:
 
 $$
-
 \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-
 $$
-
 
 trong đó:
 
@@ -66,20 +63,14 @@ Kết quả attention là tổ hợp tuyến tính của các vector giá trị 
 Trong dự đoán chuỗi, tại thời điểm $t$, mô hình chỉ được phép sử dụng thông tin từ:
 
 $$
-
 \{1,2,...,t\}
-
 $$
-
 
 và không được truy cập:
 
 $$
-
 \{t+1, t+2, ...\}
-
 $$
-
 
 Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và không thể được biết trước.
 
@@ -90,11 +81,8 @@ Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và
 Một cách trực quan, sự tích hợp thông tin quá khứ có thể biểu diễn bằng vector:
 
 $$
-
 a = (a_1, a_2, ..., a_T)
-
 $$
-
 
 với:
 
@@ -112,20 +100,14 @@ Tuy nhiên, vector này chưa được chuẩn hóa và không phù hợp cho t�
 Softmax được định nghĩa:
 
 $$
-
 \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}
-
 $$
-
 
 Nếu một phần tử có giá trị bằng 0:
 
 $$
-
 e^0 = 1 \neq 0
-
 $$
-
 
 Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suất bằng 0 sau softmax.
 
@@ -136,29 +118,20 @@ Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suấ
 Theo tài liệu tham khảo :contentReference[oaicite:2]{index=2}, để đảm bảo xác suất bằng 0, ta đặt:
 
 $$
-
 x_i = -\infty \quad \text{với } i > t
-
 $$
-
 
 vì:
 
 $$
-
 \lim_{x \to -\infty} e^x = 0
-
 $$
-
 
 Do đó:
 
 $$
-
 \text{softmax}(-\infty) = 0
-
 $$
-
 
 Giải pháp này đảm bảo tương lai hoàn toàn bị loại bỏ.
 
@@ -182,24 +155,18 @@ Cách tiếp cận này mang lại:
 Thay vì vector riêng lẻ, causal attention được biểu diễn bằng ma trận:
 
 $$
-
 M \in \mathbb{R}^{T \times T}
-
 $$
-
 
 với:
 
 $$
-
 M_{ij} =
 \begin{cases}
 0 & \text{nếu } j \le i \\
 -\infty & \text{nếu } j > i
 \end{cases}
-
 $$
-
 
 Ma trận này có dạng tam giác dưới.
 
@@ -210,16 +177,13 @@ Ma trận này có dạng tam giác dưới.
 Công thức attention mở rộng:
 
 $$
-
 \text{Attention}(Q,K,V)
 =
 \text{softmax}
 \left(
 \frac{QK^T}{\sqrt{d}} + M
 \right)V
-
 $$
-
 
 Trong đó $M$ đóng vai trò loại bỏ tương tác với tương lai.
 
@@ -230,11 +194,8 @@ Trong đó $M$ đóng vai trò loại bỏ tương tác với tương lai.
 Việc softmax được áp dụng theo từng hàng:
 
 $$
-
 \text{softmax}(M_i)
-
 $$
-
 
 đảm bảo mỗi token chỉ quan tâm đến quá khứ của chính nó.
 
@@ -725,7 +686,6 @@ def demo():
     print("Output:", out.shape)
     print("Weights:", w.shape)
 
-
 if __name__ == "__main__":
     demo()
 ```
@@ -748,29 +708,20 @@ Với chuỗi độ dài ( T ):
 ### Thời gian
 
 $$
-
 O(T^2)
-
 $$
-
 
 ### Bộ nhớ
 
 $$
-
 O(T^2)
-
 $$
-
 
 Khi dùng KV Cache:
 
 $$
-
 O(T)
-
 $$
-
 
 ---
 

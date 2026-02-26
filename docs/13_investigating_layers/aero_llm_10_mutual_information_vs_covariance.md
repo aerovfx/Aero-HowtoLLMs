@@ -34,11 +34,8 @@ Covariance là một đo lường "tuyến tính" thuần tuý và được lấ
 Đối với 2 biến trung tâm hóa (mean-centered) X và Y:
 
 $$
-
 Cov(X,Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
-
 $$
-
 
 **Ưu điểm:**
 - Nhanh, mạnh và cực kỳ ổn định về mặt số học.
@@ -49,11 +46,8 @@ $$
 MI không lấy theo số liệu gốc mà phân rã dữ liệu vào ma trận Histogram trước, sau đó tính toán trên không gian xác suất (probability distribution).
 
 $$
-
 I(X;Y) = \sum_{x} \sum_{y} P(x,y) \log \left( \frac{P(x,y)}{P(x)P(y)} \right)
-
 $$
-
 
 **Ưu điểm:**
 - Đoán nhận được cả cấu trúc tương quan tuyến tính lẫn phi tuyến tính (đường cong).

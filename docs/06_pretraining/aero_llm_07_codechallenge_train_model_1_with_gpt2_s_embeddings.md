@@ -62,11 +62,8 @@ Embedding từ mô hình tiền huấn luyện chứa thông tin ngữ nghĩa v�
 Embedding ánh xạ token rời rạc sang vector liên tục:
 
 $$
-
 E: V \rightarrow \mathbb{R}^d
-
 $$
-
 
 Trong đó:
 
@@ -92,7 +89,6 @@ Mục đích:
 * Giữ nguyên tri thức tiền huấn luyện,
 * Giảm số tham số cần tối ưu,
 * Tránh overfitting với dữ liệu nhỏ.
-
 
 ---
 
@@ -134,11 +130,8 @@ Việc sử dụng `.data` giúp loại bỏ thông tin gradient và metadata.
 Để kiểm tra quá trình copy, hai embedding được trừ cho nhau:
 
 $$
-
 \Delta = E_{model1} - E_{GPT2}
-
 $$
-
 
 Nếu $\Delta = 0$, việc sao chép thành công. 
 
@@ -175,7 +168,6 @@ model.embedding.weight.requires_grad = False
 model.embedding.weight.requires_grad = True
 ```
 
-
 ---
 
 ### 4.2. Thuật Toán Tối Ưu
@@ -183,11 +175,8 @@ model.embedding.weight.requires_grad = True
 Optimizer sử dụng là AdamW, với khả năng kiểm soát regularization tốt hơn Adam.
 
 $$
-
 \theta_{t+1} = \theta_t - \eta \hat{g}_t - \eta \lambda \theta_t
-
 $$
-
 
 ---
 
@@ -217,7 +206,6 @@ Kết quả cho thấy:
 | -------- | ---------- | --------- |
 | Freeze   | Cao        | Cao       |
 | Unfreeze | Thấp hơn   | Thấp hơn  |
-
 
 ---
 
@@ -300,7 +288,6 @@ Nghiên cứu khẳng định rằng fine-tuning có kiểm soát thường hi�
 ## Tài Liệu Tham Khảo (References)
 
 [1] CodeChallenge: Train Model 1 with GPT-2’s Embeddings, Lecture Transcript.
-
 
 --
 <!-- Aero-Footer-Start -->

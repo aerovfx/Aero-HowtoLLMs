@@ -35,11 +35,8 @@ Few-shot learning là một kỹ thuật trong đó chúng ta cung cấp cho mô
 Khi cung cấp các ví dụ few-shot, mô hình học được:
 
 $$
-
 \text{Kết quả} = f(\text{ví dụ}_1, \text{ví dụ}_2, ..., \text{ví dụ}_n, \text{đầu vào mới})
-
 $$
-
 
 Trong đó:
 - $f$ là mô hình ngôn ngữ
@@ -96,11 +93,8 @@ translate English to Spanish: Cheese is delicious
 Hiệu quả của few-shot learning có thể được biểu diễn:
 
 $$
-
 P(y|x, \text{ví dụ}) = \frac{1}{Z} \sum_{i=1}^{n} w_i \cdot \text{sim}(x, x_i) \cdot P(y|x_i)
-
 $$
-
 
 Trong đó:
 - $w_i$ là trọng số của ví dụ thứ $i$

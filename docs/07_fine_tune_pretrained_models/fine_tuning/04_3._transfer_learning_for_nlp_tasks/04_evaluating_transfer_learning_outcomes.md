@@ -76,7 +76,6 @@ results = bleu.compute(predictions=predictions, references=references)
 
 Hiểu và sử dụng các metrics ROUGE và BLEU là điều cần thiết để đánh giá hiệu quả các tác vụ tạo văn bản. Bằng cách so sánh các metrics này với độ chính xác và phân loại, chúng ta có thể đánh giá cao hơn vai trò của chúng trong việc đánh giá chất lượng văn bản được tạo bởi AI.
 
-
 ## Tài liệu tham khảo
 
 1. **Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017).** *Attention Is All You Need.* Advances in Neural Information Processing Systems, 30, 5998-6008. https://arxiv.org/abs/1706.03762

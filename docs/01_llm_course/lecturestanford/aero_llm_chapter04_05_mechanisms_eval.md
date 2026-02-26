@@ -148,11 +148,8 @@ Generate responses → Humans rate → Statistical analysis
            ↓
 
 $$
-
 Tokenization
-
 $$
-
 
            ↓
 ┌─────────────────────────────┐
@@ -170,38 +167,26 @@ $$
            ↓
 
 $$
-
 Final LN + Linear
-
 $$
-
 
            ↓
 
 $$
-
 Softmax → Probs
-
 $$
-
 
            ↓
 
 $$
-
 Sample Next Token
-
 $$
-
 
            ↓
 
 $$
-
 Autoregressive Loop
-
 $$
-
 
            ↓
 ┌─────────────────────────────┐

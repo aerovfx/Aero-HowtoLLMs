@@ -41,11 +41,8 @@ Khi quan sát biểu đồ hoạt động của mạng LLM, thường xuất hi�
 **Cách khắc phục:** Không gian hóa Z-Score. 
 
 $$
-
 Z = \frac{x_i - \bar{x}}{\sigma}
-
 $$
-
 
 Áp dụng Z-score cho cả 2 vector. Bất kỳ giá trị nào có $|Z| > 4$ (Vượt quá 4 lần độ lệch chuẩn) sẽ bị gán cờ Outlier và dạt bỏ khỏi danh sách đo MI. 
 Việc cắt tỉa dữ liệu thừa (Trimmed Data) này giúp đẩy MI từ một con số bị dìm do nhiễu $\to$ phục hồi lại điểm tương hỗ cốt lõi, phản biện lại nhược điểm của công thức histogram Manual.

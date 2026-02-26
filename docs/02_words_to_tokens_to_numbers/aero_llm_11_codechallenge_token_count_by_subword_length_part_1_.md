@@ -164,7 +164,6 @@ Character-level	L = 1	Ổn định	Rất cao
 BPE	Phân bố mũ	Cân bằng	Tối ưu
 Unigram LM	Xác suất	Linh hoạt	Cao
 
-
 ⸻
 
 8. Hệ quả Đối với Huấn luyện

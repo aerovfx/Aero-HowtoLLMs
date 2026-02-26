@@ -37,11 +37,8 @@ Trong GPT-2, mỗi token được ánh xạ sang một vector embedding thông q
 Phép biến đổi từ token sang embedding được thực hiện thông qua:
 
 $$
-
 X = \Delta E + P
-
 $$
-
 
 trong đó $X \in \mathbb{R}^{T \times D}$ là ma trận biểu diễn chuỗi đầu vào.
 
@@ -56,29 +53,20 @@ Quá trình này được trình bày chi tiết trong tài liệu tổng hợp 
 Multi-head attention chia không gian embedding thành nhiều phần (heads) song song. Với mỗi head $h$, ta có:
 
 $$
-
 Q_h = XW_Q^h, \quad K_h = XW_K^h, \quad V_h = XW_V^h
-
 $$
-
 
 Sau đó, attention được tính:
 
 $$
-
 A_h = \text{softmax}\left(\frac{Q_h K_h^T}{\sqrt{D/H}} + M \right)V_h
-
 $$
-
 
 Các đầu ra được nối lại và chiếu tuyến tính:
 
 $$
-
 A = \text{Concat}(A_1, \dots, A_H)W_0
-
 $$
-
 
 Việc chia nhỏ attention giúp mô hình học được nhiều kiểu quan hệ ngữ nghĩa khác nhau. 
 
@@ -99,22 +87,16 @@ Việc sử dụng hàm attention tích hợp giúp tối ưu tính toán song s
 Mỗi khối Transformer bắt đầu bằng layer normalization, sau đó là multi-head attention và residual connection:
 
 $$
-
 X' = X + \text{Attention}(\text{LN}(X))
-
 $$
-
 
 ### 4.2. Feed-Forward Network (MLP)
 
 Sau attention, dữ liệu được đưa qua mạng MLP gồm hai lớp tuyến tính:
 
 $$
-
 Y = X' + W_2(\text{GELU}(W_1(\text{LN}(X'))))
-
 $$
-
 
 Mạng MLP giúp mô hình trích xuất đặc trưng phi tuyến trong không gian chiều cao. 
 
@@ -125,11 +107,8 @@ Mạng MLP giúp mô hình trích xuất đặc trưng phi tuyến trong không 
 Đầu ra cuối cùng được chuẩn hóa và nhân với ma trận embedding ban đầu để tạo logits:
 
 $$
-
 L = \text{LN}(X_{out})E^T
-
 $$
-
 
 Sau đó, softmax được sử dụng để sinh phân phối xác suất cho token tiếp theo. 
 
@@ -166,7 +145,6 @@ Trong các thử nghiệm, forward pass trên GPU nhanh hơn CPU nhiều bậc �
 
 * CPU: ~20 giây
 * GPU: ~30 ms
-
 
 Điều này cho thấy GPU là bắt buộc đối với các LLM. 
 

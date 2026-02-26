@@ -41,11 +41,8 @@ Tuy nhiên, tài liệu *CodeChallenge: Do We Really Need Q?* đề xuất một
 Cơ chế attention được mô tả bằng công thức:
 
 $$
-
 Attention(Q, K, V) = softmax\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-
 $$
-
 
 Trong đó:
 
@@ -263,7 +260,6 @@ Nghiên cứu cho thấy self-attention không phụ thuộc tuyệt đối vào
 ## Tài liệu tham khảo (References)
 
 [1] CodeChallenge: Do We Really Need Q?, Lecture Transcript.
-
 
 ---
 <!-- Aero-Footer-Start -->

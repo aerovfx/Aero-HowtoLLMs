@@ -29,11 +29,8 @@ Bài báo này phân tích và so sánh ba chiến lược tokenization phổ bi
 Tokenization là quá trình ánh xạ:
 
 $$
-
 \tau: \Sigma^* \rightarrow V^*
-
 $$
-
 
 trong đó:
 
@@ -59,29 +56,20 @@ Mỗi phương pháp tạo ra độ dài chuỗi $T$ và kích thước từ v�
 Mỗi token là một ký tự:
 
 $$
-
 V = \Sigma
-
 $$
-
 
 Chuỗi:
 
 $$
-
 X = (c_1, c_2, \dots, c_n)
-
 $$
-
 
 Số token:
 
 $$
-
 T = n
-
 $$
-
 
 ---
 
@@ -90,20 +78,14 @@ $$
 * Không có OOV:
 
 $$
-
 \forall x \in \Sigma^*, \tau(x) \text{ luôn tồn tại}
-
 $$
-
 
 * Kích thước từ vựng nhỏ:
 
 $$
-
 |V| \approx 100 - 500
-
 $$
-
 
 ---
 
@@ -112,31 +94,22 @@ $$
 Self-attention có độ phức tạp:
 
 $$
-
 \mathcal{O}(T^2 d)
-
 $$
-
 
 Vì $T = n$ lớn → chi phí tăng mạnh.
 
 Ví dụ: văn bản 1000 ký tự
 
 $$
-
 T_{char} = 1000
-
 $$
-
 
 Chi phí attention:
 
 $$
-
 \propto 1000^2 = 10^6
-
 $$
-
 
 ---
 
@@ -147,29 +120,20 @@ $$
 Chuỗi:
 
 $$
-
 X = (w_1, w_2, \dots, w_m)
-
 $$
-
 
 với:
 
 $$
-
 m < n
-
 $$
-
 
 Tập từ vựng:
 
 $$
-
 V = { w }
-
 $$
-
 
 ---
 
@@ -178,22 +142,16 @@ $$
 Phân bố tần suất từ tuân theo định luật Zipf:
 
 $$
-
 f(w_r) \propto \frac{1}{r}
-
 $$
-
 
 trong đó $r$ là thứ hạng.
 
 Entropy:
 
 $$
-
 H(W) = -\sum_{w} P(w)\log P(w)
-
 $$
-
 
 ---
 
@@ -202,31 +160,22 @@ $$
 Xác suất OOV:
 
 $$
-
 P(\text{OOV}) = 1 - \sum_{w \in V} P(w)
-
 $$
-
 
 Vì từ vựng hữu hạn.
 
 Kích thước từ vựng lớn:
 
 $$
-
 |V| \approx 30,000 - 200,000
-
 $$
-
 
 Embedding matrix:
 
 $$
-
 E \in \mathbb{R}^{|V| \times d}
-
 $$
-
 
 → tiêu tốn bộ nhớ.
 
@@ -241,20 +190,14 @@ Subword kết hợp ưu điểm của hai phương pháp trên.
 BPE lặp lại:
 
 $$
-
 (a^*, b^*) = \arg\max_{a,b} f(a,b)
-
 $$
-
 
 Cập nhật từ vựng:
 
 $$
-
 V_{k+1} = V_k \cup {ab}
-
 $$
-
 
 ---
 
@@ -263,11 +206,8 @@ $$
 Tối ưu:
 
 $$
-
 \max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z|\theta)
-
 $$
-
 
 Trong đó:
 
@@ -287,29 +227,20 @@ Giả sử:
 Thông thường:
 
 $$
-
 m < T_s < n
-
 $$
-
 
 Do đó:
 
 $$
-
 T_s^2 < T_c^2
-
 $$
-
 
 và
 
 $$
-
 |V_s| < |V_w|
-
 $$
-
 
 ---
 
@@ -324,20 +255,14 @@ $$
 Self-attention:
 
 $$
-
 \text{Cost} = \mathcal{O}(T^2 d)
-
 $$
-
 
 Embedding memory:
 
 $$
-
 \mathcal{O}(|V| d)
-
 $$
-
 
 Subword tối ưu cân bằng hai yếu tố.
 
@@ -348,20 +273,14 @@ Subword tối ưu cân bằng hai yếu tố.
 Theo định lý Shannon:
 
 $$
-
 H(X) = -\sum_x P(x)\log P(x)
-
 $$
-
 
 Chiều dài mã tối ưu:
 
 $$
-
 L \approx \frac{H(X)}{\log |V|}
-
 $$
-
 
 Subword giúp:
 
@@ -375,14 +294,11 @@ Subword giúp:
 Mô hình Transformer tính:
 
 $$
-
 Z = \text{Softmax}
 \left(
 \frac{QK^T}{\sqrt{d_k}}
 \right)V
-
 $$
-
 
 Vì attention phụ thuộc $T$:
 
@@ -405,25 +321,16 @@ Trong thực tế:
 Giả sử chuỗi 1000 ký tự:
 
 $$
-
 T_c = 1000
-
 $$
 
-
 $$
-
 T_s \approx 250 - 400
-
 $$
 
-
 $$
-
 T_w \approx 150 - 250
-
 $$
-
 
 Chi phí attention giảm theo bình phương độ dài.
 
@@ -434,11 +341,8 @@ Chi phí attention giảm theo bình phương độ dài.
 Tokenization có thể xem là bài toán tối ưu đa mục tiêu:
 
 $$
-
 \min_{V} \left( \alpha T^2 + \beta |V| \right)
-
 $$
-
 
 Trong đó:
 

@@ -49,22 +49,16 @@ Mục tiêu của bài viết là:
 Mô hình GPT-2 học phân phối:
 
 $$
-
 P(x_t \mid x_1, \dots, x_{t-1})
-
 $$
-
 
 Trong đó, mỗi token được sinh dựa trên ngữ cảnh trước đó.
 
 Đầu ra của mô hình là một vector xác suất trên toàn bộ từ vựng:
 
 $$
-
 P = (p_1, p_2, \dots, p_V)
-
 $$
-
 
 với $V$ là kích thước vocab.
 
@@ -75,11 +69,8 @@ với $V$ là kích thước vocab.
 KL-divergence đo độ khác biệt giữa hai phân phối xác suất $P$ và $Q$:
 
 $$
-
 D_{KL}(Q||P) = \sum_i Q(i)\log\frac{Q(i)}{P(i)}
-
 $$
-
 
 Trong đó:
 
@@ -133,24 +124,18 @@ Trước huấn luyện, không có token nào chứa “X” trong 200 token si
 Một vector mask được xây dựng:
 
 $$
-
 M_i =
 \begin{cases}
 1, & \text{nếu token } i \text{ chứa X}\
 0, & \text{ngược lại}
 \end{cases}
-
 $$
-
 
 Sau đó được chuẩn hóa thành phân phối xác suất:
 
 $$
-
 Q_i = \frac{M_i}{\sum_j M_j}
-
 $$
-
 
 Theo thống kê, chỉ khoảng 2% token chứa ký tự “X”. 
 
@@ -161,11 +146,8 @@ Theo thống kê, chỉ khoảng 2% token chứa ký tự “X”.
 Hàm loss được xây dựng bằng `torch.nn.Module` và sử dụng `F.kl_div`:
 
 $$
-
 \mathcal{L} = D_{KL}(Q||P)
-
 $$
-
 
 Lưu ý:
 
@@ -196,11 +178,8 @@ Không sử dụng dữ liệu văn bản thực tế.
 Loss ban đầu xấp xỉ:
 
 $$
-
 \log(V) \approx 11
-
 $$
-
 
 Sau huấn luyện, loss giảm mạnh về gần 0, cho thấy mô hình đã học gần như hoàn hảo phân phối mục tiêu. 
 

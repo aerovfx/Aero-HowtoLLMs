@@ -75,11 +75,8 @@ This ensures router is ALWAYS centered above the expert grid regardless of exper
 ```
 
 $$
-
 Input: ln2.lnResid
-
 $$
-
 
                   ↓
         ┌─────────┴─────────┐
@@ -105,11 +102,8 @@ $$
              ↓
 
 $$
-
 Output
-
 $$
-
 
 ```
 

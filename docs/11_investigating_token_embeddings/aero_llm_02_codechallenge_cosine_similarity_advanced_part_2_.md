@@ -225,7 +225,6 @@ Euclidean	\|\mathbf{x}-\mathbf{y}\|	Có	Trung bình
 Dot Product	x \cdot y	Có	Cao
 Cosine	\frac{x\cdot y}{\|x\|\|y\|}	Không	Rất cao
 
-
 ⸻
 
 11. Thảo luận

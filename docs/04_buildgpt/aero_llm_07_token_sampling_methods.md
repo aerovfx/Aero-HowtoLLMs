@@ -185,11 +185,8 @@ Bài viết này tập trung vào **bốn phương pháp chính**:
 Sau khi model xử lý context, output là probability distribution:
 
 $$
-
 P(w_t | w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)
-
 $$
-
 
 Trong đó:
 - $w_t$ = next token to predict
@@ -200,11 +197,8 @@ Trong đó:
 **Result:**
 
 $$
-
 \mathbf{p} = [p_1, p_2, \ldots, p_V]
-
 $$
-
 
 Trong đó:
 - $V$ = vocabulary size (e.g., 100,000)
@@ -261,11 +255,8 @@ TOTAL       | 1.000
 **Pure probabilistic sampling:**
 
 $$
-
 w_t \sim \text{Multinomial}(\mathbf{p})
-
 $$
-
 
 **Meaning:**
 - Mỗi token có probability $p_i$ được chọn
@@ -314,11 +305,8 @@ for i in range(5):
 **Expected frequency over N samples:**
 
 $$
-
 \mathbb{E}[\text{count}(w_i)] = N \cdot p_i
-
 $$
-
 
 **Example with N=1000:**
 - coffee: ~340 times
@@ -330,11 +318,8 @@ $$
 **Variance:**
 
 $$
-
 \text{Var}[\text{count}(w_i)] = N \cdot p_i \cdot (1 - p_i)
-
 $$
-
 
 **Observation:**
 > High variance cho low-probability tokens → unpredictable behavior.
@@ -346,11 +331,8 @@ $$
 **Deterministic selection:**
 
 $$
-
 w_t = \arg\max_{w \in \mathcal{V}} P(w | w_{1:t-1})
-
 $$
-
 
 **Algorithm:**
 ```
@@ -456,21 +438,15 @@ generated = greedy_generate(model, context, max_len=20)
 **Mathematical formulation:**
 
 $$
-
 \mathcal{V}_K = \{w_i : p_i \text{ is in top-K probabilities}\}
-
 $$
 
-
 $$
-
 P_K(w) = \begin{cases}
 \frac{p_w}{\sum_{w' \in \mathcal{V}_K} p_{w'}} & \text{if } w \in \mathcal{V}_K \\
 0 & \text{otherwise}
 \end{cases}
-
 $$
-
 
 **PyTorch implementation:**
 ```python
@@ -599,32 +575,23 @@ Better: K=20 or more
 **Mathematical formulation:**
 
 $$
-
 \mathcal{V}_P = \{w_{(1)}, w_{(2)}, \ldots, w_{(m)}\}
-
 $$
-
 
 Trong đó $m$ là smallest index such that:
 
 $$
-
 \sum_{i=1}^m p_{(i)} \geq P
-
 $$
-
 
 **Sampling distribution:**
 
 $$
-
 P_P(w) = \begin{cases}
 \frac{p_w}{\sum_{w' \in \mathcal{V}_P} p_{w'}} & \text{if } w \in \mathcal{V}_P \\
 0 & \text{otherwise}
 \end{cases}
-
 $$
-
 
 **PyTorch implementation:**
 ```python
@@ -878,11 +845,8 @@ P = 1.0    | Multinomial
 Temperature scaling happens **before** sampling method:
 
 $$
-
 \text{logits} \xrightarrow{/T} \text{scaled logits} \xrightarrow{\text{Softmax}} \text{probs} \xrightarrow{\text{Sampling}} \text{token}
-
 $$
-
 
 **Examples:**
 
@@ -924,7 +888,6 @@ Comprehensive implementation of token sampling strategies
 import torch
 import torch.nn.functional as F
 from typing import Optional, Literal
-
 
 class TokenSampler:
     """
@@ -1052,7 +1015,6 @@ class TokenSampler:
         probs_masked = F.softmax(logits_masked, dim=-1)
         return torch.multinomial(probs_masked, num_samples=1).squeeze(-1)
 
-
 # Example usage
 if __name__ == "__main__":
     # Simulate model output
@@ -1134,7 +1096,6 @@ def generate_text(
     generated_text = tokenizer.decode(input_ids[0], skip_special_tokens=True)
     return generated_text
 
-
 # Example usage
 if __name__ == "__main__":
     from transformers import GPT2LMHeadModel, GPT2Tokenizer
@@ -1206,7 +1167,6 @@ def evaluate_diversity(texts: list[str]) -> dict:
         'type_token_ratio': ttr,
         'entropy': entropy,
     }
-
 
 # Benchmark different methods
 def benchmark_sampling_methods(model, tokenizer, prompts: list[str], n_samples=10):
@@ -1927,11 +1887,8 @@ Use two models:
 **Decoding:**
 
 $$
-
 P_{\text{contrastive}}(w) \propto \frac{P_{\text{expert}}(w)}{P_{\text{amateur}}(w)^\alpha}
-
 $$
-
 
 **Idea:** Amplify expert's advantages over amateur
 
@@ -2138,7 +2095,6 @@ import torch.nn.functional as F
 from typing import Optional, Literal, Dict, Any
 from dataclasses import dataclass
 
-
 @dataclass
 class SamplingConfig:
     """Configuration for token sampling"""
@@ -2167,7 +2123,6 @@ class SamplingConfig:
         
         assert self.repetition_penalty >= 1.0
         assert self.max_length > self.min_length
-
 
 class ProductionSampler:
     """
@@ -2286,7 +2241,6 @@ class ProductionSampler:
         probs = F.softmax(logits_masked, dim=-1)
         return torch.multinomial(probs, num_samples=1).squeeze(-1)
 
-
 # Usage example
 if __name__ == "__main__":
     # Create configuration
@@ -2324,7 +2278,6 @@ Comprehensive evaluation of sampling methods
 import numpy as np
 from collections import Counter
 from typing import List
-
 
 class SamplingEvaluator:
     """Evaluate and compare sampling methods"""
@@ -2424,7 +2377,6 @@ class SamplingEvaluator:
             }
         
         return results
-
 
 # Example usage
 if __name__ == "__main__":

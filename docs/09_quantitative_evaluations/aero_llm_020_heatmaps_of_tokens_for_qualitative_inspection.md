@@ -39,11 +39,8 @@ Với thiết lập: `Figure = 10 \times 2`, tỷ lệ cố định của 1 toke
 Giả sử $x_i$ là số lượng ký tự trong chuỗi chữ $i$:
 
 $$
-
 x_{norm} = \frac{x_i - X_{min}}{X_{max} - X_{min}}
-
 $$
-
 
 Phép đổi chuẩn là tuyến tính (linear transformation). Nó không phá vỡ tính tương quan gốc rễ mà chỉ co ép số liệu vào khuôn khổ $[0,1]$ nhằm kết xuất màu thông qua hệ số RGB.
 
@@ -56,11 +53,8 @@ Ban đầu, thay vì gắn kích hoạt (activations) từ mạng Neural, bản 
 Điều này mô phỏng các giá trị logit nội bộ $Z$ (sẽ được tìm trong quá trình huấn luyện/trích xuất mô hình):
 
 $$
-
 Z \rightarrow \text{Softmax}(\cdot) \rightarrow P_i \rightarrow X_i
-
 $$
-
 
 Càng đậm màu tương đương với năng lực dự đoán tiếp theo càng chính xác định tính.
 

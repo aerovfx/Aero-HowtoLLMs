@@ -105,11 +105,8 @@ Attention Layers (attnLeftX)
     └───────────┬───────────────────────────┘
 
 $$
-
 Aggregation
-
 $$
-
 
 ```
 

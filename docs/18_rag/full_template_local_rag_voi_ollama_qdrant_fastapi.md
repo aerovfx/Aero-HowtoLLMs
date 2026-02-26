@@ -166,9 +166,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
 from .config import QDRANT_URL, COLLECTION
 
-
 client = QdrantClient(url=QDRANT_URL)
-
 
 def init_collection(dim):
 
@@ -183,7 +181,6 @@ def init_collection(dim):
             )
         )
 
-
 def upsert(vectors, payloads, ids):
 
     client.upsert(
@@ -197,7 +194,6 @@ def upsert(vectors, payloads, ids):
             for i in range(len(vectors))
         ]
     )
-
 
 def search(qvec, limit):
 
@@ -218,9 +214,7 @@ import tiktoken
 from pypdf import PdfReader
 from .config import CHUNK_SIZE, OVERLAP
 
-
 tokenizer = tiktoken.get_encoding("cl100k_base")
-
 
 def load_pdf(path):
 
@@ -231,7 +225,6 @@ def load_pdf(path):
         text += p.extract_text() + "\n"
 
     return text
-
 
 def chunk_text(text):
 
@@ -244,7 +237,6 @@ def chunk_text(text):
         chunks.append(tokenizer.decode(chunk))
 
     return chunks
-
 
 def gen_ids(n):
 
@@ -261,15 +253,12 @@ from sentence_transformers import SentenceTransformer
 from .utils import load_pdf, chunk_text, gen_ids
 from .vector import init_collection, upsert
 
-
 model = SentenceTransformer("all-MiniLM-L6-v2")
 EMBED_DIM = 384
-
 
 def embed(texts):
 
     return model.encode(texts).tolist()
-
 
 def ingest_pdf(path, metadata={}):
 
@@ -307,14 +296,11 @@ from .vector import search
 from .config import TOP_K, OLLAMA_URL, LLM_MODEL
 from sentence_transformers import SentenceTransformer
 
-
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
-
 
 def embed_query(q):
 
     return embed_model.encode([q])[0].tolist()
-
 
 def call_ollama(prompt):
 
@@ -328,7 +314,6 @@ def call_ollama(prompt):
     )
 
     return res.json()["response"]
-
 
 def ask(question):
 
@@ -374,9 +359,7 @@ import shutil
 from .ingest import ingest_pdf
 from .18_rag import ask
 
-
 app = FastAPI(title="Local RAG System")
-
 
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
@@ -389,7 +372,6 @@ async def upload(file: UploadFile = File(...)):
     n = ingest_pdf(path)
 
     return {"indexed_chunks": n}
-
 
 @app.post("/ask")
 async def query(q: str):

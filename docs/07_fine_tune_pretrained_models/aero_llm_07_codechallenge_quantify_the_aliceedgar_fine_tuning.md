@@ -42,20 +42,14 @@ Mục tiêu nghiên cứu:
 Quá trình tinh chỉnh nhằm mục đích đưa phân phối xác suất của mô hình sinh ($P_{model}$) tiến gần đến phân phối xác suất của dữ liệu mục tiêu ($P_{data}$):
 
 $$
-
 D_{KL}(P_{data} \parallel P_{model}) \rightarrow 0
-
 $$
-
 
 Trong bài toán này, chúng ta sử dụng một bộ phân loại $C$ để ước lượng xác suất hậu nghiệm:
 
 $$
-
 \hat{y} = C(x) = P(\text{Style} \mid x)
-
 $$
-
 
 ---
 
@@ -66,20 +60,14 @@ Hai chỉ số chính được sử dụng để đánh giá:
 1. **Độ chính xác phân loại (Accuracy):**
 
 $$
-
 \text{Acc} = \frac{1}{N} \sum_{i=1}^{N} \mathbb{1}(\arg\max C(x_i) = y_i)
-
 $$
-
 
 2. **Hàm mất mát Cross-Entropy (Log-Loss):**
 
 $$
-
 \mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} y_i \log(\hat{y}_i)
-
 $$
-
 
 ---
 
@@ -100,11 +88,8 @@ Theo , việc đánh giá không thực hiện liên tục để tiết kiệm t
 Tiến trình:
 
 $$
-
 t = \{10, 20, 30, \dots, T\}
-
 $$
-
 
 ---
 
@@ -115,20 +100,14 @@ $$
 Tại giai đoạn đầu huấn luyện ($t=0$), bộ phân loại BERT gặp khó khăn trong việc phân biệt văn bản sinh từ hai mô hình, độ chính xác dao động quanh mức ngẫu nhiên:
 
 $$
-
 \text{Acc}_{t=0} \approx 0.5
-
 $$
-
 
 Khi quá trình tinh chỉnh tiến triển, văn bản sinh bắt đầu mang các đặc trưng phong cách rõ rệt hơn, dẫn đến độ chính xác tăng nhanh:
 
 $$
-
 \text{Acc}_{t \rightarrow T} \rightarrow 0.9
-
 $$
-
 
 ---
 
@@ -137,11 +116,8 @@ $$
 Quan hệ giữa Loss của mô hình phân loại trên văn bản sinh và số bước huấn luyện:
 
 $$
-
 \frac{\partial \mathcal{L}_{cls}}{\partial t} < 0
-
 $$
-
 
 Điều này xác nhận rằng mô hình sinh đang thực sự "di chuyển" trong không gian đặc trưng về phía vùng dữ liệu của Alice hoặc Edgar.
 

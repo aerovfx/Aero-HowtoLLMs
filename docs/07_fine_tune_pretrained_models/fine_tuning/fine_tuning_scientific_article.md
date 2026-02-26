@@ -62,11 +62,8 @@ Một trong những đổi mới quan trọng nhất của Transformer là cơ c
 Công thức scaled dot-product attention được định nghĩa như sau [2]:
 
 $$
-
 \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-
 $$
-
 
 Trong đó:
 - $Q$ (Query): Ma trận truy vấn
@@ -77,36 +74,24 @@ Trong đó:
 Multi-head attention cho phép mô hình tập trung vào nhiều vị trí khác nhau trong câu cùng lúc:
 
 $$
-
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^O
-
 $$
 
-
 $$
-
 \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
-
 $$
-
 
 #### 2.2.2. Positional Encoding
 
 Do Transformer xử lý dữ liệu song song nên cần thêm positional encoding để mô hình hiểu được thứ tự của các từ:
 
 $$
-
 PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)
-
 $$
 
-
 $$
-
 PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)
-
 $$
-
 
 ### 2.3. Ứng Dụng của Transformer trong LLMs
 
@@ -223,11 +208,8 @@ Trong một lớp neural network điển hình, trọng số được biểu di�
 LoRA đề xuất sử dụng phân rã hạng thấp:
 
 $$
-
 W' = W + \Delta W = W + BA
-
 $$
-
 
 Trong đó:
 - $W \in \mathbb{R}^{d \times d}$: Ma trận trọng số pre-trained (đông cứng)

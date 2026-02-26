@@ -43,11 +43,8 @@ Tài liệu thực nghiệm gốc  minh họa rõ ràng rằng chỉ một thay 
 Xét quá trình nhân liên tiếp các ma trận ngẫu nhiên:
 
 $$
-
 A_k = s \cdot A_{k-1} B_k
-
 $$
-
 
 Trong đó $s$ là hệ số tỉ lệ.
 
@@ -77,27 +74,18 @@ Do đó, việc kiểm soát phân phối số học là điều kiện tiên qu
 Cho vector đầu vào:
 
 $$
-
 X = (x_1, x_2, \dots, x_n)
-
 $$
-
 
 LayerNorm được định nghĩa như sau:
 
 $$
-
 \hat{x}_i = \frac{x_i - \mu}{\sigma + \varepsilon}
-
 $$
 
-
 $$
-
 y_i = \gamma \hat{x}_i + \beta
-
 $$
-
 
 Trong đó:
 
@@ -112,11 +100,8 @@ Trong đó:
 Thành phần:
 
 $$
-
 \frac{x_i - \mu}{\sigma}
-
 $$
-
 
 chính là chuẩn hóa Z-score, giúp dữ liệu có:
 
@@ -197,11 +182,8 @@ Khi áp dụng cho toàn bộ tensor:
 Khi đặt:
 
 $$
-
 \gamma = 3, \quad \beta = 5
-
 $$
-
 
 Kết quả:
 
@@ -243,11 +225,8 @@ LayerNorm vượt trội trong các mô hình chuỗi dài.
 Trong Transformer:
 
 $$
-
 \text{Output} = \text{LayerNorm}(X + \text{Sublayer}(X))
-
 $$
-
 
 LayerNorm giúp:
 
@@ -369,29 +348,20 @@ Do mục tiêu nghiên cứu tập trung vào đặc tính số học, dữ li�
 Ma trận đầu vào được sinh theo phân phối chuẩn:
 
 $$
-
 A_{ij} \sim \mathcal{N}(0, 1)
-
 $$
-
 
 Kích thước tiêu chuẩn:
 
 $$
-
 A \in \mathbb{R}^{m \times n}, \quad m = 30, n = 30
-
 $$
-
 
 và trong một số thí nghiệm:
 
 $$
-
 A \in \mathbb{R}^{3 \times 10}
-
 $$
-
 
 để thuận tiện cho việc phân tích trực quan.
 
@@ -419,30 +389,21 @@ Việc sử dụng dữ liệu tổng hợp giúp:
 2. Áp dụng phép nhân lặp:
 
 $$
-
 A_k = s \cdot A_{k-1} B_k
-
 $$
-
 
 3. Với hệ số tỉ lệ:
 
 $$
-
 s \in {0.5, 1.0, 1.5, 2.0}
-
 $$
-
 
 4. Lặp lại 20–50 lần.
 5. Tính chuẩn Frobenius:
 
 $$
-
 |A_k|*F = \sqrt{\sum*{i,j} a_{ij}^2}
-
 $$
-
 
 6. Ghi nhận sự thay đổi theo thời gian.
 
@@ -468,11 +429,8 @@ $$
 2. Áp dụng LayerNorm:
 
 $$
-
 Y = \text{LayerNorm}(X)
-
 $$
-
 
 3. Tính toán:
 
@@ -514,12 +472,9 @@ layernorm.bias    # beta
 2. Gán thủ công:
 
 $$
-
 \gamma \in {1, 2, 3}, \quad
 \beta \in {0, 2, 5}
-
 $$
-
 
 3. Áp dụng chuẩn hóa lại.
 4. Đo mean và std của đầu ra.
@@ -533,44 +488,32 @@ Các chỉ số đánh giá chính bao gồm:
 ### 3.5.1. Mean
 
 $$
-
 \mu = \frac{1}{N}\sum_{i=1}^{N} x_i
-
 $$
-
 
 Dùng để kiểm tra khả năng trung tâm hóa dữ liệu.
 
 ### 3.5.2. Standard Deviation
 
 $$
-
 \sigma = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2}
-
 $$
-
 
 Dùng để đánh giá mức độ phân tán.
 
 ### 3.5.3. Correlation Coefficient
 
 $$
-
 r = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
-
 $$
-
 
 Được sử dụng để đo mức độ bảo toàn cấu trúc dữ liệu.
 
 ### 3.5.4. Matrix Norm
 
 $$
-
 |A|_F
-
 $$
-
 
 Dùng để đánh giá độ ổn định số học.
 
@@ -715,11 +658,8 @@ Việc điều chỉnh thủ công các tham số học được cho thấy kh�
 Khi đặt:
 
 $$
-
 \gamma = 3, \quad \beta = 5
-
 $$
-
 
 kết quả đầu ra đạt được:
 

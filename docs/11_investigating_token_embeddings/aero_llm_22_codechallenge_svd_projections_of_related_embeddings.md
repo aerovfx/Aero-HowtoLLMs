@@ -39,11 +39,8 @@ Trước khi tiến hành phân rã nhân ma trận $M$, mọi cấu trúc dữ 
 Tính tịnh tiến này cưa bỏ khoảng cách dư thừa từ điểm $0$ đến lõi đám mây dữ liệu:
 
 $$
-
 \hat{M}_{i} = M_{i} - \mu
-
 $$
-
 
 *(Với $\mu$ là vector trung bình cực đại có độ dài bằng số cột kích thước D=768).*
 
@@ -59,11 +56,8 @@ Sau khi SVD thành công $\hat{M}_{\text{EU}} = U \Sigma V^T$, chúng ta thu đ�
 Phép màu giải thích nằm ở bước sau: Thay vì giới hạn khảo sát trên 10 nước Châu Âu, ta lấy **toàn bộ 30.000 tokenizer còn lại của hệ BERT**, trừ đi $\mu_{\text{EU}}$, rồi nhân tích vô hướng đổ bóng toàn bộ 30.000 từ này lên trục $V_{\text{top}}$:
 
 $$
-
 \text{Projections} = (E_{\text{all\_tokens}} - \mu_{\text{EU}}) \cdot V_{\text{top}}
-
 $$
-
 
 ### Diễn Dịch Chóp Đồ Thị (Extremes Projections):
 Thống kê 30 token có tích vô hướng văng ra xa nhất trên Trục $V_{\text{top}}$ (Top positive / Top negative Projections) mở ra chân trời cơ chế máy học:

@@ -213,7 +213,6 @@ GloVe	\log X_{ij}	Toàn cục	Tĩnh
 GPT	P(w_t|w_{<t})	Trái	Ngữ cảnh
 BERT	P$w_t|w_{\setminus M}$	Hai chiều	Ngữ cảnh
 
-
 ⸻
 
 7. Phân tích Entropy

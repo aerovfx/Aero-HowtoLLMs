@@ -37,11 +37,8 @@ Sử dụng một hàm Hook đơn giản để can thiệp vào đầu ra của 
 Để đo lường tác động, ta tính toán hiệu số giữa Hidden States sạch ($\mathbf{H}_{pure}$) và Hidden States bị can thiệp ($\mathbf{H}_{scaled}$):
 
 $$
-
 \Delta = \|\mathbf{H}_{pure} - \mathbf{H}_{scaled}\|_F
-
 $$
-
 
 Trong đó $\|\cdot\|_F$ là chuẩn Frobenius của ma trận. Nếu $\Delta = 0$, can thiệp không gây ra sự thay đổi. Giá trị $\Delta$ càng lớn chứng tỏ mô hình càng đi chệch khỏi quỹ đạo tính toán ban đầu.
 

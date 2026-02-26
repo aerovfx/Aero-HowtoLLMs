@@ -51,11 +51,8 @@ Mục tiêu nghiên cứu gồm:
 Quá trình cập nhật tham số trong học sâu được mô tả bởi:
 
 $$
-
 \theta_{t+1}=\theta_t-\eta \nabla_\theta L(\theta_t)
-
 $$
-
 
 Trong đó:
 
@@ -73,11 +70,8 @@ Khi $|\nabla_\theta L|$ quá lớn, cập nhật tham số trở nên không ổ
 Chuẩn Euclid của gradient:
 
 $$
-
 |\mathbf{g}|*2=\sqrt{\sum*{i=1}^{n}g_i^2}
-
 $$
-
 
 Trong đó:
 
@@ -87,11 +81,8 @@ Trong đó:
 Gradient explosion xảy ra khi:
 
 $$
-
 |\mathbf{g}|_2 \gg 1
-
 $$
-
 
 ---
 
@@ -112,24 +103,18 @@ Theo tài liệu , thay vì cắt từng phần tử riêng lẻ, toàn bộ vec
 Với ngưỡng $c$, gradient sau clipping:
 
 $$
-
 \mathbf{g}_{clip}=
 \begin{cases}
 \mathbf{g} & \text{nếu } |\mathbf{g}|\le c\
 \frac{c}{|\mathbf{g}|}\mathbf{g} & \text{nếu } |\mathbf{g}|>c
 \end{cases}
-
 $$
-
 
 Điều này đảm bảo:
 
 $$
-
 |\mathbf{g}_{clip}|\le c
-
 $$
-
 
 ---
 
@@ -138,11 +123,8 @@ $$
 Sau clipping:
 
 $$
-
 \theta_{t+1}=\theta_t-\eta \mathbf{g}_{clip}
-
 $$
-
 
 Việc này giúp giới hạn bước nhảy của tham số.
 
@@ -163,11 +145,8 @@ Theo , việc duy trì learning rate cố định có thể làm giảm hiệu q
 Trong giai đoạn khởi động:
 
 $$
-
 \eta_t=\eta_{max}\cdot\frac{t}{T_{warm}}
-
 $$
-
 
 Trong đó:
 
@@ -181,11 +160,8 @@ Trong đó:
 Hàm cosine decay:
 
 $$
-
 \eta_t=\eta_{min}+\frac{1}{2}(\eta_{max}-\eta_{min})\left(1+\cos\frac{\pi t}{T}\right)
-
 $$
-
 
 Trong đó:
 
@@ -199,11 +175,8 @@ Trong đó:
 Giảm tuyến tính:
 
 $$
-
 \eta_t=\eta_{max}\left(1-\frac{t}{T}\right)
-
 $$
-
 
 ---
 
@@ -217,11 +190,8 @@ Quy trình huấn luyện:
 4. Cập nhật tham số
 
 $$
-
 \theta_{t+1}=\theta_t-\eta_t\cdot \mathbf{g}_{clip}
-
 $$
-
 
 ---
 
@@ -238,11 +208,8 @@ Theo mô tả trong tài liệu , mô hình gồm:
 Loss function:
 
 $$
-
 L=\sum_{i=1}^{n}w_i^2
-
 $$
-
 
 ---
 

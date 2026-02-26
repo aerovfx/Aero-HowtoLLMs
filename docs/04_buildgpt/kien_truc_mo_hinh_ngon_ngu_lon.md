@@ -113,13 +113,11 @@ Vì Base Model chỉ giỏi "nói leo" theo văn bản chứ chưa biết cách 
 
 ## Fine-tuning
 
-
 *   **Chuyển đổi mục đích:** Nếu *Pre-training* tạo ra một "sinh viên mới tốt nghiệp" có kiến thức rộng nhưng chung chung, thì *Fine-tuning* là bước đào tạo chuyên sâu để biến mô hình thành chuyên gia trong một lĩnh vực hẹp (như y tế, tài chính, hoặc viết code),.
 *   **Dữ liệu đặc thù:** Khác với lượng dữ liệu khổng lồ của pre-training, fine-tuning sử dụng các tập dữ liệu nhỏ hơn nhưng được tuyển chọn kỹ lưỡng (curated) và đặc thù cho từng miền.
 *   **Phương pháp thực hiện:** Có hai hướng tiếp cận chính:
     *   **Full Fine-tuning:** Cập nhật toàn bộ tham số của mô hình. Cách này tốn kém tài nguyên và dễ gây ra hiện tượng "quên thảm họa" (mất kiến thức nền cũ).
     *   **PEFT (như LoRA):** Chỉ cập nhật một phần rất nhỏ tham số (thường < 1%) và đóng băng phần còn lại. Cách này tiết kiệm phần cứng, nhanh hơn và giúp bảo tồn tri thức nền tảng.
-
 
 ## Intruction finetuning
     Dựa trên các tài liệu, **Instruction Tuning (Tinh chỉnh theo chỉ dẫn)** là bước chuyển đổi quan trọng thứ hai trong quy trình huấn luyện, nằm giữa giai đoạn Huấn luyện sơ bộ (Pre-training) và RLHF.

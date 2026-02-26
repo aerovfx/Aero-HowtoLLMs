@@ -100,11 +100,8 @@ Add & Norm ←──────────┘ (Residual Connection)
     ↓
 
 $$
-
 Repeat N times
-
 $$
-
 
     ↓
 Output Layer
@@ -217,11 +214,8 @@ Embedding
   ↓
 
 $$
-
 Repeat 120 layers
-
 $$
-
 
   ↓
 Output

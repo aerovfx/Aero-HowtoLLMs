@@ -35,7 +35,6 @@ I'll read the uploaded file and create an academic article based on its content.
 ✅ **Decision framework** để chọn activation function  
 ✅ **Phụ lục** với code repository, mathematics, và glossary
 
-
 # Phân Tích So Sánh Hàm Kích Hoạt GELU và ReLU trong Mô Hình Ngôn Ngữ Lớn: Góc Nhìn Lý Thuyết và Thực Nghiệm
 
 **Tác giả:** PixiBoss
@@ -64,11 +63,8 @@ Deep learning về bản chất dựa trên các phép toán tuyến tính—nh�
 **Chứng minh đơn giản:**
 
 $$
-
 \mathbf{y} = \mathbf{W}_n \cdots \mathbf{W}_2 \mathbf{W}_1 \mathbf{x} = \mathbf{W}_{\text{combined}} \mathbf{x}
-
 $$
-
 
 Trong đó $\mathbf{W}_{\text{combined}} = \prod_{i=1}^{n} \mathbf{W}_i$
 
@@ -105,14 +101,11 @@ Câu hỏi trung tâm:
 **Công thức toán học:**
 
 $$
-
 \text{ReLU}(x) = \max(0, x) = \begin{cases} 
 x & \text{if } x > 0 \\
 0 & \text{if } x \leq 0
 \end{cases}
-
 $$
-
 
 **Triển khai NumPy:**
 ```python
@@ -132,15 +125,12 @@ def relu(x):
 **Công thức:**
 
 $$
-
 \frac{d}{dx}\text{ReLU}(x) = \begin{cases} 
 1 & \text{if } x > 0 \\
 0 & \text{if } x < 0 \\
 \text{undefined} & \text{if } x = 0
 \end{cases}
-
 $$
-
 
 **Vấn đề quan trọng:**
 - **Discontinuous tại x = 0**: Đạo hàm có step function
@@ -154,11 +144,8 @@ $$
 **Công thức exact (sử dụng Error Function):**
 
 $$
-
 \text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
-
 $$
-
 
 Trong đó:
 - $\Phi(x)$ là cumulative distribution function (CDF) của phân phối chuẩn
@@ -167,11 +154,8 @@ Trong đó:
 **Error Function:**
 
 $$
-
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt
-
 $$
-
 
 **Đặc điểm của erf:**
 - Không thể biểu diễn bằng elementary functions (polynomials, trig functions)
@@ -193,11 +177,8 @@ def gelu_exact(x):
 Do chi phí tính toán của error function, các tác giả đề xuất approximation:
 
 $$
-
 \text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
-
 $$
-
 
 **Triển khai Python:**
 ```python
@@ -457,20 +438,14 @@ torch.cuda.synchronize()
 **Mathematical intuition:**
 
 $$
-
 \frac{d}{dx}\text{GELU}(x) \neq 0 \text{ for } x < 0
-
 $$
-
 
 Trong khi:
 
 $$
-
 \frac{d}{dx}\text{ReLU}(x) = 0 \text{ for } x < 0
-
 $$
-
 
 #### 4.1.2 Stochastic Regularization
 
@@ -478,11 +453,8 @@ $$
 GELU có thể được hiểu như stochastic regularizer:
 
 $$
-
 \text{GELU}(x) = x \cdot \mathbb{1}_{X \sim \mathcal{N}(0,1)}(X < x)
-
 $$
-
 
 Nghĩa là: "multiply input by Bernoulli variable dependent on input"
 
@@ -728,11 +700,8 @@ class HybridModel(nn.Module):
 **Formula:**
 
 $$
-
 \text{Swish}(x) = x \cdot \sigma(x) = \frac{x}{1 + e^{-x}}
-
 $$
-
 
 **Properties:**
 - Similar to GELU
@@ -744,11 +713,8 @@ $$
 **Formula:**
 
 $$
-
 \text{Mish}(x) = x \cdot \tanh(\text{softplus}(x)) = x \cdot \tanh(\ln(1 + e^x))
-
 $$
-
 
 **Properties:**
 - Smoother than Swish
@@ -1167,11 +1133,8 @@ output = custom_gelu(torch.randn(10, 512))
 **Definition:**
 
 $$
-
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt
-
 $$
-
 
 **Properties:**
 1. $\text{erf}(-x) = -\text{erf}(x)$ (odd function)
@@ -1182,49 +1145,34 @@ $$
 **Series expansion:**
 
 $$
-
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{n!(2n+1)}
-
 $$
-
 
 ### B.2 GELU Derivation
 
 **Starting point:** Stochastic regularization
 
 $$
-
 \mathbb{E}[x \cdot \mathbb{1}_{X \sim \mathcal{N}(0,1)}(X < x)]
-
 $$
-
 
 **CDF của standard normal:**
 
 $$
-
 \Phi(x) = P(X \leq x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^x e^{-t^2/2} dt
-
 $$
-
 
 **Relationship với error function:**
 
 $$
-
 \Phi(x) = \frac{1}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
-
 $$
-
 
 **Therefore:**
 
 $$
-
 \text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
-
 $$
-
 
 ### B.3 Approximation Derivation
 
@@ -1235,22 +1183,16 @@ $$
 **Known relationship:**
 
 $$
-
 \text{erf}(x) \approx \tanh\left(\sqrt{\frac{\pi}{2}} x + \alpha x^3\right)
-
 $$
-
 
 **Optimal $\alpha$:** Through empirical fitting, $\alpha \approx 0.044715$
 
 **Final approximation:**
 
 $$
-
 \text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
-
 $$
-
 
 ---
 

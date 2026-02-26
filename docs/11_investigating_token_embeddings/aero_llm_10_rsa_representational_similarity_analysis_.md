@@ -41,27 +41,18 @@ Cho ma trận nhúng $E_1 \in \mathbb{R}^{N \times D_1}$ từ mô hình 1 (Ví d
 Bước đầu tiên, RSA tính toán các Ma trận Tương quan nội bộ (viết tắt là Representational Similarity Matrix - RSM) cho từng không gian chiều:
 
 $$
-
 S_1 = \text{CosineSimilarity}(E_1)
-
 $$
 
-
 $$
-
 S_2 = \text{CosineSimilarity}(E_2)
-
 $$
-
 
 Trong đó, mỗi phần tử $S(i, j)$ được cho bằng công thức nội tích ma trận Gram đã chuẩn hóa:
 
 $$
-
 S(i,j) = \frac{e_i \cdot e_j}{\|e_i\| \|e_j\|}
-
 $$
-
 
 Kết quả thu được là 2 ma trận vuông đối xứng kích thước $N \times N$, độc lập hoàn toàn với chiều không gian ban đầu $D_1$ hay $D_2$.
 
@@ -70,18 +61,12 @@ Kết quả thu được là 2 ma trận vuông đối xứng kích thước $N 
 Vì các ma trận $S_1$ và $S_2$ là đối xứng qua đường chéo $S(i,j) = S(j,i)$, và các giá trị trên đường chéo luôn bằng 1 ($S(i,i) = 1$), việc tính toán trên toàn bộ ma trận sẽ dẫn đến hiện tượng bơm phồng tương quan (inflation artifact). Do đó, ta chỉ trích xuất các thành phần không bị trùng lặp ở nửa trên tam giác (upper triangular part):
 
 $$
-
 \vec{v}_1 = \{ S_1(i, j) \mid i < j \}
-
 $$
 
-
 $$
-
 \vec{v}_2 = \{ S_2(i, j) \mid i < j \}
-
 $$
-
 
 Số lượng các phần tử duy nhất sau khi bung ra là $\frac{N(N-1)}{2}$.
 
@@ -90,11 +75,8 @@ Số lượng các phần tử duy nhất sau khi bung ra là $\frac{N(N-1)}{2}$
 Bước cuối cùng là áp dụng hệ số Tương quan bình phương Pearson (hoặc Spearman rank correlation) giữa hai vector $\vec{v}_1$ và $\vec{v}_2$:
 
 $$
-
 \rho = \frac{\sum (\vec{v}_1 - \mu_{\vec{v}_1})(\vec{v}_2 - \mu_{\vec{v}_2})}{\sigma_{\vec{v}_1} \sigma_{\vec{v}_2}}
-
 $$
-
 
 Nếu $\rho$ tiến sát tới 1, ta kết luận rằng bất chấp việc được huấn luyện ở những nguồn dữ liệu khác nhau với số lượng lớp nơ-ron khác nhau, hai mô hình này sử dụng cùng một cấu trúc hình học tương quan để bảo toàn ngữ nghĩa từ vựng.
 

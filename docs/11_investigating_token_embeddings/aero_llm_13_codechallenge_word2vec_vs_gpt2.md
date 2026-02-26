@@ -36,18 +36,12 @@ Bất lực hoàn toàn trước phép trừ hoặc cộng tuyến tính giữa 
 Trích lấy cụm thông tin vector của $N=100$ token trong hai hộp không gian, áp dụng ma trận tích vô hướng khoảng cách chéo Cosine Similarity:
 
 $$
-
 S_{W2V} = \text{CosineSim}(E_{\text{w2v-100}}) \in \mathbb{R}^{100 \times 100}
-
 $$
 
-
 $$
-
 S_{GPT2} = \text{CosineSim}(E_{\text{gpt2-100}}) \in \mathbb{R}^{100 \times 100}
-
 $$
-
 
 **Chắt Cất Đại Lượng (Upper Triangular Tiling):** 
 Dọc theo chéo chính (Diagonal elements), tất cả các thông số đều vô nghĩa vì chúng luôn $\equiv 1.0$ (Tự soi chiếu gương). Tương tự, mặt đối xứng chéo dưới (Lower triangular) cũng là thông tin vi phạm lỗi dư thừa. Do đó, chỉ môt mảnh tam giác trên cùng (Upper components extract) có trị số vô hướng $\frac{100 \times 99}{2} = 4950$ điểm dữ liệu thô được dàn phẳng thành vector dây một chiều $v_{w2v}$ và $v_{gpt2}$.
@@ -64,11 +58,8 @@ Quang phổ Cosine của Word2Vec luôn được chuẩn hóa rộng rãi nằm 
 Nếu giả tưởng ta ép ma trận Word2vec tịnh tiến xuống trừ đi $-1$ trị số (Mean Offset subtract 1), chỉ số Cosine Similarity đột ngột nhảy vực thay đổi phương hướng đồ thị toàn tập. Nhưng tính chất **Hệ số Pearson ($\rho$) không bao giờ gãy đổ**:
 
 $$
-
 \rho = \frac{\text{Cov}(v_{w2v}, v_{gpt2})}{\sigma_{\text{w2v}} \sigma_{\text{gpt2}}}
-
 $$
-
 
 Luật tính hiệp phương sai chia chuẩn độ lệch $Cov(X,Y)$ tự động loại bỏ mọi độ lệch trung bình tâm (global mean offsets shift), khiến Pearson Correlation chỉ xét dựa trên tính chất "*Chúng nhảy nhót lên và xuống cùng một biên độ hay không*". 
 

@@ -122,11 +122,8 @@ Học đa phương thức là quá trình kết hợp nhiều loại dữ liệu
 ### 4.2 Mô Hình Toán Học
 
 $$
-
 \text{Translation} = f_{\theta}( \text{FewShotExamples} \oplus \text{NewInput} )
-
 $$
-
 
 Trong đó:
 - $f_{\theta}$ là mô hình ngôn ngữ với tham số $\theta$

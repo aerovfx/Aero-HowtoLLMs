@@ -32,11 +32,8 @@ Trong các mô hình Transformer sinh văn bản, mỗi token được ánh xạ
 Mỗi token $t$ có vector embedding:
 
 $$
-
 \mathbf{v}_t \in \mathbb{R}^{768}
-
 $$
-
 
 Phân tích cosine similarity giữa các vector này giúp hiểu cấu trúc ngữ nghĩa nội tại của mô hình.
 
@@ -47,52 +44,37 @@ Phân tích cosine similarity giữa các vector này giúp hiểu cấu trúc n
 Cho hai vector:
 
 $$
-
 \mathbf{x}, \mathbf{y} \in \mathbb{R}^d
-
 $$
-
 
 Định nghĩa:
 
 $$
-
 \text{cosine}(\mathbf{x},\mathbf{y})
 =
 \frac{\mathbf{x} \cdot \mathbf{y}}
 {\|\mathbf{x}\| \|\mathbf{y}\|}
-
 $$
-
 
 Trong đó:
 
 $$
-
 \mathbf{x} \cdot \mathbf{y}
 =
 \sum_{i=1}^{d} x_i y_i
-
 $$
 
-
 $$
-
 \|\mathbf{x}\|
 =
 \sqrt{\sum_{i=1}^{d} x_i^2}
-
 $$
-
 
 Giá trị nằm trong khoảng:
 
 $$
-
 -1 \leq \text{cosine} \leq 1
-
 $$
-
 
 ---
 
@@ -101,50 +83,35 @@ $$
 Trong thực tế, ta chuẩn hóa trước:
 
 $$
-
 \hat{\mathbf{x}} =
 \frac{\mathbf{x}}{\|\mathbf{x}\|}
-
 $$
-
 
 Khi đó:
 
 $$
-
 \text{cosine}(\mathbf{x},\mathbf{y})
 =
 \hat{\mathbf{x}} \cdot \hat{\mathbf{y}}
-
 $$
-
 
 Nếu ma trận embedding:
 
 $$
-
 E \in \mathbb{R}^{|V| \times d}
-
 $$
-
 
 Sau khi chuẩn hóa từng hàng:
 
 $$
-
 \hat{E}
-
 $$
-
 
 Ma trận cosine similarity toàn bộ từ vựng:
 
 $$
-
 S = \hat{E} \hat{E}^T
-
 $$
-
 
 ---
 
@@ -155,20 +122,14 @@ $$
 Với token index $i$:
 
 $$
-
 \mathbf{v}_i = E[i]
-
 $$
-
 
 Trong GPT-2, embedding đầu vào và embedding đầu ra thường được chia sẻ trọng số (weight tying):
 
 $$
-
 W_{out} = E^T
-
 $$
-
 
 Điều này tạo liên hệ hình học trực tiếp giữa không gian embedding và không gian dự đoán xác suất.
 
@@ -185,29 +146,20 @@ Giả sử ta chọn token:
 Ta tính:
 
 $$
-
 \text{sim}(\text{cat},\text{dog})
-
 $$
 
-
 $$
-
 \text{sim}(\text{cat},\text{banana})
-
 $$
-
 
 Kỳ vọng:
 
 $$
-
 \text{sim}(\text{cat},\text{dog})
 >
 \text{sim}(\text{cat},\text{banana})
-
 $$
-
 
 Do cấu trúc ngữ nghĩa gần nhau.
 
@@ -218,37 +170,25 @@ Do cấu trúc ngữ nghĩa gần nhau.
 Giả sử hai vector ngẫu nhiên:
 
 $$
-
 \mathbf{x},\mathbf{y}
 \sim \mathcal{N}(0,I_d)
-
 $$
-
 
 Khi $d \to \infty$:
 
 $$
-
 \mathbb{E}[\text{cosine}] = 0
-
 $$
 
-
 $$
-
 \text{Var}(\text{cosine}) \approx \frac{1}{d}
-
 $$
-
 
 Với $d = 768$:
 
 $$
-
 \text{Var} \approx \frac{1}{768}
-
 $$
-
 
 Do đó:
 
@@ -262,43 +202,31 @@ Do đó:
 Trong GPT-2, xác suất token tiếp theo:
 
 $$
-
 P(w_t | h_t)
 =
 \text{softmax}(W_{out} h_t)
-
 $$
-
 
 Nếu weight tying:
 
 $$
-
 W_{out} = E^T
-
 $$
-
 
 Khi đó:
 
 $$
-
 z_i = \mathbf{v}_i \cdot h_t
-
 $$
-
 
 Softmax:
 
 $$
-
 P(w_i)
 =
 \frac{e^{\mathbf{v}_i \cdot h_t}}
 {\sum_j e^{\mathbf{v}_j \cdot h_t}}
-
 $$
-
 
 Như vậy:
 
@@ -307,15 +235,12 @@ Như vậy:
 Nếu chuẩn hóa:
 
 $$
-
 \mathbf{v}_i \cdot h_t
 =
 \|\mathbf{v}_i\|
 \|h_t\|
 \cos\theta
-
 $$
-
 
 Do đó cosine similarity trực tiếp ảnh hưởng đến xác suất dự đoán.
 
@@ -326,23 +251,17 @@ Do đó cosine similarity trực tiếp ảnh hưởng đến xác suất dự �
 Cho tập $n$ token:
 
 $$
-
 X \in \mathbb{R}^{n \times d}
-
 $$
-
 
 Ma trận cosine:
 
 $$
-
 S_{ij}
 =
 \frac{\mathbf{v}_i \cdot \mathbf{v}_j}
 {\|\mathbf{v}_i\|\|\mathbf{v}_j\|}
-
 $$
-
 
 Ta có thể phân tích:
 
@@ -350,11 +269,8 @@ Ta có thể phân tích:
 - Phân tích trị riêng:
 
 $$
-
 S \mathbf{u} = \lambda \mathbf{u}
-
 $$
-
 
 Giá trị riêng lớn phản ánh cấu trúc ngữ nghĩa chiếm ưu thế.
 
@@ -365,25 +281,19 @@ Giá trị riêng lớn phản ánh cấu trúc ngữ nghĩa chiếm ưu thế.
 Nếu vector đã chuẩn hóa:
 
 $$
-
 \|\mathbf{x}-\mathbf{y}\|^2
 =
 2 - 2\cos\theta
-
 $$
-
 
 Suy ra:
 
 $$
-
 \cos\theta
 =
 1 - \frac{1}{2}
 \|\mathbf{x}-\mathbf{y}\|^2
-
 $$
-
 
 Điều này cho thấy cosine similarity và Euclid distance tương đương về mặt hình học khi chuẩn hóa.
 
@@ -401,13 +311,10 @@ Cosine similarity trong GPT-2:
 Về bản chất:
 
 $$
-
 \text{Prediction}
 \propto
 \exp(\|\mathbf{v}\|\|h\|\cos\theta)
-
 $$
-
 
 Do đó góc giữa vector đóng vai trò quyết định.
 

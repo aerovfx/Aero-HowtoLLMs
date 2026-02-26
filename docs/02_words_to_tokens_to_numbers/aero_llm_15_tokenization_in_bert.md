@@ -134,7 +134,6 @@ Mô hình xác suất	Có	Không trực tiếp
 Ứng dụng	BERT	GPT
 Tối ưu	Theo corpus	Theo tần suất thuần
 
-
 ⸻
 
 5. Biểu diễn Embedding

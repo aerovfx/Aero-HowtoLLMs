@@ -1,61 +1,73 @@
 import os
 import re
 
-def fix_math_final_v2(content):
-    # 1. Chuyển đổi các khối [ \n content \n ] sang dạng $$
-    def convert_bracket_block(match):
-        inner = match.group(1).strip()
-        if not inner: return match.group(0)
-        return f"\n\n$$\n{inner}\n$$\n\n"
-
-    # Xử lý khối [ trên dòng riêng và ] trên dòng riêng
-    content = re.sub(r'\n\[\s*\n([\s\S]*?)\n\s*\](?=\n|$)', convert_bracket_block, content)
-    
-    # 2. Xử lý khối \[ ... \]
+def fix_math_ultra_clean(content):
+    # 1. Chuyển đổi các khối [ ] hoặc \[ \] sang $$ trước
     content = re.sub(r'\\\[([\s\S]*?)\\\]', lambda m: f"\n\n$$\n{m.group(1).strip()}\n$$\n\n", content)
-
-    # 3. CHỮA LỖI QUAN TRỌNG: Loại bỏ dòng trống BÊN TRONG $$
-    # Tìm tất cả các khối $$ ... $$ và làm sạch nội dung bên trong
-    def clean_math_content(match):
-        # match.group(1) là nội dung giữa hai cặp $$
-        inner = match.group(1).strip()
-        return f"$$\n{inner}\n$$"
-
-    # Regex này bắt mọi thứ giữa $$ và $$ (bao gồm cả xuống dòng)
-    content = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', clean_math_content, content)
     
-    # 4. Đảm bảo có dòng trống BÊN NGOÀI $$
-    # Trước $$
-    content = re.sub(r'([^\n])\n\s*\$\$', r'\1\n\n$$', content)
-    # Sau $$ (khép)
-    content = re.sub(r'\$\$\n([^\n])', r'$$\n\n\1', content)
-
-    # 5. Dọn dẹp dòng trống dư thừa (> 2 dòng)
-    content = re.sub(r'\n{4,}', '\n\n\n', content)
+    # 2. Thuật toán xử lý dòng trống nội bộ cực mạnh
+    lines = content.split('\n')
+    new_lines = []
+    in_math_block = False
+    math_buffer = []
     
-    # 6. Sửa lỗi chính tả
+    for line in lines:
+        stripped = line.strip()
+        if stripped == '$$':
+            if not in_math_block:
+                # Bắt đầu khối
+                in_math_block = True
+                math_buffer = ['$$']
+            else:
+                # Kết thúc khối
+                in_math_block = False
+                math_buffer.append('$$')
+                # Làm sạch buffer: chỉ giữ lại $$ ở đầu/cuối và các dòng có nội dung ở giữa
+                cleaned_block = [math_buffer[0]] # Mở $$
+                for m_line in math_buffer[1:-1]:
+                    if m_line.strip(): # Chỉ giữ dòng có chữ
+                        cleaned_block.append(m_line)
+                cleaned_block.append(math_buffer[-1]) # Đóng $$
+                
+                # Đảm bảo có dòng trống trước khối nếu chưa có
+                if new_lines and new_lines[-1].strip():
+                    new_lines.append('')
+                
+                new_lines.extend(cleaned_block)
+                # Đảm bảo có dòng trống sau khối
+                new_lines.append('')
+                math_buffer = []
+        else:
+            if in_math_block:
+                math_buffer.append(line)
+            else:
+                new_lines.append(line)
+    
+    # Ghép lại
+    content = '\n'.join(new_lines)
+
+    # 3. Dọn dẹp dòng trống dư thừa (> 2 dòng)
+    content = re.sub(r'\n{3,}', '\n\n', content)
+    
+    # 4. Sửa lỗi chính tả
     content = content.replace("Ave18_rage", "Average")
     
     return content
 
-def process_and_push(directory):
-    count = 0
+def run_fix(directory):
     for root, dirs, files in os.walk(directory):
         for file in files:
             if file.endswith(".md"):
                 path = os.path.join(root, file)
                 with open(path, 'r', encoding='utf-8') as f:
-                    old_content = f.read()
+                    content = f.read()
                 
-                new_content = fix_math_final_v2(old_content)
+                fixed = fix_math_ultra_clean(content)
                 
-                if new_content != old_content:
+                if fixed != content:
                     with open(path, 'w', encoding='utf-8') as f:
-                        f.write(new_content)
-                    count += 1
-                    print(f"Verified & Fixed: {path}")
-    
-    print(f"Finished. Updated {count} files.")
+                        f.write(fixed)
+                    print(f"Ultra-Cleaned: {path}")
 
 if __name__ == "__main__":
-    process_and_push("/Users/pixibox/Aero-HowtoLLMs/docs")
+    run_fix("/Users/pixibox/Aero-HowtoLLMs/docs")

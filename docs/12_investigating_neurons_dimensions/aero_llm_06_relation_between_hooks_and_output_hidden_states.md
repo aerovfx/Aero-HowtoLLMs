@@ -47,11 +47,8 @@ Khi mô hình không ở chế độ `eval()`, các tensor trích xuất qua Hoo
 Giá trị hoạt hóa của Tầng $L+1$ có thể được dự đoán chính xác tuyệt đối bằng công thức:
 
 $$
-
 \mathbf{H}_{L+1} = \mathbf{H}_L + \Delta_{Attention} + \Delta_{MLP}
-
 $$
-
 
 Thực nghiệm cho thấy khi cộng các giá trị trích xuất từ Hook ($\Delta$) vào Hidden State hiện tại, ta thu được kết quả khớp hoàn hảo với Hidden State của tầng tiếp theo trích xuất từ `output.hidden_states`.
 

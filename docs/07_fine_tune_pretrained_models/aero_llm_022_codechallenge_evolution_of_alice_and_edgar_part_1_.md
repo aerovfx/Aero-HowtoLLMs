@@ -49,20 +49,14 @@ Mục tiêu nghiên cứu:
 Cho chuỗi token:
 
 $$
-
 X=(x_1,x_2,\dots,x_n)
-
 $$
-
 
 Xác suất sinh:
 
 $$
-
 P(X)=\prod_{i=1}^{n}P(x_i\mid x_{<i};\theta_g)
-
 $$
-
 
 Trong đó $\theta_g$ là tham số mô hình sinh.
 
@@ -73,27 +67,18 @@ Trong đó $\theta_g$ là tham số mô hình sinh.
 Với đầu ra [CLS]:
 
 $$
-
 h_{CLS}\in\mathbb{R}^d
-
 $$
-
 
 Bộ phân loại:
 
 $$
-
 z = Wh_{CLS}+b
-
 $$
 
-
 $$
-
 \hat{y}=\text{softmax}(z)
-
 $$
-
 
 Trong đó $\hat{y}$ là xác suất Alice/Edgar.
 
@@ -104,24 +89,18 @@ Trong đó $\hat{y}$ là xác suất Alice/Edgar.
 #### $a$ Mô hình sinh
 
 $$
-
 \mathcal{L}_{gen}
 =================
 -\frac{1}{N}\sum_{i=1}^{N}\log P(x_i\mid x_{<i})
-
 $$
-
 
 #### $b$ Mô hình phân loại
 
 $$
-
 \mathcal{L}_{cls}
 =================
 -\frac{1}{N}\sum_{i=1}^{N}\sum_{c}y_{ic}\log\hat{y}_{ic}
-
 $$
-
 
 ---
 
@@ -142,11 +121,8 @@ Hai mô hình sinh dựa trên **EleutherAI** GPT-Neo:
 Sơ đồ tổng quát:
 
 $$
-
 \text{Alice/Edgar} \rightarrow \text{Text} \rightarrow \text{BERT} \rightarrow \text{Label}
-
 $$
-
 
 ---
 
@@ -155,20 +131,14 @@ $$
 BERT được chuyển sang half precision:
 
 $$
-
 \text{float32} \rightarrow \text{float16}
-
 $$
-
 
 Giảm dung lượng:
 
 $$
-
 M_{fp16}\approx \frac{1}{2}M_{fp32}
-
 $$
-
 
 Giúp tiết kiệm GPU.
 
@@ -184,11 +154,8 @@ Hai tokenizer khác nhau:
 Ánh xạ gián tiếp:
 
 $$
-
 T_{bert}(T^{-1}_{neo}(x))
-
 $$
-
 
 Trong đó:
 
@@ -198,13 +165,10 @@ Trong đó:
 Quy trình:
 
 $$
-
 \text{Token}*{neo}
 \rightarrow \text{Text}
 \rightarrow \text{Token}*{bert}
-
 $$
-
 
 ---
 
@@ -219,21 +183,15 @@ Theo tài liệu :
 Ma trận batch:
 
 $$
-
 B\in\mathbb{R}^{64\times128}
-
 $$
-
 
 Vector nhãn:
 
 $$
-
 y=(\underbrace{0,\dots,0}*{32},
 \underbrace{1,\dots,1}*{32})
-
 $$
-
 
 ---
 
@@ -244,29 +202,20 @@ $$
 Để đảm bảo đủ token BERT:
 
 $$
-
 L_{neo}=kL_{bert},\quad k>1
-
 $$
-
 
 Trong thực nghiệm:
 
 $$
-
 k\approx4
-
 $$
-
 
 Sau đó cắt:
 
 $$
-
 X_{bert}=X_{neo}[1:L]
-
 $$
-
 
 ---
 
@@ -275,20 +224,14 @@ $$
 Danh sách token xấu:
 
 $$
-
 \mathcal{B}={\text{space},\text{tab},\text{newline},\dots}
-
 $$
-
 
 Ràng buộc sinh:
 
 $$
-
 x_t\notin\mathcal{B}
-
 $$
-
 
 ---
 
@@ -297,11 +240,8 @@ $$
 Hạn chế lặp:
 
 $$
-
 p_i'=\frac{p_i}{r^{c_i}}
-
 $$
-
 
 Trong đó:
 
@@ -315,22 +255,16 @@ Trong đó:
 ### 5.1. Độ chính xác phân loại
 
 $$
-
 \text{Acc}
 ==========
 \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
-
 $$
-
 
 Trước fine-tuning:
 
 $$
-
 \text{Acc}\approx 0.5
-
 $$
-
 
 .
 
@@ -339,13 +273,10 @@ $$
 ### 5.2. Hàm mất mát BERT
 
 $$
-
 \mathcal{L}*{cls}^{(t+1)}
 <
 \mathcal{L}*{cls}^{(t)}
-
 $$
-
 
 ⇒ mô hình sinh tiến gần phong cách mục tiêu.
 
@@ -356,20 +287,14 @@ $$
 Gọi:
 
 $$
-
 S(t)=P_{BERT}(\text{Alice}\mid X_t)
-
 $$
-
 
 Nếu:
 
 $$
-
 S(t)\uparrow
-
 $$
-
 
 ⇒ mô hình Alice cải thiện.
 
@@ -386,11 +311,8 @@ Theo :
 Quan hệ tổng quát:
 
 $$
-
 \frac{d}{dt}\mathcal{L}_{cls}<0
-
 $$
-
 
 Cho thấy quá trình hội tụ.
 
@@ -403,11 +325,8 @@ Cho thấy quá trình hội tụ.
 Hệ thống tạo vòng lặp:
 
 $$
-
 \text{Generate}\rightarrow\text{Classify}\rightarrow\text{Optimize}
-
 $$
-
 
 Giống mô hình học đối kháng nhẹ (weak adversarial learning).
 
@@ -418,11 +337,8 @@ Giống mô hình học đối kháng nhẹ (weak adversarial learning).
 Sai lệch tokenizer:
 
 $$
-
 |T_{neo}(x)|\ne|T_{bert}(x)|
-
 $$
-
 
 Là nguồn gây nhiễu chính trong huấn luyện.
 
