@@ -65,11 +65,27 @@ Chuẩn NFC: \text{é} = e + \acute{} Chuẩn hóa đảm bảo: NFC(x_1) = NFC(
  Lặp: 
  1. Tìm cặp ký tự xuất hiện nhiều nhất 
  2. Gộp thành token mới 
- 3. Cập nhật từ vựng Giả sử tần suất cặp ((a,b)): f(a,b) = \sum_{i} \mathbb{I}[(a,b) \in X_i] Chọn: (a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b) 
- Cập nhật: V_{k+1} = V_k \cup {ab} --- # 5. Không gian rời rạc và ánh xạ embedding Sau tokenization:
+ 3. Cập nhật từ vựng Giả sử tần suất cặp ((a,b)): 
+ $$
+ f(a,b) = \sum_{i} \mathbb{I}[(a,b) \in X_i]
+ $$
+ Chọn: 
+
+ $$
+ (a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b) 
+ $$
+
+ Cập nhật: 
+ 
+ $$
+ V_{k+1} = V_k \cup {ab}
+ $$
+ 
+ # 5. Không gian rời rạc và ánh xạ embedding Sau tokenization:
 
 
-$w_i$ \rightarrow id_i \in {1, \dots, |V|}
+$$
+w_i$ \rightarrow id_i \in {1, \dots, |V|}
 
 $$
 Embedding matrix: E \in \mathbb{R}^{|V| \times d} Ánh xạ: e_i = E[id_i] Toàn bộ chuỗi:
