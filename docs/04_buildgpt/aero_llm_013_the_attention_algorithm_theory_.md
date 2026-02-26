@@ -50,7 +50,7 @@ Thuật toán Scaled Dot-Product Attention được định nghĩa như sau:
 
 $$
 \text{Attention}(Q, K, V)
-=========================
+ = 
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}} + M\right)V
 $$
 

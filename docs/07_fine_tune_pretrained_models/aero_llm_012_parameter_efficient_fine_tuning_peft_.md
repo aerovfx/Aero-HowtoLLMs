@@ -68,7 +68,7 @@ Với hàm mất mát cross-entropy:
 
 $$
 \mathcal{L}(\theta)
-===================
+ = 
 -\frac{1}{N}\sum_{i=1}^{N}
 \log P(y_i|x_i;\theta)
 $$
@@ -77,7 +77,7 @@ Cập nhật bằng gradient descent:
 
 $$
 \theta_{t+1}
-============
+ = 
 \theta_t-\eta\nabla_\theta\mathcal{L}
 $$
 

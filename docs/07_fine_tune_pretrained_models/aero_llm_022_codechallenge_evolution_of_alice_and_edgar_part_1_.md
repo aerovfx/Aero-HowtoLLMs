@@ -90,7 +90,7 @@ Trong đó $\hat{y}$ là xác suất Alice/Edgar.
 
 $$
 \mathcal{L}_{gen}
-=================
+ = 
 -\frac{1}{N}\sum_{i=1}^{N}\log P(x_i\mid x_{<i})
 $$
 
@@ -98,7 +98,7 @@ $$
 
 $$
 \mathcal{L}_{cls}
-=================
+ = 
 -\frac{1}{N}\sum_{i=1}^{N}\sum_{c}y_{ic}\log\hat{y}_{ic}
 $$
 
@@ -256,7 +256,7 @@ Trong đó:
 
 $$
 \text{Acc}
-==========
+ = 
 \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
 $$
 

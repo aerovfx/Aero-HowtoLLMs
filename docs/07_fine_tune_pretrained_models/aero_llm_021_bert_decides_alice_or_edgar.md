@@ -87,7 +87,7 @@ Với nhãn thật $y\in{0,1}$:
 
 $$
 \mathcal{L}
-===========
+ = 
 -\frac{1}{N}\sum_{i=1}^{N}
 \sum_{c=1}^{2}
 y_{ic}\log(\hat{y}_{ic})
@@ -154,7 +154,7 @@ Tham số được cập nhật theo:
 
 $$
 \theta_{t+1}
-============
+ = 
 \theta_t-\eta\nabla_\theta\mathcal{L}_t
 $$
 
@@ -190,7 +190,7 @@ Với cửa sổ kích thước $k$, giá trị làm mượt:
 
 $$
 y_i
-===
+ = 
 \frac{1}{k}
 \sum_{j=i-w}^{i+w} x_j
 $$
@@ -237,7 +237,7 @@ Gây ra hiện tượng “edge effect”.
 
 $$
 \text{Acc}
-==========
+ = 
 \frac{1}{N}
 \sum_{i=1}^{N}\mathbf{1}(\hat{y}_i=y_i)
 $$

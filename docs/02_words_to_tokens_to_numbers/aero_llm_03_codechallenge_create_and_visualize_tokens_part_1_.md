@@ -147,7 +147,7 @@ Trong đó:
 
 $$
 D_{KL}(P|Q)
-===========
+ = 
 \sum_{i,j}
 P_{ij}
 \log
@@ -183,7 +183,7 @@ Attention:
 
 $$
 \text{Attention}(Q,K,V)
-=======================
+ = 
 \text{softmax}
 \left(
 \frac{QK^T}{\sqrt{d_k}}
@@ -194,7 +194,7 @@ Ma trận attention:
 
 $$
 A_{ij}
-======
+ = 
 \frac
 {\exp(q_i k_j / \sqrt{d_k})}
 {\sum_j \exp(q_i k_j / \sqrt{d_k})}
@@ -277,7 +277,7 @@ Loss:
 
 $$
 \mathcal{L}
-===========
+ = 
 -\sum_{t=1}^{T}
 \log P(x_t | x_{<t})
 $$

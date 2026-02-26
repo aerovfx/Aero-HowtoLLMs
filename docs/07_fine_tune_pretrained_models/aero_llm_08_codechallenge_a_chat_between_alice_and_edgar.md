@@ -87,7 +87,7 @@ Quá trình fine-tuning cập nhật tham số $\theta$ thông qua hàm mất m�
 
 $$
 \mathcal{L}(\theta)
-===================
+ = 
 -\frac{1}{N}
 \sum_{i=1}^{N}
 \log P(y_i \mid x_i; \theta)

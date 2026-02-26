@@ -71,7 +71,7 @@ Quá trình fine-tuning tối ưu hàm cross-entropy:
 
 $$
 \mathcal{L}(\theta)
-===================
+ = 
 -\frac{1}{N}\sum_{i=1}^{N}\log P(y_i\mid x_i;\theta)
 $$
 

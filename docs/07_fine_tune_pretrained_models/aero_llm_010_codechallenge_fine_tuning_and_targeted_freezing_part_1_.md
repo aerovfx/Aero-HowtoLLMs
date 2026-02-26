@@ -71,9 +71,7 @@ V = XW_V
 $$
 
 $$
-\text{Attention}(Q,K,V)
-=======================
-\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 $$
 
 Trong đó:
@@ -90,17 +88,13 @@ Các ma trận này là trọng tâm của chiến lược fine-tuning có mục
 Hàm mất mát Cross-Entropy:
 
 $$
-\mathcal{L}
-===========
--\frac{1}{N}\sum_{i=1}^{N}\log P(y_i \mid x_i)
+\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N}\log P(y_i \mid x_i)
 $$
 
 Quy tắc cập nhật:
 
 $$
-\theta_{t+1}
-============
-\theta_t - \eta \nabla_\theta \mathcal{L}
+\theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}
 $$
 
 với $\eta$ là learning rate.
@@ -196,7 +190,7 @@ Mô tả toán học:
 $$
 \theta_i =
 \begin{cases}
-\text{trainable}, & i \in \mathcal{A}_{6+} \
+\text{trainable}, & i \in \mathcal{A}_{6+} \\
 \text{frozen}, & \text{ngược lại}
 \end{cases}
 $$
@@ -242,9 +236,7 @@ $$
 Chuẩn Frobenius:
 
 $$
-|\Delta W_t|_F
-==============
-\sqrt{\sum_{i,j}(\Delta W_{ij})^2}
+|\Delta W_t|_F = \sqrt{\sum_{i,j}(\Delta W_{ij})^2}
 $$
 
 Chuẩn lớn ⇒ cập nhật mạnh.
@@ -257,9 +249,7 @@ Chuẩn nhỏ ⇒ cập nhật yếu.
 Loss trung bình:
 
 $$
-\bar{\mathcal{L}}
-=================
-\frac{1}{K}\sum_{k=1}^{K}\mathcal{L}_k
+\bar{\mathcal{L}} = \frac{1}{K}\sum_{k=1}^{K}\mathcal{L}_k
 $$
 
 Dùng để so sánh tốc độ hội tụ của hai mô hình.

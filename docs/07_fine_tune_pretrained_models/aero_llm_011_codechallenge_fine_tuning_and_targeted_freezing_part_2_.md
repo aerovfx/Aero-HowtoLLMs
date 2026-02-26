@@ -49,7 +49,7 @@ Hàm mất mát cross-entropy:
 
 $$
 \mathcal{L}
-===========
+ = 
 -\frac{1}{N}\sum_{i=1}^{N}
 \log P(y_i|x_i;\theta)
 $$
@@ -70,7 +70,7 @@ Quy tắc cập nhật:
 
 $$
 \theta_{t+1}
-============
+ = 
 \theta_t-\eta\nabla_\theta\mathcal{L}
 $$
 
@@ -106,7 +106,7 @@ Chuẩn Frobenius:
 
 $$
 |\Delta W_t|_F
-==============
+ = 
 \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n}(\Delta W_{ij})^2}
 $$
 

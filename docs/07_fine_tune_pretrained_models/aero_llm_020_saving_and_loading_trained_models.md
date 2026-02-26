@@ -65,7 +65,7 @@ Tham số được cập nhật theo gradient descent:
 
 $$
 \theta_{t+1}
-============
+ = 
 \theta_t-\eta\nabla_\theta\mathcal{L}_t
 $$
 
