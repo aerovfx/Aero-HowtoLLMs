@@ -19,9 +19,7 @@ Phù hợp: Privacy cao, Intranet, doanh nghiệp không dùng API cloud.
 
 # 🏗️ LOCAL RAG STACK
 
-```
 FastAPI + Ollama (LLM Local) + Qdrant (Vector DB) + Embedding Local
-```
 
 Không cần OpenAI – không gửi dữ liệu ra ngoài.
 
@@ -41,7 +39,6 @@ Không cần OpenAI – không gửi dữ liệu ra ngoài.
 
 # 📁 PROJECT STRUCTURE
 
-```
 local-18_rag/
 │
 ├── app/
@@ -56,7 +53,6 @@ local-18_rag/
 ├── docker-compose.yml
 ├── requirements.txt
 └── .env
-```
 
 ---
 
@@ -66,7 +62,6 @@ local-18_rag/
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
-```
 
 ### Windows
 
@@ -80,13 +75,11 @@ Tải tại: ollama.com
 ollama pull llama3
 ollama pull mistral
 ollama pull qwen2
-```
 
 Test:
 
 ```bash
 ollama run llama3
-```
 
 ---
 
@@ -102,13 +95,11 @@ services:
       - "6333:6333"
     volumes:
       - ./qdrant_data:/qdrant/sto18_rage
-```
 
 Run:
 
 ```bash
 docker compose up -d
-```
 
 ---
 
@@ -123,7 +114,6 @@ python-dotenv
 pypdf
 tiktoken
 requests
-```
 
 ---
 
@@ -134,7 +124,6 @@ QDRANT_URL=http://localhost:6333
 COLLECTION_NAME=local_18_rag
 OLLAMA_URL=http://localhost:11434
 LLM_MODEL=llama3
-```
 
 ---
 
@@ -155,7 +144,6 @@ LLM_MODEL = os.getenv("LLM_MODEL")
 CHUNK_SIZE = 500
 OVERLAP = 80
 TOP_K = 5
-```
 
 ---
 
@@ -202,7 +190,6 @@ def search(qvec, limit):
         query_vector=qvec,
         limit=limit
     )
-```
 
 ---
 
@@ -241,7 +228,6 @@ def chunk_text(text):
 def gen_ids(n):
 
     return [str(uuid.uuid4()) for _ in range(n)]
-```
 
 ---
 
@@ -283,7 +269,6 @@ def ingest_pdf(path, metadata={}):
     upsert(vectors, payloads, ids)
 
     return len(chunks)
-```
 
 ---
 
@@ -346,7 +331,6 @@ Answer:
         "answer": answer,
         "sources": sources
     }
-```
 
 ---
 
@@ -377,7 +361,6 @@ async def upload(file: UploadFile = File(...)):
 async def query(q: str):
 
     return ask(q)
-```
 
 ---
 
@@ -387,31 +370,25 @@ async def query(q: str):
 
 ```bash
 ollama serve
-```
 
 ### 2️⃣ Start Qdrant
 
 ```bash
 docker compose up -d
-```
 
 ### 3️⃣ Install Python
 
 ```bash
 pip install -r requirements.txt
-```
 
 ### 4️⃣ Run API
 
 ```bash
 uvicorn app.main:app --reload
-```
 
 ### 5️⃣ Open Swagger
 
-```
 http://localhost:8000/docs
-```
 
 ---
 
@@ -419,15 +396,11 @@ http://localhost:8000/docs
 
 ### Upload tài liệu
 
-```
 POST /upload
-```
 
 ### Hỏi AI
 
-```
 POST /ask?q=Quy trình hoàn tiền năm 2024?
-```
 
 ---
 
@@ -474,7 +447,6 @@ Khi dùng thật:
 
 # 💎 ARCHITECTURE PROD
 
-```
 User
  ↓
 Gateway
@@ -484,7 +456,6 @@ FastAPI
 Vector DB → Ollama
  ↓
 Answer
-```
  **CẤU HÌNH TỐI THIỂU để chạy Local RAG với Ollama (Mac & PC)**
 
 Dùng tốt cho: cá nhân, dev, team nhỏ, hệ thống nội bộ.
@@ -516,11 +487,9 @@ LLM local chạy bằng **Ollama**
 
 ### 👉 Chạy được model:
 
-```
 mistral:7b (quantized)
 qwen2:3b
 phi-3
-```
 
 ⚠️ Tốc độ: chậm – trung bình
 
@@ -537,11 +506,9 @@ phi-3
 
 ### 👉 Chạy tốt:
 
-```
 llama3:8b
 qwen2:7b
 mistral:7b
-```
 
 ⚡ Tốc độ: mượt
 
@@ -560,10 +527,8 @@ mistral:7b
 
 👉 Chạy được:
 
-```
 llama3:13b
 mixtral
-```
 
 ---
 
@@ -584,11 +549,9 @@ mixtral
 
 ### 👉 Chạy được:
 
-```
 mistral:7b
 qwen2:3b
 phi-3
-```
 
 ⚠️ Chậm hơn Mac M1
 
@@ -607,11 +570,9 @@ phi-3
 
 ### 👉 Chạy mượt:
 
-```
 llama3:8b
 qwen2:7b
 mistral
-```
 
 ⚡ Rất ổn cho production nhỏ.
 
@@ -628,10 +589,8 @@ mistral
 
 👉 Chạy:
 
-```
 llama3:70b
 mixtral
-```
 
 (Chỉ cần khi làm doanh nghiệp lớn)
 
@@ -658,12 +617,10 @@ Dù Mac hay PC, bạn cần tối thiểu:
 
 ### ✅ Phần mềm
 
-```
 Ollama
 Python 3.10+
 Qdrant (Docker)
 FastAPI
-```
 
 ### ✅ RAM Phân bổ tối thiểu
 
@@ -686,20 +643,16 @@ Nếu bạn mua máy mới:
 
 ### 🏆 MAC BEST CHOICE
 
-```
 Mac M2 / M3
 16GB RAM
 512GB SSD
-```
 
 ### 🏆 PC BEST CHOICE
 
-```
 Ryzen 7
 32GB RAM
 RTX 3060 12GB
 1TB NVMe
-```
 
 → Chạy RAG mượt 3–5 năm.
 

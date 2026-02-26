@@ -36,7 +36,6 @@ for (let i = 0; i < moeBlock.experts.length; i++) {
     // Creates expert weight + output
     // Currently stacks in Y direction
 }
-```
 
 ### ✅ Aggregation:
 - `mlpResidual` - Combines expert outputs
@@ -48,7 +47,6 @@ for (let i = 0; i < moeBlock.experts.length; i++) {
 ### **Phase 1: Grid Layout (Week 3)**
 
 #### Current (Vertical Stack):
-```
 Router
 ↓
 Expert 0
@@ -61,10 +59,8 @@ Expert 6
 Expert 7
 ↓
 Aggregation
-```
 
 #### Target (2x4 Grid):
-```
       Router (Top)
          ↓
    ┌─────┴─────┐
@@ -75,7 +71,6 @@ Aggregation
    └─────┬─────┘
          ↓
    Aggregation
-```
 
 #### Implementation Steps:
 1. **Calculate grid positions**
@@ -94,7 +89,6 @@ Aggregation
        
        // Create expert blocks at (expertX, expertY)
    }
-   ```
 
 2. **Compact expert representation**
    - Show only: Weight block + Output block per expert
@@ -117,7 +111,6 @@ Aggregation
 - Parameters count
 - Current routing probability  
 - Active/Inactive status
-```
 
 #### B. Color Coding
 ```typescript
@@ -132,14 +125,12 @@ const expertColor = (routingProb: number, isTopK: boolean) => {
     }
     return INACTIVE_COLOR;
 };
-```
 
 #### C. Routing Lines
 ```typescript
 // Draw connections from router to top-K experts
 drawRoutingPath(routerOutput, expert0, routingProb0);
 drawRoutingPath(routerOutput, expert1, routingProb1);
-```
 
 #### D. Expert Utilization Heatmap
 ```typescript
@@ -151,7 +142,6 @@ interface ExpertUtilization {
 }
 
 // Visualize as background color intensity
-```
 
 ---
 
@@ -171,7 +161,6 @@ for (let i = 0; i < moeBlock.experts.length; i++) {
     // ...
     y += C * cell + margin;
 }
-```
 
 After:
 ```typescript
@@ -203,7 +192,6 @@ for (let i = 0; i < moeBlock.experts.length; i++) {
         y: expertY + compact_height,
     });
 }
-```
 
 **2. Router Visual Enhancement**
 
@@ -220,7 +208,6 @@ let routerBlock = mk({
     // Custom rendering for routing visualization
     special: BlkSpecial.MoERouter,
 });
-```
 
 **3. Add Routing Pathway Lines**
 
@@ -257,7 +244,6 @@ function drawExpertRouting(
         expert.highlight = isActive ? prob : 0;
     });
 }
-```
 
 ---
 
@@ -271,7 +257,6 @@ const MoE_COLORS = {
     INACTIVE_EXPERT: '#6e6e80',  // Gray
     ROUTING_PATH: '#a78bfa',     // Light purple
 };
-```
 
 ### Expert Block Size:
 - **Compact mode:** Show only weight + output (2 small blocks)

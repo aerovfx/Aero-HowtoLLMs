@@ -110,7 +110,11 @@ Loại bỏ trung bình:
 
 Cho ma trận hiệp phương sai:
 
-\Sigma = \mathbb{E}[$\mathbf{x}-\mu$$\mathbf{x}-\mu$^T]
+\Sigma = \mathbb{E}[$\mathbf{x}-\mu
+
+$$
+
+\mathbf{x}-\mu$^T]
 
 Whitening:
 

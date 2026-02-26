@@ -43,7 +43,9 @@ Quá trình "học" của một mô hình AI thực chất là một chuỗi cá
 Công thức cốt lõi của việc cập nhật tham số là:
 
 $$
+
 W_{mới} = W_{cũ} - \eta \cdot \frac{df}{dw}
+
 $$
 
 Trong đó:

@@ -45,7 +45,6 @@ Trong bài hướng dẫn thực hành này, chúng ta sẽ mở rộng từ bà
 
 import nltk
 nltk.download('punkt')
-```
 
 ### 2.2 Tải Mô Hình Đã Huấn Luyện
 
@@ -56,7 +55,6 @@ from transformers import TFAutoModelForSeq2SeqLM, AutoTokenizer
 model_name = "google/flan-t5-base"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = TFAutoModelForSeq2SeqLM.from_pretrained("path/to/model")
-```
 
 ### 2.3 Hàm Dịch Thuật
 
@@ -66,7 +64,6 @@ def translate(text):
     inputs = tokenizer(prompt, return_tensors="tf", max_length=128, truncation=True)
     outputs = model.generate(**inputs, max_length=128)
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
-```
 
 ## 3. Tính Toán ROUGE Score
 
@@ -83,7 +80,9 @@ ROUGE (Recall-Oriented Understudy for Gisting Evaluation) là một nhóm các c
 **ROUGE-N:**
 
 $$
+
 \text{ROUGE-N} = \frac{\sum_{s \in \text{Reference}} \sum_{\text{n-gram} \in s} \min(\text{Count}_{hypothesis}(n\text{-gram}), \text{Count}_{reference}(n\text{-gram}))}{\sum_{s \in \text{Reference}} \sum_{\text{n-gram} \in s} \text{Count}_{reference}(n\text{-gram})}
+
 $$
 
 ### 3.3 Triển Khai
@@ -102,7 +101,6 @@ def calculate_rouge(reference, hypothesis):
         'rouge2': scores['rouge2'].precision,
         'rougeL': scores['rougeL'].precision
     }
-```
 
 ## 4. Tính Toán BLEU Score
 
@@ -113,7 +111,9 @@ BLEU (Bilingual Evaluation Understudy) đo lường sự tương đồng giữa 
 ### 4.2 Công Thức Toán Học
 
 $$
+
 \text{BLEU} = \text{BP} \cdot \exp\left(\sum_{n=1}^{N} w_n \log p_n\right)
+
 $$
 
 Trong đó:
@@ -124,7 +124,9 @@ Trong đó:
 **Brevity Penalty:**
 
 $$
+
 \text{BP} = \begin{cases} 1 & \text{nếu } c > r \\ e^{(1-r/c)} & \text{nếu } c \leq r \end{cases}
+
 $$
 
 ### 4.3 Triển Khai
@@ -143,7 +145,6 @@ def calculate_bleu(reference, hypothesis):
     # Tính BLEU
     score = sentence_bleu([ref_tokens], hyp_tokens, smoothing_function=smoothing)
     return score
-```
 
 ## 5. Đánh Giá Trên Tập Dữ Liệu
 
@@ -168,7 +169,6 @@ print(f"ROUGE-1: {rouge_scores['rouge1']:.4f}")
 print(f"ROUGE-2: {rouge_scores['rouge2']:.4f}")
 print(f"ROUGE-L: {rouge_scores['rougeL']:.4f}")
 print(f"BLEU: {bleu_score:.4f}")
-```
 
 ### 5.2 Kết Quả Mẫu
 
@@ -193,11 +193,14 @@ print(f"BLEU: {bleu_score:.4f}")
 ### 6.1 So Sánh Precision và Recall
 
 $$
+
 \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+
 $$
 
 $$
 \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+
 $$
 
 Trong ngữ cảnh dịch thuật:

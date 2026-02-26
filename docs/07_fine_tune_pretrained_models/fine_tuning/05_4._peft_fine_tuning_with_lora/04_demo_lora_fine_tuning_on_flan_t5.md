@@ -65,7 +65,6 @@ class LoraLayer(tf.keras.layers.Layer):
     def call(self, inputs):
         # W' = W + A × B
         return tf.matmul(tf.matmul(inputs, self.A), self.B)
-```
 
 ### Thay Thế Lớp Dense
 

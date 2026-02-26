@@ -18,7 +18,6 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt**, được xâ
 
 ---
 
-```md
 # Mô Hình Nhiều Transformer Blocks Trong Mạng Ngôn Ngữ: Kiến Trúc, Phân Cấp Biểu Diễn và Khả Năng Mở Rộng
 
 ## Tóm tắt (Abstract)
@@ -47,8 +46,6 @@ Mục tiêu của bài báo này là:
 ### 2.1. Kiến Trúc Tổng Thể
 
 Mô hình nhiều Transformer block có cấu trúc:
-
-```
 
 Token + Position Embedding
 ↓
@@ -139,7 +136,9 @@ Mặc dù các block có cùng kiến trúc, mỗi block có tập tham số ri�
 Trong mỗi block:
 
 $$
+
 H_{l+1} = H_l + f_l(\text{LN}(H_l))
+
 $$
 
 Với (l) là chỉ số block.
@@ -153,7 +152,9 @@ Quan trọng là residual chỉ cộng trong từng block, không quay lại emb
 Đầu ra của block trước là đầu vào của block sau:
 
 $$
+
 X_0 \rightarrow X_1 \rightarrow X_2 \rightarrow ... \rightarrow X_N
+
 $$
 
 Mỗi tầng làm giàu biểu diễn.
@@ -255,7 +256,6 @@ Tài liệu mô tả cách truy cập từng block:
 
 ```python
 llm.transformerBlocks[i]
-```
 
 Giúp phân tích:
 
@@ -380,12 +380,10 @@ Kiến trúc nhiều Transformer block là nền tảng không thể thiếu c�
 [5] Devlin et al., BERT, NAACL, 2019.
 [6] Elhage et al., A Mathematical Framework for Transformer Circuits, 2021.
 
-```
 Dưới đây là **bài viết khoa học bằng tiếng Việt** về **tối ưu hóa Deep Transformer (100+ layers)**, được trình bày theo chuẩn học thuật và định dạng **Markdown (MD)**, có bổ sung trích dẫn và bối cảnh hệ thống.
 
 ---
 
-```md
 # Tối Ưu Hóa Deep Transformer với Hơn 100 Tầng: Ổn Định Huấn Luyện, Hiệu Năng và Khả Năng Mở Rộng
 
 ## Tóm tắt (Abstract)
@@ -413,8 +411,9 @@ Tuy nhiên, khi số block tăng, quá trình huấn luyện trở nên kém ổ
 Với L tầng:
 
 $$
-\frac{\partial L}{\partial x_0} =
-\prod_{i=1}^{L} \frac{\partial x_i}{\partial x_{i-1}}
+
+\frac{\partial L}{\partial x_0} = \prod_{i=1}^{L} \frac{\partial x_i}{\partial x_{i-1}}
+
 $$
 
 Khi L lớn, gradient có xu hướng:
@@ -431,7 +430,9 @@ Khi L lớn, gradient có xu hướng:
 Qua nhiều block:
 
 $$
+
 x_L = x_0 + \sum_{i=1}^{L} f_i(x_{i-1})
+
 $$
 
 Nếu $f_i$ không được chuẩn hóa, hidden state có thể bị lệch phân phối (drift).
@@ -443,7 +444,9 @@ Nếu $f_i$ không được chuẩn hóa, hidden state có thể bị lệch ph�
 Với 100+ layers:
 
 $$
+
 \text{Memory} \approx O(L \cdot T \cdot D)
+
 $$
 
 Trong đó:
@@ -474,7 +477,9 @@ Các hiện tượng thường gặp:
 Kiến trúc phổ biến:
 
 $$
+
 H_{l+1} = H_l + f_l(\text{LN}(H_l))
+
 $$
 
 Ưu điểm:
@@ -492,8 +497,9 @@ Pre-LN hiện là chuẩn mặc định trong LLM.
 Thay thế LayerNorm:
 
 $$
-\text{RMSNorm}(x) =
-\frac{x}{\sqrt{\frac{1}{d}\sum x_i^2 + \epsilon}}
+
+\text{RMSNorm}(x) = \frac{x}{\sqrt{\frac{1}{d}\sum x_i^2 + \epsilon}}
+
 $$
 
 Giảm chi phí tính toán và tăng ổn định.
@@ -505,7 +511,9 @@ Giảm chi phí tính toán và tăng ổn định.
 Kiến trúc FFN hiện đại:
 
 $$
+
 \text{FFN}(x)=W_2(\text{SiLU}(W_1x)\odot W_3x)
+
 $$
 
 Giúp tăng khả năng biểu diễn trong mô hình sâu.
@@ -519,13 +527,17 @@ Giúp tăng khả năng biểu diễn trong mô hình sâu.
 DeepNorm scale residual:
 
 $$
+
 x_{l+1} = \alpha x_l + f_l(x_l)
+
 $$
 
 với:
 
 $$
+
 \alpha = (2L)^{1/4}
+
 $$
 
 Giúp duy trì biên độ gradient khi L lớn.
@@ -537,7 +549,9 @@ Giúp duy trì biên độ gradient khi L lớn.
 Áp dụng:
 
 $$
+
 x_{l+1}=x_l+\frac{1}{\sqrt{L}}f_l(x_l)
+
 $$
 
 Giảm tích lũy nhiễu qua tầng.
@@ -549,7 +563,9 @@ Giảm tích lũy nhiễu qua tầng.
 Chuẩn hóa gradient:
 
 $$
+
 g \leftarrow \frac{g}{\max(1,\|g\|/c)}
+
 $$
 
 Giúp tránh exploding gradient.
@@ -561,7 +577,9 @@ Giúp tránh exploding gradient.
 Warmup tuyến tính:
 
 $$
+
 lr(t)=lr_{max}\cdot\frac{t}{T_{warmup}}
+
 $$
 
 Giảm shock ban đầu.
@@ -634,19 +652,13 @@ Chia sẻ optimizer state trên nhiều GPU:
 
 Kết hợp:
 
-```
-
 DP + TP + PP
-
-```
 
 Là tiêu chuẩn cho mô hình >10B params.
 
 ---
 
 ## 7. Pseudocode Deep Transformer Training
-
-```
 
 Input: X0
 
@@ -655,25 +667,19 @@ H = RMSNorm(Xl-1)
 A = FlashAttention$H$
 U = Xl-1 + scale*A
 
-```
 Z = RMSNorm(U)
 F = GatedMLP(Z)
 Xl = U + scale*F
-```
 
 Loss = CrossEntropy(XL)
 
 Backward + Clip + Update
-
-```
 
 ---
 
 ## 8. Pipeline Huấn Luyện Production
 
 ### 8.1. Training Stack
-
-```
 
 Dataset
 ↓
@@ -686,8 +692,6 @@ Deep Transformer $100+$
 ZeRO + TP + PP
 ↓
 Checkpoint System
-
-```
 
 ---
 
@@ -805,14 +809,12 @@ Deep optimization là điều kiện tiên quyết để xây dựng LLM thế h
 [4] Rajbhandari et al., ZeRO, SC20.  
 [5] Shoeybi et al., Megatron-LM, 2019.  
 [6] Kaplan et al., Scaling Laws, 2020.  
-```
 
 ---
 Dưới đây là **bài viết khoa học bằng tiếng Việt** về **kiến trúc huấn luyện mô hình 100B+ tham số**, trình bày theo chuẩn học thuật, định dạng **Markdown**, có bổ sung trích dẫn và bối cảnh hệ thống.
 
 ---
 
-```md
 # Kiến Trúc Huấn Luyện Mô Hình Ngôn Ngữ Lớn 100B+ Tham Số: Thiết Kế Hệ Thống, Tối Ưu Hóa và Khả Năng Mở Rộng
 
 ## Tóm tắt (Abstract)
@@ -840,7 +842,9 @@ Do đó, cần một kiến trúc tổng thể (end-to-end architecture) cho tra
 Một mô hình 100B tham số yêu cầu:
 
 $$
+
 100B \times 2 \text{ bytes} \approx 200GB
+
 $$
 
 (chỉ cho FP16 weights).
@@ -848,7 +852,9 @@ $$
 Khi tính optimizer state:
 
 $$
+
 > 800GB
+
 $$
 
 ---
@@ -858,7 +864,9 @@ $$
 FLOPs huấn luyện xấp xỉ:
 
 $$
+
 \text{FLOPs} \approx 6 \times N \times T
+
 $$
 
 Trong đó:
@@ -869,7 +877,9 @@ Trong đó:
 Với 100B × 1T tokens:
 
 $$
+
 \approx 6 \times 10^{23} \text{ FLOPs}
+
 $$
 
 ---
@@ -900,11 +910,7 @@ Hệ thống hiện đại chủ yếu sử dụng GPU của :
 
 ### 3.2. Interconnect
 
-```
-
 GPU ↔ NVLink ↔ Node ↔ InfiniBand ↔ Cluster
-
-```
 
 Thông lượng:
 
@@ -927,13 +933,9 @@ Mô hình thường được train trên hệ thống như:
 
 Huấn luyện 100B+ yêu cầu kết hợp 3 chiều:
 
-```
-
 Data Parallel (DP)
 Tensor Parallel (TP)
 Pipeline Parallel (PP)
-
-```
 
 ---
 
@@ -957,7 +959,9 @@ Nhược điểm:
 Chia ma trận trọng số:
 
 $$
+
 W = [W_1, W_2, ..., W_n]
+
 $$
 
 Phổ biến trong Megatron-LM.
@@ -968,13 +972,9 @@ Phổ biến trong Megatron-LM.
 
 Chia mô hình theo layer:
 
-```
-
 GPU1: L1–L20
 GPU2: L21–L40
 ...
-
-```
 
 Giảm memory nhưng tăng latency.
 
@@ -1020,11 +1020,7 @@ Chỉ lưu checkpoint trung gian:
 
 ### 5.3. CPU / NVMe Offload
 
-```
-
 GPU ↔ CPU RAM ↔ NVMe
-
-```
 
 Giúp mở rộng memory ảo.
 
@@ -1033,8 +1029,6 @@ Giúp mở rộng memory ảo.
 ## 6. Kiến Trúc Phần Mềm Huấn Luyện
 
 ### 6.1. Training Stack
-
-```
 
 Data Lake (PB)
 ↓
@@ -1047,8 +1041,6 @@ Distributed Trainer
 Optimizer (ZeRO)
 ↓
 Checkpoint System
-
-```
 
 ---
 
@@ -1075,8 +1067,6 @@ Hệ sinh thái phổ biến:
 
 ### 7.1. Tổng Thể
 
-```
-
 Raw Data
 ↓
 Cleaning
@@ -1090,8 +1080,6 @@ Sharding
 Pretraining
 ↓
 Evaluation
-
-```
 
 ---
 
@@ -1111,7 +1099,9 @@ Huấn luyện theo pha:
 Global batch:
 
 $$
+
 B_{global} = B_{local} \times DP
+
 $$
 
 Thường đạt 1M+ tokens/step.
@@ -1153,8 +1143,6 @@ Cho phép:
 
 ## 9. Pseudocode Huấn Luyện 100B+ Model
 
-```
-
 Initialize Cluster
 Partition Model (TP, PP)
 Shard Optimizer (ZeRO-3)
@@ -1163,7 +1151,6 @@ for epoch:
 for batch in stream:
 x = load(batch)
 
-```
     for stage in pipeline:
         h = forward(stage, x)
 
@@ -1179,9 +1166,6 @@ x = load(batch)
 
     if step % checkpoint == 0:
         save_state()
-```
-
-```
 
 ---
 
@@ -1224,7 +1208,9 @@ x = load(batch)
 Ở quy mô lớn:
 
 $$
+
 T_{comm} > T_{compute}
+
 $$
 
 Tối ưu mạng quan trọng hơn FLOPs.
@@ -1296,7 +1282,6 @@ Huấn luyện LLM siêu lớn là bài toán hệ thống phức hợp, vượt
 [5] Kaplan et al., Scaling Laws, 2020.  
 [6] Brown et al., GPT-3, 2020.  
 [7] Hoffmann et al., Chinchilla, 2022.  
-```
 
 ---
 <!-- Aero-Footer-Start -->

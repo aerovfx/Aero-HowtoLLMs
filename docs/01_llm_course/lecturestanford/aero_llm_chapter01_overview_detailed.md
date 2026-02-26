@@ -40,9 +40,7 @@
 
 **Định nghĩa toán học:**
 
-```
 P(x₁, x₂, ..., xₙ) = P(x₁) × P(x₂|x₁) × P(x₃|x₁,x₂) × ... × P(xₙ|x₁,...,xₙ₋₁)
-```
 
 Nói cách khác:
 - **Input:** Chuỗi văn bản (text sequence)
@@ -75,13 +73,10 @@ Trước Transformer (2017), các mô hình ngôn ngữ sử dụng:
 - **CNN**: Không phù hợp với sequences dài
 
 **Transformer** giải quyết vấn đề bằng **Self-Attention**:
-```
 Attention(Q, K, V) = softmax(QKᵀ/√d) × V
-```
 
 ### **Cấu Trúc Transformer Block**
 
-```
 Input Embedding
     ↓
 [Position Embedding] ─┐
@@ -100,12 +95,13 @@ Add & Norm ←──────────┘ (Residual Connection)
     ↓
 
 $$
+
 Repeat N times
+
 $$
 
-    ↓
+↓
 Output Layer
-```
 
 ### **Thành phần chính:**
 
@@ -192,7 +188,6 @@ Output Layer
 
 **🔥 Mixture of Experts (MoE):**
 
-```
 Input
   ↓
 Embedding
@@ -214,12 +209,13 @@ Embedding
   ↓
 
 $$
+
 Repeat 120 layers
+
 $$
 
-  ↓
+↓
 Output
-```
 
 **Thông số kỹ thuật:**
 
@@ -326,7 +322,6 @@ cd llm_viz
 npm run dev
 # Open: http://localhost:3002/llm
 # Select: GPT-4 model
-```
 
 **Các phần có thể explore:**
 - ✅ Token & Position Embeddings

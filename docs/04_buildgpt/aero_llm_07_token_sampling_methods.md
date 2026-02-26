@@ -95,7 +95,6 @@ Bài viết này trình bày phân tích toàn diện về các phương pháp l
 
 Trong Large Language Models, text generation là quá trình auto-regressive, trong đó model sinh từng token một dựa trên context đã có [1]:
 
-```
 Context: "I prefer oat milk in my ___"
     ↓
 Model processes context
@@ -107,7 +106,6 @@ Sampling strategy selects next token
 Token appended to context
     ↓
 Process repeats
-```
 
 **Vị trí của sampling trong pipeline:**
 > Sau khi model tính toán logits và áp dụng Softmax (với temperature), chúng ta có probability distribution P(token|context). **Decoding strategy** quyết định cách chọn token từ distribution này.
@@ -120,7 +118,6 @@ Process repeats
 - **Coherence vs Exploration**: Balance giữa staying on-topic và generating varied content
 
 **Real-world consequences:**
-```
 Application          | Preferred Strategy | Reasoning
 ---------------------|-------------------|------------------
 Chatbot conversation | Top-P (0.9)       | Natural, varied
@@ -128,7 +125,6 @@ Code generation      | Greedy/Low temp   | Correctness critical
 Creative writing     | Top-P (0.95)      | Unexpected twists valued
 Factual Q&A          | Greedy            | Accuracy paramount
 Translation          | Beam search       | Multiple hypotheses
-```
 
 ### 1.2 Phạm Vi Nghiên Cứu
 
@@ -185,7 +181,9 @@ Bài viết này tập trung vào **bốn phương pháp chính**:
 Sau khi model xử lý context, output là probability distribution:
 
 $$
+
 P(w_t | w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)
+
 $$
 
 Trong đó:
@@ -197,7 +195,9 @@ Trong đó:
 **Result:**
 
 $$
+
 \mathbf{p} = [p_1, p_2, \ldots, p_V]
+
 $$
 
 Trong đó:
@@ -210,7 +210,6 @@ Trong đó:
 **Context:** "I prefer oat milk in my ___"
 
 **Top-5 probabilities (simplified):**
-```
 Token       | Probability
 ------------|------------
 coffee      | 0.340
@@ -222,7 +221,6 @@ mouth       | 0.045
 [others]    | 0.050
 ------------|------------
 TOTAL       | 1.000
-```
 
 **Observation:**
 - Top token (coffee): 34%
@@ -255,7 +253,9 @@ TOTAL       | 1.000
 **Pure probabilistic sampling:**
 
 $$
+
 w_t \sim \text{Multinomial}(\mathbf{p})
+
 $$
 
 **Meaning:**
@@ -269,7 +269,6 @@ import torch
 
 probs = torch.tensor([0.340, 0.285, 0.195, 0.085, 0.045])
 next_token = torch.multinomial(probs, num_samples=1)
-```
 
 #### 3.1.2 Properties
 
@@ -298,14 +297,15 @@ for i in range(5):
 # Sample 3: coffee   (34% chance)
 # Sample 4: smoothie (8.5% chance)
 # Sample 5: mouth    (4.5% chance) - Low prob but possible!
-```
 
 #### 3.1.3 Statistical Analysis
 
 **Expected frequency over N samples:**
 
 $$
+
 \mathbb{E}[\text{count}(w_i)] = N \cdot p_i
+
 $$
 
 **Example with N=1000:**
@@ -318,7 +318,9 @@ $$
 **Variance:**
 
 $$
+
 \text{Var}[\text{count}(w_i)] = N \cdot p_i \cdot (1 - p_i)
+
 $$
 
 **Observation:**
@@ -331,15 +333,15 @@ $$
 **Deterministic selection:**
 
 $$
+
 w_t = \arg\max_{w \in \mathcal{V}} P(w | w_{1:t-1})
+
 $$
 
 **Algorithm:**
-```
 1. Compute probabilities p = Softmax(logits)
 2. Find index of maximum probability
 3. Return corresponding token
-```
 
 **PyTorch implementation:**
 ```python
@@ -356,7 +358,6 @@ def greedy_decode(logits):
     probs = torch.softmax(logits, dim=-1)
     token_id = torch.argmax(probs)
     return token_id
-```
 
 #### 3.2.2 Properties
 
@@ -377,24 +378,20 @@ def greedy_decode(logits):
 **Example scenario:**
 
 **Distribution 1 (Clear winner):**
-```
 coffee:   0.85
 tea:      0.08
 cereal:   0.04
 smoothie: 0.02
 mouth:    0.01
 → Greedy picks: coffee ✓ (reasonable)
-```
 
 **Distribution 2 (Competitive):**
-```
 coffee:   0.215
 tea:      0.210
 cereal:   0.205
 smoothie: 0.200
 mouth:    0.170
 → Greedy picks: coffee (ALWAYS!)
-```
 
 **Problem:**
 > Trong Distribution 2, tất cả top-5 tokens gần như equally plausible, nhưng greedy **always** picks coffee, ignoring 78.5% of probability mass.
@@ -409,7 +406,6 @@ generated = greedy_generate(model, context, max_len=20)
 
 # Possible output:
 "The cat sat on the mat. The cat sat on the mat. The cat sat..."
-```
 
 **Mechanism:**
 1. Model generates high-prob token
@@ -438,14 +434,14 @@ generated = greedy_generate(model, context, max_len=20)
 **Mathematical formulation:**
 
 $$
+
 \mathcal{V}_K = \{w_i : p_i \text{ is in top-K probabilities}\}
+
 $$
 
 $$
-P_K(w) = \begin{cases}
-\frac{p_w}{\sum_{w' \in \mathcal{V}_K} p_{w'}} & \text{if } w \in \mathcal{V}_K \\
-0 & \text{otherwise}
-\end{cases}
+P_K(w) = \begin{cases} \frac{p_w}{\sum_{w' \in \mathcal{V}_K} p_{w'}} & \text{if } w \in \mathcal{V}_K \\ 0 & \text{otherwise} \end{cases}
+
 $$
 
 **PyTorch implementation:**
@@ -474,12 +470,10 @@ def top_k_sampling(logits, k=50):
     token_id = top_k_indices[sampled_index]
     
     return token_id
-```
 
 #### 3.3.2 Example với Different K Values
 
 **Original distribution:**
-```
 Rank | Token    | Probability
 -----|----------|------------
 1    | coffee   | 0.340
@@ -489,10 +483,8 @@ Rank | Token    | Probability
 5    | mouth    | 0.045
 6    | pocket   | 0.040
 ...  | ...      | ...
-```
 
 **K = 3:**
-```
 Selected: {coffee, tea, cereal}
 Renormalized probabilities:
   coffee:  0.340 / 0.820 = 0.415
@@ -500,10 +492,8 @@ Renormalized probabilities:
   cereal:  0.195 / 0.820 = 0.238
 
 Excluded: {smoothie, mouth, pocket, ...}
-```
 
 **K = 2:**
-```
 Selected: {coffee, tea}
 Renormalized:
   coffee: 0.340 / 0.625 = 0.544
@@ -511,15 +501,12 @@ Renormalized:
 
 Note: 50-50 shot between coffee/tea, 
       despite original 34% vs 28.5%!
-```
 
 **K = 1:**
-```
 Selected: {coffee}
 Probability: 1.0
 
 Equivalent to greedy decoding!
-```
 
 #### 3.3.3 Properties Analysis
 
@@ -538,7 +525,6 @@ Equivalent to greedy decoding!
 **Critical Issue: Fixed K Ignores Distribution Shape**
 
 **Scenario 1: Peaked distribution**
-```
 coffee: 0.92
 tea:    0.03
 cereal: 0.02
@@ -546,10 +532,8 @@ cereal: 0.02
 
 With K=10: Includes 9 nearly-zero-probability tokens!
 Better: K=1 or K=2
-```
 
 **Scenario 2: Flat distribution**
-```
 coffee:   0.11
 tea:      0.10
 cereal:   0.10
@@ -558,7 +542,6 @@ smoothie: 0.09
 
 With K=3: Excludes many reasonable options!
 Better: K=20 or more
-```
 
 **Observation:**
 > Optimal K varies dramatically based on model confidence. Fixed K is suboptimal.
@@ -575,22 +558,25 @@ Better: K=20 or more
 **Mathematical formulation:**
 
 $$
+
 \mathcal{V}_P = \{w_{(1)}, w_{(2)}, \ldots, w_{(m)}\}
+
 $$
 
 Trong đó $m$ là smallest index such that:
 
 $$
+
 \sum_{i=1}^m p_{(i)} \geq P
+
 $$
 
 **Sampling distribution:**
 
 $$
-P_P(w) = \begin{cases}
-\frac{p_w}{\sum_{w' \in \mathcal{V}_P} p_{w'}} & \text{if } w \in \mathcal{V}_P \\
-0 & \text{otherwise}
-\end{cases}
+
+P_P(w) = \begin{cases} \frac{p_w}{\sum_{w' \in \mathcal{V}_P} p_{w'}} & \text{if } w \in \mathcal{V}_P \\ 0 & \text{otherwise} \end{cases}
+
 $$
 
 **PyTorch implementation:**
@@ -629,12 +615,10 @@ def top_p_sampling(logits, p=0.9):
     token_id = nucleus_indices[sampled_index]
     
     return token_id
-```
 
 #### 3.4.2 Example với Different P Values
 
 **Distribution:**
-```
 Rank | Token    | Probability | Cumulative
 -----|----------|-------------|------------
 1    | coffee   | 0.340       | 0.340
@@ -643,41 +627,33 @@ Rank | Token    | Probability | Cumulative
 4    | smoothie | 0.085       | 0.905
 5    | mouth    | 0.045       | 0.950
 6    | pocket   | 0.040       | 0.990
-```
 
 **P = 0.98 (98%):**
-```
 Cumulative ≥ 0.98 at token 6 (pocket)
 Nucleus: {coffee, tea, cereal, smoothie, mouth, pocket}
 Size: 6 tokens
 
 → Sample from 6 tokens
-```
 
 **P = 0.90 (90%):**
-```
 Cumulative ≥ 0.90 at token 4 (smoothie)
 Nucleus: {coffee, tea, cereal, smoothie}
 Size: 4 tokens
 
 → Sample from 4 tokens
-```
 
 **P = 0.50 (50%):**
-```
 Cumulative ≥ 0.50 at token 2 (tea)
 Nucleus: {coffee, tea}
 Size: 2 tokens
 
 → Sample from 2 tokens
-```
 
 #### 3.4.3 Adaptive Behavior
 
 **Key advantage: Nucleus size adapts to distribution shape**
 
 **Scenario 1: High confidence (peaked distribution)**
-```
 Token     | Prob  | Cumulative
 ----------|-------|------------
 the       | 0.92  | 0.92
@@ -689,10 +665,8 @@ With P=0.9:
   → Acts like greedy! ✓
 
 Reason: Model is confident, should be deterministic
-```
 
 **Scenario 2: Low confidence (flat distribution)**
-```
 Token     | Prob  | Cumulative
 ----------|-------|------------
 coffee    | 0.11  | 0.11
@@ -707,7 +681,6 @@ With P=0.9:
   → Acts like top-K with adaptive K! ✓
 
 Reason: Model uncertain, should explore options
-```
 
 **Comparison:**
 
@@ -735,12 +708,10 @@ Reason: Model uncertain, should explore options
 - ✗ Renormalization can distort probabilities
 
 **Typical P values:**
-```
 P = 0.9:  Standard, balanced
 P = 0.95: More exploratory
 P = 0.8:  More conservative
 P = 1.0:  Pure multinomial (no truncation)
-```
 
 ---
 
@@ -760,13 +731,11 @@ P = 1.0:  Pure multinomial (no truncation)
 #### 4.2.1 Diversity vs Quality
 
 **Diversity spectrum:**
-```
 Low Diversity                                    High Diversity
 (Repetitive)                                     (Unpredictable)
     |------------|------------|------------|------------|
   Greedy      Top-P(0.5)   Top-P(0.9)   Multinomial
               Top-K(5)     Top-K(50)
-```
 
 **Quality considerations:**
 
@@ -795,7 +764,6 @@ Multinomial     | O(V)            | O(V)  | Full softmax
 Greedy          | O(V)            | O(1)  | Simple argmax
 Top-K           | O(V + K log K)  | O(K)  | Sorting/heap
 Top-P           | O(V log V)      | O(V)  | Full sort + cumsum
-```
 
 **Practical speed:**
 - **Fastest**: Greedy
@@ -814,17 +782,14 @@ Top-P           | O(V log V)      | O(V)  | Full sort + cumsum
 - No tuning needed
 
 **Top-K:**
-```
 K value    | Effect
 -----------|---------------------------
 K = 1      | Equivalent to greedy
 K = 5-10   | Conservative exploration
 K = 40-50  | Moderate diversity
 K = 100+   | Approaching multinomial
-```
 
 **Top-P:**
-```
 P value    | Effect
 -----------|---------------------------
 P = 0.5    | Very conservative
@@ -832,7 +797,6 @@ P = 0.9    | Standard (recommended)
 P = 0.95   | More exploratory
 P = 0.99   | Very exploratory
 P = 1.0    | Multinomial
-```
 
 **Sensitivity:**
 - Top-K: **High** sensitivity (K=5 vs K=50 very different)
@@ -845,7 +809,9 @@ P = 1.0    | Multinomial
 Temperature scaling happens **before** sampling method:
 
 $$
+
 \text{logits} \xrightarrow{/T} \text{scaled logits} \xrightarrow{\text{Softmax}} \text{probs} \xrightarrow{\text{Sampling}} \text{token}
+
 $$
 
 **Examples:**
@@ -1043,7 +1009,6 @@ if __name__ == "__main__":
         sampler = TokenSampler('top_p', temperature=temp, top_p=0.9)
         tokens = sampler.sample(logits)
         print(f"T={temp:.1f} + Top-P:     {tokens.tolist()}")
-```
 
 ### 5.2 Generation Loop
 
@@ -1121,7 +1086,6 @@ if __name__ == "__main__":
         text = generate_text(model, tokenizer, prompt, max_length=30, sampler=sampler)
         print(f"\n{name}:")
         print(f"  {text}")
-```
 
 ### 5.3 Evaluation Metrics
 
@@ -1193,7 +1157,6 @@ def benchmark_sampling_methods(model, tokenizer, prompts: list[str], n_samples=1
         results[method_name] = metrics
     
     return results
-```
 
 ---
 
@@ -1215,16 +1178,13 @@ sampler = TokenSampler('greedy')
 
 # Configuration 2: Conservative top-p
 sampler = TokenSampler('top_p', temperature=0.7, top_p=0.85)
-```
 
 **Examples:**
-```
 Q: "What is the capital of France?"
 A: "Paris" (should be deterministic)
 
 Q: "When was the Eiffel Tower built?"
 A: "1889" (factual, no creativity needed)
-```
 
 **Why these settings:**
 - Greedy/low-temp: Selects highest-probability (most likely correct) answer
@@ -1242,7 +1202,6 @@ A: "1889" (factual, no creativity needed)
 ```python
 # Conservative generation
 sampler = TokenSampler('top_p', temperature=0.8, top_p=0.9)
-```
 
 **Example:**
 ```python
@@ -1256,7 +1215,6 @@ def reverse_string(s):
 def reverse_string(s):
     # Uses quantum algorithms
     return qbit_reverse(s)  # Hallucinated!
-```
 
 **Why:**
 - Code has strict syntax → need high probability tokens
@@ -1274,10 +1232,8 @@ def reverse_string(s):
 ```python
 # Exploratory generation
 sampler = TokenSampler('top_p', temperature=1.1, top_p=0.95)
-```
 
 **Example:**
-```
 Prompt: "Once upon a time in a magical forest"
 
 With conservative (greedy):
@@ -1289,7 +1245,6 @@ With creative (top-p 0.95, T=1.1):
 "Once upon a time in a magical forest, the trees whispered 
 secrets in a language only the moonlight could translate..."
 (More original, unexpected imagery)
-```
 
 **Why:**
 - Unexpected twists valued
@@ -1307,10 +1262,8 @@ secrets in a language only the moonlight could translate..."
 ```python
 # Balanced generation
 sampler = TokenSampler('top_p', temperature=0.9, top_p=0.92)
-```
 
 **Example:**
-```
 User: "How was your day?"
 
 Greedy (too robotic):
@@ -1322,7 +1275,6 @@ Response 1: "Pretty interesting! I learned about quantum computing."
 Response 2: "It was great, thanks for asking! How about you?"
 Response 3: "Not bad! Had some fascinating conversations."
 (Varied but appropriate)
-```
 
 **Why:**
 - Humans don't repeat exact phrases
@@ -1343,7 +1295,6 @@ Response 3: "Not bad! Had some fascinating conversations."
 sampler = TokenSampler('greedy')
 # Or very conservative top-p
 sampler = TokenSampler('top_p', temperature=0.6, top_p=0.8)
-```
 
 **Why:**
 - Translation typically has "correct" answer
@@ -1411,7 +1362,6 @@ sampler = TokenSampler('top_p', temperature=0.6, top_p=0.8)
 > LLM hallucination xảy ra khi model generates content that is **plausible-sounding but factually incorrect or entirely fabricated**.
 
 **Examples:**
-```
 Query: "Tell me about the Battle of Hastings in 1776"
 Hallucinated response: "The Battle of Hastings in 1776 was..."
 Truth: Battle of Hastings was 1066, not 1776
@@ -1423,7 +1373,6 @@ Truth: "Quantum water" is pseudoscience
 Query: "Who invented the telephone in ancient Rome?"
 Hallucinated response: "Marcus Telephonicus invented..."
 Truth: Telephones didn't exist in ancient Rome
-```
 
 #### 7.1.2 Root Causes
 
@@ -1443,7 +1392,6 @@ Truth: Telephones didn't exist in ancient Rome
 - Compounding errors through sequence
 
 **Example cascade:**
-```
 Context: "The capital of France is"
 
 Token 1: "Paris" (p=0.98) ✓ Correct
@@ -1454,20 +1402,17 @@ Token 5: "the" (p=0.91) ✓
 Token 6: "moon" (p=0.003) ✗ Sampled despite low prob!
 
 Result: "The capital of France is Paris, located on the moon"
-```
 
 ### 7.2 Sampling Methods và Hallucination Risk
 
 #### 7.2.1 Risk Analysis
 
 **Hallucination risk spectrum:**
-```
 Low Risk                                        High Risk
 (Factual)                                       (Creative but wrong)
     |------------|------------|------------|------------|
   Greedy      Top-P(0.8)   Top-P(0.95)   Multinomial
   T=0.7       T=0.9        T=1.2         T=1.5
-```
 
 **Method comparison:**
 
@@ -1494,7 +1439,6 @@ Low Risk                                        High Risk
 > To generate interesting, creative, varied text, we need stochastic sampling. But stochasticity introduces risk of selecting incorrect tokens, leading to hallucinations.
 
 **Trade-off:**
-```
 Deterministic (Greedy)
   ✓ Fewer hallucinations (usually)
   ✗ Boring, repetitive
@@ -1504,7 +1448,6 @@ Stochastic (Top-P, etc.)
   ✓ Diverse, interesting
   ✓ Natural-sounding
   ✗ More hallucinations
-```
 
 **No perfect solution:**
 - Can't eliminate hallucinations without eliminating diversity
@@ -1523,7 +1466,6 @@ sampler = TokenSampler(
     temperature=0.7,    # Lower temperature
     top_p=0.85          # Smaller nucleus
 )
-```
 
 **Strategy 2: Factuality-aware sampling**
 ```python
@@ -1539,7 +1481,6 @@ def factual_sampling(logits, knowledge_base):
     # Renormalize and sample
     probs = probs / probs.sum()
     return torch.multinomial(probs, num_samples=1)
-```
 
 **Strategy 3: Constrained decoding**
 - Force output to match template
@@ -1602,7 +1543,6 @@ def factual_sampling(logits, knowledge_base):
 ### 8.1 Decision Framework
 
 **Flowchart:**
-```
 START: Choose sampling method
 
 1. Is factual accuracy critical?
@@ -1621,7 +1561,6 @@ START: Choose sampling method
    - Factual: T=0.7-0.8, p=0.85-0.9, K=5-20
    - Balanced: T=0.9-1.0, p=0.9-0.95, K=40-50
    - Creative: T=1.1-1.3, p=0.95-0.98, K=50+
-```
 
 ### 8.2 Hyperparameter Tuning Guide
 
@@ -1650,7 +1589,6 @@ for T in temperatures:
     quality = evaluate_quality(outputs)
     
     print(f"T={T}: Diversity={diversity:.3f}, Quality={quality:.3f}")
-```
 
 #### 8.2.2 Top-K
 
@@ -1692,7 +1630,6 @@ sampler = TokenSampler('top_p', temperature=1.0, top_p=0.9)
 qa_output = generate(qa_model, sampler)        # ✗ Too random
 code_output = generate(code_model, sampler)    # ✗ Too random
 creative = generate(story_model, sampler)      # Maybe ok
-```
 
 **Right:**
 ```python
@@ -1700,7 +1637,6 @@ creative = generate(story_model, sampler)      # Maybe ok
 qa_sampler = TokenSampler('greedy')
 code_sampler = TokenSampler('top_p', temperature=0.8, top_p=0.9)
 creative_sampler = TokenSampler('top_p', temperature=1.1, top_p=0.95)
-```
 
 #### 8.3.2 Mistake 2: Extreme Hyperparameters
 
@@ -1713,14 +1649,12 @@ sampler = TokenSampler('top_p', temperature=0.1, top_p=0.9)
 # Temperature too high
 sampler = TokenSampler('top_p', temperature=3.0, top_p=0.9)
 # → Nearly uniform, incoherent outputs
-```
 
 **Right:**
 ```python
 # Reasonable ranges
 temperatures = [0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3]
 # Stay within this range for most applications
-```
 
 #### 8.3.3 Mistake 3: Ignoring Evaluation
 
@@ -1728,7 +1662,6 @@ temperatures = [0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3]
 ```python
 # Pick parameters arbitrarily
 sampler = TokenSampler('top_k', top_k=42)  # Why 42? No reason
-```
 
 **Right:**
 ```python
@@ -1763,7 +1696,6 @@ configs = [
 
 results = [evaluate_config(cfg, test_prompts) for cfg in configs]
 best_config = max(results, key=lambda x: x['quality'])
-```
 
 ### 8.4 Testing và Validation
 
@@ -1800,7 +1732,6 @@ def compute_diversity_metrics(texts):
     metrics['entropy'] = entropy
     
     return metrics
-```
 
 #### 8.4.2 Quality Metrics
 
@@ -1830,7 +1761,6 @@ def compute_quality_metrics(texts, references=None):
     metrics['std_length'] = np.std(lengths)
     
     return metrics
-```
 
 ### 8.5 Production Checklist
 
@@ -1887,7 +1817,9 @@ Use two models:
 **Decoding:**
 
 $$
+
 P_{\text{contrastive}}(w) \propto \frac{P_{\text{expert}}(w)}{P_{\text{amateur}}(w)^\alpha}
+
 $$
 
 **Idea:** Amplify expert's advantages over amateur
@@ -1954,14 +1886,12 @@ Interpolate between:
 - Risk: incoherence, hallucinations
 
 **Comparison:**
-```
 Method      | Complexity | Adaptability | Diversity | Use Case
 ------------|------------|--------------|-----------|----------
 Greedy      | Lowest     | None         | None      | Factual
 Top-K       | Low        | None         | Moderate  | General
 Top-P       | Moderate   | High ✓       | Tunable   | Most tasks ✓
 Multinomial | Low        | None         | Maximum   | Research
-```
 
 ### 10.2 Core Insights
 
@@ -2265,7 +2195,6 @@ if __name__ == "__main__":
     
     next_tokens = sampler.sample(logits, past_tokens)
     print(f"Sampled tokens: {next_tokens}")
-```
 
 ### A.2 Evaluation Suite
 
@@ -2401,7 +2330,6 @@ if __name__ == "__main__":
     #     print(f"\n{name}:")
     #     for metric, value in metrics.items():
     #         print(f"  {metric}: {value:.4f}")
-```
 
 ---
 

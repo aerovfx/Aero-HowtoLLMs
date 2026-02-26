@@ -46,7 +46,6 @@ Kết quả được chạy qua vòng lặp quét của `spaCy` Tokenizer:
 ```python
 if token.pos_ == 'NOUN': count_noun += 1
 if token.pos_ == 'VERB': count_verb += 1
-```
 Kết quả trả ra hoạt động khá tròn nhiệm vụ, gom nhặt được danh sách dài các danh từ và động từ. Tuy nhiên vẫn tồn tại nhiễu do tách khoảng trắng/tách từ. Biện pháp an toàn nhất để tránh sai lầm rác tác động lên phương sai Toán học (Statistics Noise) là: **Chỉ dung nạp và thống kê những Tokens đại diện trọn vẹn cho đúng một Từ nguyên vẹn (Full Words) trong bộ từ điển của Mô hình**, và sàng lọc vứt bỏ các Token vỡ vụn hoặc độ tự tin thấp.
 
 ---

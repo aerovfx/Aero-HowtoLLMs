@@ -59,7 +59,9 @@ Mục tiêu là giúp mô hình học cách phản hồi phù hợp với yêu c
 Mô hình học xác suất có điều kiện:
 
 $$
+
 P(x_t | x_1, x_2, ..., x_{t-1})
+
 $$
 
 Trong đó:
@@ -74,7 +76,9 @@ Trong đó:
 Trong Instruction Tuning, hàm mất mát thường dùng là:
 
 $$
+
 \mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
+
 $$
 
 Trong đó:
@@ -91,7 +95,9 @@ Hàm này đo lường mức độ sai khác giữa phân phối dự đoán và
 Quá trình cập nhật tham số được thực hiện theo thuật toán Gradient Descent:
 
 $$
+
 \theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
+
 $$
 
 Trong đó:
@@ -114,9 +120,7 @@ Quy trình tổng quát gồm các bước:
 
 Sơ đồ tổng quát:
 
-```
 Dữ liệu → Tokenizer → Mô hình → Loss → Cập nhật tham số
-```
 
 ---
 

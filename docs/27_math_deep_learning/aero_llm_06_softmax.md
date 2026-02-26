@@ -34,7 +34,9 @@ Hàm Softmax dựa trên hằng số Euler $e \approx 2.718$. Hai đặc tính c
 Giả sử có một tập hợp các số thực $z$, hàm Softmax cho phần tử thứ $i$ được định nghĩa là:
 
 $$
+
 \sigma(z)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}}
+
 $$
 
 - **Tử số:** Chuyển đổi giá trị thô sang không gian số mũ.

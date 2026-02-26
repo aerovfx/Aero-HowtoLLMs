@@ -44,7 +44,9 @@ Mục tiêu của bài báo này là:
 Cơ chế attention tiêu chuẩn được định nghĩa:
 
 $$
+
 \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+
 $$
 
 trong đó:
@@ -63,13 +65,17 @@ Kết quả attention là tổ hợp tuyến tính của các vector giá trị 
 Trong dự đoán chuỗi, tại thời điểm $t$, mô hình chỉ được phép sử dụng thông tin từ:
 
 $$
+
 \{1,2,...,t\}
+
 $$
 
 và không được truy cập:
 
 $$
+
 \{t+1, t+2, ...\}
+
 $$
 
 Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và không thể được biết trước.
@@ -81,7 +87,9 @@ Nguyên tắc này phản ánh thực tế rằng tương lai chưa xảy ra và
 Một cách trực quan, sự tích hợp thông tin quá khứ có thể biểu diễn bằng vector:
 
 $$
+
 a = (a_1, a_2, ..., a_T)
+
 $$
 
 với:
@@ -100,13 +108,17 @@ Tuy nhiên, vector này chưa được chuẩn hóa và không phù hợp cho t�
 Softmax được định nghĩa:
 
 $$
+
 \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}
+
 $$
 
 Nếu một phần tử có giá trị bằng 0:
 
 $$
+
 e^0 = 1 \neq 0
+
 $$
 
 Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suất bằng 0 sau softmax.
@@ -118,19 +130,25 @@ Do đó, việc gán giá trị 0 cho tương lai không đảm bảo xác suấ
 Theo tài liệu tham khảo , để đảm bảo xác suất bằng 0, ta đặt:
 
 $$
+
 x_i = -\infty \quad \text{với } i > t
+
 $$
 
 vì:
 
 $$
+
 \lim_{x \to -\infty} e^x = 0
+
 $$
 
 Do đó:
 
 $$
+
 \text{softmax}(-\infty) = 0
+
 $$
 
 Giải pháp này đảm bảo tương lai hoàn toàn bị loại bỏ.
@@ -155,17 +173,17 @@ Cách tiếp cận này mang lại:
 Thay vì vector riêng lẻ, causal attention được biểu diễn bằng ma trận:
 
 $$
+
 M \in \mathbb{R}^{T \times T}
+
 $$
 
 với:
 
 $$
-M_{ij} =
-\begin{cases}
-0 & \text{nếu } j \le i \\
--\infty & \text{nếu } j > i
-\end{cases}
+
+M_{ij} = \begin{cases} 0 & \text{nếu } j \le i \\ -\infty & \text{nếu } j > i \end{cases}
+
 $$
 
 Ma trận này có dạng tam giác dưới.
@@ -177,12 +195,9 @@ Ma trận này có dạng tam giác dưới.
 Công thức attention mở rộng:
 
 $$
-\text{Attention}(Q,K,V)
-=
-\text{softmax}
-\left(
-\frac{QK^T}{\sqrt{d}} + M
-\right)V
+
+\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d}} + M \right)V
+
 $$
 
 Trong đó $M$ đóng vai trò loại bỏ tương tác với tương lai.
@@ -194,7 +209,9 @@ Trong đó $M$ đóng vai trò loại bỏ tương tác với tương lai.
 Việc softmax được áp dụng theo từng hàng:
 
 $$
+
 \text{softmax}(M_i)
+
 $$
 
 đảm bảo mỗi token chỉ quan tâm đến quá khứ của chính nó.
@@ -470,7 +487,6 @@ Algorithm 5: Causal-Attention(Q, K, V, M)
 5:  O ← A × V
 
 6:  return O
-```
 
 ---
 
@@ -488,7 +504,6 @@ Algorithm 5: Causal-Attention(Q, K, V, M)
 
 ```python
 import torch
-```
 
 ---
 
@@ -514,7 +529,6 @@ def generate_causal_mask(T, device=None):
         mask = mask.to(device)
 
     return mask.bool()
-```
 
 ---
 
@@ -527,7 +541,6 @@ Ví dụ với `T = 4`:
 0 0 1 1
 0 0 0 1
 0 0 0 0
-```
 
 Trong đó:
 
@@ -564,7 +577,6 @@ def generate_causal_logit_mask(T, device=None):
         mask = mask.to(device)
 
     return mask
-```
 
 ---
 
@@ -574,7 +586,6 @@ Dùng trực tiếp cho:
 
 ```python
 scores = scores + mask
-```
 
 ---
 
@@ -610,7 +621,6 @@ class CausalAttention(torch.nn.Module):
         )
 
         return out, weights
-```
 
 ---
 
@@ -647,7 +657,6 @@ def generate_incremental_mask(
     )
 
     return mask.bool().to(device)
-```
 
 ---
 
@@ -657,7 +666,6 @@ Dùng cho sinh từng token:
 
 ```text
 Past tokens | New token
-```
 
 Chỉ cho phép new token nhìn về quá khứ.
 
@@ -688,7 +696,6 @@ def demo():
 
 if __name__ == "__main__":
     demo()
-```
 
 ---
 
@@ -697,7 +704,6 @@ if __name__ == "__main__":
 ```text
 Output:  (2, 5, 64)
 Weights: (2, 5, 5)
-```
 
 ---
 
@@ -708,19 +714,25 @@ Với chuỗi độ dài ( T ):
 ### Thời gian
 
 $$
+
 O(T^2)
+
 $$
 
 ### Bộ nhớ
 
 $$
+
 O(T^2)
+
 $$
 
 Khi dùng KV Cache:
 
 $$
+
 O(T)
+
 $$
 
 ---
@@ -749,7 +761,6 @@ Khuyến nghị cố định:
 ```python
 torch.manual_seed(42)
 torch.cuda.manual_seed_all(42)
-```
 
 Lưu trữ:
 
@@ -770,8 +781,6 @@ Phụ lục này đã trình bày:
 * Phân tích độ phức tạp.
 
 Causal mask là nền tảng toán học và kỹ thuật đảm bảo tính hợp lệ của mô hình ngôn ngữ tự hồi quy.
-
-```
 
 ---
 <!-- Aero-Footer-Start -->

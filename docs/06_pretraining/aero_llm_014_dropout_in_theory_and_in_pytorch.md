@@ -50,11 +50,14 @@ This paper focuses on:
 Given an activation vector $h \in \mathbb{R}^n$, dropout applies a random mask:
 
 $$
+
 m_i \sim \text{Bernoulli}(1-p)
+
 $$
 
 $$
 \tilde{h}_i = m_i h_i
+
 $$
 
 where $p$ is the dropout probability.
@@ -84,7 +87,9 @@ By preventing any single neuron from dominating prediction, dropout encou18_rage
 When dropout is applied, the expected sum of activations decreases:
 
 $$
+
 \mathbb{E}[\sum_i \tilde{h}_i] = (1-p)\sum_i h_i
+
 $$
 
 This reduction may negatively affect downstream operations such as Softmax.
@@ -96,11 +101,9 @@ This reduction may negatively affect downstream operations such as Softmax.
 To compensate, modern frameworks use inverted dropout:
 
 $$
-\tilde{h}_i =
-\begin{cases}
-\frac{h_i}{1-p}, & \text{if } m_i = 1 \
-0, & \text{otherwise}
-\end{cases}
+
+\tilde{h}_i = \begin{cases} \frac{h_i}{1-p}, & \text{if } m_i = 1 \ 0, & \text{otherwise} \end{cases}
+
 $$
 
 This preserves the expected activation magnitude during training.
@@ -120,7 +123,6 @@ import torch.nn as nn
 
 dropout = nn.Dropout(p=0.2)
 y = dropout(x)
-```
 
 This module is sensitive to training and evaluation modes.
 
@@ -134,7 +136,6 @@ Alternatively, functional dropout is implemented via:
 import torch.nn.functional as F
 
 y = F.dropout(x, p=0.2, training=True)
-```
 
 Unlike `nn.Dropout`, this function is independent of `model.eval()` and must be controlled manually. 
 
@@ -205,7 +206,9 @@ Repeated execution of dropout yields different masks, confirming its probabilist
 With inverted dropout, the sum of activations remains approximately constant:
 
 $$
+
 \sum x \approx \sum \tilde{x}
+
 $$
 
 Without scaling, this sum decreases significantly, degrading performance. 

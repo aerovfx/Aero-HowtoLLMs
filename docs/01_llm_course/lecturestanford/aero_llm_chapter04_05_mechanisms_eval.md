@@ -26,12 +26,9 @@
 ### **1. Autoregressive Generation**
 
 **Formula:**
-```
 P(x₁, x₂, ..., xₙ) = ∏ᵢ P(xᵢ | x₁, ..., xᵢ₋₁)
-```
 
 **Example:**
-```
 Input: "The cat"
 Step 1: P("sat" | "The cat") = 0.8 → Output: "sat"
 Step 2: P("on" | "The cat sat") = 0.9 → Output: "on"
@@ -39,7 +36,6 @@ Step 3: P("the" | "The cat sat on") = 0.95 → Output: "the"
 ...
 
 Result: "The cat sat on the mat"
-```
 
 **Hạn chế:**
 - Slow (sequential, not parallel)
@@ -53,12 +49,10 @@ Result: "The cat sat on the mat"
 **Why?** Computers understand numbers, not words.
 
 **BPE Algorithm:**
-```
 1. Start: ['h', 'e', 'l', 'l', 'o'] 
 2. Merge frequent: 'l'+'l' → 'll'
 3. Result: ['h', 'e', 'll', 'o']
 4. Repeat...
-```
 
 **GPT-4 Tokenizer:**
 - Vocab size: ~100K tokens
@@ -75,7 +69,6 @@ Result: "The cat sat on the mat"
 
 # Non-English struggles
 "你好" (Chinese) → Multiple f18_ragments
-```
 
 ---
 
@@ -83,9 +76,7 @@ Result: "The cat sat on the mat"
 
 ### **1. Perplexity**
 
-```
 PPL = exp(-1/N ∑ log P(xᵢ | context))
-```
 
 **Lower = Better**
 
@@ -122,9 +113,7 @@ PPL = exp(-1/N ∑ log P(xᵢ | context))
 3. **Harmless:** No toxic content?
 
 **Process:**
-```
 Generate responses → Humans rate → Statistical analysis
-```
 
 ---
 
@@ -141,17 +130,18 @@ Generate responses → Humans rate → Statistical analysis
 
 ## 🎯 Summary: Full LLM Stack
 
-```
 ┌─────────────────────────────┐
 │  User Prompt                │
 └──────────┬──────────────────┘
            ↓
 
 $$
+
 Tokenization
+
 $$
 
-           ↓
+↓
 ┌─────────────────────────────┐
 │  Embedding Layer            │
 │  Position + Token           │
@@ -167,32 +157,39 @@ $$
            ↓
 
 $$
+
 Final LN + Linear
-$$
-
-           ↓
 
 $$
+
+↓
+
+$$
+
 Softmax → Probs
-$$
-
-           ↓
 
 $$
+
+↓
+
+$$
+
 Sample Next Token
-$$
-
-           ↓
 
 $$
+
+↓
+
+$$
+
 Autoregressive Loop
+
 $$
 
-           ↓
+↓
 ┌─────────────────────────────┐
 │  Generated Response         │
 └─────────────────────────────┘
-```
 
 ---
 
@@ -233,7 +230,6 @@ $$
    ```bash
    cd llm_viz && npm run dev
    # → http://localhost:3002/llm
-   ```
 
 2. **Try Vietnamese Walkthroughs:**
    - Embedding

@@ -49,9 +49,9 @@ Các tài liệu lý thuyết và giảng dạy về Attention đóng vai trò q
 Thuật toán Scaled Dot-Product Attention được định nghĩa như sau:
 
 $$
-\text{Attention}(Q, K, V)
- = 
-\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}} + M\right)V
+
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}} + M\right)V
+
 $$
 
 Trong đó:
@@ -71,7 +71,9 @@ Công thức này là nền tảng cho mọi biến thể Attention trong Transf
 Giả sử đầu vào là ma trận embedding $X$:
 
 $$
+
 Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+
 $$
 
 với ( W_Q, W_K, W_V ) là các tham số học được.
@@ -85,11 +87,9 @@ Các ma trận này được huấn luyện trong quá trình tối ưu và giú
 Trong mô hình sinh chuỗi, cần ngăn token nhìn thấy thông tin tương lai:
 
 $$
-M_{ij} =
-\begin{cases}
-0, & j \le i \
--\infty, & j > i
-\end{cases}
+
+M_{ij} = \begin{cases} 0, & j \le i \ -\infty, & j > i \end{cases}
+
 $$
 
 Mask này đảm bảo tính tự hồi quy và tránh rò rỉ thông tin.
@@ -144,7 +144,9 @@ Cơ chế này cho phép mô hình điều chỉnh trọng tâm linh hoạt theo
 Đầu ra được tính:
 
 $$
+
 O = AV
+
 $$
 
 Trong đó $A$ là ma trận Attention.
@@ -319,7 +321,6 @@ Procedure:
        O ← A × V
 
 6. Return O
-```
 
 ---
 
@@ -344,7 +345,6 @@ Procedure:
 4. O ← Attention(Q, K, V)
 
 5. Return O
-```
 
 ---
 
@@ -377,7 +377,6 @@ Procedure:
        Y ← O × W_O
 
 5. Return Y
-```
 
 ---
 
@@ -392,7 +391,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import math
-```
 
 ---
 
@@ -437,7 +435,6 @@ class ScaledDotProductAttention(nn.Module):
         output = torch.matmul(attention, V)
 
         return output, attention
-```
 
 ---
 
@@ -527,7 +524,6 @@ class MultiHeadAttention(nn.Module):
         output = self.W_O(output)
 
         return output, attention
-```
 
 ---
 
@@ -544,7 +540,6 @@ def generate_causal_mask(seq_len, device):
     mask = torch.tril(torch.ones(seq_len, seq_len))
 
     return mask.to(device)
-```
 
 ---
 
@@ -553,7 +548,6 @@ Sử dụng:
 ```python
 mask = generate_causal_mask(seq_len, X.device)
 mask = mask.unsqueeze(0).unsqueeze(1)
-```
 
 ---
 
@@ -583,7 +577,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
 
 ---
 
@@ -592,7 +585,6 @@ if __name__ == "__main__":
 ```text
 Output shape: (2, 10, 512)
 Attention shape: (2, 8, 10, 10)
-```
 
 ---
 
@@ -624,25 +616,21 @@ Bạn có thể phát triển tiếp:
 
 ```text
 → Tối ưu bộ nhớ và tốc độ
-```
 
 ### 🔹 RMSNorm + Attention
 
 ```text
 → Kết hợp chuẩn hóa nhẹ
-```
 
 ### 🔹 Sparse Attention
 
 ```text
 → Xử lý chuỗi dài
-```
 
 ### 🔹 KV Cache
 
 ```text
 → Tăng tốc inference LLM
-```
 
 ---
 Dưới đây là **Training Pipeline hoàn chỉnh cho một LLM mini bằng PyTorch**, theo chuẩn nghiên cứu – có thể dùng cho:
@@ -679,7 +667,6 @@ llm_mini/
 ├── tokenizer.py
 ├── config.py
 └── main.py
-```
 
 Trong hướng dẫn này, ta gộp vào một file để dễ chạy.
 
@@ -709,7 +696,6 @@ class Config:
 
     # System
     device = "cuda" if torch.cuda.is_available() else "cpu"
-```
 
 ---
 
@@ -734,7 +720,6 @@ class CharTokenizer:
 
     def decode(self, ids):
         return "".join([self.itos[i] for i in ids])
-```
 
 ---
 
@@ -757,7 +742,6 @@ class TextDataset(torch.utils.data.Dataset):
         y = self.data[idx + 1:idx + self.block_size + 1]
 
         return torch.tensor(x), torch.tensor(y)
-```
 
 ---
 
@@ -782,7 +766,6 @@ class FeedForward(nn.Module):
 
     def forward(self, x):
         return self.net(x)
-```
 
 ---
 
@@ -815,7 +798,6 @@ class DecoderBlock(nn.Module):
         x = self.ln2(x + ffn_out)
 
         return x
-```
 
 ---
 
@@ -881,7 +863,6 @@ class MiniLLM(nn.Module):
         logits = self.head(x)
 
         return logits
-```
 
 ---
 
@@ -902,7 +883,6 @@ def setup_optimizer(model, config):
     loss_fn = nn.CrossEntropyLoss()
 
     return optimizer, loss_fn
-```
 
 ---
 
@@ -935,7 +915,6 @@ def estimate_loss(model, loader, loss_fn, device):
     model.train()
 
     return total / count
-```
 
 ---
 
@@ -986,7 +965,6 @@ def train(model, train_loader, val_loader, config):
                 )
 
             step += 1
-```
 
 ---
 
@@ -1049,7 +1027,6 @@ def main():
         model.state_dict(),
         "mini_llm.pt"
     )
-```
 
 ---
 
@@ -1081,7 +1058,6 @@ def generate(model, tokenizer, prompt, max_new=200):
         ids = torch.cat([ids, next_id], dim=1)
 
     return tokenizer.decode(ids[0].tolist())
-```
 
 ---
 
@@ -1090,7 +1066,6 @@ Sử dụng:
 ```python
 text = generate(model, tokenizer, "Hello")
 print(text)
-```
 
 ---
 
@@ -1125,7 +1100,6 @@ Bạn có thể mở rộng:
 - FlashAttention
 - KV Cache
 - Mixed Precision (fp16/bf16)
-```
 
 ### 🧠 Huấn luyện
 
@@ -1133,7 +1107,6 @@ Bạn có thể mở rộng:
 - Cosine LR Schedule
 - Warmup
 - Gradient Clipping
-```
 
 ### 📊 Đánh giá
 
@@ -1141,7 +1114,6 @@ Bạn có thể mở rộng:
 - Perplexity
 - BLEU
 - ROUGE
-```
 
 ### 📦 Tokenizer
 
@@ -1149,7 +1121,6 @@ Bạn có thể mở rộng:
 - BPE
 - SentencePiece
 - Unigram LM
-```
 
 ---
 Dưới đây là **hướng dẫn chuẩn nghiên cứu để scale LLM mini lên ~100M parameters**, áp dụng cho pipeline bạn đang dùng, phù hợp cho:
@@ -1215,7 +1186,6 @@ class Config:
 
     # System
     device = "cuda"
-```
 
 ---
 
@@ -1260,7 +1230,6 @@ class DecoderBlock(nn.Module):
         x = x + self.ffn(h)
 
         return x
-```
 
 👉 Pre-LN giúp training ổn định hơn ở 100M+.
 
@@ -1285,7 +1254,6 @@ spm_train \
   --input=data.txt \
   --model_prefix=bpe \
   --vocab_size=32000
-```
 
 ---
 
@@ -1297,7 +1265,6 @@ spm_train \
 
 ```python
 scaler = torch.cuda.amp.GradScaler()
-```
 
 ---
 
@@ -1324,7 +1291,6 @@ torch.nn.utils.clip_grad_norm_(
 
 scaler.step(optimizer)
 scaler.update()
-```
 
 👉 Giảm ~40% VRAM.
 
@@ -1346,7 +1312,6 @@ scheduler = get_cosine_schedule_with_warmup(
     num_warmup_steps=config.warmup_steps,
     num_training_steps=total_steps
 )
-```
 
 ---
 
@@ -1354,7 +1319,6 @@ Trong training loop:
 
 ```python
 scheduler.step()
-```
 
 ---
 
@@ -1370,7 +1334,6 @@ Giải pháp: accumulate gradient.
 
 ```python
 accum_steps = 4
-```
 
 ---
 
@@ -1386,7 +1349,6 @@ if step % config.accum_steps == 0:
     scaler.step(optimizer)
     scaler.update()
     optimizer.zero_grad()
-```
 
 👉 Batch hiệu dụng = 16 × 4 = 64.
 
@@ -1409,13 +1371,11 @@ if step % config.accum_steps == 0:
 
 ```python
 from torch.utils.checkpoint import checkpoint
-```
 
 Trong forward:
 
 ```python
 x = checkpoint(block, x, mask)
-```
 
 ---
 
@@ -1452,7 +1412,6 @@ Bắt buộc:
 - Weight decay = 0.01
 - Data ≥ 5GB
 - Validation monitoring
-```
 
 ---
 
@@ -1465,7 +1424,6 @@ Khuyến nghị:
 - Perplexity
 - Grad norm
 - LR curve
-```
 
 Dùng:
 
@@ -1532,7 +1490,6 @@ Tokenizer:
 
 Norm:
   Pre-LN
-```
 
 Đây là “recipe” được dùng rất nhiều trong research LLM.
 
@@ -1555,7 +1512,6 @@ Cần thêm:
 - ZeRO Stage 2/3
 - Pipeline Parallel
 - NVLink
-```
 
 ---
 Dưới đây là **hướng dẫn xây dựng LLM Inference Engine chuẩn nghiên cứu/production cho mô hình ~100M params**, tối ưu cho:
@@ -1593,7 +1549,6 @@ Logits
 Sampler (Top-k / Top-p / Temp)
    ↓
 Output Text
-```
 
 Thành phần quan trọng nhất: **KV Cache**.
 
@@ -1694,7 +1649,6 @@ class CachedAttention(nn.Module):
         }
 
         return out, new_cache
-```
 
 👉 `detach()` giúp giảm memory leak.
 
@@ -1736,7 +1690,6 @@ class InferenceBlock(nn.Module):
         x = x + self.ffn(h)
 
         return x, new_cache
-```
 
 ---
 
@@ -1804,7 +1757,6 @@ class InferenceLLM(nn.Module):
         logits = self.head(x)
 
         return logits, new_caches
-```
 
 ---
 
@@ -1853,7 +1805,6 @@ def sample_logits(
     probs = torch.softmax(logits, dim=-1)
 
     return torch.multinomial(probs, 1)
-```
 
 ---
 
@@ -1902,13 +1853,14 @@ def generate_stream(
         token = tokenizer.decode(
 
 $$
+
 next_id.item()
+
 $$
 
-        )
+)
 
         yield token
-```
 
 ---
 
@@ -1922,7 +1874,6 @@ for token in generate_stream(
     max_new=200
 ):
     print(token, end="", flush=True)
-```
 
 👉 Xuất text realtime.
 
@@ -1981,7 +1932,6 @@ def batch_generate(
         )
 
     return outputs
-```
 
 ---
 
@@ -2002,7 +1952,6 @@ def batch_generate(
 
 ```python
 model = torch.compile(model)
-```
 
 (PyTorch ≥ 2.0)
 
@@ -2014,13 +1963,11 @@ model = torch.compile(model)
 
 ```python
 model = model.half()
-```
 
 Hoặc:
 
 ```python
 with torch.cuda.amp.autocast():
-```
 
 ---
 
@@ -2028,7 +1975,6 @@ with torch.cuda.amp.autocast():
 
 ```python
 import bitsandbytes as bnb
-```
 
 → -70% VRAM.
 
@@ -2054,7 +2000,6 @@ def generate_api(prompt: str):
         out += t
 
     return {"text": out}
-```
 
 ---
 
@@ -2062,7 +2007,6 @@ Chạy:
 
 ```bash
 uvicorn api:app --host 0.0.0.0 --port 8000
-```
 
 ---
 
@@ -2102,7 +2046,6 @@ Nếu bạn muốn lên level cao hơn:
 - FlashAttention 2
 - TensorRT-LLM
 - vLLM
-```
 
 ### 🌐 Multi-user
 
@@ -2110,14 +2053,12 @@ Nếu bạn muốn lên level cao hơn:
 - Async batching
 - Queue system
 - Rate limit
-```
 
 ### 🔒 Bảo mật
 
 ```text
 - Prompt filter
 - Abuse detection
-```
 
 ---
 Dưới đây là **hướng dẫn xây dựng ChatGPT-style Backend hoàn chỉnh** cho LLM của bạn (≈100M–1B params), theo kiến trúc giống hệ thống của **OpenAI**, dùng cho:
@@ -2157,7 +2098,6 @@ Sampler
 Streaming Server
       ↓
 Client
-```
 
 ---
 
@@ -2187,7 +2127,6 @@ chat_backend/
 ├── auth.py
 ├── config.py
 └── main.py
-```
 
 ---
 
@@ -2208,7 +2147,6 @@ class Config:
     max_sessions = 10000
 
     device = "cuda"
-```
 
 ---
 
@@ -2242,7 +2180,6 @@ class ChatMemory:
 
         if len(self.store[session_id]) > self.max_len:
             self.store[session_id].pop(0)
-```
 
 ---
 
@@ -2273,7 +2210,6 @@ class PromptBuilder:
         prompt += "Assistant:"
 
         return prompt
-```
 
 ---
 
@@ -2306,7 +2242,6 @@ class ChatEngine:
             top_k=self.config.top_k,
             top_p=self.config.top_p
         )
-```
 
 ---
 
@@ -2326,7 +2261,6 @@ app = FastAPI()
 memory = ChatMemory()
 builder = PromptBuilder()
 engine = None   # init in main()
-```
 
 ---
 
@@ -2367,7 +2301,6 @@ async def chat(request: dict):
         media_type="text/plain",
         headers={"X-Session-ID": session_id}
     )
-```
 
 ---
 
@@ -2381,13 +2314,11 @@ POST /chat
   "session_id": "...",
   "message": "Xin chào"
 }
-```
 
 Response:
 
 ```text
 Xin chào! Tôi có thể giúp gì cho bạn hôm nay...
-```
 
 (streaming)
 
@@ -2406,7 +2337,6 @@ API_KEYS = {
 def verify_key(key):
 
     return key in API_KEYS
-```
 
 Trong endpoint:
 
@@ -2415,7 +2345,6 @@ key = request.headers.get("x-api-key")
 
 if not verify_key(key):
     raise HTTPException(401)
-```
 
 ---
 
@@ -2429,7 +2358,6 @@ if not verify_key(key):
 import asyncio
 
 request_queue = asyncio.Queue()
-```
 
 ---
 
@@ -2445,7 +2373,6 @@ async def worker():
         await process(task)
 
         request_queue.task_done()
-```
 
 ---
 
@@ -2487,7 +2414,6 @@ async def websocket(ws: WebSocket):
 
         memory.add(session_id, "user", msg)
         memory.add(session_id, "assistant", answer)
-```
 
 ---
 
@@ -2525,7 +2451,6 @@ def main():
         host="0.0.0.0",
         port=8000
     )
-```
 
 ---
 
@@ -2541,7 +2466,6 @@ fetch("/chat", {
     message
   })
 })
-```
 
 Hoặc WebSocket.
 
@@ -2557,7 +2481,6 @@ Khuyến nghị tích hợp:
 - VRAM
 - Queue size
 - Error rate
-```
 
 Dùng:
 
@@ -2591,7 +2514,6 @@ Inference Nodes (GPU)
 Redis Memory
      ↓
 Sto18_rage
-```
 
 ---
 
@@ -2642,7 +2564,6 @@ Nếu muốn ngang ChatGPT:
 - Tool Calling
 - Function Calling
 - Agent System
-```
 
 ### 🌐 Infra
 
@@ -2650,7 +2571,6 @@ Nếu muốn ngang ChatGPT:
 - Kubernetes
 - Ray Serve
 - Triton
-```
 
 ---
 

@@ -34,11 +34,14 @@ Fine-tuning truyền thống yêu cầu:
 LoRA giới thiệu ma trận hạng thấp (low-rank matrices) để thay thế việc cập nhật trực tiếp các weights:
 
 $$
+
 W_{new} = W_{original} + \Delta W
+
 $$
 
 $$
 \Delta W = A \times B
+
 $$
 
 Trong đó:
@@ -52,7 +55,6 @@ Trong đó:
 
 ```python
 !pip install transformers tensorflow keras
-```
 
 ### 2.2 Tải Mô Hình
 
@@ -62,7 +64,6 @@ from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM
 model_name = "google/flan-t5-base"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
-```
 
 ### 2.3 Tạo Lớp LoRA Adapter
 
@@ -94,7 +95,6 @@ class LoraAdapter(tf.keras.layers.Layer):
         # Tính toán: A × B × input
         lora_output = tf.matmul(tf.matmul(inputs, self.A), self.B)
         return inputs + lora_output
-```
 
 ### 2.4 Tích Hợp LoRA vào Mô Hình
 
@@ -111,7 +111,6 @@ class LoraDenseLayer(tf.keras.layers.Layer):
         # Thêm output từ LoRA
         lora_output = self.lora_adapter(inputs)
         return original_output + lora_output
-```
 
 ### 2.5 Thay Thế Các Lớp Dense
 
@@ -125,7 +124,6 @@ def apply_lora_to_model(model, rank=4):
             # Cập nhật cấu trúc model
             layer.trainable = False
     return model
-```
 
 ## 3. Ví Dụ Hoàn Chỉnh
 
@@ -167,7 +165,6 @@ model.compile(
 )
 
 model.fit(tf_train, epochs=3)
-```
 
 ## 4. Phân Tích Hiệu Quả
 
@@ -183,7 +180,9 @@ model.fit(tf_train, epochs=3)
 ### 4.2 Công Thức Tính Tham Số LoRA
 
 $$
+
 \text{Params}_{LoRA} = 2 \times d \times r
+
 $$
 
 Trong đó:

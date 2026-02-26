@@ -33,14 +33,15 @@ Sự can thiệp được thực hiện thông qua một hàm Hook không chứa
 ```python
 def skip_layer_hook(module, input, output):
     return input
-```
 - **Cơ chế:** Hàm này bỏ qua tham số `output` (vốn chứa các kết quả tính toán của Attention/MLP) và trả về chính tham số `input`. Kết quả là khối tiếp theo sẽ nhận được dữ liệu y hệt như khối trước đó, như thể khối hiện tại chưa bao giờ tồn tại.
 
 ### 2.2. Chỉ số Kiểm chứng (Verification Metric)
 Để xác nhận tầng đã bị bỏ qua, chúng ta đo lường chuẩn Frobenius của hiệu số Hidden States giữa các tầng liên tiếp:
 
 $$
+
 \Delta_{norm} = \|\mathbf{H}_{L} - \mathbf{H}_{L-1}\|_F
+
 $$
 
 Nếu $\Delta_{norm} = 0$ tại tầng $L$, điều đó có nghĩa là vector không hề thay đổi khi đi qua Transformer Block đó.

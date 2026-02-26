@@ -33,7 +33,9 @@ Transfer learning là kỹ thuật cho phép sử dụng kiến thức từ mộ
 ### 1.2 Lợi Ích
 
 $$
+
 \text{Efficiency} \propto \frac{\text{Pre-trained Knowledge}}{\text{New Task Data}}
+
 $$
 
 - Giảm thời gian huấn luyện
@@ -54,7 +56,6 @@ from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM
 model_name = "google/flan-t5-base"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
-```
 
 ### 2.2 Tải Dữ Liệu
 
@@ -63,7 +64,6 @@ from datasets import load_dataset
 
 # Tải tập dữ liệu OPUS-100 (Anh - Tây Ban Nha)
 dataset = load_dataset("Helsinki-NLP/opus-100", "en-es")
-```
 
 ### 2.3 Tiền Xử Lý Dữ Liệu
 
@@ -83,7 +83,6 @@ def preprocess_function(examples):
     model_inputs["labels"] = labels["input_ids"]
     
     return model_inputs
-```
 
 ### 2.4 Chuyển Đổi Sang TensorFlow Dataset
 
@@ -95,7 +94,6 @@ tf_train = train_dataset.to_tf_dataset(
     batch_size=64,
     shuffle=True
 )
-```
 
 ## 3. Transfer Learning trong Thực Tế
 
@@ -108,7 +106,6 @@ for layer in model.layers[:3]:
 
 # Chỉ train lớp dense cuối
 model.summary()
-```
 
 **Kết quả:**
 - Tổng tham số: ~247 triệu
@@ -130,7 +127,6 @@ model.fit(
     validation_data=tf_test,
     epochs=3
 )
-```
 
 ### 3.3 Đánh Giá
 
@@ -168,7 +164,6 @@ input_text = "Bird, you don't have to be super brave all the time."
 translation = translate(input_text)
 print(f"Input: {input_text}")
 print(f"Translation: {translation}")
-```
 
 ### 4.2 Kết Quả
 
@@ -183,7 +178,9 @@ print(f"Translation: {translation}")
 Mô hình FLAN-T5 sử dụng kiến trúc Encoder-Decoder:
 
 $$
+
 \text{Output} = \text{Decoder}(\text{Encoder}(X), Y_{<t})
+
 $$
 
 Trong đó:
@@ -195,7 +192,9 @@ Trong đó:
 Hiệu quả của transfer learning có thể được biểu diễn:
 
 $$
+
 \eta_{TL} = \frac{||\theta^*_{new} - \theta_{pre}||}{||\theta_{new}||} \times 100\%
+
 $$
 
 Với LoRA, $\eta_{TL}$ thường < 5%, cho thấy chỉ một phần nhỏ tham số cần được điều chỉnh.

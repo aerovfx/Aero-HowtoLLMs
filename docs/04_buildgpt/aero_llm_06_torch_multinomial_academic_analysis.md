@@ -95,7 +95,6 @@ Bài viết này trình bày phân tích chi tiết về hàm `torch.multinomial
 
 Trong token generation pipeline của LLMs, sau khi model tính toán probabilities cho tất cả tokens trong vocabulary, cần một mechanism để **actually select** token tiếp theo [1]. Đây là lúc `torch.multinomial` xuất hiện:
 
-```
 Context: "I prefer oat milk in my ___"
     ↓
 Model forward pass
@@ -111,7 +110,6 @@ torch.multinomial ← WE ARE HERE
 Selected token index
     ↓
 Decode to text
-```
 
 **Critical function:**
 > `torch.multinomial` transforms probability distribution thành actual token selection, enabling stochastic generation mà differentiates LLMs từ deterministic systems.
@@ -125,21 +123,18 @@ Decode to text
 next_token = torch.argmax(probs)
 # Always picks highest probability
 # Boring, repetitive
-```
 
 **Uniform random:**
 ```python
 next_token = torch.randint(0, vocab_size, (1,))
 # Ignores probabilities entirely
 # Incoherent output
-```
 
 **Weighted probabilistic (multinomial):**
 ```python
 next_token = torch.multinomial(probs, num_samples=1)
 # Respects probability distribution
 # Balanced diversity + quality ✓
-```
 
 **Advantages:**
 - Respects model's uncertainty
@@ -179,7 +174,9 @@ next_token = torch.multinomial(probs, num_samples=1)
 Cho $K$ possible outcomes với probabilities $\mathbf{p} = [p_1, p_2, \ldots, p_K]$ where $\sum_{i=1}^K p_i = 1$:
 
 $$
+
 P(X_1=n_1, X_2=n_2, \ldots, X_K=n_K) = \frac{n!}{n_1! n_2! \cdots n_K!} p_1^{n_1} p_2^{n_2} \cdots p_K^{n_K}
+
 $$
 
 Trong đó:
@@ -195,30 +192,31 @@ Select one outcome $i$ với probability $p_i$.
 **PyTorch implementation:**
 ```python
 torch.multinomial(probs, num_samples=1)
-```
 
 **Mathematical interpretation:**
 
 $$
+
 P(\text{sample} = i) = p_i
+
 $$
 
 **Multiple samples (with replacement):**
 ```python
 torch.multinomial(probs, num_samples=n, replacement=True)
-```
 
 Each sample independent, probability distribution unchanged.
 
 **Multiple samples (without replacement):**
 ```python
 torch.multinomial(probs, num_samples=n, replacement=False)
-```
 
 After sampling outcome $i$, effective probability becomes:
 
 $$
+
 p_i^{\text{new}} = 0
+
 $$
 
 Other probabilities renormalized.
@@ -234,7 +232,6 @@ Special case của multinomial với $n=1$ (single trial).
 # These are mathematically equivalent
 sample = torch.multinomial(probs, num_samples=1)
 sample = torch.distributions.Categorical(probs).sample()
-```
 
 **Trong LLMs:**
 - Each token selection = one categorical sample
@@ -250,7 +247,9 @@ sample = torch.distributions.Categorical(probs).sample()
 If input is $\mathbf{w} = [w_1, w_2, \ldots, w_K]$ (unnormalized weights):
 
 $$
+
 p_i = \frac{w_i}{\sum_{j=1}^K w_j}
+
 $$
 
 **Example:**
@@ -263,7 +262,6 @@ sample = torch.multinomial(weights, num_samples=1)
 # P(sample=0) = 0.125
 # P(sample=1) = 0.25
 # P(sample=2) = 0.625
-```
 
 **Important:**
 > `multinomial` does NOT require pre-normalized probabilities. It accepts any non-negative weights.
@@ -285,7 +283,6 @@ torch.multinomial(
     generator=None,           # RNG generator
     out=None                  # Output tensor
 ) → Tensor
-```
 
 **Parameters:**
 
@@ -323,7 +320,6 @@ print(sample)  # Output: tensor([2]) or [1] or [0]
 # To get the actual value:
 value = probs[sample]
 print(value)   # Output: tensor([5.]) or [2.] or [1.]
-```
 
 **Key observation:**
 ```python
@@ -332,7 +328,6 @@ sample = torch.multinomial(probs, 1)  # → tensor([2])
 
 # NOT the value
 sample ≠ 5.0  # Even though 5.0 has highest weight
-```
 
 ### 3.2 Critical Distinction: Indices vs Values
 
@@ -345,7 +340,6 @@ sample = torch.multinomial(vector, 1)
 
 # ✗ WRONG: Assume sample ∈ {1.0, 2.0, 5.0}
 # ✓ CORRECT: sample ∈ {0, 1, 2}  (indices!)
-```
 
 **Why this matters:**
 
@@ -364,7 +358,6 @@ print(samples)
 values = vector[samples]
 print(values)
 # Output: tensor([50., 50., 20., 50., 10., 50., 50., 50., 20., 50.])
-```
 
 #### 3.2.2 Implications cho LLM Token Generation
 
@@ -382,7 +375,6 @@ token_id = torch.multinomial(probs, num_samples=1)
 # Decode INDEX to actual token text
 token_text = tokenizer.decode([token_id])
 # "the" or "coffee" or "," etc.
-```
 
 **Why indices:**
 - Tokens are stored in vocabulary by index
@@ -403,7 +395,6 @@ samples = torch.multinomial(probs, num_samples=3, replacement=False)
 print(samples)
 # Output: tensor([2, 1, 0]) or some permutation
 #         ↑ All different! No duplicates
-```
 
 **Constraint:**
 ```python
@@ -411,7 +402,6 @@ print(samples)
 samples = torch.multinomial(probs, num_samples=4, replacement=False)
 # RuntimeError: cannot sample n_sample > prob_dist.size(-1) samples 
 # without replacement
-```
 
 **Use case:**
 - Selecting top-K items
@@ -429,14 +419,12 @@ samples = torch.multinomial(probs, num_samples=10, replacement=True)
 print(samples)
 # Output: tensor([2, 2, 1, 2, 0, 2, 2, 2, 1, 2])
 #         ↑ Duplicates allowed!
-```
 
 **No constraint on num_samples:**
 ```python
 # ✓ OK: Can sample any amount with replacement
 samples = torch.multinomial(probs, num_samples=1000, replacement=True)
 # Works fine!
-```
 
 **Use case:**
 - LLM token generation (default)
@@ -444,10 +432,8 @@ samples = torch.multinomial(probs, num_samples=1000, replacement=True)
 - When duplicates meaningful
 
 **Example in text generation:**
-```
 "the the the" - repetition possible and sometimes correct
 "I I I" - grammatically wrong but sampling allows it
-```
 
 ---
 
@@ -468,14 +454,12 @@ sample = torch.multinomial(probs_list, 1)
 # Error:
 # TypeError: multinomial(): argument 'input' (position 1) must be 
 # Tensor, not list
-```
 
 **Fix:**
 ```python
 # ✓ CORRECT: Convert to tensor
 probs_tensor = torch.tensor([1.0, 2.0, 5.0])
 sample = torch.multinomial(probs_tensor, 1)
-```
 
 **Error case 2: NumPy array**
 ```python
@@ -488,14 +472,12 @@ sample = torch.multinomial(probs_numpy, 1)
 # Error:
 # TypeError: multinomial(): argument 'input' must be Tensor, 
 # not numpy.ndarray
-```
 
 **Fix:**
 ```python
 # ✓ CORRECT: Convert to tensor
 probs_tensor = torch.from_numpy(probs_numpy)
 sample = torch.multinomial(probs_tensor, 1)
-```
 
 **Note:**
 > Some PyTorch functions accept lists/arrays and auto-convert. `multinomial` does NOT—strict tensor requirement.
@@ -512,7 +494,6 @@ sample = torch.multinomial(probs_int, 1)
 
 # Error:
 # RuntimeError: "multinomial_cpu" not implemented for 'Long'
-```
 
 **Fix options:**
 
@@ -521,14 +502,12 @@ sample = torch.multinomial(probs_int, 1)
 # ✓ CORRECT: Use decimals
 probs = torch.tensor([1.0, 2.0, 5.0])  # dtype=torch.float32
 sample = torch.multinomial(probs, 1)
-```
 
 **Option 2: Explicit dtype**
 ```python
 # ✓ CORRECT: Specify dtype
 probs = torch.tensor([1, 2, 5], dtype=torch.float)
 sample = torch.multinomial(probs, 1)
-```
 
 **Option 3: Type conversion**
 ```python
@@ -536,7 +515,6 @@ sample = torch.multinomial(probs, 1)
 probs_int = torch.tensor([1, 2, 5])
 probs_float = probs_int.float()
 sample = torch.multinomial(probs_float, 1)
-```
 
 **Why floats required:**
 - Probabilities are real numbers [0, 1]
@@ -558,7 +536,6 @@ sample = torch.multinomial(probs, 1)
 # Error:
 # RuntimeError: invalid multinomial distribution 
 # (encountering probability entry < 0)
-```
 
 **Why:**
 - Probabilities cannot be negative
@@ -570,7 +547,6 @@ sample = torch.multinomial(probs, 1)
 # ✓ CORRECT: Ensure all non-negative
 probs = torch.tensor([1.0, 2.0, 5.0])  # All ≥ 0
 sample = torch.multinomial(probs, 1)
-```
 
 **Note on zeros:**
 ```python
@@ -578,7 +554,6 @@ sample = torch.multinomial(probs, 1)
 probs = torch.tensor([0.0, 2.0, 5.0])
 sample = torch.multinomial(probs, 1)
 # Will never return index 0
-```
 
 #### 4.2.2 Sum Must Be Positive
 
@@ -593,7 +568,6 @@ sample = torch.multinomial(probs, 1)
 # Error:
 # RuntimeError: invalid multinomial distribution 
 # (sum of probabilities <= 0)
-```
 
 **Why:**
 - Need to normalize to probabilities
@@ -631,7 +605,6 @@ def validate_multinomial_input(probs):
     
     print("✓ Input valid for multinomial")
     return True
-```
 
 ---
 
@@ -672,15 +645,12 @@ observed_freq = counts / counts.sum() * 100
 print("Observed frequencies:")
 for idx, freq in zip(unique, observed_freq):
     print(f"  Index {idx}: {freq:.2f}%")
-```
 
 **Output:**
-```
 Observed frequencies:
   Index 0: 12.43%
   Index 1: 24.89%
   Index 2: 62.68%
-```
 
 **Conclusion:**
 > ✓ **Hypothesis 2 confirmed!** Sampling is **weighted** by input values, not uniform.
@@ -692,21 +662,27 @@ Observed frequencies:
 Given weights $\mathbf{w} = [1.0, 2.0, 5.0]$:
 
 $$
+
 p_i = \frac{w_i}{\sum_j w_j} = \frac{w_i}{1 + 2 + 5} = \frac{w_i}{8}
+
 $$
 
 Therefore:
 
 $$
+
 p_0 = \frac{1}{8} = 0.125 = 12.5\%
+
 $$
 
 $$
 p_1 = \frac{2}{8} = 0.25 = 25\%
+
 $$
 
 $$
 p_2 = \frac{5}{8} = 0.625 = 62.5\%
+
 $$
 
 **Comparison với observed:**
@@ -722,7 +698,9 @@ $$
 Chi-square goodness of fit:
 
 $$
+
 \chi^2 = \sum_{i} \frac{(O_i - E_i)^2}{E_i}
+
 $$
 
 With 10,000 samples, observed frequencies closely match expected (p > 0.05).
@@ -746,7 +724,6 @@ print("Without Softmax:")
 print(f"  Index 0: {observed[0]:.3f}")  # ~0.125
 print(f"  Index 1: {observed[1]:.3f}")  # ~0.250
 print(f"  Index 2: {observed[2]:.3f}")  # ~0.625
-```
 
 **Distribution:**
 - Relatively flat
@@ -775,7 +752,6 @@ print("\nWith Softmax:")
 print(f"  Index 0: {observed[0]:.3f}")  # ~0.024
 print(f"  Index 1: {observed[1]:.3f}")  # ~0.064
 print(f"  Index 2: {observed[2]:.3f}")  # ~0.912
-```
 
 **Comparison:**
 
@@ -803,7 +779,6 @@ probs = torch.softmax(logits, dim=0)
 # Softmax makes model more "confident"
 # High logit → very high probability
 # Used in all production LLMs
-```
 
 #### 5.2.3 Softmax Amplification Formula
 
@@ -812,25 +787,30 @@ probs = torch.softmax(logits, dim=0)
 Without Softmax:
 
 $$
+
 p_i^{\text{linear}} = \frac{w_i}{\sum_j w_j}
+
 $$
 
 With Softmax:
 
 $$
+
 p_i^{\text{softmax}} = \frac{e^{w_i}}{\sum_j e^{w_j}}
+
 $$
 
 **Amplification factor:**
 
 $$
+
 \frac{p_i^{\text{softmax}}}{p_i^{\text{linear}}} = \frac{e^{w_i}/\sum_j e^{w_j}}{w_i/\sum_j w_j}
+
 $$
 
 **For large weights:** This ratio can be **orders of magnitude**.
 
 **Example:**
-```
 w = [1, 2, 5]
 
 Linear:   [0.125, 0.250, 0.625]
@@ -842,7 +822,6 @@ Amplification for largest:
 But difference from smallest:
 Linear:   5:1 ratio (largest:smallest)
 Softmax:  38:1 ratio
-```
 
 **Implication:**
 > Softmax creates **winner-take-most** dynamics, essential cho LLMs to pick specific tokens from 100K+ vocabulary.
@@ -865,7 +844,6 @@ sample = torch.multinomial(weights, num_samples=1)
 print(type(sample))  # torch.Tensor
 print(sample)        # tensor([2]) - INDEX
 print(sample.item()) # 2
-```
 
 **NumPy:**
 ```python
@@ -877,7 +855,6 @@ sample = np.random.choice(options, size=1)
 print(type(sample))  # numpy.ndarray
 print(sample)        # [5.0] - VALUE
 print(sample[0])     # 5.0
-```
 
 **Key difference:**
 
@@ -905,7 +882,6 @@ np.random.choice(options, size=10)
 
 np.random.choice(options, size=10, replace=False)
 # ERROR: Can't sample 10 from 3 without replacement
-```
 
 **Summary:**
 
@@ -941,7 +917,6 @@ for val, freq in zip(unique, frequencies):
 #   1.0: 0.333
 #   2.0: 0.333
 #   5.0: 0.333
-```
 
 **Observation:**
 > By default, NumPy samples **uniformly** regardless of values. Each option equally likely.
@@ -970,7 +945,6 @@ for val, freq in zip(unique, frequencies):
 #   1.0: 0.125
 #   2.0: 0.250
 #   5.0: 0.625
-```
 
 **Now matches PyTorch behavior!**
 
@@ -995,7 +969,6 @@ samples_numpy_uniform = np.random.choice(weights_numpy, 10000)
 probs = weights_numpy / weights_numpy.sum()
 samples_numpy_weighted = np.random.choice(weights_numpy, 10000, p=probs)
 # Counts of values 1, 2, 5: [1250, 2500, 6250]
-```
 
 **Summary table:**
 
@@ -1018,7 +991,6 @@ sample_value = weights_pt[sample_idx].item()
 weights_np = np.array([1.0, 2.0, 5.0])
 probs = weights_np / weights_np.sum()
 sample_value = np.random.choice(weights_np, p=probs)
-```
 
 **NumPy to PyTorch equivalent:**
 ```python
@@ -1031,7 +1003,6 @@ options_pt = torch.tensor([10.0, 20.0, 30.0])
 uniform_weights = torch.ones(3)
 sample_idx = torch.multinomial(uniform_weights, 1).item()
 sample = options_pt[sample_idx].item()
-```
 
 ---
 
@@ -1095,7 +1066,6 @@ def generate_next_token(
     next_token = torch.multinomial(probs[0], num_samples=1)
     
     return next_token.item()
-```
 
 #### 7.1.2 Detailed Explanation
 
@@ -1105,7 +1075,6 @@ logits = model(input_ids).logits[:, -1, :]
 # Shape: [batch=1, vocab_size=50000]
 # Values: Raw scores (unnormalized)
 # Range: Typically [-10, 10]
-```
 
 **Step 2: Temperature scaling**
 ```python
@@ -1113,7 +1082,6 @@ logits = logits / temperature
 # temperature=0.7 → sharper distribution (more deterministic)
 # temperature=1.0 → unchanged
 # temperature=1.5 → flatter distribution (more random)
-```
 
 **Step 3: Softmax transformation**
 ```python
@@ -1121,7 +1089,6 @@ probs = F.softmax(logits, dim=-1)
 # Shape: [1, 50000]
 # Values: Probabilities
 # Range: [0, 1], sum = 1
-```
 
 **Step 4: Multinomial sampling**
 ```python
@@ -1129,14 +1096,12 @@ next_token = torch.multinomial(probs[0], num_samples=1)
 # Input: [50000] probabilities
 # Output: Single index ∈ [0, 49999]
 # Probabilistic: High-prob tokens more likely, but not guaranteed
-```
 
 **Step 5: Decode token**
 ```python
 token_text = tokenizer.decode([next_token])
 # Index → Text
 # e.g., 3421 → "the"
-```
 
 ### 7.2 Why Multinomial cho LLMs?
 
@@ -1153,7 +1118,6 @@ token = torch.argmax(probs)  # Always picks first (0.35)
 # Multinomial (stochastic):
 token = torch.multinomial(probs, 1)  # Picks any with fair chance
 # Sometimes 0, sometimes 1, sometimes 2
-```
 
 **2. Enables diversity:**
 ```python
@@ -1170,7 +1134,6 @@ for i in range(5):
 # 3: "The future of AI is transformative for society..."
 # 4: "The future of AI is filled with potential..."
 # 5: "The future of AI is rapidly evolving..."
-```
 
 **3. Prevents repetition:**
 ```python
@@ -1179,14 +1142,12 @@ for i in range(5):
 
 # Multinomial explores alternatives
 # Less likely to repeat unless actually appropriate
-```
 
 #### 7.2.2 Comparison với Alternatives
 
 **Greedy (argmax):**
 ```python
 next_token = torch.argmax(probs)
-```
 - ✓ Fast, deterministic
 - ✗ Boring, repetitive
 - ✗ No diversity
@@ -1194,7 +1155,6 @@ next_token = torch.argmax(probs)
 **Uniform random:**
 ```python
 next_token = torch.randint(0, vocab_size, (1,))
-```
 - ✓ Maximum diversity
 - ✗ Ignores model knowledge
 - ✗ Incoherent output
@@ -1202,7 +1162,6 @@ next_token = torch.randint(0, vocab_size, (1,))
 **Multinomial (stochastic):**
 ```python
 next_token = torch.multinomial(probs, 1)
-```
 - ✓ Respects probabilities
 - ✓ Enables diversity
 - ✓ Theoretically principled
@@ -1222,7 +1181,6 @@ probs = F.softmax(logits, dim=-1)
 
 # Potential underflow issues
 next_token = torch.multinomial(probs, 1)
-```
 
 **Solution:** Temperature và filtering help:
 ```python
@@ -1234,7 +1192,6 @@ probs = apply_top_p_filtering(probs, p=0.9)
 
 # Now multinomial operates on cleaner distribution
 next_token = torch.multinomial(probs, 1)
-```
 
 #### 7.3.2 Performance Optimization
 
@@ -1247,14 +1204,12 @@ for i in range(batch_size):
 # Sample entire batch at once
 tokens = torch.multinomial(probs, num_samples=1)
 # Shape: [batch_size, 1]
-```
 
 **GPU acceleration:**
 ```python
 # Move to GPU
 probs = probs.to('cuda')
 tokens = torch.multinomial(probs, 1)  # Runs on GPU
-```
 
 #### 7.3.3 Reproducibility
 
@@ -1270,7 +1225,6 @@ token1 = torch.multinomial(probs, 1)
 # Custom generator for finer control
 generator = torch.Generator().manual_seed(42)
 token2 = torch.multinomial(probs, 1, generator=generator)
-```
 
 **Use case:**
 - Debugging
@@ -1316,7 +1270,6 @@ def safe_multinomial(probs: torch.Tensor, num_samples: int, **kwargs):
     
     # All checks passed
     return torch.multinomial(probs, num_samples, **kwargs)
-```
 
 #### 8.1.2 Graceful Degradation
 
@@ -1343,7 +1296,6 @@ def robust_multinomial(probs: torch.Tensor, num_samples: int, **kwargs):
     probs = probs / probs.sum()
     
     return torch.multinomial(probs, num_samples, **kwargs)
-```
 
 ### 8.2 Common Patterns
 
@@ -1369,7 +1321,6 @@ def top_k_multinomial(logits: torch.Tensor, k: int, temperature: float = 1.0):
     sample = torch.multinomial(probs, num_samples=1)
     
     return sample
-```
 
 #### 8.2.2 Batched Generation Pattern
 
@@ -1401,7 +1352,6 @@ def batch_generate(model, input_ids: torch.Tensor, max_length: int = 50):
         input_ids = torch.cat([input_ids, next_tokens], dim=1)
     
     return input_ids
-```
 
 ### 8.3 Debugging Tips
 
@@ -1420,7 +1370,6 @@ print(f"Top 5 probs: {probs.topk(5).values}")
 # - Max prob = 1.0? (Deterministic, why use multinomial?)
 # - All equal? (Uniform, model not confident)
 # - Many zeros? (Too peaked, might have numerical issues)
-```
 
 #### 8.3.2 Verify Sampling Behavior
 
@@ -1452,7 +1401,6 @@ def test_multinomial(probs, n_samples=10000):
         print("\n✓ Sampling behavior correct")
     else:
         print("\n✗ Warning: Deviation larger than expected")
-```
 
 ### 8.4 Performance Tuning
 
@@ -1468,7 +1416,6 @@ sample = torch.multinomial(top_probs, 1)
 logits = logits / temperature  # In-place
 probs = F.softmax(logits, dim=-1)
 torch.multinomial(probs, 1, out=output_buffer)  # Reuse buffer
-```
 
 #### 8.4.2 Avoiding Unnecessary Copies
 
@@ -1481,7 +1428,6 @@ sample = torch.multinomial(probs_torch, 1)
 
 # Better: Stay in PyTorch
 sample = torch.multinomial(probs, 1)
-```
 
 ---
 
@@ -1506,7 +1452,6 @@ sample2 = dist.sample()
 
 # Equivalent results
 assert sample1.item() == sample2.item()  # (with same seed)
-```
 
 **Advantages of Categorical:**
 - Can compute log_prob, entropy, etc.
@@ -1538,7 +1483,6 @@ def gumbel_softmax_sample(logits, temperature=1.0):
     y_soft = F.softmax(gumbels, dim=-1)
     
     return y_soft
-```
 
 **Use case:** VAEs, REINFORCE with continuous relaxation
 
@@ -1575,7 +1519,6 @@ def generate_with_annealing(
         input_ids = torch.cat([input_ids, next_token], dim=1)
     
     return input_ids
-```
 
 #### 9.2.2 Adaptive Sampling
 
@@ -1597,7 +1540,6 @@ def generate_adaptive(model, input_ids, confidence_threshold=0.8):
         next_token = torch.multinomial(probs, 1)
     
     return next_token
-```
 
 ---
 
@@ -1664,35 +1606,30 @@ def generate_adaptive(model, input_ids, confidence_threshold=0.8):
 weights = [1, 2, 5]
 sample = torch.multinomial(weights, 1)
 # Each NOT equally likely!
-```
 
 **Pitfall 2: Expecting values instead of indices**
 ```python
 # ✗ WRONG
 sample = torch.multinomial(probs, 1)
 print(sample)  # Outputs index, not probability value!
-```
 
 **Pitfall 3: Using integers**
 ```python
 # ✗ WRONG
 weights = torch.tensor([1, 2, 5])  # int64
 torch.multinomial(weights, 1)  # ERROR
-```
 
 **Pitfall 4: Negative values**
 ```python
 # ✗ WRONG
 weights = torch.tensor([1.0, -0.5, 2.0])
 torch.multinomial(weights, 1)  # ERROR
-```
 
 **Pitfall 5: Over-sampling without replacement**
 ```python
 # ✗ WRONG
 weights = torch.tensor([1.0, 2.0, 5.0])  # 3 items
 torch.multinomial(weights, 10)  # ERROR: need replacement=True
-```
 
 ### 10.5 Future Directions
 
@@ -1947,7 +1884,6 @@ if __name__ == "__main__":
     print("=" * 60)
     print("ALL TESTS COMPLETED")
     print("=" * 60)
-```
 
 ### A.2 Visualization Tools
 
@@ -2057,7 +1993,6 @@ if __name__ == "__main__":
     fig2.savefig('softmax_effect.png', dpi=300)
     
     print("Visualizations saved!")
-```
 
 ---
 

@@ -42,7 +42,6 @@ Truy cập: colab.research.google.com
 ```python
 # Cài đặt Transformers và TensorFlow
 !pip install transformers tensorflow
-```
 
 ## Tải Mô Hình FLAN-T5
 
@@ -52,7 +51,6 @@ from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM
 # Tải tokenizer và model
 tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
 model = TFAutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
-```
 
 **Lưu ý về warnings:**
 - Warning về xác thực HuggingFace là bình thường
@@ -82,7 +80,6 @@ outputs = model.generate(inputs.input_ids, max_length=50)
 # Decode
 summary = tokenizer.decode(outputs[0])
 print(summary)
-```
 
 **Kết quả:** "eat carrots" - một bản tóm tắt ngắn gọn
 
@@ -102,7 +99,6 @@ outputs = model.generate(inputs.input_ids, max_length=40)
 # Decode
 translation = tokenizer.decode(outputs[0])
 print(translation)
-```
 
 ### 3. Trả Lời Câu Hỏi (Question Answering)
 
@@ -123,7 +119,6 @@ outputs = model.generate(inputs.input_ids, max_length=50)
 # Decode
 answer = tokenizer.decode(outputs[0])
 print(answer)
-```
 
 **Kết quả:** "It's over 13,000 miles long."
 

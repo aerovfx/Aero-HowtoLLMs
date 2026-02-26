@@ -23,7 +23,6 @@
 
 ## 📊 Complete Pipeline
 
-```
 13T Tokens Data
       ↓
 Pre-training (100 days, $100M)
@@ -37,7 +36,6 @@ Instruction Model
 RLHF - Reward Model + PPO (1 week)
       ↓
 ChatGPT ✅
-```
 
 ---
 
@@ -74,7 +72,6 @@ ChatGPT ✅
   "prompt": "Explain photosynthesis simply",
   "response": "Photosynthesis is how plants make food using sunlight..."
 }
-```
 
 ---
 

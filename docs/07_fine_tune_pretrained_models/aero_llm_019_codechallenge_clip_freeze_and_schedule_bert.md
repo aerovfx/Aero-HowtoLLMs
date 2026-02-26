@@ -48,7 +48,9 @@ Mục tiêu nghiên cứu:
 Cho mô hình tiền huấn luyện với tham số $\theta_0$. Fine-tuning nhằm tìm:
 
 $$
+
 \theta^*=\arg\min_{\theta}L(\theta;D_{task})
+
 $$
 
 Trong đó $D_{task}$ là tập dữ liệu mục tiêu.
@@ -60,14 +62,17 @@ Trong đó $D_{task}$ là tập dữ liệu mục tiêu.
 Giả sử tập tham số được huấn luyện là $T\subset\theta$:
 
 $$
-\theta=\theta_{freeze}\cup\theta_{train},\quad
-\theta_{freeze}\cap\theta_{train}=\emptyset
+
+\theta=\theta_{freeze}\cup\theta_{train},\quad \theta_{freeze}\cap\theta_{train}=\emptyset
+
 $$
 
 Với:
 
 $$
+
 \nabla_{\theta_{freeze}}L=0
+
 $$
 
 ⇒ các tham số bị đóng băng không cập nhật.
@@ -79,11 +84,14 @@ $$
 Quy trình cập nhật:
 
 $$
+
 \theta_{t+1}=\theta_t-\eta_t\mathbf{g}_t
+
 $$
 
 $$
 \mathbf{g}*t=\nabla*\theta L(\theta_t)
+
 $$
 
 ---
@@ -100,7 +108,9 @@ Theo , mô hình được cấu hình:
 Tỷ lệ tham số:
 
 $$
+
 R=\frac{|\theta_{train}|}{|\theta_{total}|}\approx 0.5
+
 $$
 
 ---
@@ -112,14 +122,17 @@ $$
 Với ngưỡng $c=1$:
 
 $$
-\mathbf{g}'=
-\frac{c}{\max(|\mathbf{g}|,c)}\mathbf{g}
+
+\mathbf{g}'= \frac{c}{\max(|\mathbf{g}|,c)}\mathbf{g}
+
 $$
 
 Đảm bảo:
 
 $$
+
 |\mathbf{g}'|\le c
+
 $$
 
 ---
@@ -127,7 +140,9 @@ $$
 #### 3.2.2 Ảnh hưởng tới cập nhật
 
 $$
+
 \theta_{t+1}=\theta_t-\eta_t\mathbf{g}'
+
 $$
 
 Giúp hạn chế gradient explosion.
@@ -139,7 +154,9 @@ Giúp hạn chế gradient explosion.
 #### 3.3.1 Warm-up
 
 $$
+
 \eta_t=\eta_{max}\frac{t}{T_{warm}},\quad t\le T_{warm}
+
 $$
 
 ---
@@ -147,13 +164,17 @@ $$
 #### 3.3.2 Linear Decay
 
 $$
+
 \eta_t=\eta_{max}\left(1-\frac{t}{T_{sched}}\right)
+
 $$
 
 Trong đó:
 
 $$
+
 T_{sched}>T_{train}
+
 $$
 
 để tránh $\eta_t=0$.
@@ -174,10 +195,9 @@ Quy trình huấn luyện:
 Phương trình tổng quát:
 
 $$
-\theta_{t+1}=
-\theta_t-
-\eta_t
-\frac{c}{\max(|\mathbf{g}_t|,c)}\mathbf{g}_t
+
+\theta_{t+1}= \theta_t- \eta_t \frac{c}{\max(|\mathbf{g}_t|,c)}\mathbf{g}_t
+
 $$
 
 ---
@@ -206,13 +226,17 @@ Theo dõi:
 Cross-Entropy:
 
 $$
+
 L=-\sum_{i=1}^{N}y_i\log(p_i)
+
 $$
 
 Quan sát:
 
 $$
+
 Var(L_{clip+sch})<Var(L_{baseline})
+
 $$
 
 ⇒ học ổn định hơn.
@@ -224,7 +248,9 @@ $$
 Accuracy:
 
 $$
+
 Acc=\frac{TP+TN}{TP+TN+FP+FN}
+
 $$
 
 Kết quả:
@@ -246,17 +272,22 @@ Hai lớp được theo dõi:
 Chuẩn gradient:
 
 $$
+
 G_t=|\nabla W_t|
+
 $$
 
 Quan sát:
 
 $$
+
 G_{MLP}<1 \quad (\text{đa số})
+
 $$
 
 $$
 G_{CLS}>1 \quad (\text{nhiều giai đoạn đầu})
+
 $$
 
 ⇒ Clipping ảnh hưởng mạnh đến classifier.
@@ -268,14 +299,17 @@ $$
 Lượng thông tin bị mất:
 
 $$
-\Delta g=
-|\mathbf{g}|-|\mathbf{g}'|
+
+\Delta g= |\mathbf{g}|-|\mathbf{g}'|
+
 $$
 
 Với:
 
 $$
+
 |\mathbf{g}|>1
+
 $$
 
 ⇒ $\Delta g>0$
@@ -296,11 +330,9 @@ Theo , clipping sớm có thể:
 Giải pháp:
 
 $$
-c(t)=
-\begin{cases}
-\infty & t<T_0\
-1 & t\ge T_0
-\end{cases}
+
+c(t)= \begin{cases} \infty & t<T_0\ 1 & t\ge T_0 \end{cases}
+
 $$
 
 (Delayed clipping)
@@ -320,7 +352,9 @@ Ba kỹ thuật phối hợp:
 Tác động tổng hợp:
 
 $$
+
 Stability\propto f(F,C,S)
+
 $$
 
 ---

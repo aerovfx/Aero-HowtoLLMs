@@ -53,19 +53,25 @@ Vấn đề này dẫn đến nhu cầu **positional encoding** trong các mô h
 Giả sử một câu gồm $T$ token:
 
 $$
+
 x = (x_1, x_2, ..., x_T)
+
 $$
 
 Mỗi token được ánh xạ thành vector embedding:
 
 $$
+
 e_i = E(x_i)
+
 $$
 
 Nếu không có đánh số vị trí, ta chỉ có:
 
 $$
+
 X = (e_1, e_2, ..., e_T)
+
 $$
 
 Nhưng self-attention thuần túy là **bất biến hoán vị (permutation invariant)**.
@@ -73,7 +79,9 @@ Nhưng self-attention thuần túy là **bất biến hoán vị (permutation in
 Điều này có nghĩa:
 
 $$
+
 \text{Attention}(X) = \text{Attention}(PX)
+
 $$
 
 với $P$ là ma trận hoán vị.
@@ -89,11 +97,14 @@ Do đó, mô hình không phân biệt thứ tự.
 Transformer nguyên bản sử dụng:
 
 $$
+
 PE(pos, 2i) = \sin \left( \frac{pos}{10000^{2i/d}} \right)
+
 $$
 
 $$
 PE(pos, 2i+1) = \cos \left( \frac{pos}{10000^{2i/d}} \right)
+
 $$
 
 Trong đó:
@@ -105,7 +116,9 @@ Trong đó:
 Vector đầu vào:
 
 $$
+
 z_i = e_i + PE(i)
+
 $$
 
 ---
@@ -115,7 +128,9 @@ $$
 Trong GPT:
 
 $$
+
 z_i = e_i + p_i
+
 $$
 
 với $p_i$ là tham số học được.
@@ -129,25 +144,25 @@ với $p_i$ là tham số học được.
 Attention được tính:
 
 $$
-\text{Attention}(Q,K,V)
- = 
-\text{softmax}
-\left(
-\frac{QK^T}{\sqrt{d_k}}
-\right)V
+
+\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
+
 $$
 
 Trong đó:
 
 $$
-Q = ZW_Q, \quad
-K = ZW_K
+
+Q = ZW_Q, \quad K = ZW_K
+
 $$
 
 Nếu $Z$ không chứa thông tin vị trí:
 
 $$
+
 QK^T
+
 $$
 
 chỉ phản ánh nội dung, không phản ánh thứ tự.
@@ -155,7 +170,9 @@ chỉ phản ánh nội dung, không phản ánh thứ tự.
 Khi có positional encoding:
 
 $$
+
 Z = E + P
+
 $$
 
 attention có thể học:
@@ -171,7 +188,9 @@ attention có thể học:
 Mô hình GPT tối ưu:
 
 $$
+
 P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+
 $$
 
 Điều kiện $x_{<t}$ phụ thuộc trực tiếp vào thứ tự.
@@ -179,20 +198,17 @@ $$
 Causal masking:
 
 $$
-M_{ij} =
-\begin{cases}
-0 & j \le i \
--\infty & j > i
-\end{cases}
+
+M_{ij} = \begin{cases} 0 & j \le i \ -\infty & j > i \end{cases}
+
 $$
 
 Ma trận attention thực tế:
 
 $$
-\text{softmax}
-\left(
-\frac{QK^T}{\sqrt{d_k}} + M
-\right)
+
+\text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} + M \right)
+
 $$
 
 Đánh số vị trí cho phép xác định chính xác token nào thuộc $x_{<t}$.
@@ -204,13 +220,17 @@ $$
 Self-attention có độ phức tạp:
 
 $$
+
 \mathcal{O}(T^2 d)
+
 $$
 
 Khi tăng chiều dài văn bản $T$:
 
 $$
+
 \text{Compute} \propto T^2
+
 $$
 
 Việc đánh số giúp:
@@ -226,7 +246,9 @@ Việc đánh số giúp:
 Trong RLHF, chuỗi gồm:
 
 $$
+
 x = [\text{Prompt}; \text{Response}]
+
 $$
 
 Đánh số cho phép:
@@ -237,7 +259,9 @@ $$
 Loss:
 
 $$
+
 \mathcal{L} = -\sum_{t \in R} \log P(x_t | x_{<t})
+
 $$
 
 Nếu không đánh số rõ ràng, mô hình không biết đâu là phần cần tối ưu.
@@ -249,7 +273,9 @@ Nếu không đánh số rõ ràng, mô hình không biết đâu là phần c�
 Entropy của chuỗi:
 
 $$
+
 H(X) = - \sum_x P(x)\log P(x)
+
 $$
 
 Thứ tự ảnh hưởng trực tiếp đến entropy.
@@ -285,7 +311,9 @@ Ví dụ:
 Nếu bỏ positional encoding:
 
 $$
+
 \text{Transformer} \to \text{Bag-of-Words Model}
+
 $$
 
 ---

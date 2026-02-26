@@ -35,13 +35,11 @@ Một chatbot hoàn chỉnh bao gồm:
 
 ### 1.2 Luồng Hoạt Động
 
-```
 User Input → Sentiment Analysis → Response Generation
                   ↓
             Summarization → Conversation History
                   ↓
             Question Answering → (if question detected)
-```
 
 ## 2. Triển Khai Chi Tiết
 
@@ -52,7 +50,6 @@ User Input → Sentiment Analysis → Response Generation
 
 from flask import Flask, request, jsonify
 import requests
-```
 
 ### 2.2 Tải Các Mô Hình
 
@@ -75,7 +72,6 @@ qa_tokenizer = AutoTokenizer.from_pretrained("path/to/qa_tokenizer")
 from transformers import TFGPT2LMHeadModel
 generation_model = TFGPT2LMHeadModel.from_pretrained("gpt2")
 generation_tokenizer = AutoTokenizer.from_pretrained("gpt2")
-```
 
 ### 2.3 Định Nghĩa Các Hàm Chức Năng
 
@@ -90,7 +86,6 @@ def summarize_conversation(conversation_history):
     outputs = summarization_model.generate(**inputs, max_length=150)
     
     return summarization_tokenizer.decode(outputs[0], skip_special_tokens=True)
-```
 
 #### 2.3.2 Trả Lời Câu Hỏi
 
@@ -103,7 +98,6 @@ def answer_question(context, question):
     outputs = qa_model.generate(**inputs, max_length=128)
     
     return qa_tokenizer.decode(outputs[0], skip_special_tokens=True)
-```
 
 #### 2.3.3 Tạo Phản Hồi
 
@@ -119,7 +113,6 @@ def generate_response(user_message, sentiment):
     outputs = generation_model.generate(**inputs, max_length=100)
     
     return generation_tokenizer.decode(outputs[0], skip_special_tokens=True)
-```
 
 #### 2.3.4 Phân Tích Cảm Xúc
 
@@ -134,7 +127,6 @@ def analyze_sentiment(message):
     result = sentiment_tokenizer.decode(outputs[0], skip_special_tokens=True)
     
     return "negative" if "negative" in result.lower() else "positive"
-```
 
 ### 2.4 Tạo Flask App
 
@@ -200,7 +192,6 @@ def chat():
 
 if __name__ == '__main__':
     app.run(port=5000)
-```
 
 ## 3. Kiểm Tra Chatbot
 
@@ -210,7 +201,6 @@ if __name__ == '__main__':
 # Khởi động Flask app trong background
 import subprocess
 subprocess.Popen(["python", "chatbot.py"], stdout=open("nohup.out", "w"))
-```
 
 ### 3.2 Các Lệnh Test
 
@@ -244,7 +234,6 @@ print(response.json())
 # Test reset
 response = requests.post(f"{BASE_URL}/reset")
 print(response.json())
-```
 
 ### 3.3 Kết Quả Mẫu
 
@@ -260,7 +249,6 @@ print(response.json())
 
 ### 4.1 Sơ Đồ Luồng Dữ Liệu
 
-```
 ┌─────────────┐     ┌──────────────────┐
 │  User      │────>│  Sentiment        │
 │  Input     │     │  Analysis         │
@@ -274,7 +262,6 @@ print(response.json())
 │ (if asked)  │     │  Answer          │  │  Generation │
 └─────────────┘     │  (if "?")        │  └─────────────┘
                     └──────────────────┘
-```
 
 ### 4.2 Ưu và Nhược Điểm
 

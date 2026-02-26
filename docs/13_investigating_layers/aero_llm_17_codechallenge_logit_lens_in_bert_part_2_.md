@@ -38,7 +38,9 @@ Sử dụng tầng ẩn áp chót (Layer 22/24), nếu ta trích bóc thô lỗ 
 Công thức Logits Lens chân thực của mô hình BERT bắt buộc phải đẩy vector ẩn $L_i$ đi qua toàn bộ khối module kiến trúc cuối cùng thay vì tự thực hiện phép nhân nháp:
 
 $$
+
 \text{Logits}_{L_i} = \text{model.predictions}(\text{Hidden\_States}_{L_i})
+
 $$
 
 Khi thao tác đúng, kết quả lập tức đồng bộ. Ở Layer 22, phương pháp đẩy Module cho ra Z-score khổng lồ lên tới $\approx 25$ đến $30\ \sigma$, và từ đoán giải mã xuất hiện chính xác đáng kinh ngạc. 

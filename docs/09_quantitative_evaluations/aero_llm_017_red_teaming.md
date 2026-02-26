@@ -61,7 +61,9 @@ Việc sử dụng các bộ dữ liệu an toàn như *Harmless and Helpful dat
 Công thức đánh giá mức độ rủi ro thường được xem xét qua xác suất mô hình bị thao túng:
 
 $$
+
 R = P(\text{Lỗ hổng}) \times \text{Tác động (Impact)}
+
 $$
 
 Red Teaming giúp giảm thiểu $P(\text{Lỗ hổng})$ bằng cách cung cấp dữ liệu đối kháng để mô hình học cách từ chối các yêu cầu độc hại.

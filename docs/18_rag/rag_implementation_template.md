@@ -44,9 +44,7 @@ Chuẩn hóa dữ liệu đầu vào
 
 ### Pipeline
 
-```
 Raw Docs → Parse → Clean → Normalize → Store
-```
 
 ### Tools
 
@@ -87,13 +85,10 @@ overlap: 80 tokens
 strategy:
   - section_based
   - semantic
-```
 
 ### Workflow
 
-```
 Doc → Section → Semantic Split → Overlap → Chunk
-```
 
 ### Validate
 
@@ -120,7 +115,6 @@ Filter + Rerank hiệu quả
   "version": "",
   "permission": ""
 }
-```
 
 ### Rule
 
@@ -143,7 +137,6 @@ Filter + Rerank hiệu quả
 embedding_dim = 3072
 metric = "cosine"
 top_k = 20
-```
 
 ### Optimize
 
@@ -161,9 +154,7 @@ Lấy đúng context nhất
 
 ### 2-Stage Retrieval
 
-```
 Filter → Similarity Search → Rerank → Top N
-```
 
 ### Example
 
@@ -175,7 +166,6 @@ docs = vector.search(
 )
 
 reranked = rerank(docs, query)[:5]
-```
 
 ### Reranker
 
@@ -189,12 +179,10 @@ reranked = rerank(docs, query)[:5]
 
 ### System Prompt Template
 
-```
 You are an enterprise assistant.
 Use only provided context.
 Cite sources.
 If unknown → say not found.
-```
 
 ### Format Output
 
@@ -203,7 +191,6 @@ If unknown → say not found.
  "answer": "",
  "sources": []
 }
-```
 
 ➡️ Giảm hallucination mạnh
 
@@ -222,17 +209,13 @@ If unknown → say not found.
 
 ### Architecture
 
-```
 Frontend → API → RAG Engine → LLM
-```
 
 ### Endpoint mẫu
 
-```
 POST /ask
 POST /upload
 GET /status
-```
 
 ---
 
@@ -301,14 +284,12 @@ GET /status
 
 Công thức sống còn:
 
-```
 Good Data
 + Smart Chunk
 + Strong Metadata
 + Rerank
 + Eval Loop
 = RAG Success
-```
 
 ---
 

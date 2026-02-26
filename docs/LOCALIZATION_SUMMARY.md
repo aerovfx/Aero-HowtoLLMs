@@ -113,7 +113,6 @@ nguyên bằng cách sử dụng bảng tra cứu đơn giản.
 
 Tập hợp T cột, mỗi cột có độ dài C, sẽ trở thành một hình ảnh quen 
 thuộc xuyên suốt hướng dẫn này.
-```
 
 #### **Walkthrough06_Projection.tsx** ✅
 **Lines Modified:** 4 commentary blocks  
@@ -132,7 +131,6 @@ Sau quá trình self-attention, chúng ta có các đầu ra từ mỗi head.
 
 Bây giờ với kết quả của self-attention trong tay, chúng ta có thể 
 truyền nó sang phần tiếp theo của transformer: mạng feed-forward.
-```
 
 ---
 
@@ -140,14 +138,12 @@ truyền nó sang phần tiếp theo của transformer: mạng feed-forward.
 
 ### **Overall Progress:**
 
-```
 Total Walkthroughs:    10
 Completed:              6 ✅ (60%)
 Remaining:              4 ⏳ (40%)
 
 Core Concepts:          5/5 ✅ (100%)
 Supporting Content:     1/5 ⏳ (20%)
-```
 
 ### **Translation Statistics:**
 
@@ -380,10 +376,8 @@ Supporting Content:     1/5 ⏳ (20%)
 - ✅ Created **consistent terminology**
 
 ### **Foundation Status:**
-```
 ██████████████████████░░░░ 60% Complete
 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ Core Concepts: 100% ✅
-```
 
 ---
 

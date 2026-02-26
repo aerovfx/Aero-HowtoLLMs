@@ -38,7 +38,6 @@
 
 ### **Mô Hình SUCCESS = f(Architecture, Loss, Data, Evaluation, Systems)**
 
-```
         🏗️ Architecture
              ↓
         📉 Training Loss
@@ -48,7 +47,6 @@
         ⚙️ Systems ──────────┘
              ↓
         🎯 Production LLM
-```
 
 ### **Ví Dụ Thực Tế: GPT-4**
 
@@ -70,7 +68,6 @@
 
 ### **Evolution of LLM Architectures**
 
-```
 2017: Transformer (Original)
   ↓
 2018: GPT-1 (Decoder-only)
@@ -86,7 +83,6 @@
 2023: GPT-4 (MoE + Multimodal)
   ↓
 2024: Gemini Ultra (Unified multimodal)
-```
 
 ### **Key Architectural Components**
 
@@ -106,7 +102,6 @@ def multi_head_attention(x, num_heads=8):
     
     # Concat and project
     return concat_heads(output)
-```
 
 **2. Grouped Query Attention (GQA):**
 - Used in Llama 2
@@ -137,12 +132,10 @@ def rope(x, positions):
     cos, sin = cos(angles), sin(angles)
     x_rotated = rotate_half(x)
     return x * cos + x_rotated * sin
-```
 
 #### **C. Mixture of Experts (MoE)**
 
 **Architecture:**
-```
 Input
   ↓
 Gate/Router ──→ Gating scores [s₀, s₁, ..., s₇]
@@ -157,7 +150,6 @@ Top-K (k=2) ──→ Select 2 highest scores
 Weighted sum = w₀·E₀(x) + w₁·E₁(x)
   ↓
 Output
-```
 
 **Benefits:**
 - ✅ Efficient: Only ~12.5% params active $2/16 experts$
@@ -186,7 +178,6 @@ Output
     "total_params": "1.76T",
     "active_params": "~220B per token"
 }
-```
 
 **Visualization trong llm_viz:**
 - Expert grid: 2×4 layout
@@ -215,12 +206,9 @@ def cross_entropy_loss(logits, targets):
     loss = -log(probs[range(len(targets)), targets])
     
     return loss.mean()
-```
 
 **Formula:**
-```
 L = -∑ᵢ log P(xᵢ | x₁, ..., xᵢ₋₁)
-```
 
 **Objective:** Maximize likelihood of correct next token
 
@@ -241,7 +229,6 @@ m = beta1 * m + (1 - beta1) * grad
 v = beta2 * v + (1 - beta2) * grad**2
 update = lr * m / (sqrt(v) + epsilon)
 params -= update
-```
 
 #### **B. AdamW (Modern LLMs)**
 
@@ -258,14 +245,12 @@ params -= update
 ### **Learning Rate Schedule**
 
 **Cosine Decay with Warmup:**
-```
 Warmup (0-2000 steps):
   lr = base_lr * (step / warmup_steps)
 
 Cosine Decay:
   lr = min_lr + 0.5 * (max_lr - min_lr) * 
        (1 + cos(π * (step - warmup) / total_steps))
-```
 
 **GPT-3 Schedule:**
 - Warmup: 375M tokens
@@ -279,7 +264,6 @@ Cosine Decay:
 # Prevent gradient explosion
 max_grad_norm = 1.0
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
-```
 
 ### **Mixed Precision Training**
 
@@ -294,7 +278,6 @@ with autocast(dtype=torch.bfloat16):
 scaler.scale(loss).backward()
 scaler.step(optimizer)
 scaler.update()
-```
 
 **Benefits:**
 - 2× faster training
@@ -323,17 +306,14 @@ scaler.update()
 | **Conversations** | ~10B tokens | Variable | Reddit, forums |
 
 **GPT-3 Training Data:**
-```
 Common Crawl (filtered): 410B tokens (60%)
 WebText2: 19B tokens (22%)
 Books1: 12B tokens (8%)
 Books2: 55B tokens (8%)
 Wikipedia: 3B tokens (3%)
-```
 
 ### **Data Preprocessing Pipeline**
 
-```
 Raw Data
   ↓
 1. Deduplication
@@ -356,7 +336,6 @@ Raw Data
   └── BPE/SentencePiece
   ↓
 Clean Training Data
-```
 
 ### **Data Quality Metrics**
 
@@ -370,7 +349,6 @@ for doc in web_crawl:
     perplexity = ref_model.perplexity(doc)
     if perplexity < threshold:  # e.g., 1000
         keep(doc)
-```
 
 ### **Synthetic Data**
 
@@ -387,7 +365,6 @@ synthetic_data = gpt4.generate(prompt)
 
 # Filter for quality
 high_quality = filter_by_correctness(synthetic_data)
-```
 
 ### **Data Privacy & Ethics**
 

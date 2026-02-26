@@ -70,10 +70,8 @@
 **Complexity:** ⭐☆☆☆☆
 
 **Visual Elements:**
-```
 Data Collection → Processing → Architecture → Training → Evaluation → Deployment
      [🕷️]    →    [🧹]    →     [🏗️]    →   [🎓]   →    [✅]    →    [🚀]
-```
 
 **Interactive Features:**
 - Timeline scrubber
@@ -103,7 +101,6 @@ interface JourneyMapStation {
     complexity: 1 | 2 | 3 | 4 | 5;
   };
 }
-```
 
 ---
 
@@ -151,7 +148,6 @@ class DataCollectionVisualization {
     // Tank filling
   }
 }
-```
 
 #### **Stage 2: Processing Laboratory** 🧪
 
@@ -186,7 +182,6 @@ class TokenizerVisualization {
     // Clustering by semantic similarity
   }
 }
-```
 
 #### **Stage 3: Architecture Construction** 🏗️
 
@@ -232,7 +227,6 @@ class ArchitectureBuilder {
     // Highlight differences
   }
 }
-```
 
 #### **Stage 4: Training Gymnasium** 🏋️
 
@@ -272,7 +266,6 @@ class TrainingVisualization {
     // Current position marker
   }
 }
-```
 
 #### **Stage 5: Evaluation Laboratory** ✅
 
@@ -301,11 +294,9 @@ class TrainingVisualization {
 #### **Attention Mechanism**
 
 **Visual:**
-```
 Query (searchlight) → Keys (database) → Attention scores (heat map)
   ↓
 Values (content) → Weighted aggregation → Output
-```
 
 **Animation Sequence:**
 1. Token sends Query (glowing orb)
@@ -323,13 +314,11 @@ Values (content) → Weighted aggregation → Output
 #### **Feed-Forward Network**
 
 **Visual:**
-```
 Narrow pipe → Wide chamber (expand 4×)
   ↓
 Lightning (activation)
   ↓
 Wide chamber → Narrow pipe (compress)
-```
 
 **Interactive:**
 - Adjust expansion factor
@@ -378,7 +367,6 @@ class CinematicMode {
     // Probability overlay
   }
 }
-```
 
 ---
 
@@ -403,7 +391,6 @@ interface ScalingExperiment {
     time: number;
   };
 }
-```
 
 **Visual:**
 - 3D surface plot
@@ -442,14 +429,12 @@ interface ScalingExperiment {
 --bg-elevated: #1a1e3f;
 --text: #e8f4f8;          /* Soft white */
 --text-dim: #8899aa;
-```
 
 **Typography:**
 ```css
 --font-display: 'Orbitron', 'Rajdhani';
 --font-body: 'JetBrains Mono', 'Fira Code';
 --font-code: 'Source Code Pro';
-```
 
 **Visual Elements:**
 - Hexagonal/triangular grids
@@ -475,7 +460,6 @@ interface ScalingExperiment {
   "Build": "Turbopack + SWC",
   "Deploy": "Vercel Edge"
 }
-```
 
 ### **Performance Optimizations:**
 
@@ -499,7 +483,6 @@ const A11Y_FEATURES = {
   textAlternatives: true,
   WCAG: '2.1 AA',
 };
-```
 
 ---
 

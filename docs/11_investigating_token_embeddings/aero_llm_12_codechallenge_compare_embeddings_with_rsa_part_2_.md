@@ -29,11 +29,14 @@ Theo chuẩn mực RSA, chúng ta không được phép dùng trực tiếp góc
 Do đó, thuật toán sẽ phẳng hóa (Flattening) các phần tử thuộc tam giác trên (Upper Triangular Data):
 
 $$
+
 \mathbf{v}_{50D} = \text{Upper}(S_{50D}) \in \mathbb{R}^{\frac{20 \times 19}{2}}
+
 $$
 
 $$
 \mathbf{v}_{300D} = \text{Upper}(S_{300D}) \in \mathbb{R}^{190}
+
 $$
 
 ---
@@ -53,7 +56,9 @@ Sự khác biệt trung bình cộng (Mean variance) này sẽ làm điểm Cosi
 Hệ số r Pearson:
 
 $$
+
 \text{RSA} = \rho(\mathbf{v}_{50D}, \mathbf{v}_{300D}) = \frac{\text{Cov}(\mathbf{v}_{50D}, \mathbf{v}_{300D})}{\sigma_{50D} \sigma_{300D}}
+
 $$
 
 Thuật toán này **trừ đi chính điểm trung bình tâm** (mean-centering data) mỗi bên, tước bỏ và cạo sạch yếu tố "Global offsets". 

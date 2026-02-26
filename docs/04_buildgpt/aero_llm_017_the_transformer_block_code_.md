@@ -18,7 +18,6 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt**, được xâ
 
 ---
 
-```md
 # Cài Đặt Transformer Block Bằng PyTorch: Phân Tích Kiến Trúc, Luồng Dữ Liệu và Tối Ưu Hóa
 
 ## Tóm tắt (Abstract)
@@ -52,11 +51,14 @@ Bài viết này nhằm:
 Một Transformer Block dạng Pre-LayerNorm gồm hai sublayer:
 
 $$
+
 Y_1 = X + \text{Attention}(\text{LN}(X))
+
 $$
 
 $$
 Y_2 = Y_1 + \text{MLP}(\text{LN}(Y_1))
+
 $$
 
 Trong đó:
@@ -123,11 +125,7 @@ Quy trình xử lý attention:
 
 Dòng dữ liệu:
 
-```
-
 X → LN → Attention → +X
-
-```
 
 ---
 
@@ -136,15 +134,19 @@ X → LN → Attention → +X
 MLP gồm ba bước:
 
 $$
+
 H = \text{LN}(Y_1)
+
 $$
 
 $$
 Z = W_2(\sigma(W_1 H))
+
 $$
 
 $$
 Y_2 = Y_1 + Z
+
 $$
 
 Trong đó:
@@ -158,8 +160,6 @@ Trong đó:
 ### 4.3. Dòng Chảy Thông Tin Tổng Thể
 
 Sơ đồ tổng quát:
-
-```
 
 Input
 ↓
@@ -219,7 +219,9 @@ Attention head xử lý toàn bộ embedding dimension trong phiên bản đơn 
 Multi-head attention chia embedding thành nhiều phần:
 
 $$
+
 d_{head} = \frac{d_{model}}{h}
+
 $$
 
 Mỗi head học một không gian quan hệ riêng.
@@ -250,7 +252,9 @@ Ví dụ thực nghiệm:
 Tensor đầu vào:
 
 $$
+
 (5, 8, 128)
+
 $$
 
 ---
@@ -260,7 +264,9 @@ $$
 Qua mỗi block, kích thước được bảo toàn:
 
 $$
+
 (B, T, D) \rightarrow (B, T, D)
+
 $$
 
 Đảm bảo khả năng xếp chồng nhiều layer.
@@ -364,7 +370,6 @@ Cài đặt này đóng vai trò nền tảng cho các hệ thống ngôn ngữ 
 [4] Dao et al., FlashAttention, 2022.
 [5] Tài liệu hướng dẫn Transformer Block (Code). 
 
-```
 <!-- Aero-Footer-Start -->
 
 ## 📄 Tài liệu cùng chuyên mục

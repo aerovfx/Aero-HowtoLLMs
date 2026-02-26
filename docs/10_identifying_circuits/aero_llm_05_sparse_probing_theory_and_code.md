@@ -35,13 +35,17 @@ Giả định ta có tập hệ số hồi quy (Regression Coefficients) $B = \{
 Hàm mất mát gốc cho bài toán Logistic Regression là **Binary Cross-Entropy (BCE)**:
 
 $$
+
 Loss_{BCE} = -\frac{1}{n} \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1 - y_i) \log(1 - p_i) \right]
+
 $$
 
 Sức mạnh của Dò Thưa nằm ở Hàm Phạt L1 (L1 Penalty) có nhiệm vụ trừng trị tính đa biến:
 
 $$
+
 Loss_{Reg} = \lambda \sum_{k=1}^{K} |\beta_k|
+
 $$
 
 Tổng hợp quá trình tối ưu hàm mục tiêu: $\text{Minimize} \left( Loss_{BCE} + Loss_{Reg} \right)$. 

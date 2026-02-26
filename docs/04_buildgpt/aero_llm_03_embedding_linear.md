@@ -53,10 +53,8 @@ Nghiên cứu này nhằm:
 
 ### 2.2 Vai Trò trong Kiến Trúc LLM
 
-```
 Token IDs → [nn.Embedding] → Dense Vectors → [Transformer Blocks] 
           → Hidden States → [nn.Linear] → Logits → Probabilities
-```
 
 **Chức năng:**
 - **nn.Embedding**: Token lookup operation
@@ -75,14 +73,12 @@ Token IDs → [nn.Embedding] → Dense Vectors → [Transformer Blocks]
 e = nn.Embedding(num_embeddings=5000, embedding_dim=70)
 # Cú pháp: (vocab_size, embed_dim)
 # Thứ tự: INPUT → OUTPUT
-```
 
 **nn.Linear:**
 ```python
 l = nn.Linear(in_features=70, out_features=5000)
 # Cú pháp: (embed_dim, vocab_size)
 # Thứ tự: INPUT → OUTPUT (nhưng đảo ngược so với Embedding)
-```
 
 **Quan sát:**
 > Thứ tự tham số bị đảo ngược giữa hai lớp, tạo ra nguồn gây nhầm lẫn lớn. Tuy nhiên, kích thước thực tế của weight matrix cơ bản là giống nhau.
@@ -93,7 +89,6 @@ l = nn.Linear(in_features=70, out_features=5000)
 ```python
 print(e.weight.shape)  # torch.Size([5000, 70])
 print(l.weight.shape)  # torch.Size([5000, 70])
-```
 
 **Kết luận:** Cả hai đều lưu trữ ma trận có kích thước `[vocab_size, embedding_dim]`.
 
@@ -120,7 +115,6 @@ print(l.weight.shape)  # torch.Size([5000, 70])
 len(dir(e))  # > 100 attributes
 len(dir(l))  # > 100 attributes
 # Nhưng không hoàn toàn giống nhau
-```
 
 #### 3.2.2 Unique Attributes
 
@@ -151,7 +145,6 @@ len(dir(l))  # > 100 attributes
 ```python
 # Lấy embedding vector cho token index 14
 vector = e(torch.tensor([14]))  # Shape: [1, 70]
-```
 
 **Đặc điểm:**
 - Cú pháp đơn giản, trực quan
@@ -163,13 +156,11 @@ vector = e(torch.tensor([14]))  # Shape: [1, 70]
 **Cách 1: Direct weight access (FAILS)**
 ```python
 vector = l(14)  # TypeError: forward() missing required argument
-```
 **Lý do:** `nn.Linear` không support direct integer indexing.
 
 **Cách 2: Manual weight indexing (WORKS)**
 ```python
 vector = l.weight[14]  # Shape: [70]
-```
 
 **Cách 3: One-hot encoding emulation (MATHEMATICALLY EQUIVALENT)**
 ```python
@@ -179,14 +170,15 @@ one_hot[14] = 1.0
 
 # Matrix multiplication
 vector = one_hot @ l.weight  # Shape: [70]
-```
 
 **Giải thích toán học:**
 
 Phương pháp one-hot emulation mô phỏng chính xác cách `nn.Embedding` hoạt động:
 
 $$
+
 \mathbf{v} = \mathbf{e}_i^T \mathbf{W}
+
 $$
 
 Trong đó:
@@ -212,7 +204,6 @@ Trong đó:
 ```python
 e = nn.Embedding(5000, 70)
 # Default: Normal(μ=0, σ=1)
-```
 
 **Đặc điểm phân phối:**
 - Mean ≈ 0
@@ -224,7 +215,6 @@ e = nn.Embedding(5000, 70)
 ```python
 l = nn.Linear(70, 5000)
 # Default: Uniform(-k, k) where k = sqrt(1/in_features)
-```
 
 **Đặc điểm phân phối:**
 - Kaiming Uniform initialization
@@ -240,7 +230,6 @@ plt.hist(e.weight.flatten().detach().numpy(), bins=50)
 
 plt.hist(l.weight.flatten().detach().numpy(), bins=50)
 # Hình dạng: Flat-top (Uniform)
-```
 
 #### 3.4.2 Custom Initialization
 
@@ -254,7 +243,6 @@ torch.nn.init.normal_(l2.weight, mean=0.0, std=1.0)
 # Verification
 print(l2.weight.mean())  # ≈ 0.0
 print(l2.weight.std())   # ≈ 1.0
-```
 
 **Kết quả:**
 - Phân phối của `l2.weight` bây giờ match với `e.weight`
@@ -265,13 +253,17 @@ print(l2.weight.std())   # ≈ 1.0
 **Công thức Kaiming Uniform:**
 
 $$
+
 \text{bound} = \sqrt{\frac{6}{(1 + a^2) \times \text{fan\_in}}}
+
 $$
 
 Với ReLU $a=0$:
 
 $$
+
 \text{bound} = \sqrt{\frac{6}{\text{fan\_in}}}
+
 $$
 
 **Expected Statistics:**
@@ -282,14 +274,12 @@ k = math.sqrt(1/70)  # k ≈ 0.1195
 # Uniform distribution [-k, k]
 # Expected mean: 0
 # Expected std: k/sqrt(3) ≈ 0.069
-```
 
 **Empirical verification:**
 ```python
 print(f"Theoretical std: {k/math.sqrt(3):.4f}")
 print(f"Actual std: {l.weight.std():.4f}")
 # Output shows close match
-```
 
 ---
 
@@ -312,7 +302,6 @@ class Embedding(Module):
             torch.empty((num_embeddings, embedding_dim))
         )
         self.reset_parameters()
-```
 
 #### 4.1.2 nn.Linear Source Code
 
@@ -333,14 +322,12 @@ class Linear(Module):
             self.bias = Parameter(torch.empty(out_features))
         else:
             self.register_parameter('bias', None)
-```
 
 #### 4.1.3 Common Core: nn.Parameter
 
 **Cả hai đều sử dụng:**
 ```python
 nn.Parameter(tensor)
-```
 
 **Định nghĩa `nn.Parameter`:**
 - Subclass của `torch.Tensor`
@@ -368,14 +355,12 @@ def embedding_forward(input_ids, weight):
     
     output = weight[input_ids]  # Advanced indexing
     return output
-```
 
 **Ví dụ:**
 ```python
 input_ids = torch.tensor([14, 27, 103])  # 3 tokens
 output = e(input_ids)  # Shape: [3, 70]
 # Equivalent to: weight[[14, 27, 103], :]
-```
 
 #### 5.1.2 nn.Linear Forward (for unembedding)
 
@@ -390,14 +375,12 @@ def linear_forward(input, weight, bias=None):
     if bias is not None:
         output += bias
     return output
-```
 
 **Ví dụ:**
 ```python
 hidden = torch.randn(3, 70)  # 3 samples, 70 dims
 logits = l(hidden)  # Shape: [3, 5000]
 # Equivalent to: hidden @ l.weight.T + l.bias
-```
 
 ### 5.2 Mathematical Operations
 
@@ -413,7 +396,6 @@ one_hot = F.one_hot(torch.tensor([14]), num_classes=5000).float()
 output_equiv = one_hot @ e.weight
 
 assert torch.allclose(output, output_equiv)
-```
 
 **Complexity analysis:**
 - Direct indexing: O(1) lookup
@@ -423,13 +405,11 @@ assert torch.allclose(output, output_equiv)
 #### 5.2.2 Linear as Reverse Embedding
 
 **Conceptually:**
-```
 Embedding:    Token ID → Dense Vector
              [discrete] → [continuous]
 
 Linear:       Dense Vector → Logits over Vocab
              [continuous] → [discrete probabilities]
-```
 
 **Trong unembedding context:**
 - Input: Hidden state [embed_dim]
@@ -456,7 +436,6 @@ Linear:       Dense Vector → Logits over Vocab
 input_ids = torch.randint(0, 5000, (32, 512))  # [batch, seq]
 output = e(input_ids)  # [32, 512, 70]
 # Operation: Simple indexing, O(batch × seq)
-```
 
 **nn.Linear:**
 ```python
@@ -464,7 +443,6 @@ output = e(input_ids)  # [32, 512, 70]
 hidden = torch.randn(32, 512, 70)  # [batch, seq, hidden]
 logits = l(hidden)  # [32, 512, 5000]
 # Operation: GEMM, O(batch × seq × hidden × vocab)
-```
 
 **Performance consideration:**
 - Embedding lookup: Extremely fast
@@ -484,13 +462,11 @@ logits = l(hidden)  # [32, 512, 5000]
 # Sparse gradients: Only update accessed embeddings
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 # Only rows corresponding to input tokens get gradient updates
-```
 
 **Linear:**
 ```python
 # Dense gradients: All weights potentially updated
 # Full matrix receives gradients every forward pass
-```
 
 ---
 
@@ -509,7 +485,6 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 ```python
 token_embedding = nn.Embedding(vocab_size, hidden_dim, padding_idx=0)
 position_embedding = nn.Embedding(max_seq_len, hidden_dim)
-```
 
 ### 7.2 Khi Nào Dùng nn.Linear
 
@@ -525,7 +500,6 @@ position_embedding = nn.Embedding(max_seq_len, hidden_dim)
 unembedding = nn.Linear(hidden_dim, vocab_size, bias=False)
 ffn = nn.Linear(hidden_dim, ffn_dim)
 query_proj = nn.Linear(hidden_dim, head_dim)
-```
 
 ### 7.3 Weight Tying (Liên kết Trọng Số)
 
@@ -539,7 +513,6 @@ class TransformerLM(nn.Module):
         
         # WEIGHT TYING: Share weights
         self.unembedding.weight = self.embedding.weight
-```
 
 **Lợi ích:**
 - Giảm 50% số parameters
@@ -564,7 +537,6 @@ l = nn.Linear(5000, 70)      # Swapped!
 # CORRECT
 e = nn.Embedding(5000, 70)   # (vocab, embed)
 l = nn.Linear(70, 5000)      # (in, out)
-```
 
 **Solution:** Always double-check parameter order and verify với `.weight.shape`.
 
@@ -574,7 +546,6 @@ l = nn.Linear(70, 5000)      # (in, out)
 ```python
 l = nn.Linear(70, 5000)
 vector = l(14)  # TypeError!
-```
 
 **Solution:**
 ```python
@@ -584,7 +555,6 @@ vector = l.weight[14]
 # Option 2: Use as intended
 hidden = torch.randn(1, 70)
 logits = l(hidden)
-```
 
 ### 8.3 Initialization Mismatch
 
@@ -593,14 +563,12 @@ logits = l(hidden)
 e = nn.Embedding(5000, 70)  # Normal distribution
 l = nn.Linear(70, 5000)     # Uniform distribution
 # Different initializations may cause training issues
-```
 
 **Solution:**
 ```python
 # Standardize initialization
 torch.nn.init.normal_(l.weight, mean=0.0, std=1.0)
 # Or use Xavier/Kaiming consistently
-```
 
 ---
 
@@ -683,7 +651,6 @@ embed_dim = 70
 
 e = nn.Embedding(vocab_size, embed_dim)
 l = nn.Linear(embed_dim, vocab_size)
-```
 
 ### A.2 Equivalence Demonstration
 ```python
@@ -700,7 +667,6 @@ lin_output = one_hot @ l.weight
 direct = l.weight[idx]
 
 # All should be equivalent (except shape)
-```
 
 ### A.3 Weight Tying Example
 ```python
@@ -715,7 +681,6 @@ class TiedModel(nn.Module):
         embedded = self.embed(input_ids)
         logits = self.linear(embedded)
         return logits
-```
 
 ---
 

@@ -29,7 +29,9 @@ Quá trình tạo (create) và trực quan hóa (visualize) token là bước tr
 Mô hình ngôn ngữ không xử lý văn bản trực tiếp mà xử lý:
 
 $$
+
 \text{Text} \rightarrow \text{Token IDs} \rightarrow \text{Embedding vectors}
+
 $$
 
 Việc trực quan hóa token giúp:
@@ -47,7 +49,9 @@ Việc trực quan hóa token giúp:
 Cho văn bản $x$, hàm tokenization:
 
 $$
+
 T: \mathcal{X} \rightarrow V^T
+
 $$
 
 Trong đó:
@@ -64,19 +68,25 @@ Mỗi token $t_i \in {1,2,...,N}$
 Ma trận embedding:
 
 $$
+
 E \in \mathbb{R}^{N \times d}
+
 $$
 
 Vector của token thứ $i$:
 
 $$
+
 e_i = E[t_i]
+
 $$
 
 Chuỗi đầu vào:
 
 $$
+
 Z = (e_1, e_2, ..., e_T)
+
 $$
 
 ---
@@ -86,13 +96,17 @@ $$
 Transformer không có RNN hay CNN nên cần positional encoding:
 
 $$
+
 z_i = e_i + p_i
+
 $$
 
 Trong GPT:
 
 $$
+
 p_i \in \mathbb{R}^d
+
 $$
 
 được học trực tiếp.
@@ -111,25 +125,33 @@ Embedding có chiều cao $ví dụ ( d = 768, 1024, 1280$).
 Cho ma trận embedding:
 
 $$
+
 X \in \mathbb{R}^{T \times d}
+
 $$
 
 Ma trận hiệp phương sai:
 
 $$
+
 \Sigma = \frac{1}{T} X^T X
+
 $$
 
 Giải bài toán trị riêng:
 
 $$
+
 \Sigma v = \lambda v
+
 $$
 
 Chọn 2 trị riêng lớn nhất → chiếu xuống 2D:
 
 $$
+
 X_{2D} = X W_{2}
+
 $$
 
 ---
@@ -139,19 +161,17 @@ $$
 t-SNE tối thiểu hóa KL-divergence giữa phân phối khoảng cách cao chiều và thấp chiều:
 
 $$
-\min_{Y}
-D_{KL}(P | Q)
+
+\min_{Y} D_{KL}(P | Q)
+
 $$
 
 Trong đó:
 
 $$
-D_{KL}(P|Q)
- = 
-\sum_{i,j}
-P_{ij}
-\log
-\frac{P_{ij}}{Q_{ij}}
+
+D_{KL}(P|Q) = \sum_{i,j} P_{ij} \log \frac{P_{ij}}{Q_{ij}}
+
 $$
 
 ---
@@ -163,14 +183,17 @@ Embedding học được tính chất tuyến tính.
 Ví dụ:
 
 $$
+
 \text{King} - \text{Man} + \text{Woman} \approx \text{Queen}
+
 $$
 
 Về mặt vector:
 
 $$
-e_{king} - e_{man} + e_{woman}
-\approx e_{queen}
+
+e_{king} - e_{man} + e_{woman} \approx e_{queen}
+
 $$
 
 Điều này cho thấy embedding mã hóa cấu trúc ngữ nghĩa.
@@ -182,22 +205,17 @@ $$
 Attention:
 
 $$
-\text{Attention}(Q,K,V)
- = 
-\text{softmax}
-\left(
-\frac{QK^T}{\sqrt{d_k}}
-\right)V
+
+\text{Attention}(Q,K,V) = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V
+
 $$
 
 Ma trận attention:
 
 $$
-A_{ij}
- = 
-\frac
-{\exp(q_i k_j / \sqrt{d_k})}
-{\sum_j \exp(q_i k_j / \sqrt{d_k})}
+
+A_{ij} = \frac {\exp(q_i k_j / \sqrt{d_k})} {\sum_j \exp(q_i k_j / \sqrt{d_k})}
+
 $$
 
 Trực quan hóa attention giúp hiểu:
@@ -212,13 +230,17 @@ Trực quan hóa attention giúp hiểu:
 Self-attention:
 
 $$
+
 \mathcal{O}(T^2 d)
+
 $$
 
 Nếu số token tăng:
 
 $$
+
 T \uparrow \Rightarrow \text{Memory} \uparrow
+
 $$
 
 Việc tạo token hiệu quả giúp:
@@ -237,23 +259,29 @@ Cho câu:
 Bước 1: Tokenization
 
 $$
+
 $$
 
 1245, 5432, 987
 
 $$
+
 $$
 
 Bước 2: Embedding
 
 $$
+
 Z \in \mathbb{R}^{3 \times d}
+
 $$
 
 Bước 3: Attention
 
 $$
+
 Z' = \text{Transformer}(Z)
+
 $$
 
 Bước 4: Visualization
@@ -268,7 +296,9 @@ Bước 4: Visualization
 Mô hình GPT tối ưu:
 
 $$
+
 P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+
 $$
 
 Token là đơn vị cơ bản của xác suất.
@@ -276,10 +306,9 @@ Token là đơn vị cơ bản của xác suất.
 Loss:
 
 $$
-\mathcal{L}
- = 
--\sum_{t=1}^{T}
-\log P(x_t | x_{<t})
+
+\mathcal{L} = -\sum_{t=1}^{T} \log P(x_t | x_{<t})
+
 $$
 
 Nếu tokenization không tốt:
@@ -308,13 +337,9 @@ Token không chỉ là ID — chúng là điểm trong không gian vector cao ch
 Quá trình:
 
 $$
-\text{Text}
-\rightarrow
-\text{Token IDs}
-\rightarrow
-\text{Embedding}
-\rightarrow
-\text{Attention}
+
+\text{Text} \rightarrow \text{Token IDs} \rightarrow \text{Embedding} \rightarrow \text{Attention}
+
 $$
 
 là nền tảng của mọi mô hình ngôn ngữ hiện đại.

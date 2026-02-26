@@ -31,7 +31,9 @@ Hàm Softmax là một thành phần cốt lõi trong các mô hình học sâu,
 Trong học sâu, Softmax thường được sử dụng để chuyển đổi vector logits thành phân phối xác suất. Cho vector đầu vào ( x = (x_1, x_2, ..., x_n) ), Softmax được định nghĩa như sau:
 
 $$
+
 \text{Softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{n} e^{x_j}}
+
 $$
 
 Hàm này đảm bảo rằng:
@@ -54,7 +56,9 @@ Softmax biến đổi các giá trị logits thành xác suất bằng hàm mũ.
 Phiên bản mở rộng của Softmax có dạng:
 
 $$
+
 \text{Softmax}*T(x_i) = \frac{e^{x_i/T}}{\sum*{j=1}^{n} e^{x_j/T}}
+
 $$
 
 Trong đó $T$ là nhiệt độ:
@@ -268,7 +272,6 @@ Bạn có thể copy và chạy trực tiếp trong môi trường có `torch` v
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
-```
 
 ---
 
@@ -289,7 +292,6 @@ def softmax_t(x, temperature=1.0):
     x_scaled = x / temperature
     exp_x = torch.exp(x_scaled - torch.max(x_scaled))  # numerical stability
     return exp_x / torch.sum(exp_x)
-```
 
 👉 Trừ `max(x)` để tránh overflow (chuẩn nghiên cứu).
 
@@ -336,7 +338,6 @@ def iterative_softmax_experiment(
         probs.append(p.clone())
 
     return probs, stds, x
-```
 
 ---
 
@@ -344,7 +345,6 @@ def iterative_softmax_experiment(
 
 ```python
 probs, stds, x = iterative_softmax_experiment()
-```
 
 ---
 
@@ -364,7 +364,6 @@ plt.title("Iterative Softmax Behavior")
 plt.legend()
 plt.grid(True)
 plt.show()
-```
 
 ---
 
@@ -382,7 +381,6 @@ plt.ylabel("Log(Standard Deviation)")
 plt.title("Convergence of Iterative Softmax")
 plt.grid(True)
 plt.show()
-```
 
 ---
 
@@ -429,7 +427,6 @@ def temperature_range_experiment(
             }
 
     return results
-```
 
 ---
 
@@ -437,7 +434,6 @@ def temperature_range_experiment(
 
 ```python
 results = temperature_range_experiment()
-```
 
 ---
 
@@ -477,7 +473,6 @@ def plot_zoomed(results):
 
     plt.tight_layout()
     plt.show()
-```
 
 ---
 
@@ -515,7 +510,6 @@ def plot_full(results):
 
     plt.tight_layout()
     plt.show()
-```
 
 ---
 
@@ -524,7 +518,6 @@ def plot_full(results):
 ```python
 plot_zoomed(results)
 plot_full(results)
-```
 
 ---
 
@@ -543,13 +536,11 @@ def run_full_pipeline():
     plot_full(results)
 
     return probs, stds, results
-```
 
 ---
 
 ```python
 probs, stds, results = run_full_pipeline()
-```
 
 ---
 
@@ -581,20 +572,17 @@ Bạn có thể mở rộng thêm:
 ```python
 # O(N) per softmax
 # O(KN) for iterative
-```
 
 ### 🔹 Seed cố định
 
 ```python
 torch.manual_seed(42)
 np.random.seed(42)
-```
 
 ### 🔹 GPU
 
 ```python
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-```
 <!-- Aero-Footer-Start -->
 
 ## 📄 Tài liệu cùng chuyên mục

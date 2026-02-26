@@ -63,7 +63,9 @@ Deep learning về bản chất dựa trên các phép toán tuyến tính—nh�
 **Chứng minh đơn giản:**
 
 $$
+
 \mathbf{y} = \mathbf{W}_n \cdots \mathbf{W}_2 \mathbf{W}_1 \mathbf{x} = \mathbf{W}_{\text{combined}} \mathbf{x}
+
 $$
 
 Trong đó $\mathbf{W}_{\text{combined}} = \prod_{i=1}^{n} \mathbf{W}_i$
@@ -101,10 +103,9 @@ Câu hỏi trung tâm:
 **Công thức toán học:**
 
 $$
-\text{ReLU}(x) = \max(0, x) = \begin{cases} 
-x & \text{if } x > 0 \\
-0 & \text{if } x \leq 0
-\end{cases}
+
+\text{ReLU}(x) = \max(0, x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}
+
 $$
 
 **Triển khai NumPy:**
@@ -112,7 +113,6 @@ $$
 def relu(x):
     """ReLU activation function using NumPy"""
     return x * (x > 0)
-```
 
 **Đặc điểm:**
 - Piecewise linear function (hàm tuyến tính từng đoạn)
@@ -125,11 +125,9 @@ def relu(x):
 **Công thức:**
 
 $$
-\frac{d}{dx}\text{ReLU}(x) = \begin{cases} 
-1 & \text{if } x > 0 \\
-0 & \text{if } x < 0 \\
-\text{undefined} & \text{if } x = 0
-\end{cases}
+
+\frac{d}{dx}\text{ReLU}(x) = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x < 0 \\ \text{undefined} & \text{if } x = 0 \end{cases}
+
 $$
 
 **Vấn đề quan trọng:**
@@ -144,7 +142,9 @@ $$
 **Công thức exact (sử dụng Error Function):**
 
 $$
+
 \text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
+
 $$
 
 Trong đó:
@@ -154,7 +154,9 @@ Trong đó:
 **Error Function:**
 
 $$
+
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt
+
 $$
 
 **Đặc điểm của erf:**
@@ -170,14 +172,15 @@ import numpy as np
 def gelu_exact(x):
     """GELU exact formula using error function"""
     return (x / 2) * (1 + erf(x / np.sqrt(2)))
-```
 
 #### 2.2.2 Công Thức Xấp Xỉ (Approximation)
 
 Do chi phí tính toán của error function, các tác giả đề xuất approximation:
 
 $$
+
 \text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
+
 $$
 
 **Triển khai Python:**
@@ -185,7 +188,6 @@ $$
 def gelu_approx(x):
     """GELU approximation using tanh"""
     return 0.5 * x * (1 + np.tanh(np.sqrt(2/np.pi) * (x + 0.044715 * x**3)))
-```
 
 **Độ chính xác:**
 - Correlation coefficient giữa exact và approximation: **r ≈ 1.00** (gần như hoàn hảo)
@@ -203,20 +205,17 @@ def gelu_approx(x):
 ```python
 dx = x[1] - x[0]  # Spacing giữa các điểm
 dgelu_dx = torch.diff(gelu_output) / dx
-```
 
 ### 2.3 So Sánh Trực Quan
 
 #### 2.3.1 Hành Vi của Hàm
 
-```
 Đặc điểm              | ReLU           | GELU
 ---------------------|----------------|------------------
 Giá trị âm           | Zeroed out     | Dampened (~10%)
 Giá trị dương        | Identity       | Near-identity
 Transition           | Sharp (tại 0)  | Smooth
 Tính đối xứng        | Không          | Gần như đối xứng
-```
 
 **Quan sát thực nghiệm** (với x ∈ [-3, 3]):
 - **ReLU**: Flat line ở x < 0, linear với slope=1 ở x > 0
@@ -225,14 +224,12 @@ Tính đối xứng        | Không          | Gần như đối xứng
 
 #### 2.3.2 Đạo Hàm
 
-```
 Đặc điểm đạo hàm      | ReLU           | GELU
 ---------------------|----------------|------------------
 Tính liên tục        | Discontinuous  | Continuous
 Tại x = 0            | Undefined      | ≈ 0.5
 Step function        | Có             | Không
 Gradient flow        | Jagged         | Smooth
-```
 
 **Ý nghĩa cho training:**
 - **ReLU**: Gradient có discontinuity → less variability trong loss landscape
@@ -261,7 +258,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.special import erf
 import time
-```
 
 #### 3.1.2 Thiết Kế Thí Nghiệm
 
@@ -313,7 +309,6 @@ gelu_approx_out = gelu_approx(x_vals)
 # Correlation
 corr = np.corrcoef(gelu_exact_out, gelu_approx_out)[0,1]
 print(f"Correlation: {corr:.6f}")  # ≈ 1.000000
-```
 
 #### 3.2.2 Exercise 2: Derivatives
 
@@ -322,7 +317,6 @@ print(f"Correlation: {corr:.6f}")  # ≈ 1.000000
 dx = x_vals[1] - x_vals[0]
 drelu = torch.diff(F.relu(x_torch)) / dx
 dgelu = torch.diff(F.gelu(x_torch)) / dx
-```
 
 **Key observations:**
 
@@ -353,7 +347,6 @@ out_class = relu_class(x)
 
 # Check equivalence
 assert torch.allclose(out_func, out_class)
-```
 
 **Kết luận:** Function và class implementations là equivalent về mathematical operations, chỉ khác về API và usage patterns.
 
@@ -364,7 +357,6 @@ assert torch.allclose(out_func, out_class)
 n_samples = 1_000_000
 n_reps = 100
 x = torch.randn(n_samples)  # Normal distribution
-```
 
 **CPU Results (PyTorch implementations):**
 
@@ -389,7 +381,6 @@ x = x.to(device)
 
 # IMPORTANT: Synchronize for accurate timing
 torch.cuda.synchronize()
-```
 
 **Why synchronization matters:**
 - GPU operations are **asynchronous**
@@ -438,13 +429,17 @@ torch.cuda.synchronize()
 **Mathematical intuition:**
 
 $$
+
 \frac{d}{dx}\text{GELU}(x) \neq 0 \text{ for } x < 0
+
 $$
 
 Trong khi:
 
 $$
+
 \frac{d}{dx}\text{ReLU}(x) = 0 \text{ for } x < 0
+
 $$
 
 #### 4.1.2 Stochastic Regularization
@@ -453,7 +448,9 @@ $$
 GELU có thể được hiểu như stochastic regularizer:
 
 $$
+
 \text{GELU}(x) = x \cdot \mathbb{1}_{X \sim \mathcal{N}(0,1)}(X < x)
+
 $$
 
 Nghĩa là: "multiply input by Bernoulli variable dependent on input"
@@ -487,11 +484,9 @@ Nghĩa là: "multiply input by Bernoulli variable dependent on input"
 - Power consumption considerations
 
 **FLOPs (Floating Point Operations):**
-```
 ReLU:        ~1 operation (comparison + multiplication)
 GELU exact:  ~10+ operations (erf calculation)
 GELU approx: ~8 operations (tanh, polynomial)
-```
 
 #### 4.2.2 Legacy và Inertia
 
@@ -515,7 +510,6 @@ x = torch.randn(1000)
 relu_out = F.relu(x)
 sparsity = (relu_out == 0).sum().item() / 1000
 # sparsity ≈ 50% (vì normal distribution)
-```
 
 **Benefits cho Computer Vision:**
 - Sparse filter kernels
@@ -528,7 +522,6 @@ sparsity = (relu_out == 0).sum().item() / 1000
 gelu_out = F.gelu(x)
 sparsity = (gelu_out == 0).sum().item() / 1000
 # sparsity ≈ 0% (no exact zeros)
-```
 
 #### 4.2.4 Subtle Improvements
 
@@ -582,7 +575,6 @@ sparsity = (gelu_out == 0).sum().item() / 1000
 
 **Flowchart để chọn activation function:**
 
-```
 1. Are you building an LLM or transformer?
    → YES: Use GELU
    → NO: Continue to 2
@@ -600,7 +592,6 @@ sparsity = (gelu_out == 0).sum().item() / 1000
    → NO: Consider GELU
 
 5. Default: Use ReLU (safest choice)
-```
 
 ### 5.2 Implementation Guidelines
 
@@ -625,7 +616,6 @@ class TransformerFFN(nn.Module):
     
     def forward(self, x):
         return self.fc2(self.gelu(self.fc1(x)))
-```
 
 **Considerations:**
 - Use PyTorch's built-in `nn.GELU()` (optimized)
@@ -650,7 +640,6 @@ class ConvBlock(nn.Module):
     
     def forward(self, x):
         return self.relu(self.conv(x))
-```
 
 **Pro tip:**
 - `inplace=True` saves memory
@@ -682,7 +671,6 @@ class HybridModel(nn.Module):
         )
         
         self.output = nn.Linear(512, num_classes)
-```
 
 **Rationale:**
 - Balance speed và quality
@@ -700,7 +688,9 @@ class HybridModel(nn.Module):
 **Formula:**
 
 $$
+
 \text{Swish}(x) = x \cdot \sigma(x) = \frac{x}{1 + e^{-x}}
+
 $$
 
 **Properties:**
@@ -713,7 +703,9 @@ $$
 **Formula:**
 
 $$
+
 \text{Mish}(x) = x \cdot \tanh(\text{softplus}(x)) = x \cdot \tanh(\ln(1 + e^x))
+
 $$
 
 **Properties:**
@@ -769,7 +761,6 @@ class LearnableGELU(nn.Module):
     
     def forward(self, x):
         return F.gelu(self.alpha * x)
-```
 
 **Research direction:** Model learns optimal activation scaling
 
@@ -1073,7 +1064,6 @@ if __name__ == "__main__":
     
     print("\n" + "=" * 50)
     print("Analysis complete!")
-```
 
 ### A.2 Usage Examples
 
@@ -1103,7 +1093,6 @@ class SimpleNet(nn.Module):
 # Create models
 model_relu = SimpleNet(use_gelu=False)
 model_gelu = SimpleNet(use_gelu=True)
-```
 
 **Example 2: Custom activation module**
 ```python
@@ -1122,7 +1111,6 @@ class CustomGELU(nn.Module):
 # Usage
 custom_gelu = CustomGELU(approximate=True)
 output = custom_gelu(torch.randn(10, 512))
-```
 
 ---
 
@@ -1133,7 +1121,9 @@ output = custom_gelu(torch.randn(10, 512))
 **Definition:**
 
 $$
+
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt
+
 $$
 
 **Properties:**
@@ -1145,7 +1135,9 @@ $$
 **Series expansion:**
 
 $$
+
 \text{erf}(x) = \frac{2}{\sqrt{\pi}} \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{n!(2n+1)}
+
 $$
 
 ### B.2 GELU Derivation
@@ -1153,25 +1145,33 @@ $$
 **Starting point:** Stochastic regularization
 
 $$
+
 \mathbb{E}[x \cdot \mathbb{1}_{X \sim \mathcal{N}(0,1)}(X < x)]
+
 $$
 
 **CDF của standard normal:**
 
 $$
+
 \Phi(x) = P(X \leq x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^x e^{-t^2/2} dt
+
 $$
 
 **Relationship với error function:**
 
 $$
+
 \Phi(x) = \frac{1}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
+
 $$
 
 **Therefore:**
 
 $$
+
 \text{GELU}(x) = x \cdot \Phi(x) = \frac{x}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
+
 $$
 
 ### B.3 Approximation Derivation
@@ -1183,7 +1183,9 @@ $$
 **Known relationship:**
 
 $$
+
 \text{erf}(x) \approx \tanh\left(\sqrt{\frac{\pi}{2}} x + \alpha x^3\right)
+
 $$
 
 **Optimal $\alpha$:** Through empirical fitting, $\alpha \approx 0.044715$
@@ -1191,7 +1193,9 @@ $$
 **Final approximation:**
 
 $$
+
 \text{GELU}(x) \approx 0.5x\left[1 + \tanh\left(\sqrt{\frac{2}{\pi}}\left(x + 0.044715x^3\right)\right)\right]
+
 $$
 
 ---

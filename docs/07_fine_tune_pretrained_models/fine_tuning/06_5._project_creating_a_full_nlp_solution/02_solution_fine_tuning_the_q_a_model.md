@@ -44,7 +44,6 @@ import tensorflow as tf
 from transformers import TFAutoModelForSeq2SeqLM, AutoTokenizer
 from datasets import load_dataset
 from rouge_score import rouge_scorer
-```
 
 ### 2.2 Tải Dữ Liệu SQuAD v2
 
@@ -54,7 +53,6 @@ dataset = load_dataset("squad_v2", split="train")
 
 # Xem ví dụ
 print(dataset[0])
-```
 
 ### 2.3 Tiền Xử Lý Dữ Liệu
 
@@ -92,7 +90,6 @@ test_data = dataset.select(range(25000, 27000))
 # Áp dụng tiền xử lý
 train_data = train_data.map(preprocess_qa, batched=True)
 test_data = test_data.map(preprocess_qa, batched=True)
-```
 
 ### 2.4 Chuyển Đổi Sang TensorFlow
 
@@ -109,7 +106,6 @@ tf_test = test_data.to_tf_dataset(
     label_cols=["labels"],
     batch_size=16
 )
-```
 
 ### 2.5 Tải và Cấu Hình Mô Hình
 
@@ -122,7 +118,6 @@ for layer in model.layers[:3]:
     layer.trainable = False
 
 print(f"Tổng tham số: {model.count_params() / 1e6:.1f}M")
-```
 
 ### 2.6 Huấn Luyện
 
@@ -140,7 +135,6 @@ history = model.fit(
     validation_data=tf_test,
     epochs=3
 )
-```
 
 ### 2.7 Đánh Giá với ROUGE
 
@@ -171,7 +165,6 @@ print(f"Predicted: {predicted_answer}")
 print(f"ROUGE-1: {scores['rouge1'].precision:.4f}")
 print(f"ROUGE-2: {scores['rouge2'].precision:.4f}")
 print(f"ROUGE-L: {scores['rougeL'].precision:.4f}")
-```
 
 ## 3. Kết Quả
 
@@ -203,7 +196,9 @@ print(f"ROUGE-L: {scores['rougeL'].precision:.4f}")
 ### 4.1 Tại Sao Sử Dụng Transfer Learning?
 
 $$
+
 \text{Performance}_{TL} > \text{Performance}_{from\_scratch}
+
 $$
 
 Lý do:
@@ -221,7 +216,6 @@ if len(answer['text']) == 0:
     answer_text = ""  # Model sẽ học "I don't know"
 else:
     answer_text = answer['text'][0]
-```
 
 Điều này quan trọng để tránh **hallucination** - hiện tượng mô hình tạo ra câu trả lời không có thật.
 

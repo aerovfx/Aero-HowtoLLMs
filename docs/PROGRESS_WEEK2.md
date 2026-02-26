@@ -31,7 +31,6 @@ interface IModelShape {
     expertsActive?: number;        // Top-k active experts
     isMoE?: boolean;               // Flag for MoE architecture
 }
-```
 
 ### 2. **GPT-4 Shape Configurations**
 ✅ `/llm_viz/src/llm/Program.ts`
@@ -69,7 +68,6 @@ let gpt4TurboShape: IModelShape = {
     ...gpt4Shape,
     T: 128000,  // 128K context
 };
-```
 
 ### 3. **GPT-4 Added to Examples**
 ✅ `/llm_viz/src/llm/Program.ts`
@@ -86,12 +84,9 @@ GPT-4 now appears in examples array:
 Added GPT-4 button to toolbar:
 ```typescript
 {makeButton(3)} {/* GPT-4 */}
-```
 
 Now displays:
-```
 [GPT-2 Small] [nano-gpt] [GPT-2 XL] [GPT-3] [GPT-4]
-```
 
 ### 5. **Architecture Registry Enhanced**
 ✅ `/llm_viz/src/llm/architectures/`
@@ -141,10 +136,8 @@ All architecture files compile successfully! ✅
 ## 📸 Visual Progress
 
 ### Model Selector Toolbar
-```
 Before:  [GPT-2 S] [nano] [GPT-2 XL] [GPT-3]
 After:   [GPT-2 S] [nano] [GPT-2 XL] [GPT-3] [GPT-4] ⭐
-```
 
 ### Architecture Support Matrix
 
@@ -187,7 +180,6 @@ After:   [GPT-2 S] [nano] [GPT-2 XL] [GPT-3] [GPT-4] ⭐
    if (shape.isMoE) {
        // Render expert grid instead of single MLP
    }
-   ```
 
 2. **Create Expert Grid Layout**
    - 2x4 grid for 8 experts

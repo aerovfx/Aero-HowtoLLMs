@@ -39,7 +39,6 @@ def tokenize_function(examples):
         truncation=True,
         max_length=128
     )
-```
 
 ## Tạo TensorFlow Dataset
 
@@ -54,7 +53,6 @@ tf_train_dataset = tokenized_datasets["train"].to_tf_dataset(
     batch_size=64,
     shuffle=True
 )
-```
 
 ## Tải Mô Hình
 
@@ -68,7 +66,6 @@ model = TFDistilBertForSequenceClassification.from_pretrained(
 
 # Đông cứng base model để transfer learning
 model.distilbert.trainable = False
-```
 
 ## Huấn Luyện
 
@@ -82,7 +79,6 @@ model.compile(
 
 # Huấn luyện
 model.fit(tf_train_dataset, epochs=3)
-```
 
 ## Kết Quả
 
@@ -97,7 +93,6 @@ model.fit(tf_train_dataset, epochs=3)
 
 ```python
 model.save_pretrained('sentiment_model')
-```
 
 Bây giờ bạn có thư mục chứa tất cả cấu hình model và weight.
 

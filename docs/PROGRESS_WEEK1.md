@@ -71,7 +71,6 @@ Roadmap chi tiết 10-14 tháng bao gồm:
    
    const gpt4Spec = getModel(AVAILABLE_MODELS.GPT4);
    // Use spec to configure layout
-   ```
 
 2. **Extend GptModelLayout.ts** để support MoE layers
    - Create expert grid layout
@@ -81,7 +80,6 @@ Roadmap chi tiết 10-14 tháng bao gồm:
 3. **Add GPT-4 to ModelSelectorToolbar**
    ```typescript
    {makeButton(3)} // GPT-4 button
-   ```
 
 4. **Update shape configurations**
    - Create GPT-4 shape from architecture spec

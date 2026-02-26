@@ -70,7 +70,6 @@ results = rouge.compute(predictions=predictions, references=references)
 # Đánh giá với BLEU
 bleu = load_metric("bleu")
 results = bleu.compute(predictions=predictions, references=references)
-```
 
 ## Kết Luận
 

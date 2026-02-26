@@ -35,7 +35,9 @@ Few-shot learning là một kỹ thuật trong đó chúng ta cung cấp cho mô
 Khi cung cấp các ví dụ few-shot, mô hình học được:
 
 $$
+
 \text{Kết quả} = f(\text{ví dụ}_1, \text{ví dụ}_2, ..., \text{ví dụ}_n, \text{đầu vào mới})
+
 $$
 
 Trong đó:
@@ -58,7 +60,6 @@ Weather patterns in Spain are interesting.
 
 summarize: Carrots are rich in vitamin A and are excellent for eye health. They also contain fiber.
 """
-```
 
 Kết quả thu được:
 - **Không có few-shot**: "eat carrots"
@@ -77,7 +78,6 @@ Buenos días
 
 translate English to Spanish: Cheese is delicious
 """
-```
 
 ## 3. So Sánh Hiệu Quả
 
@@ -93,7 +93,9 @@ translate English to Spanish: Cheese is delicious
 Hiệu quả của few-shot learning có thể được biểu diễn:
 
 $$
+
 P(y|x, \text{ví dụ}) = \frac{1}{Z} \sum_{i=1}^{n} w_i \cdot \text{sim}(x, x_i) \cdot P(y|x_i)
+
 $$
 
 Trong đó:
@@ -126,7 +128,6 @@ Context: Mount Everest is the highest mountain in the world.
 Question: What is the highest mountain in the world?
 Answer:
 """
-```
 
 ## 5. Kết Luận
 

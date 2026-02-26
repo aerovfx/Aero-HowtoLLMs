@@ -21,20 +21,16 @@
 ### **1. Router Repositioning** ✅
 
 #### Before:
-```
 Router blocks (gateWeight, gateScores, gateSoftmax)
   ↓ (stacked right-aligned)
 Experts grid
-```
 
 #### After:
-```
        Router (CENTERED)
            ↓
         ┌──┴──┐
       E0 E1 E2 E3
       E4 E5 E6 E7
-```
 
 **Key Changes:**
 - Router components now use `xM` $Middle/Center$ instead of `xR` (Right-aligned)
@@ -64,7 +60,6 @@ const expertW = C * cell * 0.8;
 const expertSpacingX = expertW + margin * 3;
 const gridWidth = expertsPerRow * expertSpacingX;
 const gridCenterX = attnLeftX - gridWidth / 2 - margin * 4;
-```
 
 This ensures router is ALWAYS centered above the expert grid regardless of expert sizes!
 
@@ -72,13 +67,13 @@ This ensures router is ALWAYS centered above the expert grid regardless of exper
 
 ## 📊 Visual Layout Now
 
-```
-
 $$
+
 Input: ln2.lnResid
+
 $$
 
-                  ↓
+↓
         ┌─────────┴─────────┐
         │                    │
     [Router: Trọng số]      │
@@ -102,10 +97,10 @@ $$
              ↓
 
 $$
-Output
-$$
 
-```
+Output
+
+$$
 
 ---
 
@@ -123,7 +118,6 @@ $$
        expFcWeight.opacity = 0.3;  // Inactive/dimmed
        expOut.opacity = 0.3;
    }
-   ```
 
 2. **Routing Line Visualization** ⏳
    - Draw lines from `gateSoftmax` to top-K experts
@@ -151,7 +145,6 @@ let gateWeight = mk({
     name: 'Router: Trọng số',  // ← NEW LABEL
     small: true,  // ← Compact display
 });
-```
 
 #### Lines 674-685: Router Scores
 ```typescript
@@ -162,7 +155,6 @@ let gateScores = mk({
     name: 'Router: Điểm số',
     small: true,
 });
-```
 
 #### Lines 687-697: Router Softmax (Top-K)
 ```typescript
@@ -172,7 +164,6 @@ let gateSoftmax = mk({
     // ...
     name: 'Router: Top-K',
 });
-```
 
 ---
 
@@ -253,7 +244,6 @@ let gateSoftmax = mk({
    
    expOut.highlight = isActive ? 0.5 : 0;
    expOut.opacity = isActive ? 1.0 : 0.4;
-   ```
 
 2. **Create routing line helper function**
    ```typescript
@@ -264,7 +254,6 @@ let gateSoftmax = mk({
    ) {
        // Draw lines from router to top-K experts
    }
-   ```
 
 3. **Integrate into render pipeline**
    - Call after expert rendering

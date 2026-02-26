@@ -43,10 +43,12 @@ Tạo Hàm `dim_red(layer)` tái diễn quá trình Ép không gian $3072D\ \to 
 ### Giai Đoạn 3: Cấu Trúc Khối Tổng Hợp GED (The GED Pipeline)
 Tạo hàm tự động giải GED: `run_ged(train_data, pca_evecs)`
 Một điểm tinh ý trong việc Lý giải Hệ Trọng Số: Eigenvector (`W`) KHÔNG PHẢI là Mẫu Kích Hoạt (Activation Pattern). Eigenvector là Lưới Lọc (Filter). 
-Để thấy rõ Dấu Ấn Vật Lý của khái niệm "Giới tính" phủ lên bề mặt $3072$ Nơ-ron (Mọi Tòa nhà của Mạng Lưới), hàm toán học Đốc chiếu Phải lội ngược dòng: 
+Để thấy rõ Dấu Ấn Vật Lý của khái niệm "Giới tính" phủ lên bề mặt $3072$ Nơ-ron (Mọi Tòa nhà của Mạng Lưới), hàm toán học Đốc chiếu Phải lội ngược dòng:
 
 $$
+
 Pattern = W_{GED} \cdot Covariance(S) \cdot PCA\_Evecs_{T}
+
 $$
 
 Khối Cột Pattern Cuối Cùng đó được Correlate chéo giữa phân lớp HIM và lớp HER. Giá trị Correlation ($R^{2}$) và Trị Số Tách Lớp ($Max\ Eigenvalue$) được tống xuất phục vụ cho biểu đồ Diễn tiến Xuyên Tầng ở video Phần 2.

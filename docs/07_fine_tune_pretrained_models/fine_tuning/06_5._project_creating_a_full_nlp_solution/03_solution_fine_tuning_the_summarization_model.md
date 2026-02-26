@@ -46,7 +46,6 @@ import tensorflow as tf
 from transformers import TFAutoModelForSeq2SeqLM, AutoTokenizer
 from datasets import load_dataset
 import numpy as np
-```
 
 ### 2.2 Tải Dữ Liệu
 
@@ -56,7 +55,6 @@ dataset = load_dataset("cnn_dailymail", "3.0.0", split="train[:0.5%]")
 
 print(f"Số lượng ví dụ: {len(dataset)}")
 print(dataset[0])
-```
 
 ### 2.3 Tiền Xử Lý
 
@@ -86,7 +84,6 @@ test_data = dataset.select(range(10000, 10500))
 # Áp dụng tiền xử lý
 train_data = train_data.map(preprocess_summarization, batched=True)
 test_data = test_data.map(preprocess_summarization, batched=True)
-```
 
 ### 2.4 Chuyển Đổi Sang TensorFlow
 
@@ -104,7 +101,6 @@ tf_test = test_data.to_tf_dataset(
     label_cols=["labels"],
     batch_size=8
 )
-```
 
 ### 2.5 Triển Khai LoRA
 
@@ -141,7 +137,6 @@ class LoRALayer(tf.keras.layers.Layer):
         # LoRA: A × B × input
         lora_output = tf.matmul(tf.matmul(inputs, self.A), self.B)
         return original_output + lora_output
-```
 
 ### 2.6 Áp Dụng LoRA
 
@@ -152,7 +147,6 @@ for layer in model.layers[:3]:
 
 # Áp dụng LoRA cho decoder và lớp dense cuối
 # (Lưu ý: Trong thực tế, cần duyệt qua các lớp và thay thế)
-```
 
 ### 2.7 Thống Kê Tham Số
 
@@ -180,7 +174,6 @@ history = model.fit(
 )
 
 print(f"Hoàn thành trong ~6 phút")
-```
 
 ### 2.9 Đánh Giá với BLEU
 
@@ -209,7 +202,6 @@ for i in range(8):
 
 avg_bleu = np.mean(bleu_scores)
 print(f"Average BLEU Score: {avg_bleu:.4f}")
-```
 
 ## 3. Kết Quả
 

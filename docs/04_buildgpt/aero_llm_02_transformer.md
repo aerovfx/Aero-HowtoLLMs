@@ -44,9 +44,7 @@ Nghiên cứu này nhằm:
 Mô hình cơ bản được nghiên cứu bao gồm các thành phần chính:
 
 **Luồng xử lý dữ liệu:**
-```
 Text → Tokens → Embeddings → Non-linearity → Unembeddings → Tokens → Text
-```
 
 **Đặc điểm kỹ thuật:**
 - **Embedding dimension**: 64 (kích thước nhỏ gọn cho mục đích giáo dục)
@@ -77,7 +75,6 @@ class Model1(nn.Module):
         x = self.gelu(x)
         logits = self.final_layer(x)
         return logits
-```
 
 ---
 
@@ -134,7 +131,9 @@ Kết quả: Token cuối cùng mang thông tin tổng hợp từ toàn bộ chu
 **Hàm Softmax:**
 
 $$
+
 \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{V} e^{x_j}}
+
 $$
 
 **Đặc điểm:**
@@ -147,7 +146,6 @@ $$
 # Logits: [-2.3, 0.5, 3.1, -1.2, ...]
 # Sau softmax: [0.001, 0.02, 0.85, 0.003, ...]
 # Sum = 1.0
-```
 
 ### 4.3 Lựa Chọn Token: Multinomial Sampling
 
@@ -184,7 +182,6 @@ def generate(self, tokens, n_new_tokens=30):
         tokens = torch.cat([tokens, next_token], dim=1)
     
     return tokens
-```
 
 **Đặc điểm auto-regressive:**
 - Mỗi token mới phụ thuộc vào tất cả tokens trước đó
@@ -209,10 +206,8 @@ def generate(self, tokens, n_new_tokens=30):
    - Làm mượt quá trình học
 
 **Cấu trúc tensor:**
-```
 Input:  [batch_size, seq_len]           = [5, 8]
 Output: [batch_size, seq_len, vocab]    = [5, 8, 100000]
-```
 
 ### 5.2 So Sánh `nn.Embedding` vs `nn.Linear`
 
@@ -231,7 +226,9 @@ Output: [batch_size, seq_len, vocab]    = [5, 8, 100000]
 **GELU (Gaussian Error Linear Unit):**
 
 $$
+
 \text{GELU}(x) = x \cdot \Phi(x)
+
 $$
 
 Trong đó Φ$x$ là hàm phân phối chuẩn tích lũy.
@@ -243,10 +240,8 @@ Trong đó Φ$x$ là hàm phân phối chuẩn tích lũy.
 - Được sử dụng trong GPT-2, BERT, và hầu hết LLMs hiện đại
 
 **So sánh:**
-```
 ReLU(x) = max(0, x)           # Cứng, không mượt
 GELU(x) = x * Φ(x)            # Mượt, xác suất
-```
 
 ---
 
@@ -263,7 +258,6 @@ tokens_list = tokenizer.encode(text)  # List[int]
 tokens_tensor = torch.tensor(tokens_list)  # Tensor
 
 # Lý do: PyTorch functions yêu cầu tensor inputs
-```
 
 ### 6.2 Sequence Dataset Organization
 
@@ -272,10 +266,8 @@ tokens_tensor = torch.tensor(tokens_list)  # Tensor
 - **Targets:** Cùng chuỗi đó, shift 1 vị trí
 
 **Ví dụ:**
-```
 Inputs:  [47, 45, 38, 439, 12, 89, 234, 56]
 Targets: [45, 38, 439, 12, 89, 234, 56, 77]
-```
 
 **Mục đích:** Mỗi token input học dự đoán token tiếp theo (next-token prediction).
 
@@ -289,7 +281,6 @@ HYPERPARAMETERS = {
     'batch_size': 5,           # Xử lý song song
     'stride': 1,               # Dữ liệu overlap
 }
-```
 
 **Lưu ý:** Các giá trị này được chọn để tối ưu hóa việc học và hiểu, không phải cho hiệu suất thực tế.
 
@@ -316,12 +307,10 @@ HYPERPARAMETERS = {
 **Thực nghiệm:** Sinh 5 sequences từ cùng input
 
 **Kết quả:**
-```
 Run 1: "The one I had seen above ground in [random tokens...]"
 Run 2: "The one I had seen above ground in [different random tokens...]"
 Run 3: "The one I had seen above ground in [yet different tokens...]"
 ...
-```
 
 **Phân tích:**
 - Cùng prefix → Khác suffix
@@ -426,7 +415,6 @@ class Model1(nn.Module):
         self.embeddings = nn.Embedding(vocab_size, embed_dim)
         self.gelu = nn.GELU()
         self.final_layer = nn.Linear(embed_dim, vocab_size)
-```
 
 ### A.2 Generation Method
 ```python
@@ -438,7 +426,6 @@ def generate(self, tokens, n_new_tokens=30):
         next_token = torch.multinomial(probs, num_samples=1)
         tokens = torch.cat([tokens, next_token], dim=1)
     return tokens
-```
 
 ---
 

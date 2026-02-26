@@ -49,7 +49,6 @@ import time
 # Tham số thử nghiệm
 ranks = [1, 4, 16]
 batch_sizes = [8, 64, 128]
-```
 
 ### 2.2 Hàm Thử Nghiệm
 
@@ -88,7 +87,6 @@ def run_experiment(rank, batch_size, epochs=2):
         'final_loss': history.history['loss'][-1],
         'val_loss': history.history['val_loss'][-1]
     }
-```
 
 ### 2.3 Chạy Tất Cả Thử Nghiệm
 
@@ -99,7 +97,6 @@ for rank in ranks:
         print(f"Running: rank={rank}, batch_size={batch_size}")
         result = run_experiment(rank, batch_size)
         results.append(result)
-```
 
 ## 3. Kết Quả
 
@@ -124,7 +121,9 @@ for rank in ranks:
 **Mô hình toán học:**
 
 $$
+
 L_{final} \propto \frac{1}{r}
+
 $$
 
 Trong đó $L_{final}$ là loss cuối cùng.
@@ -139,7 +138,9 @@ Trong đó $L_{final}$ là loss cuối cùng.
 **Mô hình toán học:**
 
 $$
+
 \text{Time} \propto \frac{1}{\text{Batch Size}}
+
 $$
 
 **Nhận xét:**
@@ -151,7 +152,6 @@ $$
 
 ### 4.1 Biểu Đồ Loss theo Rank
 
-```
 Loss
   ^
 2.5|  ●
@@ -163,11 +163,9 @@ Loss
 1.0|           ● ●
    +------------------> Rank
      1    4    16
-```
 
 ### 4.2 Biểu Đồ Thời Gian theo Batch Size
 
-```
 Thời gian (s)
     |
 400 |  ●
@@ -178,7 +176,6 @@ Thời gian (s)
     |         ● ●
 100 +------------------> Batch Size
      8    64    128
-```
 
 ## 5. Khuyến Nghị
 

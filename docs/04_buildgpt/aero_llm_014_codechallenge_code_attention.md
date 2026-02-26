@@ -18,7 +18,6 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt**, trình bày 
 
 ---
 
-```md
 # Phân Tích và Triển Khai Cơ Chế Attention: So Sánh Cài Đặt Thủ Công và PyTorch Tối Ưu
 
 ## Tóm tắt (Abstract)
@@ -49,10 +48,9 @@ Mục tiêu của nghiên cứu này là phân tích quá trình trên dưới g
 Scaled Dot-Product Attention được định nghĩa:
 
 $$
-\text{Attention}(Q,K,V) =
-\text{softmax}\left(
-\frac{QK^T}{\sqrt{d_k}}
-\right)V
+
+\text{Attention}(Q,K,V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V
+
 $$
 
 Trong đó:
@@ -71,7 +69,9 @@ Công thức này cho phép mô hình tính toán mức độ liên quan giữa 
 Đối với mô hình tự hồi quy, attention cần tuân thủ ràng buộc nhân quả:
 
 $$
+
 j > i \Rightarrow \text{masked}
+
 $$
 
 Causal mask được áp dụng để ngăn mô hình truy cập token tương lai, đảm bảo tính hợp lệ khi sinh chuỗi.
@@ -110,9 +110,9 @@ Token được sinh ngẫu nhiên và ánh xạ sang embedding thông qua ma tr�
 Ba ma trận Q, K, V được xây dựng bằng các lớp tuyến tính:
 
 $$
-Q = XW_Q,\quad
-K = XW_K,\quad
-V = XW_V
+
+Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+
 $$
 
 với $W_Q, W_K, W_V \in \mathbb{R}^{d \times d}$.
@@ -139,11 +139,7 @@ Việc xử lý phép transpose cần tránh tác động đến chiều batch.
 
 PyTorch cung cấp hàm:
 
-```
-
 torch.nn.functional.scaled_dot_product_attention
-
-```
 
 Hàm này tích hợp:
 
@@ -315,7 +311,6 @@ Nghiên cứu khẳng định rằng việc tối ưu attention là nền tảng
 [3] Dao, T. et al. (2022). FlashAttention: Fast and Memory-Efficient Exact Attention. NeurIPS.
 
 [4] Paszke, A. et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. NeurIPS.
-```
 
 ---
 
@@ -331,7 +326,6 @@ Dưới đây là **bài viết khoa học bằng tiếng Việt** về **Multi-
 
 ---
 
-```md
 # Multi-Head Attention và Đánh Giá Hiệu Năng: Phân Tích Kiến Trúc và Benchmark Thực Nghiệm
 
 ## Tóm tắt (Abstract)
@@ -361,14 +355,17 @@ MHA là nền tảng cho các mô hình như BERT, GPT và LLaMA.
 Multi-Head Attention được định nghĩa:
 
 $$
-\text{MHA}(Q,K,V) =
-\text{Concat}(h_1,\dots,h_H)W_O
+
+\text{MHA}(Q,K,V) = \text{Concat}(h_1,\dots,h_H)W_O
+
 $$
 
 với:
 
 $$
+
 h_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
+
 $$
 
 Trong đó:
@@ -386,13 +383,17 @@ Mỗi head học một không gian biểu diễn riêng biệt.
 Với embedding dimension $d$:
 
 $$
+
 d_{head} = \frac{d}{H}
+
 $$
 
 Mỗi head xử lý tensor kích thước:
 
 $$
+
 (T, d_{head})
+
 $$
 
 Cách chia này giúp:
@@ -407,11 +408,9 @@ Cách chia này giúp:
 Trong mô hình tự hồi quy, mỗi head đều áp dụng causal mask:
 
 $$
-M_{ij} =
-\begin{cases}
-0 & j \le i \\
--\infty & j > i
-\end{cases}
+
+M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
+
 $$
 
 Mask này đảm bảo không rò rỉ thông tin tương lai.
@@ -447,8 +446,6 @@ Cấu trúc tương đương một block Transformer tiêu chuẩn.
 
 ### 3.3. Pseudocode Multi-Head Attention
 
-```
-
 Input: X ∈ R^(B×T×d)
 Output: Y ∈ R^(B×T×d)
 
@@ -457,10 +454,8 @@ Qi = X · WQi
 Ki = X · WKi
 Vi = X · WVi
 
-```
 Ai = softmax(Qi Ki^T / sqrt(dh) + Mask)
 Hi = Ai · Vi
-```
 
 H = concat(H1,...,HH)
 Y = H · WO
@@ -560,7 +555,6 @@ def benchmark(model, x, runs=500):
     torch.cuda.synchronize()
     
     return (time.time() - start) / runs
-```
 
 ---
 
@@ -702,8 +696,6 @@ Kết quả khẳng định việc dùng kernel tối ưu là điều kiện b�
 [2] Dao et al. FlashAttention, NeurIPS, 2022.
 [3] Paszke et al. PyTorch, NeurIPS, 2019.
 [4] NVIDIA. CUDA Programming Guide, 2023.
-
-```
 
 ---
 <!-- Aero-Footer-Start -->

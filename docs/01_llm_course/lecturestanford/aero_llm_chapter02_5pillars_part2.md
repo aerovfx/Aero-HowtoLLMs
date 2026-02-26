@@ -33,7 +33,6 @@
 
 ### **Levels of Evaluation**
 
-```
 Level 1: Perplexity (Training metric)
   ↓
 Level 2: Academic Benchmarks (MMLU, HumanEval)
@@ -41,16 +40,13 @@ Level 2: Academic Benchmarks (MMLU, HumanEval)
 Level 3: Human Evaluation (Quality, safety)
   ↓
 Level 4: Real-world Usage (Production metrics)
-```
 
 ---
 
 ### **A. Perplexity**
 
 **Định nghĩa:**
-```
 PPL = exp(-1/N ∑ᵢ log P(xᵢ | x₁,...,xᵢ₋₁))
-```
 
 **Ý nghĩa:**
 - Độ "bối rối" của model khi dự đoán
@@ -63,7 +59,6 @@ PPL = exp(-1/N ∑ᵢ log P(xᵢ | x₁,...,xᵢ₋₁))
 probs = [0.8, 0.6, 0.9, 0.7, 0.5, 0.8]  # Probabilities
 ppl = exp(-mean([log(p) for p in probs]))
 # ppl ≈ 1.8 (very good)
-```
 
 **Historical Trends:**
 
@@ -95,7 +90,6 @@ ppl = exp(-mean([log(p) for p in probs]))
 - Other: Medicine, Business
 
 **Format:**
-```
 Question: What is the primary function of ribosomes?
 A) DNA replication
 B) Protein synthesis
@@ -103,7 +97,6 @@ C) Cell division
 D) Energy production
 
 Answer: B
-```
 
 **GPT-4 Performance:**
 - GPT-3.5: 70.0%
@@ -126,7 +119,6 @@ def has_close_elements(numbers: List[float], threshold: float) -> bool:
     closer to each other than given threshold.
     """
     # Model generates code here
-```
 
 **Metrics:**
 - Pass@1: % correct on first try
@@ -179,7 +171,6 @@ def has_close_elements(numbers: List[float], threshold: float) -> bool:
 
 **Evaluation Process:**
 
-```
 1. Sample Generation
    ├── User prompts (diverse topics)
    ├── Generate responses
@@ -197,10 +188,8 @@ def has_close_elements(numbers: List[float], threshold: float) -> bool:
    
 4. Iterate
    └── Fix common failures
-```
 
 **Example (ChatGPT Eval):**
-```
 Prompt: "Explain quantum computing to a 5-year-old"
 
 GPT-3.5: [Technical jargon, not age-appropriate]
@@ -210,7 +199,6 @@ GPT-4: "Imagine a magic computer that can be in
 many places at once, like being in your room AND 
 the kitchen at the same time..."
 Rating: 5/5
-```
 
 ---
 
@@ -261,23 +249,18 @@ Rating: 5/5
 | **TPU v4** | 32GB HBM | Variable | Google only | PaLM, Gemini |
 
 **GPT-4 Cluster (estimated):**
-```
 10,000× H100 GPUs
 ├── 8× GPUs per node = 1,250 nodes
 ├── NVLink: 600 GB/s inter-GPU
 ├── InfiniBand: 400 Gb/s networking
 └── Total compute: ~100,000 petaFLOPS
-```
 
 **Cost per hour:**
-```
 10,000 H100 × $3/hr = $30,000/hour
 100 days training = $72 million (compute only!)
-```
 
 #### **Memory Hierarchy**
 
-```
 L1 Cache (KB)      ← 1000× faster, tiny
   ↓
 L2 Cache (MB)      ← 100× faster, small
@@ -289,7 +272,6 @@ CPU RAM (1TB)      ← Baseline
 SSD (10TB)         ← 10× slower
   ↓
 Network Sto18_rage    ← 100× slower
-```
 
 **Challenge:** Model doesn't fit in GPU RAM!
 
@@ -299,7 +281,6 @@ Network Sto18_rage    ← 100× slower
 
 #### **1. Data Parallelism**
 
-```
 GPU 0: Batch 0 → Forward → Backward → Grad₀
 GPU 1: Batch 1 → Forward → Backward → Grad₁
 GPU 2: Batch 2 → Forward → Backward → Grad₂
@@ -307,14 +288,12 @@ GPU 2: Batch 2 → Forward → Backward → Grad₂
 All-Reduce (Average gradients)
   ↓
 Update weights (synchronized)
-```
 
 **Pros:** Simple, linear scaling  
 **Cons:** Requires full model on each GPU
 
 #### **2. Model Parallelism (Tensor Parallelism)**
 
-```
 Layer splits across GPUs:
 
 GPU 0: [A] ──→ [B]
@@ -322,7 +301,6 @@ GPU 0: [A] ──→ [B]
 GPU 1: [C] ──→ [D]
 
 All-to-All communication
-```
 
 **Example (GPT-4):**
 ```python
@@ -330,14 +308,12 @@ All-to-All communication
 Q = split(Q, dim=heads, n_splits=8)  # Each GPU gets 16/8 = 2 heads
 K = split(K, dim=heads, n_splits=8)
 V = split(V, dim=heads, n_splits=8)
-```
 
 **Pros:** Handles huge models  
 **Cons:** High communication overhead
 
 #### **3. Pipeline Parallelism**
 
-```
 GPU 0: Layer 0-29   → Forward Batch 0 → Forward Batch 1 →
        ↓
 GPU 1: Layer 30-59  → (wait)          → Forward Batch 0 →
@@ -345,7 +321,6 @@ GPU 1: Layer 30-59  → (wait)          → Forward Batch 0 →
 GPU 2: Layer 60-89  → (wait)          → (wait)          →
        ↓
 GPU 3: Layer 90-119 → (idle)          → (idle)          →
-```
 
 **GPipe / 1F1B:**
 - Micro-batches to reduce bubbles
@@ -358,17 +333,13 @@ GPU 3: Layer 90-119 → (idle)          → (idle)          →
 
 **Combines all three:**
 
-```
 ZeRO Stage 1: Partition optimizer states
 ZeRO Stage 2: + Partition gradients
 ZeRO Stage 3: + Partition model weights
-```
 
 **Memory Savings:**
-```
 Before: 1.76T params × 16 bytes = 28 TB (per GPU!)
 After ZeRO-3: 28 TB / 10,000 GPUs = 2.8 GB per GPU ✅
-```
 
 **Used by:**
 - GPT-4 (DeepSpeed ZeRO)
@@ -381,7 +352,6 @@ After ZeRO-3: 28 TB / 10,000 GPUs = 2.8 GB per GPU ✅
 
 **Full Stack:**
 
-```
 Application Layer
 ├── PyTorch / JAX
 ├── DeepSpeed / Megatron
@@ -402,7 +372,6 @@ Hardware
 ├── 10,000+ H100 GPUs
 ├── High-speed interconnects
 └── Cooling & power
-```
 
 **GPT-4 Training Pipeline:**
 
@@ -430,7 +399,6 @@ for epoch in range(3):  # 3 epochs × 13T tokens
         
         if step % checkpoint_interval == 0:
             save_checkpoint(model, optimizer, step)
-```
 
 ---
 
@@ -442,7 +410,6 @@ for epoch in range(3):  # 3 epochs × 13T tokens
 # Recompute activations during backward
 model = checkpoint_sequential(model, segments=4)
 # 4× less memory, 20% slower
-```
 
 **2. Flash Attention:**
 ```python
@@ -450,14 +417,12 @@ model = checkpoint_sequential(model, segments=4)
 # 2-4× faster, less memory
 from flash_attn import flash_attn_func
 attn_output = flash_attn_func(Q, K, V)
-```
 
 **3. Quantization:**
 ```python
 # Train in INT8
 model = quantize_dynamic(model, dtype=torch.qint8)
 # 2× faster, 4× less memory
-```
 
 ---
 

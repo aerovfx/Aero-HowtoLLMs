@@ -38,28 +38,29 @@ const gridCenterX = attnLeftX - gridWidth / 2 - margin * 4;
 gateWeight: xM: gridCenterX
 gateScores: xM: gridCenterX  
 gateSoftmax: xM: gridCenterX
-```
 
 **Visual result:**
-```
 
 $$
+
 Router: Trọng số
+
 $$
 
 $$
 Router: Điểm số
+
 $$
 
 $$
 Router: Top-K
+
 $$
 
-              ↓
+↓
         ┌────┴────┐
       E0 E1 E2 E3
       E4 E5 E6 E7
-```
 
 ### **2. Color Coding System** ✅
 
@@ -77,7 +78,6 @@ expFcWeight.opacity = isLikelyActive ? 1.0 : 0.5;
 // Same for outputs
 expOut.highlight = isLikelyActive ? 0.3 : 0;
 expOut.opacity = isLikelyActive ? 1.0 : 0.5;
-```
 
 **Visual distinction:**
 
@@ -102,13 +102,13 @@ expOut.opacity = isLikelyActive ? 1.0 : 0.5;
 
 ## 🎨 Complete Visual Layout
 
-```
-
 $$
+
 Input: ln2.lnResid
+
 $$
 
-                  ↓
+↓
         ┌─────────┴─────────┐
         │  Router (Center)   │
         │  ┌──────────┐     │
@@ -129,10 +129,10 @@ $$
               ↓
 
 $$
-Output
-$$
 
-```
+Output
+
+$$
 
 Legend:
 - 🟢 = Active expert (highlight=0.3, opacity=1.0)
@@ -187,14 +187,12 @@ Legend:
    // Draw Bézier curves from router to active experts
    drawRoutingPath(gateSoftmax, expert0, probability0);
    drawRoutingPath(gateSoftmax, expert1, probability1);
-   ```
 
 2. **Dynamic Highlighting**
    ```typescript
    // Update based on actual token routing (if data available)
    const actualRouting = getRoutingProbabilities(tokenIdx);
    expert.highlight = actualRouting[expertIdx];
-   ```
 
 3. **hover Tooltips**
    ```typescript
@@ -205,7 +203,6 @@ Legend:
        probability: routingProb[i],
        parameters: expertParams[i],
    });
-   ```
 
 4. **Animation**
    ```typescript
@@ -214,14 +211,12 @@ Legend:
    
    // Token flow animation
    animateTokenFlow(router → activeExperts → aggregation);
-   ```
 
 5. **Utilization Heatmap**
    ```typescript
    // Track usage over time
    expertHeatmap[i] = accumulatedUsage / totalTokens;
    expert.backgroundColor = heatmapColor(expertHeatmap[i]);
-   ```
 
 ---
 
@@ -246,17 +241,16 @@ Legend:
 ## 🎨 Visual Quality
 
 ### Before (Weeks 1-2):
-```
 
 $$
+
 No MoE visualization
+
 $$
 
 GPT-4 renders as standard transformer
-```
 
 ### After Week 3:
-```
 E0 [stacked]
 E1 [vertically]
 E2 [...]
@@ -265,15 +259,12 @@ E4
 E5
 E6
 E7  ← Very tall!
-```
 
 ### **After Week 4 (NOW):**
-```
     [Router] ← Centered
        ↓
   🟢E0 🟢E1 ⚫E2 ⚫E3  ← Grid + Color!
   ⚫E4 ⚫E5 ⚫E6 ⚫E7
-```
 
 **Improvement:** 
 - ✅ Compact (75% less vertical space)

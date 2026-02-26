@@ -34,7 +34,6 @@ words = sentence.split()
 print(words)
 # ['The', 'quick', 'brown', 'fox', 'jumps']
 print(len(words))   # 5 từ
-```
 
 - **Mặc định:** Phân tách tại khoảng trắng (space, tab, newline).
 - **Tùy chỉnh delimiter:** Truyền ký tự phân cách vào `.split(delimiter)`.
@@ -42,7 +41,6 @@ print(len(words))   # 5 từ
 ```python
 csv_line = "Hanoi,Saigon,Danang"
 cities = csv_line.split(',')   # ['Hanoi', 'Saigon', 'Danang']
-```
 
 ### 1.2. Thống kê Từng Đơn vị Từ
 
@@ -52,7 +50,6 @@ Sau khi phân tách, có thể phân tích từng phần tử bằng vòng lặp
 sentence = "Deep learning transforms language understanding"
 for word in sentence.split():
     print(f"'{word}' — {len(word)} ký tự")
-```
 
 Đây là bước khởi đầu cho các tác vụ như:
 - Thống kê tần suất từ (word frequency)
@@ -74,7 +71,6 @@ print(string.ascii_letters)    # tất cả chữ cái hoa + thường
 print(string.digits)           # '0123456789'
 print(string.punctuation)      # '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
 print(string.whitespace)       # space, tab (\t), newline (\n), \r, \f, \v
-```
 
 **Ưu điểm:** Không cần tự định nghĩa thủ công — tránh sai sót và tiết kiệm code.
 
@@ -97,7 +93,6 @@ if char in string.digits:
     print("Là chữ số")
 if char in string.punctuation:
     print("Là dấu câu")
-```
 
 **Ứng dụng thực tế — Lọc dấu câu:**
 
@@ -105,7 +100,6 @@ if char in string.punctuation:
 text = "Hello, world! This is NLP."
 clean = ''.join(c for c in text if c not in string.punctuation)
 print(clean)   # 'Hello world This is NLP'
-```
 
 ---
 
@@ -117,7 +111,6 @@ print(clean)   # 'Hello world This is NLP'
 text = "Deep Learning"
 print(text.lower())   # 'deep learning'
 print(text.upper())   # 'DEEP LEARNING'
-```
 
 Cần thiết vì tokenizer phân biệt 'Apple' ≠ 'apple'. Chuyển về chữ thường để thống nhất.
 
@@ -128,7 +121,6 @@ raw = "  Hello World  \n"
 print(raw.strip())     # 'Hello World'  — cắt 2 đầu
 print(raw.lstrip())    # 'Hello World  \n'  — chỉ cắt trái
 print(raw.rstrip())    # '  Hello World'  — chỉ cắt phải
-```
 
 ### 4.3. Thay thế chuỗi con
 
@@ -136,7 +128,6 @@ print(raw.rstrip())    # '  Hello World'  — chỉ cắt phải
 text = "I love deep_learning and NLP!"
 cleaned = text.replace("_", " ").replace("!", "")
 print(cleaned)   # 'I love deep learning and NLP'
-```
 
 ### 4.4. Kiểm tra nội dung chuỗi
 
@@ -146,7 +137,6 @@ print(word.isalpha())    # False — có chứa số
 print(word.isdigit())    # False — không phải toàn số
 print(word.isalnum())    # True — chữ cái + số
 print("  ".isspace())    # True — toàn khoảng trắng
-```
 
 ---
 
@@ -168,7 +158,6 @@ print("  ".isspace())    # True — toàn khoảng trắng
 ```python
 multiline = "Line 1\nLine 2\nLine 3"
 lines = multiline.split('\n')   # ['Line 1', 'Line 2', 'Line 3']
-```
 
 ---
 
@@ -197,7 +186,6 @@ raw = "  Hello, World! This is Deep Learning.  "
 tokens = preprocess_text(raw)
 print(tokens)
 # ['hello', 'world', 'this', 'is', 'deep', 'learning']
-```
 
 ---
 

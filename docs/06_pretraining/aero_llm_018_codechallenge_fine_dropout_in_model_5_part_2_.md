@@ -51,7 +51,9 @@ Tài liệu cung cấp một góc nhìn thực tiễn về đánh đổi giữa 
 Trong huấn luyện LLMs, mục tiêu tiêu chuẩn là:
 
 $$
+
 \mathcal{L} = -\sum_{t=1}^{T} \log P(x_t \mid x_{<t})
+
 $$
 
 với $T$ là độ dài chuỗi.
@@ -79,7 +81,9 @@ Việc kết hợp dropout với chiến lược loss ảnh hưởng đáng kể
 Trong bài tập, hàm loss chỉ được tính tại token cuối:
 
 $$
+
 \mathcal{L} = - \log P(x_T \mid x_{<T})
+
 $$
 
 Thay vì flatten toàn bộ chuỗi, tác giả chỉ sử dụng:
@@ -96,7 +100,9 @@ Cách tiếp cận này được mô tả rõ trong tài liệu.
 Do forward pass chỉ trả về logits, cần áp dụng log-softmax trước khi đưa vào loss:
 
 $$
+
 \ell_i = z_i - \log \sum_j e^{z_j}
+
 $$
 
 Trong PyTorch:
@@ -104,7 +110,6 @@ Trong PyTorch:
 ```python
 log_probs = F.log_softmax(logits, dim=-1)
 loss = NLLLoss(log_probs, targets)
-```
 
 Việc thiếu bước này dẫn đến lỗi huấn luyện nghiêm trọng. 
 
@@ -128,7 +133,6 @@ Lỗi xảy ra khi dữ liệu và mô hình nằm trên các thiết bị khác
 model.eval()
 ...
 model.train()
-```
 
 Tuy nhiên, một số hàm như `scaled_dot_product_attention` không tự động tắt dropout. Do đó, trạng thái `self.training` được sử dụng để kiểm soát thủ công. 
 
@@ -225,7 +229,9 @@ Tài liệu xác định hai nguyên nhân chính:
 Trước đây, mô hình học từ 256 token/chuỗi. Hiện tại, chỉ học từ 1 token:
 
 $$
+
 \text{Signal reduction factor} \approx 256
+
 $$
 
 Điều này làm giảm tốc độ học. 

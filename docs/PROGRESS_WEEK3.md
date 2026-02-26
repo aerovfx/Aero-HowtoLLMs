@@ -21,21 +21,17 @@
 ### **File: `GptModelLayout.ts` (lines 699-747)**
 
 #### Before (Vertical Stack):
-```
 Expert 0  ←─ y position
   ↓ h*cell
 Expert 1  ←─ y += height  
   ↓
 ... (stacked vertically, very tall)
-```
 
 #### After (2x4 Grid):
-```
         E0    E1    E2    E3
         E4    E5    E6    E7
     ←─────────────────────→
        grid positioning
-```
 
 ---
 
@@ -62,7 +58,6 @@ const gridBaseY = y + row * spacingY;
 // Individual expert position
 const expertX = gridBaseX + col * spacingX;
 const expertY = gridBaseY;
-```
 
 ### **Per-Expert Visualization:**
 
@@ -90,7 +85,6 @@ Each expert now renders:
 **Space saved:** ~75% vertical space!
 
 ### Positioning Strategy:
-```
 Attention Layers (attnLeftX)
           │
           ├──────────── margin ────────────┤
@@ -105,10 +99,10 @@ Attention Layers (attnLeftX)
     └───────────┬───────────────────────────┘
 
 $$
-Aggregation
-$$
 
-```
+Aggregation
+
+$$
 
 ---
 
@@ -125,7 +119,6 @@ y += C * cell + margin;  // After output block
 // AFTER:
 // No individual Y increments!
 // All positioning relative to grid coordinates
-```
 
 **2. Added grid position calculation**
 ```typescript
@@ -135,7 +128,6 @@ const col = i % 4;
 
 const expertX = gridBaseX + col * spacingX;
 const expertY = gridBaseY + row * spacingY;
-```
 
 **3. Updated final Y position**
 ```typescript
@@ -144,7 +136,6 @@ const expertY = gridBaseY + row * spacingY;
 // AFTER:
 y += Math.ceil(moeBlock.experts.length / 4) * (C * cell * 2 + margin * 4);
 // Jumps to after entire grid (2 rows)
-```
 
 **4. Changed positioning parameters**
 ```typescript
@@ -156,7 +147,6 @@ y: y,  // stacking vertically
 // AFTER:
 xL: expertX,  // Absolute grid position
 y: expertY,   // Grid row position
-```
 
 ---
 
@@ -196,7 +186,6 @@ y: expertY,   // Grid row position
    ```typescript
    expert.highlight = isTopK ? routingProb : 0;
    expert.color = isTopK ? ACTIVE_GREEN : INACTIVE_GRAY;
-   ```
 
 5. **Animation** ⏳
    - Token flow through selected experts

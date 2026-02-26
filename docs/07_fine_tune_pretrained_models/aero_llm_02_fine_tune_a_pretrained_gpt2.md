@@ -53,7 +53,6 @@ Ban đầu, dữ liệu được mã hóa bằng phương thức `tokenizer.enco
 
 ```python
 tokenizer(text, return_tensors="pt")
-```
 
 Phương pháp này trả về tensor trực tiếp, thuận tiện cho huấn luyện, nhưng tạo ra tensor hai chiều (1 × N). Do đó, cần truy cập hàng đầu tiên để chuyển về dạng một chiều .
 

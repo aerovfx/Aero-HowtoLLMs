@@ -37,7 +37,6 @@ class Retriever(ABC):
     ) -> List[Document]:
         """Nhận query và trả về documents liên quan"""
         pass
-```
 
 ### 1.2 Sự Khác Biệt với Vector Store
 
@@ -64,7 +63,6 @@ documents = retriever.get_relevant_documents(query)
 for doc in documents:
     print(doc.page_content)
     print(doc.metadata)
-```
 
 ## 2. Vector Store-Based Retriever
 
@@ -72,25 +70,27 @@ for doc in documents:
 
 Vector store-based retriever hoạt động theo các bước sau:
 
-```
 Query Text
     ↓
 
 $$
+
 Embedding Model
+
 $$
 
-    ↓
+↓
 Query Vector
     ↓
 
 $$
+
 Vector Similarity Search
+
 $$
 
-    ↓
+↓
 Top-K Similar Documents
-```
 
 ### 2.2 Quy Trình Chi Tiết
 
@@ -112,7 +112,6 @@ retriever = vectorstore.as_retriever(
 
 # Truy xuất
 docs = retriever.get_relevant_documents("What is AI?")
-```
 
 ### 2.3 Các Loại Tìm Kiếm
 
@@ -121,14 +120,15 @@ docs = retriever.get_relevant_documents("What is AI?")
 Tìm kiếm dựa trên độ tương đồng cosine:
 
 $$
+
 \text{similarity}(A, B) = \frac{A \cdot B}{||A|| \cdot ||B||}
+
 $$
 
 ```python
 retriever = vectorstore.as_retriever(
     search_type="similarity"
 )
-```
 
 #### 2.3.2 Maximum Marginal Relevance (MMR)
 
@@ -146,12 +146,13 @@ retriever = vectorstore.as_retriever(
         "lambda_mult": 0.5  # 0 = relevance, 1 = diversity
     }
 )
-```
 
 **Công thức MMR:**
 
 $$
+
 \text{MMR} = \arg\max_{D_i \in R \setminus S} \left[ \lambda \cdot \text{sim}(Q, D_i) - (1-\lambda) \cdot \max_{D_j \in S} \text{sim}(D_i, D_j) \right]
+
 $$
 
 Trong đó:
@@ -180,7 +181,6 @@ compression_retriever = ContextualCompressionRetriever(
 
 # Truy xuất với compression
 docs = compression_retriever.get_relevant_documents(query)
-```
 
 ### 3.2 Ensemble Retriever
 
@@ -201,7 +201,6 @@ ensemble = EnsembleRetriever(
 
 # Truy xuất
 docs = ensemble.get_relevant_documents(query)
-```
 
 ## 4. Tối Ưu Hiệu Suất
 
@@ -226,7 +225,6 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 # Split documents
 docs = text_splitter.split_documents(raw_documents)
-```
 
 ### 4.2 Embedding Optimization
 
@@ -238,7 +236,6 @@ embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2",
     model_kwargs={'device': 'cpu'}
 )
-```
 
 ## 5. Best Practices
 
@@ -250,7 +247,6 @@ for k in [2, 4, 8, 16]:
     retriever = vectorstore.as_retriever(search_kwargs={"k": k})
     docs = retriever.get_relevant_documents(query)
     # Đánh giá kết quả
-```
 
 ### 5.2 Filtering
 
@@ -266,7 +262,6 @@ retriever = vectorstore.as_retriever(
         }
     }
 )
-```
 
 ## 6. Kết Luận
 

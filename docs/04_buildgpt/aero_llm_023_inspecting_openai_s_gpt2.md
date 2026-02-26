@@ -57,7 +57,6 @@ Mô hình GPT-2 Small được tải bằng lệnh:
 
 ```python
 AutoModelForCausalLM.from_pretrained("gpt2")
-```
 
 Phiên bản này có khoảng 124 triệu tham số và tương ứng với GPT-2 Small, trùng với cấu hình của Model 5 trong các bài thực hành trước đó 
 
@@ -102,7 +101,9 @@ Cấu trúc này giúp duy trì ổn định gradient và tăng khả năng bi�
 Trong GPT-2, ba ma trận Query, Key và Value không được lưu riêng lẻ mà được gộp trong một ma trận duy nhất có kích thước:
 
 $$
+
 768 \times 2304 = 768 \times (3 \times 768)
+
 $$
 
 Cách thiết kế này giúp:
@@ -118,7 +119,9 @@ Cách thiết kế này giúp:
 Sau khi tính attention, kết quả được nhân với ma trận chiếu $W_0$ kích thước:
 
 $$
+
 768 \times 768
+
 $$
 
 Ma trận này giúp tổng hợp thông tin từ các head attention khác nhau.

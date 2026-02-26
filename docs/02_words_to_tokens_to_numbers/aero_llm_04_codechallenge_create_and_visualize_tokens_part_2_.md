@@ -29,7 +29,9 @@ Bài viết này mở rộng phân tích quá trình tạo và trực quan hóa 
 Trong mô hình Transformer, token không chỉ là ID số nguyên mà là:
 
 $$
+
 t_i \rightarrow e_i \in \mathbb{R}^d
+
 $$
 
 Không gian embedding có thể xem như một đa tạp (manifold) cao chiều, trong đó:
@@ -50,28 +52,33 @@ Việc trực quan hóa giúp ta hiểu:
 Giả sử từ vựng có kích thước $N$, embedding dimension $d$:
 
 $$
+
 E \in \mathbb{R}^{N \times d}
+
 $$
 
 Mỗi token là một điểm:
 
 $$
+
 e_i \in \mathbb{R}^d
+
 $$
 
 Khoảng cách cosine giữa hai token:
 
 $$
-\text{cosine}(e_i, e_j)
- = 
-\frac{e_i \cdot e_j}
-{|e_i||e_j|}
+
+\text{cosine}(e_i, e_j) = \frac{e_i \cdot e_j} {|e_i||e_j|}
+
 $$
 
 Nếu:
 
 $$
+
 \text{cosine}(e_i, e_j) \approx 1
+
 $$
 
 → Hai token gần nhau về ngữ nghĩa.
@@ -88,17 +95,22 @@ Một layer Transformer gồm:
 Biểu diễn đầu ra:
 
 $$
+
 Z' = \text{LayerNorm}(Z + \text{Attention}(Z))
+
 $$
 
 $$
 Z'' = \text{LayerNorm}(Z' + \text{MLP}(Z'))
+
 $$
 
 Qua nhiều layer:
 
 $$
+
 Z^{(L)} = f^{(L)}(Z^{(0)})
+
 $$
 
 Không gian embedding ban đầu bị biến đổi phi tuyến.
@@ -110,24 +122,25 @@ Không gian embedding ban đầu bị biến đổi phi tuyến.
 Attention matrix:
 
 $$
-A = \text{softmax}
-\left(
-\frac{QK^T}{\sqrt{d_k}}
-\right)
+
+A = \text{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)
+
 $$
 
 Phần tử:
 
 $$
-A_{ij}
- = 
-P(\text{token } j \mid \text{token } i)
+
+A_{ij} = P(\text{token } j \mid \text{token } i)
+
 $$
 
 Tính chất:
 
 $$
+
 \sum_j A_{ij} = 1
+
 $$
 
 Ma trận $A$ có thể trực quan hóa dưới dạng heatmap:
@@ -142,13 +155,17 @@ Ma trận $A$ có thể trực quan hóa dưới dạng heatmap:
 Ma trận hiệp phương sai:
 
 $$
+
 \Sigma = \frac{1}{N} E^T E
+
 $$
 
 Giải bài toán:
 
 $$
+
 \Sigma v = \lambda v
+
 $$
 
 Trị riêng lớn phản ánh:
@@ -159,7 +176,9 @@ Trị riêng lớn phản ánh:
 Chiếu embedding:
 
 $$
+
 E_{proj} = E W_k
+
 $$
 
 với $W_k$ chứa $k$ vector riêng lớn nhất.
@@ -171,33 +190,30 @@ với $W_k$ chứa $k$ vector riêng lớn nhất.
 t-SNE tối ưu:
 
 $$
+
 \min_Y D_{KL}(P | Q)
+
 $$
 
 Trong đó:
 
 $$
-P_{ij} =
-\frac
-{\exp(-|x_i - x_j|^2 / 2\sigma^2)}
-{\sum_{k,l} \exp(-|x_k - x_l|^2 / 2\sigma^2)}
+
+P_{ij} = \frac {\exp(-|x_i - x_j|^2 / 2\sigma^2)} {\sum_{k,l} \exp(-|x_k - x_l|^2 / 2\sigma^2)}
+
 $$
 
 $$
-Q_{ij} =
-\frac
-{(1 + |y_i - y_j|^2)^{-1}}
-{\sum_{k,l}(1 + |y_k - y_l|^2)^{-1}}
+Q_{ij} = \frac {(1 + |y_i - y_j|^2)^{-1}} {\sum_{k,l}(1 + |y_k - y_l|^2)^{-1}}
+
 $$
 
 Mục tiêu:
 
 $$
-D_{KL}(P|Q)
- = 
-\sum_{i,j} P_{ij}
-\log
-\frac{P_{ij}}{Q_{ij}}
+
+D_{KL}(P|Q) = \sum_{i,j} P_{ij} \log \frac{P_{ij}}{Q_{ij}}
+
 $$
 
 Kết quả:
@@ -212,14 +228,17 @@ Kết quả:
 Giả sử embedding tại layer $l$:
 
 $$
+
 Z^{(l)}
+
 $$
 
 Khoảng cách giữa hai layer:
 
 $$
-\Delta^{(l)} =
-| Z^{(l)} - Z^{(l-1)} |
+
+\Delta^{(l)} = | Z^{(l)} - Z^{(l-1)} |
+
 $$
 
 Quan sát thực nghiệm:
@@ -235,23 +254,25 @@ Quan sát thực nghiệm:
 GPT tối ưu:
 
 $$
+
 P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+
 $$
 
 Logits:
 
 $$
+
 \text{logits} = Z^{(L)} W_{out}
+
 $$
 
 Softmax:
 
 $$
-P(x_t | x_{<t})
- = 
-\frac
-{\exp(z_t W_{out})}
-{\sum_j \exp(z_j W_{out})}
+
+P(x_t | x_{<t}) = \frac {\exp(z_t W_{out})} {\sum_j \exp(z_j W_{out})}
+
 $$
 
 Việc trực quan hóa logits cho thấy:
@@ -266,7 +287,9 @@ Việc trực quan hóa logits cho thấy:
 Self-attention:
 
 $$
+
 \mathcal{O}(L T^2 d)
+
 $$
 
 Visualization chi phí:
@@ -287,7 +310,9 @@ Từ góc nhìn đại số tuyến tính:
 Toàn bộ Transformer có thể xem như:
 
 $$
+
 f: \mathbb{R}^{T \times d} \to \mathbb{R}^{T \times d}
+
 $$
 
 Việc trực quan hóa giúp:

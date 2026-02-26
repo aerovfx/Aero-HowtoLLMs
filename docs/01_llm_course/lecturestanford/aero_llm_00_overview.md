@@ -37,7 +37,6 @@
 ```bash
 cd llm_viz && npm run dev
 # → http://localhost:3002/llm
-```
 
 ✅ **100% Vietnamese** | ✅ **MoE Expert Grid** | ✅ **Interactive**
 
@@ -70,7 +69,6 @@ cd llm_viz && npm run dev
 ## Chương 3: Pre-training → Post-training
 
 **Pipeline:**
-```
 Pre-training (100 days, $100M)
   ↓
 SFT - 50K examples (3 days, $10K)
@@ -78,7 +76,6 @@ SFT - 50K examples (3 days, $10K)
 RLHF - Human preferences (1 week, $50K)
   ↓
 ChatGPT ✅
-```
 
 [📖 **Chi tiết**](aero_LLM_chapter03_training_pipeline.md)
 

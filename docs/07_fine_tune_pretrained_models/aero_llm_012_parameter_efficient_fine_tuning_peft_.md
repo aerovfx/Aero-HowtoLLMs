@@ -49,13 +49,17 @@ Mục tiêu của PEFT là:
 Cho chuỗi token:
 
 $$
+
 X=(x_1,x_2,\dots,x_n)
+
 $$
 
 Xác suất sinh:
 
 $$
+
 P(X)=\prod_{i=1}^{n}P(x_i|x_1,\dots,x_{i-1};\theta)
+
 $$
 
 Trong đó $\theta$ là tập tham số của mô hình.
@@ -67,18 +71,17 @@ Trong đó $\theta$ là tập tham số của mô hình.
 Với hàm mất mát cross-entropy:
 
 $$
-\mathcal{L}(\theta)
- = 
--\frac{1}{N}\sum_{i=1}^{N}
-\log P(y_i|x_i;\theta)
+
+\mathcal{L}(\theta) = -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i|x_i;\theta)
+
 $$
 
 Cập nhật bằng gradient descent:
 
 $$
-\theta_{t+1}
- = 
-\theta_t-\eta\nabla_\theta\mathcal{L}
+
+\theta_{t+1} = \theta_t-\eta\nabla_\theta\mathcal{L}
+
 $$
 
 Toàn bộ tham số đều được cập nhật.
@@ -90,7 +93,9 @@ Toàn bộ tham số đều được cập nhật.
 Trong PEFT, tham số được chia:
 
 $$
+
 \theta = (\theta_f, \theta_t)
+
 $$
 
 với:
@@ -101,7 +106,9 @@ với:
 Điều kiện:
 
 $$
+
 \nabla_{\theta_f}\mathcal{L}=0
+
 $$
 
 Chỉ $\theta_t$ được cập nhật.
@@ -130,7 +137,9 @@ Các phương pháp này thường được triển khai thông qua thư viện 
 Adapter chèn các mô-đun nhỏ vào giữa các lớp Transformer:
 
 $$
+
 h' = h + W_{up}\sigma(W_{down}h)
+
 $$
 
 Trong đó:
@@ -148,13 +157,17 @@ Cấu trúc giống autoencoder nén–giải nén.
 Số tham số adapter:
 
 $$
+
 P_{adapter}=2dr
+
 $$
 
 So với:
 
 $$
+
 P_{full}=d^2
+
 $$
 
 ⇒ $P_{adapter}\ll P_{full}$
@@ -168,20 +181,25 @@ $$
 Cho trọng số gốc:
 
 $$
+
 W\in\mathbb{R}^{m\times n}
+
 $$
 
 LoRA biểu diễn:
 
 $$
+
 W' = W + BA
+
 $$
 
 với:
 
 $$
-B\in\mathbb{R}^{m\times r},\quad
-A\in\mathbb{R}^{r\times n}
+
+B\in\mathbb{R}^{m\times r},\quad A\in\mathbb{R}^{r\times n}
+
 $$
 
 và $r\ll \min(m,n$).
@@ -193,13 +211,17 @@ và $r\ll \min(m,n$).
 Số tham số:
 
 $$
+
 P_{LoRA}=r(m+n)
+
 $$
 
 So với:
 
 $$
+
 P_{full}=mn
+
 $$
 
 Ví dụ:
@@ -208,8 +230,9 @@ Ví dụ:
 * $r=100$:
 
 $$
-P_{full}=10^6,\quad
-P_{LoRA}=2\times10^5
+
+P_{full}=10^6,\quad P_{LoRA}=2\times10^5
+
 $$
 
 ---
@@ -221,19 +244,25 @@ $$
 Thêm vector tiền tố $P$:
 
 $$
+
 X' = [P; X]
+
 $$
 
 với:
 
 $$
+
 P\in\mathbb{R}^{k\times d}
+
 $$
 
 Đầu vào attention:
 
 $$
+
 Q,K,V = (X'W_Q,X'W_K,X'W_V)
+
 $$
 
 Chỉ $P$ được huấn luyện.
@@ -243,7 +272,9 @@ Chỉ $P$ được huấn luyện.
 #### 4.3.2. Số tham số
 
 $$
+
 P_{prefix}=kd
+
 $$
 
 Rất nhỏ so với toàn mô hình.
@@ -257,13 +288,17 @@ Rất nhỏ so với toàn mô hình.
 Chỉ huấn luyện bias:
 
 $$
+
 y = Wx + b
+
 $$
 
 Cập nhật:
 
 $$
+
 b_{t+1}=b_t-\eta\nabla_b\mathcal{L}
+
 $$
 
 Giữ nguyên $W$.
@@ -275,7 +310,9 @@ Giữ nguyên $W$.
 Bias chủ yếu dịch chuyển phân phối:
 
 $$
+
 P'(y|x)=P(y-b|x)
+
 $$
 
 Ảnh hưởng yếu đến cấu trúc biểu diễn.
@@ -294,13 +331,17 @@ Gọi:
 Tỷ lệ:
 
 $$
+
 r=\frac{P_{peft}}{P_{full}}\ll 1
+
 $$
 
 Thời gian huấn luyện:
 
 $$
+
 T_{peft}\approx rT_{full}
+
 $$
 
 ---
@@ -310,7 +351,9 @@ $$
 Khi số tham số giảm:
 
 $$
+
 P\downarrow \Rightarrow Var(\theta)\downarrow
+
 $$
 
 ⇒ giảm overfitting.
@@ -318,7 +361,9 @@ $$
 Tuy nhiên:
 
 $$
+
 Bias(\theta)\uparrow
+
 $$
 
 ⇒ mô hình kém linh hoạt.
@@ -330,21 +375,25 @@ $$
 Giả sử:
 
 $$
+
 Acc_{full},\quad Acc_{peft}
+
 $$
 
 Thông thường:
 
 $$
+
 Acc_{peft}\le Acc_{full}
+
 $$
 
 nhưng:
 
 $$
-\frac{Acc_{peft}}{Cost_{peft}}
->
-\frac{Acc_{full}}{Cost_{full}}
+
+\frac{Acc_{peft}}{Cost_{peft}} > \frac{Acc_{full}}{Cost_{full}}
+
 $$
 
 ⇒ PEFT hiệu quả về chi phí.
@@ -377,7 +426,9 @@ Theo tài liệu :
 PEFT phù hợp khi:
 
 $$
+
 N_{data}\ll P_{model}
+
 $$
 
 và:

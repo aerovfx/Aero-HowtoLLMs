@@ -106,7 +106,6 @@
 
 **Visualization ↔ Education:**
 
-```
 User studies LLM theory (Chapters)
            ↓
 Explores GPT-4 architecture
@@ -118,7 +117,6 @@ Interacts with Vietnamese walkthroughs
 Sees MoE expert grid in action
            ↓
 Understands complete pipeline!
-```
 
 **Links:**
 - Overview → Detailed chapters
@@ -222,7 +220,6 @@ Understands complete pipeline!
 
 ## 🎉 CELEBRATION!
 
-```
 ╔═══════════════════════════════════════╗
 ║  🎊 PROJECT 100% COMPLETE! 🎊        ║
 ╠═══════════════════════════════════════╣
@@ -238,7 +235,6 @@ Understands complete pipeline!
 ║  fully understand GPT-4!             ║
 ║                                       ║
 ╚═══════════════════════════════════════╝
-```
 
 ---
 

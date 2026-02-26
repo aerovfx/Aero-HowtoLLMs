@@ -45,7 +45,9 @@ Mục tiêu của bài báo là phân tích có hệ thống các kỹ thuật n
 Trong GPT, mỗi token được ánh xạ thành vector thông qua embedding:
 
 $$
+
 E_{tok} \in \mathbb{R}^{V \times d}
+
 $$
 
 với $V$ là kích thước từ vựng, $d$ là chiều embedding.
@@ -53,7 +55,9 @@ với $V$ là kích thước từ vựng, $d$ là chiều embedding.
 Position embedding được định nghĩa:
 
 $$
+
 E_{pos} \in \mathbb{R}^{L \times d}
+
 $$
 
 với $L$ là độ dài chuỗi tối đa.
@@ -61,7 +65,9 @@ với $L$ là độ dài chuỗi tối đa.
 Biểu diễn đầu vào:
 
 $$
+
 X = E_{tok}(w_i) + E_{pos}(i)
+
 $$
 
 Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự mà không cần kiến trúc hồi quy.
@@ -73,11 +79,14 @@ Cách cộng trực tiếp này cho phép mô hình học thông tin thứ tự 
 Layer normalization chuẩn hóa theo chiều embedding:
 
 $$
+
 \hat{x} = \frac{x - \mu}{\sigma + \epsilon}
+
 $$
 
 $$
 y = \gamma \hat{x} + \beta
+
 $$
 
 Trong đó $\mu, \sigma$ được tính theo từng token.
@@ -95,7 +104,9 @@ Tác dụng chính:
 Weight tying ràng buộc:
 
 $$
+
 W_{out} = E_{tok}^T
+
 $$
 
 Trong đó $W_{out}$ là ma trận unembedding.
@@ -115,7 +126,9 @@ Trong đó $W_{out}$ là ma trận unembedding.
 Logits cuối cùng được chuẩn hóa:
 
 $$
+
 z' = \frac{z}{\sqrt{d}}
+
 $$
 
 Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với giả thuyết lý thuyết.
@@ -125,7 +138,9 @@ Mục đích: giữ phương sai logits ở mức ổn định, phù hợp với
 Trong suy luận:
 
 $$
+
 p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
+
 $$
 
 - $T < 1$: sinh văn bản quyết định hơn,
@@ -173,7 +188,9 @@ Scaled Logits
 Loss lý thuyết của mô hình ngẫu nhiên:
 
 $$
+
 \mathcal{L}_{theory} = \log(V)
+
 $$
 
 với (V) là vocab size.
@@ -331,7 +348,6 @@ Các hướng mở rộng:
 
 1. Tài liệu xây dựng GPT-2 mở rộng, Position Embedding, LayerNorm, Weight Tying và Temperature Scaling. 
 
-```
 Dưới đây là phần **Pseudocode + PyTorch Implementation** được viết theo **chuẩn bài báo khoa học**, phù hợp để đưa vào:
 
 ✅ Phần Method / Appendix
@@ -420,7 +436,6 @@ Algorithm 2: Training(D, η, B, E)
 7:          θ ← θ − η∇θL
 8:      end for
 9:  end for
-```
 
 ---
 
@@ -447,7 +462,6 @@ Algorithm 3: Generate(P, T, N)
 8:  end for
 
 9:  return x
-```
 
 ---
 
@@ -459,7 +473,6 @@ Algorithm 3: Generate(P, T, N)
 import torch
 import torch.nn as nn
 import math
-```
 
 ---
 
@@ -491,7 +504,6 @@ class GPTEmbedding(nn.Module):
         pos = self.pos_emb(pos)
 
         return tok + pos
-```
 
 ---
 
@@ -511,7 +523,6 @@ class FeedForward(nn.Module):
 
     def forward(self, x):
         return self.net$x$
-```
 
 ---
 
@@ -550,7 +561,6 @@ class GPTBlock(nn.Module):
         x = x + self.ffn$h$
 
         return x
-```
 
 ---
 
@@ -617,7 +627,6 @@ class MiniGPT(nn.Module):
         logits = self.lm_head$h$
 
         return logits
-```
 
 ---
 
@@ -644,7 +653,6 @@ def train_step(
     optimizer.step()
 
     return loss.item()
-```
 
 ---
 
@@ -691,7 +699,6 @@ def train(
             f"Epoch {epoch}: "
             f"Loss = {total/len(dataloader):.4f}"
         )
-```
 
 ---
 
@@ -739,7 +746,6 @@ def generate(
     return tokenizer.decode(
         ids[0].tolist()
     )
-```
 
 ---
 
@@ -754,19 +760,25 @@ Với:
 Chi phí forward:
 
 $$
+
 O(L \cdot T^2 \cdot d)
+
 $$
 
 Bộ nhớ:
 
 $$
+
 O(L \cdot T \cdot d)
+
 $$
 
 Khi dùng KV-cache:
 
 $$
+
 O(L \cdot T \cdot d)
+
 $$
 
 ---
@@ -778,7 +790,6 @@ $$
 ```python
 torch.manual_seed(42)
 torch.cuda.manual_seed_all(42)
-```
 
 và lưu:
 
@@ -799,8 +810,6 @@ Phụ lục này đã trình bày:
 * Hướng dẫn tái lập.
 
 Phần này có thể sử dụng trực tiếp làm phụ lục kỹ thuật cho bài báo.
-
-```
 
 ---
 <!-- Aero-Footer-Start -->

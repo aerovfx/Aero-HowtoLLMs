@@ -46,7 +46,6 @@ Trong bài học này, chúng ta sẽ xem xét giải pháp cho bài tập nâng
 from datasets import load_dataset
 
 dataset = load_dataset("wmt16", "de-en", split="train[:1%]")
-```
 
 ### 2.2 Bước 2: Tiền Xử Lý
 
@@ -72,7 +71,6 @@ def preprocess_function(examples):
 
 # Áp dụng tiền xử lý
 processed_dataset = dataset.map(preprocess_function, batched=True)
-```
 
 ### 2.3 Bước 3: Tạo TensorFlow Dataset
 
@@ -84,7 +82,6 @@ tf_train = processed_dataset["train"].to_tf_dataset(
     batch_size=32,
     shuffle=True
 )
-```
 
 ### 2.4 Bước 4: Tải và Cấu Hình Mô Hình
 
@@ -97,7 +94,6 @@ model = TFAutoModelForSeq2SeqLM.from_pretrained(model_name)
 # Freeze các lớp đầu
 for layer in model.layers[:3]:
     layer.trainable = False
-```
 
 ### 2.5 Bước 5: Huấn Luyện
 
@@ -114,7 +110,6 @@ model.fit(
     validation_data=tf_test,
     epochs=3
 )
-```
 
 ## 3. Đánh Giá Kết Quả
 
@@ -144,7 +139,6 @@ for i in range(batch_size):
 # Trung bình BLEU
 avg_bleu = sum(bleu_scores) / len(bleu_scores)
 print(f"Average BLEU Score: {avg_bleu:.4f}")
-```
 
 ### 3.2 Kết Quả
 
@@ -172,7 +166,9 @@ Một điểm quan trọng trong bài tập này là chúng ta đang dịch từ
 ### 4.2 Mô Hình Toán Học
 
 $$
+
 \text{BLEU}_{\text{avg}} = \frac{1}{N} \sum_{i=1}^{N} \text{BLEU}(ref_i, hyp_i)
+
 $$
 
 Trong đó:

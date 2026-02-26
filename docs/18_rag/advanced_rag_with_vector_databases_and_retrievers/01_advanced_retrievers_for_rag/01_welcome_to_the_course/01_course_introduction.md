@@ -34,7 +34,9 @@ Chào mừng bạn đến với khóa học về việc sử dụng **cơ sở d
 ### 1.2 Công Thức Cơ Bản
 
 $$
+
 \text{Response} = \text{LLM}( \text{Query}, \text{Context} )
+
 $$
 
 Trong đó:
@@ -62,7 +64,6 @@ retriever = MultiQueryRetriever.from_llm(
 docs = retriever.get_relevant_documents(
     "What are the main benefits of exercise?"
 )
-```
 
 **Lợi ích:**
 - Tăng độ phủ của tìm kiếm
@@ -98,7 +99,6 @@ retriever = SelfQueryRetriever.from_llm(
     metadata_field_info,
     document_contents="Academic papers"
 )
-```
 
 ### 2.3 Parent-Document Retriever
 
@@ -120,7 +120,6 @@ retriever = ParentDocumentRetriever(
     parent_splitter=parent_splitter,
     child_splitter=child_splitter
 )
-```
 
 ## 3. Cơ Sở Dữ Liệu Vector
 
@@ -143,7 +142,6 @@ index.add(vectors)
 # Tìm kiếm
 query = np.random.random((1, dimension)).astype('float32')
 distances, indices = index.search(query, k=10)
-```
 
 **Ưu điểm:**
 - Tìm kiếm nhanh với nhiều chiều
@@ -175,7 +173,6 @@ results = collection.query(
     query_texts=["Search query"],
     n_results=2
 )
-```
 
 ### 3.3 So Sánh FAISS vs ChromaDB
 
@@ -194,7 +191,9 @@ results = collection.query(
 HNSW là thuật toán graph-based cho tìm kiếm gần đúng:
 
 $$
+
 \text{Time Complexity} = O(\log N)
+
 $$
 
 ```python
@@ -218,7 +217,6 @@ index.add_items(vectors, ids)
 
 # Tìm kiếm
 labels, distances = index.knn_query(query, k=10)
-```
 
 **Đặc điểm:**
 - **ef_construction**: Tham số ảnh hưởng đến chất lượng index
@@ -243,7 +241,6 @@ bm25 = BM25Okapi(tokenized_corpus)
 # Query
 query = "search query"
 results = bm25.get_scores(query.split())
-```
 
 ## 5. Đánh Giá Retrieval
 
@@ -277,7 +274,6 @@ results = evaluate(
         context_recall
     ]
 )
-```
 
 ## 6. Ứng Dụng Thực Tế
 
@@ -314,7 +310,6 @@ demo = gr.Interface(
 )
 
 demo.launch()
-```
 
 ### 6.2 Best Practices
 

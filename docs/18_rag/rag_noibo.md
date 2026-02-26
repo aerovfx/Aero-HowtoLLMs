@@ -48,11 +48,9 @@ Nguyên nhân chính:
 
 ### 1️⃣ Pipeline tổng thể
 
-```
 Document → Cleaning → Chunking → Embedding → Vector DB
                                 ↓
 User Query → Embedding → Retrieval → Rerank → LLM → Answer
-```
 
 ---
 
@@ -81,7 +79,6 @@ Mỗi chunk gắn:
   "project": "X",
   "version": "v2.1"
 }
-```
 
 ➡️ Filter trước khi search → giảm nhiễu 40%
 
@@ -106,7 +103,6 @@ Mỗi chunk gắn:
 ```python
 top_k = 20
 filter = {year:2024, project:"X"}
-```
 
 #### Phase 2: Rerank (Cross-Encoder)
 
@@ -121,11 +117,9 @@ filter = {year:2024, project:"X"}
 
 Prompt production:
 
-```
 You are an internal AI assistant.
 Only answer from provided context.
 If info missing, say "Not found in documents".
-```
 
 ➡️ Hallucination giảm ~60%
 
@@ -189,12 +183,10 @@ Output:
 
 🔥 Công thức vàng:
 
-```
 Section + Semantic + Overlap
 + Metadata Filter
 + Rerank
 + Strict Prompt
-```
 
 = RAG mạnh thật sự
 

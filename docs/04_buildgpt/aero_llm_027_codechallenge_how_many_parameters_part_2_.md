@@ -63,7 +63,6 @@ Số tham số trong mỗi tensor được tính bằng:
 
 ```python
 p.numel()
-```
 
 Tổng số tham số cho từng nhóm được cộng dồn trong quá trình lặp qua `named_parameters()` 
 
@@ -74,7 +73,9 @@ Tổng số tham số cho từng nhóm được cộng dồn trong quá trình l
 Do số lượng tham số tuyệt đối giữa các mô hình khác nhau rất lớn, nghiên cứu sử dụng tỷ lệ phần trăm để biểu diễn:
 
 $$
+
 \text{Percentage} = \frac{\text{Parameters of sublayer}}{\text{Total parameters}} \times 100%
+
 $$
 
 Kết quả được thể hiện bằng biểu đồ cột (bar plot) để so sánh trực quan 
@@ -164,7 +165,9 @@ Layer Normalization sử dụng hai tham số chính:
 Công thức:
 
 $$
+
 y = \gamma \frac{x - \mu}{\sigma} + \beta
+
 $$
 
 ---

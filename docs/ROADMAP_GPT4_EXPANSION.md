@@ -35,13 +35,11 @@
 - [ ] Update `Program.ts` để support multiple architectures
 
 **Files cần tạo:**
-```
 src/llm/architectures/
 ├── BaseArchitecture.ts
 ├── Gpt4Architecture.ts
 ├── ClaudeArchitecture.ts
 └── GeminiArchitecture.ts
-```
 
 ### **Milestone 1.2: GPT-4 MoE Visualization** (Tuần 3-6)
 - [ ] Implement Mixture of Experts layer layout
@@ -93,7 +91,6 @@ interface MultimodalInput {
   image?: ImageData;
   audio?: AudioBuffer;
 }
-```
 
 ### **Milestone 2.3: Interactive Comparison Mode** (Tuần 23-26)
 - [ ] Side-by-side architecture view
@@ -192,7 +189,6 @@ interface IModelSpec {
     expertLayout?: 'grid' | 'circular';
   };
 }
-```
 
 ### **2. WebGPU Rendering Pipeline**
 
@@ -222,7 +218,6 @@ class WebGPUModelRenderer {
     this.batchRenderLayers();
   }
 }
-```
 
 ### **3. Progressive Loading Strategy**
 
@@ -242,7 +237,6 @@ class ProgressiveModelLoader {
     yield this.loadDetails();
   }
 }
-```
 
 ---
 

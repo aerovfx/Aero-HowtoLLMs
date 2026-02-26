@@ -70,7 +70,6 @@ index.add(vectors)
 # Tìm kiếm
 query = np.random.random((5, dimension)).astype('float32')
 distances, indices = index.search(query, k=10)
-```
 
 **Đặc điểm:**
 - Độ chính xác tuyệt đối
@@ -95,7 +94,6 @@ index.add(vectors)
 # Tìm kiếm
 index.nprobe = 10  # Số clusters cần tìm
 distances, indices = index.search(query, k=10)
-```
 
 **Đặc điểm:**
 - Nhanh hơn Flat với large datasets
@@ -116,7 +114,6 @@ index.hnsw.efSearch = 50        # Tìm kiếm
 # Add và search
 index.add(vectors)
 distances, indices = index.search(query, k=10)
-```
 
 **Đặc điểm:**
 - Graph-based navigation
@@ -133,7 +130,6 @@ nbits = 32  # Số bits cho mỗi hash
 index = faiss.IndexLSH(dimension, nbits)
 index.add(vectors)
 distances, indices = index.search(query, k=10)
-```
 
 **Đặc điểm:**
 - Hash-based approximate search
@@ -153,7 +149,6 @@ index = faiss.IndexIVFPQ(quantizer, dimension, nlist, m, nbits)
 index.train(vectors)
 index.add(vectors)
 distances, indices = index.search(query, k=10)
-```
 
 **Đặc điểm:**
 - Compression cao
@@ -225,7 +220,6 @@ collection.create_schema(
         {"name": "embedding", "type": "FLOAT_VECTOR", "dim": 128}
     ]
 )
-```
 
 ### 4.2 Sử Dụng FAISS với Milvus
 
@@ -241,7 +235,6 @@ collection.create_index(
     field_name="embedding",
     index_params=index_params
 )
-```
 
 ## 5. Khi Nào Sử Dụng
 
@@ -257,7 +250,6 @@ collection.create_index(
 # Use case: Production với hiệu suất cao
 index = faiss.IndexHNSWFlat(dimension, 32)
 index.hnsw.efSearch = 100
-```
 
 ### 5.2 Chọn ChromaDB Khi:
 
@@ -273,11 +265,9 @@ vectorstore = Chroma.from_documents(
     documents=texts,
     embedding=OpenAIEmbeddings()
 )
-```
 
 ### 5.3 Decision Tree
 
-```
 Start
   │
   ├─> Need metadata filtering?
@@ -292,7 +282,6 @@ Start
   │     │     │     │     └─ No → ChromaDB
   │     │     └─ No → Milvus/Pinecone
   │     └─ No
-```
 
 ## 6. Code Examples
 
@@ -310,7 +299,6 @@ gpu_index = faiss.index_cpu_to_gpu(
 
 # Search trên GPU
 distances, indices = gpu_index.search(query, k=10)
-```
 
 ### 6.2 ChromaDB với Metadata Filtering
 
@@ -334,7 +322,6 @@ results = collection.query(
     n_results=2,
     where={"source": "blog"}
 )
-```
 
 ## 7. Kết Luận
 

@@ -1,73 +1,58 @@
 import os
 import re
 
-def fix_math_academic_v2(content):
-    # 1. Chuyển đổi các khối [ ] hoặc \[ \] sang $$ trước
-    content = re.sub(r'\\\[([\s\S]*?)\\\]', lambda m: f"\n\n$$\n{m.group(1).strip()}\n$$\n\n", content)
-    
-    # 2. Xóa bỏ các tham chiếu rác :contentReference[oaicite:...]
-    content = re.sub(r':contentReference\[oaicite:\d+\]\{index=\d+\}', '', content)
-    content = re.sub(r'\[\d+\] Model 3: One Attention Head, 2024\. :contentReference\[oaicite:\d+\]\{index=\d+\}', '', content)
-
-    # 3. Xử lý các dòng "=====" bên trong khối $$ (biến thành single =)
-    def replace_long_equals(match):
-        inner = match.group(1)
-        inner = re.sub(r'\n\s*={3,}\s*\n', '\n = \n', inner)
-        return f"$$\n{inner.strip()}\n$$"
-    content = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', replace_long_equals, content)
-
-    # 4. Đặc trị khối cases (đảm bảo xuống dòng \\ kép)
-    def fix_cases(match):
-        inner = match.group(0)
-        # Nếu chỉ có \ đơn ở cuối dòng trong cases, chuyển thành \\
-        # (Nhưng cẩn thận không làm hỏng \le, \infty)
-        return inner.replace('\\ \n', '\\\\ \n').replace('\\\n', '\\\\ \n')
-    
-    # Chỉ áp dụng bên trong khối $$
-    # content = re.sub(r'\\begin\{cases\}[\s\S]*?\\end\{cases\}', fix_cases, content)
-
-    # 5. Thuật toán dọn dẹp dòng trống nội bộ (Line-by-line)
+def fix_content_structure(content):
+    # 1. Loại bỏ các khối ```md và ``` bao ngoài nếu chúng không phục vụ mục đích code block thực tế
+    # Đối với các file tài liệu, ta thường muốn nội dung hiển thị trực tiếp.
     lines = content.split('\n')
     new_lines = []
-    in_math_block = False
-    math_buffer = []
     
+    # Những dòng markdown "giả" cần xóa
     for line in lines:
-        stripped = line.strip()
-        if stripped == '$$':
-            if not in_math_block:
-                in_math_block = True
-                math_buffer = ['$$']
-            else:
-                in_math_block = False
-                math_buffer.append('$$')
-                # Làm sạch buffer
-                cleaned_block = [math_buffer[0]]
-                for m_line in math_buffer[1:-1]:
-                    if m_line.strip():
-                        cleaned_block.append(m_line)
-                cleaned_block.append(math_buffer[-1])
-                
-                # Đảm bảo có dòng trống trước
-                if new_lines and new_lines[-1].strip():
-                    new_lines.append('')
-                
-                new_lines.extend(cleaned_block)
-                # Đảm bảo có dòng trống sau
-                new_lines.append('')
-                math_buffer = []
-        else:
-            if in_math_block:
-                math_buffer.append(line)
-            else:
-                new_lines.append(line)
+        s = line.strip()
+        if s == '```md' or s == '```':
+            # Kiểm tra xem đây là mở một code block thực tế hay chỉ là bao ngoài
+            # Trong ngữ cảnh này, ta tàm thời xóa hết các thẻ md bao ngoài
+            continue
+        new_lines.append(line)
     
     content = '\n'.join(new_lines)
 
-    # 6. Dọn dẹp dòng trống dư thừa
+    # 2. Xóa bỏ các tham chiếu rác :contentReference[oaicite:...]
+    content = re.sub(r':contentReference\[oaicite:\d+\]\{index=\d+\}', '', content)
+    
+    # 3. Chuyển đổi các khối [ ] hoặc \[ \] sang $$
+    # Dùng regex cẩn thận để tránh bắt nhầm
+    content = re.sub(r'\\\[([\s\S]*?)\\\]', lambda m: f"\n\n$$\n{m.group(1).strip()}\n$$\n\n", content)
+    
+    return content
+
+def fix_math_ultra_clean(content):
+    # Xử lý cấu trúc bao và rác trước
+    content = fix_content_structure(content)
+
+    # Thuật toán xử lý dòng trống nội bộ và GHÉP DÒNG toán học
+    # Tìm tất cả khối $$ ... $$
+    def clean_math(match):
+        inner = match.group(1).strip()
+        # Ghép thành 1 dòng
+        formula = " ".join([l.strip() for l in inner.split('\n') if l.strip()])
+        # Sửa lỗi dấu bằng ASCII
+        formula = re.sub(r'={3,}', '=', formula)
+        # Sửa lỗi attention specific (đảm bảo softmax dính liền hoặc cách 1 khoảng)
+        formula = formula.replace('softmax (', 'softmax(')
+        return f"$$\n{formula}\n$$"
+
+    content = re.sub(r'\$\$\s*([\s\S]*?)\s*\$\$', clean_math, content)
+
+    # Đảm bảo có dòng trống BÊN NGOÀI $$ (trước và sau)
+    content = re.sub(r'([^\n])\n*\s*\$\$', r'\1\n\n$$', content)
+    content = re.sub(r'\$\$\n*\s*([^\n])', r'$$\n\n\1', content)
+
+    # Dọn dẹp dòng trống dư thừa
     content = re.sub(r'\n{3,}', '\n\n', content)
     
-    # 7. Sửa lỗi chính tả
+    # Sửa lỗi chính tả
     content = content.replace("Ave18_rage", "Average")
     
     return content
@@ -78,16 +63,19 @@ def run_fix(directory):
         for file in files:
             if file.endswith(".md"):
                 path = os.path.join(root, file)
-                with open(path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                
-                fixed = fix_math_academic_v2(content)
-                
-                if fixed != content:
-                    with open(path, 'w', encoding='utf-8') as f:
-                        f.write(fixed)
-                    count += 1
-                    print(f"Fixed: {path}")
+                try:
+                    with open(path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    
+                    fixed = fix_math_ultra_clean(content)
+                    
+                    if fixed != content:
+                        with open(path, 'w', encoding='utf-8') as f:
+                            f.write(fixed)
+                        count += 1
+                        print(f"Fixed: {path}")
+                except Exception as e:
+                    print(f"Error processing {path}: {e}")
     print(f"Total files updated: {count}")
 
 if __name__ == "__main__":
