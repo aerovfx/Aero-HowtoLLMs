@@ -90,7 +90,7 @@ $$
 
 Giả sử:
 
-- Từ vựng ban đầu: $\midV_0\mid = C$
+- Từ vựng ban đầu: $|V_0\mid = C$
 - Số vòng gộp: $M$
 
 Khi đó:

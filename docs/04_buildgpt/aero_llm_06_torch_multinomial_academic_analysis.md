@@ -1632,13 +1632,13 @@ $$
 counts_np_weighted = Counter(samples_np_weighted)
 
 $$
-freq_np_weighted = {k: v/n_samples for k, v in counts_np_weighted.items()} print("Value | PyTorch | NumPy Uniform | NumPy Weighted") print("-" * 60) for i, val in enumerate(values): pt = freq_pt.get(i, 0)
+freq_np_weighted = {k: v/n_samples for k, v in counts_np_weighted.items()} print("Value \mid PyTorch \mid NumPy Uniform \mid NumPy Weighted") print("-" * 60) for i, val in enumerate(values): pt = freq_pt.get(i, 0)
 $$
 
 np_u = freq_np_uniform.get(val, 0)
 
 $$
-np_w = freq_np_weighted.get(val, 0) print(f" {val:.1f}  |  {pt:.4f}  |    {np_u:.4f}    |    {np_w:.4f}") print() @staticmethod def test_error_cases(): """Demonstrate common errors""" print("Test 6: Error Cases") print("-" * 50) # Error 1: List instead of tensor try: torch.multinomial([1.0, 2.0, 5.0], 1) print("✗ List error not caught!") except TypeError: print("✓ List input correctly rejected") # Error 2: Integer dtype try: torch.multinomial(torch.tensor([1, 2, 5]), 1) print("✗ Integer dtype error not caught!") except RuntimeError: print("✓ Integer dtype correctly rejected") # Error 3: Negative values try: torch.multinomial(torch.tensor([1.0, -1.0, 5.0]), 1) print("✗ Negative value error not caught!") except RuntimeError: print("✓ Negative values correctly rejected") # Error 4: Over-sampling without replacement try: torch.multinomial(torch.tensor([1.0, 2.0, 5.0]), 10, replacement=False) print("✗ Over-sampling error not caught!") except RuntimeError: print("✓ Over-sampling correctly rejected") print() # Run all tests
+np_w = freq_np_weighted.get(val, 0) print(f" {val:.1f}  \mid  {pt:.4f}  \mid    {np_u:.4f}    \mid    {np_w:.4f}") print() @staticmethod def test_error_cases(): """Demonstrate common errors""" print("Test 6: Error Cases") print("-" * 50) # Error 1: List instead of tensor try: torch.multinomial([1.0, 2.0, 5.0], 1) print("✗ List error not caught!") except TypeError: print("✓ List input correctly rejected") # Error 2: Integer dtype try: torch.multinomial(torch.tensor([1, 2, 5]), 1) print("✗ Integer dtype error not caught!") except RuntimeError: print("✓ Integer dtype correctly rejected") # Error 3: Negative values try: torch.multinomial(torch.tensor([1.0, -1.0, 5.0]), 1) print("✗ Negative value error not caught!") except RuntimeError: print("✓ Negative values correctly rejected") # Error 4: Over-sampling without replacement try: torch.multinomial(torch.tensor([1.0, 2.0, 5.0]), 10, replacement=False) print("✗ Over-sampling error not caught!") except RuntimeError: print("✓ Over-sampling correctly rejected") print() # Run all tests
 $$
 
 if __name__ == "__main__":

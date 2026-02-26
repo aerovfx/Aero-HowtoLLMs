@@ -860,7 +860,7 @@ loss = loss_fn(
 if step % config.eval_interval == 0:
 
 $$
-val_loss = estimate_loss( model, val_loader, loss_fn, config.device ) print( f"Epoch {epoch} | Step {step} " f"| Train {loss:.4f} " f"| Val {val_loss:.4f}" )
+val_loss = estimate_loss( model, val_loader, loss_fn, config.device ) print( f"Epoch {epoch} \mid Step {step} " f"| Train {loss:.4f} " f"| Val {val_loss:.4f}" )
 $$
 
 step += 1

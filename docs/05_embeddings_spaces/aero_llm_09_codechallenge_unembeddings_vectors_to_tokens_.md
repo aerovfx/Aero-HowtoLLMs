@@ -42,7 +42,7 @@ g: \mathbb{R}^d \rightarrow \mathbb{R}^{|\mathcal{V}|}
 
 ## 2. Embedding: Từ token đến vector
 
-Giả sử từ vựng có kích thước $\midV\mid$, ma trận embedding:
+Giả sử từ vựng có kích thước $|V\mid$, ma trận embedding:
 
 E \in \mathbb{R}^{|V| \times d}
 

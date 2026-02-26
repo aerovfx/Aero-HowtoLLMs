@@ -60,7 +60,7 @@ x \approx \sum_{i=1}^{M} c_i W_{in}^T W_{out} \cdot e_i
 Thay vì mỗi neuron biểu diễn 1 khái niệm, $N$ neuron sẽ biểu diễn một tổ hợp $M$ tính năng kích hoạt thưa (sparse features) bằng cách giải bài toán tối ưu hoá tối đa:
 
 $$
-\mathcal{L} = \mathbb{E}_{x} \left[ \left\| x - \sum_{i=1}^{m} f_i(x) d_i \right\|^2_2 + \lambda \sum_{i=1}^{m} | f_i(x) | \right]
+\mathcal{L} = \mathbb{E}_{x} \left[ \left\| x - \sum_{i=1}^{m} f_i(x) d_i \right\|^2_2 + \lambda \sum_{i=1}^{m} \mid f_i(x) \mid \right]
 $$
 
 Hệ quả là, các khái niệm an toàn, hành vi độc hại hay đạo đức bị ép chặt lên nhau vào cùng một cụm tham số vector ảo $d_i$. Nghĩa là việc bóc tách một hành vi xấu (như ý định tống tiền) mà không làm tổn thương năng lực nói chung của AI gặp sự nhiễu loạn đa chiều (interference). Do đó, sự phát triển quy mô (Scaling) vô tình kích hoạt sự chống đối lại tính minh bạch của chính mô hình đó.

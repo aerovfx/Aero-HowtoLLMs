@@ -50,7 +50,7 @@ T: \mathcal{X} \rightarrow V^T
 
 Trong đó:
 
-* V: từ vựng có kích thước \midV\mid = N
+* V: từ vựng có kích thước |V\mid = N
 
 $$
 * (T(x) = (t_1, t_2, ..., t_T)) Mỗi token t_i \in {1,2,...,N} --- ## 2.2. Embedding Ma trận embedding: E \in \mathbb{R}^{N \times d} Vector của token thứ i: e_i = E[t_i] Chuỗi đầu vào: Z = (e_1, e_2, ..., e_T) --- # 3. Thêm thông tin vị trí Transformer không có RNN hay CNN nên cần positional encoding: z_i = e_i + p_i Trong GPT: p_i \in \mathbb{R}^d được học trực tiếp. --- # 4. Trực quan hóa không gian token

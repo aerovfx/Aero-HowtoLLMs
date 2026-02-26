@@ -65,7 +65,7 @@ E \in \mathbb{R}^{|V| \times d}
 
 Trong đó:
 
-- $\midV\mid$: kích thước từ vựng
+- $|V\mid$: kích thước từ vựng
 - $d$: số chiều embedding
 
 Vector embedding được tính:

@@ -70,6 +70,7 @@ Tổng số tham số được tính bằng cách lặp qua `model.parameters()`
 ```python
 
 total = sum(p.numel() for p in model.parameters())
+```
 
 Phương pháp này cho phép đếm chính xác toàn bộ tham số có thể huấn luyện. 
 

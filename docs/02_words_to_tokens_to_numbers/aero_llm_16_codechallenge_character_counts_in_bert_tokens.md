@@ -49,7 +49,7 @@ Mục tiêu nghiên cứu:
 
 Gọi:
 * $V$: tập từ vựng BERT
-* $\midV\mid \approx 30{,}000$
+* $|V\mid \approx 30{,}000$
 * $N_k$: số token có độ dài ký tự bằng $k$
 
 Xác suất:

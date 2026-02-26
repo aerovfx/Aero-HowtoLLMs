@@ -3,14 +3,19 @@ import re
 
 def fix_content_structure(content):
     # 1. Loại bỏ các khối ```md và ``` bao ngoài
+    # Chỉ xóa nếu nó bao quanh phần lớn nội dung
     lines = content.split('\n')
-    if len(lines) > 5:
-        filtered_lines = []
-        for line in lines:
-            if line.strip() in ['```md', '```']:
-                continue
-            filtered_lines.append(line)
-        content = '\n'.join(filtered_lines)
+    if len(lines) > 10:
+        # Nếu dòng đầu là ```md hoặc ``` và dòng cuối (hoặc gần cuối) cũng thế
+        # Chúng ta sẽ xóa chúng.
+        if lines[0].strip() in ['```md', '```']:
+            lines = lines[1:]
+        if lines[-1].strip() in ['```md', '```']:
+            lines = lines[:-1]
+        elif len(lines) > 1 and lines[-2].strip() in ['```md', '```'] and lines[-1].strip() == '':
+            lines = lines[:-2]
+            
+        content = '\n'.join(lines)
 
     # 2. Xóa tham chiếu oaicite
     content = re.sub(r':contentReference\[oaicite:\d+\]\{index=\d+\}', '', content)
@@ -23,7 +28,7 @@ def fix_content_structure(content):
 def fix_math_ultra_clean(content):
     content = fix_content_structure(content)
 
-    # Dọn dẹp sơ bộ các lỗi lặp $$ do các lần chạy trước
+    # Dọn dẹp sơ bộ các lỗi lặp $$
     content = re.sub(r'\$\$\s*\$\$', '', content)
     content = re.sub(r'\$\$\s*\n\s*\$\$', '', content)
 
@@ -40,14 +45,26 @@ def fix_math_ultra_clean(content):
                 math_buffer = []
             else:
                 in_math_block = False
-                # Xử lý nội dung toán học
-                formula = " ".join([l.strip() for l in math_buffer if l.strip()])
-                if not formula:
-                    continue # Bỏ qua khối rỗng
+                
+                # CHẾ ĐỘ THÔNG MINH: Giữ xuống dòng nếu có \\ hoặc \begin
+                math_content = "\n".join(math_buffer).strip()
+                if not math_content:
+                    continue
+                
+                if '\\\\' in math_content or '\\begin' in math_content:
+                    # Giữ nguyên cấu trúc dòng cho cases, align, v.v.
+                    formula = "\n".join([l.strip() for l in math_buffer if l.strip()])
+                else:
+                    # Ghép thành một dòng cho các công thức đơn giản
+                    formula = " ".join([l.strip() for l in math_buffer if l.strip()])
                 
                 # Biến đổi chuẩn hóa
                 formula = re.sub(r'={3,}', '=', formula)
+                
+                # SỬA LỖI \mid: Chỉ thay | nếu là xác suất P(A|B) hoặc đứng giữa khoảng trắng
                 formula = re.sub(r'P\(([^)]*?)\|([^)]*?)\)', r'P(\1 \\mid \2)', formula)
+                formula = re.sub(r'(?<=\s)\|(?=\s)', r'\\mid', formula)
+                
                 formula = re.sub(r'\{(.*?)\<(.*?)\}', r'{\1\\lt \2}', formula)
                 formula = formula.replace('^*', '^{\\ast}')
                 formula = formula.replace('$', '') # Xóa dấu $ kẹt bên trong
@@ -64,10 +81,11 @@ def fix_math_ultra_clean(content):
             if in_math_block:
                 math_buffer.append(line)
             else:
-                # Sửa inline math: các ký tự lén lút
+                # Sửa inline math
                 def fix_inline(m):
                     inner = m.group(0)
-                    inner = inner.replace('|', '\\mid')
+                    # Không thay | bừa bãi trong inline vì hay gặp |V|
+                    inner = re.sub(r'P\(([^)]*?)\|([^)]*?)\)', r'P(\1 \\mid \2)', inner)
                     inner = re.sub(r'\{(.*?)\<(.*?)\}', r'{\1\\lt \2}', inner)
                     inner = inner.replace('^*', '^{\\ast}')
                     return inner
@@ -78,13 +96,14 @@ def fix_math_ultra_clean(content):
     content = '\n'.join(new_lines)
     content = re.sub(r'\n{3,}', '\n\n', content)
     
-    # Sửa lỗi đặc biệt cho file BERT Character Counts mà tác giả viết kiểu P$L=k$
-    # Ta chỉ sửa nếu thấy signature "P$..." hoặc "O$..."
+    # Sửa lỗi lười
     content = re.sub(r'P\$([\s\S]*?)\$', r'$P(\1)$', content)
     content = re.sub(r'O\$([\s\S]*?)\$', r'$O(\1)$', content)
     content = re.sub(r'\\ell\$([\s\S]*?)\$', r'\\ell(\1)', content)
     
     content = content.replace("Ave18_rage", "Average")
+    content = content.replace("\\midV", "|V") # Sửa lỗi cũ
+    content = content.replace("\\mid V", "|V") # Sửa lỗi cũ
     
     return content
 

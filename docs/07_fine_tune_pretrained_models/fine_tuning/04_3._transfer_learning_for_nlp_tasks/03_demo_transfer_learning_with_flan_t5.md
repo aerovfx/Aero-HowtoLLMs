@@ -116,7 +116,7 @@ validation_data=tf_test,
 epochs=3
 
 $$
-) ### 3.3 Đánh Giá | Epoch | Training Loss | Validation Loss | |-------|--------------|-----------------| | 1     | 2.5          | 1.8             | | 2     | 1.5          | 1.2             | | 3     | 0.77         | 0.9             | **Nhận xét:** - Loss giảm đều qua các epoch - Validation loss không tăng (không overfitting) - Mô hình học tốt tác vụ dịch thuật ## 4. Dịch Thuật Với Mô Hình Đã Fine-tune ### 4.1 Inference ```python def translate(text): # Tạo prompt prompt = f"translate English to Spanish: {text}" # Tokenize inputs = tokenizer(prompt, return_tensors="tf") # Generate outputs = model.generate(**inputs, max_length=128) # Decode return tokenizer.decode(outputs[0], skip_special_tokens=True) # Ví dụ input_text = "Bird, you don't have to be super brave all the time."
+) ### 3.3 Đánh Giá \mid Epoch \mid Training Loss |Validation Loss \mid |-------|--------------|-----------------| \mid 1     \mid 2.5          \mid 1.8             \mid \mid 2     \mid 1.5          \mid 1.2             \mid \mid 3     \mid 0.77         \mid 0.9             \mid **Nhận xét:** - Loss giảm đều qua các epoch - Validation loss không tăng (không overfitting) - Mô hình học tốt tác vụ dịch thuật ## 4. Dịch Thuật Với Mô Hình Đã Fine-tune ### 4.1 Inference ```python def translate(text): # Tạo prompt prompt = f"translate English to Spanish: {text}" # Tokenize inputs = tokenizer(prompt, return_tensors="tf") # Generate outputs = model.generate(**inputs, max_length=128) # Decode return tokenizer.decode(outputs[0], skip_special_tokens=True) # Ví dụ input_text = "Bird, you don't have to be super brave all the time."
 $$
 
 translation = translate(input_text)

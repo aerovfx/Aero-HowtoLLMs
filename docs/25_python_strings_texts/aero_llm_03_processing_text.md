@@ -150,7 +150,7 @@ $$
 word = "Hello123"
 
 $$
-print(word.isalpha())    # False — có chứa số print(word.isdigit())    # False — không phải toàn số print(word.isalnum())    # True — chữ cái + số print("  ".isspace())    # True — toàn khoảng trắng --- ## 5. Ký tự Điều khiển (Control Characters) `string.whitespace` bao gồm các ký tự **"vô hình"** thường gây lỗi khi xử lý dữ liệu: | Ký tự | Tên | Ý nghĩa | |-------|-----|---------| | `' '` | Space | Khoảng trắng thông thường | | `'\t'` | Tab | Khoảng cách ngang | | `'\n'` | Newline | Xuống dòng | | `'\r'` | Carriage Return | Về đầu dòng (Windows) | | `'\f'` | Form Feed | Sang trang | | `'\v'` | Vertical Tab | Tab dọc | **Xử lý newline trong văn bản nhiều dòng:** ```python
+print(word.isalpha())    # False — có chứa số print(word.isdigit())    # False — không phải toàn số print(word.isalnum())    # True — chữ cái + số print("  ".isspace())    # True — toàn khoảng trắng --- ## 5. Ký tự Điều khiển (Control Characters) `string.whitespace` bao gồm các ký tự **"vô hình"** thường gây lỗi khi xử lý dữ liệu: \mid Ký tự \mid Tên \mid Ý nghĩa \mid |-------|-----|---------| \mid `' '` \mid Space \mid Khoảng trắng thông thường \mid \mid `'\t'` \mid Tab \mid Khoảng cách ngang \mid \mid `'\n'` \mid Newline \mid Xuống dòng \mid \mid `'\r'` \mid Carriage Return |Về đầu dòng (Windows) \mid \mid `'\f'` \mid Form Feed \mid Sang trang \mid \mid `'\v'` |Vertical Tab \mid Tab dọc \mid **Xử lý newline trong văn bản nhiều dòng:** ```python
 $$
 
 multiline = "Line 1\nLine 2\nLine 3"

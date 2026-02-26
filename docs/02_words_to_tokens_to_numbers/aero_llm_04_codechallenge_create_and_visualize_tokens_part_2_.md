@@ -89,7 +89,7 @@ $$
 Z^{(l)}
 
 $$
-Khoảng cách giữa hai layer: \Delta^{(l)} = | Z^{(l)} - Z^{(l-1)} | Quan sát thực nghiệm: * Layer đầu → cú pháp * Layer giữa → ngữ nghĩa * Layer cuối → dự đoán xác suất --- # 8. Liên hệ với mô hình tự hồi quy GPT tối ưu: P(x) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t}) Logits: \text{logits} = Z^{(L)} W_{out} Softmax: P(x_t  \mid  x_{\lt t}) = \frac {\exp(z_t W_{out})} {\sum_j \exp(z_j W_{out})} Việc trực quan hóa logits cho thấy: * Phân phối xác suất * Độ chắc chắn của mô hình --- # 9. Phân tích độ phức tạp Self-attention:
+Khoảng cách giữa hai layer: \Delta^{(l)} = \mid Z^{(l)} - Z^{(l-1)} \mid Quan sát thực nghiệm: * Layer đầu → cú pháp * Layer giữa → ngữ nghĩa * Layer cuối → dự đoán xác suất --- # 8. Liên hệ với mô hình tự hồi quy GPT tối ưu: P(x) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t}) Logits: \text{logits} = Z^{(L)} W_{out} Softmax: P(x_t  \mid  x_{\lt t}) = \frac {\exp(z_t W_{out})} {\sum_j \exp(z_j W_{out})} Việc trực quan hóa logits cho thấy: * Phân phối xác suất * Độ chắc chắn của mô hình --- # 9. Phân tích độ phức tạp Self-attention:
 $$
 
 $\mathcal${O}(L T^2 d)

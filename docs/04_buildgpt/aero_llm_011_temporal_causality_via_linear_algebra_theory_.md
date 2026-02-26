@@ -528,7 +528,7 @@ def generate_incremental_mask(
 total = past_len + current_len
 
 $$
-mask = torch.triu( torch.ones(current_len, total), diagonal=1 + past_len ) return mask.bool().to(device) --- ### Công dụng Dùng cho sinh từng token: ```text Past tokens | New token Chỉ cho phép new token nhìn về quá khứ. --- ## B.8. Ví dụ Hoàn chỉnh --- ### B.8.1. Demo Attention với Mask ```python def demo():
+mask = torch.triu( torch.ones(current_len, total), diagonal=1 + past_len ) return mask.bool().to(device) --- ### Công dụng Dùng cho sinh từng token: ```text Past tokens \mid New token Chỉ cho phép new token nhìn về quá khứ. --- ## B.8. Ví dụ Hoàn chỉnh --- ### B.8.1. Demo Attention với Mask ```python def demo():
 $$
 
 B = 2
