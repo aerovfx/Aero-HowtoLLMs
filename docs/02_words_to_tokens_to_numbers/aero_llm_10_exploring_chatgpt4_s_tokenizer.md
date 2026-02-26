@@ -63,11 +63,11 @@ Tần suất xuất hiện của cặp ký tự (a,b):
 
 Cặp được chọn để gộp:
 
-(a^*, b^*) = \arg\max_{(a,b)} \text{freq}(a,b)
+(a^{\ast}, b^{\ast}) = \arg\max_{(a,b)} \text{freq}(a,b)
 
 Sau mỗi bước gộp, từ vựng được cập nhật:
 
-V_{k+1} = V_k \cup \{ a^*b^* \}
+V_{k+1} = V_k \cup \{ a^{\ast}b^{\ast} \}
 
 ⸻
 

@@ -48,7 +48,7 @@ Mục tiêu nghiên cứu:
 Cho mô hình tiền huấn luyện với tham số (\theta_0). Fine-tuning nhằm tìm:
 
 $$
-\theta^*=\arg\min_{\theta}L(\theta;D_{task})
+\theta^{\ast}=\arg\min_{\theta}L(\theta;D_{task})
 $$
 
 Trong đó (D_{task}) là tập dữ liệu mục tiêu.

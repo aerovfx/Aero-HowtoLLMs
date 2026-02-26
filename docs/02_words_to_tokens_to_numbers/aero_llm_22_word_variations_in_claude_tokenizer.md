@@ -30,12 +30,12 @@ Dựa trên tài liệu đính kèm “Word Variations in Claude Tokenizer”, b
 
 Tokenizer là hàm ánh xạ:
 
-\mathcal{T}: \Sigma^* \rightarrow V^*
+\mathcal{T}: \Sigma^{\ast} \rightarrow V^{\ast}
 
 Trong đó:
 	•	\Sigma: bảng ký tự
 	•	V: tập token
-	•	V^*: chuỗi token
+	•	V^{\ast}: chuỗi token
 
 Một từ có nhiều biến thể hình thái:
 

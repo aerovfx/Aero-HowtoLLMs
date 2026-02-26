@@ -106,7 +106,7 @@ Hàm mất mát:
 
 Tối ưu:
 
-\theta^* = \arg\min_\theta D_{KL}(P_{data} \| P_\theta)
+\theta^{\ast} = \arg\min_\theta D_{KL}(P_{data} \| P_\theta)
 
 ⸻
 

@@ -30,7 +30,7 @@ Dựa trên tài liệu đính kèm “Tokenization in Different Languages”, b
 
 Tokenization ánh xạ chuỗi ký tự:
 
-x \in \Sigma^*
+x \in \Sigma^{\ast}
 
 thành chuỗi token:
 

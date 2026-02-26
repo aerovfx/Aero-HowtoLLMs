@@ -96,7 +96,7 @@ $$
 Mục tiêu:
 
 $$
-\theta^* = \arg\min_{\theta} \mathcal{L}(\theta)
+\theta^{\ast} = \arg\min_{\theta} \mathcal{L}(\theta)
 $$
 
 ---

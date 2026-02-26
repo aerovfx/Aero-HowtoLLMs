@@ -37,14 +37,14 @@ $$
 Tokenization thực hiện ánh xạ:
 
 $$
-\tau : \Sigma^* \rightarrow V^*
+\tau : \Sigma^{\ast} \rightarrow V^{\ast}
 $$
 
 trong đó:
 
 * (\Sigma): tập ký tự
 * (V): từ vựng token
-* (V^*): chuỗi token
+* (V^{\ast}): chuỗi token
 
 Ví dụ với *The Time Machine*:
 
@@ -324,7 +324,7 @@ Thông qua ví dụ *The Time Machine*, ta thấy:
 Toàn bộ quá trình có thể được mô hình hóa:
 
 $$
-\Sigma^* \xrightarrow{\tau} V^* \xrightarrow{E} \mathbb{R}^{T \times d}
+\Sigma^{\ast} \xrightarrow{\tau} V^{\ast} \xrightarrow{E} \mathbb{R}^{T \times d}
 $$
 
 đóng vai trò nền tảng cho mọi mô hình Transformer hiện đại.

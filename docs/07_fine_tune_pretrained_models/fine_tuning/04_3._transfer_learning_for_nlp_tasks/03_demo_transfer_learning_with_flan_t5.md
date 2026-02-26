@@ -190,7 +190,7 @@ Trong đó:
 
 Hiệu quả của transfer learning có thể được biểu diễn:
 
-$$\eta_{TL} = \frac{||\theta^*_{new} - \theta_{pre}||}{||\theta_{new}||} \times 100\%$$
+$$\eta_{TL} = \frac{||\theta^{\ast}_{new} - \theta_{pre}||}{||\theta_{new}||} \times 100\%$$
 
 Với LoRA, $\eta_{TL}$ thường < 5%, cho thấy chỉ một phần nhỏ tham số cần được điều chỉnh.
 

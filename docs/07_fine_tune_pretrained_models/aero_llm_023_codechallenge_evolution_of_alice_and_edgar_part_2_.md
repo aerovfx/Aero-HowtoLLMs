@@ -55,7 +55,7 @@ Trong đó:
 Mục tiêu huấn luyện:
 
 $$
-\theta^*=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
+\theta^{\ast}=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
 $$
 
 ---

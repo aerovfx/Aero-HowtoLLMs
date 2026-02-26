@@ -30,7 +30,7 @@ f_\theta : X \rightarrow Y
 
 Mục tiêu là tìm tham số \theta tối ưu:
 
-\theta^* = \arg\min_\theta \mathbb{E}_{(x,y)\sim D}
+\theta^{\ast} = \arg\min_\theta \mathbb{E}_{(x,y)\sim D}
 \left[
 \mathcal{L}(f_\theta(x), y)
 \right]

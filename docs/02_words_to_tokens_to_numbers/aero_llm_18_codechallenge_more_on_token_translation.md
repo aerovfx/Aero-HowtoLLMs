@@ -30,16 +30,16 @@ Dựa trên tài liệu đính kèm “More on Token Translation”, bài viết
 
 Tokenization định nghĩa một phép mã hóa:
 
-\mathcal{T}: \Sigma^* \rightarrow V^*
+\mathcal{T}: \Sigma^{\ast} \rightarrow V^{\ast}
 
 với:
 	•	\Sigma: bảng chữ cái ký tự
 	•	V: tập token
-	•	V^*: chuỗi token
+	•	V^{\ast}: chuỗi token
 
 Khi tồn tại hai tokenizer \mathcal{T}_A và \mathcal{T}_B, bài toán đặt ra là xây dựng ánh xạ:
 
-\Phi_{A \to B}: V_A^* \rightarrow V_B^*
+\Phi_{A \to B}: V_A^{\ast} \rightarrow V_B^{\ast}
 
 sao cho bảo toàn nội dung ngữ nghĩa và hạn chế sai số thông tin.
 
@@ -52,7 +52,7 @@ Cách tự nhiên nhất:
 \Phi_{A \to B} = \mathcal{T}_B \circ \mathcal{D}_A
 
 Trong đó:
-	•	\mathcal{D}_A: V_A^* \rightarrow \Sigma^* là hàm giải mã
+	•	\mathcal{D}_A: V_A^{\ast} \rightarrow \Sigma^{\ast} là hàm giải mã
 
 Khi tokenizer khả nghịch:
 

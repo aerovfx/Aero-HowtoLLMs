@@ -59,7 +59,7 @@ Trong đó (\theta) là tham số mô hình.
 Mục tiêu huấn luyện:
 
 $$
-\theta^*=\arg\min_\theta \mathcal{L}
+\theta^{\ast}=\arg\min_\theta \mathcal{L}
 $$
 
 ---

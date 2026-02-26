@@ -33,9 +33,9 @@ Trong đó:
 	•	Y là không gian đầu ra
 	•	\theta là tập tham số của mô hình
 
-Quá trình huấn luyện nhằm tìm ra bộ tham số \theta^* sao cho hàm mất mát được tối thiểu hóa:
+Quá trình huấn luyện nhằm tìm ra bộ tham số \theta^{\ast} sao cho hàm mất mát được tối thiểu hóa:
 
-\theta^* = \arg\min_\theta \mathcal{L}(\theta)
+\theta^{\ast} = \arg\min_\theta \mathcal{L}(\theta)
 
 ⸻
 

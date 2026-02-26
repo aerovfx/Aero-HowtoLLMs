@@ -1,4 +1,3 @@
-
 <!-- Aero-Navigation-Start -->
 [🏠 Home](../index.md) > [02 words to tokens to numbers](index.md)
 
@@ -46,10 +45,10 @@ $$
 thì tokenizer ánh xạ:
 
 $$
-\tau: \Sigma^* \rightarrow \mathbb{Z}^m
+\tau: \Sigma^{\ast} \rightarrow \mathbb{Z}^m
 $$
 
-với (\Sigma) là bảng chữ cái và (\mathbb{Z}^m) là chuỗi ID token.
+với $\Sigma$ là bảng chữ cái và $\mathbb{Z}^m$ là chuỗi ID token.
 
 ---
 
@@ -112,7 +111,7 @@ Giải pháp:
 Chia thành token:
 
 $$
-X = (w_1, w_2, \dots, w_m), \quad m < n
+X = (w_1, w_2, \dots, w_m), \quad m \lt n
 $$
 
 Giảm độ dài chuỗi và tăng tính biểu diễn.
@@ -128,7 +127,7 @@ BPE được giới thiệu cho NLP bởi Sennrich et al. (2016).
 Ban đầu:
 
 $$
-V_0 = { \text{tập ký tự đơn} }
+V_0 = \{ \text{tập ký tự đơn} \}
 $$
 
 Lặp:
@@ -137,7 +136,7 @@ Lặp:
 2. Gộp thành token mới
 3. Cập nhật từ vựng
 
-Giả sử tần suất cặp ((a,b)):
+Giả sử tần suất cặp $(a,b)$:
 
 $$
 f(a,b) = \sum_{i} \mathbb{I}[(a,b) \in X_i]
@@ -146,13 +145,13 @@ $$
 Chọn:
 
 $$
-(a^*, b^*) = \arg\max_{a,b} f(a,b)
+(a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b)
 $$
 
 Cập nhật:
 
 $$
-V_{k+1} = V_k \cup {ab}
+V_{k+1} = V_k \cup \{ab\}
 $$
 
 ---
@@ -162,7 +161,7 @@ $$
 Sau tokenization:
 
 $$
-w_i \rightarrow id_i \in {1, \dots, |V|}
+w_i \rightarrow id_i \in \{1, \dots, |V|\}
 $$
 
 Embedding matrix:
@@ -189,8 +188,8 @@ $$
 
 Nếu:
 
-* (N) là số ký tự
-* (V) là kích thước từ vựng
+* $N$ là số ký tự
+* $V$ là kích thước từ vựng
 
 Chi phí xây dựng BPE:
 
@@ -211,7 +210,7 @@ $$
 Không như Word2Vec truyền thống, BPE đảm bảo:
 
 $$
-\forall x \in \Sigma^*, \exists \text{ decomposition into subwords}
+\forall x \in \Sigma^{\ast}, \exists \text{ decomposition into subwords}
 $$
 
 Ví dụ:
@@ -242,7 +241,7 @@ cho mọi chuỗi hợp lệ.
 Unigram Language Model tối ưu:
 
 $$
-\max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z|\theta)
+\max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z \mid \theta)
 $$
 
 ---
@@ -255,7 +254,7 @@ $$
 \text{Complexity} = \mathcal{O}(T^2 d)
 $$
 
-Nếu tokenization kém → (T) lớn → chi phí tăng.
+Nếu tokenization kém → $T$ lớn → chi phí tăng.
 
 Do đó, tokenizer tối ưu giúp:
 
@@ -272,9 +271,7 @@ Các mô hình GPT sử dụng biến thể của BPE hoặc byte-level BPE.
 Xác suất sinh token:
 
 $$
-P(w_t \mid w_{\lt t}) =
-\frac{\exp(z_t W_{out})}
-{\sum_j \exp(z_j W_{out})}
+P(w_t \mid w_{\lt t}) = \frac{\exp(z_t W_{out})}{\sum_j \exp(z_j W_{out})}
 $$
 
 Chất lượng tokenization ảnh hưởng trực tiếp đến phân phối logits.
@@ -315,7 +312,7 @@ Quy trình chuẩn bị văn bản cho tokenization bao gồm:
 Toán học cho thấy tokenization là quá trình:
 
 $$
-\Sigma^* \rightarrow V^*
+\Sigma^{\ast} \rightarrow V^{\ast}
 $$
 
 giúp tối ưu:

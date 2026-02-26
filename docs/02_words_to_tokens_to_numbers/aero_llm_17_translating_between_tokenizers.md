@@ -30,19 +30,19 @@ Tokenization là bước tiền xử lý cốt lõi trong các mô hình ngôn n
 
 Mỗi mô hình ngôn ngữ định nghĩa một hàm token hóa:
 
-\mathcal{T}: \Sigma^* \rightarrow V^*
+\mathcal{T}: \Sigma^{\ast} \rightarrow V^{\ast}
 
 Trong đó:
-	•	\Sigma^*: tập tất cả chuỗi ký tự
+	•	\Sigma^{\ast}: tập tất cả chuỗi ký tự
 	•	V: từ vựng token
-	•	V^*: chuỗi token
+	•	V^{\ast}: chuỗi token
 
 Hai tokenizer khác nhau \mathcal{T}_A và \mathcal{T}_B sẽ tạo ra hai biểu diễn khác nhau cho cùng một chuỗi đầu vào x:
 
 \mathcal{T}_A(x) \neq \mathcal{T}_B(x)
 
 Vấn đề đặt ra:
-Làm thế nào để ánh xạ chuỗi token từ không gian V_A^* sang V_B^* mà không mất thông tin?
+Làm thế nào để ánh xạ chuỗi token từ không gian V_A^{\ast} sang V_B^{\ast} mà không mất thông tin?
 
 ⸻
 
@@ -84,19 +84,19 @@ Tối ưu hóa:
 
 Giả sử:
 
-\mathcal{T}_A: \Sigma^* \rightarrow V_A^*
+\mathcal{T}_A: \Sigma^{\ast} \rightarrow V_A^{\ast}
 
-\mathcal{T}_B: \Sigma^* \rightarrow V_B^*
+\mathcal{T}_B: \Sigma^{\ast} \rightarrow V_B^{\ast}
 
 Ta cần xây dựng:
 
-\Phi: V_A^* \rightarrow V_B^*
+\Phi: V_A^{\ast} \rightarrow V_B^{\ast}
 
 3.1 Điều kiện tồn tại ánh xạ chính xác
 
 Nếu tồn tại hàm giải mã:
 
-\mathcal{D}_A: V_A^* \rightarrow \Sigma^*
+\mathcal{D}_A: V_A^{\ast} \rightarrow \Sigma^{\ast}
 
 thì:
 

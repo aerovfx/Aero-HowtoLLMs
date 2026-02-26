@@ -44,7 +44,7 @@ Mục tiêu của bài viết là:
 Trong huấn luyện mạng nơ-ron, mục tiêu là tìm bộ tham số ( W ) sao cho hàm mất mát ( L(W) ) đạt giá trị nhỏ nhất:
 
 $$
-W^* = \arg\min_W L(W)
+W^{\ast} = \arg\min_W L(W)
 $$
 
 Hàm mất mát thường được xây dựng từ cross-entropy hoặc negative log-likelihood. 

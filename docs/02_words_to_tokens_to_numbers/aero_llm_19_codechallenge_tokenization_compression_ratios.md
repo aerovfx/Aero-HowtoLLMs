@@ -30,7 +30,7 @@ Dựa trên tài liệu đính kèm “Tokenization Compression Ratios”, bài 
 
 Tokenization là quá trình ánh xạ một chuỗi ký tự:
 
-x \in \Sigma^*
+x \in \Sigma^{\ast}
 
 thành chuỗi token:
 
@@ -207,7 +207,7 @@ Tokenization đóng vai trò như cơ chế nén tiền xử lý cho Transformer
 
 Có thể xem tokenization như bài toán mã hóa:
 
-\Sigma^* \rightarrow V^*
+\Sigma^{\ast} \rightarrow V^{\ast}
 
 Mục tiêu:
 	1.	Giảm độ dài chuỗi (tăng R)

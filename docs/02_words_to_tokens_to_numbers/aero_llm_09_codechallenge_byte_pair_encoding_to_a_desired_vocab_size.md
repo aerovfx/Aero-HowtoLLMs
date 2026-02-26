@@ -83,7 +83,7 @@ $$
 Chọn cặp tối ưu:
 
 $$
-p_k^* = \arg\max_{p \in P_k} f_k(p)
+p_k^{\ast} = \arg\max_{p \in P_k} f_k(p)
 $$
 
 Sau đó cập nhật:

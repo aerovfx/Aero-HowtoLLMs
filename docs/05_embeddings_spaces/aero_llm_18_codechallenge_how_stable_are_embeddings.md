@@ -85,11 +85,11 @@ Tuy nhiên cách này không hiệu quả do vấn đề quay không gian.
 
 Tìm ma trận quay tối ưu:
 
-Q^* = \arg\min_Q ||E^{(1)}Q - E^{(2)}||_F
+Q^{\ast} = \arg\min_Q ||E^{(1)}Q - E^{(2)}||_F
 
 Sau căn chỉnh:
 
-Stability = ||E^{(1)}Q^* - E^{(2)}||_F
+Stability = ||E^{(1)}Q^{\ast} - E^{(2)}||_F
 
 Phương pháp này thường được dùng trong nghiên cứu ổn định embedding.
 
@@ -175,7 +175,7 @@ Bias^2 + Variance + \sigma^2
 
 Khi số mẫu N \rightarrow \infty:
 
-\hat{\theta}_N \rightarrow \theta^*
+\hat{\theta}_N \rightarrow \theta^{\ast}
 
 Theo định lý hội tụ, embeddings trở nên ổn định hơn.
 

@@ -29,15 +29,15 @@ Bài báo này phân tích và so sánh ba chiến lược tokenization phổ bi
 Tokenization là quá trình ánh xạ:
 
 $$
-\tau: \Sigma^* \rightarrow V^*
+\tau: \Sigma^{\ast} \rightarrow V^{\ast}
 $$
 
 trong đó:
 
 * (\Sigma): tập ký tự
 * (V): tập token
-* (\Sigma^*): chuỗi ký tự
-* (V^*): chuỗi token
+* (\Sigma^{\ast}): chuỗi ký tự
+* (V^{\ast}): chuỗi token
 
 Ba chiến lược chính:
 
@@ -78,7 +78,7 @@ $$
 * Không có OOV:
 
 $$
-\forall x \in \Sigma^*, \tau(x) \text{ luôn tồn tại}
+\forall x \in \Sigma^{\ast}, \tau(x) \text{ luôn tồn tại}
 $$
 
 * Kích thước từ vựng nhỏ:
@@ -190,7 +190,7 @@ Subword kết hợp ưu điểm của hai phương pháp trên.
 BPE lặp lại:
 
 $$
-(a^*, b^*) = \arg\max_{a,b} f(a,b)
+(a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b)
 $$
 
 Cập nhật từ vựng:
