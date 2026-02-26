@@ -61,11 +61,11 @@ Kết quả thu được là 2 ma trận vuông đối xứng kích thước $N 
 Vì các ma trận $S_1$ và $S_2$ là đối xứng qua đường chéo $S(i,j) = S(j,i)$, và các giá trị trên đường chéo luôn bằng 1 ($S(i,i) = 1$), việc tính toán trên toàn bộ ma trận sẽ dẫn đến hiện tượng bơm phồng tương quan (inflation artifact). Do đó, ta chỉ trích xuất các thành phần không bị trùng lặp ở nửa trên tam giác (upper triangular part):
 
 $$
-\vec{v}_1 = \{ S_1(i, j) \mid i < j \}
+\vec{v}_1 = \{ S_1(i, j) \mid i \lt  j \}
 $$
 
 $$
-\vec{v}_2 = \{ S_2(i, j) \mid i < j \}
+\vec{v}_2 = \{ S_2(i, j) \mid i \lt  j \}
 $$
 
 Số lượng các phần tử duy nhất sau khi bung ra là $\frac{N(N-1)}{2}$.

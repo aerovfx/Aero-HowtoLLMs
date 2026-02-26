@@ -48,7 +48,7 @@ $$
 Hàm mất mát cross-entropy:
 
 $$
-\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i|x_i;\theta)
+\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i \mid x_i;\theta)
 $$
 
 Trong đó $\theta$ là tham số mô hình.
@@ -56,7 +56,7 @@ Trong đó $\theta$ là tham số mô hình.
 Mục tiêu huấn luyện:
 
 $$
-\theta^*=\arg\min_\theta \mathcal{L}
+\theta^{\ast}=\arg\min_\theta \mathcal{L}
 $$
 
 ---
@@ -331,7 +331,7 @@ Loss thấp không đảm bảo văn bản mạch lạc hay tự nhiên.
 Mô hình freeze có:
 
 $$
-Var(\mathcal{L}_B)<Var(\mathcal{L}_A)
+Var(\mathcal{L}_B)\lt Var(\mathcal{L}_A)
 $$
 
 ⇒ ổn định hơn ở giai đoạn đầu.

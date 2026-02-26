@@ -214,7 +214,7 @@ Tokenizer phải cân bằng giữa:
 
 Tối ưu hóa đa mục tiêu:
 
-\min \left$\frac{n^2}{R^2} + \lambda \mid V| \right$
+\min \left$\frac{n^2}{R^2} + \lambda \mid V\mid \right$
 
 ⸻
 

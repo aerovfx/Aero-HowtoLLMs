@@ -295,7 +295,7 @@ Nhưng chất lượng hội thoại tốt hơn.
 Perplexity tối ưu hóa:
 
 \min_\theta
-D_{KL}$p\mid |q_\theta$
+D_{KL}$p\mid \midq_\theta$
 
 Không tối ưu hóa:
 	•	Utility

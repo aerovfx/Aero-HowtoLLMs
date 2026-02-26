@@ -65,7 +65,7 @@ Kỹ thuật **Jittering** (thêm nhiễu ngẫu nhiên vào trục X) được 
 ### 2.3. Khớp mô hình với `Statsmodels`
 Sử dụng `sm.Logit(y, X).fit()` để tìm các hệ số $\beta$ tối ưu. Bảng tóm tắt kết quả (`summary()`) cung cấp:
 - **Coefficient (Hệ số):** Dấu của hệ số chỉ ra hướng ảnh hưởng (dương: hoạt hóa mạnh dự báo nhãn 1; âm: hoạt hóa mạnh dự báo nhãn 0).
-- **P-value ($P>|z|$):** Kiểm định ý nghĩa thống kê của nơ-ron đối với bài toán phân loại.
+- **P-value ($P>\midz\mid$):** Kiểm định ý nghĩa thống kê của nơ-ron đối với bài toán phân loại.
 
 ---
 

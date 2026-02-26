@@ -189,7 +189,7 @@ Do đó:
 Trong GPT-2, xác suất token tiếp theo:
 
 $$
-P(w_t | h_t) = \text{softmax}(W_{out} h_t)
+P(w_t  \mid  h_t) = \text{softmax}(W_{out} h_t)
 $$
 
 Nếu weight tying:

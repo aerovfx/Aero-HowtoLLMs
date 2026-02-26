@@ -181,7 +181,7 @@ Bài viết này tập trung vào **bốn phương pháp chính**:
 Sau khi model xử lý context, output là probability distribution:
 
 $$
-P(w_t | w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)
+P(w_t  \mid  w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)
 $$
 
 Trong đó:
@@ -323,7 +323,7 @@ $$
 **Deterministic selection:**
 
 $$
-w_t = \arg\max_{w \in \mathcal{V}} P(w | w_{1:t-1})
+w_t = \arg\max_{w \in \mathcal{V}} P(w  \mid  w_{1:t-1})
 $$
 
 **Algorithm:**

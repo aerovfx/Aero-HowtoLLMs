@@ -93,9 +93,9 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
   - **Policy Iteration**:  
     1. **Policy Evaluation**: Tính giá trị $V^\pi(s)$ của policy hiện tại.  
     2. **Policy Improvement**: Cập nhật policy để greedy theo $V^\pi$.  
-  - **Value Iteration**: Trực tiếp tối ưu giá trị $V^*(s)$ bằng cách lặp công thức Bellman.  
+  - **Value Iteration**: Trực tiếp tối ưu giá trị $V^{\ast}(s)$ bằng cách lặp công thức Bellman.  
 - **Ưu điểm**: Đảm bảo hội tụ.  
-- **Nhược điểm**: Chỉ áp dụng được cho không gian trạng thái nhỏ (do độ phức tạp $O(\mid S|^2|A|)$).  
+- **Nhược điểm**: Chỉ áp dụng được cho không gian trạng thái nhỏ (do độ phức tạp $O(\mid S\mid^2\midA\mid)$).  
 
 ---
 

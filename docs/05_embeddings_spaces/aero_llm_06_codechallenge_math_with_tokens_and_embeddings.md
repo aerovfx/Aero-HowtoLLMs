@@ -75,7 +75,7 @@ $$
 
 Trong đó:
 
-- $|V|$: kích thước từ vựng
+- $\midV\mid$: kích thước từ vựng
 - $d$: số chiều embedding
 
 Vector embedding được tính:
@@ -145,13 +145,13 @@ $$
 Trong mô hình tự hồi quy như GPT-2, hàm mất mát là:
 
 $$
-\mathcal{L} = - \sum_{t=1}^{T} \log P(w_t | w_{<t})
+\mathcal{L} = - \sum_{t=1}^{T} \log P(w_t  \mid  w_{\lt t})
 $$
 
 Với:
 
 $$
-P(w_t | w_{<t}) = \text{softmax}(W_o h_t)
+P(w_t  \mid  w_{\lt t}) = \text{softmax}(W_o h_t)
 $$
 
 $$

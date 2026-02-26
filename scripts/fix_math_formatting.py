@@ -23,13 +23,12 @@ def fix_content_structure(content):
 def fix_math_ultra_clean(content):
     content = fix_content_structure(content)
 
-    # Xử lý theo dòng để tránh lỗi regex matching nhầm vào bên trong $$
-    lines = content.split('\n')
+    lines = content.split('\n', -1)
     new_lines = []
     in_math_block = False
     math_buffer = []
     
-    for i, line in enumerate(lines):
+    for line in lines:
         stripped = line.strip()
         if stripped == '$$':
             if not in_math_block:
@@ -37,16 +36,16 @@ def fix_math_ultra_clean(content):
                 math_buffer = []
             else:
                 in_math_block = False
-                # Dọn dẹp nội dung toán học
+                # Ghép nội dung toán học
                 formula = " ".join([l.strip() for l in math_buffer if l.strip()])
                 formula = re.sub(r'={3,}', '=', formula)
                 
-                # Sửa lỗi phổ biến khiến GitHub render sai
-                # 1. Thay | bằng \mid trong các xác suất P(...)
-                formula = re.sub(r'P\(([^)]*?)\|([^)]*?)\)', r'P(\1 \mid \2)', formula)
-                # 2. Thay < bằng \lt trong subscript
-                formula = re.sub(r'(\{.*?)\<(.*?)\}', r'\1\\lt \2}', formula)
-                # 3. Đảm bảo \ast được dùng thay cho * thô
+                # CHUẨN HÓA LATEX CHO GITHUB RENDERER
+                # 1. Thay | bằng \mid trong P(...)
+                formula = re.sub(r'P\(([^)]*?)\|([^)]*?)\)', r'P(\1 \\mid \2)', formula)
+                # 2. Thay < bằng \lt trong subscripts {}
+                formula = re.sub(r'\{(.*?)\<(.*?)\}', r'{\1\\lt \2}', formula)
+                # 3. Thay * bằng \ast
                 formula = formula.replace('^*', '^{\\ast}')
                 
                 if new_lines and new_lines[-1].strip() != '':
@@ -61,10 +60,19 @@ def fix_math_ultra_clean(content):
             if in_math_block:
                 math_buffer.append(line)
             else:
-                # Sửa inline math x_{<t} -> x_{\lt t}
-                line = re.sub(r'(\$.*?\{.*?)\<(.*?\}.*?\$)', r'\1\\lt \2', line)
-                # Sửa inline math x_{t} | x_{<t} -> x_{t} \mid x_{\lt t}
-                line = re.sub(r'(\$.*?)\|(.*?\$)', r'\1\\mid \2', line)
+                # Sửa inline math: $...x_{<t}...$ -> $...x_{\lt t}...$
+                # Tìm các đoạn nằm trong $...$
+                def fix_inline(m):
+                    inner = m.group(0)
+                    # | -> \mid
+                    inner = inner.replace('|', '\\mid')
+                    # < -> \lt (thường trong subscript x_{<t})
+                    inner = re.sub(r'\{(.*?)\<(.*?)\}', r'{\1\\lt \2}', inner)
+                    # * -> \ast
+                    inner = inner.replace('^*', '^{\\ast}')
+                    return inner
+                
+                line = re.sub(r'\$.*?\$', fix_inline, line)
                 new_lines.append(line)
     
     content = '\n'.join(new_lines)

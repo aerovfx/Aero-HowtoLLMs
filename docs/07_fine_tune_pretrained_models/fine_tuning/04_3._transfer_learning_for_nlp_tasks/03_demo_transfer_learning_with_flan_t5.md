@@ -176,19 +176,19 @@ print(f"Translation: {translation}")
 Mô hình FLAN-T5 sử dụng kiến trúc Encoder-Decoder:
 
 $$
-\text{Output} = \text{Decoder}(\text{Encoder}(X), Y_{<t})
+\text{Output} = \text{Decoder}(\text{Encoder}(X), Y_{\lt t})
 $$
 
 Trong đó:
 - $X$ là chuỗi đầu vào
-- $Y_{<t}$ là các token đã được sinh ra trước đó
+- $Y_{\lt t}$ là các token đã được sinh ra trước đó
 
 ### 5.2 Transfer Learning Efficiency
 
 Hiệu quả của transfer learning có thể được biểu diễn:
 
 $$
-\eta_{TL} = \frac{||\theta^*_{new} - \theta_{pre}||}{||\theta_{new}||} \times 100\%
+\eta_{TL} = \frac{||\theta^{\ast}_{new} - \theta_{pre}||}{||\theta_{new}||} \times 100\%
 $$
 
 Với LoRA, $\eta_{TL}$ thường < 5%, cho thấy chỉ một phần nhỏ tham số cần được điều chỉnh.

@@ -92,7 +92,7 @@ $$
 Mục tiêu:
 
 $$
-\theta^*=\arg\min_\theta \mathcal{L}(\theta)
+\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
 $$
 
 ---
@@ -294,13 +294,13 @@ $$
 Mô hình phân loại có thể dùng để đo:
 
 $$
-S = P(\text{Alice}|\text{text})
+S = P(\text{Alice} \mid \text{text})
 $$
 
 hoặc
 
 $$
-P(\text{Edgar}|\text{text})
+P(\text{Edgar} \mid \text{text})
 $$
 
 Từ đó đánh giá mô hình sinh văn bản theo phong cách.

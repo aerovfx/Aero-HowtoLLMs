@@ -121,7 +121,7 @@ def relu(x):
 **Công thức:**
 
 $$
-\frac{d}{dx}\text{ReLU}(x) = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x < 0 \\ \text{undefined} & \text{if } x = 0 \end{cases}
+\frac{d}{dx}\text{ReLU}(x) = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x \lt  0 \\ \text{undefined} & \text{if } x = 0 \end{cases}
 $$
 
 **Vấn đề quan trọng:**

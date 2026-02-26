@@ -55,7 +55,7 @@ $$
 Xác suất sinh:
 
 $$
-P(X)=\prod_{i=1}^{n}P(x_i\mid x_{<i};\theta_g)
+P(X)=\prod_{i=1}^{n}P(x_i\mid x_{\lt i};\theta_g)
 $$
 
 Trong đó $\theta_g$ là tham số mô hình sinh.
@@ -89,7 +89,7 @@ Trong đó $\hat{y}$ là xác suất Alice/Edgar.
 #### $a$ Mô hình sinh
 
 $$
-\mathcal{L}_{gen} = -\frac{1}{N}\sum_{i=1}^{N}\log P(x_i\mid x_{<i})
+\mathcal{L}_{gen} = -\frac{1}{N}\sum_{i=1}^{N}\log P(x_i\mid x_{\lt i})
 $$
 
 #### $b$ Mô hình phân loại
@@ -264,7 +264,7 @@ $$
 ### 5.2. Hàm mất mát BERT
 
 $$
-\mathcal{L}*{cls}^{(t+1)} < \mathcal{L}*{cls}^{(t)}
+\mathcal{L}*{cls}^{(t+1)} \lt  \mathcal{L}*{cls}^{(t)}
 $$
 
 ⇒ mô hình sinh tiến gần phong cách mục tiêu.

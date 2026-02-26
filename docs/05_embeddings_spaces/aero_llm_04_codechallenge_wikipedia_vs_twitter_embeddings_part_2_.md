@@ -57,7 +57,7 @@ $$
 Trong đó:
 
 - $\mathbf{v}_i \cdot \mathbf{v}_j$ là tích vô hướng.
-- $\|\mathbf{v}_i\|$ là chuẩn Euclid:
+- $\\mid\mathbf{v}_i\\mid$ là chuẩn Euclid:
 
 $$
 \|\mathbf{v}_i\| = \sqrt{\sum_{k=1}^{d} v_{ik}^2}

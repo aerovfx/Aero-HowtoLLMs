@@ -207,7 +207,7 @@ Huấn luyện mô hình phụ đoán A:
 
 Tối ưu:
 
-\max_\theta \mathbb{E}[R] - \beta D_{KL}$P_\theta \mid | P_{ref}$
+\max_\theta \mathbb{E}[R] - \beta D_{KL}$P_\theta \mid \mid P_{ref}$
 
 Trong đó reward bao gồm yếu tố fairness.
 

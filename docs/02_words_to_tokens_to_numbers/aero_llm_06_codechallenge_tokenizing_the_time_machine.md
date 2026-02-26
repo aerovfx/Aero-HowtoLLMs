@@ -37,14 +37,14 @@ $$
 Tokenization thực hiện ánh xạ:
 
 $$
-\tau : \Sigma^* \rightarrow V^*
+\tau : \Sigma^{\ast} \rightarrow V^{\ast}
 $$
 
 trong đó:
 
 * $\Sigma$: tập ký tự
 * $V$: từ vựng token
-* $V^*$: chuỗi token
+* $V^{\ast}$: chuỗi token
 
 Ví dụ với *The Time Machine*:
 
@@ -197,7 +197,7 @@ Giúp đo mức độ tương đồng ngữ nghĩa.
 Theo mô hình tự hồi quy:
 
 $$
-P(X) = \prod_{t=1}^{T} P(w_t \mid w_{<t})
+P(X) = \prod_{t=1}^{T} P(w_t \mid w_{\lt t})
 $$
 
 Mạng Transformer tính:
@@ -215,7 +215,7 @@ $$
 Softmax:
 
 $$
-P(w_t = j \mid w_{<t}) = \frac{\exp(z_{tj})} {\sum_{k=1}^{M} \exp(z_{tk})}
+P(w_t = j \mid w_{\lt t}) = \frac{\exp(z_{tj})} {\sum_{k=1}^{M} \exp(z_{tk})}
 $$
 
 ---
@@ -321,7 +321,7 @@ Thông qua ví dụ *The Time Machine*, ta thấy:
 Toàn bộ quá trình có thể được mô hình hóa:
 
 $$
-\Sigma^* \xrightarrow{\tau} V^* \xrightarrow{E} \mathbb{R}^{T \times d}
+\Sigma^{\ast} \xrightarrow{\tau} V^{\ast} \xrightarrow{E} \mathbb{R}^{T \times d}
 $$
 
 đóng vai trò nền tảng cho mọi mô hình Transformer hiện đại.

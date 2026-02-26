@@ -46,7 +46,7 @@ $$
 thì tokenizer ánh xạ:
 
 $$
-\tau: \Sigma^* \rightarrow \mathbb{Z}^m
+\tau: \Sigma^{\ast} \rightarrow \mathbb{Z}^m
 $$
 
 với $\Sigma$ là bảng chữ cái và $\mathbb{Z}^m$ là chuỗi ID token.
@@ -96,7 +96,7 @@ nếu hai chuỗi tương đương về mặt ngữ nghĩa.
 Mô hình ngôn ngữ tối ưu xác suất:
 
 $$
-P(X) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+P(X) = \prod_{t=1}^{T} P(x_t \mid x_{\lt t})
 $$
 
 Tuy nhiên, nếu làm việc ở mức ký tự:
@@ -146,7 +146,7 @@ $$
 Chọn:
 
 $$
-(a^*, b^*) = \arg\max_{a,b} f(a,b)
+(a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b)
 $$
 
 Cập nhật:
@@ -211,7 +211,7 @@ $$
 Không như Word2Vec truyền thống, BPE đảm bảo:
 
 $$
-\forall x \in \Sigma^*, \exists \text{ decomposition into subwords}
+\forall x \in \Sigma^{\ast}, \exists \text{ decomposition into subwords}
 $$
 
 Ví dụ:
@@ -240,7 +240,7 @@ cho mọi chuỗi hợp lệ.
 Unigram Language Model tối ưu:
 
 $$
-\max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z|\theta)
+\max_{\theta} \prod_i \sum_{z \in \mathcal{Z}(x_i)} P(z \mid \theta)
 $$
 
 ---
@@ -270,7 +270,7 @@ Các mô hình GPT sử dụng biến thể của BPE hoặc byte-level BPE.
 Xác suất sinh token:
 
 $$
-P(w_t | w_{<t}) = \frac{\exp(z_t W_{out})} {\sum_j \exp(z_j W_{out})}
+P(w_t  \mid  w_{\lt t}) = \frac{\exp(z_t W_{out})} {\sum_j \exp(z_j W_{out})}
 $$
 
 Chất lượng tokenization ảnh hưởng trực tiếp đến phân phối logits.
@@ -311,7 +311,7 @@ Quy trình chuẩn bị văn bản cho tokenization bao gồm:
 Toán học cho thấy tokenization là quá trình:
 
 $$
-\Sigma^* \rightarrow V^*
+\Sigma^{\ast} \rightarrow V^{\ast}
 $$
 
 giúp tối ưu:

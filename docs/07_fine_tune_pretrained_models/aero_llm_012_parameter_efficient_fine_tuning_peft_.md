@@ -55,7 +55,7 @@ $$
 Xác suất sinh:
 
 $$
-P(X)=\prod_{i=1}^{n}P(x_i|x_1,\dots,x_{i-1};\theta)
+P(X)=\prod_{i=1}^{n}P(x_i \mid x_1,\dots,x_{i-1};\theta)
 $$
 
 Trong đó $\theta$ là tập tham số của mô hình.
@@ -67,7 +67,7 @@ Trong đó $\theta$ là tập tham số của mô hình.
 Với hàm mất mát cross-entropy:
 
 $$
-\mathcal{L}(\theta) = -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i|x_i;\theta)
+\mathcal{L}(\theta) = -\frac{1}{N}\sum_{i=1}^{N} \log P(y_i \mid x_i;\theta)
 $$
 
 Cập nhật bằng gradient descent:
@@ -268,7 +268,7 @@ Giữ nguyên $W$.
 Bias chủ yếu dịch chuyển phân phối:
 
 $$
-P'(y|x)=P(y-b|x)
+P'(y|x)=P(y-b \mid x)
 $$
 
 Ảnh hưởng yếu đến cấu trúc biểu diễn.

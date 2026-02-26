@@ -61,7 +61,7 @@ Trong đó:
 * $L$: hàm mất mát
 * $\nabla_\theta L$: gradient
 
-Khi $|\nabla_\theta L|$ quá lớn, cập nhật tham số trở nên không ổn định.
+Khi $\mid\nabla_\theta L\mid$ quá lớn, cập nhật tham số trở nên không ổn định.
 
 ---
 

@@ -48,7 +48,7 @@ Mục tiêu nghiên cứu:
 Cho mô hình tiền huấn luyện với tham số $\theta_0$. Fine-tuning nhằm tìm:
 
 $$
-\theta^*=\arg\min_{\theta}L(\theta;D_{task})
+\theta^{\ast}=\arg\min_{\theta}L(\theta;D_{task})
 $$
 
 Trong đó $D_{task}$ là tập dữ liệu mục tiêu.
@@ -207,7 +207,7 @@ $$
 Quan sát:
 
 $$
-Var(L_{clip+sch})<Var(L_{baseline})
+Var(L_{clip+sch})\lt Var(L_{baseline})
 $$
 
 ⇒ học ổn định hơn.
@@ -247,7 +247,7 @@ $$
 Quan sát:
 
 $$
-G_{MLP}<1 \quad (\text{đa số})
+G_{MLP}\lt 1 \quad (\text{đa số})
 $$
 
 $$
@@ -290,7 +290,7 @@ Theo , clipping sớm có thể:
 Giải pháp:
 
 $$
-c(t)= \begin{cases} \infty & t<T_0\ 1 & t\ge T_0 \end{cases}
+c(t)= \begin{cases} \infty & t\lt T_0\ 1 & t\ge T_0 \end{cases}
 $$
 
 (Delayed clipping)

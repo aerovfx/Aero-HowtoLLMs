@@ -46,7 +46,7 @@ $$
 
 ## 2. Embedding: Từ token đến vector
 
-Giả sử từ vựng có kích thước $|V|$, ma trận embedding:
+Giả sử từ vựng có kích thước $\midV\mid$, ma trận embedding:
 
 $$
 E \in \mathbb{R}^{|V| \times d}
@@ -125,7 +125,7 @@ $$
 Xác suất dự đoán token tiếp theo:
 
 $$
-P(w_i | h_t) = \frac{e^{z_i}} {\sum_{j=1}^{|V|} e^{z_j}}
+P(w_i  \mid  h_t) = \frac{e^{z_i}} {\sum_{j=1}^{|V|} e^{z_j}}
 $$
 
 Thay $z_i = \mathbf{v}_i \cdot \mathbf{h}_t$:

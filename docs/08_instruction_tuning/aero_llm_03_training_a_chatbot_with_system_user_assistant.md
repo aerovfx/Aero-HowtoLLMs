@@ -94,7 +94,7 @@ Trong đó:
 Mô hình học xác suất:
 
 $$
-P(x_t | x_1, x_2, ..., x_{t-1})
+P(x_t  \mid  x_1, x_2, ..., x_{t-1})
 $$
 
 Mục tiêu là tối đa hóa xác suất chuỗi đầu ra.
@@ -106,10 +106,10 @@ Mục tiêu là tối đa hóa xác suất chuỗi đầu ra.
 Hàm mất mát được sử dụng phổ biến:
 
 $$
-\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
+\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t  \mid  x_{\lt t})
 $$
 
-Trong đó $x_{<t}$ là các token trước thời điểm $t$.
+Trong đó $x_{\lt t}$ là các token trước thời điểm $t$.
 
 ---
 

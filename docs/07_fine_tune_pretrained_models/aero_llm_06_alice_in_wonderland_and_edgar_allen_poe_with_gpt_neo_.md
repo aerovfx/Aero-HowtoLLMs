@@ -54,7 +54,7 @@ Qua đó, đánh giá khả năng học phong cách văn học của mô hình.
 GPT-Neo thuộc nhóm mô hình ngôn ngữ tự hồi quy (Autoregressive Language Model), với xác suất sinh chuỗi:
 
 $$
-P(x_1,x_2,...,x_T)=\prod_{t=1}^{T}P(x_t|x_1,...,x_{t-1})
+P(x_1,x_2,...,x_T)=\prod_{t=1}^{T}P(x_t \mid x_1,...,x_{t-1})
 $$
 
 Trong đó:
@@ -156,7 +156,7 @@ Tokenizer của GPT-Neo trùng với GPT-2 tokenizer.
 Mô hình sử dụng Negative Log-Likelihood Loss:
 
 $$
-\mathcal{L}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+\mathcal{L}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t \mid x_{\lt t})
 $$
 
 Hàm này đo độ phù hợp giữa phân phối dự đoán và dữ liệu thực tế.

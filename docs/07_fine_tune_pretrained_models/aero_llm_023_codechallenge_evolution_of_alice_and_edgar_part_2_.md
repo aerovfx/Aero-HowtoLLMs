@@ -44,7 +44,7 @@ Mục tiêu nghiên cứu:
 Xét mô hình sinh:
 
 $$
-P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t|x_{<t};\theta)
+P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t \mid x_{\lt t};\theta)
 $$
 
 Trong đó:
@@ -55,7 +55,7 @@ Trong đó:
 Mục tiêu huấn luyện:
 
 $$
-\theta^*=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
+\theta^{\ast}=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
 $$
 
 ---
@@ -165,7 +165,7 @@ Trong đó:
 Điều kiện:
 
 $$
-RAM_{total}<RAM_{GPU}
+RAM_{total}\lt RAM_{GPU}
 $$
 
 ---
@@ -177,7 +177,7 @@ $$
 Loss của mô hình sinh:
 
 $$
-L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t \mid x_{\lt t})
 $$
 
 ---

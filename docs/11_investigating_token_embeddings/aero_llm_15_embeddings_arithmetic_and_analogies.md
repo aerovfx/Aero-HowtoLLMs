@@ -51,7 +51,7 @@ $$
 $$
 
 Trong đó:
-- $\cos(A, B) = \frac{A \cdot B}{\|A\|\|B\|}$ tính bằng ma trận khoảng cách Gram.
+- $\cos(A, B) = \frac{A \cdot B}{\\midA\\mid\\midB\\mid}$ tính bằng ma trận khoảng cách Gram.
 - Tập tìm kiếm $V$ phải loại bỏ các từ nằm ở phần nón gốc nhằm ngăn cản mô hình tái sinh ra đáp án tầm thường do sự bùng nổ của quy chuẩn chuẩn hóa L2 (L2 constraints).
 
 ---

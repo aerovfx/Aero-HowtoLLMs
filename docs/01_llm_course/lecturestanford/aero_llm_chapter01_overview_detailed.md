@@ -236,7 +236,7 @@ Output
 | Active params | 175B | **~220B** |
 | Multimodal | ❌ | **✅ (Vision)** |
 | Context | 2K-4K | **32K-128K** |
-| Training cost | ~$4M | **~$100M** |
+| Training cost | ~$4M \mid **~$100M** |
 
 ### **Ưu điểm MoE:**
 

@@ -52,7 +52,7 @@ $$
 
 Trong đó:
 
-* $V$: từ vựng có kích thước $|V| = N$
+* $V$: từ vựng có kích thước $\midV\mid = N$
 * (T(x) = (t_1, t_2, ..., t_T))
 
 Mỗi token $t_i \in {1,2,...,N}$
@@ -254,7 +254,7 @@ Bước 4: Visualization
 Mô hình GPT tối ưu:
 
 $$
-P(x) = \prod_{t=1}^{T} P(x_t | x_{<t})
+P(x) = \prod_{t=1}^{T} P(x_t  \mid  x_{\lt t})
 $$
 
 Token là đơn vị cơ bản của xác suất.
@@ -262,7 +262,7 @@ Token là đơn vị cơ bản của xác suất.
 Loss:
 
 $$
-\mathcal{L} = -\sum_{t=1}^{T} \log P(x_t | x_{<t})
+\mathcal{L} = -\sum_{t=1}^{T} \log P(x_t  \mid  x_{\lt t})
 $$
 
 Nếu tokenization không tốt:

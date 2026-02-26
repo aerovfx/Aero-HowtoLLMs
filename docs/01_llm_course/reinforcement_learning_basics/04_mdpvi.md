@@ -23,7 +23,7 @@ Trong Reinforcement Learning, một Markov Decision Process (MDP) là một form
 Một MDP có thể được mô tả bởi các tính chất sau:
 
 1. **Khối lượng**: Một MDP là một tập hợp các trạng thái $S$, hành động $A$, và giá trị $V$.
-2. **Động lực**: Một MDP luôn tồn tại một sự tương tác giữa các trạng thái và hành động. Cụ thể, cho mỗi trạng thái $s \in S$ và hành động $a \in A$, có một xác suất $p(s'|s,a)$ mô tả khả năng chuyển từ trạng thái hiện tại đến trạng thái mới.
+2. **Động lực**: Một MDP luôn tồn tại một sự tương tác giữa các trạng thái và hành động. Cụ thể, cho mỗi trạng thái $s \in S$ và hành động $a \in A$, có một xác suất $p(s'\mids,a)$ mô tả khả năng chuyển từ trạng thái hiện tại đến trạng thái mới.
 3. **Tính bất định**: Một MDP luôn tồn tại một sự bất định trong việc lựa chọn hành động và chuyển đổi trạng thái.
 
 **Các đặc điểm chính của MDP**
@@ -32,7 +32,7 @@ Một MDP có thể được mô tả bởi các đặc điểm sau:
 
 1. **Trạng thái**: Một trạng thái $s \in S$ đại diện cho tình hình hiện tại của hệ thống.
 2. **Hành động**: Một hành động $a \in A$ đại diện cho một lựa chọn trong tương lai của hệ thống.
-3. **Xác suất chuyển đổi**: Một xác suất $p(s'|s,a)$ mô tả khả năng chuyển từ trạng thái hiện tại đến trạng thái mới khi thực hiện hành động $a$.
+3. **Xác suất chuyển đổi**: Một xác suất $p(s'\mids,a)$ mô tả khả năng chuyển từ trạng thái hiện tại đến trạng thái mới khi thực hiện hành động $a$.
 4. **Thời gian**: Một MDP có thể được tính ở thời gian đơn vị hoặc nhiều thời gian.
 5. **Đồng tiền**: Một đồng tiền $r(s,a)$ đại diện cho phần thưởng nhận được khi thực hiện hành động $a$ trong trạng thái $s$.
 
@@ -66,13 +66,13 @@ $$
 - **Cập nhật giá trị iterarion (Value Iteration):**
 
 $$
-V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s'|s,a) V_k(s') ]
+V_{k+1}(s) = max_a [ R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_k(s') ]
 $$
 
 - **Giá trị Q-learning (Q-value Function - Q(s,a)):** Biểu diễn hy vọng thưởng tích lũy bắt đầu từ trạng thái s, thực hiện hành vi a, và tuân thủ chính sách π:
 
 $$
-Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s'|s,a) V_π(s')
+Q_π(s,a) = R(s,a) + γ \sum_{s'} P(s' \mid s,a) V_π(s')
 $$
 
 - **Cập nhật Q-learning:**

@@ -83,7 +83,7 @@ $$
 Chọn cặp tối ưu:
 
 $$
-p_k^* = \arg\max_{p \in P_k} f_k(p)
+p_k^{\ast} = \arg\max_{p \in P_k} f_k(p)
 $$
 
 Sau đó cập nhật:
@@ -104,7 +104,7 @@ $$
 
 Giả sử:
 
-- Từ vựng ban đầu: $|V_0| = C$
+- Từ vựng ban đầu: $\midV_0\mid = C$
 - Số vòng gộp: $M$
 
 Khi đó:
@@ -248,7 +248,7 @@ $$
 Trong khi WordPiece tối ưu:
 
 $$
-\max \log P(\mathcal{D} | V_k)
+\max \log P(\mathcal{D}  \mid  V_k)
 $$
 
 ---

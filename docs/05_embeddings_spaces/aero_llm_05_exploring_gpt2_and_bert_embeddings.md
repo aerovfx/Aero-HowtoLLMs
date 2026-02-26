@@ -27,7 +27,7 @@ Các mô hình ngôn ngữ lớn dựa trên Transformer đã thay đổi nền 
 Trong NLP, một mô hình ngôn ngữ học phân phối xác suất có điều kiện:
 
 $$
-P(w_t \mid w_{<t})
+P(w_t \mid w_{\lt t})
 $$
 
 hoặc trong trường hợp hai chiều:
@@ -69,13 +69,13 @@ Self-attention cho phép mô hình học phụ thuộc dài hạn trong chuỗi.
 [GPT-2](chatgpt://generic-entity?number=2) được huấn luyện để tối đa hóa log-likelihood:
 
 $$
-\mathcal{L}_{GPT2} = \sum_{t=1}^{T} \log P(w_t \mid w_{<t})
+\mathcal{L}_{GPT2} = \sum_{t=1}^{T} \log P(w_t \mid w_{\lt t})
 $$
 
 Trong đó:
 
 $$
-P(w_t \mid w_{<t}) = \text{softmax}(W_o h_t)
+P(w_t \mid w_{\lt t}) = \text{softmax}(W_o h_t)
 $$
 
 - $h_t$: hidden state tại vị trí $t$

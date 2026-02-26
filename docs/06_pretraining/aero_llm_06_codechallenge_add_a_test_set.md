@@ -199,7 +199,7 @@ Kết quả này cho thấy mô hình đã học được các đặc trưng cơ
 Quan sát cho thấy ở giai đoạn đầu:
 
 $$
-Loss_{test} < Loss_{train}
+Loss_{test} \lt  Loss_{train}
 $$
 
 Nguyên nhân là do train loss trung bình bao gồm giai đoạn đầu khi mô hình chưa học được gì, trong khi test loss được tính sau khi mô hình đã cải thiện. 

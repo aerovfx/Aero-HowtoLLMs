@@ -51,7 +51,7 @@ Trong một batch văn bản phức tạp, việc tìm vị trí của một c�
 
 ## 4. Phân tích Sự biến thiên Vector (Vector Displacement)
 Nghiên cứu giới thiệu một phép đo thực nghiệm: Độ dài quỹ đạo của vector nhúng khi đi qua mô hình.
-- **Công thức:** $\\mid v_l - v_{l-1}\|$, trong đó $v_l$ là biểu diễn tại tầng $l$.
+- **Công thức:** $\\mid v_l - v_{l-1}\\mid$, trong đó $v_l$ là biểu diễn tại tầng $l$.
 - **Quan sát:** Sự thay đổi này phản ánh khối lượng công việc tính toán mà các lớp Attention và MLP đã thực hiện để tinh chỉnh ý nghĩa của token. Đối với các từ đa token, token cuối cùng thường bộc lộ sự biến thiên lớn ở các tầng giữa, nơi "phép cộng ngữ nghĩa" thực sự diễn ra.
 
 ---

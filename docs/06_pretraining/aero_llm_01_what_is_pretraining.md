@@ -83,7 +83,7 @@ Giai đoạn này giúp chuyển base model thành sản phẩm thương mại t
 Pre-training dựa trên bài toán dự đoán token:
 
 $$
-\mathcal{L} = - \sum_{t} \log P(w_t | w_1,...,w_{t-1})
+\mathcal{L} = - \sum_{t} \log P(w_t  \mid  w_1,...,w_{t-1})
 $$
 
 Trong đó $w_t$ là token tại vị trí $t$.

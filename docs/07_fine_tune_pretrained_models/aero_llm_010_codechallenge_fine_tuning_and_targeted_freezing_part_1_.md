@@ -290,7 +290,7 @@ $$
 Do đó:
 
 $$
-T_{\text{freeze}} < T_{\text{train}}
+T_{\text{freeze}} \lt  T_{\text{train}}
 $$
 
 ---
@@ -319,7 +319,7 @@ $$
 #### Đóng băng từng phần theo thời gian
 
 $$
-\theta_i(t)= \begin{cases} \text{frozen}, & t<t_0\ \text{trainable}, & t\ge t_0 \end{cases}
+\theta_i(t)= \begin{cases} \text{frozen}, & t\lt t_0\ \text{trainable}, & t\ge t_0 \end{cases}
 $$
 
 #### Kết hợp LoRA/Adapter

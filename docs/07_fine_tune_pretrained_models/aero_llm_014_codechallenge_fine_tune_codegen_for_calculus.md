@@ -76,7 +76,7 @@ $$
 Mục tiêu:
 
 $$
-\theta^*=\arg\min_\theta \mathcal{L}(\theta)
+\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
 $$
 
 ---
@@ -174,7 +174,7 @@ $$
 Tài liệu  chỉ ra rằng CodeGen chưa được instruction tuning. Do đó:
 
 $$
-P(\text{code}|\text{text prompt}) \text{ thấp}
+P(\text{code} \mid \text{text prompt}) \text{ thấp}
 $$
 
 Nếu không huấn luyện bổ sung.
@@ -194,7 +194,7 @@ $$
 Mô hình sinh:
 
 $$
-x_{k+1}\sim P(x|X_0)
+x_{k+1}\sim P(x \mid X_0)
 $$
 
 Cập nhật:
@@ -330,7 +330,7 @@ $$
 Nếu áp dụng instruction tuning:
 
 $$
-P(\text{code}|\text{text})\uparrow
+P(\text{code} \mid \text{text})\uparrow
 $$
 
 Giúp mô hình hiểu yêu cầu người dùng.

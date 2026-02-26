@@ -46,7 +46,7 @@ Mục tiêu của bài viết là phân tích tác động của các yếu tố
 GPT-2 là mô hình ngôn ngữ tự hồi quy sử dụng kiến trúc Transformer Decoder. Nó học phân phối xác suất:
 
 $$
-P(x_t | x_1, x_2, \dots, x_{t-1})
+P(x_t  \mid  x_1, x_2, \dots, x_{t-1})
 $$
 
 Trong đó, mỗi token được dự đoán dựa trên ngữ cảnh trước đó.

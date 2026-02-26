@@ -82,7 +82,7 @@ $$
 Mục tiêu:
 
 $$
-\theta^*=\arg\min_\theta \mathcal{L}(\theta)
+\theta^{\ast}=\arg\min_\theta \mathcal{L}(\theta)
 $$
 
 ---
@@ -288,7 +288,7 @@ $$
 Với mô hình nhỏ:
 
 $$
-R_{350M}<R_{16B}
+R_{350M}\lt R_{16B}
 $$
 
 .

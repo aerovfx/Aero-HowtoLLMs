@@ -45,7 +45,7 @@ Bên cạnh việc huấn luyện chuẩn trên dữ liệu lớn, tinh chỉnh 
 GPT-2 là mô hình Transformer một chiều với kiến trúc tự hồi quy. Xác suất sinh chuỗi từ (x_1, x_2, ..., x_T) được mô hình hóa bởi:
 
 $$
-P(x_1, ..., x_T)=\prod_{t=1}^{T} P(x_t|x_1,...,x_{t-1})
+P(x_1, ..., x_T)=\prod_{t=1}^{T} P(x_t \mid x_1,...,x_{t-1})
 $$
 
 Mỗi bước sinh token phụ thuộc vào toàn bộ ngữ cảnh trước đó.
@@ -65,13 +65,13 @@ với $V$ là kích thước từ vựng.
 Xác suất được tính bằng hàm Softmax:
 
 $$
-P(i|t)=\frac{e^{z_i}}{\sum_{j=1}^{V} e^{z_j}}
+P(i \mid t)=\frac{e^{z_i}}{\sum_{j=1}^{V} e^{z_j}}
 $$
 
 Log-probability:
 
 $$
-\log P(i|t)= z_i - \log\left(\sum_{j=1}^{V} e^{z_j}\right)
+\log P(i \mid t)= z_i - \log\left(\sum_{j=1}^{V} e^{z_j}\right)
 $$
 
 ---

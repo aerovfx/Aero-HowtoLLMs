@@ -91,7 +91,7 @@ translate English to Spanish: Cheese is delicious
 Hiệu quả của few-shot learning có thể được biểu diễn:
 
 $$
-P(y|x, \text{ví dụ}) = \frac{1}{Z} \sum_{i=1}^{n} w_i \cdot \text{sim}(x, x_i) \cdot P(y|x_i)
+P(y \mid x, \text{ví dụ}) = \frac{1}{Z} \sum_{i=1}^{n} w_i \cdot \text{sim}(x, x_i) \cdot P(y \mid x_i)
 $$
 
 Trong đó:

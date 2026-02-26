@@ -233,7 +233,7 @@ Các phép phân tích thường dùng:
 Z = XW
 	•	t-SNE:
 
-P_{ij} \propto \exp$-\\mid x_i-x_j\|^2$
+P_{ij} \propto \exp$-\\mid x_i-x_j\\mid^2$
 
 Cho thấy các cụm ngữ nghĩa rõ ràng:
 	•	Quốc gia

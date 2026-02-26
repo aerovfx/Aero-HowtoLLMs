@@ -51,7 +51,7 @@ Tài liệu cung cấp một góc nhìn thực tiễn về đánh đổi giữa 
 Trong huấn luyện LLMs, mục tiêu tiêu chuẩn là:
 
 $$
-\mathcal{L} = -\sum_{t=1}^{T} \log P(x_t \mid x_{<t})
+\mathcal{L} = -\sum_{t=1}^{T} \log P(x_t \mid x_{\lt t})
 $$
 
 với $T$ là độ dài chuỗi.
@@ -79,7 +79,7 @@ Việc kết hợp dropout với chiến lược loss ảnh hưởng đáng kể
 Trong bài tập, hàm loss chỉ được tính tại token cuối:
 
 $$
-\mathcal{L} = - \log P(x_T \mid x_{<T})
+\mathcal{L} = - \log P(x_T \mid x_{\lt T})
 $$
 
 Thay vì flatten toàn bộ chuỗi, tác giả chỉ sử dụng:

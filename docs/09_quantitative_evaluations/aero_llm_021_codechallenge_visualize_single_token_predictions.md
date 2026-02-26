@@ -39,7 +39,7 @@ $$
 Mô hình sẽ dự đoán:
 
 $$
-P(t_{i} | t_1\dots t_{i-1})
+P(t_{i}  \mid  t_1\dots t_{i-1})
 $$
 
 ### 1.1 Tính Toán Softmax Xác Suất Của Ký Tự Ngay Trước Đó

@@ -404,7 +404,7 @@ Phương pháp lưu – tải mô hình được ứng dụng trong:
 Đặc biệt quan trọng trong môi trường cloud:
 
 $$
-T_{session}<T_{train}
+T_{session}\lt T_{train}
 $$
 
 ⇒ bắt buộc phải lưu mô hình.

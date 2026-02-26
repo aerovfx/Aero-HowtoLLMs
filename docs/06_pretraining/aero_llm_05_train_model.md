@@ -123,7 +123,7 @@ Các tham số chính:
 Hàm mất mát được sử dụng là NLLLoss:
 
 $$
-L = - \log P(y|x)
+L = - \log P(y \mid x)
 $$
 
 Hàm này yêu cầu đầu vào là log-softmax.
