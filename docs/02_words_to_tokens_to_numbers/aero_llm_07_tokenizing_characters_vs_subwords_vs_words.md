@@ -190,13 +190,13 @@ Subword kết hợp ưu điểm của hai phương pháp trên.
 BPE lặp lại:
 
 $$
-(a^*, b^*) = \arg\max_{a,b} f(a,b)
+(a^{\ast}, b^{\ast}) = \arg\max_{a,b} f(a,b)
 $$
 
 Cập nhật từ vựng:
 
 $$
-V_{k+1} = V_k \cup {ab}
+V_{k+1} = V_k \cup \{ab\}
 $$
 
 ---
@@ -212,7 +212,7 @@ $$
 Trong đó:
 
 * $z$: một phân tách hợp lệ
-* $\mathcal{Z}(x_i$): tập các phân tách
+* $\mathcal{Z}(x_i)$: tập các phân tách
 
 ---
 
