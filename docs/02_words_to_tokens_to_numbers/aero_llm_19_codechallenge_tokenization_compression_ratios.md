@@ -197,7 +197,7 @@ Trong thực tế:
 
 Do đó:
 
-R = f$\text{ngôn ngữ}, |V|, thuật toán$
+R = f$\text{ngôn ngữ}, \mid V|, thuật toán$
 
 ⸻
 

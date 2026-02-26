@@ -39,14 +39,14 @@ Trong Vòng lặp:
 **Bước Lọc Mù (Out-of-sample Evaluation):** Toàn bộ Data Trích lấy từ Fineweb (Test-set) **TUYỆT ĐỐI** KHÔNG ĐƯỢC CHẠY LẠI THUẬT TOÁN PCA và GED. Chúng chỉ đơn thuần đứng im và bị Phóng (Projected) xuyên qua các lưới Lọc `PCA_Eigenvectors` và `GED_Eigenvectors` tạo ra bởi Bộ Từ Vựng Nhân tạo, sau đó mới dùng Phép thử T-test để đo độ Cắt Xẻ (Separation).
 
 ### 2.2. Kiểm định T-Test Hai Phía (Bi-directional T-Testing)
-Vì GED tự sinh ra 2 Lớp Cột (2 Top Eigenvectors, 1 dùng S=Him_R=Her, 1 dùng S=Her_R=Him). Chúng ta thi hành T-test chéo ngược: Đưa Khối dữ liệu 'Her' Đi qua Màng Lọc 'Him', lúc này Lượng Activations bị tiêu biến dần dẫn tới hiệu số Trung bình Phương sai cực nhỏ (Magnitude T-Value Âm). Do thuật toán GED giải Vi Phân dẫn đến **Bất định Dấu (Sign Indeterminacy)**, ta giải tỏa chuyện lằng nhằng của Dấu + / Dấu - bằng việc đặt Tuyệt Đối $|T_{value}|$.
+Vì GED tự sinh ra 2 Lớp Cột (2 Top Eigenvectors, 1 dùng S=Him_R=Her, 1 dùng S=Her_R=Him). Chúng ta thi hành T-test chéo ngược: Đưa Khối dữ liệu 'Her' Đi qua Màng Lọc 'Him', lúc này Lượng Activations bị tiêu biến dần dẫn tới hiệu số Trung bình Phương sai cực nhỏ (Magnitude T-Value Âm). Do thuật toán GED giải Vi Phân dẫn đến **Bất định Dấu (Sign Indeterminacy)**, ta giải tỏa chuyện lằng nhằng của Dấu + / Dấu - bằng việc đặt Tuyệt Đối $\mid T_{value}|$.
 
 ---
 
 ## 3. Khảo Sát & Phác Họa Hành Vi (Analysis)
 
 ### 3.1. Sự Sụp Đổ Tương Quan Cơ Tính (Correlation Plummeting)
-Khi Vẽ Trục $x=Layer$, $y=Pearson\ R\ (|Correlation|)$ giữa Khối Vector Hướng Pattern HIM và Khối Hướng HER. 
+Khi Vẽ Trục $x=Layer$, $y=Pearson\ R\ (\mid Correlation|)$ giữa Khối Vector Hướng Pattern HIM và Khối Hướng HER. 
 - Tại $4$ Layers đầu: $R$ rất cao. Phản ánh đúng Thực tại: "Him" và "Her" vốn cùng mang một Hệ đặc tính cú pháp (Grammar function) giống y hệt nhau làm Đại từ Nhân xưng (Pronouns). Sự khác biệt vật lý của mạng trong lúc vừa nhai Nuốt Token (Shallow layers) là RẤT ÍT. 
 - Tại Các Layers Cuối (Deeper layers): $R \to 0$. Transformer đã chuyển trạng thái từ việc Phân Tích Cú pháp Nội Tại $\to$ Tiến tới Tiên Đoán Tương Lai (Next-Token Prediction). Lúc này, Hành vi, Logic, Cấu trúc không gian của con Đực và con Cái rẽ nhánh hoàn toàn, khiến các Hàm Pattern bay ra hai phương trời riêng biệt.
 

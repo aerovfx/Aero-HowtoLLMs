@@ -24,7 +24,7 @@ Báo cáo này hoàn tất thử thách nghiên cứu về tính chọn lọc da
 ## 1. Kiểm tra Tính Chuyên biệt hóa Danh mục (Exercise 4)
 
 ### 1.1. Phân tích Đơn vị tại Tầng 16
-Để đảm bảo kết quả T-test ở Phần 1 không bị chi phối bởi duy nhất một từ đích (ví dụ: một nơ-ron chỉ "thích" từ "toothpaste"), chúng ta cô lập các nơ-ron có giá trị $|T|$ cực đại tại tầng 16 và trực quan hóa toàn bộ 40 điểm hoạt hóa.
+Để đảm bảo kết quả T-test ở Phần 1 không bị chi phối bởi duy nhất một từ đích (ví dụ: một nơ-ron chỉ "thích" từ "toothpaste"), chúng ta cô lập các nơ-ron có giá trị $\mid T|$ cực đại tại tầng 16 và trực quan hóa toàn bộ 40 điểm hoạt hóa.
 - **Quan sát:** Các nơ-ron có T-value dương cực đại bộc lộ mức hoạt hóa cao đồng nhất cho cả 4 từ thuộc nhóm "Nha khoa" và thấp đồng nhất cho nhóm "Nội thất", và ngược lại cho các nơ-ron có T-value âm cực đại. Điều này khẳng định sự phân hóa diễn ra ở cấp độ **danh mục ngữ nghĩa**.
 
 ---

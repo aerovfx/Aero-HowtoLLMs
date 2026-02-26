@@ -29,7 +29,7 @@ Huấn luyện mô hình ngôn ngữ tự hồi quy (autoregressive language mod
 P$x_1, x_2, \dots, x_T$
 =
 \prod_{t=1}^{T}
-P$x_t \mid x_{<t}$
+P$x_t \mid x_{\lt t}$
 
 Trong đó:
 	•	x_t: token tại vị trí t

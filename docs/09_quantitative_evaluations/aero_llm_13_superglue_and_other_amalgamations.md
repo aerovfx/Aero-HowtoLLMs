@@ -76,7 +76,7 @@ Trong đó:
 
 Với nhãn thật y:
 
-\mathcal{L}$\theta$ = - \sum_{i=1}^N \log P_\theta$y_i | x_i$
+\mathcal{L}$\theta$ = - \sum_{i=1}^N \log P_\theta$y_i \mid  x_i$
 
 Dưới dạng kỳ vọng:
 
@@ -84,7 +84,7 @@ Dưới dạng kỳ vọng:
 
 Tối thiểu hoá hàm này tương đương tối thiểu hoá KL divergence giữa phân phối thật và phân phối mô hình:
 
-D_{KL}$P_{data} || P_\theta$
+D_{KL}$P_{data} \mid | P_\theta$
 
 ⸻
 

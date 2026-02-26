@@ -59,7 +59,7 @@ Ta muốn đo mức gần nhau giữa P và Q.
 
 Phân kỳ KL:
 
-D_{KL}$P \| Q$ = \sum_x P$x$\log \frac{P$x$}{Q$x$}
+D_{KL}$P \\mid  Q$ = \sum_x P$x$\log \frac{P$x$}{Q$x$}
 
 Vấn đề:
 	•	Không đối xứng
@@ -72,7 +72,7 @@ Vấn đề:
 
 MAUVE dựa trên họ phân kỳ:
 
-D_\lambda$P \| Q$
+D_\lambda$P \\mid  Q$
 
 Tạo phân phối trộn:
 
@@ -80,9 +80,9 @@ R_\lambda = \lambda P + $1-\lambda$ Q
 
 Sau đó tính:
 
-D_{KL}$P \| R_\lambda$
+D_{KL}$P \\mid  R_\lambda$
 \quad \text{và} \quad
-D_{KL}$Q \| R_\lambda$
+D_{KL}$Q \\mid  R_\lambda$
 
 Khi thay đổi \lambda \in [0,1], ta thu được một đường cong trong không gian hai chiều.
 
@@ -92,8 +92,8 @@ Khi thay đổi \lambda \in [0,1], ta thu được một đường cong trong kh
 
 MAUVE xây dựng đồ thị:
 
-x$\lambda$ = D_{KL}$P \| R_\lambda$
-y$\lambda$ = D_{KL}$Q \| R_\lambda$
+x$\lambda$ = D_{KL}$P \\mid  R_\lambda$
+y$\lambda$ = D_{KL}$Q \\mid  R_\lambda$
 
 Diện tích dưới đường cong này được chuẩn hoá thành điểm MAUVE:
 
@@ -148,14 +148,14 @@ Giả sử:
 
 → Với mọi \lambda:
 
-D_{KL}$P \| R_\lambda$ = D_{KL}$Q \| R_\lambda$
+D_{KL}$P \\mid  R_\lambda$ = D_{KL}$Q \\mid  R_\lambda$
 
 → MAUVE = 1
 
 Nếu:
 	•	Q collapse (mode collapse)
 
-→ D_{KL}$P \| Q$ lớn
+→ D_{KL}$P \\mid  Q$ lớn
 → MAUVE giảm mạnh.
 
 ⸻
@@ -166,7 +166,7 @@ Nếu:
 
 Recall thấp:
 
-D_{KL}$P \| R_\lambda$ \uparrow
+D_{KL}$P \\mid  R_\lambda$ \uparrow
 
 ⸻
 
@@ -174,7 +174,7 @@ D_{KL}$P \| R_\lambda$ \uparrow
 
 Precision thấp:
 
-D_{KL}$Q \| R_\lambda$ \uparrow
+D_{KL}$Q \\mid  R_\lambda$ \uparrow
 
 ⸻
 
@@ -182,10 +182,10 @@ D_{KL}$Q \| R_\lambda$ \uparrow
 
 JSD:
 
-JSD$P \| Q$ =
-\frac{1}{2} D_{KL}$P \| M$
+JSD$P \\mid  Q$ =
+\frac{1}{2} D_{KL}$P \\mid  M$
 +
-\frac{1}{2} D_{KL}$Q \| M$
+\frac{1}{2} D_{KL}$Q \\mid  M$
 
 với:
 

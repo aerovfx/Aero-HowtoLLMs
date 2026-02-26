@@ -55,7 +55,7 @@ Giả sử:
 
 Một hệ thống được coi là công bằng nếu:
 
-P$\hat{Y}|A=a_1$ \approx P$\hat{Y}|A=a_2$
+P$\hat{Y}\mid A=a_1$ \approx P$\hat{Y}\mid A=a_2$
 
 với mọi giá trị a_1, a_2.
 
@@ -67,11 +67,11 @@ với mọi giá trị a_1, a_2.
 
 Điều kiện:
 
-P$\hat{Y}=1|A=0$ = P$\hat{Y}=1|A=1$
+P$\hat{Y}=1\mid A=0$ = P$\hat{Y}=1\mid A=1$
 
 Độ lệch DP:
 
-\Delta_{DP} = |P$\hat{Y}=1|A=0$ - P$\hat{Y}=1|A=1$|
+\Delta_{DP} = |P$\hat{Y}=1\mid A=0$ - P$\hat{Y}=1\mid A=1$|
 
 Nếu \Delta_{DP} lớn → có thiên lệch.
 
@@ -81,7 +81,7 @@ Nếu \Delta_{DP} lớn → có thiên lệch.
 
 Yêu cầu:
 
-P$\hat{Y}=1|Y=y, A=0$ = P$\hat{Y}=1|Y=y, A=1$
+P$\hat{Y}=1\mid Y=y, A=0$ = P$\hat{Y}=1\mid Y=y, A=1$
 
 với y \in \{0,1\}.
 
@@ -93,7 +93,7 @@ với y \in \{0,1\}.
 
 Một mô hình được calibrated nếu:
 
-P$Y=1|\hat{P}=p, A=a$ = p
+P$Y=1\mid \hat{P}=p, A=a$ = p
 
 Với mọi nhóm a.
 
@@ -207,7 +207,7 @@ Huấn luyện mô hình phụ đoán A:
 
 Tối ưu:
 
-\max_\theta \mathbb{E}[R] - \beta D_{KL}$P_\theta || P_{ref}$
+\max_\theta \mathbb{E}[R] - \beta D_{KL}$P_\theta \mid | P_{ref}$
 
 Trong đó reward bao gồm yếu tố fairness.
 

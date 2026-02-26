@@ -45,11 +45,11 @@ Mục tiêu: chọn đáp án có xác suất cao nhất theo mô hình.
 
 Với mô hình tự hồi quy (autoregressive), xác suất của một đáp án được tính:
 
-P$a_i \mid c$ = \prod_{t=1}^{T_i} P$w_t \mid c, w_{<t}$
+P$a_i \mid c$ = \prod_{t=1}^{T_i} P$w_t \mid c, w_{\lt t}$
 
 Trong thực nghiệm, ta dùng log để tránh underflow:
 
-\log P$a_i \mid c$ = \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{<t}$
+\log P$a_i \mid c$ = \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
 
 ⸻
 
@@ -61,7 +61,7 @@ Nếu dùng tổng log-likelihood trực tiếp:
 
 Do đó cần chuẩn hoá:
 
-Score$a_i$ = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{<t}$
+Score$a_i$ = \frac{1}{T_i} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
 
 Đây là ave18_rage log-probability.
 

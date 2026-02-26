@@ -114,7 +114,7 @@ Khoảng cách cosine:
 
 \text{sim}(i,j) =
 \frac{E$w_i$^\top E$w_j$}
-{\|E$w_i$\| \|E$w_j$\|}
+{\|E$w_i$\\mid  \|E$w_j$\|}
 
 ⸻
 
@@ -122,7 +122,7 @@ Khoảng cách cosine:
 
 Giả sử:
 
-\Delta$w$ = \| E_{wiki}$w$ - E_{twitter}$w$ \|_2
+\Delta$w$ = \\mid  E_{wiki}$w$ - E_{twitter}$w$ \|_2
 
 Nếu:
 
@@ -189,11 +189,11 @@ Sai số:
 
 Tăng theo khoảng cách phân bố:
 
-D_{KL}$P_{wiki} \| P_{twitter}$
+D_{KL}$P_{wiki} \\mid  P_{twitter}$
 
 Với:
 
-D_{KL}$P\|Q$ = \sum_i P$i$\log\frac{P$i$}{Q$i$}
+D_{KL}$P\\mid Q$ = \sum_i P$i$\log\frac{P$i$}{Q$i$}
 
 ⸻
 

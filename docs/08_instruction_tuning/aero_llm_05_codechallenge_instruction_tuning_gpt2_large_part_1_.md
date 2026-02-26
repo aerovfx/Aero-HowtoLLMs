@@ -18,7 +18,7 @@
 
 Mô hình GPT-2 được công bố bởi nhóm nghiên cứu tại OpenAI (Radford et al., 2019) dưới sự dẫn dắt của Alec Radford. GPT-2 dựa trên kiến trúc Transformer decoder-only và được huấn luyện theo mục tiêu mô hình hóa ngôn ngữ tự hồi quy:
 
-P$x$ = \prod_{t=1}^{T} P$x_t \mid x_{<t}$
+P$x$ = \prod_{t=1}^{T} P$x_t \mid x_{\lt t}$
 
 Trong đó:
 	•	x = (x_1, x_2, ..., x_T) là chuỗi token
@@ -91,7 +91,7 @@ Kết quả quan sát thực nghiệm cho thấy:
 
 Mục tiêu huấn luyện là tối thiểu hóa cross-entropy:
 
-\mathcal{L} = - \sum_{t=1}^{T} \log P_\theta $x_t \mid x_{<t}$
+\mathcal{L} = - \sum_{t=1}^{T} \log P_\theta $x_t \mid x_{\lt t}$
 
 Trong instruction tuning, ta thường:
 	•	Nối instruction và response thành một chuỗi
@@ -100,7 +100,7 @@ Trong instruction tuning, ta thường:
 
 Khi đó:
 
-\mathcal{L}_{response} = - \sum_{t \in R} \log P_\theta $x_t \mid x_{<t}$
+\mathcal{L}_{response} = - \sum_{t \in R} \log P_\theta $x_t \mid x_{\lt t}$
 
 với R là tập token thuộc response.
 

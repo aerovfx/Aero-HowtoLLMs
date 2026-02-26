@@ -160,11 +160,11 @@ E_{\text{total}} = E_{\text{token}} + E_{\text{position}} + E_{\text{segment}}
 
 BERT huấn luyện bằng cách che một số token:
 
-P$t_i | T_{\setminus i}$
+P$t_i \mid  T_{\setminus i}$
 
 Loss:
 
-\mathcal{L}_{MLM} = - \sum_{i \in M} \log P$t_i | T_{\setminus i}$
+\mathcal{L}_{MLM} = - \sum_{i \in M} \log P$t_i \mid  T_{\setminus i}$
 
 Trong đó M là tập token bị mask.
 

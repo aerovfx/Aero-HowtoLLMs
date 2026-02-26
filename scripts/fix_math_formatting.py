@@ -2,16 +2,15 @@ import os
 import re
 
 def fix_content_structure(content):
-    # 1. Loại bỏ các khối ```md và ``` bao ngoài
+    # 1. Loại bỏ các khối code block markdown bao ngoài (```md ... ```)
     lines = content.split('\n')
-    new_lines = []
-    # Chỉ xóa nếu dòng đó đúng bằng ```md hoặc ``` và không có dấu hiệu là code block thực sự (như có nội dung bên cạnh)
-    for line in lines:
-        s = line.strip()
-        if s == '```md' or s == '```':
-            continue
-        new_lines.append(line)
-    content = '\n'.join(new_lines)
+    if len(lines) > 5:
+        new_lines = []
+        for line in lines:
+            if line.strip() in ['```md', '```']:
+                continue
+            new_lines.append(line)
+        content = '\n'.join(new_lines)
 
     # 2. Xóa bỏ các tham chiếu rác :contentReference[oaicite:...]
     content = re.sub(r':contentReference\[oaicite:\d+\]\{index=\d+\}', '', content)
@@ -24,12 +23,13 @@ def fix_content_structure(content):
 def fix_math_ultra_clean(content):
     content = fix_content_structure(content)
 
+    # Xử lý theo dòng để tránh lỗi regex matching nhầm vào bên trong $$
     lines = content.split('\n')
     new_lines = []
     in_math_block = False
     math_buffer = []
     
-    for line in lines:
+    for i, line in enumerate(lines):
         stripped = line.strip()
         if stripped == '$$':
             if not in_math_block:
@@ -37,37 +37,18 @@ def fix_math_ultra_clean(content):
                 math_buffer = []
             else:
                 in_math_block = False
-                
-                # Xử lý nội dung bên trong $$
-                # 1. Loại bỏ các dòng trống
-                clean_lines = [l.strip() for l in math_buffer if l.strip()]
-                
-                # 2. Kết nối các dòng: 
-                # Nếu một dòng kết thúc bằng \\ thì giữ nguyên xuống dòng (cho cases, v.v.)
-                # Nếu không, nối bằng khoảng trắng
-                final_formula_lines = []
-                current_segment = []
-                for l in clean_lines:
-                    current_segment.append(l)
-                    if l.endswith('\\\\') or l.endswith('\\'):
-                        # Nếu kết thúc bằng \ hoặc \\, ta coi như kết thúc một dòng logic trong LaTeX
-                        # Lưu ý: GitHub LaTeX dùng \\ cho xuống dòng trong cases
-                        # Ta chuẩn hóa: nếu là \ thì đổi thành \\
-                        line_text = " ".join(current_segment)
-                        if line_text.endswith('\\') and not line_text.endswith('\\\\'):
-                            line_text += '\\'
-                        final_formula_lines.append(line_text)
-                        current_segment = []
-                
-                if current_segment:
-                    final_formula_lines.append(" ".join(current_segment))
-                
-                formula = "\n".join(final_formula_lines)
-                
-                # Sửa lỗi dấu bằng ASCII
+                # Dọn dẹp nội dung toán học
+                formula = " ".join([l.strip() for l in math_buffer if l.strip()])
                 formula = re.sub(r'={3,}', '=', formula)
                 
-                # Đảm bảo có dòng trống TRƯỚC khối $$
+                # Sửa lỗi phổ biến khiến GitHub render sai
+                # 1. Thay | bằng \mid trong các xác suất P(...)
+                formula = re.sub(r'P\(([^)]*?)\|([^)]*?)\)', r'P(\1 \mid \2)', formula)
+                # 2. Thay < bằng \lt trong subscript
+                formula = re.sub(r'(\{.*?)\<(.*?)\}', r'\1\\lt \2}', formula)
+                # 3. Đảm bảo \ast được dùng thay cho * thô
+                formula = formula.replace('^*', '^{\\ast}')
+                
                 if new_lines and new_lines[-1].strip() != '':
                     new_lines.append('')
                 
@@ -80,11 +61,14 @@ def fix_math_ultra_clean(content):
             if in_math_block:
                 math_buffer.append(line)
             else:
+                # Sửa inline math x_{<t} -> x_{\lt t}
+                line = re.sub(r'(\$.*?\{.*?)\<(.*?\}.*?\$)', r'\1\\lt \2', line)
+                # Sửa inline math x_{t} | x_{<t} -> x_{t} \mid x_{\lt t}
+                line = re.sub(r'(\$.*?)\|(.*?\$)', r'\1\\mid \2', line)
                 new_lines.append(line)
     
     content = '\n'.join(new_lines)
     content = re.sub(r'\n{3,}', '\n\n', content)
-    
     content = content.replace("Ave18_rage", "Average")
     
     return content
@@ -98,17 +82,15 @@ def run_fix(directory):
                 try:
                     with open(path, 'r', encoding='utf-8') as f:
                         old_content = f.read()
-                    
                     new_content = fix_math_ultra_clean(old_content)
-                    
                     if new_content != old_content:
                         with open(path, 'w', encoding='utf-8') as f:
                             f.write(new_content)
                         count += 1
-                        print(f"Verified & Fixed: {path}")
+                        print(f"Purified: {path}")
                 except Exception as e:
                     print(f"Error {path}: {e}")
-    print(f"Finished. Updated {count} files.")
+    print(f"Done. Updated {count} files.")
 
 if __name__ == "__main__":
     run_fix("/Users/pixibox/Aero-HowtoLLMs/docs")

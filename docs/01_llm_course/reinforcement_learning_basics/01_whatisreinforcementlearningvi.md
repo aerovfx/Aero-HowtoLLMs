@@ -80,10 +80,10 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 - **Thành phần**:  
   - $S$: Tập trạng thái.  
   - $A$: Tập hành động.  
-  - $P(s'|s, a)$: Xác suất chuyển từ trạng thái $s$ sang $s'$ khi thực hiện hành động $a$.  
+  - $P(s'\mid s, a)$: Xác suất chuyển từ trạng thái $s$ sang $s'$ khi thực hiện hành động $a$.  
   - $R(s, a, s')$: Phần thưởng nhận được.  
   - $\gamma$: Hệ số chiết khấu (discount factor).  
-- **Mục tiêu**: Tìm **policy** $\pi(a|s)$ tối ưu để tối đa tổng phần thưởng kỳ vọng $\mathbb{E}[\sum \gamma^t R_t]$.
+- **Mục tiêu**: Tìm **policy** $\pi(a\mid s)$ tối ưu để tối đa tổng phần thưởng kỳ vọng $\mathbb{E}[\sum \gamma^t R_t]$.
 
 ---
 
@@ -95,7 +95,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
     2. **Policy Improvement**: Cập nhật policy để greedy theo $V^\pi$.  
   - **Value Iteration**: Trực tiếp tối ưu giá trị $V^*(s)$ bằng cách lặp công thức Bellman.  
 - **Ưu điểm**: Đảm bảo hội tụ.  
-- **Nhược điểm**: Chỉ áp dụng được cho không gian trạng thái nhỏ (do độ phức tạp $O(|S|^2|A|)$).  
+- **Nhược điểm**: Chỉ áp dụng được cho không gian trạng thái nhỏ (do độ phức tạp $O(\mid S|^2|A|)$).  
 
 ---
 
@@ -170,7 +170,7 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 ### **10. REINFORCE**  
 **Vai trò**: Policy gradient method cơ bản, tối ưu policy trực tiếp bằng cách **tăng xác suất các hành động mang lại phần thưởng cao**.  
 - **Công thức**:  
-  - $\nabla J(\theta) \approx \mathbb{E}[\sum_t \nabla_\theta \log \pi(a_t|s_t; \theta) G_t]$.  
+  - $\nabla J(\theta) \approx \mathbb{E}[\sum_t \nabla_\theta \log \pi(a_t\mid s_t; \theta) G_t]$.  
 - **Đặc điểm**:  
   - **High variance** do sử dụng Monte Carlo returns $G_t$.  
   - Không cần value function (chỉ policy network).  
@@ -180,10 +180,10 @@ Dưới đây là phân tích chi tiết về quá trình huấn luyện **Reinf
 ### **11. Advantage Actor-Critic (A2C)**  
 **Vai trò**: Kết hợp policy gradient (Actor) và value function (Critic) để giảm variance.  
 - **Cơ chế**:  
-  - **Actor**: Cập nhật policy $\pi(a|s; \theta)$.  
+  - **Actor**: Cập nhật policy $\pi(a\mid s; \theta)$.  
   - **Critic**: Ước lượng value function $V(s; \phi)$ để tính **advantage** $A(s, a) = Q(s, a) - V(s)$.  
 - **Công thức cập nhật**:  
-  - $\nabla J(\theta) \approx \mathbb{E}[\nabla_\theta \log \pi(a|s; \theta) \cdot A(s, a)]$.  
+  - $\nabla J(\theta) \approx \mathbb{E}[\nabla_\theta \log \pi(a\mid s; \theta) \cdot A(s, a)]$.  
 - **Ưu điểm**: Hiệu quả hơn REINFORCE nhờ advantage function.  
 
 ---

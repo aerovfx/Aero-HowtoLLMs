@@ -132,7 +132,7 @@ f_\theta$t$ \in \mathbb{R}^d
 
 Xác suất chọn tài liệu d_i trong retrieval:
 
-P$d_i|q$ =
+P$d_i\mid q$ =
 \frac{\exp$\alpha \cdot \cos(f(q$, f$d_i$))}
 {\sum_j \exp$\alpha \cdot \cos(f(q$, f$d_j$))}
 

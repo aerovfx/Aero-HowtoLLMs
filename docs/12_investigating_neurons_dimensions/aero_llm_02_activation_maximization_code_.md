@@ -37,7 +37,7 @@ Một kỹ thuật quan trọng được sử dụng là tham số `inputs_embed
 
 ### 2.3. Thiết lập Hàm Loss và Gradient Ascent
 - **Mục tiêu:** Cực đại hóa hoạt hóa $a$ tại tầng 4, chiều 90.
-- **Hàm tổn thất (Loss):** $L = -a + \lambda \|\theta\|_2^2$. Việc lấy dấu trừ biến bài toán thành cực tiểu hóa, phù hợp với hầu hết các bộ tối ưu (optimizers). Thành phần L2 được thêm vào để ngăn chặn hiện tượng bùng nổ trọng số.
+- **Hàm tổn thất (Loss):** $L = -a + \lambda \\mid \theta\|_2^2$. Việc lấy dấu trừ biến bài toán thành cực tiểu hóa, phù hợp với hầu hết các bộ tối ưu (optimizers). Thành phần L2 được thêm vào để ngăn chặn hiện tượng bùng nổ trọng số.
 - **Bộ tối ưu:** Adam Optimizer với tốc độ học (learning rate) 0.001 qua 500 bước lặp.
 
 ---

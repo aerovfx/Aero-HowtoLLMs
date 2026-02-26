@@ -104,8 +104,8 @@ R_\alpha = \alpha P + $1-\alpha$Q
 
 Sau đó tính:
 
-D_{KL}$P || R_\alpha$
-D_{KL}$Q || R_\alpha$
+D_{KL}$P \mid | R_\alpha$
+D_{KL}$Q \mid | R_\alpha$
 
 Đường cong này tạo thành một frontier tương tự ROC curve.
 

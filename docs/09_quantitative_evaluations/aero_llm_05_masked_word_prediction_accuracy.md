@@ -205,7 +205,7 @@ Khoảng tin cậy 95%:
 
 MLM (BERT) vs Autoregressive (GPT):
 
-P(x_1,...,x_n) = \prod_{t=1}^{n} P$x_t \mid x_{<t}$
+P(x_1,...,x_n) = \prod_{t=1}^{n} P$x_t \mid x_{\lt t}$
 
 Khác với:
 

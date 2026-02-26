@@ -209,7 +209,7 @@ Loss toàn chuỗi:
 -
 \sum_{t=1}^{T}
 \log
-P$x_t \mid x_{<t}$
+P$x_t \mid x_{\lt t}$
 
 Gradient truyền ngược qua:
 	•	Unembedding

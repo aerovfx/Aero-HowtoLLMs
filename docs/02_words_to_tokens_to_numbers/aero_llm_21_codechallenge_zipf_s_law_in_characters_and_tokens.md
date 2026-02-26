@@ -208,7 +208,7 @@ Nếu từ vựng quá lớn:
 
 Tối ưu hóa:
 
-\min_{|V|} \left$\frac{n^2}{R^2} + \lambda |V| \right$
+\min_{|V|} \left$\frac{n^2}{R^2} + \lambda \mid V| \right$
 
 ⸻
 

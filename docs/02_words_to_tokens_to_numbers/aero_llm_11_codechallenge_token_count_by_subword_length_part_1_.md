@@ -53,7 +53,7 @@ Gọi:
 
 Phân bố xác suất theo độ dài:
 
-P$L = k$ = \frac{|\{t \in V : \ell$t$ = k\}|}{|V|}
+P$L = k$ = \frac{\mid \{t \in V : \ell$t$ = k\}|}{|V|}
 
 ⸻
 

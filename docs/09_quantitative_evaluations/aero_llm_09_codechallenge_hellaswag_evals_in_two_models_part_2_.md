@@ -47,15 +47,15 @@ Mục tiêu: so sánh hai mô hình M_1 và M_2.
 
 Với mô hình tự hồi quy:
 
-P$a_i \mid c$ = \prod_{t=1}^{T_i} P$w_t \mid c, w_{<t}$
+P$a_i \mid c$ = \prod_{t=1}^{T_i} P$w_t \mid c, w_{\lt t}$
 
 Để tránh tràn số:
 
-\log P$a_i \mid c$ = \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{<t}$
+\log P$a_i \mid c$ = \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
 
 Trong thực tế, ta tính:
 
-Score$a_i$ = \frac{1}{T_i^\alpha} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{<t}$
+Score$a_i$ = \frac{1}{T_i^\alpha} \sum_{t=1}^{T_i} \log P$w_t \mid c, w_{\lt t}$
 
 Trong đó:
 	•	\alpha = 1 → chuẩn hoá trung bình
@@ -67,7 +67,7 @@ Trong đó:
 
 Transformer tính xác suất thông qua:
 
-h_t = \text{Transformer}$c, w_{<t}$
+h_t = \text{Transformer}$c, w_{\lt t}$
 
 Sau đó:
 

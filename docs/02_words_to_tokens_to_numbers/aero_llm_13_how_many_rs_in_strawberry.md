@@ -150,7 +150,7 @@ Attention học mối quan hệ ngữ nghĩa, không học phép toán cộng s�
 
 Giả sử mô hình ước lượng xác suất:
 
-P$Y = k | S$
+P$Y = k \mid  S$
 
 Trong đó:
 	•	Y: số lượng r

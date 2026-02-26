@@ -31,7 +31,7 @@ Nhiệm vụ ở đây biến từ "Đọc" sang "Viết": Ta sẽ chủ động
 ## 2. Tiềm Năng Của Phương Pháp Thao Túng Nhân Quả (The Power of Causal Manipulations)
 
 ### Quyền Năng Phản Thực Tế (Counterfactual Reasoning)
-Khác biệt lớn nhất của Nghiên cứu Causal so với Observational là nó giúp ta trả lời các câu hỏi "Sẽ thế nào nếu..." (What-if questions). Trong cuộc sống, bạn không thể thay đổi quyết định quá khứ để xem kết quả. Nhưng trong hệ thống LLMs, bằng cách dùng Hooks, ta có thể cô lập một biến $X$, giả lập nó bằng $Y$ (Counterfactual Activation), và ép Phổ xác suất $P(Token | Context\_Mod)$ thay đổi. 
+Khác biệt lớn nhất của Nghiên cứu Causal so với Observational là nó giúp ta trả lời các câu hỏi "Sẽ thế nào nếu..." (What-if questions). Trong cuộc sống, bạn không thể thay đổi quyết định quá khứ để xem kết quả. Nhưng trong hệ thống LLMs, bằng cách dùng Hooks, ta có thể cô lập một biến $X$, giả lập nó bằng $Y$ (Counterfactual Activation), và ép Phổ xác suất $P(Token \mid  Context\_Mod)$ thay đổi. 
 
 ---
 

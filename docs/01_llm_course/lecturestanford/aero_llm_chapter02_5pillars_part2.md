@@ -210,7 +210,7 @@ Rating: 5/5
 |--------|------------|--------|
 | **Latency** | Time to first token | < 500ms |
 | **Throughput** | Tokens/sec | > 100 |
-| **Cost** | $/1K tokens | < $0.01 |
+| **Cost** | $/1K tokens \mid  < $0.01 |
 | **Uptime** | Availability % | > 99.9% |
 | **User Satisfaction** | Thumbs up % | > 80% |
 
