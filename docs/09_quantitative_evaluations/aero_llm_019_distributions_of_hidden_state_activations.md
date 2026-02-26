@@ -49,7 +49,11 @@ Với biểu đồ phân tán, ta đối chiếu các chỉ số token và chi�
 
 Để hiểu được các phép tính ẩn liên đới như thế nào qua từng lớp, ta sử dụng ma trận **Hiệp phương sai** (Covariance) và ma trận tương quan được bình phương ($R^2$, giải thích lượng phương sai được chia sẻ). 
 
-$$ R^2 = \text{Corr}(X, Y)^2 $$
+$$
+
+R^2 = \text{Corr}(X, Y)^2
+
+$$
 
 Hai đại lượng $X$ và $Y$ hoàn toàn không tương quan sẽ có $R^2 \approx 0$. Ngược lại, nếu chúng giống hệt, kết quả trả về 1 (hoặc 100%).
 

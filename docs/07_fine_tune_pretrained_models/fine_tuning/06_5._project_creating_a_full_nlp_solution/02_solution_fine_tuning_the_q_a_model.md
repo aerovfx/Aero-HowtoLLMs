@@ -202,7 +202,11 @@ print(f"ROUGE-L: {scores['rougeL'].precision:.4f}")
 
 ### 4.1 Tại Sao Sử Dụng Transfer Learning?
 
-$$\text{Performance}_{TL} > \text{Performance}_{from\_scratch}$$
+$$
+
+\text{Performance}_{TL} > \text{Performance}_{from\_scratch}
+
+$$
 
 Lý do:
 - Mô hình FLAN-T5 đã được pre-train trên nhiều tác vụ

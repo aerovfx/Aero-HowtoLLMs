@@ -106,10 +106,12 @@ Trong đó, GPT-2 Small có khoảng 124 triệu tham số, được xem là nh�
 ### 4.2. So sánh với mô hình tự xây dựng
 
 Bài tập cho thấy mô hình “Model 5” tự xây dựng có khoảng 163 triệu tham số. Sau khi trừ đi lớp unembedding (~38 triệu), số còn lại trùng khớp với GPT-2 Small:
-$$
-163M - 38M \approx 124M
+
 $$
 
+163M - 38M \approx 124M
+
+$$
 
 Kết quả này chứng minh rằng hai mô hình có kiến trúc tương đương. 
 
@@ -120,17 +122,18 @@ Kết quả này chứng minh rằng hai mô hình có kiến trúc tương đư
 ### 5.1. Embedding và Unembedding
 
 Trong GPT-2, ma trận embedding đầu vào và ma trận unembedding đầu ra được chia sẻ:
-$$
-W_{embed} = W_{unembed}^T
+
 $$
 
+W_{embed} = W_{unembed}^T
+
+$$
 
 Điều này giúp:
 
 * Giảm số lượng tham số,
 * Cải thiện khả năng tổng quát hóa,
 * Tăng tính ổn định huấn luyện.
-
 
 
 ---
@@ -146,10 +149,12 @@ Việc trích xuất và so sánh hai ma trận cho thấy hệ số tương qua
 ### 6.1. Định nghĩa
 
 Trong một lớp tuyến tính:
-$$
-y = Wx + b
+
 $$
 
+y = Wx + b
+
+$$
 
 Trong đó:
 
@@ -194,7 +199,6 @@ Bài tập đếm tham số giúp người học:
 * Hiểu rõ cấu trúc nội tại của LLM,
 * Rèn luyện kỹ năng phân tích mô hình,
 * Liên kết lý thuyết và thực hành.
-
 
 
 ---

@@ -48,7 +48,6 @@ Mục tiêu của nghiên cứu này là phân tích quá trình trên dưới g
 
 Scaled Dot-Product Attention được định nghĩa:
 
-
 $$
 
 \text{Attention}(Q,K,V) =
@@ -57,7 +56,6 @@ $$
 \right)V
 
 $$
-
 
 Trong đó:
 
@@ -74,13 +72,11 @@ Công thức này cho phép mô hình tính toán mức độ liên quan giữa 
 
 Đối với mô hình tự hồi quy, attention cần tuân thủ ràng buộc nhân quả:
 
-
 $$
 
 j > i \Rightarrow \text{masked}
 
 $$
-
 
 Causal mask được áp dụng để ngăn mô hình truy cập token tương lai, đảm bảo tính hợp lệ khi sinh chuỗi.
 
@@ -117,7 +113,6 @@ Token được sinh ngẫu nhiên và ánh xạ sang embedding thông qua ma tr�
 
 Ba ma trận Q, K, V được xây dựng bằng các lớp tuyến tính:
 
-
 $$
 
 Q = XW_Q,\quad
@@ -125,7 +120,6 @@ K = XW_K,\quad
 V = XW_V
 
 $$
-
 
 với $W_Q, W_K, W_V \in \mathbb{R}^{d \times d}$.
 
@@ -372,7 +366,6 @@ MHA là nền tảng cho các mô hình như BERT, GPT và LLaMA.
 
 Multi-Head Attention được định nghĩa:
 
-
 $$
 
 \text{MHA}(Q,K,V) =
@@ -380,16 +373,13 @@ $$
 
 $$
 
-
 với:
-
 
 $$
 
 h_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
 
 $$
-
 
 Trong đó:
 
@@ -405,23 +395,19 @@ Mỗi head học một không gian biểu diễn riêng biệt.
 
 Với embedding dimension $d$:
 
-
 $$
 
 d_{head} = \frac{d}{H}
 
 $$
 
-
 Mỗi head xử lý tensor kích thước:
-
 
 $$
 
 (T, d_{head})
 
 $$
-
 
 Cách chia này giúp:
 
@@ -434,7 +420,6 @@ Cách chia này giúp:
 
 Trong mô hình tự hồi quy, mỗi head đều áp dụng causal mask:
 
-
 $$
 
 M_{ij} =
@@ -444,7 +429,6 @@ M_{ij} =
 \end{cases}
 
 $$
-
 
 Mask này đảm bảo không rò rỉ thông tin tương lai.
 

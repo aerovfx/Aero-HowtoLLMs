@@ -29,8 +29,10 @@ Kỹ thuật t-SNE, được nghiên cứu và tiên phong bởi Geoffrey Hinton
 ### 1.1 Tính Toán Phân Phối Ở Không Gian Điểm Ảnh Gốc
 Đầu tiên, quy chuyển chuẩn hàm Softmax lên ma trận Euclidean. Tại lớp không gian bậc cao $X$, khả năng để vector $x_j$ nằm kề $x_i$ được biểu diễn bởi mật độ xác suất hàm mũ (Gaussian Gaussian Distribution):
 
-$$ 
+$$
+
 p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)}
+
 $$
 
 Trong đó, $\sigma_i$ là phương sai (variance) chịu ảnh hưởng cấu hình phân tán kề lặp (Perplexity).
@@ -39,7 +41,9 @@ Trong đó, $\sigma_i$ là phương sai (variance) chịu ảnh hưởng cấu h
 Hệ thống giả lập tiếp tục một chiều thấp $Y$ với cấu trúc Student t-Distribution nặng đuôi để ngăn cản hiện tượng đám đông nhồi nhét cực điểm (Crowding problem). Và mục đích vĩ đại của T-SNE là tinh chỉnh sao cho đồ thị phân phối khoảng cách cấu hình tại khối nhãn $Y$ mô phỏng chân xác nhất khối điểm $X$. Máy giải đạo hàm (Cost function gradient descent) thông qua việc kéo Min cho hàm chênh lệch **Kullback-Leibler (KL) Divergence**:
 
 $$
+
 C = \sum_{i} KL(P_i \parallel Q_i) = \sum_{i,j} p_{ij} \log \frac{p_{ij}}{q_{ij}}
+
 $$
 
 Sự trượt biến của Loss này khẳng định $Y$ đã tạo ra bóng ma 2 chiều sinh động của Mạng Nơ ron khổng lồ mà không phá hủy các quần tụ tương quan. Tính kết sinh của T-SNE là phi định chuẩn (Probabilistic/Non-deterministic). Mọi lần khởi động đều cho ra bản đồ khác trên nền tương đồng nhãn.
@@ -62,9 +66,13 @@ Mọi quần đảo nối chuỗi lẫn nhau nhờ $\epsilon$ hợp thức hóa 
 
 ## 3. Hình Thành Đồ Thị Tương Quan Ma Trận Gram (Gram Matrix)
 Ở lớp phân lớp toán học sâu hơn, cả t-SNE hay phân tập DBSCAN đều giải phẫu thông qua Ma trận Đồ Đồng Cấu Gram (Gram Matrix) của một bộ vi xử lý Vector nhúng:
+
 $$
-G_{E} = E \cdot E^T 
+
+G_{E} = E \cdot E^T
+
 $$
+
 Khi các vector được phân bổ đơn vị với lượng Vector-norm chuẫn L2, Gram Matrix lập tức hóa thân thành khối ảnh chiếu Cosine Similarity Matrix. Nó tiết lộ những kiến trúc lưới đồ thị sắc sảo đang giấu nhẻm ở đám mây khối $n$-nghiệm phức loạn. 
 
 ---

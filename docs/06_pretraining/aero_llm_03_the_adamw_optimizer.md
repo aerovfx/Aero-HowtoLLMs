@@ -42,10 +42,12 @@ Mục tiêu của bài viết là:
 ### 2.1. Bài toán tối ưu trong học sâu
 
 Trong huấn luyện mạng nơ-ron, mục tiêu là tìm bộ tham số $W$ sao cho hàm mất mát ( L(W) ) đạt giá trị nhỏ nhất:
-$$
-W^* = \arg\min_W L(W)
+
 $$
 
+W^* = \arg\min_W L(W)
+
+$$
 
 Hàm mất mát thường được xây dựng từ cross-entropy hoặc negative log-likelihood. 
 
@@ -54,10 +56,12 @@ Hàm mất mát thường được xây dựng từ cross-entropy hoặc negativ
 ### 2.2. Gradient Descent
 
 Cập nhật tham số trong Gradient Descent có dạng:
-$$
-W_{t+1} = W_t - \eta \nabla L(W_t)
+
 $$
 
+W_{t+1} = W_t - \eta \nabla L(W_t)
+
+$$
 
 Trong đó:
 
@@ -81,16 +85,18 @@ Cập nhật Adam gồm hai thống kê:
 
 * Trung bình bậc nhất $v_t$,
 * Trung bình bậc hai $s_t$.
+
 $$
+
 v_t = \beta_1 v_{t-1} + (1-\beta_1) g_t
+
 $$
 
 $$
+
 s_t = \beta_2 s_{t-1} + (1-\beta_2) g_t^2
+
 $$
-
-
-
 
 ---
 
@@ -111,10 +117,12 @@ Do đó, Adam trở thành thuật toán phổ biến trong huấn luyện mạn
 ### 4.1. L2 Regularization
 
 Để hạn chế overfitting, hàm mất mát thường được mở rộng:
-$$
-L'(W) = L(W) + \lambda ||W||^2
+
 $$
 
+L'(W) = L(W) + \lambda ||W||^2
+
+$$
 
 Trong đó $\lambda$ là hệ số regularization. 
 
@@ -133,7 +141,6 @@ Khi tích hợp L2 trực tiếp vào Adam, thành phần regularization bị tr
 * Tạo tương quan không mong muốn giữa các tham số.
 
 
-
 ---
 
 ## 5. Thuật Toán AdamW
@@ -144,13 +151,14 @@ AdamW tách riêng hai bước:
 
 1. Cập nhật Adam thuần túy,
 2. Áp dụng weight decay sau cập nhật.
-$$
-W_{t+1} = W_t - \eta \hat{g}_t - \eta \lambda W_t
+
 $$
 
+W_{t+1} = W_t - \eta \hat{g}_t - \eta \lambda W_t
+
+$$
 
 Trong đó, thành phần weight decay không phụ thuộc vào gradient.
-
 
 
 ---
@@ -195,7 +203,6 @@ AdamW giúp:
 * Kiểm soát độ lớn trọng số,
 * Ổn định gradient,
 * Cải thiện hiệu suất huấn luyện.
-
 
 
 ---

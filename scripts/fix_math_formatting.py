@@ -1,57 +1,58 @@
 import os
 import re
 
-def fix_math_formats(content):
+def ensure_math_spacing(content):
     """
-    Fix math formulas for GitHub Markdown rendering.
-    Converts [ formula ] and \[ formula \] to $$ formula $$ blocks.
+    GitHub requires $$ math blocks to:
+    1. Have a blank line BEFORE the opening $$
+    2. Have a blank line AFTER the closing $$
+    3. $$ must be on its own line (not inline with text)
+    
+    This script fixes all $$ blocks to ensure proper spacing.
     """
     
-    # === PHASE 0: Fix [ \n formula \n ] BEFORE protecting code blocks ===
-    # This pattern is unambiguous: a line with just "[", math content, then a line with just "]" 
-    def convert_bracket_block(match):
+    # Step 1: Normalize $$ blocks that are on the same line as content
+    # e.g., "text: $$\nformula\n$$" -> "text:\n\n$$\nformula\n$$"
+    # Match text before $$ on the same line
+    content = re.sub(r'([^\n])\s*\$\$\s*\n', r'\1\n\n$$\n', content)
+    
+    # Match text after $$ on the same line  
+    content = re.sub(r'\n\$\$\s*([^\n\$])', r'\n$$\n\n\1', content)
+    
+    # Step 2: Ensure blank line BEFORE $$
+    # Replace "\n$$\n" with "\n\n$$\n" when there's no blank line before
+    content = re.sub(r'([^\n])\n\$\$\n', r'\1\n\n$$\n', content)
+    
+    # Step 3: Ensure blank line AFTER $$
+    # Replace "\n$$\n" (closing) with "\n$$\n\n" when followed by non-blank
+    content = re.sub(r'\n\$\$\n([^\n])', r'\n$$\n\n\1', content)
+    
+    # Step 4: Clean up excessive blank lines (more than 2 consecutive)
+    content = re.sub(r'\n{4,}', '\n\n\n', content)
+    
+    return content
+
+
+def fix_bracket_math(content):
+    """Convert remaining [ formula ] style math to $$ formula $$"""
+    
+    def convert_block(match):
         inner = match.group(1).strip()
         if not inner:
             return match.group(0)
-        # Check for math-like content
         if any(c in inner for c in ['\\', '_', '^', '=']):
-            return f"\n$$\n{inner}\n$$\n"
+            return f"\n\n$$\n{inner}\n$$\n\n"
         return match.group(0)
     
-    # [ on its own line, content, ] on its own line
-    content = re.sub(r'\n\[\s*\n([\s\S]*?)\n\]\s*(?=\n)', convert_bracket_block, content)
-    
-    # === PHASE 1: Protect code blocks and existing valid constructs ===
-    protections = []
-    
-    def protect(match):
-        protections.append(match.group(0))
-        return f"__PROT_{len(protections)-1}__"
-    
-    # Protect fenced code blocks
-    content = re.sub(r'```[\s\S]*?```', protect, content)
-    # Protect inline code
-    content = re.sub(r'`[^`\n]+`', protect, content)
-    # Protect existing $$ blocks
-    content = re.sub(r'\$\$[\s\S]*?\$\$', protect, content)
-    # Protect existing $ inline math
-    content = re.sub(r'\$[^\$\n]+?\$', protect, content)
-    # Protect markdown links
-    content = re.sub(r'\[([^\]]*?)\]\([^\)]*?\)', protect, content)
-    # Protect reference citations [1], [2]
-    content = re.sub(r'\[\d+\]', protect, content)
-    
-    # === PHASE 2: Convert remaining \[ \] and \( \) ===
-    content = re.sub(r'\\\[([\s\S]*?)\\\]', lambda m: f"\n$$\n{m.group(1).strip()}\n$$\n", content)
+    content = re.sub(r'\n\[\s*\n([\s\S]*?)\n\]\s*(?=\n)', convert_block, content)
+    content = re.sub(r'\\\[([\s\S]*?)\\\]', lambda m: f"\n\n$$\n{m.group(1).strip()}\n$$\n\n", content)
     content = re.sub(r'\\\((.*?)\\\)', lambda m: f"${m.group(1).strip()}$", content)
     
-    # === PHASE 3: Fix typos ===
+    return content
+
+
+def fix_typos(content):
     content = content.replace("Ave18_rage", "Average")
-    
-    # === PHASE 4: Restore protections ===
-    for i in range(len(protections) - 1, -1, -1):
-        content = content.replace(f"__PROT_{i}__", protections[i])
-    
     return content
 
 
@@ -67,7 +68,9 @@ def process_docs(base_dir):
                     with open(path, 'r', encoding='utf-8') as f:
                         content = f.read()
                     
-                    new_content = fix_math_formats(content)
+                    new_content = fix_bracket_math(content)
+                    new_content = fix_typos(new_content)
+                    new_content = ensure_math_spacing(new_content)
                     
                     if new_content != content:
                         with open(path, 'w', encoding='utf-8') as f:

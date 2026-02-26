@@ -39,16 +39,13 @@ Trong các hệ embedding hiện đại, cosine similarity được ưu tiên do
 
 Cho hai vector:
 
-
 $$
 
 \mathbf{x}, \mathbf{y} \in \mathbb{R}^d
 
 $$
 
-
 Cosine similarity được định nghĩa:
-
 
 $$
 
@@ -59,9 +56,7 @@ $$
 
 $$
 
-
 Trong đó:
-
 
 $$
 
@@ -71,8 +66,6 @@ $$
 
 $$
 
-
-
 $$
 
 \|\mathbf{x}\|
@@ -81,11 +74,9 @@ $$
 
 $$
 
-
 ### 2.1 Diễn giải hình học
 
 Gọi $\theta$ là góc giữa hai vector:
-
 
 $$
 
@@ -95,16 +86,13 @@ $$
 
 $$
 
-
 Suy ra:
-
 
 $$
 
 \text{cosine}(\mathbf{x},\mathbf{y}) = \cos \theta
 
 $$
-
 
 Do đó:
 
@@ -118,14 +106,11 @@ Do đó:
 
 Nếu ta chuẩn hóa:
 
-
 $$
 
 \hat{\mathbf{x}} = \frac{\mathbf{x}}{\|\mathbf{x}\|}
 
 $$
-
-
 
 $$
 
@@ -133,9 +118,7 @@ $$
 
 $$
 
-
 Khi đó:
-
 
 $$
 
@@ -145,7 +128,6 @@ $$
 
 $$
 
-
 Điều này cho thấy cosine similarity chính là tích vô hướng của các vector đơn vị.
 
 ---
@@ -153,7 +135,6 @@ $$
 ## 4. Hệ số tương quan Pearson
 
 Cho hai biến ngẫu nhiên $X, Y$, hệ số tương quan Pearson:
-
 
 $$
 
@@ -164,9 +145,7 @@ $$
 
 $$
 
-
 Trong đó:
-
 
 $$
 
@@ -178,8 +157,6 @@ $$
 
 $$
 
-
-
 $$
 
 \sigma_X
@@ -190,13 +167,11 @@ $$
 
 $$
 
-
 ---
 
 ## 5. Mối quan hệ giữa Cosine và Pearson
 
 Giả sử ta chuẩn hóa vector bằng cách trừ trung bình:
-
 
 $$
 
@@ -204,17 +179,13 @@ $$
 
 $$
 
-
-
 $$
 
 \tilde{y}_i = y_i - \bar{y}
 
 $$
 
-
 Khi đó:
-
 
 $$
 
@@ -225,7 +196,6 @@ $$
 \|\tilde{\mathbf{y}}\|}
 
 $$
-
 
 Như vậy:
 
@@ -245,16 +215,13 @@ Như vậy:
 
 Giả sử:
 
-
 $$
 
 E \in \mathbb{R}^{|V| \times d}
 
 $$
 
-
 với mỗi từ:
-
 
 $$
 
@@ -262,9 +229,7 @@ $$
 
 $$
 
-
 Độ tương đồng ngữ nghĩa giữa hai từ:
-
 
 $$
 
@@ -275,13 +240,11 @@ $$
 
 $$
 
-
 ---
 
 ## 7. Ma trận tương đồng
 
 Cho tập $n$ từ:
-
 
 $$
 
@@ -289,9 +252,7 @@ X \in \mathbb{R}^{n \times d}
 
 $$
 
-
 Ma trận cosine similarity:
-
 
 $$
 
@@ -302,9 +263,7 @@ S_{ij}
 
 $$
 
-
 Nếu ta vector hóa phần tam giác trên của $S$ và tính tương quan giữa hai mô hình embedding khác nhau:
-
 
 $$
 
@@ -316,7 +275,6 @@ r
 
 $$
 
-
 Ta thu được mức độ tương đồng cấu trúc (Representational Similarity Analysis).
 
 ---
@@ -324,7 +282,6 @@ Ta thu được mức độ tương đồng cấu trúc (Representational Simila
 ## 8. So sánh với Khoảng cách Euclid
 
 Khoảng cách:
-
 
 $$
 
@@ -334,9 +291,7 @@ d(\mathbf{x},\mathbf{y})
 
 $$
 
-
 Nếu vector đã chuẩn hóa:
-
 
 $$
 
@@ -346,9 +301,7 @@ $$
 
 $$
 
-
 Suy ra:
-
 
 $$
 
@@ -358,7 +311,6 @@ $$
 \|\mathbf{x}-\mathbf{y}\|^2
 
 $$
-
 
 Điều này chứng minh cosine similarity và Euclid distance có quan hệ tuyến tính khi vector được chuẩn hóa.
 
@@ -374,7 +326,6 @@ Trong không gian cao chiều:
 
 Giả sử:
 
-
 $$
 
 \mathbf{x},\mathbf{y}
@@ -382,9 +333,7 @@ $$
 
 $$
 
-
 Khi $d \to \infty$:
-
 
 $$
 
@@ -392,7 +341,6 @@ $$
 \to 0
 
 $$
-
 
 Đây là hiện tượng “curse of dimensionality”.
 
@@ -409,7 +357,6 @@ Cosine similarity là công cụ hình học cốt lõi trong NLP vì:
 
 Về mặt toán học:
 
-
 $$
 
 \text{Pearson}
@@ -417,8 +364,6 @@ $$
 \text{Cosine}(\text{centered vectors})
 
 $$
-
-
 
 $$
 
@@ -428,7 +373,6 @@ $$
 \quad (\text{khi chuẩn hóa})
 
 $$
-
 
 Hiểu rõ mối quan hệ này giúp ta phân tích chính xác cấu trúc không gian embedding và đánh giá sự tương đồng giữa các mô hình ngôn ngữ.
 

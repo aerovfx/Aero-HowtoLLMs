@@ -53,7 +53,10 @@ Mỗi loại bài toán đòi hỏi một thước đo sai số khác nhau:
 Một sự nhầm lẫn phổ biến là coi Loss và Cost là một, nhưng chúng có sự khác biệt về quy mô:
 - **Loss (Mất mát):** Tính trên **một mẫu** dữ liệu duy nhất.
 - **Cost (Chi phí - $J$):** Là **trung bình cộng** của tất cả các giá trị Loss trên toàn bộ tập dữ liệu (hoặc một lô dữ liệu - batch).
-  $$J(w) = \frac{1}{N} \sum_{i=1}^{N} L_i$$
+  $$J(w) = \frac{1}{N} \sum_{i=1}^{N} L_i
+
+$$
+
 Việc tối ưu hóa dựa trên Cost giúp mô hình có cái nhìn tổng quát về toàn bộ dữ liệu, tránh hiện tượng quá khớp (overfitting) nếu chỉ nhìn vào từng mẫu riêng lẻ.
 
 ---
@@ -61,7 +64,13 @@ Việc tối ưu hóa dựa trên Cost giúp mô hình có cái nhìn tổng qu�
 ## 4. Mục tiêu của Huấn luyện (Optimization Goal)
 
 Toàn bộ quá trình huấn luyện có thể tóm gọn trong một biểu thức toán học duy nhất:
-$$\min_{W} J(W)$$
+
+$$
+
+\min_{W} J(W)
+
+$$
+
 Tìm tập hợp các trọng số $W$ sao cho hàm chi phí $J$ đạt giá trị nhỏ nhất. Lúc này, dự đoán của mô hình sẽ khớp nhất với thực tế. Trong thực tế, chúng ta thường sử dụng các "lô" (batches) nhỏ dữ liệu để tính toán trung bình chi phí, giúp cân bằng giữa tốc độ tính toán và độ chính xác của gradient.
 
 ---

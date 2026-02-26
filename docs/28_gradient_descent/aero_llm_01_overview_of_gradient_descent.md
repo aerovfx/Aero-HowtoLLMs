@@ -41,7 +41,13 @@ Quá trình "học" của một mô hình AI thực chất là một chuỗi cá
 ## 3. Quy tắc cập nhật và Tốc độ học (Learning Rate)
 
 Công thức cốt lõi của việc cập nhật tham số là:
-$$W_{mới} = W_{cũ} - \eta \cdot \frac{df}{dw}$$
+
+$$
+
+W_{mới} = W_{cũ} - \eta \cdot \frac{df}{dw}
+
+$$
+
 Trong đó:
 - **$\frac{df}{dw}$**: Đạo hàm của hàm mất mát tại vị trí hiện tại.
 - **$\eta$ (Learning Rate):** Một hệ số nhỏ (ví dụ 0.01) dùng để kiểm soát kích thước bước đi. Nếu bước đi quá lớn, bạn có thể nhảy qua khỏi thung lũng; nếu quá nhỏ, quá trình học sẽ diễn ra cực kỳ chậm chạp.

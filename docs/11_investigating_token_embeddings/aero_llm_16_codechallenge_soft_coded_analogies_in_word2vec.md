@@ -35,9 +35,13 @@ Theo luận thuyết trên, khả năng thao túng phép Tương đồng Loại 
 ## 2. Kiểm Định Thất Bại Với Hàm Khai Khai Khái Niệm Tự Động (Soft-Coded Function)
 
 Bằng việc gói gém cấu hình hàm Soft-coded nhận vào đầu vào linh hoạt:
-$$ 
-\mathbf{V}_{\text{Analogy}} = \mathbf{V}_{\text{Word1}} - \mathbf{V}_{\text{Word2}} + \mathbf{V}_{\text{Word3}} 
+
 $$
+
+\mathbf{V}_{\text{Analogy}} = \mathbf{V}_{\text{Word1}} - \mathbf{V}_{\text{Word2}} + \mathbf{V}_{\text{Word3}}
+
+$$
+
 Thuật toán phóng chiếu mũi tên $V_{\text{Analogy}}$ rà quét qua tập 400.000 lượng từ điển của Word2Vec thông qua Cosine Similarity để xuất kho Top 10 ứng cử viên gần nhất.
 
 **Kiểm định 1 - Sự thần thánh hóa:**

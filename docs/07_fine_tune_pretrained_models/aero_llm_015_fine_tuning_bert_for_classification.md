@@ -56,10 +56,12 @@ Mô hình được đề xuất gồm hai thành phần chính:
 Đầu ra của BERT có kích thước 768 chiều, sau đó được đưa qua lớp dropout và lớp fully-connected để ánh xạ về 2 nhãn phân loại. 
 
 Công thức phân loại:
-$$
-y = \text{Softmax}(W h + b)
+
 $$
 
+y = \text{Softmax}(W h + b)
+
+$$
 
 Trong đó $h$ là vector đặc trưng từ BERT.
 
@@ -155,10 +157,12 @@ Nhãn dự đoán được xác định bằng giá trị logit lớn nhất.
 ### 3.5 Đánh giá mô hình
 
 Độ chính xác được tính theo công thức:
-$$
-Accuracy = \frac{Số\ mẫu\ dự\ đoán\ đúng}{Tổng\ số\ mẫu}
+
 $$
 
+Accuracy = \frac{Số\ mẫu\ dự\ đoán\ đúng}{Tổng\ số\ mẫu}
+
+$$
 
 Mô hình chưa huấn luyện cho độ chính xác xấp xỉ 50%, tương đương đoán ngẫu nhiên. Điều này cho thấy pipeline được xây dựng đúng. 
 

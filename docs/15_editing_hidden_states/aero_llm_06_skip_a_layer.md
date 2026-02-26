@@ -38,7 +38,13 @@ def skip_layer_hook(module, input, output):
 
 ### 2.2. Chỉ số Kiểm chứng (Verification Metric)
 Để xác nhận tầng đã bị bỏ qua, chúng ta đo lường chuẩn Frobenius của hiệu số Hidden States giữa các tầng liên tiếp:
-$$ \Delta_{norm} = \|\mathbf{H}_{L} - \mathbf{H}_{L-1}\|_F $$
+
+$$
+
+\Delta_{norm} = \|\mathbf{H}_{L} - \mathbf{H}_{L-1}\|_F
+
+$$
+
 Nếu $\Delta_{norm} = 0$ tại tầng $L$, điều đó có nghĩa là vector không hề thay đổi khi đi qua Transformer Block đó.
 
 ---

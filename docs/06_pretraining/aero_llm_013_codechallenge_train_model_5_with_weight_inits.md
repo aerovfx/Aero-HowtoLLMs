@@ -92,7 +92,6 @@ Các quy tắc khởi tạo bao gồm:
 | nn.Embedding | Xavier Normal        |
 
 
-
 ---
 
 ### 3.2. Kiểm Tra Phân Phối Ban Đầu
@@ -110,10 +109,12 @@ Việc kiểm tra này giúp xác nhận tính đúng đắn của quá trình k
 ### 3.3. Hiện Tượng Weight Tying
 
 Một điểm quan trọng được chỉ ra là:
-$$
-W_{embedding} = W_{unembedding}
+
 $$
 
+W_{embedding} = W_{unembedding}
+
+$$
 
 Trong GPT-style models, trọng số embedding được gán trực tiếp cho output head, dẫn đến việc embedding thực chất bị chi phối bởi `nn.Linear`. 
 
@@ -135,7 +136,6 @@ Dữ liệu được trích xuất bằng:
 ```python
 weights = model.blocks[i].attn.qkv.weight.detach().cpu()
 ```
-
 
 
 ---

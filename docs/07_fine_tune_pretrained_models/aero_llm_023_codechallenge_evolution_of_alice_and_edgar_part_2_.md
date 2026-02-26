@@ -42,10 +42,12 @@ Mục tiêu nghiên cứu:
 ### 2.1 Mô hình sinh văn bản
 
 Xét mô hình sinh:
-$$
-P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t|x_{<t};\theta)
+
 $$
 
+P(x_1,x_2,\dots,x_n)=\prod_{t=1}^{n}P(x_t|x_{<t};\theta)
+
+$$
 
 Trong đó:
 
@@ -53,20 +55,24 @@ Trong đó:
 * $\theta$: tham số mô hình
 
 Mục tiêu huấn luyện:
-$$
-\theta^*=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
+
 $$
 
+\theta^*=\arg\max_\theta \sum_{i=1}^{N}\log P(x^{(i)};\theta)
+
+$$
 
 ---
 
 ### 2.2 Fine-tuning mô hình ngôn ngữ
 
 Fine-tuning điều chỉnh tham số trên tập dữ liệu nhỏ:
-$$
-\theta_{new}=\theta_{pre}-\eta\nabla_\theta L_{task}
+
 $$
 
+\theta_{new}=\theta_{pre}-\eta\nabla_\theta L_{task}
+
+$$
 
 Với:
 
@@ -78,10 +84,12 @@ Với:
 ### 2.3 Mô hình phân loại BERT
 
 BERT được dùng để phân loại văn bản:
-$$
-f(x;\phi): X\rightarrow {0,1}
+
 $$
 
+f(x;\phi): X\rightarrow {0,1}
+
+$$
 
 Trong đó:
 
@@ -90,10 +98,12 @@ Trong đó:
 * $\phi$: tham số phân loại
 
 Hàm mất mát:
-$$
-L_{cls}=-\sum_{i=1}^{N}y_i\log p_i
+
 $$
 
+L_{cls}=-\sum_{i=1}^{N}y_i\log p_i
+
+$$
 
 ---
 
@@ -109,10 +119,12 @@ Theo , hệ thống gồm:
 * Learning rate: (10^{-5})
 
 Tập tham số:
-$$
-\Theta={\theta_A,\theta_E,\phi}
+
 $$
 
+\Theta={\theta_A,\theta_E,\phi}
+
+$$
 
 ---
 
@@ -127,46 +139,56 @@ Mỗi vòng lặp gồm:
 5. Đánh giá bằng BERT (mỗi 10 batch)
 
 Cập nhật tham số:
-$$
-\theta_{t+1}=\theta_t-\eta\nabla_\theta L_t
+
 $$
 
+\theta_{t+1}=\theta_t-\eta\nabla_\theta L_t
+
+$$
 
 ---
 
 ### 3.3 Đánh giá định kỳ
 
 Do chi phí tính toán lớn, việc đánh giá chỉ thực hiện theo chu kỳ:
-$$
-t=k\times10,\quad k\in\mathbb{N}
+
 $$
 
+t=k\times10,\quad k\in\mathbb{N}
+
+$$
 
 Độ chính xác:
-$$
-Acc_t=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\hat y_i=y_i)
+
 $$
 
+Acc_t=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\hat y_i=y_i)
+
+$$
 
 ---
 
 ### 3.4 Quản lý bộ nhớ
 
 Theo , huấn luyện đồng thời ba mô hình đòi hỏi bộ nhớ GPU lớn:
-$$
-RAM_{total}=RAM_A+RAM_E+RAM_B+RAM_D
+
 $$
 
+RAM_{total}=RAM_A+RAM_E+RAM_B+RAM_D
+
+$$
 
 Trong đó:
 
 * $RAM_D$: dữ liệu
 
 Điều kiện:
-$$
-RAM_{total}<RAM_{GPU}
+
 $$
 
+RAM_{total}<RAM_{GPU}
+
+$$
 
 ---
 
@@ -175,44 +197,54 @@ $$
 ### 4.1 Hàm mất mát sinh văn bản
 
 Loss của mô hình sinh:
-$$
-L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+
 $$
 
+L_{gen}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+
+$$
 
 ---
 
 ### 4.2 Hàm đánh giá gián tiếp
 
 Hiệu suất sinh được đo bằng độ chính xác phân loại:
-$$
-Q=\mathbb{E}[Acc]
+
 $$
 
+Q=\mathbb{E}[Acc]
+
+$$
 
 Nếu:
-$$
-Q>0.9
+
 $$
 
+Q>0.9
+
+$$
 
 ⇒ mô hình sinh thể hiện rõ phong cách.
 
 ---
 
 ### 4.3 Mối quan hệ giữa loss và accuracy
-$$
-Corr(L_{gen},Acc)<0
+
 $$
 
+Corr(L_{gen},Acc)<0
+
+$$
 
 ⇒ loss giảm thì accuracy tăng.
 
 Tuy nhiên:
-$$
-L_{gen}\to0\Rightarrow Overfitting
+
 $$
 
+L_{gen}\to0\Rightarrow Overfitting
+
+$$
 
 ---
 
@@ -226,10 +258,12 @@ Theo :
 * Sau huấn luyện: ~90%
 
 Biểu diễn:
-$$
-Acc(t)=\alpha\log(t)+\beta
+
 $$
 
+Acc(t)=\alpha\log(t)+\beta
+
+$$
 
 với $\alpha>0$.
 
@@ -238,10 +272,12 @@ với $\alpha>0$.
 ### 5.2 Phân tích hàm mất mát
 
 Quan sát:
-$$
-L_{gen}(t)\downarrow
+
 $$
 
+L_{gen}(t)\downarrow
+
+$$
 
 nhưng không về 0.
 
@@ -252,16 +288,20 @@ nhưng không về 0.
 ### 5.3 Hiệu suất thời gian
 
 Thời gian huấn luyện:
-$$
-T_{total}\approx4\text{-}5\ \text{phút}
+
 $$
 
+T_{total}\approx4\text{-}5\ \text{phút}
+
+$$
 
 Tỷ lệ dành cho đánh giá:
-$$
-\frac{T_{eval}}{T_{total}}\approx30%
+
 $$
 
+\frac{T_{eval}}{T_{total}}\approx30%
+
+$$
 
 ---
 
@@ -276,10 +316,12 @@ Theo , phương pháp đánh giá bằng mô hình thứ ba:
 * Dễ mở rộng
 
 Biểu diễn:
-$$
-Reliability\propto Acc_{cls}
+
 $$
 
+Reliability\propto Acc_{cls}
+
+$$
 
 ---
 
@@ -292,20 +334,24 @@ Một số hạn chế:
 * Không phản ánh đầy đủ ngữ nghĩa
 
 Ví dụ:
-$$
-Acc_{cls}\not\Rightarrow Quality_{human}
+
 $$
 
+Acc_{cls}\not\Rightarrow Quality_{human}
+
+$$
 
 ---
 
 ### 6.3 Vấn đề AI Detector
 
 Theo , các bộ phát hiện AI có độ tin cậy thấp:
-$$
-P(error)>0.3
+
 $$
 
+P(error)>0.3
+
+$$
 
 ⇒ Có thể gây hiểu nhầm.
 
@@ -322,30 +368,36 @@ $$
 * Creative AI
 
 Tiêu chuẩn:
-$$
-Acc>0.85
+
 $$
 
+Acc>0.85
+
+$$
 
 ---
 
 ### 7.2 Hệ thống đa mô hình
 
 Mô hình tổng quát:
-$$
-Gen_1,Gen_2,\dots,Gen_n \xrightarrow{Eval} Classifier
+
 $$
 
+Gen_1,Gen_2,\dots,Gen_n \xrightarrow{Eval} Classifier
+
+$$
 
 ---
 
 ### 7.3 Giám sát huấn luyện
 
 Kết hợp:
-$$
-Monitoring=(Loss,Acc,Time,RAM)
+
 $$
 
+Monitoring=(Loss,Acc,Time,RAM)
+
+$$
 
 ---
 

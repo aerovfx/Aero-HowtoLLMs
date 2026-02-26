@@ -26,7 +26,6 @@ Kiến trúc Transformer không có cơ chế tuần tự nội tại như RNN, 
 
 Trong Transformer, self-attention chỉ dựa trên:
 
-
 $$
 
 \text{Attention}(Q,K,V)
@@ -37,18 +36,15 @@ $$
 
 $$
 
-
 Cơ chế này không chứa thông tin về vị trí thứ tự của token.
 
 Do đó, nếu chỉ dùng embedding từ vựng:
-
 
 $$
 
 \mathbf{v}_i
 
 $$
-
 
 thì hai chuỗi:
 
@@ -63,7 +59,6 @@ sẽ có tập embedding giống nhau (chỉ khác thứ tự).
 
 Trong bài báo Transformer gốc (Vaswani et al., 2017), positional encoding được định nghĩa:
 
-
 $$
 
 PE_{(pos,2k)} =
@@ -73,8 +68,6 @@ PE_{(pos,2k)} =
 
 $$
 
-
-
 $$
 
 PE_{(pos,2k+1)} =
@@ -83,7 +76,6 @@ PE_{(pos,2k+1)} =
 \right)
 
 $$
-
 
 Trong đó:
 
@@ -99,16 +91,13 @@ Trong đó:
 
 Ta có:
 
-
 $$
 
 \omega_k = \frac{1}{10000^{2k/d}}
 
 $$
 
-
 Do đó:
-
 
 $$
 
@@ -118,7 +107,6 @@ PE(pos,k) =
 \cos(\omega_k pos)
 
 $$
-
 
 Tần số thay đổi theo cấp số nhân → cho phép mô hình biểu diễn cả:
 
@@ -131,7 +119,6 @@ Tần số thay đổi theo cấp số nhân → cho phép mô hình biểu di�
 
 Một đặc tính quan trọng:
 
-
 $$
 
 PE(pos + \Delta)
@@ -142,7 +129,6 @@ PE_{\perp}(pos)\sin(\omega\Delta)
 
 $$
 
-
 Điều này cho phép mô hình học quan hệ khoảng cách tuyến tính giữa các vị trí.
 
 ---
@@ -150,7 +136,6 @@ $$
 ## 4. Kết hợp Embedding và Position
 
 Embedding cuối cùng:
-
 
 $$
 
@@ -162,7 +147,6 @@ $$
 
 $$
 
-
 Trong đó:
 
 - $\mathbf{v}_i$: token embedding
@@ -170,16 +154,13 @@ Trong đó:
 
 Khi đó:
 
-
 $$
 
 Z = V + P
 
 $$
 
-
 với:
-
 
 $$
 
@@ -187,13 +168,11 @@ V, P \in \mathbb{R}^{n \times d}
 
 $$
 
-
 ---
 
 ## 5. Learned Positional Embeddings
 
 Trong [GPT-2](chatgpt://generic-entity?number=2) và [BERT](chatgpt://generic-entity?number=3), positional embeddings thường được học trực tiếp:
-
 
 $$
 
@@ -201,18 +180,15 @@ P \in \mathbb{R}^{L_{max} \times d}
 
 $$
 
-
 với $L_{max}$ là độ dài tối đa.
 
 Khi đó:
-
 
 $$
 
 \mathbf{p}_i = P[i]
 
 $$
-
 
 Ưu điểm:
 
@@ -229,7 +205,6 @@ Nhược điểm:
 
 Sau khi cộng:
 
-
 $$
 
 \mathbf{z}_i
@@ -238,9 +213,7 @@ $$
 
 $$
 
-
 Self-attention tính:
-
 
 $$
 
@@ -248,17 +221,13 @@ Q = ZW_Q
 
 $$
 
-
-
 $$
 
 K = ZW_K
 
 $$
 
-
 Tích vô hướng:
-
 
 $$
 
@@ -269,9 +238,7 @@ QK^T
 
 $$
 
-
 Khai triển:
-
 
 $$
 
@@ -286,7 +253,6 @@ PW_QW_K^TP^T
 
 $$
 
-
 Cho thấy attention bao gồm:
 
 - Quan hệ token–token
@@ -298,7 +264,6 @@ Cho thấy attention bao gồm:
 ## 7. Relative Position Encoding
 
 Một số mô hình hiện đại sử dụng vị trí tương đối:
-
 
 $$
 
@@ -312,7 +277,6 @@ Q_i K_j^T + b_{i-j}
 
 $$
 
-
 Trong đó $b_{i-j}$ phụ thuộc vào khoảng cách giữa vị trí.
 
 Điều này giúp mô hình tổng quát hóa tốt hơn.
@@ -323,7 +287,6 @@ Trong đó $b_{i-j}$ phụ thuộc vào khoảng cách giữa vị trí.
 
 Do:
 
-
 $$
 
 \mathbf{z}_i
@@ -332,9 +295,7 @@ $$
 
 $$
 
-
 Cosine similarity giữa hai token tại vị trí khác nhau:
-
 
 $$
 
@@ -349,9 +310,7 @@ $$
 
 $$
 
-
 Mở rộng tử số:
-
 
 $$
 
@@ -366,7 +325,6 @@ $$
 
 $$
 
-
 Cho thấy vị trí ảnh hưởng trực tiếp đến hình học embedding.
 
 ---
@@ -377,7 +335,6 @@ Cho thấy vị trí ảnh hưởng trực tiếp đến hình học embedding.
 
 Với learned positional embedding:
 
-
 $$
 
 \mathbf{p}_{i+1}
@@ -385,7 +342,6 @@ $$
 \mathbf{p}_i + c
 
 $$
-
 
 Do đó mô hình không tự động bất biến với dịch chuyển.
 
@@ -395,7 +351,6 @@ Do đó mô hình không tự động bất biến với dịch chuyển.
 
 Với sinusoidal:
 
-
 $$
 
 PE(pos)
@@ -403,9 +358,7 @@ PE(pos)
 
 $$
 
-
 Với learned:
-
 
 $$
 
@@ -414,7 +367,6 @@ pos > L_{max}
 \text{không xác định}
 
 $$
-
 
 ---
 
@@ -428,7 +380,6 @@ Position embeddings là thành phần thiết yếu giúp Transformer:
 
 Về mặt toán học:
 
-
 $$
 
 \text{Transformer}
@@ -436,7 +387,6 @@ $$
 \text{Attention}(V + P)
 
 $$
-
 
 Sự lựa chọn giữa sinusoidal và learned positional embeddings ảnh hưởng đến:
 

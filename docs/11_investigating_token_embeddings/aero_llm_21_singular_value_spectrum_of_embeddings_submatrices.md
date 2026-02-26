@@ -27,7 +27,9 @@ Singular Value Decomposition (SVD - Phân rã giá trị suy biến) là một t
 Mô hình SVD phát biểu rằng bất kỳ ma trận chữ nhật nào cũng có thể được phân giải một cách hoàn chỉnh (Decomposition) vào một tổ hợp của ba ma trận đặc thù. Giả sử tập hợp embeddings của một cụm $N$ tokens ngôn ngữ tạo nên một ma trận hỗn hợp $E \in \mathbb{R}^{N \times D}$. Ma trận này được bóc tách:
 
 $$
+
 E = U \Sigma V^T
+
 $$
 
 ### Cấu Trúc Ba Ma Trận
@@ -53,8 +55,11 @@ Ngược lại với ma trận chứa các tokens rời rạc (Ví dụ tập to
 ## 3. Quá Trình Mean-Centering Và Hiệu Sinh Zero-Rank
 
 Trước khi đẩy khối embeddings $E$ vào buồng SVD, dữ liệu bắt buộc cần phải được trừ đi trung bình chung (mean-centered cross dimensions) để các đỉnh vector bắt rễ quanh tọa độ $0$:
-$$ 
-\bar{E} = E - \mu_E 
+
+$$
+
+\bar{E} = E - \mu_E
+
 $$
 
 Do hệ quả của phép dịch tâm học máy tuyến tính, Rank (hạng) của ma trận sẽ giảm đi 1 bậc, dẫn đến điểm phần tử trị số suy biến cuối cùng của mảng phổ luôn luôn trượt bằng 0 ($\sigma_N = 0$).

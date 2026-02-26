@@ -41,16 +41,20 @@ Mục tiêu của nghiên cứu gồm:
 ### 2.1. Mô hình ngôn ngữ tự hồi quy
 
 Cho chuỗi token:
-$$
-X = (x_1, x_2, \dots, x_n)
+
 $$
 
+X = (x_1, x_2, \dots, x_n)
+
+$$
 
 Xác suất sinh chuỗi được mô hình hóa như sau:
-$$
-P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, x_2, \dots, x_{i-1})
+
 $$
 
+P(X) = \prod_{i=1}^{n} P(x_i \mid x_1, x_2, \dots, x_{i-1})
+
+$$
 
 Trong đó:
 
@@ -62,43 +66,53 @@ Trong đó:
 ### 2.2. Biểu diễn ngữ cảnh (Context Window)
 
 Cửa sổ ngữ cảnh tại bước $t$:
-$$
-C_t = (x_1, x_2, \dots, x_t)
+
 $$
 
+C_t = (x_1, x_2, \dots, x_t)
+
+$$
 
 Mô hình sinh token tiếp theo dựa trên:
-$$
-x_{t+1} \sim P(x \mid C_t)
+
 $$
 
+x_{t+1} \sim P(x \mid C_t)
+
+$$
 
 Khi hội thoại kéo dài, độ dài ngữ cảnh tăng dần:
-$$
-|C_{t+1}| = |C_t| + 1
+
 $$
 
+|C_{t+1}| = |C_t| + 1
+
+$$
 
 ---
 
 ### 2.3. Fine-tuning mô hình
 
 Quá trình fine-tuning cập nhật tham số $\theta$ thông qua hàm mất mát Cross-Entropy:
+
 $$
+
 \mathcal{L}(\theta)
 ===================
 
 -\frac{1}{N}
 \sum_{i=1}^{N}
 \log P(y_i \mid x_i; \theta)
-$$
 
+$$
 
 Mục tiêu:
-$$
-\theta^* = \arg\min_{\theta} \mathcal{L}(\theta)
+
 $$
 
+\theta^* = \arg\min_{\theta} \mathcal{L}(\theta)
+
+$$
 
 ---
 
@@ -112,26 +126,32 @@ Hai mô hình được huấn luyện riêng biệt:
 * Mô hình E: phong cách *Edgar*.
 
 Sau fine-tuning, mỗi mô hình có tập tham số:
-$$
-\theta_A, \quad \theta_E
+
 $$
 
+\theta_A, \quad \theta_E
+
+$$
 
 ---
 
 ### 3.2. Khởi tạo hội thoại
 
 Hội thoại bắt đầu bằng prompt ban đầu:
-$$
-S_0 = \text{``Hello, my name is Alice.''}
+
 $$
 
+S_0 = \text{``Hello, my name is Alice.''}
+
+$$
 
 Sau tokenization:
-$$
-T_0 = (t_1, t_2, \dots, t_k)
+
 $$
 
+T_0 = (t_1, t_2, \dots, t_k)
+
+$$
 
 Chuỗi này được đưa vào mô hình E.
 
@@ -142,64 +162,80 @@ Chuỗi này được đưa vào mô hình E.
 Quy trình hội thoại gồm các bước:
 
 #### Bước 1: Edgar sinh phản hồi
-$$
-G_E^{(1)} \sim P(\cdot \mid T_0; \theta_E)
+
 $$
 
+G_E^{(1)} \sim P(\cdot \mid T_0; \theta_E)
+
+$$
 
 Sinh ra $m$ token:
-$$
-G_E^{(1)} = (g_1, \dots, g_m)
+
 $$
 
+G_E^{(1)} = (g_1, \dots, g_m)
+
+$$
 
 #### Bước 2: Cập nhật ngữ cảnh
-$$
-C_1 = T_0 \oplus G_E^{(1)}
+
 $$
 
+C_1 = T_0 \oplus G_E^{(1)}
+
+$$
 
 với $\oplus$ là phép nối chuỗi.
 
 #### Bước 3: Alice sinh phản hồi
-$$
-G_A^{(1)} \sim P(\cdot \mid C_1; \theta_A)
+
 $$
 
+G_A^{(1)} \sim P(\cdot \mid C_1; \theta_A)
+
+$$
 
 #### Bước 4: Lặp
 
 Quá trình được lặp lại $K$ lần:
-$$
-C_{k+1} = C_k \oplus G_{model}^{(k)}
+
 $$
 
+C_{k+1} = C_k \oplus G_{model}^{(k)}
+
+$$
 
 Trong đó:
+
 $$
+
 model =
 \begin{cases}
 E, & k \text{ lẻ} \
 A, & k \text{ chẵn}
 \end{cases}
-$$
 
+$$
 
 ---
 
 ### 3.4. Lấy mẫu ngẫu nhiên (Sampling)
 
 Token được sinh bằng phương pháp sampling:
-$$
-x_{t+1} \sim \text{Categorical}(p_1, \dots, p_V)
+
 $$
 
+x_{t+1} \sim \text{Categorical}(p_1, \dots, p_V)
+
+$$
 
 với:
-$$
-p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
+
 $$
 
+p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
+
+$$
 
 Trong đó:
 
@@ -219,20 +255,24 @@ Theo tài liệu gốc :
 * Tổng số lượt sinh: 10.
 
 Tổng số token sinh:
-$$
-M \approx 500
+
 $$
 
+M \approx 500
+
+$$
 
 ---
 
 ### 4.2. Quản lý ngữ cảnh
 
 Chỉ in ra token mới sinh:
-$$
-G^{(k)} = C_k[|C_{k-1}|+1 : |C_k|]
+
 $$
 
+G^{(k)} = C_k[|C_{k-1}|+1 : |C_k|]
+
+$$
 
 Điều này giúp tránh in lại toàn bộ lịch sử.
 
@@ -261,10 +301,12 @@ Khác với chatbot chuyên dụng, hai mô hình trong nghiên cứu:
 * Chỉ thực hiện “hoàn thành chuỗi” (sequence completion).
 
 Do đó, hội thoại thực chất là:
-$$
-\hat{X} = \arg\max_X P(X \mid C_0)
+
 $$
 
+\hat{X} = \arg\max_X P(X \mid C_0)
+
+$$
 
 chứ không phải đối thoại có mục đích.
 
@@ -309,19 +351,23 @@ giúp mô hình học cấu trúc đối thoại.
 ## 6. Đánh giá định lượng bổ trợ
 
 Có thể đo mức ổn định hội thoại bằng entropy:
-$$
-H = -\sum_{i=1}^{V} p_i \log p_i
+
 $$
 
+H = -\sum_{i=1}^{V} p_i \log p_i
+
+$$
 
 Entropy cao → phản hồi đa dạng.
 Entropy thấp → phản hồi lặp.
 
 Hoặc độ dài phụ thuộc ngữ cảnh:
-$$
-D = \frac{1}{K}\sum_{k=1}^{K} |C_k|
+
 $$
 
+D = \frac{1}{K}\sum_{k=1}^{K} |C_k|
+
+$$
 
 ---
 

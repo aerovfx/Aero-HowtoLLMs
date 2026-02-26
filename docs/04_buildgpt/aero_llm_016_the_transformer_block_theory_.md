@@ -67,13 +67,11 @@ Mô hình sao chép dòng embedding ban đầu, xử lý qua sublayer, sau đó 
 
 Residual stream đóng vai trò như “dòng thông tin trung tâm”, nơi mọi phép biến đổi đều được cộng dồn:
 
-
 $$
 
 X_{out} = X_{in} + f(\text{LN}(X_{in}))
 
 $$
-
 
 Cấu trúc này giúp:
 
@@ -113,14 +111,12 @@ Do đó, khi nhắc đến “attention block”, thực chất là nói đến 
 
 Self-attention được định nghĩa:
 
-
 $$
 
 \text{Attention}(Q,K,V)=
 \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
 
 $$
-
 
 Trong đó:
 
@@ -150,13 +146,11 @@ Theo tài liệu, attention thực hiện quá trình “crosstalk” giữa cá
 
 MLP sublayer gồm hai lớp tuyến tính và một hàm phi tuyến:
 
-
 $$
 
 \text{MLP}(x)=W_2 \sigma(W_1 x)
 
 $$
-
 
 Trong đó:
 
@@ -170,13 +164,11 @@ Trong đó:
 
 Thông thường:
 
-
 $$
 
 d_{ff} \approx 4d_{model}
 
 $$
-
 
 Ví dụ trong GPT-2:
 
@@ -205,13 +197,11 @@ Khác với attention, MLP không sử dụng thông tin vị trí hay quan hệ
 
 Nó chỉ xử lý từng token độc lập:
 
-
 $$
 
 y_i = \text{MLP}(x_i)
 
 $$
-
 
 Do đó, MLP đóng vai trò biến đổi đặc trưng cục bộ.
 
@@ -233,20 +223,17 @@ Quy trình xử lý:
 
 Dạng tổng quát:
 
-
 $$
 
 X' = X + \text{Attn}(\text{LN}(X))
 
 $$
 
-
 $$
 
 Y = X' + \text{MLP}(\text{LN}(X'))
 
 $$
-
 
 ---
 
@@ -415,13 +402,11 @@ Transformer Block là đơn vị chức năng cốt lõi trong các mô hình ng
 
 Trong Transformer truyền thống, self-attention có độ phức tạp:
 
-
 $$
 
 O(T^2 d)
 
 $$
-
 
 với $T$ là độ dài chuỗi và $d$ là embedding dimension. Khi huấn luyện LLM với context lớn (32k–100k+ tokens), chi phí này trở thành rào cản chính.
 
@@ -441,21 +426,17 @@ Việc tích hợp FlashAttention vào Transformer Block là bước quan trọn
 
 Một Transformer block chuẩn (Pre-LN) có dạng:
 
-
 $$
 
 H = X + \text{Attn}(\text{LN}(X))
 
 $$
 
-
-
 $$
 
 Y = H + \text{MLP}(\text{LN}(H))
 
 $$
-
 
 Trong đó:
 
@@ -475,13 +456,11 @@ Attention truyền thống yêu cầu lưu trữ:
 
 Bộ nhớ tiêu thụ xấp xỉ:
 
-
 $$
 
 O(T^2)
 
 $$
-
 
 Điều này hạn chế batch size và context length.
 
@@ -504,21 +483,17 @@ Mục tiêu là giảm số lần truy cập bộ nhớ chậm.
 
 Thay vì tính toàn bộ $QK^T$, FlashAttention chia tensor thành các block:
 
-
 $$
 
 Q = [Q_1, Q_2, \dots, Q_n]
 
 $$
 
-
-
 $$
 
 K = [K_1, K_2, \dots, K_n]
 
 $$
-
 
 Attention được tính theo từng block nhỏ.
 
@@ -528,14 +503,11 @@ Attention được tính theo từng block nhỏ.
 
 FlashAttention sử dụng công thức softmax tích lũy:
 
-
 $$
 
 m_i = \max(m_{i-1}, s_i)
 
 $$
-
-
 
 $$
 
@@ -543,14 +515,11 @@ l_i = l_{i-1} e^{m_{i-1}-m_i} + e^{s_i-m_i}
 
 $$
 
-
-
 $$
 
 o_i = o_{i-1} e^{m_{i-1}-m_i} + v_i e^{s_i-m_i}
 
 $$
-
 
 Giúp:
 
@@ -603,7 +572,6 @@ Chỉ thay thế attention kernel, giữ nguyên cấu trúc tổng thể.
 
 Attention sublayer được thay thế:
 
-
 $$
 
 \text{Attn}(Q,K,V)
@@ -611,7 +579,6 @@ $$
 \text{FlashAttn}(Q,K,V)
 
 $$
-
 
 Toán học không đổi, chỉ thay đổi cách triển khai.
 
@@ -621,13 +588,11 @@ Toán học không đổi, chỉ thay đổi cách triển khai.
 
 Trong LLM autoregressive:
 
-
 $$
 
 j > i \Rightarrow \text{masked}
 
 $$
-
 
 FlashAttention tích hợp mask trực tiếp trong kernel, không tạo mask matrix.
 
@@ -949,13 +914,11 @@ Residual Add
 
 Sử dụng RMSNorm hoặc Pre-LN:
 
-
 $$
 
 \hat{x} = \frac{x}{\sqrt{\text{Var}(x) + \epsilon}}
 
 $$
-
 
 Giúp ổn định gradient trong huấn luyện sâu.
 
@@ -963,13 +926,11 @@ Giúp ổn định gradient trong huấn luyện sâu.
 
 #### (b) QKV Projection
 
-
 $$
 
 Q,K,V = XW_Q, XW_K, XW_V
 
 $$
-
 
 Được hợp nhất thành một kernel duy nhất để giảm memory access.
 
@@ -988,13 +949,11 @@ $$
 
 Dạng phổ biến:
 
-
 $$
 
 \text{FFN}(x) = W_2(\text{SiLU}(W_1x) \odot W_3x)
 
 $$
-
 
 Tăng biểu diễn phi tuyến.
 

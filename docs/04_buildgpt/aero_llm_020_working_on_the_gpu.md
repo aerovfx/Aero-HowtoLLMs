@@ -167,7 +167,6 @@ value = tensor.item()
 ```
 
 
-
 ---
 
 ## 6. Đánh giá hiệu năng CPU và GPU
@@ -203,7 +202,6 @@ Trường hợp lý tưởng là:
 
 * Dữ liệu và mô hình nằm lâu dài trên GPU.
 * Hạn chế tối đa việc chuyển đổi thiết bị.
-
 
 
 ---

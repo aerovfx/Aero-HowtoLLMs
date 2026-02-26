@@ -37,7 +37,9 @@ Vì một Emoji (giả sử Cười) bị cắt rách thành tổ hợp $K$ toke
 Để có được một đại lượng Embeddings duy nhất $\vec{E}_{\text{emoji}}$ nhằm tính toán khoảng cách vector từ hoặc tương quan góc (Cosine Similarity), phương án nền móng là tính Trung bình cộng vector (Vector Average / Mean Pooling):
 
 $$
+
 \vec{E}_{\text{emoji}} = \frac{1}{K} \sum_{i=1}^{K} \vec{e}_i
+
 $$
 
 Bằng cách tạo một ma trận hỗn hợp $N \times 768$ chiều (giả sử chọn tập $N=32$ Emojis), toàn bộ đám mây cảm xúc đã được định chuẩn hóa lên không gian nơ-ron bậc cao của khối lượng Transformers.
@@ -55,9 +57,13 @@ Giản đồ t-SNE sử dụng phân phối Gaussian chuẩn để kéo sập kh
 
 ### 3.2 Chuẩn Hóa Z-Score (Standardization)
 Trước khi chạy DBSCAN, kết quả đồ thị t-SNE buộc phải được quy đổi sang một trung tâm chuẩn hóa khoảng cách độ lệch (Standard Deviation Units):
+
 $$
+
 Z = \frac{X - \mu}{\sigma}
+
 $$
+
 Phép dịch tâm $Z-score$ này bảo toàn nguyên vẹn tính chất hình học tương đối nhưng đem toàn bộ trục tung và trục hoành thu gọn vào khoảng từ $-2$ đến $2$. Việc này cung cấp sức mạnh định dạng bán kính cực độ cho DBSCAN.
 
 ### 3.3 Phân cụm Epsilon ($\epsilon$) qua DBSCAN

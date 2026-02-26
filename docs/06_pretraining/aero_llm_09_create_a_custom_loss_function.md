@@ -39,10 +39,12 @@ Trong học sâu, quá trình huấn luyện mô hình được xem như một b
 ### **2.1. Categorical Cross-Entropy và Negative Log-Likelihood**
 
 Trong huấn luyện LLMs, hàm Cross-Entropy (CE) và Negative Log-Likelihood (NLL) thường được sử dụng:
-$$
-\mathcal{L} = - \sum_{i=1}^{N} y_i \log(\hat{y}_i)
+
 $$
 
+\mathcal{L} = - \sum_{i=1}^{N} y_i \log(\hat{y}_i)
+
+$$
 
 Trong đó:
 
@@ -51,10 +53,12 @@ Trong đó:
 * $N$: số lớp (token trong từ điển).
 
 Vì các token là các lớp rời rạc và loại trừ lẫn nhau, nên trong thực tế chỉ có một giá trị (y_i = 1), các giá trị còn lại bằng 0. Do đó, hàm mất mát có thể rút gọn thành:
-$$
-\mathcal{L} = -\log(\hat{y}_{target})
+
 $$
 
+\mathcal{L} = -\log(\hat{y}_{target})
+
+$$
 
 Theo tài liệu, PyTorch triển khai Cross-Entropy Loss và NLL Loss theo cách gần tương đương, trong đó NLL yêu cầu đầu vào ở dạng log-softmax .
 
@@ -98,16 +102,20 @@ Cấu trúc này tương tự như cách xây dựng một mô hình neural netw
 ### **3.2. Ví Dụ: L1 và L2 Loss**
 
 #### **L1 Loss (Mean Absolute Error)**
-$$
-\mathcal{L}_{L1} = |y - \hat{y}|
+
 $$
 
+\mathcal{L}_{L1} = |y - \hat{y}|
+
+$$
 
 #### **L2 Loss (Mean Squared Error)**
-$$
-\mathcal{L}_{L2} = (y - \hat{y})^2
+
 $$
 
+\mathcal{L}_{L2} = (y - \hat{y})^2
+
+$$
 
 Cài đặt trong PyTorch:
 

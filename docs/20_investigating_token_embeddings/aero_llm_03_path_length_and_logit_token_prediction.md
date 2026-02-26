@@ -31,7 +31,13 @@ Giả thuyết đặt ra: Ở các trạm biến áp cuối cùng trước khi r
 
 ### 2.1. Định Tuyến Khoảng Cách (Euclidean Path Length)
 Giả định Vector trích xuất của token ở mốc Layer $L_i$ là $x$ và ở Layer $L_{i+1}$ kế tiếp là $y$. Khoảng cách tịnh tiến Path Length là hiệu số độ dài Norm của chúng:
-$$ \text{Path Length} = \|y - x\| = \sqrt{\sum (y_i - x_i)^2} $$
+
+$$
+
+\text{Path Length} = \|y - x\| = \sqrt{\sum (y_i - x_i)^2}
+
+$$
+
 Trong code diễn dịch, tham số này được khởi chạy qua phép trừ trực tiếp Tensor và tính toán chuẩn Normalize 2 (`torch.norm`).
 
 ### 2.2. Dữ Liệu Input (Targeted Setup)

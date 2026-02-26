@@ -26,7 +26,6 @@ Trong các mô hình ngôn ngữ dựa trên Transformer, quá trình “embeddi
 
 Quá trình xử lý văn bản trong mô hình ngôn ngữ có thể tóm tắt:
 
-
 $$
 
 \text{Token} 
@@ -43,9 +42,7 @@ $$
 
 $$
 
-
 Nếu embedding là ánh xạ:
-
 
 $$
 
@@ -53,9 +50,7 @@ f: \mathcal{V} \rightarrow \mathbb{R}^d
 
 $$
 
-
 thì unembedding là ánh xạ ngược:
-
 
 $$
 
@@ -63,13 +58,11 @@ g: \mathbb{R}^d \rightarrow \mathbb{R}^{|\mathcal{V}|}
 
 $$
 
-
 ---
 
 ## 2. Embedding: Từ token đến vector
 
 Giả sử từ vựng có kích thước $|V|$, ma trận embedding:
-
 
 $$
 
@@ -77,9 +70,7 @@ E \in \mathbb{R}^{|V| \times d}
 
 $$
 
-
 Với token chỉ số $i$:
-
 
 $$
 
@@ -87,9 +78,7 @@ $$
 
 $$
 
-
 Nếu biểu diễn one-hot $\mathbf{x}_i$:
-
 
 $$
 
@@ -97,13 +86,11 @@ $$
 
 $$
 
-
 ---
 
 ## 3. Unembedding: Từ vector đến token
 
 Sau khi qua các lớp Transformer, ta thu được hidden state:
-
 
 $$
 
@@ -111,9 +98,7 @@ $$
 
 $$
 
-
 Để chuyển sang logit:
-
 
 $$
 
@@ -121,9 +106,7 @@ $$
 
 $$
 
-
 Trong đó:
-
 
 $$
 
@@ -131,9 +114,7 @@ W_U \in \mathbb{R}^{|V| \times d}
 
 $$
 
-
 Vector logit:
-
 
 $$
 
@@ -141,13 +122,11 @@ z_i = \mathbf{w}_i \cdot \mathbf{h}_t
 
 $$
 
-
 ---
 
 ## 4. Weight Tying
 
 Trong GPT-2, thường sử dụng weight tying:
-
 
 $$
 
@@ -155,9 +134,7 @@ W_U = E
 
 $$
 
-
 hoặc:
-
 
 $$
 
@@ -165,16 +142,13 @@ W_U = E^T
 
 $$
 
-
 Khi đó:
-
 
 $$
 
 z_i = \mathbf{v}_i \cdot \mathbf{h}_t
 
 $$
-
 
 Điều này có ý nghĩa hình học:
 
@@ -186,7 +160,6 @@ $$
 
 Xác suất dự đoán token tiếp theo:
 
-
 $$
 
 P(w_i | h_t)
@@ -196,9 +169,7 @@ P(w_i | h_t)
 
 $$
 
-
 Thay $z_i = \mathbf{v}_i \cdot \mathbf{h}_t$:
-
 
 $$
 
@@ -214,9 +185,7 @@ P(w_i)
 
 $$
 
-
 Nếu chuẩn hóa:
-
 
 $$
 
@@ -228,9 +197,7 @@ $$
 
 $$
 
-
 Suy ra:
-
 
 $$
 
@@ -243,7 +210,6 @@ P(w_i)
 )
 
 $$
-
 
 Góc giữa vector quyết định xác suất.
 
@@ -258,18 +224,15 @@ Hidden state $\mathbf{h}_t$ có thể xem như:
 
 Unembedding thực hiện phép chiếu:
 
-
 $$
 
 \mathbf{z} = E \mathbf{h}_t
 
 $$
 
-
 Nghĩa là ta đo mức độ “gần” giữa $\mathbf{h}_t$ và từng vector từ vựng.
 
 Nếu hai token có embedding gần nhau:
-
 
 $$
 
@@ -277,16 +240,13 @@ $$
 
 $$
 
-
 thì:
-
 
 $$
 
 z_i \approx z_j
 
 $$
-
 
 Do đó phân phối xác suất sẽ tương tự.
 
@@ -296,7 +256,6 @@ Do đó phân phối xác suất sẽ tương tự.
 
 Hàm mất mát cross-entropy:
 
-
 $$
 
 \mathcal{L}
@@ -305,9 +264,7 @@ $$
 
 $$
 
-
 Gradient theo $\mathbf{h}_t$:
-
 
 $$
 
@@ -321,7 +278,6 @@ P(w_i)\mathbf{v}_i
 
 $$
 
-
 Điều này cho thấy:
 
 - Hidden state được điều chỉnh về phía embedding đúng
@@ -333,13 +289,11 @@ $$
 
 Unembedding tương đương một bộ phân loại tuyến tính:
 
-
 $$
 
 z_i = \mathbf{w}_i^T \mathbf{h}_t
 
 $$
-
 
 Khác biệt là:
 
@@ -352,7 +306,6 @@ Khác biệt là:
 
 Nếu chuẩn hóa embedding:
 
-
 $$
 
 \hat{\mathbf{v}}_i
@@ -361,9 +314,7 @@ $$
 
 $$
 
-
 Khi đó:
-
 
 $$
 
@@ -375,16 +326,13 @@ z_i
 
 $$
 
-
 Nếu bỏ qua độ lớn:
-
 
 $$
 
 z_i \propto \cos\theta_i
 
 $$
-
 
 Như vậy unembedding về bản chất dựa trên cosine similarity.
 
@@ -394,18 +342,15 @@ Như vậy unembedding về bản chất dựa trên cosine similarity.
 
 Giả sử ma trận embedding:
 
-
 $$
 
 E = U \Sigma V^T
 
 $$
 
-
 (SVD decomposition)
 
 Hidden state:
-
 
 $$
 
@@ -415,9 +360,7 @@ V \mathbf{c}
 
 $$
 
-
 Logit:
-
 
 $$
 
@@ -426,7 +369,6 @@ $$
 U \Sigma \mathbf{c}
 
 $$
-
 
 Các giá trị singular lớn chi phối phân phối xác suất.
 
@@ -443,7 +385,6 @@ Unembedding:
 
 Về mặt toán học:
 
-
 $$
 
 \text{Prediction}
@@ -451,7 +392,6 @@ $$
 \text{Softmax}(E \mathbf{h}_t)
 
 $$
-
 
 ---
 

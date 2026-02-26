@@ -39,7 +39,13 @@ Tại Layer 3, dữ liệu kích hoạt của mỗi từ "coffee" tương ứng 
 Khi quan sát biểu đồ hoạt động của mạng LLM, thường xuất hiện khoảng 1-2 điểm nhiễu (neurons) có cường độ kích hoạt "phóng vút" lên rất cao so với đám mây phân bổ trung tâm. Mặc dù đây là các tín hiệu mạng bình thường (không phải lỗi bộ nhớ), hiện tượng cực đỉnh (extreme values) lại phá nát các thuật toán đo chia Histogram của MI.
 
 **Cách khắc phục:** Không gian hóa Z-Score. 
-$$ Z = \frac{x_i - \bar{x}}{\sigma} $$
+
+$$
+
+Z = \frac{x_i - \bar{x}}{\sigma}
+
+$$
+
 Áp dụng Z-score cho cả 2 vector. Bất kỳ giá trị nào có $|Z| > 4$ (Vượt quá 4 lần độ lệch chuẩn) sẽ bị gán cờ Outlier và dạt bỏ khỏi danh sách đo MI. 
 Việc cắt tỉa dữ liệu thừa (Trimmed Data) này giúp đẩy MI từ một con số bị dìm do nhiễu $\to$ phục hồi lại điểm tương hỗ cốt lõi, phản biện lại nhược điểm của công thức histogram Manual.
 

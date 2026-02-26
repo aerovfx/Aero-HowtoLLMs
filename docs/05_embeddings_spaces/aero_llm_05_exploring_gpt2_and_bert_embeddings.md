@@ -26,23 +26,19 @@ Các mô hình ngôn ngữ lớn dựa trên Transformer đã thay đổi nền 
 
 Trong NLP, một mô hình ngôn ngữ học phân phối xác suất có điều kiện:
 
-
 $$
 
 P(w_t \mid w_{<t})
 
 $$
 
-
 hoặc trong trường hợp hai chiều:
-
 
 $$
 
 P(w_i \mid w_{\setminus i})
 
 $$
-
 
 Tùy vào mục tiêu huấn luyện, embedding thu được sẽ mang đặc trưng khác nhau.
 
@@ -55,14 +51,12 @@ Tùy vào mục tiêu huấn luyện, embedding thu được sẽ mang đặc tr
 
 Cả hai mô hình đều dựa trên kiến trúc Transformer (Vaswani et al., 2017), với cơ chế **Scaled Dot-Product Attention**:
 
-
 $$
 
 \text{Attention}(Q,K,V) = 
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 
 $$
-
 
 Trong đó:
 
@@ -81,16 +75,13 @@ Self-attention cho phép mô hình học phụ thuộc dài hạn trong chuỗi.
 
 [GPT-2](chatgpt://generic-entity?number=2) được huấn luyện để tối đa hóa log-likelihood:
 
-
 $$
 
 \mathcal{L}_{GPT2} = \sum_{t=1}^{T} \log P(w_t \mid w_{<t})
 
 $$
 
-
 Trong đó:
-
 
 $$
 
@@ -99,7 +90,6 @@ P(w_t \mid w_{<t}) =
 
 $$
 
-
 - $h_t$: hidden state tại vị trí $t$
 - $W_o$: ma trận chiếu đầu ra
 
@@ -107,13 +97,11 @@ $$
 
 Embedding của GPT-2 mang tính **ngữ cảnh một chiều**:
 
-
 $$
 
 \mathbf{h}_t = f(w_1, w_2, ..., w_t)
 
 $$
-
 
 Do đó, vector tại vị trí $t$ chỉ phụ thuộc vào quá khứ.
 
@@ -125,14 +113,12 @@ Do đó, vector tại vị trí $t$ chỉ phụ thuộc vào quá khứ.
 
 [BERT](chatgpt://generic-entity?number=3) sử dụng Masked Language Modeling (MLM):
 
-
 $$
 
 \mathcal{L}_{BERT} =
 \sum_{i \in M} \log P(w_i \mid w_{\setminus i})
 
 $$
-
 
 Trong đó:
 
@@ -143,13 +129,11 @@ Trong đó:
 
 Embedding của BERT mang tính **hai chiều**:
 
-
 $$
 
 \mathbf{h}_t = f(w_1, ..., w_T)
 
 $$
-
 
 Do đó:
 
@@ -162,13 +146,11 @@ Do đó:
 
 Giả sử:
 
-
 $$
 
 \mathbf{v}_i^{(GPT2)} \in \mathbb{R}^d
 
 $$
-
 
 $$
 
@@ -176,9 +158,7 @@ $$
 
 $$
 
-
 ### 5.1 Độ tương đồng cosine
-
 
 $$
 
@@ -188,9 +168,7 @@ $$
 
 $$
 
-
 ### 5.2 Khoảng cách Euclid
-
 
 $$
 
@@ -200,11 +178,9 @@ d(\mathbf{v}_i,\mathbf{v}_j)
 
 $$
 
-
 ### 5.3 Phân tích phương sai (PCA)
 
 Giả sử ma trận embedding:
-
 
 $$
 
@@ -212,9 +188,7 @@ X \in \mathbb{R}^{n \times d}
 
 $$
 
-
 Ma trận hiệp phương sai:
-
 
 $$
 
@@ -222,16 +196,13 @@ $$
 
 $$
 
-
 Giải bài toán trị riêng:
-
 
 $$
 
 \Sigma \mathbf{u} = \lambda \mathbf{u}
 
 $$
-
 
 Các trị riêng lớn phản ánh chiều chiếm ưu thế trong không gian biểu diễn.
 
@@ -256,16 +227,13 @@ Một số khác biệt quan sát được:
 
 Nếu xét ma trận tương đồng nội bộ:
 
-
 $$
 
 S_{ij} = \text{cosine}(\mathbf{v}_i,\mathbf{v}_j)
 
 $$
 
-
 Ta có thể sử dụng tương quan Pearson giữa hai ma trận để đánh giá mức độ tương đồng cấu trúc:
-
 
 $$
 
@@ -275,11 +243,9 @@ r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}
 
 $$
 
-
 ### 7.2 Tính bất biến quay (Rotation Invariance)
 
 Giả sử tồn tại ma trận trực giao $R$:
-
 
 $$
 
@@ -287,16 +253,13 @@ R^T R = I
 
 $$
 
-
 Khi đó:
-
 
 $$
 
 \mathbf{v}' = R\mathbf{v}
 
 $$
-
 
 Khoảng cách cosine không đổi, nhưng tọa độ thay đổi.
 
@@ -310,14 +273,12 @@ Khoảng cách cosine không đổi, nhưng tọa độ thay đổi.
 
 Về mặt toán học:
 
-
 $$
 
 \text{Objective Function} \Rightarrow 
 \text{Geometry of Embedding Space}
 
 $$
-
 
 ---
 

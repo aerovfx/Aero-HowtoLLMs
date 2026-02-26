@@ -33,7 +33,13 @@ Trong quá trình phát triển AI, chúng ta thường đặt câu hỏi: "Ki�
 ## 2. Công thức và Cơ chế vận hành
 
 Giá trị $t$ được tính toán dựa trên một nguyên lý đơn giản:
-$$t = \frac{\bar{x} - \bar{y}}{s / \sqrt{n}}$$
+
+$$
+
+t = \frac{\bar{x} - \bar{y}}{s / \sqrt{n}}
+
+$$
+
 Trong đó:
 - **Tử số:** Khoảng cách giữa hai giá trị trung bình.
 - **Mẫu số:** Độ lệch chuẩn được chuẩn hóa theo kích thước mẫu (nhiễu).

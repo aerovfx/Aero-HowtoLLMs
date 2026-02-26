@@ -52,10 +52,12 @@ Qua đó, đánh giá khả năng học phong cách văn học của mô hình.
 ### 2.1 Mô hình ngôn ngữ tự hồi quy
 
 GPT-Neo thuộc nhóm mô hình ngôn ngữ tự hồi quy (Autoregressive Language Model), với xác suất sinh chuỗi:
-$$
-P(x_1,x_2,...,x_T)=\prod_{t=1}^{T}P(x_t|x_1,...,x_{t-1})
+
 $$
 
+P(x_1,x_2,...,x_T)=\prod_{t=1}^{T}P(x_t|x_1,...,x_{t-1})
+
+$$
 
 Trong đó:
 
@@ -75,10 +77,12 @@ Mỗi block Transformer gồm:
 * Layer Normalization
 
 Công thức Attention:
-$$
-\text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+
 $$
 
+\text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+
+$$
 
 Trong đó:
 
@@ -90,22 +94,28 @@ Trong đó:
 ### 2.3 Hàm Softmax và Log-likelihood
 
 Đầu ra của mô hình là vector logit $\mathbf{z}$:
-$$
-\mathbf{z}=(z_1,z_2,...,z_V)
+
 $$
 
+\mathbf{z}=(z_1,z_2,...,z_V)
+
+$$
 
 Xác suất token thứ $i$:
-$$
-P(i)=\frac{e^{z_i}}{\sum_{j=1}^{V}e^{z_j}}
+
 $$
 
+P(i)=\frac{e^{z_i}}{\sum_{j=1}^{V}e^{z_j}}
+
+$$
 
 Log-likelihood:
-$$
-\log P(i)=z_i-\log\sum_{j}e^{z_j}
+
 $$
 
+\log P(i)=z_i-\log\sum_{j}e^{z_j}
+
+$$
 
 ---
 
@@ -140,10 +150,12 @@ Tập Poe có độ đa dạng cao hơn do gồm nhiều truyện và thơ khác
 ### 3.3 Tokenization
 
 Dữ liệu được mã hóa bằng tokenizer GPT-2:
-$$
-x = (x_1,x_2,...,x_T), \quad x_i \in {1,...,V}
+
 $$
 
+x = (x_1,x_2,...,x_T), \quad x_i \in {1,...,V}
+
+$$
 
 Trong đó $V = 50257$ là kích thước từ vựng.
 
@@ -154,10 +166,12 @@ Tokenizer của GPT-Neo trùng với GPT-2 tokenizer.
 ### 3.4 Hàm mất mát
 
 Mô hình sử dụng Negative Log-Likelihood Loss:
-$$
-\mathcal{L}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+
 $$
 
+\mathcal{L}=-\frac{1}{T}\sum_{t=1}^{T}\log P(x_t|x_{<t})
+
+$$
 
 Hàm này đo độ phù hợp giữa phân phối dự đoán và dữ liệu thực tế.
 
@@ -174,10 +188,12 @@ Mỗi vòng huấn luyện gồm:
 5. Cập nhật trọng số
 
 Cập nhật tham số:
-$$
-\theta_{k+1}=\theta_k-\eta\nabla_\theta\mathcal{L}
+
 $$
 
+\theta_{k+1}=\theta_k-\eta\nabla_\theta\mathcal{L}
+
+$$
 
 Trong đó:
 
@@ -185,24 +201,29 @@ Trong đó:
 * $\theta$: tham số mô hình
 
 
-
 ---
 
 ### 3.6 Tối ưu hóa
 
 Sử dụng Adam Optimizer:
+
 $$
+
 m_t=\beta_1 m_{t-1}+(1-\beta_1)g_t
+
 $$
 
 $$
+
 v_t=\beta_2 v_{t-1}+(1-\beta_2)g_t^2
+
 $$
 
 $$
+
 \theta_t=\theta_{t-1}-\eta\frac{m_t}{\sqrt{v_t}+\epsilon}
-$$
 
+$$
 
 Trong đó $g_t$ là gradient tại bước $t$.
 
@@ -219,7 +240,6 @@ Trong đó $g_t$ là gradient tại bước $t$.
 | Số vòng lặp     | 500     |
 | Optimizer       | Adam    |
 | GPU             | Có      |
-
 
 
 ---
@@ -243,10 +263,12 @@ Nguyên nhân:
 ### 4.3 Đánh giá định lượng
 
 Perplexity được sử dụng để đánh giá:
-$$
-PPL = e^{\mathcal{L}}
+
 $$
 
+PPL = e^{\mathcal{L}}
+
+$$
 
 Perplexity thấp cho thấy mô hình dự đoán tốt hơn.
 

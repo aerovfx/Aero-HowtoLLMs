@@ -57,10 +57,12 @@ Mục tiêu là giúp mô hình học cách phản hồi phù hợp với yêu c
 ### 3.1. Bài toán dự đoán token tiếp theo
 
 Mô hình học xác suất có điều kiện:
-$$
-P(x_t | x_1, x_2, ..., x_{t-1})
+
 $$
 
+P(x_t | x_1, x_2, ..., x_{t-1})
+
+$$
 
 Trong đó:
 
@@ -72,10 +74,12 @@ Trong đó:
 ### 3.2. Hàm mất mát Negative Log-Likelihood
 
 Trong Instruction Tuning, hàm mất mát thường dùng là:
-$$
-\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
+
 $$
 
+\mathcal{L} = - \sum_{t=1}^{T} \log P(x_t | x_{<t})
+
+$$
 
 Trong đó:
 
@@ -89,10 +93,12 @@ Hàm này đo lường mức độ sai khác giữa phân phối dự đoán và
 ### 3.3. Tối ưu bằng Gradient Descent
 
 Quá trình cập nhật tham số được thực hiện theo thuật toán Gradient Descent:
-$$
-\theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
+
 $$
 
+\theta_{k+1} = \theta_k - \eta , \nabla_\theta \mathcal{L}
+
+$$
 
 Trong đó:
 

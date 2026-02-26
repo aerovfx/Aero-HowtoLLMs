@@ -184,7 +184,11 @@ Bài viết này tập trung vào **bốn phương pháp chính**:
 
 Sau khi model xử lý context, output là probability distribution:
 
-$$P(w_t | w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)$$
+$$
+
+P(w_t | w_{1:t-1}) = \text{Softmax}(\mathbf{z}_t / T)
+
+$$
 
 Trong đó:
 - $w_t$ = next token to predict
@@ -193,7 +197,12 @@ Trong đó:
 - $T$ = temperature parameter
 
 **Result:**
-$$\mathbf{p} = [p_1, p_2, \ldots, p_V]$$
+
+$$
+
+\mathbf{p} = [p_1, p_2, \ldots, p_V]
+
+$$
 
 Trong đó:
 - $V$ = vocabulary size (e.g., 100,000)
@@ -248,7 +257,12 @@ TOTAL       | 1.000
 #### 3.1.1 Definition
 
 **Pure probabilistic sampling:**
-$$w_t \sim \text{Multinomial}(\mathbf{p})$$
+
+$$
+
+w_t \sim \text{Multinomial}(\mathbf{p})
+
+$$
 
 **Meaning:**
 - Mỗi token có probability $p_i$ được chọn
@@ -295,7 +309,12 @@ for i in range(5):
 #### 3.1.3 Statistical Analysis
 
 **Expected frequency over N samples:**
-$$\mathbb{E}[\text{count}(w_i)] = N \cdot p_i$$
+
+$$
+
+\mathbb{E}[\text{count}(w_i)] = N \cdot p_i
+
+$$
 
 **Example with N=1000:**
 - coffee: ~340 times
@@ -305,7 +324,12 @@ $$\mathbb{E}[\text{count}(w_i)] = N \cdot p_i$$
 - mouth: ~45 times
 
 **Variance:**
-$$\text{Var}[\text{count}(w_i)] = N \cdot p_i \cdot (1 - p_i)$$
+
+$$
+
+\text{Var}[\text{count}(w_i)] = N \cdot p_i \cdot (1 - p_i)
+
+$$
 
 **Observation:**
 > High variance cho low-probability tokens → unpredictable behavior.
@@ -315,7 +339,12 @@ $$\text{Var}[\text{count}(w_i)] = N \cdot p_i \cdot (1 - p_i)$$
 #### 3.2.1 Definition
 
 **Deterministic selection:**
-$$w_t = \arg\max_{w \in \mathcal{V}} P(w | w_{1:t-1})$$
+
+$$
+
+w_t = \arg\max_{w \in \mathcal{V}} P(w | w_{1:t-1})
+
+$$
 
 **Algorithm:**
 ```
@@ -419,12 +448,21 @@ generated = greedy_generate(model, context, max_len=20)
 4. Sample từ truncated distribution
 
 **Mathematical formulation:**
-$$\mathcal{V}_K = \{w_i : p_i \text{ is in top-K probabilities}\}$$
 
-$$P_K(w) = \begin{cases}
+$$
+
+\mathcal{V}_K = \{w_i : p_i \text{ is in top-K probabilities}\}
+
+$$
+
+$$
+
+P_K(w) = \begin{cases}
 \frac{p_w}{\sum_{w' \in \mathcal{V}_K} p_{w'}} & \text{if } w \in \mathcal{V}_K \\
 0 & \text{otherwise}
-\end{cases}$$
+\end{cases}
+
+$$
 
 **PyTorch implementation:**
 ```python
@@ -551,16 +589,31 @@ Better: K=20 or more
 3. Sample từ that set
 
 **Mathematical formulation:**
-$$\mathcal{V}_P = \{w_{(1)}, w_{(2)}, \ldots, w_{(m)}\}$$
+
+$$
+
+\mathcal{V}_P = \{w_{(1)}, w_{(2)}, \ldots, w_{(m)}\}
+
+$$
 
 Trong đó $m$ là smallest index such that:
-$$\sum_{i=1}^m p_{(i)} \geq P$$
+
+$$
+
+\sum_{i=1}^m p_{(i)} \geq P
+
+$$
 
 **Sampling distribution:**
-$$P_P(w) = \begin{cases}
+
+$$
+
+P_P(w) = \begin{cases}
 \frac{p_w}{\sum_{w' \in \mathcal{V}_P} p_{w'}} & \text{if } w \in \mathcal{V}_P \\
 0 & \text{otherwise}
-\end{cases}$$
+\end{cases}
+
+$$
 
 **PyTorch implementation:**
 ```python
@@ -812,7 +865,12 @@ P = 1.0    | Multinomial
 **Combined effects:**
 
 Temperature scaling happens **before** sampling method:
-$$\text{logits} \xrightarrow{/T} \text{scaled logits} \xrightarrow{\text{Softmax}} \text{probs} \xrightarrow{\text{Sampling}} \text{token}$$
+
+$$
+
+\text{logits} \xrightarrow{/T} \text{scaled logits} \xrightarrow{\text{Softmax}} \text{probs} \xrightarrow{\text{Sampling}} \text{token}
+
+$$
 
 **Examples:**
 
@@ -1855,7 +1913,12 @@ Use two models:
 - **Amateur model**: Smaller, weaker
 
 **Decoding:**
-$$P_{\text{contrastive}}(w) \propto \frac{P_{\text{expert}}(w)}{P_{\text{amateur}}(w)^\alpha}$$
+
+$$
+
+P_{\text{contrastive}}(w) \propto \frac{P_{\text{expert}}(w)}{P_{\text{amateur}}(w)^\alpha}
+
+$$
 
 **Idea:** Amplify expert's advantages over amateur
 

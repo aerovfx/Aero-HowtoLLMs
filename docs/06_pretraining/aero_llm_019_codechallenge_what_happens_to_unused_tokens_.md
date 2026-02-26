@@ -47,18 +47,22 @@ Trong các mô hình như GPT-2, văn bản được chia thành các token dự
 ### 2.2 Softmax và Log-Softmax
 
 Xác suất dự đoán token được tính bằng:
-$$
-P(y=i|x) = \frac{e^{z_i}}{\sum_{j} e^{z_j}}
+
 $$
 
+P(y=i|x) = \frac{e^{z_i}}{\sum_{j} e^{z_j}}
+
+$$
 
 Trong đó $z_i$ là logit của token $i$.
 
 Log-softmax được sử dụng để ổn định số học:
-$$
-\log P(y=i|x) = z_i - \log \sum_j e^{z_j}
+
 $$
 
+\log P(y=i|x) = z_i - \log \sum_j e^{z_j}
+
+$$
 
 ### 2.3 Lan truyền ngược trong LLM
 
@@ -153,7 +157,6 @@ Kết quả cho thấy:
 * Token phổ biến được “tăng cường”
 * Token hiếm bị suy giảm
 * Token không xuất hiện bị triệt tiêu mạnh
-
 
 
 ---

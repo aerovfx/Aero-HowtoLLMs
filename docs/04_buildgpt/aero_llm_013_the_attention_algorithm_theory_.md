@@ -47,13 +47,15 @@ Các tài liệu lý thuyết và giảng dạy về Attention đóng vai trò q
 ### 3.1. Công thức toán học
 
 Thuật toán Scaled Dot-Product Attention được định nghĩa như sau:
+
 $$
+
 \text{Attention}(Q, K, V)
 =========================
 
 \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}} + M\right)V
-$$
 
+$$
 
 Trong đó:
 
@@ -70,10 +72,12 @@ Công thức này là nền tảng cho mọi biến thể Attention trong Transf
 ### 3.2. Sinh ma trận Q, K, V
 
 Giả sử đầu vào là ma trận embedding $X$:
-$$
-Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+
 $$
 
+Q = XW_Q,\quad K = XW_K,\quad V = XW_V
+
+$$
 
 với ( W_Q, W_K, W_V ) là các tham số học được.
 
@@ -84,14 +88,16 @@ Các ma trận này được huấn luyện trong quá trình tối ưu và giú
 ### 3.3. Cơ chế Causal Masking
 
 Trong mô hình sinh chuỗi, cần ngăn token nhìn thấy thông tin tương lai:
+
 $$
+
 M_{ij} =
 \begin{cases}
 0, & j \le i \
 -\infty, & j > i
 \end{cases}
-$$
 
+$$
 
 Mask này đảm bảo tính tự hồi quy và tránh rò rỉ thông tin.
 
@@ -143,10 +149,12 @@ Cơ chế này cho phép mô hình điều chỉnh trọng tâm linh hoạt theo
 ### 4.3. Vai trò của Value
 
 Đầu ra được tính:
-$$
-O = AV
+
 $$
 
+O = AV
+
+$$
 
 Trong đó $A$ là ma trận Attention.
 

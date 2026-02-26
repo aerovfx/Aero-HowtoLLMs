@@ -47,16 +47,20 @@ Mục tiêu của PEFT là:
 ### 2.1. Mô hình ngôn ngữ tự hồi quy
 
 Cho chuỗi token:
-$$
-X=(x_1,x_2,\dots,x_n)
+
 $$
 
+X=(x_1,x_2,\dots,x_n)
+
+$$
 
 Xác suất sinh:
-$$
-P(X)=\prod_{i=1}^{n}P(x_i|x_1,\dots,x_{i-1};\theta)
+
 $$
 
+P(X)=\prod_{i=1}^{n}P(x_i|x_1,\dots,x_{i-1};\theta)
+
+$$
 
 Trong đó $\theta$ là tập tham số của mô hình.
 
@@ -65,23 +69,27 @@ Trong đó $\theta$ là tập tham số của mô hình.
 ### 2.2. Fine-tuning truyền thống
 
 Với hàm mất mát cross-entropy:
+
 $$
+
 \mathcal{L}(\theta)
 ===================
 
 -\frac{1}{N}\sum_{i=1}^{N}
 \log P(y_i|x_i;\theta)
-$$
 
+$$
 
 Cập nhật bằng gradient descent:
+
 $$
+
 \theta_{t+1}
 ============
 
 \theta_t-\eta\nabla_\theta\mathcal{L}
-$$
 
+$$
 
 Toàn bộ tham số đều được cập nhật.
 
@@ -90,10 +98,12 @@ Toàn bộ tham số đều được cập nhật.
 ### 2.3. Fine-tuning hiệu quả tham số
 
 Trong PEFT, tham số được chia:
-$$
-\theta = (\theta_f, \theta_t)
+
 $$
 
+\theta = (\theta_f, \theta_t)
+
+$$
 
 với:
 
@@ -101,10 +111,12 @@ với:
 * $\theta_t$: tham số huấn luyện.
 
 Điều kiện:
-$$
-\nabla_{\theta_f}\mathcal{L}=0
+
 $$
 
+\nabla_{\theta_f}\mathcal{L}=0
+
+$$
 
 Chỉ $\theta_t$ được cập nhật.
 
@@ -130,10 +142,12 @@ Các phương pháp này thường được triển khai thông qua thư viện 
 #### 4.1.1. Nguyên lý
 
 Adapter chèn các mô-đun nhỏ vào giữa các lớp Transformer:
-$$
-h' = h + W_{up}\sigma(W_{down}h)
+
 $$
 
+h' = h + W_{up}\sigma(W_{down}h)
+
+$$
 
 Trong đó:
 
@@ -148,16 +162,20 @@ Cấu trúc giống autoencoder nén–giải nén.
 #### 4.1.2. Số tham số
 
 Số tham số adapter:
-$$
-P_{adapter}=2dr
+
 $$
 
+P_{adapter}=2dr
+
+$$
 
 So với:
-$$
-P_{full}=d^2
+
 $$
 
+P_{full}=d^2
+
+$$
 
 ⇒ $P_{adapter}\ll P_{full}$
 
@@ -168,23 +186,29 @@ $$
 #### 4.2.1. Phân rã ma trận
 
 Cho trọng số gốc:
-$$
-W\in\mathbb{R}^{m\times n}
+
 $$
 
+W\in\mathbb{R}^{m\times n}
+
+$$
 
 LoRA biểu diễn:
-$$
-W' = W + BA
+
 $$
 
+W' = W + BA
+
+$$
 
 với:
-$$
-B\in\mathbb{R}^{m\times r},\quad
-A\in\mathbb{R}^{r\times n}
+
 $$
 
+B\in\mathbb{R}^{m\times r},\quad
+A\in\mathbb{R}^{r\times n}
+
+$$
 
 và $r\ll \min(m,n$).
 
@@ -193,26 +217,32 @@ và $r\ll \min(m,n$).
 #### 4.2.2. Giảm tham số
 
 Số tham số:
-$$
-P_{LoRA}=r(m+n)
+
 $$
 
+P_{LoRA}=r(m+n)
+
+$$
 
 So với:
-$$
-P_{full}=mn
+
 $$
 
+P_{full}=mn
+
+$$
 
 Ví dụ:
 
 * $m=n=1000$,
 * $r=100$:
-$$
-P_{full}=10^6,\quad
-P_{LoRA}=2\times10^5
+
 $$
 
+P_{full}=10^6,\quad
+P_{LoRA}=2\times10^5
+
+$$
 
 ---
 
@@ -221,32 +251,40 @@ $$
 #### 4.3.1. Cơ chế
 
 Thêm vector tiền tố $P$:
-$$
-X' = [P; X]
+
 $$
 
+X' = [P; X]
+
+$$
 
 với:
-$$
-P\in\mathbb{R}^{k\times d}
+
 $$
 
+P\in\mathbb{R}^{k\times d}
+
+$$
 
 Đầu vào attention:
-$$
-Q,K,V = (X'W_Q,X'W_K,X'W_V)
+
 $$
 
+Q,K,V = (X'W_Q,X'W_K,X'W_V)
+
+$$
 
 Chỉ $P$ được huấn luyện.
 
 ---
 
 #### 4.3.2. Số tham số
-$$
-P_{prefix}=kd
+
 $$
 
+P_{prefix}=kd
+
+$$
 
 Rất nhỏ so với toàn mô hình.
 
@@ -257,16 +295,20 @@ Rất nhỏ so với toàn mô hình.
 #### 4.4.1. Nguyên lý
 
 Chỉ huấn luyện bias:
-$$
-y = Wx + b
+
 $$
 
+y = Wx + b
+
+$$
 
 Cập nhật:
-$$
-b_{t+1}=b_t-\eta\nabla_b\mathcal{L}
+
 $$
 
+b_{t+1}=b_t-\eta\nabla_b\mathcal{L}
+
+$$
 
 Giữ nguyên $W$.
 
@@ -275,10 +317,12 @@ Giữ nguyên $W$.
 #### 4.4.2. Đặc điểm
 
 Bias chủ yếu dịch chuyển phân phối:
-$$
-P'(y|x)=P(y-b|x)
+
 $$
 
+P'(y|x)=P(y-b|x)
+
+$$
 
 Ảnh hưởng yếu đến cấu trúc biểu diễn.
 
@@ -294,34 +338,42 @@ Gọi:
 * $P_{peft}$: tham số PEFT.
 
 Tỷ lệ:
-$$
-r=\frac{P_{peft}}{P_{full}}\ll 1
+
 $$
 
+r=\frac{P_{peft}}{P_{full}}\ll 1
+
+$$
 
 Thời gian huấn luyện:
-$$
-T_{peft}\approx rT_{full}
+
 $$
 
+T_{peft}\approx rT_{full}
+
+$$
 
 ---
 
 ### 5.2. Khả năng tổng quát hóa
 
 Khi số tham số giảm:
-$$
-P\downarrow \Rightarrow Var(\theta)\downarrow
+
 $$
 
+P\downarrow \Rightarrow Var(\theta)\downarrow
+
+$$
 
 ⇒ giảm overfitting.
 
 Tuy nhiên:
-$$
-Bias(\theta)\uparrow
+
 $$
 
+Bias(\theta)\uparrow
+
+$$
 
 ⇒ mô hình kém linh hoạt.
 
@@ -330,26 +382,32 @@ $$
 ### 5.3. Đánh đổi hiệu năng
 
 Giả sử:
-$$
-Acc_{full},\quad Acc_{peft}
+
 $$
 
+Acc_{full},\quad Acc_{peft}
+
+$$
 
 Thông thường:
-$$
-Acc_{peft}\le Acc_{full}
+
 $$
 
+Acc_{peft}\le Acc_{full}
+
+$$
 
 nhưng:
+
 $$
+
 \frac{Acc_{peft}}{Cost_{peft}}
 
 >
 
 \frac{Acc_{full}}{Cost_{full}}
-$$
 
+$$
 
 ⇒ PEFT hiệu quả về chi phí.
 
@@ -379,10 +437,12 @@ Theo tài liệu :
 ### 6.3. Khi nào nên dùng PEFT?
 
 PEFT phù hợp khi:
-$$
-N_{data}\ll P_{model}
+
 $$
 
+N_{data}\ll P_{model}
+
+$$
 
 và:
 

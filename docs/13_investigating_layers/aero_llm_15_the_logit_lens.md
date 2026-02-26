@@ -45,7 +45,13 @@ Quy trình giả lập được khởi tạo:
 
 ### 2.3. Giải Mã Sớm (Early Decoding)
 Sử dụng công thức chiếu vector:
-$$ \text{Logits}_{L} = \text{Hidden\_States}_{L} \times \text{LM\_Head}^T $$
+
+$$
+
+\text{Logits}_{L} = \text{Hidden\_States}_{L} \times \text{LM\_Head}^T
+
+$$
+
 Từ đó, ta áp dụng hàm $\text{argmax}$ phân bổ qua $\text{Softmax}$ cho ma trận từ vựng 50,000 chiếu, tìm ra từ có xác suất cao nhất tại chính Layer lơ lửng đó.
 
 ---

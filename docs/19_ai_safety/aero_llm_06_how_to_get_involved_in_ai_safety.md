@@ -56,7 +56,9 @@ Nếu bạn muốn theo đuổi trực tiếp cơ hội thực tập, tài trợ
 Để giải quyết, **Khả năng diễn giải cơ chế (Mechanistic Interpretability)** đang nắm vai trò tiên phong trong định hướng an toàn AI kỹ thuật. Cách tiếp cận này tháo dỡ hoàn toàn mạng neural thành các ma trận (như thuật toán SVD) hoặc các ống kính Logit (Logit Lens) nhằm lập biểu đồ trực tiếp chức năng lưu trữ trong từng nơ-ron:
 
 $$
+
 W_E \cdot W_{OV}^{1} \cdot W_{OV}^{2} \cdots \cdot W_U
+
 $$
 
 Bằng cách truy xuất mạch toán học (circuit extraction) tương đương với sự trung thực, các kỹ sư An toàn có thể bẻ cong trọng số của tác nhân một cách dứt khoát và tuyệt đối. Ở chặng đường nghiên cứu phát triển tiếp theo, "Mech Interp" là nòng cốt để các thuật toán trở nên minh bạch và an toàn từ lõi kiến trúc.

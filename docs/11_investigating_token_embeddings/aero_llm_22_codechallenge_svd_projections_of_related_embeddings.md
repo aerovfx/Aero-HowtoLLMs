@@ -37,9 +37,13 @@ Tính độc lập phân phối (Orthogonality mapping) được khẳng định
 
 Trước khi tiến hành phân rã nhân ma trận $M$, mọi cấu trúc dữ liệu hình học tuyến tính đều phải tiến hành lùi tâm (Mean Centering).
 Tính tịnh tiến này cưa bỏ khoảng cách dư thừa từ điểm $0$ đến lõi đám mây dữ liệu:
-$$ 
-\hat{M}_{i} = M_{i} - \mu 
+
 $$
+
+\hat{M}_{i} = M_{i} - \mu
+
+$$
+
 *(Với $\mu$ là vector trung bình cực đại có độ dài bằng số cột kích thước D=768).*
 
 Khi Mean-centering được thực thi chặt chẽ, đường quang phổ giá trị suy biến (Singular value spectrum / Scree plot) từ SVD sẽ có đặc tính rỗng dư tại giá trị cuối cùng. Nói cách khác, thuật toán cưa đi một *bậc tự do* (Rank minus 1), biểu diễn bằng việc singular value cuối cùng sẽ đâm thẳng về $0$. Nếu không lùi tâm, trục phân phối SVD sẽ dồn toàn bộ sự khác biệt vào Component-1 (Trục thứ 1), làm sai lệch khả năng đọc hiểu Component-2.
@@ -52,8 +56,11 @@ Khi Mean-centering được thực thi chặt chẽ, đường quang phổ giá 
 Sau khi SVD thành công $\hat{M}_{\text{EU}} = U \Sigma V^T$, chúng ta thu được chùm Vector riêng biệt đặc tả tính "*Châu Âu*" nắm giữ tại hàng thứ tự đầu tiên của đa giác $V^T$ (Kí hiệu $V_{\text{top}}$).
 
 Phép màu giải thích nằm ở bước sau: Thay vì giới hạn khảo sát trên 10 nước Châu Âu, ta lấy **toàn bộ 30.000 tokenizer còn lại của hệ BERT**, trừ đi $\mu_{\text{EU}}$, rồi nhân tích vô hướng đổ bóng toàn bộ 30.000 từ này lên trục $V_{\text{top}}$:
-$$ 
-\text{Projections} = (E_{\text{all\_tokens}} - \mu_{\text{EU}}) \cdot V_{\text{top}} 
+
+$$
+
+\text{Projections} = (E_{\text{all\_tokens}} - \mu_{\text{EU}}) \cdot V_{\text{top}}
+
 $$
 
 ### Diễn Dịch Chóp Đồ Thị (Extremes Projections):

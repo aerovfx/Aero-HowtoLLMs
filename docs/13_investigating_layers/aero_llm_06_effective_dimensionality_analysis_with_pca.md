@@ -30,9 +30,20 @@ Dữ liệu nhúng của một token có thể tồn tại trong một ma trận
 
 ### 2.1. Phân Rã SVD Và Khai Vấn PCA
 Ma trận kích hoạt đã được chuẩn hóa trung tâm (Mean-Centering) $X$ được phân rã $SVD$:
-$$ X = U \Sigma V^T $$
+
+$$
+
+X = U \Sigma V^T
+
+$$
+
 Với mục tiêu tìm kiếm mức phân tán dữ liệu, PCA gạt bỏ ma trận vector Unit ( $U, V$ ) và chỉ sử dụng **Singular Values** $(\sigma_i)$ trên đường chéo $\Sigma$ làm trọng số tính toán phương sai. Do 100% biến thiên dữ liệu nằm ngọn ở đây, Phần trăm phương sai được giải thích (Percent Variance Explained) của một thành phần (component) thứ $i$ được lập công thức:
-$$ r^2_i = \left( \frac{\sigma_i^2}{\sum_{j} \sigma_j^2} \right) \times 100\% $$
+
+$$
+
+r^2_i = \left( \frac{\sigma_i^2}{\sum_{j} \sigma_j^2} \right) \times 100\%
+
+$$
 
 ### 2.2. Đo Lường Mốc Số Chiều Hiệu Quả
 Thay vì giữ số chiều chết 1600, ta tính luỹ kế phần trăm phương sai (Cumulative Sum) và đặt một ngưỡng cắt lọc nhiễu (Ví dụ 95%). "Số Chiều Hiệu Quả" chính thức là số hiệu component nhỏ nhất sao cho rào cản luỹ kế $\ge 95\%$ vừa bị vượt qua. Các chiều không gian dư thặng đằng sau có nồng độ thông tin quá nhỏ, sẽ bị xem là vi tạp (Noise).

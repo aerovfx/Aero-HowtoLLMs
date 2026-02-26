@@ -27,10 +27,12 @@ Reinforcement Learning from Human Feedback (RLHF) là phương pháp huấn luy�
 # 1. Giới thiệu
 
 Các mô hình ngôn ngữ như GPT-2 hay GPT-3 được huấn luyện theo mục tiêu dự đoán token kế tiếp:
-$$
-P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+
 $$
 
+P(x_1, x_2, ..., x_T) = \prod_{t=1}^{T} P(x_t \mid x_{<t})
+
+$$
 
 Tuy nhiên, mục tiêu tối đa hóa likelihood không đảm bảo mô hình:
 
@@ -52,13 +54,15 @@ Trong RL cổ điển, ta có:
 * Phần thưởng: ( r(s,a) )
 
 Mục tiêu tối ưu:
+
 $$
+
 \max_\theta \mathbb{E}*{\tau \sim \pi*\theta}
 \left[
 \sum_{t=0}^{T} \gamma^t r_t
 \right]
-$$
 
+$$
 
 Trong RLHF:
 
@@ -73,11 +77,13 @@ Trong RLHF:
 ## 3.1. Bước 1 – Supervised Fine-Tuning (SFT)
 
 Huấn luyện trên dữ liệu cặp (instruction, response):
-$$
-\mathcal{L}*{SFT}
-= - \sum*{t \in R} \log P_\theta(x_t \mid x_{<t})
+
 $$
 
+\mathcal{L}*{SFT}
+= - \sum*{t \in R} \log P_\theta(x_t \mid x_{<t})
+
+$$
 
 Mục tiêu: đưa mô hình về phân phối gần với hành vi mong muốn.
 
@@ -88,54 +94,66 @@ Mục tiêu: đưa mô hình về phân phối gần với hành vi mong muốn.
 Cho hai phản hồi ( y_1, y_2 ) với cùng prompt $x$, con người chọn phản hồi tốt hơn.
 
 Reward model $r_\phi(x,y$ ) được huấn luyện bằng loss Bradley-Terry:
+
 $$
+
 P(y_1 \succ y_2)
 = \frac{e^{r_\phi(x,y_1)}}{e^{r_\phi(x,y_1)} + e^{r_\phi(x,y_2)}}
-$$
 
+$$
 
 Loss:
+
 $$
+
 \mathcal{L}*{RM}
 = - \log \sigma(r*\phi(x,y_{chosen}) - r_\phi(x,y_{rejected}))
-$$
 
+$$
 
 Trong đó $\sigma$ là sigmoid:
-$$
-\sigma(z) = \frac{1}{1 + e^{-z}}
+
 $$
 
+\sigma(z) = \frac{1}{1 + e^{-z}}
+
+$$
 
 ---
 
 ## 3.3. Bước 3 – Policy Optimization (PPO)
 
 Sau khi có reward model, ta tối ưu policy:
+
 $$
+
 \max_\theta
 \mathbb{E}*{x \sim \pi*\theta}
 \left[
 r_\phi(x) - \beta D_{KL}(\pi_\theta | \pi_{ref})
 \right]
-$$
 
+$$
 
 Trong đó:
 
 * $\pi_{ref}$: mô hình SFT ban đầu
 * $D_{KL}$: KL divergence
-$$
-D_{KL}(P|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}
+
 $$
 
+D_{KL}(P|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}
+
+$$
 
 ---
 
 # 4. Proximal Policy Optimization (PPO)
 
 PPO tối ưu hàm mục tiêu:
+
 $$
+
 L^{CLIP}(\theta)
 = \mathbb{E}
 \left[
@@ -145,16 +163,18 @@ r_t(\theta) A_t,
 \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t
 \right)
 \right]
-$$
 
+$$
 
 Trong đó:
+
 $$
+
 r_t(\theta)
 = \frac{\pi_\theta(a_t|s_t)}
 {\pi_{\theta_{old}}(a_t|s_t)}
-$$
 
+$$
 
 $A_t$: advantage estimate.
 
@@ -168,19 +188,23 @@ Clipping giúp:
 # 5. KL Regularization
 
 Nếu không có KL penalty:
-$$
-\pi_\theta \to \text{mode collapse}
+
 $$
 
+\pi_\theta \to \text{mode collapse}
+
+$$
 
 Với KL:
+
 $$
+
 \mathcal{L}
 = \mathbb{E}[r(x)]
 
 * \beta D_{KL}(\pi_\theta | \pi_{ref})
-$$
 
+$$
 
 KL đóng vai trò như regularizer:
 
@@ -198,10 +222,12 @@ Giả sử:
 * $d$: embedding dimension
 
 Self-attention:
-$$
-\mathcal{O}(L \cdot T^2 \cdot d)
+
 $$
 
+\mathcal{O}(L \cdot T^2 \cdot d)
+
+$$
 
 Trong RLHF:
 
@@ -220,16 +246,20 @@ Chi phí tăng gấp 2–3 lần so với SFT.
 Mô hình có thể tối đa hóa reward model nhưng không thực sự tốt.
 
 Giả sử reward model xấp xỉ:
-$$
-r_\phi(x) = r_{true}(x) + \epsilon(x)
+
 $$
 
+r_\phi(x) = r_{true}(x) + \epsilon(x)
+
+$$
 
 Khi tối ưu:
-$$
-\max_\theta \mathbb{E}[r_\phi(x)]
+
 $$
 
+\max_\theta \mathbb{E}[r_\phi(x)]
+
+$$
 
 Sai số $\epsilon(x$ ) có thể bị khai thác.
 
@@ -238,10 +268,12 @@ Sai số $\epsilon(x$ ) có thể bị khai thác.
 ## 7.2. Alignment Problem
 
 Ta muốn:
-$$
-\pi_\theta \approx \pi_{human}
+
 $$
 
+\pi_\theta \approx \pi_{human}
+
+$$
 
 Nhưng reward chỉ là xấp xỉ.
 

@@ -119,7 +119,6 @@ blocks = [TransformerBlock(...) for _ in range$N$]
 Cách làm này cho phép thay đổi độ sâu mô hình chỉ bằng một tham số.
 
 
-
 ---
 
 ### 3.3. Tính Độc Lập Tham Số
@@ -141,7 +140,9 @@ Mặc dù các block có cùng kiến trúc, mỗi block có tập tham số ri�
 Trong mỗi block:
 
 $$
+
 H_{l+1} = H_l + f_l(\text{LN}(H_l))
+
 $$
 
 Với (l) là chỉ số block.
@@ -155,7 +156,9 @@ Quan trọng là residual chỉ cộng trong từng block, không quay lại emb
 Đầu ra của block trước là đầu vào của block sau:
 
 $$
+
 X_0 \rightarrow X_1 \rightarrow X_2 \rightarrow ... \rightarrow X_N
+
 $$
 
 Mỗi tầng làm giàu biểu diễn.
@@ -196,7 +199,6 @@ GPT-3 sử dụng tới 96 block.
 * Mục tiêu ứng dụng.
 
 
-
 ---
 
 ### 5.3. So sánh Độ Sâu và Độ Rộng
@@ -222,7 +224,6 @@ Các block đầu thường học:
 * Đặc trưng bề mặt.
 
 
-
 ---
 
 ### 6.2. Các Tầng Trung Gian
@@ -234,7 +235,6 @@ Tầng giữa học:
 * Quan hệ ngữ pháp.
 
 
-
 ---
 
 ### 6.3. Các Tầng Cuối
@@ -244,7 +244,6 @@ Các block cuối tập trung vào:
 * Ngữ cảnh dài hạn,
 * Dự đoán token,
 * Tối ưu hóa xác suất.
-
 
 
 ---
@@ -268,7 +267,6 @@ llm.transformerBlocks[i]
 ```
 
 
-
 Giúp phân tích:
 
 * Attention weights,
@@ -286,7 +284,6 @@ Cấu trúc module hỗ trợ:
 * Feature analysis.
 
 
-
 ---
 
 ## 8. Đánh Giá Thực Nghiệm (Results)
@@ -301,7 +298,6 @@ Mô hình in ra cấu trúc rõ ràng:
 * Output head.
 
 
-
 Điều này cho thấy thiết kế hướng đối tượng hiệu quả.
 
 ---
@@ -313,7 +309,6 @@ Thực nghiệm sanity check cho thấy:
 * Không lỗi shape,
 * Không lỗi gradient,
 * Dòng dữ liệu ổn định.
-
 
 
 ---
@@ -430,14 +425,12 @@ Tuy nhiên, khi số block tăng, quá trình huấn luyện trở nên kém ổ
 
 Với L tầng:
 
-
 $$
 
 \frac{\partial L}{\partial x_0} =
 \prod_{i=1}^{L} \frac{\partial x_i}{\partial x_{i-1}}
 
 $$
-
 
 Khi L lớn, gradient có xu hướng:
 
@@ -452,13 +445,11 @@ Khi L lớn, gradient có xu hướng:
 
 Qua nhiều block:
 
-
 $$
 
 x_L = x_0 + \sum_{i=1}^{L} f_i(x_{i-1})
 
 $$
-
 
 Nếu $f_i$ không được chuẩn hóa, hidden state có thể bị lệch phân phối (drift).
 
@@ -468,13 +459,11 @@ Nếu $f_i$ không được chuẩn hóa, hidden state có thể bị lệch ph�
 
 Với 100+ layers:
 
-
 $$
 
 \text{Memory} \approx O(L \cdot T \cdot D)
 
 $$
-
 
 Trong đó:
 
@@ -503,13 +492,11 @@ Các hiện tượng thường gặp:
 
 Kiến trúc phổ biến:
 
-
 $$
 
 H_{l+1} = H_l + f_l(\text{LN}(H_l))
 
 $$
-
 
 Ưu điểm:
 
@@ -525,14 +512,12 @@ Pre-LN hiện là chuẩn mặc định trong LLM.
 
 Thay thế LayerNorm:
 
-
 $$
 
 \text{RMSNorm}(x) =
 \frac{x}{\sqrt{\frac{1}{d}\sum x_i^2 + \epsilon}}
 
 $$
-
 
 Giảm chi phí tính toán và tăng ổn định.
 
@@ -542,13 +527,11 @@ Giảm chi phí tính toán và tăng ổn định.
 
 Kiến trúc FFN hiện đại:
 
-
 $$
 
 \text{FFN}(x)=W_2(\text{SiLU}(W_1x)\odot W_3x)
 
 $$
-
 
 Giúp tăng khả năng biểu diễn trong mô hình sâu.
 
@@ -560,23 +543,19 @@ Giúp tăng khả năng biểu diễn trong mô hình sâu.
 
 DeepNorm scale residual:
 
-
 $$
 
 x_{l+1} = \alpha x_l + f_l(x_l)
 
 $$
 
-
 với:
-
 
 $$
 
 \alpha = (2L)^{1/4}
 
 $$
-
 
 Giúp duy trì biên độ gradient khi L lớn.
 
@@ -586,13 +565,11 @@ Giúp duy trì biên độ gradient khi L lớn.
 
 Áp dụng:
 
-
 $$
 
 x_{l+1}=x_l+\frac{1}{\sqrt{L}}f_l(x_l)
 
 $$
-
 
 Giảm tích lũy nhiễu qua tầng.
 
@@ -602,13 +579,11 @@ Giảm tích lũy nhiễu qua tầng.
 
 Chuẩn hóa gradient:
 
-
 $$
 
 g \leftarrow \frac{g}{\max(1,\|g\|/c)}
 
 $$
-
 
 Giúp tránh exploding gradient.
 
@@ -618,13 +593,11 @@ Giúp tránh exploding gradient.
 
 Warmup tuyến tính:
 
-
 $$
 
 lr(t)=lr_{max}\cdot\frac{t}{T_{warmup}}
 
 $$
-
 
 Giảm shock ban đầu.
 
@@ -901,18 +874,15 @@ Do đó, cần một kiến trúc tổng thể (end-to-end architecture) cho tra
 
 Một mô hình 100B tham số yêu cầu:
 
-
 $$
 
 100B \times 2 \text{ bytes} \approx 200GB
 
 $$
 
-
 (chỉ cho FP16 weights).
 
 Khi tính optimizer state:
-
 
 $$
 
@@ -920,20 +890,17 @@ $$
 
 $$
 
-
 ---
 
 ### 2.2. Chi Phí Tính Toán
 
 FLOPs huấn luyện xấp xỉ:
 
-
 $$
 
 \text{FLOPs} \approx 6 \times N \times T
 
 $$
-
 
 Trong đó:
 
@@ -942,13 +909,11 @@ Trong đó:
 
 Với 100B × 1T tokens:
 
-
 $$
 
 \approx 6 \times 10^{23} \text{ FLOPs}
 
 $$
-
 
 ---
 
@@ -1034,13 +999,11 @@ Nhược điểm:
 
 Chia ma trận trọng số:
 
-
 $$
 
 W = [W_1, W_2, ..., W_n]
 
 $$
-
 
 Phổ biến trong Megatron-LM.
 
@@ -1192,13 +1155,11 @@ Huấn luyện theo pha:
 
 Global batch:
 
-
 $$
 
 B_{global} = B_{local} \times DP
 
 $$
-
 
 Thường đạt 1M+ tokens/step.
 
@@ -1309,13 +1270,11 @@ x = load(batch)
 
 Ở quy mô lớn:
 
-
 $$
 
 T_{comm} > T_{compute}
 
 $$
-
 
 Tối ưu mạng quan trọng hơn FLOPs.
 

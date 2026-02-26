@@ -42,9 +42,13 @@ Trước khi thực hiện đồng bộ RSA, mỗi phương trình Cosine Simila
 ### Chỉ Số Kháng Nhiễu Category Selectivity Index (CSI) 
 Ý tưởng của CSI là so sánh: **Liệu độ gắn kết cấu trúc CÙNG một mạng (Wihtin-category) có áp đảo lực gắn kết độ lêch GIỮA các mạng sai lệch (Between-category) hay không.**
 Phương trình tạo Mask $S_{idx}$ là nhân chéo Vector các ID nhãn nhóm. Sau đó, công thức CSI được xác định:
+
 $$
+
 CSI = \frac{\text{Mean}(S_{\text{within-categories}})}{\text{Mean}(S_{\text{between-categories}})}
+
 $$
+
 Trong đó:
 - Dữ liệu thuộc **Within-category** (Tự thân trong nhóm) = Trích xuất các Block vuông nằm trên đường chéo Heatmap. 
 - Dữ liệu thuộc **Between-category** (Xiên chéo giữa 2 nhóm, vd: Bàn ghế so với Vũ trụ) = Trích xuất các dải tọa độ Background của Heatmap.

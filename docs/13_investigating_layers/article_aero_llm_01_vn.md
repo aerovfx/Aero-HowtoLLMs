@@ -37,7 +37,13 @@ Thực nghiệm sử dụng mô hình GPT-2 (small), tiến hành trích xuất 
 
 ### 2.2. Đo Lường Bằng Độ Tương Đồng Cosine (Cosine Similarity)
 Để kiểm chứng ma trận vector kích hoạt nội tại, ta áp dụng công thức Độ tương đồng Cosine, định nghĩa sự trùng lặp góc đo định hướng giữa vector $x$ và vector $y$:
-$$ \text{Cosine Similarity}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|} = \frac{\sum_{i=1}^{n} x_i y_i}{\sqrt{\sum_{i=1}^{n} x_i^2}\sqrt{\sum_{i=1}^{n} y_i^2}} $$
+
+$$
+
+\text{Cosine Similarity}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\| \|\mathbf{y}\|} = \frac{\sum_{i=1}^{n} x_i y_i}{\sqrt{\sum_{i=1}^{n} x_i^2}\sqrt{\sum_{i=1}^{n} y_i^2}}
+
+$$
+
 *Khai triển tính toán vi mô:* Các ma trận này được ánh xạ đại số bằng cấu trúc phép nhân vô hướng của ma trận dữ liệu chuyển vị (transpose) lên chính nó, và chia cho quy chuẩn độ dài đường chuẩn $L_2$ (matrix norm) nhằm tạo ra các tập hợp phân bổ nằm giới hạn trong khung giá trị lý tưởng $[-1, 1]$.
 
 ---

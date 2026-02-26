@@ -37,7 +37,9 @@ Người chơi sẽ sắm vai kẻ tấn công $Hacker / Red Teamer$, sử dụn
 Khi lên các level cao, AI được huấn luyện theo phương pháp chối từ (Refusal training). Chúng ta có thể diễn giải nó qua biểu diễn toán học theo Mechanistic Interpretability như sau:
 
 $$
+
 p(\text{password} | \text{context}) \approx 0
+
 $$
 
 Để vượt qua, kẻ tấn công sẽ áp dụng thiết kế Prompt Injection phức tạp. Thay vì ép mô hình tiết lộ trực tiếp, hacker sẽ thiết lập một ngữ cảnh hóa vai (role-playing) hoặc giải thuật để khiến xác suất $p(\text{password})$ sinh ra từ hậu cảnh (background distribution) tăng lên mạnh mẽ, ép các "Refusal heads" (các vùng chú ý dùng để từ chối) không được kích hoạt.
@@ -49,10 +51,12 @@ $$
 Để thay thế cho các cơ chế bảo mật (Guardrails) của mô hình, bạn có thể áp dụng các thủ thuật sau:
 1. **Dịch Hóa $Translation/Encoding$:** Yêu cầu LLM dịch mật khẩu sang một ngôn ngữ khác (như tiếng Pháp) hoặc mã hóa theo chuẩn Base64. Các lớp (layer) của LLM chặn từ vựng tiếng Anh nguyên bản đôi khi không chặn được các biểu diễn (representations) đã biến đổi của chúng ở không gian embedding.
 
-   $$
-   \text{Enc}(\mathbf{password}) \neq \mathbf{password\_vector}
-   $$
-   
+$$
+
+\text{Enc}(\mathbf{password}) \neq \mathbf{password\_vector}
+
+$$
+
 2. **Liệt Kê Một Nửa (Partial Completion):** Cung cấp các chữ cái đầu tiên hoặc cấu trúc ngữ pháp có liên tiếp, buộc cơ chế sinh văn bản tự hồi quy (Autoregressive generation) của LLM tự điền nốt phần còn lại. 
 
 3. **Ignore Previous Instructions:** Lợi dụng cửa sổ ngữ cảnh (context window) bằng cách đưa ra lệnh hủy bỏ quyền ưu tiên của chỉ thị gốc. 

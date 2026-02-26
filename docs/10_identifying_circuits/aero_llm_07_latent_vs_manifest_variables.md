@@ -32,7 +32,13 @@ Trong Khoa học nhận thức và Thống kê học phân tích, có một lằ
 Mục đích của Cơ học Giải diễn (Mechanistic Interpretability) không bao giờ là việc đọc hiểu cấu trúc Nơ-ron độc lập (Manifest). Thay vào đó, mục tiêu là sử dụng một hàm Biến đổi (Transformation matrix) lên các vector Biến Hiển Ngôn để trích xuất ra Vector Tiềm Ẩn (Latent Vector).
 
 Phương trình tổng quát cho việc suy diễn này có dạng:
-$$ Latent\_Knowledge = Function(Weights, \ Activation\_Patterns\_of\_Neurons) $$
+
+$$
+
+Latent\_Knowledge = Function(Weights, \ Activation\_Patterns\_of\_Neurons)
+
+$$
+
 Trong đó, hàm $Function()$ là sự Kết hợp trọng số tuyến tính (Linear weighted combination) hoặc một biến đổi màng phi tuyến tính, tùy thuộc vào bài toán.
 
 ### 2.2. Sự Đổ Vỡ Tuyến Tính (Imperfect Correlations)
