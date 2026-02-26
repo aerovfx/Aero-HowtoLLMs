@@ -30,7 +30,7 @@
 
 | Bài học | Liên kết |
 | :--- | :--- |
-| 🗂 Chỉ Mục: Fine-tuning Pretrained Models | [Xem bài viết →](README.md) |
+| 📂 Module: 07-Fine-tune-pretrained-models | [Xem bài viết →](README.md) |
 | Fine-tuning Có Mục Tiêu và Đóng Băng Chính Xác Trọng Số Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_010_CodeChallenge Fine-tuning and targeted freezing (part 1).md) |
 | Phân Tích Hiệu Quả Fine-tuning và Targeted Freezing (Phần 2): Đánh Giá Bằng Trực Quan Hóa và Chuẩn Ma Trận | [Xem bài viết →](aero_LLM_011_CodeChallenge Fine-tuning and targeted freezing (part 2).md) |
 | Fine-tuning Hiệu Quả Tham Số (Parameter-Efficient Fine-Tuning – PEFT) Trong Mô Hình Ngôn Ngữ Lớn | [Xem bài viết →](aero_LLM_012_Parameter-efficient fine-tuning (PEFT).md) |

@@ -35,7 +35,7 @@
 | 04_MDPvi.md | [Xem bài viết →](04_MDPvi.md) |
 | 05_PolicyVsPlanvi.md | [Xem bài viết →](05_PolicyVsPlanvi.md) |
 | 📘 Khóa học: Học Sâu Học Tăng Cường (Deep Reinforcement Learning) | [Xem bài viết →](06_Deep_Reinforcement_Learning_Course.md) |
-| 🎮 Khóa học: Reinforcement Learning (Học Tăng Cường) | [Xem bài viết →](README.md) |
+| 📂 Module: Reinforcement_Learning_Basics | [Xem bài viết →](README.md) |
 
 
 ---

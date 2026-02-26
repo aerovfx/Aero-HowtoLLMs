@@ -26,20 +26,19 @@ npm run dev
 ---
 
 ## 📚 Hệ Thống Tài Liệu (Knowledge Base)
-Kho lưu trữ kiến thức khổng lồ với hơn 400+ nội dung chuyên sâu được phân loại khoa học.
+Kho lưu trữ kiến thức khổng lồ với hơn 400+ nội dung chuyên sâu được phân loại khoa học thành 29+ Module.
 
-### 🧭 Truy cập nhanh các Module chính:
+### 🧭 Các Module trọng tâm:
 
-| Module | Nội Dung Trọng Tâm | Link Truy Cập |
-|:---:|---|:---:|
-| **01** | **LLM Course (Stanford CME 295)** | [Xem chi tiết →](docs/01-LLM_Course/) |
-| **02** | **Tokenization & Data Prep** | [Xem chi tiết →](docs/02-Words-to-tokens-to-numbers/) |
-| **04** | **Building GPT From Scratch** | [Xem chi tiết →](docs/04-buildGPT/) |
-| **07** | **Fine-tuning & LoRA/PEFT** | [Xem chi tiết →](docs/07-Fine-tune-pretrained-models/) |
-| **18** | **RAG & Applications** | [Xem chi tiết →](docs/18-RAG/) |
-| **19** | **AI Safety & Interpretability** | [Xem chi tiết →](docs/19-AI-safety/) |
+| Group | Modules | Chủ đề chính |
+| :--- | :--- | :--- |
+| **I. Nền tảng** | 01 - 05 | LLM Course, Tokenization, Embeddings |
+| **II. Xây dựng** | 04, 06, 28, 29 | Build GPT, Pre-training, Optimization |
+| **III. Tinh chỉnh** | 07, 08, 18 | Fine-tuning, Instruction Tuning, RAG |
+| **IV. Giải mã** | 09 - 17, 19 | Interpretability, Mechanistic Circuits, Safety |
+| **V. Công cụ** | 20 - 27 | Python for AI, Math for DL, PyTorch |
 
-👉 **[Xem toàn bộ danh mục tài liệu (Full Index)](docs/README.md)**
+👉 **[BẤM VÀO ĐÂY ĐỂ XEM CHI TIẾT 29+ MODULES (Full Index)](docs/README.md)**
 
 ---
 

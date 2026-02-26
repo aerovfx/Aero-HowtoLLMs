@@ -1,65 +1,78 @@
-# 📂 Kho Tài Liệu Aero-HowtoLLMs
+# � Kho Tài Liệu Aero-HowtoLLMs
 
-Chào mừng bạn đến với thư viện kiến thức chuyên sâu về LLM. Tài liệu được sắp xếp theo trình tự học tập từ cơ bản đến nâng cao.
+> **Hệ thống tài liệu hướng dẫn Master LLM từ cơ bản đến nâng cao. Được thiết kế theo lộ trình thực chiến 29+ Module chuyên sâu.**
 
----
-
-## 🏗️ Kiến Thức Nền Tảng (Fundamentals)
-Các khái niệm cốt lõi về ngôn ngữ, dữ liệu và kiến trúc cơ bản.
-
-- [**01-LLM Course**](01-LLM_Course/index.md) - Khóa học Stanford CME 295 (Tiếng Việt).
-- [**02-Tokenization**](02-Words-to-tokens-to-numbers/index.md) - Từ từ ngữ đến những con số.
-- [**03-Python Indexing**](03-Python-Indexing-and-slicing/index.md) - Kỹ thuật xử lý mảng trong Python.
-- [**05-Embeddings**](05-Embeddings-spaces/index.md) - Không gian vector và biểu diễn ngôn ngữ.
-- [**27-Math for DL**](27-Math-deep-learning/index.md) - Toán học cho Deep Learning.
+[![Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
+[![Content: 100% Vietnamese](https://img.shields.io/badge/Content-Vietnamese-red.svg)]()
 
 ---
 
-## 🛠️ Xây Dựng & Huấn Luyện (Build & Train)
-Thực hành xây dựng mô hình GPT từ con số 0.
+## 🧭 Danh Mục Lộ Trình Toàn Diện (Modules 01 - 29)
 
-- [**04-Build GPT**](04-buildGPT/index.md) - Từng bước code kiến trúc Transformer.
-- [**06-Pretraining**](06-pretraining/index.md) - Quy trình huấn luyện quy mô lớn.
-- [**28-Gradient Descent**](28-Gradient-descent/index.md) - Tối ưu hóa trọng số mô hình.
-- [**29-Essence of DL**](29-Essence-deep-learning/index.md) - Bản chất của học sâu.
+Dưới đây là danh sách toàn bộ các học phần được sắp xếp theo quy trình phát triển và nghiên cứu mô hình ngôn ngữ lớn.
+
+### 🧱 Giai đoạn 1: Nền tảng & Dữ liệu (Fundamentals)
+| Module | Chủ đề | Link Truy Cập |
+|:---:|---|---|
+| **01** | **LLM Course (Stanford CME 295)** | [Khám phá ngay →](01-LLM_Course/index.md) |
+| **02** | **Words to Tokens to Numbers** | [Khám phá ngay →](02-Words-to-tokens-to-numbers/index.md) |
+| **03** | **Python Indexing & Slicing** | [Khám phá ngay →](03-Python-Indexing-and-slicing/index.md) |
+| **05** | **Embeddings Spaces** | [Khám phá ngay →](05-Embeddings-spaces/index.md) |
+| **27** | **Math for Deep Learning** | [Khám phá ngay →](27-Math-deep-learning/index.md) |
+
+### 🏗️ Giai đoạn 2: Kiến trúc & Huấn luyện (Architecture & Training)
+| Module | Chủ đề | Link Truy Cập |
+|:---:|---|---|
+| **04** | **Build GPT From Scratch** | [Khám phá ngay →](04-buildGPT/index.md) |
+| **06** | **Pre-training Pipelines** | [Khám phá ngay →](06-pretraining/index.md) |
+| **28** | **Gradient Descent Optimization** | [Khám phá ngay →](28-Gradient-descent/index.md) |
+| **29** | **Essence of Deep Learning** | [Khám phá ngay →](29-Essence-deep-learning/index.md) |
+
+### 🎯 Giai đoạn 3: Tinh chỉnh & Ứng dụng (Fine-tuning & RAG)
+| Module | Chủ đề | Link Truy Cập |
+|:---:|---|---|
+| **07** | **Fine-tune Pretrained Models** | [Khám phá ngay →](07-Fine-tune-pretrained-models/index.md) |
+| **08** | **Instruction Tuning** | [Khám phá ngay →](08-Instruction-tuning/index.md) |
+| **18** | **RAG (Retrieval Augmented Generation)** | [Khám phá ngay →](18-RAG/index.md) |
+
+### 🔍 Giai đoạn 4: Giải mã & An toàn (Interpretability & Safety)
+| Module | Chủ đề | Link Truy Cập |
+|:---:|---|---|
+| **09** | **Quantitative Evaluations** | [Khám phá ngay →](09-Quantitative-evaluations/index.md) |
+| **10** | **Identifying Circuits** | [Khám phá ngay →](10-Identifying-circuits/index.md) |
+| **11** | **Investigating Token Embeddings** | [Khám phá ngay →](11-Investigating-token-embeddings/index.md) |
+| **12** | **Investigating Neurons & Dimensions** | [Khám phá ngay →](12-Investigating-neurons-dimensions/index.md) |
+| **13** | **Investigating Layers** | [Khám phá ngay →](13-Investigating-layers/index.md) |
+| **14** | **Modify Activations** | [Khám phá ngay →](14-Modify-activations/index.md) |
+| **15** | **Editing Hidden States** | [Khám phá ngay →](15-Editing-hidden-states/index.md) |
+| **16** | **Interfering with Attention** | [Khám phá ngay →](16-Interfering-with-attention/index.md) |
+| **17** | **Modifying MLP (Feed-Forward)** | [Khám phá ngay →](17-Modifying-MLP/index.md) |
+| **19** | **AI Safety & Responsibility** | [Khám phá ngay →](19-AI-safety/index.md) |
+
+### 🐍 Giai đoạn 5: Python for AI & Tools
+| Module | Chủ đề | Link Truy Cập |
+|:---:|---|---|
+| **20** | **Python Colab Notebooks** | [Khám phá ngay →](20-Python-Colab-notebooks/index.md) |
+| **21** | **Python Data Types** | [Khám phá ngay →](21-Python-Data-types/index.md) |
+| **22** | **Python Functions** | [Khám phá ngay →](22-Python-Functions/index.md) |
+| **23** | **Python Flow Control** | [Khám phá ngay →](23-Python-Flow-control/index.md) |
+| **24** | **Python Data Visualization** | [Khám phá ngay →](24-Python-Data-visualization/index.md) |
+| **25** | **Python Strings & Texts** | [Khám phá ngay →](25-Python-Strings-texts/index.md) |
+| **26** | **Python PyTorch Essentials** | [Khám phá ngay →](26-Python-PyTorch/index.md) |
 
 ---
 
-## 🎯 Tinh Chỉnh & Ứng Dụng (Fine-tuning & RAG)
-Làm cho mô hình thông minh hơn và hữu ích hơn.
-
-- [**07-Fine-tuning**](07-Fine-tune-pretrained-models/index.md) - LoRA, PEFT và các kỹ thuật tinh chỉnh.
-- [**08-Instruction Tuning**](08-Instruction-tuning/index.md) - Huấn luyện theo chỉ dẫn.
-- [**18-RAG**](18-RAG/index.md) - Truy xuất thông tin tăng cường.
-
----
-
-## 🔍 Giải Mã & An Toàn (Interpretability & Safety)
-Hiểu cách AI suy nghĩ và đảm bảo nó an toàn.
-
-- [**09-Evaluation**](09-Quantitative-evaluations/index.md) - Đánh giá định lượng mô hình.
-- [**10-17 Interpretability**](10-Identifying-circuits/index.md) - Chuỗi bài phân tích cơ chế bên trong (Neurons, Attention, Layers).
-- [**19-AI Safety**](19-AI-safety/index.md) - An toàn và đạo đức AI.
+## 📝 Tài liệu bổ trợ (Project Files)
+- [🎉 Tiến độ Visualization & Chapters](COMPLETION_VISUALIZATION_AND_CHAPTERS.md)
+- [🚀 Roadmap GPT-4 Expansion](ROADMAP_GPT4_EXPANSION.md)
+- [🎯 Visualization Spec](VISUALIZATION_SYSTEM_DESIGN_SPEC.md)
+- [🚀 Lộ trình Hybrid AI](roadmapHybridAI.md)
 
 ---
+## 🤝 Liên hệ & Đóng góp
+Dự án được phát triển bởi **Pixibox**. Mọi đóng góp về nội dung và mã nguồn đều được chào đón.
 
-## 🐍 Python & Công Cụ (Python & Tools)
-Hệ sinh thái hỗ trợ lập trình AI.
-
-- [**21-26 Python Series**](21-Python-Data-types/index.md) - Series học Python từ Data types đến PyTorch.
-- [**20-Colab Notebooks**](20-Python-Colab-notebooks/index.md) - Các notebook thực hành trên mây.
+> *"Kiến thức là sức mạnh, chia sẻ là lan tỏa."* 🚀
 
 ---
-
-## 📝 Nhật Ký & Roadmap
-Theo dõi tiến độ và định hướng tương lai.
-
-| Tài liệu | Mô tả |
-|---|---|
-| [**Roadmap Hybrid AI**](roadmapHybridAI.md) | Định hướng phát triển AI kết hợp. |
-| [**Visual System Design**](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) | Đặc tả thiết kế hệ thống Visualizer. |
-| [**MoE Implementation**](WEEK3_MOE_IMPLEMENTATION.md) | Chi tiết triển khai Mixture of Experts. |
-| [**Localization Summary**](LOCALIZATION_SUMMARY.md) | Báo cáo tiến độ Việt hóa. |
-
----
-*Bấm vào bất kỳ thư mục nào để xem danh sách bài học chi tiết.*
+*Cập nhật lần cuối: 26/02/2026*

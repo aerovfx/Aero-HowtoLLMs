@@ -31,7 +31,7 @@
 
 | Bài học | Liên kết |
 | :--- | :--- |
-| 🤖 Khóa học: Transformers & Large Language Models | [Xem bài viết →](README.md) |
+| 📂 Module: 01-LLM_Course | [Xem bài viết →](README.md) |
 
 
 ---

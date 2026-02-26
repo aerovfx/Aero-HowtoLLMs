@@ -69,7 +69,7 @@
 | ✅ Week 3 Progress: MoE Grid Layout Complete! | [Xem bài viết →](PROGRESS_WEEK3.md) |
 | ✅ Week 4 Complete: Router Visualization & Color Coding! | [Xem bài viết →](PROGRESS_WEEK4_COMPLETE.md) |
 | 🎯 Week 4 Progress: Router Visualization (Part 1) | [Xem bài viết →](PROGRESS_WEEK4_PART1.md) |
-| 📂 Kho Tài Liệu Aero-HowtoLLMs | [Xem bài viết →](README.md) |
+| � Kho Tài Liệu Aero-HowtoLLMs | [Xem bài viết →](README.md) |
 | 🚀 Roadmap: Mở Rộng LLM Visualization - GPT-4 & Modern Architectures | [Xem bài viết →](ROADMAP_GPT4_EXPANSION.md) |
 | 🎯 LLM Training Pipeline - 3D Visualization System Design | [Xem bài viết →](VISUALIZATION_SYSTEM_DESIGN_SPEC.md) |
 | 🎯 Week 3-4 Implementation Plan: MoE Visualization Enhancement | [Xem bài viết →](WEEK3_MOE_IMPLEMENTATION.md) |

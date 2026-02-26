@@ -25,7 +25,7 @@
 
 | Bài học | Liên kết |
 | :--- | :--- |
-| Mục 18: Khám phá Nơ-ron và Số chiều trong LLM | [Xem bài viết →](README.md) |
+| 📂 Module: 12-Investigating-neurons-dimensions | [Xem bài viết →](README.md) |
 | Cực đại hóa Hoạt hóa (Activation Maximization): Cơ sở Lý thuyết và Những thách thức trong LLM | [Xem bài viết →](aero_LLM_01_Activation maximization via gradient ascent (theory).md) |
 | Triển khai Cực đại hóa Hoạt hóa: Từ Gradient Ascent đến Giải mã Token (Activation Maximization Implementation) | [Xem bài viết →](aero_LLM_02_Activation maximization (code).md) |
 | Cực đại hóa Hoạt hóa qua Lấy mẫu Dữ liệu (Activation Maximization via Data Sampling) | [Xem bài viết →](aero_LLM_03_Activation maximization via data sampling.md) |
