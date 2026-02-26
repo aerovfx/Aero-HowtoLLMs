@@ -1,17 +1,17 @@
 
 <!-- Aero-Navigation-Start -->
-[🏠 Home](../../index.md) > [06 pretraining](../index.md)
+[🏠 Home](../index.md) > [06 pretraining](index.md)
 
 ---
 ### 🧭 Điều hướng nhanh
 
-- [🏠 Cổng tài liệu](../../index.md)
-- [📚 Module 01: LLM Course](../../01_llm_course/index.md)
-- [🔢 Module 02: Tokenization](../../02_words_to_tokens_to_numbers/index.md)
-- [🏗️ Module 04: Build GPT](../../04_buildgpt/index.md)
-- [🎯 Module 07: Fine-tuning](../../07_fine_tune_pretrained_models/index.md)
-- [🔍 Module 19: AI Safety](../../19_ai_safety/index.md)
-- [🐍 Module 20: Python for AI](../../20_python_colab_notebooks/index.md)
+- [🏠 Cổng tài liệu](../index.md)
+- [📚 Module 01: LLM Course](../01_llm_course/index.md)
+- [🔢 Module 02: Tokenization](../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../04_buildgpt/index.md)
+- [🎯 Module 07: Fine-tuning](../07_fine_tune_pretrained_models/index.md)
+- [🔍 Module 19: AI Safety](../19_ai_safety/index.md)
+- [🐍 Module 20: Python for AI](../20_python_colab_notebooks/index.md)
 ---
 <!-- Aero-Navigation-End -->
 Dưới đây là **bài viết khoa học** được tổng hợp từ tài liệu bạn cung cấp, mở rộng bằng các nguồn học thuật liên quan, và trình bày dưới dạng **Markdown**.

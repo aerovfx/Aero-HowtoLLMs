@@ -32,18 +32,15 @@ def generate_breadcrumb(rel_path, is_file=False):
     if rel_path == ".":
         return "**Home**"
     
-    parts = rel_path.split(os.sep)
+    parts = [p for p in rel_path.split(os.sep) if p]
     depth = len(parts)
-    steps_to_root = depth + (1 if is_file else 0)
-    home_link = "../" * steps_to_root + "index.md"
+    steps_to_root = depth
+    home_link = ("../" * steps_to_root) + "index.md"
     breadcrumb = [f"[🏠 Home]({safe_link(home_link)})"]
 
     for i, part in enumerate(parts):
         steps_back = depth - (i + 1)
-        if is_file:
-            steps_back += 1
-        
-        link = "../" * steps_back + "index.md"
+        link = ("../" * steps_back) + "index.md"
         display_name = part.replace("_", " ").replace("-", " ")
         match = re.match(r'^\d+-(.*)', display_name)
         if match:
@@ -89,7 +86,7 @@ def process_all_markdowns(base_dir):
             update_article_navigation(file_path, rel_path, depth, md.lower() == 'readme.md', list_files=list_files, current_dir=root)
 
 def update_article_navigation(file_path, rel_dir_path, dir_depth, is_readme, list_files=None, current_dir=None):
-    depth = dir_depth if is_readme else dir_depth + 1
+    depth = dir_depth
     
     try:
         with open(file_path, 'r', encoding='utf-8') as f:

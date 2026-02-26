@@ -40,7 +40,7 @@ Dưới đây là danh sách toàn bộ các học phần được sắp xếp t
 | Module | Chủ đề | Link Truy Cập |
 |:---:|---|---|
 | **04** | **Build GPT From Scratch** | [Khám phá ngay →](04_buildgpt/index.md) |
-| **06** | **Pre-training Pipelines** | [Khám phá ngay →](06-pretraining/index.md) |
+| **06** | **Pre-training Pipelines** | [Khám phá ngay →](06_pretraining/index.md) |
 | **28** | **Gradient Descent Optimization** | [Khám phá ngay →](28_gradient_descent/index.md) |
 | **29** | **Essence of Deep Learning** | [Khám phá ngay →](29_essence_deep_learning/index.md) |
 

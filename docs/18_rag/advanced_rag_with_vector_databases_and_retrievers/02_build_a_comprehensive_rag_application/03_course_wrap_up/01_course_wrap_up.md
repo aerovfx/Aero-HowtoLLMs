@@ -1,17 +1,17 @@
 
 <!-- Aero-Navigation-Start -->
-[🏠 Home](../../../../../index.md) > [18 rag](../../../../index.md) > [advanced rag with vector databases and retrievers](../../../index.md) > [02 build a comprehensive rag application](../../index.md) > [03 course wrap up](../index.md)
+[🏠 Home](../../../../index.md) > [18 rag](../../../index.md) > [advanced rag with vector databases and retrievers](../../index.md) > [02 build a comprehensive rag application](../index.md) > [03 course wrap up](index.md)
 
 ---
 ### 🧭 Điều hướng nhanh
 
-- [🏠 Cổng tài liệu](../../../../../index.md)
-- [📚 Module 01: LLM Course](../../../../../01_llm_course/index.md)
-- [🔢 Module 02: Tokenization](../../../../../02_words_to_tokens_to_numbers/index.md)
-- [🏗️ Module 04: Build GPT](../../../../../04_buildgpt/index.md)
-- [🎯 Module 07: Fine-tuning](../../../../../07_fine_tune_pretrained_models/index.md)
-- [🔍 Module 19: AI Safety](../../../../../19_ai_safety/index.md)
-- [🐍 Module 20: Python for AI](../../../../../20_python_colab_notebooks/index.md)
+- [🏠 Cổng tài liệu](../../../../index.md)
+- [📚 Module 01: LLM Course](../../../../01_llm_course/index.md)
+- [🔢 Module 02: Tokenization](../../../../02_words_to_tokens_to_numbers/index.md)
+- [🏗️ Module 04: Build GPT](../../../../04_buildgpt/index.md)
+- [🎯 Module 07: Fine-tuning](../../../../07_fine_tune_pretrained_models/index.md)
+- [🔍 Module 19: AI Safety](../../../../19_ai_safety/index.md)
+- [🐍 Module 20: Python for AI](../../../../20_python_colab_notebooks/index.md)
 ---
 <!-- Aero-Navigation-End -->
 # Tổng Kết Khóa Học: Advanced RAG với Cơ Sở Dữ Liệu Vector và Retrievers

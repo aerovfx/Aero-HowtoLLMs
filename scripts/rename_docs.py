@@ -13,7 +13,7 @@ MAPPING = {
     '30 - Python intro Indexing and slicing': '03_python_indexing_and_slicing',
     '1_buildGPT': '04_buildgpt',
     '4 - Embeddings spaces': '05_embeddings_spaces',
-    '2_pretraining': '06-pretraining',
+    '2_pretraining': '06_pretraining',
     '3_Fine-tune pretrained models': '07_fine_tune_pretrained_models',
     '4_Instruction tuning': '08_instruction_tuning',
     '11 - Quantitative evaluations': '09_quantitative_evaluations',
